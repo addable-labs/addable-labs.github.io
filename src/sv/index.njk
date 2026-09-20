@@ -6,6 +6,7 @@ eleventyComputed:
   title: "{{ strings[lang].home.title | safe }}"
   description: "{{ strings[lang].home.description | safe }}"
 ---
+<div class="container page-body">
 <p class="lead">{{ strings[lang].home.intro }}</p>
 
 <div class="card-grid themes">
@@ -31,3 +32,4 @@ eleventyComputed:
 <section class="contact">
   {% include "partials/contact.njk" %}
 </section>
+</div>

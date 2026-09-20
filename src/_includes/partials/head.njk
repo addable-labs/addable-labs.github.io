@@ -44,4 +44,10 @@
   <link rel="stylesheet" href="/assets/css/fonts.css">
   <link rel="stylesheet" href="/assets/css/tokens.css">
   <link rel="stylesheet" href="/assets/css/base.css">
+{#- Entrance motion (REQ-018): same-origin, ~0.9 KB, deferred — a module
+    script runs after parsing like `defer` and avoids the bare boolean
+    attribute, which Eleventy's IdAttributePlugin would serialise as defer=""
+    (rejected by html-validate). The page is complete without it: nothing is
+    hidden unless html.js is set. #}
+  <script type="module" src="/assets/js/reveal.js"></script>
 </head>

@@ -1,7 +1,9 @@
 {
   "site": {
     "name": "Addable Labs",
-    "tagline": "Appar och AI, byggda i det öppna"
+    "tagline": "Appar och AI, byggda i det öppna",
+    "wordmark": "addable",
+    "wordmarkDim": "labs"
   },
   "nav": {
     "home": "Hem",
@@ -26,7 +28,10 @@
     "allArticles": "Alla artiklar"
   },
   "footer": {
-    "factoryLine": "Den här webbplatsen byggs och underhålls av en agentdriven mjukvarufabrik."
+    "factoryLine": "Den här webbplatsen byggs och underhålls av en agentdriven mjukvarufabrik.",
+    "contact": "Kontakt",
+    "site": "Webbplats",
+    "rss": "RSS"
   },
   "categories": {
     "app-development": "Apputveckling",

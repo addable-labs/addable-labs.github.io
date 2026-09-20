@@ -1,7 +1,9 @@
-{#- Site header: brand (inline SVG mark + live-text wordmark), main navigation,
-    the language-switch slot and the appearance toggle (REQ-007; the footer
-    copy is the REQ-014 minimum, this one is the one-click way to light). Nav
-    hrefs follow the URL contract: English at the root, Swedish under /sv/. -#}
+{#- Site header (REQ-014, REQ-022): sticky and blurred; brand (inline SVG mark,
+    aria-hidden, + the live-text wordmark), main navigation with aria-current,
+    then the controls — the language switch (a.lang-switch, kept for the pages
+    gate) and the appearance toggle. WI-05 adds the small primary CTA on wide
+    screens. The row wraps below 40 rem so the navigation is never hidden.
+    Nav hrefs follow the URL contract: English at the root, Swedish under /sv/. -#}
 {%- set langPrefix = "" if lang == site.languages.default else "/" + lang -%}
 {%- set navItems = [
   { href: langPrefix + "/", label: strings[lang].nav.home },
@@ -9,10 +11,10 @@
   { href: langPrefix + "/blog/", label: strings[lang].nav.blog }
 ] -%}
 <header class="site-header">
-  <div class="container">
+  <div class="container header-row">
     <a class="brand" href="{{ langPrefix }}/">
       {% include "src/assets/img/mark.svg" %}
-      <span class="brand-name">{{ strings[lang].site.name }}</span>
+      <span class="wordmark">{{ strings[lang].site.wordmark }}<span class="wordmark-dim">{{ strings[lang].site.wordmarkDim }}</span></span>
     </a>
     <nav class="site-nav" aria-label="{{ strings[lang].nav.ariaLabel }}">
       <ul>

@@ -1,15 +1,41 @@
-{#- Site footer: the contact block, the short factory line and the appearance
-    toggle (REQ-007 as amended: the footer is the REQ-014 minimum placement).
-    The feed link lives on the blog pages, not here. WI-03 re-does this
-    partial in the Signal layout and keeps the toggle include. -#}
+{#- Site footer (REQ-014, AC-15), three columns: brand + factory line; Contact —
+    the email as visible text inside mailto: and the LinkedIn entry per
+    site.linkedinUrl (placeholder text with no href while null, a link once the
+    founder sets it — REQ-029, unchanged mechanism; the content gate and its
+    test depend on li.contact-placeholder); Site — the language switch to the
+    same path in the other language (a.lang-switch-footer, absent on the 404
+    page), the RSS link to the page language's feed and the appearance toggle.
+    Column headings are h2 so heading order holds on every page. -#}
+{%- set langPrefix = "" if lang == site.languages.default else "/" + lang -%}
 <footer class="site-footer">
-  <div class="container">
-    <section class="footer-contact">
-      {% include "partials/contact.njk" %}
-    </section>
-    <p class="factory-line">{{ strings[lang].footer.factoryLine }}</p>
-    <div class="footer-controls">
-      {% include "partials/toggle.njk" %}
+  <div class="container footer-grid">
+    <div class="footer-brand">
+      <a class="brand" href="{{ langPrefix }}/">
+        {% include "src/assets/img/mark.svg" %}
+        <span class="wordmark">{{ strings[lang].site.wordmark }}<span class="wordmark-dim">{{ strings[lang].site.wordmarkDim }}</span></span>
+      </a>
+      <p class="factory-line">{{ strings[lang].footer.factoryLine }}</p>
+    </div>
+    <div>
+      <h2 class="footer-heading">{{ strings[lang].footer.contact }}</h2>
+      <ul class="footer-list">
+        <li><a href="mailto:{{ site.email }}">{{ site.email }}</a></li>
+        {%- if site.linkedinUrl %}
+        <li><a href="{{ site.linkedinUrl }}">{{ strings[lang].contact.linkedinLabel }}</a></li>
+        {%- else %}
+        <li class="contact-placeholder">{{ strings[lang].contact.linkedinPlaceholder }}</li>
+        {%- endif %}
+      </ul>
+    </div>
+    <div>
+      <h2 class="footer-heading">{{ strings[lang].footer.site }}</h2>
+      <ul class="footer-list footer-controls">
+        {%- if alternate %}
+        <li><a class="lang-switch-footer" href="{{ alternate.url }}" hreflang="{{ alternate.lang }}" lang="{{ alternate.lang }}" rel="alternate">{{ strings[lang].languages[alternate.lang] }}</a></li>
+        {%- endif %}
+        <li><a href="{{ feedUrl }}" type="application/rss+xml">{{ strings[lang].footer.rss }}</a></li>
+        <li>{% include "partials/toggle.njk" %}</li>
+      </ul>
     </div>
   </div>
 </footer>

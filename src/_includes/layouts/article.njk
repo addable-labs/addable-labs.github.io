@@ -12,7 +12,7 @@ ogType: article
     footer landmark. Conditional tags sit at column 0 so a false branch leaves
     an empty line rather than trailing whitespace. -#}
 {%- set langPrefix = "" if lang == site.languages.default else "/" + lang -%}
-<article class="article">
+<article class="container article">
   <div class="article-header">
     <h1>{{ title }}</h1>
     <p class="article-meta">

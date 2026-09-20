@@ -66,9 +66,8 @@ describe("theme script and toggle in the built site", () => {
     for (const file of pages) {
       const html = await readFile(file, "utf8");
       const doc = parse(html);
-      const scripts = doc.querySelectorAll("script");
-      assert.equal(scripts.length, 1, `${file}: expected exactly one <script>`);
-      assert.equal(scripts[0].getAttribute("src"), undefined, `${file}: the theme script must be inline`);
+      const scripts = doc.querySelectorAll("script:not([src])");
+      assert.equal(scripts.length, 1, `${file}: expected exactly one inline <script>`);
       assert.equal(scripts[0].textContent, script, `${file}: inline script differs from src/assets/js/theme.js`);
       const head = html.slice(0, html.indexOf("</head>"));
       assert.ok(head.indexOf("<script>") < head.indexOf('rel="stylesheet"'), `${file}: the script must precede the stylesheets`);
@@ -104,10 +103,13 @@ describe("theme script and toggle in the built site", () => {
     }
   });
 
-  it("keeps the two font preloads (AC-05) and adds no external script", async () => {
+  it("keeps the two font preloads (AC-05); the only external script is the same-origin deferred reveal.js", async () => {
     const doc = parse(await readFile(path.join(out, "index.html"), "utf8"));
     assert.equal(doc.querySelectorAll('link[rel="preload"][as="font"]').length, 2);
-    assert.equal(doc.querySelectorAll("script[src]").length, 0);
+    const external = doc.querySelectorAll("script[src]");
+    assert.equal(external.length, 1);
+    assert.equal(external[0].getAttribute("src"), "/assets/js/reveal.js");
+    assert.equal(external[0].getAttribute("type"), "module");
   });
 
   it("hides the toggle without JavaScript and declares the view transition under no-preference only", async () => {

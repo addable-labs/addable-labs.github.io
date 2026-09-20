@@ -5,6 +5,7 @@ eleventyComputed:
   title: "{{ strings[lang].about.title | safe }}"
   description: "{{ strings[lang].about.description | safe }}"
 ---
+<div class="container page-body">
 <h2>{{ strings[lang].about.founderHeading }}</h2>
 <p>{{ strings[lang].about.founderLine }}</p>
 {#- TODO(founder): review this paragraph — it is drawn only from the repository
@@ -21,3 +22,4 @@ eleventyComputed:
 <section class="contact">
   {% include "partials/contact.njk" %}
 </section>
+</div>

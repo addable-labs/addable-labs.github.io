@@ -10,6 +10,7 @@ eleventyComputed:
 {#- Bilingual 404 (REQ-016): GitHub Pages serves only the root 404.html, so it
     carries both languages and links to both home pages. No translationKey, so
     it has no counterpart, no language switch and no hreflang links. -#}
+<div class="container page-body not-found">
 <p>{{ strings.en.notFound.text }}</p>
 <p><a href="/">{{ strings.en.notFound.homeLink }}</a></p>
 <section lang="sv">
@@ -17,3 +18,4 @@ eleventyComputed:
   <p>{{ strings.sv.notFound.text }}</p>
   <p><a href="/sv/" hreflang="sv">{{ strings.sv.notFound.homeLink }}</a></p>
 </section>
+</div>

@@ -1,7 +1,9 @@
 {
   "site": {
     "name": "Addable Labs",
-    "tagline": "Apps and AI, built in the open"
+    "tagline": "Apps and AI, built in the open",
+    "wordmark": "addable",
+    "wordmarkDim": "labs"
   },
   "nav": {
     "home": "Home",
@@ -26,7 +28,10 @@
     "allArticles": "All articles"
   },
   "footer": {
-    "factoryLine": "This site is built and maintained by an agent-run software factory."
+    "factoryLine": "This site is built and maintained by an agent-run software factory.",
+    "contact": "Contact",
+    "site": "Site",
+    "rss": "RSS"
   },
   "categories": {
     "app-development": "App development",

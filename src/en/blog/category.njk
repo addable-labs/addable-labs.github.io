@@ -11,8 +11,10 @@ eleventyComputed:
   description: "{{ strings[lang].blog.categoryLead | replace('{category}', strings[lang].categories[category.key]) | safe }}"
   translationKey: "blog-{{ category.key }}"
 ---
+<div class="container page-body">
 <p class="lead">{{ strings[lang].blog.categoryLead | replace("{category}", strings[lang].categories[category.key]) }}</p>
 <p class="blog-rss"><a href="/feed.xml" type="application/rss+xml">{{ strings[lang].blog.rss }}</a></p>
 {% set posts = collections["posts_" + lang + "_" + category.key] %}
 {% include "partials/article-list.njk" %}
 <p><a href="/blog/">{{ strings[lang].blog.title }}</a></p>
+</div>
