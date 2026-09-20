@@ -1,0 +1,15 @@
+/* Fixture: same-origin @font-face sources in the three url() spellings, plus a
+   local() fallback; url(/assets/img/x.svg) outside @font-face is not a font. */
+@font-face {
+  font-family: "Fixture Mono";
+  font-weight: 400;
+  font-display: swap;
+  src: local("Menlo"), url("/assets/fonts/Regular.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Fixture Mono";
+  font-weight: 500;
+  font-display: swap;
+  src: url('https://addablelabs.se/assets/fonts/Regular.woff2') format("woff2"), url(/assets/fonts/Regular.woff2) format("woff2");
+}
+.mark { background: url(/assets/img/x.svg); }

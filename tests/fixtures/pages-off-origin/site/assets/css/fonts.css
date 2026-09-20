@@ -1,0 +1,14 @@
+/* Fixture: the first face is served from a font CDN, which REQ-004 forbids;
+   the second is same-origin and the local() fallback is not a URL. */
+@font-face {
+  font-family: "Fixture Mono";
+  font-weight: 300;
+  font-display: swap;
+  src: url("https://fonts.gstatic.com/s/jetbrainsmono/v1/Light.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Fixture Mono";
+  font-weight: 400;
+  font-display: swap;
+  src: local("Menlo"), url(/assets/fonts/Regular.woff2) format("woff2");
+}

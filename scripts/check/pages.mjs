@@ -13,12 +13,22 @@
 //     counterpart and is exempt from the alternates and the switch)
 //   - the language switch targets the same path in the other language with
 //     hreflang/lang and the target language's name
-//   - no <script> at all this release, no cross-origin subresources
-//   - HTML + same-origin CSS ≤ 150 KB
+//   - every script[src] resolves on the site's origin and inline scripts are
+//     allowed (the first release's "no <script> at all" rule, re-targeted by
+//     the redesign's REQ-024); no cross-origin subresource: stylesheets,
+//     scripts, images, icons, preloads (fonts, modules) and the @font-face
+//     src URLs of every same-origin stylesheet (REQ-004, REQ-020)
+//   - HTML + same-origin CSS ≤ 150 KB; on the two landing pages the gzip size
+//     of the same-origin CSS + JS plus inline <style>/<script> content is
+//     ≤ 61,440 B and is printed per page (REQ-020, AC-21)
+// Redesign re-targetings (REQ-024 pages bullet; REQ-004, REQ-020; AC-04,
+// AC-21) are marked with the requirement they enforce (AC-25); every other
+// assertion is the first release's, unchanged.
 // Optional arguments: <built-site dir> [<source dir>].
 
 import { readFile } from "node:fs/promises";
 import path from "node:path";
+import { COMPRESSED_BUDGET, compressedSize, fontFaceSources, formatBytes } from "../lib/budget.mjs";
 import { attr, focusables, headings, loadPage, text } from "../lib/html.mjs";
 import { candidatesForPath, exists, internalPath, loadSite, loadStrings, reporter, resolveDirs, walk } from "../lib/site.mjs";
 
@@ -56,6 +66,28 @@ async function stylesheetSize(href) {
     cssSize.set(urlPath, size);
   }
   return cssSize.get(urlPath);
+}
+
+// Same-origin asset text by URL path — stylesheets for the @font-face check
+// (REQ-004), stylesheets and scripts for the compressed budget (REQ-020).
+// null for a cross-origin URL or a file missing from the build (the links
+// gate reports missing files).
+const assetText = new Map();
+async function readAsset(href) {
+  const urlPath = internalPath(href, site);
+  if (urlPath === null) return null;
+  if (!assetText.has(urlPath)) {
+    let asset = null;
+    for (const candidate of candidatesForPath(urlPath)) {
+      const file = path.join(out, candidate);
+      if (await exists(file)) {
+        asset = { name: urlPath, text: await readFile(file, "utf8") };
+        break;
+      }
+    }
+    assetText.set(urlPath, asset);
+  }
+  return assetText.get(urlPath);
 }
 
 const files = await walk(out, ".html");
@@ -138,12 +170,36 @@ for (const file of files) {
   expect(feedLinks.includes(`${origin}${feedPath}`), `no feed link to ${origin}${feedPath} (found: ${feedLinks.join(", ") || "none"})`);
 
   // Scripts and cross-origin subresources
-  const scripts = doc.querySelectorAll("script");
-  expect(scripts.length === 0, `${scripts.length} <script> element(s); this release ships none`);
-  for (const [selector, attribute] of [["link[rel~=stylesheet]", "href"], ["script[src]", "src"], ["img[src]", "src"], ["iframe[src]", "src"], ["source[src]", "src"], ["video[src]", "src"], ["audio[src]", "src"], ["link[rel~=icon]", "href"], ["link[rel~=preload]", "href"]]) {
+  // REQ-024: same-origin scripts only; the page stays usable without them
+  // (REQ-020). The first release's "no <script> at all" rule is re-targeted:
+  // inline scripts are allowed, and every script[src] must resolve on the
+  // site's origin (root-relative, or absolute under site.url) — the
+  // script[src] entry of the list below enforces it.
+  // REQ-020: no cross-origin request of any kind — the list also covers
+  // link[rel~=modulepreload] and link[rel~=preload][as=font] hrefs (the font
+  // preloads of REQ-005). An element matched by two selectors is reported
+  // once, under the more specific one.
+  const seen = new Set();
+  for (const [selector, attribute] of [["link[rel~=stylesheet]", "href"], ["script[src]", "src"], ["img[src]", "src"], ["iframe[src]", "src"], ["source[src]", "src"], ["video[src]", "src"], ["audio[src]", "src"], ["link[rel~=icon]", "href"], ["link[rel~=modulepreload]", "href"], ["link[rel~=preload][as=font]", "href"], ["link[rel~=preload]", "href"]]) {
     for (const el of doc.querySelectorAll(selector)) {
+      if (seen.has(el)) continue;
+      seen.add(el);
       const value = attr(el, attribute) ?? "";
       expect(internalPath(value, site) !== null, `cross-origin ${selector} ${value}`);
+    }
+  }
+
+  // REQ-004, REQ-020 (AC-04): fonts are served from the site's own origin —
+  // every url() in the @font-face src declarations of every same-origin
+  // stylesheet the page references must resolve on the site's origin.
+  const stylesheets = new Map();
+  for (const el of doc.querySelectorAll("link[rel~=stylesheet]")) {
+    const asset = await readAsset(attr(el, "href") ?? "");
+    if (asset) stylesheets.set(asset.name, asset);
+  }
+  for (const { name, text: css } of stylesheets.values()) {
+    for (const url of fontFaceSources(css)) {
+      expect(internalPath(url, site) !== null, `@font-face src ${url} in ${name} is not on the site's origin`);
     }
   }
 
@@ -153,6 +209,23 @@ for (const file of files) {
     total += (await stylesheetSize(attr(el, "href") ?? "")) ?? 0;
   }
   expect(total <= SIZE_BUDGET, `HTML + CSS is ${(total / 1024).toFixed(1)} KB, budget ${SIZE_BUDGET / 1024} KB`);
+
+  // REQ-020 (AC-21): on the landing pages, gzip (default level) of every
+  // same-origin stylesheet and script the page references plus its inline
+  // <style> and <script> content is at most 61,440 B, printed per page; a
+  // page over budget fails naming the total. Fonts and images are budgeted
+  // separately (REQ-005; tests/fonts.test.mjs). Measured by
+  // scripts/lib/budget.mjs, which tests/pages.test.mjs shares.
+  if (page.url === `${prefixOf(page.lang)}/`) {
+    const scripts = new Map();
+    for (const el of doc.querySelectorAll("script[src]")) {
+      const asset = await readAsset(attr(el, "src") ?? "");
+      if (asset) scripts.set(asset.name, asset);
+    }
+    const compressed = compressedSize(page.html, { stylesheets: [...stylesheets.values()], scripts: [...scripts.values()] }).total;
+    if (compressed <= COMPRESSED_BUDGET) report.ok(`pages: ${page.url} compressed css+js ${formatBytes(compressed)} B (limit ${formatBytes(COMPRESSED_BUDGET)})`);
+    expect(compressed <= COMPRESSED_BUDGET, `compressed css+js is ${formatBytes(compressed)} B, limit ${formatBytes(COMPRESSED_BUDGET)} B (REQ-020)`);
+  }
 
   if (problems.length === 0) report.ok(`${relPath} (${(total / 1024).toFixed(1)} KB)`);
   for (const problem of problems) report.fail(`${relPath}: ${problem}`);
