@@ -1,5 +1,9 @@
 # Visual identity
 
+*Status: final for the first release (2026-09-20). The token values and the
+contrast table below were re-checked against `src/assets/css/tokens.css` and
+the output of `pnpm check:contrast` when this document was finalised.*
+
 The identity of the Addable Labs website is deliberately restrained: one mark,
 a live-text wordmark, the system font stack and a warm neutral palette with a
 single deep-teal accent, defined once as CSS custom properties with light and
