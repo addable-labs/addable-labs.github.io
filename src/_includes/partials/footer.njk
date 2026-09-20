@@ -1,10 +1,15 @@
-{#- Site footer: the contact block and the short factory line. The feed link
-    lives on the blog pages (REQ-007), not here. -#}
+{#- Site footer: the contact block, the short factory line and the appearance
+    toggle (REQ-007 as amended: the footer is the REQ-014 minimum placement).
+    The feed link lives on the blog pages, not here. WI-03 re-does this
+    partial in the Signal layout and keeps the toggle include. -#}
 <footer class="site-footer">
   <div class="container">
     <section class="footer-contact">
       {% include "partials/contact.njk" %}
     </section>
     <p class="factory-line">{{ strings[lang].footer.factoryLine }}</p>
+    <div class="footer-controls">
+      {% include "partials/toggle.njk" %}
+    </div>
   </div>
 </footer>

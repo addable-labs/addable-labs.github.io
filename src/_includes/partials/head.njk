@@ -25,10 +25,17 @@
   <link rel="alternate" hreflang="x-default" href="{{ (page.url if lang == site.languages.default else alternate.url) | absoluteUrl(site.url) }}">
 {%- endif %}
   <link rel="alternate" type="application/rss+xml" title="{{ strings[lang].feed.title }}" href="{{ feedUrl | absoluteUrl(site.url) }}">
-  <meta name="color-scheme" content="light dark">
-  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#FAFAF7">
-  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#101416">
+{#- Theme (REQ-007 as amended by A-03/A-04; plan D-09, D-13): dark for every
+    first visit, light only through the stored toggle choice. One theme-color
+    meta, the dark background, which the script rewrites after a toggle; the
+    ~1 KB script is inlined (never a separate request) before the stylesheets
+    so the theme is set before first paint on every page, including the
+    language switch. The theme logic is scripts/lib/theme-logic.mjs, whose
+    resolve() text the script must contain verbatim (tests/theme.test.mjs). #}
+  <meta name="color-scheme" content="dark light">
+  <meta name="theme-color" content="#0B0E10">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <script>{% include "src/assets/js/theme.js" %}</script>
 {#- Fonts (REQ-004, REQ-005; plan D-06): only the two weights above the fold
     are preloaded — Light for the h1, Medium for eyebrow, nav and buttons;
     Regular loads on demand with font-display: swap. Same-origin hrefs. #}

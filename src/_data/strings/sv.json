@@ -14,6 +14,9 @@
     "en": "English",
     "sv": "Svenska"
   },
+  "theme": {
+    "toggleLabel": "Mörkt läge"
+  },
   "home": {
     "title": "Addable Labs",
     "description": "En svensk appfabrik som bygger AI-drivna applikationer, till stor del med AI-agenter, och delar med sig av vad den lär sig.",

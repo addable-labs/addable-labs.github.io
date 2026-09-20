@@ -1,0 +1,15 @@
+{#- Appearance toggle (REQ-007 as amended by A-03/A-04; plan D-09, D-13): a real
+    button with an accessible name (visually hidden label from the strings) and
+    a pressed state ("true" = dark, the default), a sun/moon icon, a 44 px target,
+    keyboard operable. The inline theme script binds every [data-theme-toggle];
+    without JavaScript the button is hidden by base.css (html:not(.js)). -#}
+<button type="button" class="theme-toggle" data-theme-toggle aria-pressed="true">
+  <svg class="theme-toggle-icon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
+    <path class="theme-toggle-moon" d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+    <g class="theme-toggle-sun" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+      <circle cx="12" cy="12" r="4"/>
+      <path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.5 1.5M17.2 17.2l1.5 1.5M5.3 18.7l1.5-1.5M17.2 6.8l1.5-1.5"/>
+    </g>
+  </svg>
+  <span class="theme-toggle-label">{{ strings[lang].theme.toggleLabel }}</span>
+</button>

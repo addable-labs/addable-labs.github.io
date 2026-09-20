@@ -1,6 +1,7 @@
-{#- Site header: brand (inline SVG mark + live-text wordmark), main navigation
-    and the language-switch slot. Nav hrefs follow the URL contract: English at
-    the root, Swedish under /sv/. -#}
+{#- Site header: brand (inline SVG mark + live-text wordmark), main navigation,
+    the language-switch slot and the appearance toggle (REQ-007; the footer
+    copy is the REQ-014 minimum, this one is the one-click way to light). Nav
+    hrefs follow the URL contract: English at the root, Swedish under /sv/. -#}
 {%- set langPrefix = "" if lang == site.languages.default else "/" + lang -%}
 {%- set navItems = [
   { href: langPrefix + "/", label: strings[lang].nav.home },
@@ -20,6 +21,9 @@
         {%- endfor %}
       </ul>
     </nav>
-    {%- include "partials/lang-switch.njk" %}
+    <div class="header-controls">
+      {%- include "partials/lang-switch.njk" %}
+      {% include "partials/toggle.njk" %}
+    </div>
   </div>
 </header>
