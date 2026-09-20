@@ -1,0 +1,46 @@
+{#- Landing hero (REQ-009; plan D-10, D-11): eyebrow, the page's only h1 (a
+    U+2060 word joiner inside "AI-powered" keeps it on one line), the lead,
+    the primary CTA — a mailto: whose subject is the label, percent-encoded by
+    the mailtoSubject filter — and the secondary CTA for nivå: while
+    site.nivaUrl is null it is an honest early-access mailto:, once the
+    founder sets the URL it links there and reads "Try nivå" with no template
+    change. Then the proof line and the console: an honest log of this
+    factory's build stages, every line a string, rendered as a four-column
+    subgrid (time | stage | text | state) with the caret on the last line.
+    Stagger indices come from the :nth-child rules in base.css. -#}
+{%- set hero = strings[lang].hero -%}
+{%- set console = strings[lang].console -%}
+<section class="hero" aria-labelledby="hero-title">
+  <div class="hero-glow" aria-hidden="true"></div>
+  <div class="container hero-grid">
+    <div class="hero-copy">
+      <p class="eyebrow reveal"><span class="dot" aria-hidden="true"></span>{{ hero.eyebrow }}</p>
+      <h1 id="hero-title" class="reveal">{{ hero.title }}</h1>
+      <p class="lead reveal">{{ hero.lead }}</p>
+      <p class="cta-row reveal">
+        <a class="button button-primary" href="{{ hero.ctaPrimary | mailtoSubject }}">{{ hero.ctaPrimary }}<span class="arrow" aria-hidden="true">→</span></a>
+        {%- if site.nivaUrl %}
+        <a class="button button-secondary" href="{{ site.nivaUrl }}">{{ hero.nivaTry }}</a>
+        {%- else %}
+        <a class="button button-secondary" href="{{ hero.nivaEarlyAccessSubject | mailtoSubject }}">{{ hero.nivaEarlyAccess }}</a>
+        {%- endif %}
+      </p>
+      <ul class="proof-list reveal">
+        {%- for key, item in hero.proof %}
+        <li><span class="plus" aria-hidden="true">+</span>{{ item }}</li>
+        {%- endfor %}
+      </ul>
+    </div>
+    <figure class="console reveal" aria-label="{{ console.ariaLabel }}">
+      <div class="console-bar">
+        <span class="console-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span class="console-title">{{ console.title }}</span>
+      </div>
+      <ol class="console-log">
+        {%- for key, line in console.lines %}
+        <li class="log-line"><span class="log-time">{{ line.time }}</span><span class="log-stage">{{ line.stage }}</span><span class="log-text">{{ line.text }}</span>{% if loop.last %}<span class="log-wait">{{ line.state }}<span class="caret" aria-hidden="true"></span></span>{% else %}<span class="log-ok">{{ line.state }}</span>{% endif %}</li>
+        {%- endfor %}
+      </ol>
+    </figure>
+  </div>
+</section>

@@ -16,12 +16,20 @@
     "source": { "readme": "https://github.com/PeterBlenessy/notesage/blob/main/README.md", "retrieved": "2026-09-20" }
   },
   {
-    "key": "traceloupe",
-    "theme": "ai-apps",
-    "repo": "PeterBlenessy/traceloupe",
-    "url": "https://github.com/PeterBlenessy/traceloupe",
-    "status": "open-source-apache",
-    "source": { "readme": "https://github.com/PeterBlenessy/traceloupe/blob/main/README.md", "retrieved": "2026-09-20" }
+    "key": "marketdata-api",
+    "theme": "investing",
+    "repo": "PeterBlenessy/marketdata",
+    "url": null,
+    "status": "private",
+    "source": { "readme": "https://github.com/PeterBlenessy/marketdata/blob/master/README.md", "retrieved": "2026-09-20" }
+  },
+  {
+    "key": "compound",
+    "theme": "investing",
+    "repo": "PeterBlenessy/portfolio-app",
+    "url": null,
+    "status": "in-development",
+    "source": { "readme": "https://github.com/PeterBlenessy/portfolio-app/blob/main/README.md", "retrieved": "2026-09-20" }
   },
   {
     "key": "ashlands",
@@ -32,27 +40,11 @@
     "source": { "readme": "https://github.com/PeterBlenessy/ashlands/blob/main/README.md", "retrieved": "2026-09-20" }
   },
   {
-    "key": "airlocked-agents",
-    "theme": "ai-adoption",
-    "repo": "PeterBlenessy/airlocked-agents",
-    "url": "https://github.com/PeterBlenessy/airlocked-agents",
-    "status": "open-source-infrastructure",
-    "source": { "readme": "https://github.com/PeterBlenessy/airlocked-agents/blob/main/README.md", "retrieved": "2026-09-20" }
-  },
-  {
-    "key": "stoqster",
-    "theme": "investing",
-    "repo": "PeterBlenessy/stoqster",
-    "url": "https://github.com/PeterBlenessy/stoqster",
-    "status": "desktop-public-source",
-    "source": { "readme": "https://github.com/PeterBlenessy/stoqster/blob/main/README.md", "retrieved": "2026-09-20" }
-  },
-  {
-    "key": "investable",
-    "theme": "investing",
-    "repo": "PeterBlenessy/investable",
-    "url": null,
-    "status": "prototype",
-    "source": { "readme": "https://github.com/PeterBlenessy/investable/blob/main/README.md", "retrieved": "2026-09-20" }
+    "key": "gaimer",
+    "theme": "ai-apps",
+    "repo": "PeterBlenessy/gaimer",
+    "url": "https://github.com/PeterBlenessy/gaimer",
+    "status": "open-source-mit",
+    "source": { "readme": "https://github.com/PeterBlenessy/gaimer/blob/main/README.md", "retrieved": "2026-09-20" }
   }
 ]

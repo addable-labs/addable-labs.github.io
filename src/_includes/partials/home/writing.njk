@@ -1,0 +1,19 @@
+{#- Latest writing (REQ-013): the newest three of collections.posts_<lang>
+    as .post cards through partials/post-list.njk (date, category chip, draft
+    chip, title link, description; h3 under this section's h2), then the
+    "All articles" link to the blog index of the page's language. A new
+    article appears here without a template change. -#}
+{%- set writing = strings[lang].writing -%}
+{%- set langPrefix = "" if lang == site.languages.default else "/" + lang -%}
+<section id="writing" class="section section-alt writing" aria-labelledby="writing-title">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">{{ writing.eyebrow }}</p>
+      <h2 id="writing-title">{{ writing.heading }}</h2>
+    </div>
+    {%- set posts = collections["posts_" + lang].slice(0, 3) %}
+    {%- set listHeading = "h3" %}
+    {%- include "partials/post-list.njk" %}
+    <p class="writing-all"><a class="text-link" href="{{ langPrefix }}/blog/">{{ writing.all }}<span class="arrow" aria-hidden="true">→</span></a></p>
+  </div>
+</section>

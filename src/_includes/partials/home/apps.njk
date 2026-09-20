@@ -1,0 +1,41 @@
+{#- Apps and products (REQ-011 as amended by A-01, A-02; plan D-07, D-14, D-15):
+    one article.card.app.portfolio-entry per entry of src/_data/portfolio.json,
+    in data order, on the balanced subgrid — theme caption | chip row | name |
+    summary | action. The theme caption has its own track (not the chip row):
+    the founder-confirmed private label fills a three-column card's width on
+    its own, so the chip row holds only the status chip and stays one line.
+    Copy comes from strings.portfolio.<key>; the status label from
+    strings.portfolioStatus and the theme caption from strings.themes. The name
+    is plain text in every card; the action row is the same element for every
+    card: a.app-action "Repository ↗" to the public repository (url set, the
+    card gets app-linked and the only a[href]) or p.app-private with the
+    private note (url null, no link at all). .portfolio-entry and
+    .portfolio-name are the content gate's stable hooks. -#}
+{%- set apps = strings[lang].apps -%}
+<section id="apps" class="section section-alt" aria-labelledby="apps-title">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">{{ apps.eyebrow }}</p>
+      <h2 id="apps-title">{{ apps.heading }}</h2>
+      <p class="section-lead">{{ apps.lead }}</p>
+    </div>
+    <div class="app-grid">
+      {%- for entry in portfolio %}
+      {%- set copy = strings[lang].portfolio[entry.key] %}
+      <article class="card app portfolio-entry reveal{% if entry.url %} app-linked{% endif %}">
+        <p class="app-theme">{{ strings[lang].themes[entry.theme].title }}</p>
+        <div class="app-top">
+          <span class="chip chip-{{ entry.status }}"><span class="chip-dot" aria-hidden="true"></span>{{ strings[lang].portfolioStatus[entry.status] }}</span>
+        </div>
+        <h3 class="app-name portfolio-name">{{ copy.name }}</h3>
+        <p class="app-text">{{ copy.summary }}</p>
+        {%- if entry.url %}
+        <a class="app-action" href="{{ entry.url }}">{{ strings[lang].portfolio.repoLink }}<span class="arrow" aria-hidden="true">↗</span></a>
+        {%- else %}
+        <p class="app-private">{{ strings[lang].portfolio.privateNote }}</p>
+        {%- endif %}
+      </article>
+      {%- endfor %}
+    </div>
+  </div>
+</section>

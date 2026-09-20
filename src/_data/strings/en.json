@@ -21,11 +21,171 @@
   },
   "home": {
     "title": "Addable Labs",
-    "description": "A Swedish apps factory that builds AI-powered applications, largely with AI agents, and shares what it learns.",
-    "intro": "Addable Labs is a Swedish apps factory founded in September 2026 by Peter Blenessy. It builds AI-powered applications, largely with AI agents, and shares what it learns.",
-    "workHeading": "Work",
-    "latestHeading": "Latest articles",
-    "allArticles": "All articles"
+    "description": "A Swedish apps factory that builds AI-powered applications, largely with AI agents, and shares what it learns."
+  },
+  "hero": {
+    "eyebrow": "AI-native software company · Sweden",
+    "title": "We build AI-⁠powered apps and help teams put AI to work.",
+    "lead": "Addable Labs ships AI-powered products — largely built by AI agents with a person in charge — and helps companies and teams become fluent with AI, from assessment to adoption.",
+    "ctaPrimary": "Start a project",
+    "nivaEarlyAccess": "Get early access to nivå",
+    "nivaEarlyAccessSubject": "Early access to nivå",
+    "nivaTry": "Try nivå",
+    "proof": {
+      "agents": "Agent-built, human-directed",
+      "open": "Open source where it can be",
+      "gates": "Gate-checked on every change"
+    }
+  },
+  "console": {
+    "ariaLabel": "An agent-run build of this site, stage by stage",
+    "title": "factory · build-basic · website",
+    "lines": {
+      "requirements": {
+        "time": "19:34",
+        "stage": "requirements",
+        "text": "31 reqs, 29 criteria",
+        "state": "done"
+      },
+      "plan": {
+        "time": "19:49",
+        "stage": "plan",
+        "text": "design system, landing",
+        "state": "done"
+      },
+      "review": {
+        "time": "20:43",
+        "stage": "review",
+        "text": "plan reviewed, approved",
+        "state": "done"
+      },
+      "implement": {
+        "time": "22:13",
+        "stage": "implement",
+        "text": "10 work items, 1 branch",
+        "state": "done"
+      },
+      "gates": {
+        "time": "--:--",
+        "stage": "gates",
+        "text": "ten gates on the build",
+        "state": "10/10"
+      },
+      "founder": {
+        "time": "--:--",
+        "stage": "founder",
+        "text": "reviews and approves",
+        "state": "waiting"
+      }
+    }
+  },
+  "services": {
+    "eyebrow": "Services",
+    "heading": "Three ways to work with us"
+  },
+  "themes": {
+    "ai-apps": {
+      "title": "AI-powered apps",
+      "text": "Desktop and web applications where AI is part of the product, not a bolt-on. We design, build and ship them with an agent-run factory and a senior person in the loop.",
+      "getsHeading": "What you get",
+      "gets": {
+        "product": "A working product, not a slide deck",
+        "source": "Source you own, with quality gates and CI from day one",
+        "team": "A small senior team that decides fast",
+        "honesty": "An honest account of what AI can and cannot do for the product"
+      },
+      "cta": "Start a project"
+    },
+    "ai-adoption": {
+      "title": "AI adoption",
+      "text": "Find out where your people stand with AI, then move them: nivå self-assessments, hands-on workshops and a plan that fits the work your team actually does.",
+      "getsHeading": "What you get",
+      "gets": {
+        "baseline": "A fluency baseline per person and per team",
+        "workshops": "Workshops built around your real work, not demos",
+        "guide": "A guide to the next level for each person and the team"
+      },
+      "cta": "See nivå"
+    },
+    "investing": {
+      "title": "Investing tools",
+      "text": "Tools that make market data usable: a pipeline and API for Swedish and US market data, and a portfolio analysis framework that scores and flags but never trades.",
+      "getsHeading": "What you get",
+      "gets": {
+        "api": "An API for fundamentals, TA metrics and short-selling data",
+        "analysis": "Portfolio analysis for your own holdings and mandate",
+        "open": "Prototypes evaluated in the open"
+      },
+      "cta": "See the tools"
+    }
+  },
+  "apps": {
+    "eyebrow": "Apps and products",
+    "heading": "What we have built",
+    "lead": "Six projects, from shipped open-source apps to private tools in development. Status is stated as each repository states it."
+  },
+  "portfolio": {
+    "niva": {
+      "name": "nivå",
+      "summary": "AI fluency and adoption maturity self-assessment for individuals and teams: levels, a radar chart, a fluency index and team heatmaps."
+    },
+    "notesage": {
+      "name": "Notesage",
+      "summary": "A rich-text Markdown editor that collaborates with AI. A native desktop app on Tauri v2, React and Tiptap; it connects to local models too."
+    },
+    "marketdata-api": {
+      "name": "marketdata-api",
+      "summary": "A market-data pipeline and API: reference universe, fundamentals, TA metrics, credit spreads and the Swedish short-selling register."
+    },
+    "compound": {
+      "name": "Compound",
+      "summary": "An analysis and planning framework for a core/satellite equity portfolio in Swedish ISK accounts. It scores and flags; it does not trade."
+    },
+    "ashlands": {
+      "name": "Ashlands",
+      "summary": "An action-RPG built entirely by AI agents from a single prompt, with an honest evaluation of what that produced. An experiment, not a product."
+    },
+    "gaimer": {
+      "name": "Gaimer",
+      "summary": "Describe a game in plain text and get a playable HTML5 game in seconds. A desktop app on Tauri 2, Vue 3 and Quasar with OpenAI or Claude."
+    },
+    "privateNote": "Private repository — no public link yet",
+    "repoLink": "Repository"
+  },
+  "portfolioStatus": {
+    "in-development": "in development",
+    "open-source-mit": "open source · MIT",
+    "experiment": "experiment",
+    "private": "private · API keys on request"
+  },
+  "trust": {
+    "eyebrow": "How we work",
+    "heading": "AI-native, agents as staff, a person in charge",
+    "points": {
+      "aiNative": {
+        "title": "AI-native",
+        "text": "AI is part of what we build and part of how we build. The products on this page were made largely with AI agents."
+      },
+      "agents": {
+        "title": "Agents as staff",
+        "text": "A small senior team sets the direction and reviews every change; agents plan, implement and review the work in between."
+      },
+      "proof": {
+        "title": "Proof, not claims",
+        "text": "This very site was designed, built and is maintained by an agent-run software factory. The founder reviews every change before it is published."
+      },
+      "swedish": {
+        "title": "A Swedish company",
+        "text": "Founded by Peter Blenessy. Public repositories and honest evaluations — including the experiments that fell short."
+      }
+    },
+    "articleLabel": "How this site was built by agents",
+    "proofLabel": "See the open-source portfolio"
+  },
+  "writing": {
+    "eyebrow": "Latest writing",
+    "heading": "Notes from the work",
+    "all": "All articles"
   },
   "footer": {
     "factoryLine": "This site is built and maintained by an agent-run software factory.",
@@ -54,62 +214,6 @@
     "machineTranslatedLabel": "Machine-translated",
     "machineTranslatedNotice": "This text was machine-translated and has not yet been reviewed by a person.",
     "readInOtherLanguage": "Read this article in Swedish"
-  },
-  "themes": {
-    "ai-apps": {
-      "title": "AI-powered apps",
-      "text": "Desktop and web applications where AI is part of the product: an editor that collaborates with AI, a backup browser that scans for threats locally, a game written entirely by agents."
-    },
-    "ai-adoption": {
-      "title": "AI adoption",
-      "text": "Helping individuals and teams become fluent with AI — assessing where they stand today, and running AI automation privately so that untrusted content stays in the airlock."
-    },
-    "investing": {
-      "title": "Investing and market-data tools",
-      "text": "Tools for following Swedish investment companies, real-estate companies and funds, and for seeing how stocks move together."
-    }
-  },
-  "portfolio": {
-    "niva": {
-      "name": "nivå",
-      "summary": "An AI fluency and AI adoption maturity self-assessment for individuals and teams: behaviour-anchored levels, a radar chart, a fluency index and per-category guides to the next level, with team heatmaps and gap analysis; English and Swedish; Next.js and Supabase."
-    },
-    "notesage": {
-      "name": "Notesage",
-      "summary": "A polished rich text markdown editor with AI collaboration, built as a native desktop app with Tauri v2, React and Tiptap. It connects to several AI providers, including local models."
-    },
-    "traceloupe": {
-      "name": "TraceLoupe",
-      "summary": "A privacy-first macOS app that opens, decrypts and lets you browse your own iPhone backup, checks it for spyware and stalkerware, and can review messages and notes with a local AI for safety concerns. Nothing leaves your Mac."
-    },
-    "ashlands": {
-      "name": "Ashlands",
-      "summary": "An action-RPG built entirely by AI agents from a single prompt, with an honest evaluation of what that produced. An experiment in agentic software development and a case study, not a game product."
-    },
-    "airlocked-agents": {
-      "name": "airlocked-agents",
-      "summary": "Deterministic infrastructure-as-code for a private, self-hosted AI automation stack, built to keep one rule true: no single component reads untrusted content, holds your credentials and can send, all at once."
-    },
-    "stoqster": {
-      "name": "Stoqster",
-      "summary": "A desktop app for following Swedish investment companies, real-estate companies and funds, with watchlists, alerts and portfolio performance. Built with Tauri and Vue 3."
-    },
-    "investable": {
-      "name": "investable",
-      "summary": "A stock correlation heatmap web app with several market-data providers."
-    }
-  },
-  "portfolioStatus": {
-    "in-development": "in development",
-    "open-source-mit": "shipped, open source (MIT)",
-    "open-source-apache": "shipped, open source (Apache-2.0)",
-    "experiment": "experiment and case study",
-    "open-source-infrastructure": "open source infrastructure (MIT)",
-    "desktop-public-source": "desktop app, source on GitHub",
-    "prototype": "prototype"
-  },
-  "factoryNote": {
-    "text": "This site was designed, built and is maintained by an agent-run software factory. The founder reviews every change before it is published. What the agents learn along the way ends up on the blog."
   },
   "contact": {
     "eyebrow": "Contact",

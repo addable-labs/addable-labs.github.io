@@ -1,35 +1,21 @@
 ---
 layout: layouts/base.njk
 translationKey: home
+titleInContent: true
 machineTranslated: true
 eleventyComputed:
   title: "{{ strings[lang].home.title | safe }}"
   description: "{{ strings[lang].home.description | safe }}"
 ---
-<div class="container page-body">
-<p class="lead">{{ strings[lang].home.intro }}</p>
-
-<div class="card-grid themes">
-  {%- for key in ["ai-apps", "ai-adoption", "investing"] %}
-  <section class="card theme">
-    <h2>{{ strings[lang].themes[key].title }}</h2>
-    <p>{{ strings[lang].themes[key].text }}</p>
-  </section>
-  {%- endfor %}
-</div>
-
-<h2>{{ strings[lang].home.workHeading }}</h2>
-{% include "partials/portfolio.njk" %}
-
-{% include "partials/factory-note.njk" %}
-
-<h2>{{ strings[lang].home.latestHeading }}</h2>
-{% set posts = collections["posts_" + lang] %}
-{% set listHeading = "h3" %}
-{% include "partials/article-list.njk" %}
-<p><a href="/sv/blog/">{{ strings[lang].home.allArticles }}</a></p>
-
-<section class="contact">
-  {% include "partials/contact.njk" %}
+{#- Swedish landing page (REQ-015): the same partials in the same order as
+    src/en/index.njk; every string comes from strings.sv. -#}
+{% include "partials/home/hero.njk" %}
+{% include "partials/home/services.njk" %}
+{% include "partials/home/apps.njk" %}
+{% include "partials/home/trust.njk" %}
+{% include "partials/home/writing.njk" %}
+<section class="section contact" aria-labelledby="contact-title">
+  <div class="container">
+    {% include "partials/home/contact.njk" %}
+  </div>
 </section>
-</div>

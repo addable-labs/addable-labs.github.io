@@ -1,0 +1,36 @@
+{#- How we work (REQ-012; plan D-12): eyebrow, heading, the four points as a
+    dl — AI-native; agents as staff; "Proof, not claims", whose text is the
+    p.factory-note carrying the exact phrase "agent-run software factory" /
+    "agentdriven mjukvarufabrik" and no link (the content gate's hook: the
+    note may link only the article); "A Swedish company", naming the founder
+    without the founding month (that moved to the about page) — then the
+    secondary button to the how-this-site-was-built article and the text link
+    to #apps as the open-source proof. No other link in the section names
+    "factory". Same .trust-grid / .trust-copy / .trust-points components as
+    the about page. -#}
+{%- set trust = strings[lang].trust -%}
+{%- set langPrefix = "" if lang == site.languages.default else "/" + lang -%}
+<section id="how" class="section trust" aria-labelledby="trust-title">
+  <div class="container trust-grid">
+    <div class="trust-copy reveal">
+      <p class="eyebrow">{{ trust.eyebrow }}</p>
+      <h2 id="trust-title">{{ trust.heading }}</h2>
+      <p class="cta-row">
+        <a class="button button-secondary" href="{{ langPrefix }}/blog/how-this-site-was-built-by-agents/">{{ trust.articleLabel }}<span class="arrow" aria-hidden="true">→</span></a>
+        <a class="text-link" href="#apps">{{ trust.proofLabel }}</a>
+      </p>
+    </div>
+    <dl class="trust-points">
+      {%- for key in ["aiNative", "agents", "proof", "swedish"] %}
+      <div class="trust-point reveal">
+        <dt>{{ trust.points[key].title }}</dt>
+        {%- if key == "proof" %}
+        <dd><p class="factory-note">{{ trust.points[key].text }}</p></dd>
+        {%- else %}
+        <dd>{{ trust.points[key].text }}</dd>
+        {%- endif %}
+      </div>
+      {%- endfor %}
+    </dl>
+  </div>
+</section>

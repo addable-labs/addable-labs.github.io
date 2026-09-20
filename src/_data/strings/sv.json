@@ -21,11 +21,171 @@
   },
   "home": {
     "title": "Addable Labs",
-    "description": "En svensk appfabrik som bygger AI-drivna applikationer, till stor del med AI-agenter, och delar med sig av vad den lär sig.",
-    "intro": "Addable Labs är en svensk appfabrik som grundades i september 2026 av Peter Blenessy. Företaget bygger AI-drivna applikationer, till stor del med AI-agenter, och delar med sig av vad det lär sig.",
-    "workHeading": "Arbeten",
-    "latestHeading": "Senaste artiklarna",
-    "allArticles": "Alla artiklar"
+    "description": "En svensk appfabrik som bygger AI-drivna applikationer, till stor del med AI-agenter, och delar med sig av vad den lär sig."
+  },
+  "hero": {
+    "eyebrow": "AI-nativt mjukvaruföretag · Sverige",
+    "title": "Vi bygger AI-⁠drivna appar och hjälper team att sätta AI i arbete.",
+    "lead": "Addable Labs levererar AI-drivna produkter – till stor del byggda av AI-agenter med en person som ansvarar – och hjälper företag och team att bli flytande i AI, från bedömning till införande.",
+    "ctaPrimary": "Starta ett projekt",
+    "nivaEarlyAccess": "Få tidig tillgång till nivå",
+    "nivaEarlyAccessSubject": "Tidig tillgång till nivå",
+    "nivaTry": "Prova nivå",
+    "proof": {
+      "agents": "Byggt av agenter, styrt av människor",
+      "open": "Öppen källkod där det går",
+      "gates": "Kvalitetsgrindar vid varje ändring"
+    }
+  },
+  "console": {
+    "ariaLabel": "Ett agentdrivet bygge av den här webbplatsen, steg för steg",
+    "title": "factory · build-basic · website",
+    "lines": {
+      "requirements": {
+        "time": "19:34",
+        "stage": "requirements",
+        "text": "31 krav, 29 kriterier",
+        "state": "klart"
+      },
+      "plan": {
+        "time": "19:49",
+        "stage": "plan",
+        "text": "designsystem, startsida",
+        "state": "klart"
+      },
+      "review": {
+        "time": "20:43",
+        "stage": "review",
+        "text": "plan granskad, godkänd",
+        "state": "klart"
+      },
+      "implement": {
+        "time": "22:13",
+        "stage": "implement",
+        "text": "10 arbetspaket, 1 gren",
+        "state": "klart"
+      },
+      "gates": {
+        "time": "--:--",
+        "stage": "gates",
+        "text": "tio grindar på bygget",
+        "state": "10/10"
+      },
+      "founder": {
+        "time": "--:--",
+        "stage": "founder",
+        "text": "granskar och godkänner",
+        "state": "väntar"
+      }
+    }
+  },
+  "services": {
+    "eyebrow": "Tjänster",
+    "heading": "Tre sätt att arbeta med oss"
+  },
+  "themes": {
+    "ai-apps": {
+      "title": "AI-drivna appar",
+      "text": "Skrivbords- och webbapplikationer där AI är en del av produkten, inte ett tillägg. Vi designar, bygger och levererar dem med en agentdriven fabrik och en senior person i loopen.",
+      "getsHeading": "Det här får du",
+      "gets": {
+        "product": "En fungerande produkt, inte en presentation",
+        "source": "Källkod du äger, med kvalitetsgrindar och CI från dag ett",
+        "team": "Ett litet seniort team som beslutar snabbt",
+        "honesty": "En ärlig bild av vad AI kan och inte kan göra för produkten"
+      },
+      "cta": "Starta ett projekt"
+    },
+    "ai-adoption": {
+      "title": "AI-införande",
+      "text": "Ta reda på var era medarbetare står med AI och flytta dem framåt: nivå-självskattningar, praktiska workshoppar och en plan som passar det arbete ert team faktiskt gör.",
+      "getsHeading": "Det här får du",
+      "gets": {
+        "baseline": "En kompetensbaslinje per person och per team",
+        "workshops": "Workshoppar kring ert verkliga arbete, inte demos",
+        "guide": "En guide till nästa nivå för varje person och för teamet"
+      },
+      "cta": "Se nivå"
+    },
+    "investing": {
+      "title": "Investeringsverktyg",
+      "text": "Verktyg som gör marknadsdata användbara: en pipeline och ett API för svensk och amerikansk marknadsdata, och ett portföljanalysramverk som poängsätter och flaggar men aldrig handlar.",
+      "getsHeading": "Det här får du",
+      "gets": {
+        "api": "Ett API för fundamenta, TA-mått och blankningsdata",
+        "analysis": "Portföljanalys för era egna innehav och ert mandat",
+        "open": "Prototyper utvärderade i det öppna"
+      },
+      "cta": "Se verktygen"
+    }
+  },
+  "apps": {
+    "eyebrow": "Appar och produkter",
+    "heading": "Det vi har byggt",
+    "lead": "Sex projekt, från lanserade appar med öppen källkod till privata verktyg under utveckling. Status anges som varje kodförråd anger den."
+  },
+  "portfolio": {
+    "niva": {
+      "name": "nivå",
+      "summary": "Självskattning av AI-kompetens och AI-mognad för individer och team: nivåer, ett radardiagram, ett kompetensindex och värmekartor för team."
+    },
+    "notesage": {
+      "name": "Notesage",
+      "summary": "En markdown-redigerare med formaterad text som samarbetar med AI. En skrivbordsapp på Tauri v2, React och Tiptap; den ansluter även till lokala modeller."
+    },
+    "marketdata-api": {
+      "name": "marketdata-api",
+      "summary": "En pipeline och ett API för marknadsdata: referensuniversum, fundamenta, TA-mått, kreditspreadar och det svenska blankningsregistret."
+    },
+    "compound": {
+      "name": "Compound",
+      "summary": "Ett analys- och planeringsramverk för en aktieportfölj med kärna och satelliter på svenska ISK-konton. Det poängsätter och flaggar; det handlar inte."
+    },
+    "ashlands": {
+      "name": "Ashlands",
+      "summary": "Ett action-rollspel byggt helt av AI-agenter utifrån en enda prompt, med en ärlig utvärdering av vad det gav. Ett experiment, inte en produkt."
+    },
+    "gaimer": {
+      "name": "Gaimer",
+      "summary": "Beskriv ett spel i klartext och få ett spelbart HTML5-spel på några sekunder. En skrivbordsapp på Tauri 2, Vue 3 och Quasar med OpenAI eller Claude."
+    },
+    "privateNote": "Privat kodförråd — ingen publik länk ännu",
+    "repoLink": "Kodförråd"
+  },
+  "portfolioStatus": {
+    "in-development": "under utveckling",
+    "open-source-mit": "öppen källkod · MIT",
+    "experiment": "experiment",
+    "private": "privat · API-nycklar på förfrågan"
+  },
+  "trust": {
+    "eyebrow": "Så arbetar vi",
+    "heading": "AI-nativt, agenter som medarbetare, en person som ansvarar",
+    "points": {
+      "aiNative": {
+        "title": "AI-nativt",
+        "text": "AI är en del av vad vi bygger och en del av hur vi bygger. Produkterna på den här sidan har till stor del skapats med AI-agenter."
+      },
+      "agents": {
+        "title": "Agenter som medarbetare",
+        "text": "Ett litet seniort team sätter riktningen och granskar varje ändring; agenter planerar, genomför och granskar arbetet däremellan."
+      },
+      "proof": {
+        "title": "Bevis, inte påståenden",
+        "text": "Den här webbplatsen har designats, byggts och underhålls av en agentdriven mjukvarufabrik. Grundaren granskar varje ändring innan den publiceras."
+      },
+      "swedish": {
+        "title": "Ett svenskt företag",
+        "text": "Grundat av Peter Blenessy. Publika kodförråd och ärliga utvärderingar – även de experiment som inte nådde ända fram."
+      }
+    },
+    "articleLabel": "Så byggdes den här webbplatsen av agenter",
+    "proofLabel": "Se portföljen med öppen källkod"
+  },
+  "writing": {
+    "eyebrow": "Senaste texterna",
+    "heading": "Anteckningar från arbetet",
+    "all": "Alla artiklar"
   },
   "footer": {
     "factoryLine": "Den här webbplatsen byggs och underhålls av en agentdriven mjukvarufabrik.",
@@ -54,62 +214,6 @@
     "machineTranslatedLabel": "Maskinöversatt",
     "machineTranslatedNotice": "Den här texten är maskinöversatt och har ännu inte granskats av en person.",
     "readInOtherLanguage": "Läs den här artikeln på engelska"
-  },
-  "themes": {
-    "ai-apps": {
-      "title": "AI-drivna appar",
-      "text": "Skrivbords- och webbapplikationer där AI är en del av produkten: en redigerare som samarbetar med AI, en backupläsare som söker efter hot lokalt, ett spel helt skrivet av agenter."
-    },
-    "ai-adoption": {
-      "title": "AI-införande",
-      "text": "Hjälper individer och team att bli flytande i AI – genom att bedöma var de står i dag och genom att köra AI-automation privat så att opålitligt innehåll stannar i luftslussen."
-    },
-    "investing": {
-      "title": "Investerings- och marknadsdataverktyg",
-      "text": "Verktyg för att följa svenska investmentbolag, fastighetsbolag och fonder, och för att se hur aktier rör sig tillsammans."
-    }
-  },
-  "portfolio": {
-    "niva": {
-      "name": "nivå",
-      "summary": "En självskattning av AI-kompetens och AI-mognad för individer och team: beteendeförankrade nivåer, ett radardiagram, ett kompetensindex och guider till nästa nivå per kategori, med värmekartor och gapanalys för team; engelska och svenska; Next.js och Supabase."
-    },
-    "notesage": {
-      "name": "Notesage",
-      "summary": "En polerad markdown-redigerare med formaterad text och AI-samarbete, byggd som en skrivbordsapp med Tauri v2, React och Tiptap. Den ansluter till flera AI-leverantörer, även lokala modeller."
-    },
-    "traceloupe": {
-      "name": "TraceLoupe",
-      "summary": "En integritetsfokuserad macOS-app som öppnar, dekrypterar och låter dig bläddra i din egen iPhone-backup, kontrollerar den efter spionprogram och stalkerware och kan granska meddelanden och anteckningar med en lokal AI för säkerhetsrisker. Ingenting lämnar din Mac."
-    },
-    "ashlands": {
-      "name": "Ashlands",
-      "summary": "Ett action-rollspel byggt helt av AI-agenter utifrån en enda prompt, med en ärlig utvärdering av vad det gav. Ett experiment i agentbaserad mjukvaruutveckling och en fallstudie, inte en spelprodukt."
-    },
-    "airlocked-agents": {
-      "name": "airlocked-agents",
-      "summary": "Deterministisk infrastruktur som kod för en privat, självhostad AI-automationsmiljö, byggd för att hålla en regel sann: ingen enskild komponent läser opålitligt innehåll, håller dina inloggningsuppgifter och kan skicka, allt på en gång."
-    },
-    "stoqster": {
-      "name": "Stoqster",
-      "summary": "En skrivbordsapp för att följa svenska investmentbolag, fastighetsbolag och fonder, med bevakningslistor, larm och portföljutveckling. Byggd med Tauri och Vue 3."
-    },
-    "investable": {
-      "name": "investable",
-      "summary": "En webbapp med värmekarta över aktiekorrelationer och flera marknadsdataleverantörer."
-    }
-  },
-  "portfolioStatus": {
-    "in-development": "under utveckling",
-    "open-source-mit": "lanserad, öppen källkod (MIT)",
-    "open-source-apache": "lanserad, öppen källkod (Apache-2.0)",
-    "experiment": "experiment och fallstudie",
-    "open-source-infrastructure": "infrastruktur med öppen källkod (MIT)",
-    "desktop-public-source": "skrivbordsapp, källkod på GitHub",
-    "prototype": "prototyp"
-  },
-  "factoryNote": {
-    "text": "Den här webbplatsen har designats, byggts och underhålls av en agentdriven mjukvarufabrik. Grundaren granskar varje ändring innan den publiceras. Det agenterna lär sig längs vägen hamnar på bloggen."
   },
   "contact": {
     "eyebrow": "Kontakt",
