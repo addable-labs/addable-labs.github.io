@@ -8,14 +8,6 @@ import site from "./src/_data/site.js";
 // and the CNAME file for the custom domain (REQ-020).
 const PASSTHROUGH = ["src/assets", "src/favicon.svg", "src/CNAME"];
 
-// Design-direction previews (redesign REQ-002): the pages under src/preview/
-// and their stylesheets under previews/ exist only in a preview build
-// (`pnpm preview`, PREVIEW=1, written to _preview/ so _site/ is never
-// touched). A production build ignores the templates and copies nothing, so
-// _site/ never contains a preview/ directory and the sitemap, feeds,
-// collections and gates never see the directions.
-const PREVIEW = process.env.PREVIEW === "1";
-
 const LANGUAGES = ["en", "sv"];
 const CATEGORIES = JSON.parse(readFileSync(new URL("./src/_data/categories.json", import.meta.url), "utf8"));
 const CATEGORY_KEYS = CATEGORIES.map((category) => category.key);
@@ -45,11 +37,6 @@ export default function (eleventyConfig) {
 
   for (const path of PASSTHROUGH) {
     eleventyConfig.addPassthroughCopy(path);
-  }
-  if (PREVIEW) {
-    eleventyConfig.addPassthroughCopy({ "previews/assets": "preview/assets" });
-  } else {
-    eleventyConfig.ignores.add("src/preview/**");
   }
 
   // Front-matter validation for every article (REQ-018): an unknown category,

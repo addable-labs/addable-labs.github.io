@@ -10,7 +10,6 @@
   },
   "scripts": {
     "dev": "eleventy --serve",
-    "preview": "PREVIEW=1 eleventy --serve --output=_preview",
     "build": "eleventy",
     "check": "node scripts/check/run.mjs",
     "check:links": "node scripts/check/links.mjs",
