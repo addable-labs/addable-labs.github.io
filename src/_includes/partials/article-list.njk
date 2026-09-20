@@ -1,0 +1,22 @@
+{#- Lists the articles in `posts` (a collection, newest first) with title,
+    date, category and summary. Drafts get the localised label in front of the
+    title. Set `posts` before including this partial; set `listHeading` to
+    "h3" when the list sits under an h2 (default "h2"). -#}
+{%- set langPrefix = "" if lang == site.languages.default else "/" + lang -%}
+{%- set headingTag = listHeading or "h2" -%}
+{% if posts | length %}
+<ul class="article-list">
+  {%- for post in posts %}
+  <li class="article-list-item">
+    <{{ headingTag }} class="article-list-title"><a href="{{ post.url }}">{% if post.data.draft %}{{ strings[lang].article.draftLabel }}: {% endif %}{{ post.data.title }}</a></{{ headingTag }}>
+    <p class="article-meta">
+      <time datetime="{{ post.date | isoDate }}">{{ post.date | localeDate(lang) }}</time>
+      · <a href="{{ langPrefix }}/blog/{{ post.data.category }}/">{{ strings[lang].categories[post.data.category] }}</a>
+    </p>
+    <p class="article-list-summary">{{ post.data.description }}</p>
+  </li>
+  {%- endfor %}
+</ul>
+{% else %}
+<p>{{ strings[lang].blog.empty }}</p>
+{% endif %}

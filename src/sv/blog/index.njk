@@ -1,0 +1,16 @@
+---
+layout: layouts/base.njk
+translationKey: blog
+eleventyComputed:
+  title: "{{ strings[lang].blog.title }}"
+---
+<p class="lead">{{ strings[lang].blog.lead }}</p>
+<p class="blog-rss"><a href="/sv/feed.xml" type="application/rss+xml">{{ strings[lang].blog.rss }}</a></p>
+{% set posts = collections["posts_" + lang] %}
+{% include "partials/article-list.njk" %}
+<h2>{{ strings[lang].blog.categoriesHeading }}</h2>
+<ul class="category-list">
+  {%- for category in categories %}
+  <li><a href="/sv/blog/{{ category.key }}/">{{ strings[lang].categories[category.key] }}</a></li>
+  {%- endfor %}
+</ul>

@@ -23,5 +23,25 @@
     "linkedin": "LinkedIn",
     "copyright": "Addable Labs",
     "factoryLine": "Den här webbplatsen byggs och underhålls av en agentdriven mjukvarufabrik."
+  },
+  "categories": {
+    "app-development": "Apputveckling",
+    "ai-journey": "AI-resan"
+  },
+  "blog": {
+    "title": "Blogg",
+    "lead": "Anteckningar från att bygga appar och införa AI, i två kategorier.",
+    "categoriesHeading": "Kategorier",
+    "categoryLead": "Artiklar i kategorin {category}.",
+    "rss": "Prenumerera med RSS",
+    "empty": "Inga artiklar ännu."
+  },
+  "article": {
+    "draftLabel": "Utkast",
+    "draftNotice": "Utkast — den här artikeln bearbetas fortfarande och kan ändras.",
+    "machineTranslatedNotice": "Den här texten är maskinöversatt och har ännu inte granskats av en person.",
+    "publishedOn": "Publicerad",
+    "categoryLabel": "Kategori",
+    "readInOtherLanguage": "Läs den här artikeln på engelska"
   }
 }

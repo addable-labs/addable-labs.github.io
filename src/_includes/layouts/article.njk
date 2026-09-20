@@ -1,0 +1,35 @@
+---
+layout: layouts/base.njk
+titleInContent: true
+---
+{#- Article page: title, date, category link, notices, summary, body and the
+    link to the same article in the other language. `alternate` is computed by
+    src.11tydata.js from WI-05 on; until then the link is simply absent. The
+    header/footer inside the article are divs so each page keeps exactly one
+    header and footer landmark. Conditional tags sit at column 0 so a false
+    branch leaves an empty line rather than trailing whitespace. -#}
+{%- set langPrefix = "" if lang == site.languages.default else "/" + lang -%}
+<article class="article">
+  <div class="article-header">
+    <h1>{{ title }}</h1>
+    <p class="article-meta">
+      <time datetime="{{ page.date | isoDate }}">{{ page.date | localeDate(lang) }}</time>
+      · <a href="{{ langPrefix }}/blog/{{ category }}/">{{ strings[lang].categories[category] }}</a>
+    </p>
+{% if draft %}
+    {% include "partials/notice-draft.njk" %}
+{% endif %}
+{% if machineTranslated %}
+    {% include "partials/notice-mt.njk" %}
+{% endif %}
+    <p class="article-summary">{{ description }}</p>
+  </div>
+  <div class="article-body">
+    {{ content | safe }}
+  </div>
+{% if alternate %}
+  <div class="article-footer">
+    <p><a href="{{ alternate.url }}" hreflang="{{ alternate.lang }}" lang="{{ alternate.lang }}">{{ strings[lang].article.readInOtherLanguage }}</a></p>
+  </div>
+{% endif %}
+</article>
