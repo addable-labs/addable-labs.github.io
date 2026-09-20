@@ -6,17 +6,29 @@ The source of the Addable Labs company website: a bilingual (English at the
 root, Swedish under `/sv/`) static site with a landing page, an about page and
 a blog with two categories, RSS feeds, a sitemap and a bilingual 404 page. It
 is built with [Eleventy](https://www.11ty.dev/) 3.1.6 from Markdown and
-Nunjucks templates, ships no JavaScript and no web fonts, and is published with
-GitHub Pages from this repository (`addable-labs/addable-labs.github.io`) at
-`https://addablelabs.se` — `https://addable-labs.github.io/` until the custom
-domain is configured (see *Deployment*).
+Nunjucks templates and published with GitHub Pages from this repository
+(`addable-labs/addable-labs.github.io`) at `https://addablelabs.se` —
+`https://addable-labs.github.io/` until the custom domain is configured (see
+*Deployment*).
+
+The site looks the way it does because the founder picked **Direction A —
+Signal** at the redesign's direction gate (2026-09-20): a product-led,
+dark-first design with one typeface, JetBrains Mono, carrying the brand voice
+in headings, labels and the hero's honest "agent console", a readable system
+sans for paragraphs, one vivid green accent with orange reserved for status,
+a quiet grid, cards that stay balanced whatever their content, and
+restrained motion that establishes hierarchy. The reasons, the two
+alternatives that lost and every token, component and state are documented
+in [`docs/identity.md`](docs/identity.md) (see *Design directions*).
 
 This site was designed, built and is maintained by an agent-run software
 factory, with the founder reviewing every change before it is published.
 
 No consent banner is needed: the site sets no cookies, loads nothing from
-third parties and collects nothing. Every request a page makes goes to the
-site's own origin, and the quality gates fail the build if that changes.
+third parties and collects nothing. The only JavaScript is ~2 KB of the
+site's own (the theme script and the entrance-motion script), the fonts are
+self-hosted, every request a page makes goes to the site's own origin, and
+the quality gates fail the build if any of that changes.
 
 ## Requirements
 
@@ -24,22 +36,62 @@ site's own origin, and the quality gates fail the build if that changes.
   `engines` field is `>=24.8` — and is what the site was built with.
 - **pnpm 10.30.3**, pinned through the `packageManager` field. With Corepack:
   `corepack enable` and pnpm resolves itself; otherwise install pnpm 10.30.3.
-- No browser, no database, no accounts: the build, the gates and the tests run
-  on Node alone.
+- **Google Chrome (optional locally, required in CI)** for the two
+  Chrome-backed gates, `check:lighthouse` and `check:layout`. Without it
+  they print an explicit `SKIP` line and `pnpm check` still passes; nothing
+  ever downloads a browser (see *Quality gates*).
+- No database, no accounts.
 
 ## Run locally
 
 ```bash
-pnpm install --frozen-lockfile   # the five pinned dev dependencies, nothing else
+pnpm install --frozen-lockfile   # the seven pinned dev dependencies, nothing else
 pnpm dev                         # http://localhost:8080/, rebuilds on save
 pnpm build                       # writes the whole site to _site/
-pnpm check                       # builds, then runs all eight quality gates
+pnpm check                       # builds, then runs all ten quality gates
 pnpm test                        # proves every gate fails on deliberate breakage
 ```
 
 `_site/` and `node_modules/` are git-ignored. The build takes well under a
-second; `pnpm check` takes a few seconds (it fetches the external links unless
-`CHECK_OFFLINE=1` is set).
+second; `pnpm check` takes about 10 s without Chrome and about 45 s with it
+(Lighthouse measures seven pages; it also fetches the external links unless
+`CHECK_OFFLINE=1` is set); `pnpm test` takes about 10 s and needs neither
+network nor browser.
+
+## Appearance toggle
+
+The site is **dark by default for every visitor, whatever the operating
+system prefers** — the founder's decision. The toggle in the header and in
+the footer (a real button, keyboard operable, with a visually hidden label)
+switches to light; the choice is stored in `localStorage` under the key
+`addable-theme` and applied by a ~1 KB inline script before the first paint
+on every page, including after the language switch, so nothing flashes.
+Storing a display preference needs no consent. Clearing the site's storage
+returns the site to dark; with JavaScript disabled the site is dark and the
+toggle is hidden. The mechanics — `light-dark()` tokens with dark fallbacks,
+`color-scheme` as the only switch, no `prefers-color-scheme` media query —
+are in [`docs/identity.md`](docs/identity.md), *Theme mechanics*. The
+favicon is the one thing that follows the OS: a browser's tab bar cannot see
+the page's theme.
+
+## Fonts and licence
+
+JetBrains Mono ships self-hosted in three weights from `src/assets/fonts/`,
+unmodified from the founder's source and pinned by SHA-256 in
+`tests/fonts.test.mjs`:
+
+| File | Bytes | SHA-256 (abbreviated) |
+| --- | --- | --- |
+| `JetBrainsMono-Light.woff2` (the `h1`) | 93,856 | `43eb798d…9c572` |
+| `JetBrainsMono-Regular.woff2` (console, metadata, code) | 92,164 | `a9cb1cd8…f45f2` |
+| `JetBrainsMono-Medium.woff2` (headings, labels, buttons, chips) | 93,824 | `086c48df…5a353` |
+
+279,844 bytes in total against the 300 KB font budget; only Light and
+Medium are preloaded. The licence is the **SIL Open Font License 1.1**:
+`src/assets/fonts/OFL.txt` ships beside the files at `/assets/fonts/OFL.txt`
+and must stay there. Body copy uses the system sans stack and costs no
+bytes. `src/assets/css/fonts.css` declares the faces with metric-matched
+local fallbacks so the swap never moves the layout.
 
 ## Add an article
 
@@ -84,23 +136,24 @@ Brödtext i Markdown.
 - **Category keys** are exactly `app-development` ("App development" /
   "Apputveckling") and `ai-journey` ("AI journey" / "AI-resan"), declared in
   `src/_data/categories.json`. An article belongs to one category and appears
-  on `/blog/`, on `/blog/<category>/` and in the language's feed automatically,
-  newest first.
-- **`draft: true`** publishes the article but prefixes its title with "Draft:"
-  / "Utkast:" in listings and feed items and shows a notice on the page.
-  Setting it to `false` removes the label everywhere; nothing is ever excluded
-  from the build.
-- **`machineTranslated: true`** shows a short notice at the top of the page
-  saying the text has not yet been reviewed by a person. Clear it once the
-  translation has been read. English files keep `false`.
-- **`translationKey`** pairs the two files: the language switch in the header,
-  the `hreflang` links and the sitemap are all derived from it. It must be a
-  slug (lowercase letters, digits and single hyphens) and identical in both
-  files; the file name is the URL slug in both languages. If exactly one page
-  with the same key and the other language does not exist, `pnpm build` fails
-  with the path of the page that lacks its counterpart, for example
-  `./src/en/blog/posts/new-article.md: expected exactly one "sv" page with
-  translationKey "new-article", found 0 (none)`.
+  on `/blog/`, on `/blog/<category>/`, among the newest three on the landing
+  page and in the language's feed automatically, newest first.
+- **`draft: true`** publishes the article but marks it: a "Draft" / "Utkast"
+  chip in listings and in the article's metadata, a notice on the page, and
+  the "Draft:" / "Utkast:" prefix in the feed item's title. Setting it to
+  `false` removes the label everywhere; nothing is ever excluded from the
+  build.
+- **`machineTranslated: true`** shows a "Machine-translated" chip and a
+  notice saying the text has not yet been reviewed by a person. Clear it
+  once the translation has been read. English files keep `false`.
+- **`translationKey`** pairs the two files: the language switches in the
+  header and the footer, the `hreflang` links and the sitemap are all derived
+  from it. It must be a slug (lowercase letters, digits and single hyphens)
+  and identical in both files; the file name is the URL slug in both
+  languages. If exactly one page with the same key and the other language
+  does not exist, `pnpm build` fails with the path of the page that lacks its
+  counterpart, for example `./src/en/blog/posts/new-article.md: expected
+  exactly one "sv" page with translationKey "new-article", found 0 (none)`.
 - **Validation.** Every article's front matter is checked at build time
   (`scripts/lib/frontmatter.mjs`): all seven keys are required, `date` must be
   a real date, `category` must be one of the keys above (an unknown key fails
@@ -111,7 +164,57 @@ Brödtext i Markdown.
 Pages other than articles (landing, about, blog index, category pages) are
 Nunjucks templates under `src/en/` and `src/sv/` whose copy lives in
 `src/_data/strings/en.json` and `sv.json`; the two files must keep identical
-key sets, which the parity gate enforces.
+key sets, which the parity gate enforces. The landing page is assembled from
+the partials under `src/_includes/partials/home/`.
+
+## Add an app
+
+The "What we have built" grid is data. An app is one entry in
+`src/_data/portfolio.json` — in the order the grid shows — plus its name and
+one-liner in both strings files; templates contain no app copy.
+
+```json
+{
+  "key": "gaimer",
+  "theme": "ai-apps",
+  "repo": "PeterBlenessy/gaimer",
+  "url": "https://github.com/PeterBlenessy/gaimer",
+  "status": "open-source-mit",
+  "source": { "readme": "https://github.com/PeterBlenessy/gaimer/blob/main/README.md", "retrieved": "2026-09-20" }
+}
+```
+
+- `theme` is `ai-apps`, `ai-adoption` or `investing` (the three services);
+  `repo` is `owner/name`; `url` is the public repository, or `null` for a
+  private one — private entries get the "Private repository — no public link
+  yet" line instead of a link, and nothing may name `addable-labs/factory`.
+- `status` is one of `in-development`, `open-source-mit`, `experiment`,
+  `private`, each with a label in `portfolioStatus` in both strings files.
+  Statuses are stated as the repository states them, nothing is invented.
+- `portfolio.<key>.name` and `portfolio.<key>.summary` go into
+  `src/_data/strings/en.json` and `sv.json`.
+- **The copy bands keep the cards balanced** (the design never changes with
+  the content): a name is at most 16 characters, a service title at most 20,
+  a status label at most 22 (except the founder-confirmed `private` label,
+  which is fixed), and the six summaries — like the three service texts —
+  stay within a 25 % length band per language (the longest at most 1.25 ×
+  the shortest; today's summaries are 132–153 characters). Write the new
+  one-liner to that length.
+- **The guard** is `tests/apps.test.mjs` (`validateApps()` in
+  `scripts/lib/apps.mjs`): it fails naming the key, the language or the band
+  when an entry lacks strings in a language, uses an unknown or unused
+  status, carries a URL while private, or breaks a band. A new status also
+  needs an entry in `STATUS_KEYS` there and a `chip-<status>` colour rule in
+  `src/assets/css/base.css`.
+- **The proof** is `pnpm check:layout`: it renders both landing pages at
+  five widths in headless Chrome and measures that every title is one line
+  and every row of cards is aligned, and `pnpm check:content` proves the
+  rendered grid (six entries in order, the private ones unlinked, the public
+  ones linked once).
+
+The mechanism behind the balance (subgrid rows, the chip-row rule, the
+breakpoints) is explained in [`docs/identity.md`](docs/identity.md), *Adding
+an app without breaking the balance*.
 
 ## Site configuration
 
@@ -124,49 +227,79 @@ key sets, which the parity gate enforces.
   launch before the custom domain exists (a one-line change if you prefer to
   edit the default instead).
 - `email` — `hello@addablelabs.se`, rendered as visible text inside a `mailto:`
-  link on the landing page, the about page and every footer.
+  link in the landing page's contact band, on the about page and in every
+  footer; the calls to action are `mailto:` links with a pre-filled subject
+  ("Start a project" / "Starta ett projekt"), encoded by the `mailtoSubject`
+  filter in `eleventy.config.js`, never by hand.
 - `linkedinUrl` — `null` until the founder decides between a company page and a
-  founder profile (`// TODO(founder)` in the file). While it is `null` the
-  contact block shows the placeholder text "LinkedIn — coming soon"; once set,
-  the same partial renders a real link.
+  founder profile (`// TODO(founder)` in the file). While it is `null` every
+  footer shows the placeholder text "LinkedIn — coming soon"; once set, the
+  same partial renders a real link.
+- `nivaUrl` — `null` until nivå has a public URL (`// TODO(founder)`). While
+  it is `null` the hero's secondary call to action is an honest early-access
+  `mailto:` ("Get early access to nivå" / "Få tidig tillgång till nivå");
+  once set, the same button reads "Try nivå" / "Prova nivå" and links there,
+  with no template change. The content gate checks whichever state applies.
 - `languages` — `en` (default, at the root) and `sv`.
 
 ## Quality gates
 
-`pnpm check` builds the site and runs seven gate scripts against `_site/`,
-printing one `PASS <gate>` or `FAIL <gate>` line per gate (eight lines with the
-build) and exiting non-zero if any fails. Each gate also runs on its own with
-`pnpm check:<gate>` after a `pnpm build`:
+`pnpm check` builds the site and runs nine gate scripts against `_site/`,
+printing one `PASS <gate>`, `FAIL <gate>` or `SKIP <gate> (run pnpm
+check:<gate>)` line per gate (ten lines with the build) and exiting non-zero
+if any gate fails. Each gate also runs on its own with `pnpm check:<gate>`
+after a `pnpm build`:
 
 | Gate | Command | What it checks |
 | --- | --- | --- |
 | build | `pnpm build` | Eleventy builds the site; article front matter validated; every page has its counterpart. |
 | links | `pnpm check:links` | Every internal `href`/`src` in pages, feeds and the sitemap resolves to a built file (`/x/` → `x/index.html`), fragments point at an id. External links are fetched with a 10 s timeout and reported as warnings only; `CHECK_OFFLINE=1` skips them. |
-| html | `pnpm check:html` | `html-validate` with the `recommended` and `a11y` presets (`.htmlvalidate.json`), zero errors. |
-| pages | `pnpm check:pages` | Per page: `header`/`nav`/`main`/`footer` once, one `h1`, no skipped heading levels, the skip link is the first focusable element, `html[lang]` matches the path, every `img` has `alt`/`width`/`height`, unique title, description, canonical, Open Graph tags, three `hreflang` alternates, the feed link, the language switch, no `<script>`, no cross-origin resources, HTML + CSS ≤ 150 KB. |
-| contrast | `pnpm check:contrast` | Every colour-token pair in `src/assets/css/tokens.css` meets WCAG AA in both colour schemes (4.5:1 text, 3:1 UI); no colour literal outside `tokens.css`. |
+| html | `pnpm check:html` | `html-validate` with the `recommended` and `a11y` presets (`.htmlvalidate.json`, inline styles forbidden), zero errors. |
+| pages | `pnpm check:pages` | Per page: `header`/`nav`/`main`/`footer` once, one `h1`, no skipped heading levels, the skip link is the first focusable element, `html[lang]` matches the path, every `img` has `alt`/`width`/`height`, unique title, description, canonical, Open Graph tags, three `hreflang` alternates, the feed link, the language switch, scripts only from the site's origin, no cross-origin resource (font preloads and `@font-face` sources included), HTML + CSS ≤ 150 KB, and on both landing pages CSS + JavaScript ≤ 60 KB compressed. |
+| contrast | `pnpm check:contrast` | `src/assets/css/tokens.css` keeps its structure (dark by default, light only under the toggle's `[data-theme="light"]`, every fallback equal to its dark value, no OS media query, no token outside `:root`); every colour pair meets WCAG AA in both themes (4.5:1 text, 3:1 UI); no colour literal outside `tokens.css`. |
 | parity | `pnpm check:parity` | Every English page has its Swedish twin and vice versa, the feeds pair up, the strings files have identical keys with no empty values, pages pair one-to-one, the machine-translated notice appears only where flagged. |
 | feeds | `pnpm check:feeds` | Both feeds are well-formed RSS 2.0 with absolute links, exactly the language's articles, draft labels, and every page links its feed. |
-| content | `pnpm check:content` | The facts the site must state: founder and founding month, the three themes, the factory note, contact details, portfolio link policy, article lengths and draft labels. The pinned facts (founder, founding month, factory phrase, forbidden links and names) are the constants at the top of `scripts/check/content.mjs`; change them there when the copy changes. |
+| content | `pnpm check:content` | The facts the site must state: one `h1` in the hero, the primary `mailto:` call to action with a subject, the nivå button honouring `site.nivaUrl`, the three service headings, the six apps in data order with the private ones unlinked and the public ones linked once, the trust section's phrase, founder, article link and proof link, the latest-writing cards, the founding month on the about page; on every page the footer's address, the LinkedIn rule, the language switches, the toggle and the feed link; no private-repository link, no "StockSight", no factory name; article lengths and draft labels. The pinned facts are the constants at the top of `scripts/check/content.mjs`. |
+| lighthouse | `pnpm check:lighthouse` | Serves `_site/` locally, runs Lighthouse 13 (mobile configuration) in headless Chrome on `/`, `/sv/`, `/about/`, `/blog/`, a category page, an article and `/404.html`: Performance, Accessibility, Best Practices and SEO each ≥ 95 and cumulative layout shift ≤ 0.1, one line per page. |
+| layout | `pnpm check:layout` | Renders `/` and `/sv/` at 360, 768, 1024, 1280 and 1920 px in headless Chrome and measures the balanced cards: every service and app title one line, cards in a row equal in height with their "What you get" heading / summary tops and action rows aligned (± 1 px), every chip row one line. |
+
+**Chrome.** The last two gates need Google Chrome (or Chromium). They find
+it through Lighthouse's own launcher, or through `CHROME_PATH` if set (the
+variable is then the only candidate). When no Chrome is found each gate
+prints `SKIP <gate>: no Chrome found (run pnpm check:<gate> after installing
+Chrome or set CHROME_PATH)` and exits with code 3; the runner reports `SKIP
+lighthouse (run pnpm check:lighthouse)` — never `PASS` — and still exits 0.
+`CHECK_REQUIRE_CHROME=1` turns a skip into a failure; the CI workflow sets
+it, so the gates always run there (Chrome is preinstalled on GitHub's
+runners). Nothing downloads a browser: `lighthouse` and `puppeteer-core`
+are the only additions to the dev dependencies and both attach to the
+installed Chrome. If a Lighthouse run in CI flakes below 95, re-run the job
+once; thresholds are never lowered. Only if CI ever loses Chrome would a
+manually produced Lighthouse report be committed as evidence — nothing of
+the kind exists today.
 
 `pnpm test` runs `node --test` over `tests/`: every gate has a positive case
-against a fresh build and negative cases on fixtures (a broken link, two
-`h1`s, a weak colour pair, a missing Swedish page, a missing strings key, a
-relative feed link, an unknown category, …), so a gate cannot pass by failing
-early. It needs no network and no browser.
+against a fresh build and negative cases on fixtures or modified copies (a
+broken link, two `h1`s, a weak colour pair, a missing Swedish page, a missing
+strings key, a relative feed link, an unknown category, an off-origin font, a
+70 KB script, a linked private app, a 17-character app name, a Lighthouse
+report at 94, a wrapped card title, …), so a gate cannot pass by failing
+early. The Lighthouse and layout rules are tested on fixture reports and
+measurements; the suite needs no network and no browser (it exercises the
+gates' `SKIP` path with `CHROME_PATH=/nonexistent`).
 
 ## Deployment
 
 `.github/workflows/pages.yml` is the only workflow. On a pull request targeting
 `main` it installs the dependencies and runs `pnpm check` — build plus all
-gates — and `pnpm test`, and never deploys. On a push to `main` (a merged pull
+gates, with `CHECK_REQUIRE_CHROME=1` so the Chrome-backed gates may never
+skip — and `pnpm test`, and never deploys. On a push to `main` (a merged pull
 request; `main` is protected) and on a manual *Run workflow*, it runs the same
 check and tests, uploads `_site/` with `actions/upload-pages-artifact` and
-deploys it with
-`actions/deploy-pages`. Every action is pinned to a commit SHA, the workflow
-needs no secrets (the deploy job uses the run's OIDC token with `pages: write`
-and `id-token: write`), and the repository's Pages source is set to *GitHub
-Actions*.
+deploys it with `actions/deploy-pages`. Every action is pinned to a commit
+SHA, the workflow needs no secrets (the deploy job uses the run's OIDC token
+with `pages: write` and `id-token: write`), and the repository's Pages source
+is set to *GitHub Actions*.
 
 **About the `CNAME` file.** `src/CNAME` (`addablelabs.se`) is copied into the
 output as REQ-020 asks, but GitHub's documentation is explicit: "If you are
@@ -188,9 +321,23 @@ on one of your subdomains"):
    to it at that moment.
 4. Enable *Enforce HTTPS* once GitHub has issued the certificate.
 
-The exact steps are under *Open items for the founder*. Actions are pinned by
-SHA and updated by hand; enabling Dependabot for GitHub Actions
+The exact steps are the first four founder open items below. Actions are
+pinned by SHA and updated by hand; enabling Dependabot for GitHub Actions
 (`.github/dependabot.yml`) is a founder option that was not enabled in this run.
+
+## Design directions
+
+Three genuinely different directions — A Signal, B Ledger, C Terminal —
+were built as real pages for the founder's direction gate; the pick, the
+founder's words and where the removed preview pages live in git history are
+recorded in [`docs/design-directions.md`](docs/design-directions.md), with the
+three one-page rationales under [`docs/design-directions/`](docs/design-directions/).
+The implemented system — direction, typeface, palette with measured contrast
+in both themes, mark and favicon, every component with its states, motion,
+theme mechanics, the alternatives considered and the two how-tos (changing a
+colour, adding an app) — is [`docs/identity.md`](docs/identity.md). The tokens
+live in `src/assets/css/tokens.css`; `pnpm check:contrast` re-measures every
+pair.
 
 ## Open items for the founder
 
@@ -222,21 +369,60 @@ SHA and updated by hand; enabling Dependabot for GitHub Actions
    check; this can take up to 24 hours).
 5. **LinkedIn URL** — decide between a company page and a founder profile and
    set `linkedinUrl` in `src/_data/site.js` (the `TODO(founder)` comment). The
-   placeholder "LinkedIn — coming soon" turns into a link on the landing page,
-   the about page and the footer; no template change needed.
-6. **Copy review** — read the English copy (the founder paragraph on the about
-   page is marked `TODO(founder)` in `src/en/about.njk` and `src/sv/about.njk`;
-   Stoqster's portfolio status says "source on GitHub" because the repository
-   has no licence file) and the Swedish translations. Clear
-   `machineTranslated: true` in the front matter of each reviewed Swedish page
-   (`src/sv/index.njk`, `src/sv/about.njk`, the two articles under
-   `src/sv/blog/posts/`) to remove the notice, and clear `draft: true` on the
-   two seed articles in both languages when they are ready to stand without
-   the label.
+   placeholder "LinkedIn — coming soon" in every footer turns into a link; no
+   template change needed.
+6. **nivå URL** — set `nivaUrl` in `src/_data/site.js` (the `TODO(founder)`
+   comment) once nivå has a public address. Until then the hero's secondary
+   button is the early-access `mailto:`; afterwards it reads "Try nivå" /
+   "Prova nivå" and links there, with no template change.
+7. **Copy review — English.** The redesign wrote new English copy for the
+   landing page (hero, console lines, the three services and their "What
+   you get" lists, the apps section and the six one-liners, the trust
+   section, the writing and contact sections), the about page (lead,
+   founder line, approach points, the GRC note) and the blog pages; the
+   founder paragraph on the about page (`about.founderWork`) is unchanged
+   from the first build, still marked `TODO(founder)` in the templates, and
+   still describes work behind projects that are no longer in the apps grid.
+   The service headings are the short forms ("AI-powered apps", "AI
+   adoption", "Investing tools") because a card title must fit one line.
+8. **Copy review — Swedish.** Every Swedish string below was written by the
+   factory and not yet reviewed by a person (the machine-translated notice
+   stays on `src/sv/index.njk`, `src/sv/about.njk` and the two articles under
+   `src/sv/blog/posts/` until you clear `machineTranslated: true`; clear
+   `draft: true` on the two seed articles in both languages when they are
+   ready to stand without the label). Keys in `src/_data/strings/sv.json`,
+   new or changed in the redesign — the values are quoted in the item
+   summaries under `plans/website-redesign/build/items/`:
+   - `theme.toggleLabel`; `footer.contact`, `footer.site`
+   - `hero.eyebrow`, `hero.title`, `hero.lead`, `hero.ctaPrimary`,
+     `hero.nivaEarlyAccess`, `hero.nivaEarlyAccessSubject`, `hero.nivaTry`,
+     `hero.proof.{agents,open,gates}`
+   - `console.ariaLabel`, `console.lines.{requirements,plan,review,implement,gates,founder}.{text,state}`
+   - `services.eyebrow`, `services.heading`;
+     `themes.ai-apps.{text,getsHeading,gets.product,gets.source,gets.team,gets.honesty,cta}`,
+     `themes.ai-adoption.{text,getsHeading,gets.baseline,gets.workshops,gets.guide,cta}`,
+     `themes.investing.{title,text,getsHeading,gets.api,gets.analysis,gets.open,cta}`
+   - `apps.eyebrow`, `apps.heading`, `apps.lead`;
+     `portfolio.{niva,notesage,marketdata-api,compound,ashlands,gaimer}.summary`,
+     `portfolio.privateNote`, `portfolio.repoLink`;
+     `portfolioStatus.open-source-mit`, `portfolioStatus.private`
+   - `trust.eyebrow`, `trust.heading`,
+     `trust.points.{aiNative,agents,proof,swedish}.{title,text}`,
+     `trust.articleLabel`, `trust.proofLabel`
+   - `writing.eyebrow`, `writing.heading`, `writing.all`
+   - `contact.eyebrow`, `contact.heading`, `contact.text`, `contact.cta`
+   - `blog.eyebrow`, `blog.categoryEyebrow`, `blog.allArticles`;
+     `article.machineTranslatedLabel`; `notFound.eyebrow`
+   - `about.eyebrow`, `about.lead`, `about.founderLine`,
+     `about.points.{aiNative,team,open,proof}.{title,text}`,
+     `about.grc.{label,title,text,link}`
+9. **The four unlisted repositories.** TraceLoupe, airlocked-agents, Stoqster
+   and investable were removed from the apps grid at your request ("not
+   sure" was read as do-not-publish); say so if any of them should return —
+   it is one data entry plus two strings entries each (see *Add an app*).
+10. **A manual Lighthouse report** is needed only if CI ever loses Chrome;
+    today the gate runs on every pull request and push.
 
-## Identity
-
-The wordmark, the plus-sign mark, the type choices, the light and dark palette
-with measured contrast ratios, and the alternatives that were rejected are
-documented in [`docs/identity.md`](docs/identity.md). The tokens live in
-`src/assets/css/tokens.css`; `pnpm check:contrast` re-measures every pair.
+The status labels of marketdata-api ("private · API keys on request") and
+Compound ("in development") and the about page's GRC note were settled at
+the plan gate and are not open.
