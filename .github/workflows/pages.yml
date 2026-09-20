@@ -26,6 +26,8 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      CHECK_REQUIRE_CHROME: "1" # the Chrome-backed gates (lighthouse, layout) may never skip in CI (REQ-024)
     steps:
       - name: Check out the repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1

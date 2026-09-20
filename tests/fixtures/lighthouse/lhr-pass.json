@@ -1,0 +1,13 @@
+{
+  "lighthouseVersion": "13.5.0",
+  "finalDisplayedUrl": "http://127.0.0.1:8080/",
+  "categories": {
+    "performance": { "id": "performance", "title": "Performance", "score": 0.97 },
+    "accessibility": { "id": "accessibility", "title": "Accessibility", "score": 1 },
+    "best-practices": { "id": "best-practices", "title": "Best Practices", "score": 1 },
+    "seo": { "id": "seo", "title": "SEO", "score": 1 }
+  },
+  "audits": {
+    "cumulative-layout-shift": { "id": "cumulative-layout-shift", "score": 1, "numericValue": 0.003, "numericUnit": "unitless" }
+  }
+}

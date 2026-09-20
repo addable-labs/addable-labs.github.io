@@ -1,0 +1,19 @@
+[
+  {
+    "page": "/",
+    "width": 1024,
+    "grids": {
+      "services": [
+        { "index": 0, "top": 1000, "height": 559, "title": { "height": 23, "lineHeight": 23 }, "midTop": 1332, "actionBottom": 1589, "chip": null },
+        { "index": 1, "top": 1000, "height": 559, "title": { "height": 46, "lineHeight": 23 }, "midTop": 1332, "actionBottom": 1589, "chip": null },
+        { "index": 2, "top": 1000, "height": 571, "title": { "height": 23, "lineHeight": 23 }, "midTop": 1332, "actionBottom": 1589, "chip": null }
+      ],
+      "apps": [
+        { "index": 0, "top": 1900, "height": 287, "title": { "height": 23, "lineHeight": 23 }, "midTop": 2131, "actionBottom": 2258, "chip": { "height": 28, "lineHeight": 28 } },
+        { "index": 1, "top": 1900, "height": 287, "title": { "height": 23, "lineHeight": 23 }, "midTop": 2136, "actionBottom": 2258, "chip": { "height": 28, "lineHeight": 28 } },
+        { "index": 2, "top": 2203, "height": 287, "title": { "height": 23, "lineHeight": 23 }, "midTop": 2435, "actionBottom": 2562, "chip": { "height": 28, "lineHeight": 28 } },
+        { "index": 3, "top": 2203, "height": 287, "title": { "height": 23, "lineHeight": 23 }, "midTop": 2435, "actionBottom": 2555, "chip": { "height": 60, "lineHeight": 28 } }
+      ]
+    }
+  }
+]
