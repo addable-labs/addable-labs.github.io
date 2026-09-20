@@ -1,0 +1,229 @@
+---
+permalink: /preview/signal/index.html
+direction: signal
+title: "Direction A — Signal"
+---
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ title }} — Addable Labs design preview</title>
+  <meta name="description" content="Design-direction preview: Signal. Product-led, crisp grid, mono headings with a readable sans body.">
+  <meta name="robots" content="noindex">
+  <meta name="color-scheme" content="dark light">
+  <meta name="theme-color" content="#0B0E10">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  {% include "preview/theme-script.njk" %}
+  <link rel="preload" href="/assets/fonts/JetBrainsMono-Light.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/JetBrainsMono-Medium.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/preview/assets/fonts.css">
+  <link rel="stylesheet" href="/preview/assets/signal.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="preview-banner" role="note">
+    <span><strong>Preview A · Signal</strong> — product-led, crisp grid, mono headings, sans body, staggered motion.</span>
+    <span><a href="/preview/ledger/">B · Ledger</a> · <a href="/preview/terminal/">C · Terminal</a></span>
+  </div>
+  <header class="site-header">
+    <div class="container header-row">
+      <a class="brand" href="/preview/signal/" aria-label="Addable Labs, home">
+        <svg class="mark" viewBox="0 0 32 32" width="28" height="28" aria-hidden="true" focusable="false"><rect x="1.5" y="1.5" width="29" height="29" rx="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="M16 9v14M9 16h14" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
+        <span class="wordmark">addable<span class="wordmark-dim">labs</span></span>
+      </a>
+      <nav class="site-nav" aria-label="Main navigation">
+        <ul>
+          <li><a href="/preview/signal/" aria-current="page">Home</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#apps">Apps</a></li>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/about/">About</a></li>
+        </ul>
+      </nav>
+      <div class="header-controls">
+        <a class="lang-switch" href="/sv/" hreflang="sv" lang="sv">Svenska</a>
+        {% include "preview/toggle.njk" %}
+        <a class="button button-primary button-sm" href="{{ copy.hero.primaryHref }}">{{ copy.hero.primaryCta }}</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-glow" aria-hidden="true"></div>
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow reveal" style="--i:0"><span class="dot" aria-hidden="true"></span>{{ copy.hero.eyebrow }}</p>
+          <h1 id="hero-title" class="reveal" style="--i:1">{{ copy.hero.title }}</h1>
+          <p class="lead reveal" style="--i:2">{{ copy.hero.lead }}</p>
+          <p class="cta-row reveal" style="--i:3">
+            <a class="button button-primary" href="{{ copy.hero.primaryHref }}">{{ copy.hero.primaryCta }}<span class="arrow" aria-hidden="true">→</span></a>
+            <a class="button button-secondary" href="{{ copy.hero.secondaryHref }}">{{ copy.hero.secondaryCta }}</a>
+          </p>
+          <ul class="proof-list reveal" style="--i:4">
+            {%- for item in copy.hero.proof %}
+            <li><span class="plus" aria-hidden="true">+</span>{{ item }}</li>
+            {%- endfor %}
+          </ul>
+        </div>
+        <figure class="console reveal" style="--i:2" aria-label="An agent-run build, step by step">
+          <div class="console-bar">
+            <span class="console-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span class="console-title">factory · run 0042 · rigs/site</span>
+          </div>
+          <ol class="console-log">
+            <li class="log-line" style="--i:0"><span class="log-time">09:41</span><span class="log-stage">requirements</span><span class="log-text">31 requirements, 29 acceptance criteria</span><span class="log-ok">done</span></li>
+            <li class="log-line" style="--i:1"><span class="log-time">09:58</span><span class="log-stage">plan</span><span class="log-text">design system, landing page, gates</span><span class="log-ok">done</span></li>
+            <li class="log-line" style="--i:2"><span class="log-time">10:12</span><span class="log-stage">review</span><span class="log-text">2 findings fixed, 0 open</span><span class="log-ok">done</span></li>
+            <li class="log-line" style="--i:3"><span class="log-time">10:40</span><span class="log-stage">implement</span><span class="log-text">10 work items · 14 commits</span><span class="log-ok">done</span></li>
+            <li class="log-line" style="--i:4"><span class="log-time">11:05</span><span class="log-stage">gates</span><span class="log-text">build links html pages contrast parity feeds content</span><span class="log-ok">8/8</span></li>
+            <li class="log-line" style="--i:5"><span class="log-time">11:06</span><span class="log-stage">founder</span><span class="log-text">reviews and approves</span><span class="log-wait">waiting<span class="caret" aria-hidden="true"></span></span></li>
+          </ol>
+        </figure>
+      </div>
+    </section>
+
+    <section id="services" class="section" aria-labelledby="services-title">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="eyebrow">{{ copy.services.eyebrow }}</p>
+          <h2 id="services-title">{{ copy.services.heading }}</h2>
+        </div>
+        <div class="service-grid">
+          {%- for s in copy.services.items %}
+          <article class="card service reveal" style="--i:{{ loop.index0 }}">
+            <p class="num">0{{ loop.index }}</p>
+            <h3>{{ s.title }}</h3>
+            <p>{{ s.text }}</p>
+            <h4 class="gets-heading">{{ s.getsHeading }}</h4>
+            <ul class="gets">
+              {%- for g in s.gets %}
+              <li>{{ g }}</li>
+              {%- endfor %}
+            </ul>
+            <a class="text-link" href="{{ s.href }}">{{ s.cta }}<span class="arrow" aria-hidden="true">→</span></a>
+          </article>
+          {%- endfor %}
+        </div>
+      </div>
+    </section>
+
+    <section id="apps" class="section section-alt" aria-labelledby="apps-title">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="eyebrow">{{ copy.apps.eyebrow }}</p>
+          <h2 id="apps-title">{{ copy.apps.heading }}</h2>
+          <p class="section-lead">{{ copy.apps.lead }}</p>
+        </div>
+        <ul class="app-grid">
+          {%- for a in copy.apps.items %}
+          <li class="card app reveal{% if a.url %} app-linked{% endif %}" style="--i:{{ loop.index0 }}">
+            <div class="app-top">
+              <span class="chip chip-{{ a.statusKind }}"><span class="chip-dot" aria-hidden="true"></span>{{ a.status }}</span>
+              <span class="app-theme">{{ a.theme }}</span>
+            </div>
+            <h3 class="app-name">{% if a.url %}<a href="{{ a.url }}">{{ a.name }}<span class="arrow" aria-hidden="true">↗</span></a>{% else %}{{ a.name }}{% endif %}</h3>
+            <p class="app-text">{{ a.text }}</p>
+            {%- if not a.url %}
+            <p class="app-private">Private repository — no public link yet</p>
+            {%- endif %}
+          </li>
+          {%- endfor %}
+        </ul>
+      </div>
+    </section>
+
+    <section id="how" class="section" aria-labelledby="trust-title">
+      <div class="container trust-grid">
+        <div class="trust-copy reveal">
+          <p class="eyebrow">{{ copy.trust.eyebrow }}</p>
+          <h2 id="trust-title">{{ copy.trust.heading }}</h2>
+          <p class="cta-row">
+            <a class="button button-secondary" href="{{ copy.trust.articleHref }}">{{ copy.trust.articleLabel }}<span class="arrow" aria-hidden="true">→</span></a>
+            <a class="text-link" href="{{ copy.trust.proofHref }}">{{ copy.trust.proofLabel }}</a>
+          </p>
+        </div>
+        <dl class="trust-points">
+          {%- for p in copy.trust.points %}
+          <div class="trust-point reveal" style="--i:{{ loop.index0 }}">
+            <dt>{{ p.title }}</dt>
+            <dd>{{ p.text }}</dd>
+          </div>
+          {%- endfor %}
+        </dl>
+      </div>
+    </section>
+
+    <section id="writing" class="section section-alt" aria-labelledby="writing-title">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="eyebrow">{{ copy.writing.eyebrow }}</p>
+          <h2 id="writing-title">{{ copy.writing.heading }}</h2>
+        </div>
+        <ol class="post-list">
+          {%- for post in collections.posts_en %}
+          <li class="post reveal" style="--i:{{ loop.index0 }}">
+            <p class="post-meta"><time datetime="{{ post.date | isoDate }}">{{ post.date | localeDate("en") }}</time> <a class="chip chip-cat" href="/blog/{{ post.data.category }}/">{{ strings.en.categories[post.data.category] }}</a>{% if post.data.draft %} <span class="chip chip-draft">Draft</span>{% endif %}</p>
+            <h3 class="post-title"><a href="{{ post.url }}">{{ post.data.title }}</a></h3>
+            <p class="post-text">{{ post.data.description }}</p>
+          </li>
+          {%- endfor %}
+        </ol>
+        <p><a class="text-link" href="/blog/">{{ copy.writing.all }}<span class="arrow" aria-hidden="true">→</span></a></p>
+      </div>
+    </section>
+
+    <section id="contact" class="section contact" aria-labelledby="contact-title">
+      <div class="container contact-band reveal">
+        <div>
+          <p class="eyebrow">{{ copy.contact.eyebrow }}</p>
+          <h2 id="contact-title">{{ copy.contact.heading }}</h2>
+          <p class="section-lead">{{ copy.contact.text }}</p>
+        </div>
+        <p class="cta-row">
+          <a class="button button-primary" href="{{ copy.contact.href }}">{{ copy.contact.cta }}<span class="arrow" aria-hidden="true">→</span></a>
+          <a class="text-link" href="mailto:{{ copy.footer.email }}">{{ copy.footer.email }}</a>
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <span class="wordmark">addable<span class="wordmark-dim">labs</span></span>
+        <p>{{ copy.footer.factoryLine }}</p>
+      </div>
+      <div>
+        <h2 class="footer-heading">Contact</h2>
+        <ul class="footer-list">
+          <li><a href="mailto:{{ copy.footer.email }}">{{ copy.footer.email }}</a></li>
+          <li class="placeholder">{{ copy.footer.linkedin }}</li>
+        </ul>
+      </div>
+      <div>
+        <h2 class="footer-heading">Site</h2>
+        <ul class="footer-list footer-controls">
+          <li><a href="/sv/" hreflang="sv" lang="sv">{{ copy.footer.language }}</a></li>
+          <li><a href="/feed.xml" type="application/rss+xml">{{ copy.footer.rss }}</a></li>
+          <li>{% include "preview/toggle.njk" %}</li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+  <script>
+    // Scroll-linked reveal (REQ-018): opacity/translate only, disabled under
+    // prefers-reduced-motion, content always visible without JavaScript.
+    (function () {
+      var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      var items = document.querySelectorAll(".reveal");
+      if (reduce || !("IntersectionObserver" in window)) { for (var i = 0; i < items.length; i++) items[i].classList.add("is-visible"); return; }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add("is-visible"); io.unobserve(e.target); } });
+      }, { rootMargin: "0px 0px -8% 0px", threshold: 0.05 });
+      for (var j = 0; j < items.length; j++) io.observe(items[j]);
+    })();
+  </script>
+</body>
+</html>

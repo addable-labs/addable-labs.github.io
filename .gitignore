@@ -9,5 +9,6 @@
 # Site build output and local agent tooling (plan Decision 10)
 node_modules/
 _site/
+_preview/
 .claude/
 .gc/

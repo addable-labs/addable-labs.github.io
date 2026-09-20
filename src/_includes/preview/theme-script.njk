@@ -1,0 +1,34 @@
+{#- Appearance script for the direction previews (REQ-007 prototype): resolves
+    the theme before first paint — stored choice, else the OS preference, else
+    dark — and binds every [data-theme-toggle] button. The implementation
+    ships the same logic as src/assets/js/theme.js inlined in the head. -#}
+<script>
+(function () {
+  var KEY = "addable-theme", root = document.documentElement, stored = null;
+  try { stored = localStorage.getItem(KEY); } catch (e) {}
+  function resolve(choice, prefersLight) {
+    return choice === "light" || choice === "dark" ? choice : (prefersLight ? "light" : "dark");
+  }
+  var prefersLight = !!(window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches);
+  root.setAttribute("data-theme", resolve(stored, prefersLight));
+  root.classList.add("js");
+  document.addEventListener("DOMContentLoaded", function () {
+    var buttons = document.querySelectorAll("[data-theme-toggle]");
+    function paint() {
+      var dark = root.getAttribute("data-theme") === "dark";
+      for (var i = 0; i < buttons.length; i++) buttons[i].setAttribute("aria-pressed", dark ? "true" : "false");
+      var meta = document.querySelector('meta[name="theme-color"]:not([media])');
+      if (meta) meta.setAttribute("content", getComputedStyle(root).backgroundColor);
+    }
+    for (var i = 0; i < buttons.length; i++) {
+      buttons[i].addEventListener("click", function () {
+        var next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+        root.setAttribute("data-theme", next);
+        try { localStorage.setItem(KEY, next); } catch (e) {}
+        paint();
+      });
+    }
+    paint();
+  });
+})();
+</script>
