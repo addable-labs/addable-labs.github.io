@@ -1,0 +1,25 @@
+{
+  "site": {
+    "name": "Addable Labs",
+    "tagline": "Appar och AI, byggda i det öppna"
+  },
+  "nav": {
+    "home": "Hem",
+    "about": "Om oss",
+    "blog": "Blogg",
+    "skipToContent": "Hoppa till innehållet"
+  },
+  "languages": {
+    "en": "English",
+    "sv": "Svenska"
+  },
+  "home": {
+    "title": "Addable Labs",
+    "lead": "Den här sidan är en platshållare medan webbplatsen byggs."
+  },
+  "footer": {
+    "contact": "Kontakt",
+    "linkedin": "LinkedIn",
+    "copyright": "Addable Labs"
+  }
+}

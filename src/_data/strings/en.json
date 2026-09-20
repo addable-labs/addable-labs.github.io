@@ -1,0 +1,25 @@
+{
+  "site": {
+    "name": "Addable Labs",
+    "tagline": "Apps and AI, built in the open"
+  },
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "blog": "Blog",
+    "skipToContent": "Skip to content"
+  },
+  "languages": {
+    "en": "English",
+    "sv": "Svenska"
+  },
+  "home": {
+    "title": "Addable Labs",
+    "lead": "This page is a placeholder while the site is being built."
+  },
+  "footer": {
+    "contact": "Contact",
+    "linkedin": "LinkedIn",
+    "copyright": "Addable Labs"
+  }
+}
