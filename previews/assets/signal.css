@@ -237,15 +237,26 @@ html:not(.js) .theme-toggle { display: none; }
 .console-bar { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-2) var(--space-3); border-bottom: 1px solid var(--color-hairline); color: var(--color-text-muted); }
 .console-dots { display: inline-flex; gap: 6px; }
 .console-dots i { width: 10px; height: 10px; border-radius: 50%; background: var(--color-hairline); border: 1px solid var(--color-border); }
-.console-log { margin: 0; padding: var(--space-3); list-style: none; display: grid; gap: var(--space-2); }
-.log-line { display: grid; grid-template-columns: auto auto 1fr auto; gap: var(--space-3); align-items: baseline; }
+/* The list owns the four columns (time | stage | text | state) and every
+   line is a subgrid row, so the columns line up down the whole console.
+   Without subgrid a line falls back to its own grid with the same tracks. */
+.console-log {
+  margin: 0; padding: var(--space-3); list-style: none; display: grid;
+  grid-template-columns: max-content max-content minmax(0, 1fr) max-content; gap: var(--space-2) var(--space-3);
+}
+.log-line { display: grid; grid-column: 1 / -1; grid-template-columns: max-content max-content minmax(0, 1fr) max-content; gap: var(--space-3); align-items: baseline; }
+@supports (grid-template-columns: subgrid) { .log-line { grid-template-columns: subgrid; } }
 .log-time { color: var(--color-text-muted); }
-.log-stage { color: var(--color-text); font-weight: 500; min-width: 7ch; }
+.log-stage { color: var(--color-text); font-weight: 500; }
 .log-text { color: var(--color-text-muted); overflow-wrap: anywhere; }
 .log-ok { color: var(--color-accent-text); font-weight: 500; }
 .log-wait { color: var(--color-secondary-text); font-weight: 500; }
 .caret { display: inline-block; width: 0.55em; height: 1em; margin-inline-start: 0.3em; background: currentColor; vertical-align: text-bottom; animation: blink 1.1s steps(2, start) infinite; }
-@media (max-width: 30rem) { .log-line { grid-template-columns: auto 1fr auto; } .log-time { display: none; } }
+@media (max-width: 30rem) {
+  .console-log, .log-line { grid-template-columns: max-content minmax(0, 1fr) max-content; }
+  @supports (grid-template-columns: subgrid) { .log-line { grid-template-columns: subgrid; } }
+  .log-time { display: none; }
+}
 
 /* Sections ---------------------------------------------------------------- */
 
