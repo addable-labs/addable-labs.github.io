@@ -3,28 +3,36 @@
 Three genuinely distinct directions were built as real pages with the site's
 own stack (Eleventy, Nunjucks, CSS, the self-hosted JetBrains Mono) for the
 founder's direction gate (requirements REQ-002, plan `plans/website-redesign/build/implementation-plan.md`).
-They share the same landing-page content model — hero, services, apps and
-products, how we work, latest writing, contact, footer — so the comparison is
+They shared the same landing-page content model — hero, services, apps and
+products, how we work, latest writing, contact, footer — so the comparison was
 about design, not copy.
 
-| Direction | Preview | Rationale | In one line |
-| --- | --- | --- | --- |
-| A — Signal | `/preview/signal/` | [signal.md](design-directions/signal.md) | Product-led, crisp grid, mono headings + sans body, agent-console hero, staggered motion. Linear/Vercel. |
-| B — Ledger | `/preview/ledger/` | [ledger.md](design-directions/ledger.md) | Editorial, centred, label \| content sections, ledger rows instead of cards, minimal motion. Stripe. |
-| C — Terminal | `/preview/terminal/` | [terminal.md](design-directions/terminal.md) | Bold, dense, mono everywhere, bordered panels with title bars, boot-sequence reveal. Raycast. |
+| Direction | Rationale | In one line |
+| --- | --- | --- |
+| A — Signal | [signal.md](design-directions/signal.md) | Product-led, crisp grid, mono headings + sans body, agent-console hero, staggered motion. Linear/Vercel. |
+| B — Ledger | [ledger.md](design-directions/ledger.md) | Editorial, centred, label \| content sections, ledger rows instead of cards, minimal motion. Stripe. |
+| C — Terminal | [terminal.md](design-directions/terminal.md) | Bold, dense, mono everywhere, bordered panels with title bars, boot-sequence reveal. Raycast. |
 
-## How to view
+## Where the previews went
+
+The preview pages (`src/preview/{signal,ledger,terminal}.njk`, their
+stylesheets under `previews/assets/`, the preview-only theme script and
+toggle, the `PREVIEW=1` build branch and the `pnpm preview` script) were
+removed from the source tree after the pick, as REQ-002 asks; only the picked
+direction is implemented, and the three rationales in this directory stay.
+Git history keeps the pages: they were added in `19d1378`, the console
+alignment fix landed in `ce5f6cc`, and every commit up to `ab4e93b` (the last
+one before the removal) can still serve them:
 
 ```bash
-pnpm install --frozen-lockfile
-pnpm preview          # PREVIEW=1 eleventy --serve --output=_preview
+git worktree add ../previews ab4e93b
+cd ../previews && pnpm install --frozen-lockfile && pnpm preview
 # http://localhost:8080/preview/signal/  /preview/ledger/  /preview/terminal/
 ```
 
-The previews are English only, excluded from collections, the sitemap, the
-feeds and every gate, and never part of a production build (`pnpm build`
-ignores `src/preview/` and copies nothing from `previews/`). Each page has the
-appearance toggle in the header and footer, so both themes can be judged.
+The previews were English only, excluded from collections, the sitemap, the
+feeds and every gate, and never part of a production build; the production
+output has no `preview/` directory and the sitemap no preview URL (AC-01).
 
 ## The pick
 
@@ -35,7 +43,20 @@ The design-author's recommendation was **A — Signal** (reasons in the plan,
 signal's design and look and feel! good job! also, as i said above: columns
 must align". The one note, that the hero console's columns must align across
 rows, was fixed the same evening (shared four-column subgrid on
-`.console-log`, both themes). Only Signal is implemented; the Ledger and
-Terminal pages are removed from `src/` once the implementation starts and
-their rationales stay in this directory. `docs/identity.md` records the pick
-and the reasons with the implemented system.
+`.console-log`, both themes; `ce5f6cc`).
+
+**Founder feedback #2** on the Signal preview (2026-09-20 20:38 CEST, folded
+into the plan at plan review as amendments A-01 … A-03): the services and
+apps cards must be *balanced* — one-line titles, descriptions of equal
+length, "What you get" at the same height, links bottom-aligned, cards that
+do not change design with their content; the apps grid lists exactly six
+projects — nivå, Notesage, marketdata-api, Compound, Ashlands, Gaimer — and
+not the other public repositories; and dark is the default. At the plan
+gate (21:44 CEST, A-04) he confirmed dark "regardless of host settings",
+the status labels of marketdata-api and Compound, and that the about page's
+GRC-fork note is kept and redesigned.
+
+Only Signal is implemented. `docs/identity.md` records the pick, the reasons
+and the implemented system — tokens, type, components and their states,
+motion and theme mechanics — and is the document to read for the shipped
+design.

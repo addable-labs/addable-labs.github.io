@@ -1,7 +1,9 @@
 # Direction C — Terminal
 
-Preview: `pnpm preview` → <http://localhost:8080/preview/terminal/>. Source:
-`src/preview/terminal.njk`, `previews/assets/terminal.css`.
+Preview: removed from `src/` after the founder's pick (REQ-002); the page
+lived at `/preview/terminal/` under `pnpm preview` and can still be served from
+any commit up to `ab4e93b` (see [../design-directions.md](../design-directions.md)).
+Source then: `src/preview/terminal.njk`, `previews/assets/terminal.css`.
 
 **In one line.** Bold and dense: JetBrains Mono for everything, including body
 copy; a grid of bordered panels with title bars (`[ services ]`); a

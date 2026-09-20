@@ -1,7 +1,9 @@
 # Direction B — Ledger
 
-Preview: `pnpm preview` → <http://localhost:8080/preview/ledger/>. Source:
-`src/preview/ledger.njk`, `previews/assets/ledger.css`.
+Preview: removed from `src/` after the founder's pick (REQ-002); the page
+lived at `/preview/ledger/` under `pnpm preview` and can still be served from
+any commit up to `ab4e93b` (see [../design-directions.md](../design-directions.md)).
+Source then: `src/preview/ledger.njk`, `previews/assets/ledger.css`.
 
 **In one line.** Editorial and calm: a centred, type-led hero, numbered
 sections laid out as label | content columns with a sticky label, rules and

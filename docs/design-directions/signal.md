@@ -1,8 +1,11 @@
 # Direction A — Signal
 
-Preview: `pnpm preview` → <http://localhost:8080/preview/signal/> (dark by
-default; the header/footer toggle switches to light). Source:
-`src/preview/signal.njk`, `previews/assets/signal.css`.
+Preview: removed from `src/` after the founder's pick (REQ-002); the page
+lived at `/preview/signal/` under `pnpm preview` and can still be served from
+any commit up to `ab4e93b` (see [../design-directions.md](../design-directions.md)).
+Source then: `src/preview/signal.njk`, `previews/assets/signal.css`. **This is
+the implemented direction** — the shipped system is documented in
+[../identity.md](../identity.md).
 
 **In one line.** Product-led and crisp: the landing page reads like a product
 company's page, with a two-column hero — a large statement next to a type-led
