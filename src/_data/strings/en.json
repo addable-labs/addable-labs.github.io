@@ -39,15 +39,19 @@
   },
   "blog": {
     "title": "Blog",
+    "eyebrow": "Writing",
     "lead": "Notes from building apps and adopting AI, in two categories.",
     "categoriesHeading": "Categories",
+    "categoryEyebrow": "Category",
     "categoryLead": "Articles in the category {category}.",
     "rss": "Subscribe with RSS",
+    "allArticles": "All articles",
     "empty": "No articles yet."
   },
   "article": {
     "draftLabel": "Draft",
     "draftNotice": "Draft — this article is still being worked on and may change.",
+    "machineTranslatedLabel": "Machine-translated",
     "machineTranslatedNotice": "This text was machine-translated and has not yet been reviewed by a person.",
     "readInOtherLanguage": "Read this article in Swedish"
   },
@@ -108,30 +112,53 @@
     "text": "This site was designed, built and is maintained by an agent-run software factory. The founder reviews every change before it is published. What the agents learn along the way ends up on the blog."
   },
   "contact": {
-    "heading": "Contact",
+    "eyebrow": "Contact",
+    "heading": "Have a project in mind?",
+    "text": "Tell us what you want to build or where your team stands with AI. We reply within a couple of days.",
+    "cta": "Start a project",
     "linkedinLabel": "LinkedIn",
     "linkedinPlaceholder": "LinkedIn — coming soon"
   },
   "about": {
     "title": "About",
     "description": "The founder of Addable Labs and the company's approach: AI-native, a small team, agents as staff, building in the open.",
+    "eyebrow": "Addable Labs · Sweden",
+    "lead": "An AI-native software company: a small senior team, agents as staff, and a person in charge of every decision that matters.",
     "founderHeading": "Founder",
-    "founderLine": "Peter Blenessy, founder. Sweden.",
+    "founderLine": "Peter Blenessy, founder · Founded in September 2026 · Sweden",
     "founderWork": "Peter builds AI-powered desktop and web applications — a markdown editor that collaborates with AI, a privacy-first browser for iPhone backups, tools for following Swedish investment companies and funds — and works on how individuals and teams become fluent with AI, from a self-assessment of AI fluency and adoption maturity to a self-hosted automation stack where untrusted content stays in the airlock. He builds largely with AI agents and shares what that teaches.",
     "approachHeading": "Approach",
-    "approachAiNative": "AI-native. AI is part of what Addable Labs builds and part of how it builds: the products on this site were made largely with AI agents, and the company's own work is organised around them.",
-    "approachTeam": "A small team, with agents as staff. A person sets the direction, makes the decisions that matter and reviews the result; agents plan, implement and review the work in between. Keeping the team small keeps the decisions close to the work.",
-    "approachOpen": "Building in the open, sharing what is learned. The public repositories carry their own documentation and, where an experiment did not live up to its brief, an honest evaluation of what it produced. The blog records the lessons as they happen.",
-    "approachFactory": "This website is an example of the approach: it was designed, built and is maintained by an agent-run software factory, with the founder reviewing every change before it is published.",
-    "grcLead": "As an area of interest, Peter also explores Claude skills for governance, risk and compliance, through a fork of",
-    "grcSource": "the original work by Sushegaad",
-    "grcTail": "(MIT)."
+    "points": {
+      "aiNative": {
+        "title": "AI-native",
+        "text": "AI is part of what Addable Labs builds and part of how it builds: the products on this site were made largely with AI agents, and the company's own work is organised around them."
+      },
+      "team": {
+        "title": "A small team, agents as staff",
+        "text": "A person sets the direction, makes the decisions that matter and reviews the result; agents plan, implement and review the work in between. Keeping the team small keeps the decisions close to the work."
+      },
+      "open": {
+        "title": "Building in the open",
+        "text": "The public repositories carry their own documentation and, where an experiment did not live up to its brief, an honest evaluation of what it produced. The blog records the lessons as they happen."
+      },
+      "proof": {
+        "title": "Proof, not claims",
+        "text": "This website is an example of the approach: it was designed, built and is maintained by an agent-run software factory, with the founder reviewing every change before it is published."
+      }
+    },
+    "grc": {
+      "label": "Also exploring",
+      "title": "Claude skills for governance, risk and compliance",
+      "text": "An area of interest, not an Addable Labs product: Peter explores these skills through a fork of the original work by Sushegaad (MIT).",
+      "link": "Original repository by Sushegaad"
+    }
   },
   "feed": {
     "title": "Addable Labs — Blog",
     "description": "Notes from building apps and adopting AI: app development and the AI journey, from Addable Labs."
   },
   "notFound": {
+    "eyebrow": "Error 404",
     "title": "Page not found",
     "description": "The page you asked for does not exist. Start again from the English or Swedish home page.",
     "text": "There is no page at this address. It may have moved, or the link may be wrong.",

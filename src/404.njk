@@ -3,19 +3,26 @@ layout: layouts/base.njk
 permalink: /404.html
 eleventyExcludeFromCollections: true
 lang: en
+titleInContent: true
 eleventyComputed:
   title: "{{ strings.en.notFound.title | safe }}"
   description: "{{ strings.en.notFound.description | safe }}"
 ---
-{#- Bilingual 404 (REQ-016): GitHub Pages serves only the root 404.html, so it
-    carries both languages and links to both home pages. No translationKey, so
-    it has no counterpart, no language switch and no hreflang links. -#}
-<div class="container page-body not-found">
-<p>{{ strings.en.notFound.text }}</p>
-<p><a href="/">{{ strings.en.notFound.homeLink }}</a></p>
-<section lang="sv">
-  <h2>{{ strings.sv.notFound.title }}</h2>
-  <p>{{ strings.sv.notFound.text }}</p>
-  <p><a href="/sv/" hreflang="sv">{{ strings.sv.notFound.homeLink }}</a></p>
-</section>
-</div>
+{#- Bilingual 404 (REQ-016): GitHub Pages serves only the root 404.html, so
+    one centred hero-style statement carries both languages and links both
+    home pages as buttons. No translationKey, so it has no counterpart, no
+    language switch and no hreflang links. -#}
+{%- set heroCentered = true -%}
+{%- set heroEyebrow = strings.en.notFound.eyebrow -%}
+{%- set heroTitle = strings.en.notFound.title -%}
+{%- set heroLead = strings.en.notFound.text -%}
+{%- set heroActions -%}
+    <p class="cta-row reveal"><a class="button button-primary" href="/">{{ strings.en.notFound.homeLink }}<span class="arrow" aria-hidden="true">→</span></a></p>
+    <div class="not-found-sv reveal" lang="sv">
+      <p class="eyebrow"><span class="dot" aria-hidden="true"></span>{{ strings.sv.notFound.eyebrow }}</p>
+      <h2>{{ strings.sv.notFound.title }}</h2>
+      <p class="lead">{{ strings.sv.notFound.text }}</p>
+      <p class="cta-row"><a class="button button-secondary" href="/sv/" hreflang="sv">{{ strings.sv.notFound.homeLink }}<span class="arrow" aria-hidden="true">→</span></a></p>
+    </div>
+{%- endset -%}
+{% include "partials/page-hero.njk" %}

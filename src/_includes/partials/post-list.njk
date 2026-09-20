@@ -1,0 +1,26 @@
+{#- Article cards (REQ-013, REQ-016): the newest-first `posts` collection as
+    .post cards — date, the category chip (a link to the category page), the
+    draft chip when the article is a draft, the title link and the
+    description. Set `posts` before including; set `listHeading` to "h3" when
+    the list sits under an h2 (default "h2"). The empty state is blog.empty. -#}
+{%- set langPrefix = "" if lang == site.languages.default else "/" + lang -%}
+{%- set headingTag = listHeading or "h2" -%}
+{%- if posts | length %}
+  <ol class="post-list">
+    {%- for post in posts %}
+    <li class="post reveal">
+      <p class="post-meta">
+        <time datetime="{{ post.date | isoDate }}">{{ post.date | localeDate(lang) }}</time>
+        <a class="chip chip-cat" href="{{ langPrefix }}/blog/{{ post.data.category }}/">{{ strings[lang].categories[post.data.category] }}</a>
+        {%- if post.data.draft %}
+        <span class="chip chip-draft"><span class="chip-dot" aria-hidden="true"></span>{{ strings[lang].article.draftLabel }}</span>
+        {%- endif %}
+      </p>
+      <{{ headingTag }} class="post-title"><a href="{{ post.url }}">{{ post.data.title }}</a></{{ headingTag }}>
+      <p class="post-text">{{ post.data.description }}</p>
+    </li>
+    {%- endfor %}
+  </ol>
+{%- else %}
+  <p class="post-empty">{{ strings[lang].blog.empty }}</p>
+{%- endif %}

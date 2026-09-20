@@ -1,0 +1,17 @@
+{#- Contact band (REQ-014; plan D-10): eyebrow, heading, text, the primary CTA
+    — a mailto: whose subject is the CTA label, percent-encoded by the
+    mailtoSubject filter, never by hand — and the address as visible text
+    inside a mailto: link. Used by the about page and, from WI-05, the landing
+    page; the enclosing section supplies the container and labels itself with
+    contact-title. -#}
+<div class="contact-band reveal">
+  <div>
+    <p class="eyebrow">{{ strings[lang].contact.eyebrow }}</p>
+    <h2 id="contact-title">{{ strings[lang].contact.heading }}</h2>
+    <p class="section-lead">{{ strings[lang].contact.text }}</p>
+  </div>
+  <p class="cta-row">
+    <a class="button button-primary" href="{{ strings[lang].contact.cta | mailtoSubject }}">{{ strings[lang].contact.cta }}<span class="arrow" aria-hidden="true">→</span></a>
+    <a class="text-link" href="mailto:{{ site.email }}">{{ site.email }}</a>
+  </p>
+</div>

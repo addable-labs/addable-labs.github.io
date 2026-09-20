@@ -2,25 +2,56 @@
 layout: layouts/base.njk
 translationKey: about
 machineTranslated: true
+titleInContent: true
 eleventyComputed:
   title: "{{ strings[lang].about.title | safe }}"
   description: "{{ strings[lang].about.description | safe }}"
 ---
-<div class="container page-body">
-<h2>{{ strings[lang].about.founderHeading }}</h2>
-<p>{{ strings[lang].about.founderLine }}</p>
-{#- TODO(founder): review this paragraph — it is drawn only from the repository
-    READMEs and the three themes (REQ-002, plan Decision 6). #}
-<p>{{ strings[lang].about.founderWork }}</p>
-
-<h2>{{ strings[lang].about.approachHeading }}</h2>
-<p>{{ strings[lang].about.approachAiNative }}</p>
-<p>{{ strings[lang].about.approachTeam }}</p>
-<p>{{ strings[lang].about.approachOpen }}</p>
-<p>{{ strings[lang].about.approachFactory }}</p>
-<p>{{ strings[lang].about.grcLead }} <a href="https://github.com/Sushegaad/Claude-Skills-Governance-Risk-and-Compliance">{{ strings[lang].about.grcSource }}</a> {{ strings[lang].about.grcTail }}</p>
-
-<section class="contact">
-  {% include "partials/contact.njk" %}
+{#- About page (REQ-012, REQ-016; plan D-12, A-04): the hero-style title, the
+    founder section carrying the founding month, the approach as the trust
+    points, the GRC-fork note kept in substance (attribution, the link to the
+    original, never an Addable Labs product) as a labelled card, and the
+    contact band. Every string comes from strings[lang].about; the Swedish
+    twin differs only in its machineTranslated flag. -#}
+{%- set about = strings[lang].about -%}
+{%- set heroEyebrow = about.eyebrow -%}
+{%- set heroTitle = about.title -%}
+{%- set heroLead = about.lead -%}
+{% include "partials/page-hero.njk" %}
+<section class="section about-founder" aria-labelledby="founder-title">
+  <div class="container trust-grid">
+    <div class="trust-copy reveal">
+      <h2 id="founder-title">{{ about.founderHeading }}</h2>
+      <p class="founder-line">{{ about.founderLine }}</p>
+    </div>
+    {#- TODO(founder): review this paragraph — it is drawn only from the repository
+        READMEs and the three themes (REQ-002, plan Decision 6). #}
+    <p class="section-lead reveal">{{ about.founderWork }}</p>
+  </div>
 </section>
-</div>
+<section class="section section-alt about-approach" aria-labelledby="approach-title">
+  <div class="container trust-grid">
+    <div class="trust-copy reveal">
+      <h2 id="approach-title">{{ about.approachHeading }}</h2>
+    </div>
+    <dl class="trust-points">
+      {%- for key in ["aiNative", "team", "open", "proof"] %}
+      <div class="trust-point reveal">
+        <dt>{{ about.points[key].title }}</dt>
+        <dd>{{ about.points[key].text }}</dd>
+      </div>
+      {%- endfor %}
+    </dl>
+    <aside class="card note reveal" aria-labelledby="grc-title">
+      <p class="eyebrow">{{ about.grc.label }}</p>
+      <h3 id="grc-title">{{ about.grc.title }}</h3>
+      <p class="note-text">{{ about.grc.text }}</p>
+      <a class="app-action" href="https://github.com/Sushegaad/Claude-Skills-Governance-Risk-and-Compliance">{{ about.grc.link }}<span class="arrow" aria-hidden="true">↗</span></a>
+    </aside>
+  </div>
+</section>
+<section class="section contact" aria-labelledby="contact-title">
+  <div class="container">
+    {% include "partials/home/contact.njk" %}
+  </div>
+</section>

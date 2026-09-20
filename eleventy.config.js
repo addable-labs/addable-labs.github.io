@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 import { IdAttributePlugin } from "@11ty/eleventy";
 import rssPlugin from "@11ty/eleventy-plugin-rss";
 import { validateArticle } from "./scripts/lib/frontmatter.mjs";
+import site from "./src/_data/site.js";
 
 // Paths copied verbatim into _site/: the stylesheets and mark, the SVG favicon
 // and the CNAME file for the custom domain (REQ-020).
@@ -84,6 +85,14 @@ export default function (eleventyConfig) {
     new Intl.DateTimeFormat(lang, { dateStyle: "long", timeZone: "UTC" }).format(date),
   );
   eleventyConfig.addFilter("isoDate", (date) => date.toISOString().slice(0, 10));
+
+  // Primary CTA (redesign REQ-009, plan D-10): `"Start a project" | mailtoSubject`
+  // gives mailto:hello@addablelabs.se?subject=Start%20a%20project — the
+  // subject is the strings value, percent-encoded here and never by hand, so
+  // the contact band, the hero and the header button share one mechanism.
+  eleventyConfig.addFilter("mailtoSubject", (subject, email = site.email) =>
+    `mailto:${email}?subject=${encodeURIComponent(subject)}`,
+  );
 
   return {
     dir: {

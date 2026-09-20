@@ -1,0 +1,19 @@
+{#- Inner-page title band (REQ-016): the landing hero's style — glow, grid,
+    an eyebrow, the page's only h1 and a lead — for the about, blog, category
+    and 404 pages. Set heroEyebrow, heroTitle and heroLead before including;
+    heroActions (a block set) renders after the lead and heroCentered centres
+    the copy (404). The children stagger in through the hero's pure-CSS rise
+    animation, indexed by their position (html-validate forbids inline styles). -#}
+<div class="hero page-hero{% if heroCentered %} page-hero-centered{% endif %}">
+  <div class="hero-glow" aria-hidden="true"></div>
+  <div class="container page-hero-copy">
+    <p class="eyebrow reveal"><span class="dot" aria-hidden="true"></span>{{ heroEyebrow }}</p>
+    <h1 class="reveal">{{ heroTitle }}</h1>
+{%- if heroLead %}
+    <p class="lead reveal">{{ heroLead }}</p>
+{%- endif %}
+{%- if heroActions %}
+    {{ heroActions | trim | safe }}
+{%- endif %}
+  </div>
+</div>

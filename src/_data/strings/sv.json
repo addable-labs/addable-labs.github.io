@@ -39,15 +39,19 @@
   },
   "blog": {
     "title": "Blogg",
+    "eyebrow": "Texter",
     "lead": "Anteckningar från att bygga appar och införa AI, i två kategorier.",
     "categoriesHeading": "Kategorier",
+    "categoryEyebrow": "Kategori",
     "categoryLead": "Artiklar i kategorin {category}.",
     "rss": "Prenumerera med RSS",
+    "allArticles": "Alla artiklar",
     "empty": "Inga artiklar ännu."
   },
   "article": {
     "draftLabel": "Utkast",
     "draftNotice": "Utkast — den här artikeln bearbetas fortfarande och kan ändras.",
+    "machineTranslatedLabel": "Maskinöversatt",
     "machineTranslatedNotice": "Den här texten är maskinöversatt och har ännu inte granskats av en person.",
     "readInOtherLanguage": "Läs den här artikeln på engelska"
   },
@@ -108,30 +112,53 @@
     "text": "Den här webbplatsen har designats, byggts och underhålls av en agentdriven mjukvarufabrik. Grundaren granskar varje ändring innan den publiceras. Det agenterna lär sig längs vägen hamnar på bloggen."
   },
   "contact": {
-    "heading": "Kontakt",
+    "eyebrow": "Kontakt",
+    "heading": "Har du ett projekt i tankarna?",
+    "text": "Berätta vad du vill bygga eller var ditt team står med AI. Vi svarar inom ett par dagar.",
+    "cta": "Starta ett projekt",
     "linkedinLabel": "LinkedIn",
     "linkedinPlaceholder": "LinkedIn — kommer snart"
   },
   "about": {
     "title": "Om oss",
     "description": "Grundaren av Addable Labs och företagets arbetssätt: AI-nativt, ett litet team, agenter som medarbetare, att bygga i det öppna.",
+    "eyebrow": "Addable Labs · Sverige",
+    "lead": "Ett AI-nativt mjukvaruföretag: ett litet seniort team, agenter som medarbetare och en person som ansvarar för varje beslut som spelar roll.",
     "founderHeading": "Grundare",
-    "founderLine": "Peter Blenessy, grundare. Sverige.",
+    "founderLine": "Peter Blenessy, grundare · grundat i september 2026 · Sverige",
     "founderWork": "Peter bygger AI-drivna skrivbords- och webbapplikationer – en markdown-redigerare som samarbetar med AI, en integritetsfokuserad läsare för iPhone-backuper, verktyg för att följa svenska investmentbolag och fonder – och arbetar med hur individer och team blir flytande i AI, från en självskattning av AI-kompetens och AI-mognad till en självhostad automationsmiljö där opålitligt innehåll stannar i luftslussen. Han bygger till stor del med AI-agenter och delar med sig av vad det lär honom.",
     "approachHeading": "Arbetssätt",
-    "approachAiNative": "AI-nativt. AI är en del av vad Addable Labs bygger och en del av hur det byggs: produkterna på den här webbplatsen har till stor del skapats med AI-agenter, och företagets eget arbete är organiserat kring dem.",
-    "approachTeam": "Ett litet team, med agenter som medarbetare. En person sätter riktningen, fattar de beslut som spelar roll och granskar resultatet; agenter planerar, genomför och granskar arbetet däremellan. Att hålla teamet litet håller besluten nära arbetet.",
-    "approachOpen": "Att bygga i det öppna och dela med sig av det man lär sig. De publika kodförråden har sin egen dokumentation och, där ett experiment inte levde upp till sin beställning, en ärlig utvärdering av vad det gav. Bloggen dokumenterar lärdomarna när de sker.",
-    "approachFactory": "Den här webbplatsen är ett exempel på arbetssättet: den har designats, byggts och underhålls av en agentdriven mjukvarufabrik, och grundaren granskar varje ändring innan den publiceras.",
-    "grcLead": "Som ett intresseområde utforskar Peter också Claude-skills för styrning, risk och regelefterlevnad, genom en fork av",
-    "grcSource": "originalarbetet av Sushegaad",
-    "grcTail": "(MIT)."
+    "points": {
+      "aiNative": {
+        "title": "AI-nativt",
+        "text": "AI är en del av vad Addable Labs bygger och en del av hur det byggs: produkterna på den här webbplatsen har till stor del skapats med AI-agenter, och företagets eget arbete är organiserat kring dem."
+      },
+      "team": {
+        "title": "Ett litet team, agenter som medarbetare",
+        "text": "En person sätter riktningen, fattar de beslut som spelar roll och granskar resultatet; agenter planerar, genomför och granskar arbetet däremellan. Att hålla teamet litet håller besluten nära arbetet."
+      },
+      "open": {
+        "title": "Att bygga i det öppna",
+        "text": "De publika kodförråden har sin egen dokumentation och, där ett experiment inte levde upp till sin beställning, en ärlig utvärdering av vad det gav. Bloggen dokumenterar lärdomarna när de sker."
+      },
+      "proof": {
+        "title": "Bevis, inte påståenden",
+        "text": "Den här webbplatsen är ett exempel på arbetssättet: den har designats, byggts och underhålls av en agentdriven mjukvarufabrik, och grundaren granskar varje ändring innan den publiceras."
+      }
+    },
+    "grc": {
+      "label": "Utforskar också",
+      "title": "Claude-skills för styrning, risk och regelefterlevnad",
+      "text": "Ett intresseområde, inte en produkt från Addable Labs: Peter utforskar de här skillsen genom en fork av originalarbetet av Sushegaad (MIT).",
+      "link": "Originalkodförrådet av Sushegaad"
+    }
   },
   "feed": {
     "title": "Addable Labs — Blogg",
     "description": "Anteckningar från att bygga appar och införa AI: apputveckling och AI-resan, från Addable Labs."
   },
   "notFound": {
+    "eyebrow": "Fel 404",
     "title": "Sidan finns inte",
     "description": "Sidan du bad om finns inte. Börja om från den svenska eller engelska startsidan.",
     "text": "Det finns ingen sida på den här adressen. Den kan ha flyttats, eller så är länken fel.",

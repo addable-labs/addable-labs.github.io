@@ -3,33 +3,42 @@ layout: layouts/base.njk
 titleInContent: true
 ogType: article
 ---
-{#- Article page: title, date, category link, draft notice, summary, body and
-    the link to the same article in the other language. The machine-translated
-    notice is rendered by layouts/base.njk at the top of main for every page
-    with machineTranslated: true. `alternate` is computed by src.11tydata.js;
-    when it is null the link is simply absent. The header/footer
-    inside the article are divs so each page keeps exactly one header and
-    footer landmark. Conditional tags sit at column 0 so a false branch leaves
-    an empty line rather than trailing whitespace. -#}
+{#- Article page (REQ-016): the header carries the mono metadata — date, the
+    category chip (a link to the category page), the draft chip and the
+    machine-translated chip when they apply — then the title, the summary and
+    the draft notice box; the body sits on the 68ch measure; the footer links
+    the same article in the other language as a secondary button. The
+    machine-translated notice box is rendered by layouts/base.njk at the top
+    of main for every page with machineTranslated: true. `alternate` is
+    computed by src.11tydata.js; when it is null the link is simply absent.
+    The header/footer inside the article are divs so each page keeps exactly
+    one header and footer landmark. Conditional tags sit at column 0 so a
+    false branch leaves an empty line rather than trailing whitespace. -#}
 {%- set langPrefix = "" if lang == site.languages.default else "/" + lang -%}
 <article class="container article">
   <div class="article-header">
-    <h1>{{ title }}</h1>
     <p class="article-meta">
       <time datetime="{{ page.date | isoDate }}">{{ page.date | localeDate(lang) }}</time>
-      · <a href="{{ langPrefix }}/blog/{{ category }}/">{{ strings[lang].categories[category] }}</a>
+      <a class="chip chip-cat" href="{{ langPrefix }}/blog/{{ category }}/">{{ strings[lang].categories[category] }}</a>
+{%- if draft %}
+      <span class="chip chip-draft"><span class="chip-dot" aria-hidden="true"></span>{{ strings[lang].article.draftLabel }}</span>
+{%- endif %}
+{%- if machineTranslated %}
+      <span class="chip chip-mt"><span class="chip-dot" aria-hidden="true"></span>{{ strings[lang].article.machineTranslatedLabel }}</span>
+{%- endif %}
     </p>
+    <h1>{{ title }}</h1>
+    <p class="article-summary">{{ description }}</p>
 {% if draft %}
     {% include "partials/notice-draft.njk" %}
 {% endif %}
-    <p class="article-summary">{{ description }}</p>
   </div>
   <div class="article-body">
     {{ content | safe }}
   </div>
 {% if alternate %}
   <div class="article-footer">
-    <p><a href="{{ alternate.url }}" hreflang="{{ alternate.lang }}" lang="{{ alternate.lang }}">{{ strings[lang].article.readInOtherLanguage }}</a></p>
+    <a class="button button-secondary" href="{{ alternate.url }}" hreflang="{{ alternate.lang }}">{{ strings[lang].article.readInOtherLanguage }}<span class="arrow" aria-hidden="true">→</span></a>
   </div>
 {% endif %}
 </article>

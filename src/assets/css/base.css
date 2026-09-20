@@ -10,8 +10,8 @@
  *
  * Sections: base · type helpers · buttons, links, chips · header and toggle ·
  * hero and console · sections and cards (the D-14 balance rule) · trust,
- * writing, contact · footer · article, blog, 404 · first-build bridge ·
- * motion and reduced motion.
+ * writing, contact · footer · page hero, about, article, blog, 404 ·
+ * first-build bridge (landing only) · motion and reduced motion.
  */
 
 /* Base ------------------------------------------------------------------ */
@@ -346,13 +346,16 @@ a:hover .arrow,
 }
 
 .chip-experiment,
-.chip-private {
+.chip-private,
+.chip-mt {
   color: var(--color-text-muted);
   border-color: var(--color-border);
 }
 
-/* Category chips are links: 44 px tall targets with the pill drawn inside. */
-.chip-cat {
+/* Category and RSS chips are links: 44 px tall targets with the pill drawn
+   inside; a category page marks its own chip with aria-current. */
+.chip-cat,
+.chip-rss {
   min-height: 44px;
   padding-block: 0;
   color: var(--color-accent-text);
@@ -370,6 +373,12 @@ a.chip:hover {
 
 a.chip:active,
 .chip[aria-pressed="true"] {
+  background: var(--color-surface-2);
+}
+
+.chip-cat[aria-current="page"] {
+  color: var(--color-text);
+  box-shadow: inset 0 0 0 1px var(--color-accent-text);
   background: var(--color-surface-2);
 }
 
@@ -1195,7 +1204,117 @@ html:not(.js) .theme-toggle {
   color: var(--color-text);
 }
 
-/* Article, blog, 404 (REQ-016) -------------------------------------------- */
+/* Page hero, about, article, blog, 404 (REQ-016) --------------------------- */
+
+/* Inner-page title band (partials/page-hero.njk): the landing hero's glow and
+   grid behind an eyebrow, the h1 and a lead; the 404 page centres it. */
+.page-hero {
+  padding-block: var(--space-6) var(--space-5);
+  border-bottom: 1px solid var(--color-hairline);
+}
+
+.page-hero-copy h1 {
+  max-width: 22ch;
+  margin-bottom: var(--space-3);
+}
+
+.page-hero-copy .lead {
+  margin-bottom: var(--space-3);
+}
+
+.page-hero-copy .cta-row {
+  margin-block: var(--space-3) 0;
+}
+
+.page-hero-centered {
+  padding-block: var(--space-7);
+  text-align: center;
+}
+
+.page-hero-centered .page-hero-copy > *,
+.page-hero-centered .not-found-sv > * {
+  margin-inline: auto;
+}
+
+.page-hero-centered .cta-row {
+  justify-content: center;
+}
+
+.page-hero-centered .hero-glow {
+  inset: -30% auto auto 50%;
+  translate: -50% 0;
+}
+
+.not-found-sv {
+  margin-top: var(--space-6);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--color-hairline);
+}
+
+.not-found-sv h2 {
+  font-size: var(--text-2xl);
+}
+
+/* About page: the founder line in mono under the section heading; the
+   approach section places its note under the heading on wide screens while
+   the four points span both rows (DOM order: heading, points, note). */
+.founder-line {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  margin: 0;
+  text-wrap: balance;
+}
+
+.about-founder .section-lead {
+  margin: 0;
+}
+
+.about-approach .trust-points {
+  margin: 0;
+}
+
+@media (min-width: 64rem) {
+  .about-approach .trust-grid {
+    grid-template-rows: auto 1fr;
+    row-gap: var(--space-5);
+  }
+
+  .about-approach .trust-points {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+  }
+
+  .about-approach .note {
+    grid-column: 1;
+    grid-row: 2;
+    align-self: start;
+  }
+}
+
+/* Labelled note card (A-04, the GRC-fork note): eyebrow label, a mono title,
+   the text and the link as the cards' action row. */
+.note {
+  max-width: 34rem;
+}
+
+.note .eyebrow {
+  margin-bottom: var(--space-2);
+}
+
+.note h3 {
+  font-size: var(--text-lg);
+  margin-bottom: var(--space-2);
+}
+
+.note-text {
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+
+.note .app-action {
+  margin-top: var(--space-2);
+}
 
 .article {
   padding-block: var(--space-5) var(--space-7);
@@ -1204,6 +1323,11 @@ html:not(.js) .theme-toggle {
 .article-header {
   max-width: 48rem;
   margin-bottom: var(--space-5);
+}
+
+.article-header h1 {
+  font-size: clamp(2rem, 1.3rem + 2.4vw, 3.25rem);
+  max-width: 24ch;
 }
 
 .article-meta {
@@ -1301,6 +1425,9 @@ html:not(.js) .theme-toggle {
   margin-top: var(--space-5);
   padding-top: var(--space-4);
   border-top: 1px solid var(--color-hairline);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
 }
 
 /* Notices: draft (orange edge) and machine-translated (muted edge). */
@@ -1326,55 +1453,56 @@ html:not(.js) .theme-toggle {
 
 .page-head .notice {
   margin-top: var(--space-3);
+  max-width: 48rem;
 }
 
-/* Blog index and category pages: the lead, the RSS link, the post grid and
-   the category chip row (WI-06 restyles the templates onto these hooks). */
-.blog-rss a,
-.category-list a {
-  display: inline-flex;
-  align-items: center;
+/* Blog index and category pages: the RSS chip in the hero, the post grid
+   (.post-list, above), the categories heading and the chip row. In the
+   metadata rows every chip takes the category chip's 44 px height so the
+   draft and machine-translated chips sit on one line with it. */
+.blog-rss {
+  margin: 0;
+}
+
+.post-meta .chip,
+.article-meta .chip {
   min-height: 44px;
-  font-family: var(--font-mono);
-  font-size: var(--text-sm);
-  font-weight: 500;
+}
+
+.page-body .post-list {
+  margin-top: var(--space-5);
+}
+
+.categories-heading {
+  margin-top: var(--space-5);
+  font-size: var(--text-xl);
 }
 
 .category-list {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-2) var(--space-4);
+  gap: var(--space-2) var(--space-3);
   padding: 0;
   list-style: none;
 }
 
-/* 404: a centred statement in the hero style with the home links as buttons. */
-.not-found {
-  text-align: center;
-  padding-block: var(--space-6) var(--space-7);
-}
-
-.not-found h1,
-.not-found h2,
-.not-found p {
-  margin-inline: auto;
-}
-
-.not-found .cta-row {
-  justify-content: center;
-}
-
-/* Bridge for the first build's markup, removed by WI-05 (landing) and WI-06
-   (inner pages): the theme/portfolio card grids, the article list, the
-   contact block and the factory note render acceptably on the new system
-   until their templates are rewritten. ------------------------------------ */
-
-.page-head h1 {
-  margin-bottom: var(--space-4);
+.post-empty,
+.back-link {
+  margin-top: var(--space-5);
 }
 
 .page-body {
   padding-bottom: var(--space-7);
+}
+
+/* Bridge for the first build's landing markup, removed by WI-05 with the
+   templates it serves (index.njk, partials/portfolio.njk, article-list.njk,
+   factory-note.njk, contact.njk): the theme/portfolio card grids, the
+   article list, the contact block and the factory note render acceptably on
+   the new system until then. No other page uses these rules. ------------- */
+
+.page-head h1 {
+  margin-bottom: var(--space-4);
 }
 
 .card-grid {
@@ -1511,7 +1639,29 @@ html:not(.js) .theme-toggle {
 /* Entrance: .reveal elements start hidden only when JavaScript runs (html.js)
    and reveal.js adds is-visible on intersection; the hero and the console
    stagger in pure CSS so the first screen never waits for the script. Only
-   opacity and translate move, never layout. */
+   opacity and translate move, never layout. The stagger index comes from the
+   element's position among its siblings (html-validate forbids inline
+   styles), capped at the sixth sibling. */
+.reveal:nth-child(2) {
+  --i: 1;
+}
+
+.reveal:nth-child(3) {
+  --i: 2;
+}
+
+.reveal:nth-child(4) {
+  --i: 3;
+}
+
+.reveal:nth-child(5) {
+  --i: 4;
+}
+
+.reveal:nth-child(n + 6) {
+  --i: 5;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   html.js .reveal {
     opacity: 0;

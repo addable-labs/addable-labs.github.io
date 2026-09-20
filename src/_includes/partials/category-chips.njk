@@ -1,0 +1,10 @@
+{#- Category chip row (REQ-016): one chip link per category, named in the
+    page's language; on a category page the current category's chip carries
+    aria-current. `category` is the pagination alias of the category pages
+    and undefined on the blog index. -#}
+{%- set langPrefix = "" if lang == site.languages.default else "/" + lang %}
+  <ul class="category-list">
+    {%- for entry in categories %}
+    <li><a class="chip chip-cat" href="{{ langPrefix }}/blog/{{ entry.key }}/"{% if category and category.key == entry.key %} aria-current="page"{% endif %}>{{ strings[lang].categories[entry.key] }}</a></li>
+    {%- endfor %}
+  </ul>
