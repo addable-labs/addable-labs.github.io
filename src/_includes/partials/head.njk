@@ -2,6 +2,12 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{ title }}</title>
-  {# Stylesheet placeholder: the token and base sheets arrive in WI-02. #}
+  {#- WI-05 completes the head: description, canonical, Open Graph, hreflang
+      alternates and the feed link. #}
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#FAFAF7">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#101416">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="stylesheet" href="/assets/css/tokens.css">
   <link rel="stylesheet" href="/assets/css/base.css">
 </head>

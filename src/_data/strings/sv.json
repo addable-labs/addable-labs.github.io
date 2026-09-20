@@ -7,7 +7,8 @@
     "home": "Hem",
     "about": "Om oss",
     "blog": "Blogg",
-    "skipToContent": "Hoppa till innehållet"
+    "skipToContent": "Hoppa till innehållet",
+    "ariaLabel": "Huvudnavigering"
   },
   "languages": {
     "en": "English",
@@ -20,6 +21,7 @@
   "footer": {
     "contact": "Kontakt",
     "linkedin": "LinkedIn",
-    "copyright": "Addable Labs"
+    "copyright": "Addable Labs",
+    "factoryLine": "Den här webbplatsen byggs och underhålls av en agentdriven mjukvarufabrik."
   }
 }

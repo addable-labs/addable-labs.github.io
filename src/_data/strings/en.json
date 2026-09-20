@@ -7,7 +7,8 @@
     "home": "Home",
     "about": "About",
     "blog": "Blog",
-    "skipToContent": "Skip to content"
+    "skipToContent": "Skip to content",
+    "ariaLabel": "Main navigation"
   },
   "languages": {
     "en": "English",
@@ -20,6 +21,7 @@
   "footer": {
     "contact": "Contact",
     "linkedin": "LinkedIn",
-    "copyright": "Addable Labs"
+    "copyright": "Addable Labs",
+    "factoryLine": "This site is built and maintained by an agent-run software factory."
   }
 }

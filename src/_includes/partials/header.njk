@@ -1,0 +1,25 @@
+{#- Site header: brand (inline SVG mark + live-text wordmark), main navigation
+    and the language-switch slot. Nav hrefs follow the URL contract: English at
+    the root, Swedish under /sv/. -#}
+{%- set langPrefix = "" if lang == site.languages.default else "/" + lang -%}
+{%- set navItems = [
+  { href: langPrefix + "/", label: strings[lang].nav.home },
+  { href: langPrefix + "/about/", label: strings[lang].nav.about },
+  { href: langPrefix + "/blog/", label: strings[lang].nav.blog }
+] -%}
+<header class="site-header">
+  <div class="container">
+    <a class="brand" href="{{ langPrefix }}/">
+      {% include "src/assets/img/mark.svg" %}
+      <span class="brand-name">{{ strings[lang].site.name }}</span>
+    </a>
+    <nav class="site-nav" aria-label="{{ strings[lang].nav.ariaLabel }}">
+      <ul>
+        {%- for item in navItems %}
+        <li><a href="{{ item.href }}"{% if page.url == item.href %} aria-current="page"{% endif %}>{{ item.label }}</a></li>
+        {%- endfor %}
+      </ul>
+    </nav>
+    {#- Language switch slot: WI-05 adds {% include "partials/lang-switch.njk" %} here. #}
+  </div>
+</header>

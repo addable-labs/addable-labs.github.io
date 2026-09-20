@@ -2,7 +2,7 @@
   "name": "addable-labs-website",
   "version": "0.1.0",
   "private": true,
-  "description": "Addable Labs company website — Eleventy static site published with GitHub Pages",
+  "description": "Addable Labs company website \u2014 Eleventy static site published with GitHub Pages",
   "type": "module",
   "packageManager": "pnpm@10.30.3",
   "engines": {
@@ -10,7 +10,8 @@
   },
   "scripts": {
     "dev": "eleventy --serve",
-    "build": "eleventy"
+    "build": "eleventy",
+    "check:contrast": "node scripts/check/contrast.mjs"
   },
   "devDependencies": {
     "@11ty/eleventy": "3.1.6",

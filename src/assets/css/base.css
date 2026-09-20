@@ -1,0 +1,347 @@
+/*
+ * Base styles for the Addable Labs website: layout, typography, focus, the
+ * skip link and the header / nav / footer skeleton. Every colour comes from
+ * tokens.css — no colour literal may appear in this file (PR-03; enforced by
+ * `pnpm check:contrast`).
+ */
+
+/* Document ------------------------------------------------------------ */
+
+html {
+  color-scheme: light dark;
+  box-sizing: border-box;
+  -webkit-text-size-adjust: 100%;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-body);
+  line-height: var(--line-height-body);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Focus: a visible ring on every focusable element (REQ-014) ------------ */
+
+:focus-visible {
+  outline: var(--focus-ring-width) solid var(--color-focus);
+  outline-offset: var(--focus-ring-offset);
+}
+
+/* Skip link: first element in body, visually hidden until focused ------- */
+
+.skip-link {
+  position: absolute;
+  top: var(--space-2);
+  left: var(--space-2);
+  z-index: 1;
+  padding: var(--space-2) var(--space-3);
+  background: var(--color-surface);
+  color: var(--color-accent);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius);
+  font-weight: var(--font-weight-heading);
+  text-decoration: none;
+}
+
+.skip-link:not(:focus) {
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  border: 0;
+}
+
+/* Typography ----------------------------------------------------------- */
+
+h1,
+h2,
+h3,
+h4 {
+  font-weight: var(--font-weight-heading);
+  line-height: var(--line-height-heading);
+  margin-block: var(--space-5) var(--space-3);
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: var(--font-size-2xl);
+  margin-block-start: var(--space-4);
+}
+
+h2 {
+  font-size: var(--font-size-xl);
+}
+
+h3 {
+  font-size: var(--font-size-lg);
+}
+
+h4 {
+  font-size: var(--font-size-md);
+}
+
+p,
+ul,
+ol,
+dl,
+blockquote,
+pre,
+table,
+figure {
+  margin-block: 0 var(--space-3);
+}
+
+p,
+li,
+dt,
+dd,
+blockquote,
+figcaption,
+h1,
+h2,
+h3,
+h4 {
+  max-width: var(--measure);
+}
+
+small,
+.text-muted {
+  color: var(--color-text-muted);
+}
+
+small {
+  font-size: var(--font-size-sm);
+}
+
+a {
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+  text-decoration-thickness: from-font;
+}
+
+a:hover {
+  color: var(--color-accent-strong);
+  text-decoration-thickness: 2px;
+}
+
+code,
+kbd,
+samp,
+pre {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+}
+
+pre {
+  max-width: 100%;
+  overflow-x: auto;
+  padding: var(--space-3);
+  background: var(--color-surface);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius);
+}
+
+blockquote {
+  padding-inline-start: var(--space-3);
+  border-inline-start: var(--focus-ring-width) solid var(--color-border);
+  color: var(--color-text-muted);
+}
+
+hr {
+  border: 0;
+  border-top: var(--border-width) solid var(--color-border);
+  margin-block: var(--space-5);
+}
+
+img,
+svg {
+  max-width: 100%;
+}
+
+img {
+  height: auto;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th,
+td {
+  text-align: start;
+  padding: var(--space-2) var(--space-3);
+  border-bottom: var(--border-width) solid var(--color-border);
+  vertical-align: top;
+}
+
+th {
+  font-weight: var(--font-weight-heading);
+}
+
+/* Layout: one column, prose measure, wide container ---------------------- */
+
+.container {
+  width: 100%;
+  max-width: var(--content-max-width);
+  margin-inline: auto;
+  padding-inline: var(--space-3);
+}
+
+main {
+  flex: 1 0 auto;
+  padding-block: var(--space-3) var(--space-6);
+}
+
+/* Landing card grid: stacks below 48rem, two or three columns above ------- */
+
+.card-grid {
+  display: grid;
+  gap: var(--space-4);
+  grid-template-columns: 1fr;
+  padding: 0;
+  margin-block: var(--space-3) var(--space-5);
+  list-style: none;
+}
+
+@media (min-width: 48rem) {
+  .card-grid {
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  }
+}
+
+.card {
+  background: var(--color-surface);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius);
+  padding: var(--space-4);
+}
+
+.card > :first-child {
+  margin-block-start: 0;
+}
+
+.card > :last-child {
+  margin-block-end: 0;
+}
+
+/* Header and navigation ------------------------------------------------- */
+
+.site-header {
+  border-bottom: var(--border-width) solid var(--color-border);
+  background: var(--color-surface);
+}
+
+.site-header .container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3) var(--space-4);
+  padding-block: var(--space-3);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--color-text);
+  font-weight: var(--font-weight-heading);
+  letter-spacing: var(--letter-spacing-wordmark);
+  font-size: var(--font-size-lg);
+  line-height: 1;
+  text-decoration: none;
+}
+
+.brand:hover {
+  color: var(--color-accent-strong);
+}
+
+.brand > svg {
+  display: block;
+  width: 2rem;
+  height: 2rem;
+  color: var(--color-accent);
+}
+
+.site-nav {
+  margin-inline-start: auto;
+}
+
+.site-nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.site-nav a {
+  display: inline-block;
+  padding-block: var(--space-1);
+  text-decoration: none;
+}
+
+.site-nav a:hover,
+.site-nav a[aria-current="page"] {
+  text-decoration: underline;
+  text-underline-offset: 0.3em;
+  text-decoration-thickness: 2px;
+}
+
+.site-nav a[aria-current="page"] {
+  color: var(--color-text);
+}
+
+.lang-switch {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Footer ---------------------------------------------------------------- */
+
+.site-footer {
+  border-top: var(--border-width) solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+.site-footer .container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3) var(--space-5);
+  padding-block: var(--space-4);
+}
+
+.site-footer h2 {
+  font-size: var(--font-size-md);
+  margin-block: 0 var(--space-2);
+  color: var(--color-text);
+}
+
+.site-footer p {
+  margin-block-end: var(--space-2);
+}
+
+.site-footer .factory-line {
+  flex-basis: 100%;
+  max-width: none;
+  margin-block: var(--space-2) 0;
+}
