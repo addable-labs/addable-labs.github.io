@@ -28,9 +28,14 @@ appearance toggle in the header and footer, so both themes can be judged.
 
 ## The pick
 
-The design-author's recommendation is **A — Signal** (reasons in the plan,
-*Decisions*, D-01). The founder's pick is recorded here and in
-`docs/identity.md` once made; until then the plan treats the recommendation as
-the working default and the founder can override it at plan review.
+The design-author's recommendation was **A — Signal** (reasons in the plan,
+*Decisions*, D-01).
 
-**Founder's pick:** _pending_.
+**Founder's pick:** **A — Signal**, 2026-09-20 20:23 CEST — "A, i love
+signal's design and look and feel! good job! also, as i said above: columns
+must align". The one note, that the hero console's columns must align across
+rows, was fixed the same evening (shared four-column subgrid on
+`.console-log`, both themes). Only Signal is implemented; the Ledger and
+Terminal pages are removed from `src/` once the implementation starts and
+their rationales stay in this directory. `docs/identity.md` records the pick
+and the reasons with the implemented system.
