@@ -3,8 +3,8 @@ import { IdAttributePlugin } from "@11ty/eleventy";
 import rssPlugin from "@11ty/eleventy-plugin-rss";
 import { validateArticle } from "./scripts/lib/frontmatter.mjs";
 
-// Paths copied verbatim into _site/. CNAME arrives in WI-08; Eleventy skips a
-// missing passthrough source, so declaring it up front does not break the build.
+// Paths copied verbatim into _site/: the stylesheets and mark, the SVG favicon
+// and the CNAME file for the custom domain (REQ-020).
 const PASSTHROUGH = ["src/assets", "src/favicon.svg", "src/CNAME"];
 
 const LANGUAGES = ["en", "sv"];
