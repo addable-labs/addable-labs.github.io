@@ -7,7 +7,8 @@
 //     factory") and the latest-articles section
 //   - the about pages have the founder and approach sections
 //   - mailto:hello@addablelabs.se on landing, about and the footer of every
-//     page; the LinkedIn entry is visible text with no href
+//     page; the LinkedIn entry is visible text with no href while
+//     site.linkedinUrl is null and a footer link to that URL once it is set
 //   - the nivå entry says "in development" and has no link; no GitHub links
 //     for private repositories; StockSight-AI and the factory are absent
 //   - both seed articles exist in both languages, English articles are
@@ -78,7 +79,7 @@ for (const lang of site.languages.codes) {
   report.check(about.doc.querySelectorAll('main a[href^="mailto:hello@addablelabs.se"]').length >= 1, `${rel}: mailto:hello@addablelabs.se in the page body`);
 }
 
-// Every page: footer contact, LinkedIn placeholder, forbidden links and names
+// Every page: footer contact, LinkedIn placeholder or link, forbidden links and names
 const pages = [];
 for (const file of await walk(out, ".html")) pages.push(await loadPage(file, out, site));
 let footerProblems = 0;
@@ -94,10 +95,20 @@ for (const p of pages) {
     linkedinProblems += 1;
     report.fail(`${p.relPath}: footer lacks the LinkedIn entry`);
   }
-  for (const a of p.doc.querySelectorAll("a[href]")) {
-    if (/linkedin/i.test(attr(a, "href") ?? "")) {
+  // Follow site.js (README open item 5): once the founder sets linkedinUrl,
+  // contact.njk renders a link to it and every footer must carry that link;
+  // while it is null, LinkedIn is placeholder text and no href may point at it.
+  if (site.linkedinUrl) {
+    if (!footer || !footer.querySelectorAll("a[href]").some((a) => attr(a, "href") === site.linkedinUrl)) {
       linkedinProblems += 1;
-      report.fail(`${p.relPath}: LinkedIn is a hyperlink (${attr(a, "href")}); expected placeholder text while the URL is unknown`);
+      report.fail(`${p.relPath}: footer lacks the LinkedIn link to ${site.linkedinUrl}`);
+    }
+  } else {
+    for (const a of p.doc.querySelectorAll("a[href]")) {
+      if (/linkedin/i.test(attr(a, "href") ?? "")) {
+        linkedinProblems += 1;
+        report.fail(`${p.relPath}: LinkedIn is a hyperlink (${attr(a, "href")}); expected placeholder text while site.linkedinUrl is null`);
+      }
     }
   }
   for (const needle of [...PRIVATE_LINKS, ...FORBIDDEN_TEXT]) {
@@ -117,7 +128,7 @@ for (const file of await walk(out, ".xml")) {
   }
 }
 report.check(footerProblems === 0, `every page's footer links mailto:hello@addablelabs.se (${pages.length} pages)`);
-report.check(linkedinProblems === 0, "LinkedIn appears as placeholder text with no href");
+report.check(linkedinProblems === 0, site.linkedinUrl ? `LinkedIn links ${site.linkedinUrl} on every page` : "LinkedIn appears as placeholder text with no href");
 report.check(forbiddenProblems === 0, "no links to private repositories, no StockSight-AI, no factory name");
 
 // Seed articles: existence, word count, draft labels
