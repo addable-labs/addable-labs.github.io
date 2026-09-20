@@ -515,7 +515,9 @@ when they are broken:
   muted for the rest); unused labels are rejected, so remove a label when
   its last entry goes.
 - Keep the order of the six entries the founder chose (`APP_KEYS`); a new
-  entry extends the list in `apps.mjs` and the data file together.
+  entry extends the list in `apps.mjs` and the data file together, and
+  `PRIVATE_APP_KEYS` too for a private one — the apps test fails naming the
+  entry when the list and the data disagree.
 
 Then run `pnpm check` and `pnpm test`: the content gate proves the rendered
 grid and the layout gate (plan T8) measures the balance at five widths in

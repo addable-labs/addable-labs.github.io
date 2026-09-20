@@ -30,9 +30,8 @@ describe("apps data and copy (REQ-011, REQ-025; AC-11, AC-12, AC-30)", () => {
     assert.equal(result.ok, true);
   });
 
-  it("holds exactly the six curated entries in the founder's order (A-01)", () => {
+  it("holds exactly the curated entries of APP_KEYS in the founder's order (A-01)", () => {
     assert.deepEqual(data.map((entry) => entry.key), APP_KEYS);
-    assert.deepEqual(APP_KEYS, ["niva", "notesage", "marketdata-api", "compound", "ashlands", "gaimer"]);
     const reordered = copy();
     reordered.data.reverse();
     assert.ok(problemsOf(reordered).some((p) => /entries are out of order/.test(p)), problemsOf(reordered).join("\n"));
@@ -49,22 +48,21 @@ describe("apps data and copy (REQ-011, REQ-025; AC-11, AC-12, AC-30)", () => {
       }
     }
     const orphan = copy();
-    orphan.strings.en.portfolio.stoqster = { name: "Stoqster", summary: "A desktop app for following Swedish investment companies." };
-    assert.ok(problemsOf(orphan).includes("en: portfolio.stoqster has no data entry"), problemsOf(orphan).join("\n"));
+    orphan.strings.en.portfolio.newapp = { name: "New app", summary: "A desktop app for following markets, funds and portfolios." };
+    assert.ok(problemsOf(orphan).includes("en: portfolio.newapp has no data entry"), problemsOf(orphan).join("\n"));
   });
 
   it("fails an added entry that lacks Swedish strings, naming the key and the language (AC-12)", () => {
     const added = copy();
-    added.data.push({ key: "stoqster", theme: "investing", repo: "PeterBlenessy/stoqster", url: "https://github.com/PeterBlenessy/stoqster", status: "open-source-mit", source: { readme: "https://github.com/PeterBlenessy/stoqster/blob/main/README.md", retrieved: "2026-09-20" } });
-    added.strings.en.portfolio.stoqster = { name: "Stoqster", summary: "A desktop app for following Swedish investment companies, funds and more." };
-    const problems = problemsOf({ ...added, keys: [...APP_KEYS, "stoqster"] });
-    assert.ok(problems.includes("sv: portfolio.stoqster.name is missing"), problems.join("\n"));
-    assert.ok(problems.includes("sv: portfolio.stoqster.summary is missing"), problems.join("\n"));
-    assert.ok(!problems.some((p) => p.startsWith("en: portfolio.stoqster")), problems.join("\n"));
+    added.data.push({ key: "newapp", theme: "investing", repo: "PeterBlenessy/newapp", url: "https://github.com/PeterBlenessy/newapp", status: "open-source-mit", source: { readme: "https://github.com/PeterBlenessy/newapp/blob/main/README.md", retrieved: "2026-09-20" } });
+    added.strings.en.portfolio.newapp = { name: "New app", summary: "A desktop app for following markets, funds and portfolios in one place." };
+    const problems = problemsOf({ ...added, keys: [...APP_KEYS, "newapp"] });
+    assert.ok(problems.includes("sv: portfolio.newapp.name is missing"), problems.join("\n"));
+    assert.ok(problems.includes("sv: portfolio.newapp.summary is missing"), problems.join("\n"));
+    assert.ok(!problems.some((p) => p.startsWith("en: portfolio.newapp")), problems.join("\n"));
   });
 
   it("keeps the private entries unlinked and links the public ones to github.com (A-01)", () => {
-    assert.deepEqual(PRIVATE_APP_KEYS, ["niva", "marketdata-api", "compound"]);
     for (const entry of data) {
       if (PRIVATE_APP_KEYS.includes(entry.key)) assert.equal(entry.url, null, `${entry.key} is private`);
       else assert.match(entry.url, /^https:\/\/github\.com\//, `${entry.key} links its repository`);

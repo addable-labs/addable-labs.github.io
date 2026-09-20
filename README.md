@@ -171,7 +171,8 @@ the partials under `src/_includes/partials/home/`.
 
 The "What we have built" grid is data. An app is one entry in
 `src/_data/portfolio.json` — in the order the grid shows — plus its name and
-one-liner in both strings files; templates contain no app copy.
+one-liner in both strings files and its key in the curated list `APP_KEYS`
+(below); templates contain no app copy.
 
 ```json
 {
@@ -206,6 +207,11 @@ one-liner in both strings files; templates contain no app copy.
   status, carries a URL while private, or breaks a band. A new status also
   needs an entry in `STATUS_KEYS` there and a `chip-<status>` colour rule in
   `src/assets/css/base.css`.
+- **The list is curated.** The six entries are the founder's list (amendment
+  A-01), pinned as `APP_KEYS` in `scripts/lib/apps.mjs`: append the new key
+  there in grid order — and to `PRIVATE_APP_KEYS` if the repository is
+  private — so the data file and the list agree; `pnpm test` fails naming
+  the entry when they differ.
 - **The proof** is `pnpm check:layout`: it renders both landing pages at
   five widths in headless Chrome and measures that every title is one line
   and every row of cards is aligned, and `pnpm check:content` proves the
@@ -419,7 +425,8 @@ pair.
 9. **The four unlisted repositories.** TraceLoupe, airlocked-agents, Stoqster
    and investable were removed from the apps grid at your request ("not
    sure" was read as do-not-publish); say so if any of them should return —
-   it is one data entry plus two strings entries each (see *Add an app*).
+   it is one data entry, two strings entries and its key in `APP_KEYS` each
+   (see *Add an app*).
 10. **A manual Lighthouse report** is needed only if CI ever loses Chrome;
     today the gate runs on every pull request and push.
 
