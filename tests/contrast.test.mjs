@@ -1,23 +1,138 @@
 import assert from "node:assert/strict";
-import { describe, it } from "node:test";
-import { contrastRatio, findColorLiterals, parseTokens, relativeLuminance } from "../scripts/lib/contrast.mjs";
-import { fixture, runGate, SRC } from "./helpers.mjs";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
+import path from "node:path";
+import { after, before, describe, it } from "node:test";
+import {
+  auditTokens,
+  checkSwitchRules,
+  contrastRatio,
+  findColorLiterals,
+  findSchemeMediaQueries,
+  parseLightDark,
+  parseTokens,
+  relativeLuminance,
+} from "../scripts/lib/contrast.mjs";
+import { fixture, runGate, SRC, tempDir } from "./helpers.mjs";
+
+const TOKENS_FILE = path.join(SRC, "assets", "css", "tokens.css");
+const LIGHT_SWITCH = ':root[data-theme="light"] { color-scheme: light; }';
+const PAIR_LINE = /^(light|dark) +--color-/;
+
+// The redesign's tokens.css structure in miniature (plan D-03): fallback,
+// then the light-dark() pair, per token; invariant tokens plain.
+const SIGNAL_LIKE = `
+  :root {
+    color-scheme: dark;
+    --color-bg: #0B0E10;
+    --color-bg: light-dark(#F7F8F6, #0B0E10);
+    --color-accent: #83F35D;
+    --color-glow: rgba(131, 243, 93, 0.16);
+    --color-glow: light-dark(rgba(131, 243, 93, 0.22), rgba(131,243,93,0.16));
+  }
+  ${LIGHT_SWITCH}
+  :root[data-theme="dark"] { color-scheme: dark; }
+`;
 
 describe("contrast library", () => {
   it("computes WCAG luminance and ratios", () => {
     assert.equal(relativeLuminance("#000000"), 0);
     assert.equal(relativeLuminance("#ffffff"), 1);
     assert.equal(Number(contrastRatio("#000", "#fff").toFixed(2)), 21);
-    assert.equal(Number(contrastRatio("#1B1F23", "#FAFAF7").toFixed(2)), 15.85);
+    assert.equal(Number(contrastRatio("#14191D", "#F7F8F6").toFixed(2)), 16.61);
+    assert.equal(Number(contrastRatio("#83F35D", "#0B0E10").toFixed(2)), 13.78);
   });
 
-  it("parses light and dark token sets, falling back to light values", () => {
-    const tokens = parseTokens(`
+  it("parses the light-dark() structure into light and dark sets (REQ-006, D-03)", () => {
+    const tokens = parseTokens(SIGNAL_LIKE);
+    assert.deepEqual(tokens.light, {
+      "--color-bg": "#F7F8F6",
+      "--color-accent": "#83F35D",
+      "--color-glow": "rgba(131, 243, 93, 0.22)",
+    });
+    assert.deepEqual(tokens.dark, {
+      "--color-bg": "#0B0E10",
+      "--color-accent": "#83F35D",
+      "--color-glow": "rgba(131,243,93,0.16)",
+    });
+    assert.deepEqual(tokens.problems, []);
+  });
+
+  it("reads light-dark() values, keeping commas inside nested functions", () => {
+    assert.deepEqual(parseLightDark("light-dark(rgba(1, 2, 3, 0.2), #fff)"), { light: "rgba(1, 2, 3, 0.2)", dark: "#fff" });
+    assert.equal(parseLightDark("#fff"), null);
+    assert.throws(() => parseLightDark("light-dark(#fff)"), /exactly two colours/);
+  });
+
+  it("fails the equality check when a fallback differs from the dark value, naming the token (A-03)", () => {
+    const { problems } = parseTokens(`:root { --color-bg: #000000; --color-bg: light-dark(#F7F8F6, #0B0E10); }`);
+    assert.equal(problems.length, 1);
+    assert.match(problems[0], /^--color-bg: plain fallback #000000 does not equal its dark value #0B0E10/);
+  });
+
+  it("requires the plain fallback to precede the pair (D-03)", () => {
+    const missing = parseTokens(`:root { --color-bg: light-dark(#fff, #000); }`).problems;
+    assert.equal(missing.length, 1);
+    assert.match(missing[0], /^--color-bg: light-dark\(\) declaration has no plain fallback before it/);
+
+    const overridden = parseTokens(`:root { --color-bg: #000; --color-bg: light-dark(#fff, #000); --color-bg: #111; }`);
+    assert.match(overridden.problems.join("\n"), /--color-bg: plain declaration #111 follows the light-dark\(\) pair/);
+    assert.equal(overridden.light["--color-bg"], "#111");
+    assert.equal(overridden.dark["--color-bg"], "#111");
+  });
+
+  it("rejects colour tokens declared outside :root, naming where (REQ-024, A-03)", () => {
+    const { problems, light } = parseTokens(`
+      :root { --color-bg: #000; }
+      :root[data-theme="light"] { color-scheme: light; --color-bg: #fff; }
+      @supports (color: light-dark(#000, #fff)) { :root { --color-text: #eee; } }
+      .card { --color-card: #333; }
+    `);
+    assert.deepEqual(
+      problems.map((p) => p.split(";")[0]),
+      [
+        '--color-bg is declared outside :root (in ":root[data-theme="light"]")',
+        '--color-text is declared outside :root (in "@supports (color: light-dark(#000, #fff)) > :root")',
+        '--color-card is declared outside :root (in ".card")',
+      ],
+    );
+    assert.deepEqual(light, { "--color-bg": "#000" });
+  });
+
+  it("checks the two switch rules (D-13, A-03)", () => {
+    assert.deepEqual(checkSwitchRules(SIGNAL_LIKE), []);
+    const noLight = checkSwitchRules(SIGNAL_LIKE.replace(LIGHT_SWITCH, ""));
+    assert.equal(noLight.length, 1);
+    assert.match(noLight[0], /^missing switch rule :root\[data-theme="light"\] \{ color-scheme: light \} \(found none\)/);
+    const lightFirst = checkSwitchRules(SIGNAL_LIKE.replace("color-scheme: dark;", "color-scheme: light;"));
+    assert.equal(lightFirst.length, 1);
+    assert.match(lightFirst[0], /^missing switch rule :root \{ color-scheme: dark \} \(found color-scheme: light\)/);
+  });
+
+  it("finds prefers-color-scheme media queries with their line (D-13)", () => {
+    assert.deepEqual(findSchemeMediaQueries(SIGNAL_LIKE), []);
+    const found = findSchemeMediaQueries(`:root { color-scheme: dark; }\n@media screen and (prefers-color-scheme: light) {\n  :root:not([data-theme]) { color-scheme: light; }\n}`);
+    assert.deepEqual(found, [{ line: 2, query: "@media screen and (prefers-color-scheme: light)" }]);
+  });
+
+  it("still parses the first build's structure (light on :root, dark in the media query)", async () => {
+    const inline = parseTokens(`
       :root { --color-bg: #fff; --color-text: #000; }
       @media (prefers-color-scheme: dark) { :root { --color-bg: #000; } }
     `);
-    assert.deepEqual(tokens.light, { "--color-bg": "#fff", "--color-text": "#000" });
-    assert.deepEqual(tokens.dark, { "--color-bg": "#000", "--color-text": "#000" });
+    assert.deepEqual(inline.light, { "--color-bg": "#fff", "--color-text": "#000" });
+    assert.deepEqual(inline.dark, { "--color-bg": "#000", "--color-text": "#000" });
+    assert.deepEqual(inline.problems, []);
+
+    const legacy = auditTokens(await readFile(fixture("contrast-legacy", "tokens.css"), "utf8"));
+    assert.equal(Object.keys(legacy.light).length, 8);
+    assert.equal(legacy.light["--color-bg"], "#FAFAF7");
+    assert.equal(legacy.dark["--color-bg"], "#101416");
+    // It parses, but the redesign's structure rules reject it: no switch
+    // rules and an OS media query.
+    assert.equal(legacy.problems.length, 3, legacy.problems.join("\n"));
+    assert.match(legacy.problems[0], /^missing switch rule :root \{ color-scheme: dark \} \(found none\)/);
+    assert.match(legacy.problems[1], /^missing switch rule :root\[data-theme="light"\] \{ color-scheme: light \} \(found none\)/);
+    assert.match(legacy.problems[2], /^line 60: "@media \(prefers-color-scheme: dark\)" — tokens\.css may not contain a prefers-color-scheme media query/);
   });
 
   it("finds colour literals in declaration values only", () => {
@@ -26,28 +141,112 @@ describe("contrast library", () => {
       .b { background: white; }
       .c { border-color: rgb(1 2 3); }
       .d { white-space: nowrap; content: "red"; color: var(--color-text); }
+      @font-face { font-family: "Fallback Menlo"; src: local("Menlo"), url("/assets/fonts/x.woff2") format("woff2"); }
     `);
     assert.deepEqual(findings.map((f) => f.literal), ["#333", "white", "rgb("]);
   });
 });
 
 describe("contrast gate", () => {
-  it("passes on the real stylesheets", () => {
+  let tokens;
+  let temp;
+  before(async () => {
+    tokens = await readFile(TOKENS_FILE, "utf8");
+    temp = await tempDir("contrast-");
+  });
+  after(() => temp.cleanup());
+
+  // A source tree whose tokens.css is the real one transformed; the transform
+  // must change the text so a stale replacement cannot pass silently.
+  let variants = 0;
+  async function variant(transform) {
+    const dir = path.join(temp.dir, `variant-${(variants += 1)}`);
+    await mkdir(path.join(dir, "assets", "css"), { recursive: true });
+    const changed = transform(tokens);
+    assert.notEqual(changed, tokens, "the variant transform changed nothing");
+    await writeFile(path.join(dir, "assets", "css", "tokens.css"), changed);
+    return dir;
+  }
+
+  it("passes on the real stylesheets with 43 pair lines and two skips (AC-06)", () => {
     const { status, output } = runGate("contrast", "", SRC);
     assert.equal(status, 0, output);
+    const lines = output.split("\n");
+    const pairLines = lines.filter((line) => PAIR_LINE.test(line));
+    assert.equal(pairLines.length, 43, pairLines.join("\n"));
+    assert.equal(pairLines.filter((line) => line.startsWith("light")).length, 22);
+    assert.equal(pairLines.filter((line) => line.startsWith("dark")).length, 21);
+    assert.ok(pairLines.every((line) => / (text ≥ 4\.5:1|ui {3}≥ 3:1) {2}ok$/.test(line)), pairLines.join("\n"));
+    // The primary-button edge pair is light-only (on dark the edge is the surface colour).
+    const edge = pairLines.filter((line) => /--color-accent-strong {3}on --color-accent /.test(line));
+    assert.equal(edge.length, 1);
+    assert.match(edge[0], /^light .* ui {3}≥ 3:1 {2}ok$/);
+    // Every brand pair AC-06 names is evaluated.
+    for (const pair of ["--color-accent-text     on --color-bg", "--color-accent-text     on --color-surface", "--color-on-accent       on --color-accent", "--color-on-accent       on --color-secondary", "--color-border          on --color-surface-2", "--color-focus           on --color-bg"]) {
+      assert.ok(pairLines.some((line) => line.includes(pair)), `no pair line for ${pair}`);
+    }
+    const skips = lines.filter((line) => line.startsWith("skip "));
+    assert.deepEqual(
+      skips.map((line) => line.split(/\s+/)[1]),
+      ["--color-hairline", "--color-glow"],
+    );
+    assert.match(output, /tokens\.css {2}structure {2}dark on :root, light only under :root\[data-theme="light"\], every fallback equals its dark value, no prefers-color-scheme media query, no --color-\* outside :root {2}ok/);
+    assert.match(output, /checked 22 token pairs \(43 evaluations over 2 schemes\) and 15 colour tokens/);
+    assert.match(output, /scanned for colour literals: src\/assets\/css\/base\.css, src\/assets\/css\/fonts\.css/);
     assert.match(output, /PASS contrast/);
   });
 
   it("fails when a text pair drops below 4.5:1", () => {
     const { status, output } = runGate("contrast", "", fixture("contrast-weak", "src"));
     assert.equal(status, 1);
-    assert.match(output, /light {2}--color-text-muted {5}on --color-bg .* text ≥ 4\.5:1 {2}FAIL/);
-    assert.match(output, /FAIL contrast/);
+    assert.match(output, /light {2}--color-text-muted {6}on --color-bg .* text ≥ 4\.5:1 {2}FAIL/);
+    assert.match(output, /FAIL contrast \(3 problems\)/);
   });
 
   it("fails on a colour literal outside tokens.css, naming the file and line", () => {
     const { status, output } = runGate("contrast", "", fixture("contrast-literal", "src"));
     assert.equal(status, 1);
     assert.match(output, /base\.css:\d+ {2}colour literal "#333" in "color: #333" {2}FAIL/);
+    assert.match(output, /FAIL contrast \(1 problem\)/);
+  });
+
+  it("fails when a fallback does not equal its dark value, naming the token (A-03)", async () => {
+    const src = await variant((css) => css.replace("--color-bg: #0B0E10;", "--color-bg: #000000;"));
+    const { status, output } = runGate("contrast", "", src);
+    assert.equal(status, 1);
+    assert.match(output, /structure {2}--color-bg: plain fallback #000000 does not equal its dark value #0B0E10 .* FAIL/);
+    assert.match(output, /FAIL contrast \(1 problem\)/);
+  });
+
+  it("fails when the light switch rule is missing (A-03)", async () => {
+    const src = await variant((css) => css.replace(LIGHT_SWITCH, ""));
+    const { status, output } = runGate("contrast", "", src);
+    assert.equal(status, 1);
+    assert.match(output, /structure {2}missing switch rule :root\[data-theme="light"\] \{ color-scheme: light \} .* FAIL/);
+    assert.match(output, /FAIL contrast \(1 problem\)/);
+  });
+
+  it("fails when tokens.css contains a prefers-color-scheme media query (D-13)", async () => {
+    const src = await variant((css) => `${css}\n@media (prefers-color-scheme: light) {\n  :root { color-scheme: light; }\n}\n`);
+    const { status, output } = runGate("contrast", "", src);
+    assert.equal(status, 1);
+    assert.match(output, /structure {2}line \d+: "@media \(prefers-color-scheme: light\)" — tokens\.css may not contain a prefers-color-scheme media query.* FAIL/);
+    assert.match(output, /FAIL contrast \(1 problem\)/);
+  });
+
+  it("fails when a colour token is declared outside :root (A-03)", async () => {
+    const src = await variant((css) => css.replace(LIGHT_SWITCH, ':root[data-theme="light"] { color-scheme: light; --color-bg: #FFFFFF; }'));
+    const { status, output } = runGate("contrast", "", src);
+    assert.equal(status, 1);
+    assert.match(output, /structure {2}--color-bg is declared outside :root \(in ":root\[data-theme="light"\]"\).* FAIL/);
+    assert.match(output, /FAIL contrast \(1 problem\)/);
+  });
+
+  it("fails when a colour token is in no pair and not decorative", async () => {
+    const src = await variant((css) => css.replace("--color-on-accent: #0B0E10;", "--color-on-accent: #0B0E10;\n  --color-extra: #FFFFFF;"));
+    const { status, output } = runGate("contrast", "", src);
+    assert.equal(status, 1);
+    assert.match(output, /--color-extra is in no PAIRS entry and not listed in DECORATIVE.* FAIL/);
+    assert.match(output, /FAIL contrast \(1 problem\)/);
   });
 });

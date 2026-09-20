@@ -1,9 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
   <style>
-    path { fill: #0E6B65; }
-    @media (prefers-color-scheme: dark) {
-      path { fill: #63C7BF; }
+    /* The filled Signal tile (plan D-05): the page's dark background with the
+       accent plus. On a light browser chrome the tile keeps a 1 px edge in the
+       light-theme accent text colour so it stays visible; this media query is
+       about the tab bar, not the page (the page is dark by default, D-13). */
+    .tile { fill: #0B0E10; stroke: #0B0E10; stroke-width: 1; }
+    @media (prefers-color-scheme: light) {
+      .tile { stroke: #256B15; }
     }
   </style>
-  <path fill-rule="evenodd" d="M8 1h16a7 7 0 0 1 7 7v16a7 7 0 0 1-7 7H8a7 7 0 0 1-7-7V8a7 7 0 0 1 7-7zm6 8a2 2 0 0 1 4 0v5h5a2 2 0 0 1 0 4h-5v5a2 2 0 0 1-4 0v-5H9a2 2 0 0 1 0-4h5V9z"/>
+  <rect class="tile" x="0.5" y="0.5" width="31" height="31" rx="7"/>
+  <path d="M16 9v14M9 16h14" fill="none" stroke="#83F35D" stroke-width="3" stroke-linecap="round"/>
 </svg>

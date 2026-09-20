@@ -1,11 +1,17 @@
 #!/usr/bin/env node
-// Gate: contrast (REQ-014, AC-05, AC-17; plan review PR-03).
+// Gate: contrast (REQ-006, REQ-024 as amended by A-03; AC-06, AC-25; plan
+// D-03, D-13; first build: REQ-014, AC-05, AC-17, plan review PR-03).
 //
-// 1. Parses src/assets/css/tokens.css and evaluates an explicit list of
-//    foreground/background token pairs in both colour schemes. Text pairs must
-//    reach 4.5:1 and UI pairs 3:1 (WCAG 2.2 AA). Every pair is printed with its
-//    ratio; a new colour token must be added to PAIRS below or it goes unchecked.
-// 2. Fails if any CSS file under src/ other than tokens.css contains a colour
+// 1. Audits the structure of src/assets/css/tokens.css (scripts/lib/contrast.mjs
+//    auditTokens): dark on :root and light only through the toggle's switch
+//    rule, every plain fallback equal to its dark value, no prefers-color-scheme
+//    media query, no --color-* outside :root.
+// 2. Evaluates an explicit list of foreground/background token pairs in both
+//    colour schemes. Text pairs must reach 4.5:1 and UI pairs 3:1 (WCAG 2.2
+//    AA). Every pair is printed with its ratio; a pair may be restricted to
+//    one scheme. Every colour token must be either in PAIRS or listed in
+//    DECORATIVE (printed as a skip line), so a new colour cannot go unchecked.
+// 3. Fails if any CSS file under src/ other than tokens.css contains a colour
 //    literal (#hex, rgb(), hsl(), color-mix(), named colours, …), so every colour
 //    on every page is one of the checked tokens.
 //
@@ -15,7 +21,7 @@
 import { readdir, readFile } from "node:fs/promises";
 import path from "node:path";
 import process from "node:process";
-import { contrastRatio, findColorLiterals, formatRatio, parseTokens } from "../lib/contrast.mjs";
+import { auditTokens, contrastRatio, findColorLiterals, formatRatio } from "../lib/contrast.mjs";
 import { ROOT, resolveDirs } from "../lib/site.mjs";
 
 // Optional arguments follow the other gates: <built-site dir> [<source dir>];
@@ -24,23 +30,51 @@ const CSS_DIR = resolveDirs().src;
 const TOKENS_FILE = path.join(CSS_DIR, "assets", "css", "tokens.css");
 
 const THRESHOLDS = { text: 4.5, ui: 3 };
+const SCHEMES = ["light", "dark"];
 
-// Foreground on background. `text` pairs carry body or link text; `ui` pairs are
-// borders and the focus ring (non-text contrast, SC 1.4.11).
+// Foreground on background: the plan's pair table (Design system: tokens).
+// `text` pairs carry body, link, label or button text (SC 1.4.3, ≥ 4.5:1);
+// `ui` pairs are borders, chip outlines and the focus ring (SC 1.4.11, ≥ 3:1).
+// `schemes` restricts a pair to one theme. REQ-006 / AC-06.
 const PAIRS = [
+  // Body and secondary text on the page and both surfaces (REQ-006).
   { fg: "--color-text", bg: "--color-bg", kind: "text" },
   { fg: "--color-text", bg: "--color-surface", kind: "text" },
+  { fg: "--color-text", bg: "--color-surface-2", kind: "text" },
   { fg: "--color-text-muted", bg: "--color-bg", kind: "text" },
   { fg: "--color-text-muted", bg: "--color-surface", kind: "text" },
-  { fg: "--color-accent", bg: "--color-bg", kind: "text" },
-  { fg: "--color-accent", bg: "--color-surface", kind: "text" },
+  { fg: "--color-text-muted", bg: "--color-surface-2", kind: "text" },
+  // Brand text variants: links, eyebrows, "+" marks, status text. On light
+  // these are the darkened variants, never the pure hues (REQ-006, AC-06).
+  { fg: "--color-accent-text", bg: "--color-bg", kind: "text" },
+  { fg: "--color-accent-text", bg: "--color-surface", kind: "text" },
+  { fg: "--color-accent-text", bg: "--color-surface-2", kind: "text" },
   { fg: "--color-accent-strong", bg: "--color-bg", kind: "text" },
   { fg: "--color-accent-strong", bg: "--color-surface", kind: "text" },
+  { fg: "--color-secondary-text", bg: "--color-bg", kind: "text" },
+  { fg: "--color-secondary-text", bg: "--color-surface", kind: "text" },
+  { fg: "--color-secondary-text", bg: "--color-surface-2", kind: "text" },
+  // Dark text on the brand surfaces: primary button, skip link, orange
+  // attention surfaces (REQ-006 "button text on brand surfaces", AC-06).
+  { fg: "--color-on-accent", bg: "--color-accent", kind: "text" },
+  { fg: "--color-on-accent", bg: "--color-secondary", kind: "text" },
+  // Borders and chip outlines against the page and both surfaces (AC-06).
   { fg: "--color-border", bg: "--color-bg", kind: "ui" },
   { fg: "--color-border", bg: "--color-surface", kind: "ui" },
+  { fg: "--color-border", bg: "--color-surface-2", kind: "ui" },
+  // Focus ring, drawn with outline-offset against the page or a surface (AC-06).
   { fg: "--color-focus", bg: "--color-bg", kind: "ui" },
   { fg: "--color-focus", bg: "--color-surface", kind: "ui" },
+  // Primary button edge: on light the green surface has no 3:1 edge against
+  // the page, so a 1 px accent-strong border gives the button its boundary;
+  // on dark the edge is deliberately the surface colour (plan D-03, Risks).
+  { fg: "--color-accent-strong", bg: "--color-accent", kind: "ui", schemes: ["light"] },
 ];
+
+// Tokens that never carry text or bound an interactive component: section
+// hairlines and the hero glow (an alpha colour). They are skipped by name and
+// printed as `skip` lines so the omission is visible (REQ-006).
+const DECORATIVE = ["--color-hairline", "--color-glow"];
 
 async function listCssFiles(dir) {
   const entries = await readdir(dir, { withFileTypes: true });
@@ -59,12 +93,29 @@ function rel(file) {
 
 async function main() {
   let failures = 0;
+  const tokensPath = rel(TOKENS_FILE);
 
-  const tokens = parseTokens(await readFile(TOKENS_FILE, "utf8"));
-  for (const scheme of ["light", "dark"]) {
+  // 1. Structure (D-03, D-13, A-03): one violation per line, then the pairs.
+  const tokens = auditTokens(await readFile(TOKENS_FILE, "utf8"));
+  for (const problem of tokens.problems) {
+    console.log(`${tokensPath}  structure  ${problem}  FAIL`);
+    failures += 1;
+  }
+  if (tokens.problems.length === 0) {
+    console.log(
+      `${tokensPath}  structure  dark on :root, light only under :root[data-theme="light"], ` +
+        "every fallback equals its dark value, no prefers-color-scheme media query, no --color-* outside :root  ok",
+    );
+  }
+
+  // 2. Pairs, per scheme.
+  let evaluations = 0;
+  for (const scheme of SCHEMES) {
     const set = tokens[scheme];
-    for (const { fg, bg, kind } of PAIRS) {
-      const label = `${scheme.padEnd(5)}  ${fg.padEnd(22)} on ${bg.padEnd(16)}`;
+    for (const { fg, bg, kind, schemes = SCHEMES } of PAIRS) {
+      if (!schemes.includes(scheme)) continue;
+      evaluations += 1;
+      const label = `${scheme.padEnd(5)}  ${fg.padEnd(23)} on ${bg.padEnd(18)}`;
       if (!(fg in set) || !(bg in set)) {
         const missing = [fg, bg].filter((name) => !(name in set)).join(", ");
         console.log(`${label}  missing token ${missing}  FAIL`);
@@ -88,6 +139,21 @@ async function main() {
     }
   }
 
+  // Every colour token is either evaluated above or a named decorative skip,
+  // so a token added to tokens.css cannot ship unchecked (REQ-006, REQ-024).
+  const covered = new Set(PAIRS.flatMap(({ fg, bg }) => [fg, bg]));
+  const names = [...new Set([...Object.keys(tokens.light), ...Object.keys(tokens.dark)])];
+  for (const name of names) {
+    if (covered.has(name)) continue;
+    if (DECORATIVE.includes(name)) {
+      console.log(`skip   ${name.padEnd(23)} decorative (never text, never the boundary of a control), not evaluated`);
+      continue;
+    }
+    console.log(`${tokensPath}  ${name} is in no PAIRS entry and not listed in DECORATIVE; add the pair it is used in  FAIL`);
+    failures += 1;
+  }
+
+  // 3. Colour literals only in tokens.css.
   const cssFiles = (await listCssFiles(CSS_DIR)).filter((file) => file !== TOKENS_FILE);
   for (const file of cssFiles) {
     const findings = findColorLiterals(await readFile(file, "utf8"));
@@ -99,7 +165,7 @@ async function main() {
     }
   }
   console.log(
-    `checked ${PAIRS.length} token pairs × 2 schemes from ${rel(TOKENS_FILE)}; ` +
+    `checked ${PAIRS.length} token pairs (${evaluations} evaluations over ${SCHEMES.length} schemes) and ${names.length} colour tokens from ${tokensPath}; ` +
       `${cssFiles.length} other stylesheet(s) scanned for colour literals: ${cssFiles.map(rel).join(", ") || "none"}`,
   );
 
