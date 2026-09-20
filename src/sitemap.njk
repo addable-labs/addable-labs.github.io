@@ -1,0 +1,20 @@
+---
+permalink: /sitemap.xml
+eleventyExcludeFromCollections: true
+---
+{#- Every page of both languages (the 404 page, feeds, robots and this file are
+    excluded from collections) with hreflang alternates (REQ-016, REQ-010). -#}
+<?xml version="1.0" encoding="utf-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+{%- for item in collections.all %}
+{%- if item.data.translationKey and item.data.alternate %}
+{%- set englishUrl = item.url if item.data.lang == site.languages.default else item.data.alternate.url %}
+  <url>
+    <loc>{{ item.url | absoluteUrl(site.url) }}</loc>
+    <xhtml:link rel="alternate" hreflang="{{ item.data.lang }}" href="{{ item.url | absoluteUrl(site.url) }}"/>
+    <xhtml:link rel="alternate" hreflang="{{ item.data.alternate.lang }}" href="{{ item.data.alternate.url | absoluteUrl(site.url) }}"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="{{ englishUrl | absoluteUrl(site.url) }}"/>
+  </url>
+{%- endif %}
+{%- endfor %}
+</urlset>

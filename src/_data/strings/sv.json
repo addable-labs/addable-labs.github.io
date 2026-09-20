@@ -124,5 +124,15 @@
     "grcLead": "Som ett intresseområde utforskar Peter också Claude-skills för styrning, risk och regelefterlevnad, genom en fork av",
     "grcSource": "originalarbetet av Sushegaad",
     "grcTail": "(MIT)."
+  },
+  "feed": {
+    "title": "Addable Labs — Blogg",
+    "description": "Anteckningar från att bygga appar och införa AI: apputveckling och AI-resan, från Addable Labs."
+  },
+  "notFound": {
+    "title": "Sidan finns inte",
+    "description": "Sidan du bad om finns inte. Börja om från den svenska eller engelska startsidan.",
+    "text": "Det finns ingen sida på den här adressen. Den kan ha flyttats, eller så är länken fel.",
+    "homeLink": "Gå till den svenska startsidan"
   }
 }

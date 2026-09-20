@@ -11,7 +11,8 @@
   "scripts": {
     "dev": "eleventy --serve",
     "build": "eleventy",
-    "check:contrast": "node scripts/check/contrast.mjs"
+    "check:contrast": "node scripts/check/contrast.mjs",
+    "check:feeds": "node scripts/check/feeds.mjs"
   },
   "devDependencies": {
     "@11ty/eleventy": "3.1.6",

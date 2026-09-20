@@ -1,0 +1,19 @@
+---
+layout: layouts/base.njk
+permalink: /404.html
+eleventyExcludeFromCollections: true
+lang: en
+eleventyComputed:
+  title: "{{ strings.en.notFound.title | safe }}"
+  description: "{{ strings.en.notFound.description | safe }}"
+---
+{#- Bilingual 404 (REQ-016): GitHub Pages serves only the root 404.html, so it
+    carries both languages and links to both home pages. No translationKey, so
+    it has no counterpart, no language switch and no hreflang links. -#}
+<p>{{ strings.en.notFound.text }}</p>
+<p><a href="/">{{ strings.en.notFound.homeLink }}</a></p>
+<section lang="sv">
+  <h2>{{ strings.sv.notFound.title }}</h2>
+  <p>{{ strings.sv.notFound.text }}</p>
+  <p><a href="/sv/" hreflang="sv">{{ strings.sv.notFound.homeLink }}</a></p>
+</section>

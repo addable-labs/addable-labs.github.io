@@ -124,5 +124,15 @@
     "grcLead": "As an area of interest, Peter also explores Claude skills for governance, risk and compliance, through a fork of",
     "grcSource": "the original work by Sushegaad",
     "grcTail": "(MIT)."
+  },
+  "feed": {
+    "title": "Addable Labs — Blog",
+    "description": "Notes from building apps and adopting AI: app development and the AI journey, from Addable Labs."
+  },
+  "notFound": {
+    "title": "Page not found",
+    "description": "The page you asked for does not exist. Start again from the English or Swedish home page.",
+    "text": "There is no page at this address. It may have moved, or the link may be wrong.",
+    "homeLink": "Go to the English start page"
   }
 }

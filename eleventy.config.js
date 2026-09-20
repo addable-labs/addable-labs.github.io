@@ -1,5 +1,6 @@
 import { readFileSync } from "node:fs";
 import { IdAttributePlugin } from "@11ty/eleventy";
+import rssPlugin from "@11ty/eleventy-plugin-rss";
 import { validateArticle } from "./scripts/lib/frontmatter.mjs";
 
 // Paths copied verbatim into _site/. CNAME arrives in WI-08; Eleventy skips a
@@ -28,6 +29,10 @@ export default function (eleventyConfig) {
 
   // id="" on headings so articles can link to sections.
   eleventyConfig.addPlugin(IdAttributePlugin);
+
+  // Feed filters (absoluteUrl, dateToRfc822, getNewestCollectionItemDate,
+  // htmlToAbsoluteUrls) for the RSS templates and the head's absolute URLs.
+  eleventyConfig.addPlugin(rssPlugin);
 
   for (const path of PASSTHROUGH) {
     eleventyConfig.addPassthroughCopy(path);

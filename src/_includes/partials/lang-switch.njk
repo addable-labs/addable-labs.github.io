@@ -1,0 +1,8 @@
+{#- Language switch (REQ-010): one link to the same page in the other
+    language, named in the target language ("Svenska" on English pages,
+    "English" on Swedish pages). Absent on pages without a counterpart (404).
+    Whitespace control: the header includes this with `{%- include %}` so a
+    page without alternate leaves no blank line. -#}
+{%- if alternate %}
+    <a class="lang-switch" href="{{ alternate.url }}" hreflang="{{ alternate.lang }}" lang="{{ alternate.lang }}" rel="alternate">{{ strings[lang].languages[alternate.lang] }}</a>
+{%- endif %}

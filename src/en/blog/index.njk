@@ -2,7 +2,7 @@
 layout: layouts/base.njk
 translationKey: blog
 eleventyComputed:
-  title: "{{ strings[lang].blog.title }}"
+  title: "{{ strings[lang].blog.title | safe }}"
 ---
 <p class="lead">{{ strings[lang].blog.lead }}</p>
 <p class="blog-rss"><a href="/feed.xml" type="application/rss+xml">{{ strings[lang].blog.rss }}</a></p>

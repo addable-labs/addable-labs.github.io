@@ -2,8 +2,8 @@
 layout: layouts/base.njk
 translationKey: about
 eleventyComputed:
-  title: "{{ strings[lang].about.title }}"
-  description: "{{ strings[lang].about.description }}"
+  title: "{{ strings[lang].about.title | safe }}"
+  description: "{{ strings[lang].about.description | safe }}"
 ---
 <h2>{{ strings[lang].about.founderHeading }}</h2>
 <p>{{ strings[lang].about.founderLine }}</p>

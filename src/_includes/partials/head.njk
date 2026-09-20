@@ -1,9 +1,30 @@
+{#- Document head (REQ-010, REQ-016, REQ-007). `alternate`, `canonical` and
+    `feedUrl` come from src/src.11tydata.js; absolute URLs go through the RSS
+    plugin's absoluteUrl filter with site.url, so SITE_URL re-targets them all. -#}
+{%- set siteName = strings[lang].site.name -%}
+{%- if translationKey == "home" -%}
+  {%- set pageTitle = siteName + " — " + strings[lang].site.tagline -%}
+{%- else -%}
+  {%- set pageTitle = title + " — " + siteName -%}
+{%- endif -%}
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{{ title }}</title>
-  {#- WI-05 completes the head: description, canonical, Open Graph, hreflang
-      alternates and the feed link. #}
+  <title>{{ pageTitle }}</title>
+  <meta name="description" content="{{ description }}">
+  <link rel="canonical" href="{{ canonical }}">
+  <meta property="og:title" content="{{ title }}">
+  <meta property="og:description" content="{{ description }}">
+  <meta property="og:url" content="{{ canonical }}">
+  <meta property="og:type" content="{{ ogType or "website" }}">
+  <meta property="og:locale" content="{{ "sv_SE" if lang == "sv" else "en_GB" }}">
+  <meta property="og:site_name" content="{{ siteName }}">
+{%- if alternate %}
+  <link rel="alternate" hreflang="{{ lang }}" href="{{ page.url | absoluteUrl(site.url) }}">
+  <link rel="alternate" hreflang="{{ alternate.lang }}" href="{{ alternate.url | absoluteUrl(site.url) }}">
+  <link rel="alternate" hreflang="x-default" href="{{ (page.url if lang == site.languages.default else alternate.url) | absoluteUrl(site.url) }}">
+{%- endif %}
+  <link rel="alternate" type="application/rss+xml" title="{{ strings[lang].feed.title }}" href="{{ feedUrl | absoluteUrl(site.url) }}">
   <meta name="color-scheme" content="light dark">
   <meta name="theme-color" media="(prefers-color-scheme: light)" content="#FAFAF7">
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#101416">
