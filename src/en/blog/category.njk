@@ -8,6 +8,7 @@ pagination:
 permalink: "/blog/{{ category.key }}/"
 eleventyComputed:
   title: "{{ strings[lang].categories[category.key] | safe }}"
+  description: "{{ strings[lang].blog.categoryLead | replace('{category}', strings[lang].categories[category.key]) | safe }}"
   translationKey: "blog-{{ category.key }}"
 ---
 <p class="lead">{{ strings[lang].blog.categoryLead | replace("{category}", strings[lang].categories[category.key]) }}</p>

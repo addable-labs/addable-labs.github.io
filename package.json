@@ -11,8 +11,14 @@
   "scripts": {
     "dev": "eleventy --serve",
     "build": "eleventy",
+    "check": "node scripts/check/run.mjs",
+    "check:links": "node scripts/check/links.mjs",
+    "check:html": "html-validate \"_site/**/*.html\"",
+    "check:pages": "node scripts/check/pages.mjs",
     "check:contrast": "node scripts/check/contrast.mjs",
-    "check:feeds": "node scripts/check/feeds.mjs"
+    "check:parity": "node scripts/check/parity.mjs",
+    "check:feeds": "node scripts/check/feeds.mjs",
+    "check:content": "node scripts/check/content.mjs"
   },
   "devDependencies": {
     "@11ty/eleventy": "3.1.6",

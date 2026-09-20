@@ -10,14 +10,17 @@
 //    on every page is one of the checked tokens.
 //
 // Exit status 0 when everything passes, 1 otherwise. No network, no browser.
+// Optional arguments: <built-site dir> [<source dir>] (only the source dir is used).
 
 import { readdir, readFile } from "node:fs/promises";
 import path from "node:path";
 import process from "node:process";
 import { contrastRatio, findColorLiterals, formatRatio, parseTokens } from "../lib/contrast.mjs";
+import { ROOT, resolveDirs } from "../lib/site.mjs";
 
-const ROOT = path.resolve(new URL("../..", import.meta.url).pathname);
-const CSS_DIR = path.join(ROOT, "src");
+// Optional arguments follow the other gates: <built-site dir> [<source dir>];
+// this gate reads only the source stylesheets.
+const CSS_DIR = resolveDirs().src;
 const TOKENS_FILE = path.join(CSS_DIR, "assets", "css", "tokens.css");
 
 const THRESHOLDS = { text: 4.5, ui: 3 };

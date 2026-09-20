@@ -1,0 +1,162 @@
+#!/usr/bin/env node
+// Gate: pages (REQ-014, REQ-015, REQ-010, REQ-016; AC-05, AC-15, AC-19,
+// AC-20, AC-21, AC-22). Per built HTML page:
+//   - header, nav, main, footer exactly once; exactly one h1; no skipped
+//     heading levels; the skip link is the first focusable element and
+//     targets an existing id
+//   - html[lang] matches the path (sv/ ↔ sv, else the default language)
+//   - every img has alt, width and height
+//   - a unique <title>, a meta description, a canonical URL, og:title and
+//     og:description
+//   - three hreflang alternates (both languages + x-default → the English
+//     URL) with absolute URLs, and the language's feed link (404.html has no
+//     counterpart and is exempt from the alternates and the switch)
+//   - the language switch targets the same path in the other language with
+//     hreflang/lang and the target language's name
+//   - no <script> at all this release, no cross-origin subresources
+//   - HTML + same-origin CSS ≤ 150 KB
+// Optional arguments: <built-site dir> [<source dir>].
+
+import { readFile } from "node:fs/promises";
+import path from "node:path";
+import { attr, focusables, headings, loadPage, text } from "../lib/html.mjs";
+import { candidatesForPath, exists, internalPath, loadSite, loadStrings, reporter, resolveDirs, walk } from "../lib/site.mjs";
+
+const { out, src } = resolveDirs();
+const site = await loadSite(src);
+const strings = await loadStrings(src, site);
+const report = reporter("pages");
+const origin = site.url.replace(/\/$/, "");
+const SIZE_BUDGET = 150 * 1024;
+const NOT_FOUND = "404.html";
+
+const other = (lang) => site.languages.codes.find((code) => code !== lang);
+const prefixOf = (lang) => (lang === site.languages.default ? "" : `/${lang}`);
+function counterpartPath(urlPath, lang) {
+  const target = other(lang);
+  const own = prefixOf(lang);
+  const bare = own && urlPath.startsWith(`${own}/`) ? urlPath.slice(own.length) : urlPath;
+  return `${prefixOf(target)}${bare}`;
+}
+
+const titles = new Map();
+const cssSize = new Map();
+async function stylesheetSize(href) {
+  const urlPath = internalPath(href, site);
+  if (urlPath === null) return null;
+  if (!cssSize.has(urlPath)) {
+    let size = 0;
+    for (const candidate of candidatesForPath(urlPath)) {
+      const file = path.join(out, candidate);
+      if (await exists(file)) {
+        size = Buffer.byteLength(await readFile(file, "utf8"), "utf8");
+        break;
+      }
+    }
+    cssSize.set(urlPath, size);
+  }
+  return cssSize.get(urlPath);
+}
+
+const files = await walk(out, ".html");
+for (const file of files) {
+  const page = await loadPage(file, out, site);
+  const { doc, relPath } = page;
+  const isNotFound = relPath === NOT_FOUND;
+  const problems = [];
+  const expect = (condition, message) => {
+    if (!condition) problems.push(message);
+  };
+
+  // Landmarks and headings
+  for (const landmark of ["header", "nav", "main", "footer"]) {
+    const count = doc.querySelectorAll(landmark).length;
+    expect(count === 1, `${landmark} appears ${count} time(s), expected 1`);
+  }
+  const h1s = doc.querySelectorAll("h1");
+  expect(h1s.length === 1, `${h1s.length} h1 element(s), expected 1`);
+  let previous = 0;
+  for (const heading of headings(doc)) {
+    expect(heading.level <= previous + 1, `heading level skipped: h${previous} → h${heading.level} ("${heading.text}")`);
+    previous = heading.level;
+  }
+
+  // Skip link
+  const first = focusables(doc)[0];
+  expect(first && first.tagName === "A" && first.classList.contains("skip-link"), "first focusable element is not the skip link");
+  const skipHref = attr(first, "href") ?? "";
+  expect(skipHref.startsWith("#") && doc.querySelector(`[id="${skipHref.slice(1)}"]`), `skip link target ${skipHref || "(none)"} not found`);
+
+  // Language
+  const htmlLang = attr(doc.querySelector("html"), "lang");
+  expect(htmlLang === page.lang, `html[lang] is ${JSON.stringify(htmlLang)}, path implies ${JSON.stringify(page.lang)}`);
+
+  // Images
+  for (const img of doc.querySelectorAll("img")) {
+    for (const name of ["alt", "width", "height"]) {
+      expect(img.hasAttribute(name), `img ${attr(img, "src") ?? ""} lacks ${name}`);
+    }
+  }
+
+  // Head
+  const title = text(doc.querySelector("title"));
+  expect(title.length > 0, "empty <title>");
+  if (titles.has(title)) problems.push(`title "${title}" duplicates ${titles.get(title)}`);
+  else titles.set(title, relPath);
+  const description = (attr(doc.querySelector('meta[name="description"]'), "content") ?? "").trim();
+  expect(description.length > 0, "missing meta description");
+  const canonical = attr(doc.querySelector('link[rel="canonical"]'), "href");
+  expect(canonical === `${origin}${page.url}`, `canonical is ${JSON.stringify(canonical)}, expected ${origin}${page.url}`);
+  for (const property of ["og:title", "og:description"]) {
+    expect((attr(doc.querySelector(`meta[property="${property}"]`), "content") ?? "").trim().length > 0, `missing ${property}`);
+  }
+
+  // hreflang alternates and the switch (not for the 404 page)
+  const alternates = new Map(doc.querySelectorAll('link[rel="alternate"][hreflang]').map((el) => [attr(el, "hreflang"), attr(el, "href")]));
+  if (!isNotFound) {
+    const counterpart = counterpartPath(page.url, page.lang);
+    const english = page.lang === site.languages.default ? page.url : counterpart;
+    expect(alternates.size === 3, `${alternates.size} hreflang alternate(s), expected 3`);
+    expect(alternates.get(page.lang) === `${origin}${page.url}`, `hreflang="${page.lang}" is ${JSON.stringify(alternates.get(page.lang))}, expected ${origin}${page.url}`);
+    expect(alternates.get(other(page.lang)) === `${origin}${counterpart}`, `hreflang="${other(page.lang)}" is ${JSON.stringify(alternates.get(other(page.lang)))}, expected ${origin}${counterpart}`);
+    expect(alternates.get("x-default") === `${origin}${english}`, `hreflang="x-default" is ${JSON.stringify(alternates.get("x-default"))}, expected ${origin}${english}`);
+    for (const [, href] of alternates) expect(/^https?:\/\//.test(href ?? ""), `hreflang href ${href} is not absolute`);
+
+    const switches = doc.querySelectorAll("header a.lang-switch");
+    expect(switches.length === 1, `${switches.length} language switch(es) in the header, expected 1`);
+    const sw = switches[0];
+    if (sw) {
+      expect(attr(sw, "href") === counterpart, `language switch targets ${attr(sw, "href")}, expected ${counterpart}`);
+      expect(attr(sw, "hreflang") === other(page.lang) && attr(sw, "lang") === other(page.lang), `language switch lacks hreflang/lang="${other(page.lang)}"`);
+      expect(text(sw) === strings[page.lang].languages[other(page.lang)], `language switch text is "${text(sw)}", expected "${strings[page.lang].languages[other(page.lang)]}"`);
+    }
+  } else {
+    expect(alternates.size === 0, "404.html should carry no hreflang alternates");
+  }
+  const feedPath = `${prefixOf(page.lang)}/feed.xml`;
+  const feedLinks = doc.querySelectorAll('link[rel="alternate"][type="application/rss+xml"]').map((el) => attr(el, "href"));
+  expect(feedLinks.includes(`${origin}${feedPath}`), `no feed link to ${origin}${feedPath} (found: ${feedLinks.join(", ") || "none"})`);
+
+  // Scripts and cross-origin subresources
+  const scripts = doc.querySelectorAll("script");
+  expect(scripts.length === 0, `${scripts.length} <script> element(s); this release ships none`);
+  for (const [selector, attribute] of [["link[rel~=stylesheet]", "href"], ["script[src]", "src"], ["img[src]", "src"], ["iframe[src]", "src"], ["source[src]", "src"], ["video[src]", "src"], ["audio[src]", "src"], ["link[rel~=icon]", "href"], ["link[rel~=preload]", "href"]]) {
+    for (const el of doc.querySelectorAll(selector)) {
+      const value = attr(el, attribute) ?? "";
+      expect(internalPath(value, site) !== null, `cross-origin ${selector} ${value}`);
+    }
+  }
+
+  // Size budget: HTML + same-origin stylesheets
+  let total = page.size;
+  for (const el of doc.querySelectorAll("link[rel~=stylesheet]")) {
+    total += (await stylesheetSize(attr(el, "href") ?? "")) ?? 0;
+  }
+  expect(total <= SIZE_BUDGET, `HTML + CSS is ${(total / 1024).toFixed(1)} KB, budget ${SIZE_BUDGET / 1024} KB`);
+
+  if (problems.length === 0) report.ok(`${relPath} (${(total / 1024).toFixed(1)} KB)`);
+  for (const problem of problems) report.fail(`${relPath}: ${problem}`);
+}
+
+report.check(files.length > 0, `${files.length} page(s) checked`);
+report.finish();
