@@ -377,6 +377,10 @@ Motion establishes hierarchy and never moves layout — only `opacity` and
 - **Reduced motion.** Under `@media (prefers-reduced-motion: reduce)` every
   animation is removed and every transition shortened to 0.01 ms, `.reveal`
   renders in place, the caret is static and `scroll-behavior` is `auto`.
+- **Print.** Under `@media print` every `.reveal` and console log line renders
+  in place with no animation — print never scrolls, so nothing may wait for
+  `reveal.js`, and a printed or saved-as-PDF page carries every section
+  (REQ-018, REQ-022).
 - **View transitions.** `@view-transition { navigation: auto }` under
   `prefers-reduced-motion: no-preference` fades navigation and the language
   switch in supporting browsers; the inline theme script has set the theme
@@ -421,6 +425,10 @@ through the appearance toggle, and the choice persists.
   `theme-color` meta, `#0B0E10`, rewritten by the script after a toggle.
 - **Without JavaScript** the page is dark and the toggle is hidden
   (`html:not(.js) .theme-toggle { display: none }`).
+- **Print** uses the light set regardless of the toggle: `@media print
+  { :root, :root[data-theme] { color-scheme: light } }` in `base.css`
+  outranks the switch rule, so paper — where backgrounds are usually not
+  printed — gets dark text on white.
 - **The favicon** is the one exception (see *Mark and favicon*): the tab bar
   follows the OS, so the icon's light edge follows `prefers-color-scheme`.
 

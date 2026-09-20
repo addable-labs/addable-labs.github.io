@@ -1628,3 +1628,24 @@ html:not(.js) .theme-toggle {
     scroll-behavior: auto;
   }
 }
+
+/* Print (REQ-018, REQ-022): the light set — legible on paper, where
+   backgrounds are usually not printed — and every section in place, because
+   nothing scrolls while printing and the entrance keeps unrevealed sections
+   at opacity 0. The attribute selector outranks the :root[data-theme="dark"]
+   switch rule in tokens.css that the inline script has already set. */
+@media print {
+  :root,
+  :root[data-theme] {
+    color-scheme: light;
+  }
+
+  html.js .reveal,
+  html.js .hero .reveal,
+  html.js .console .log-line {
+    opacity: 1;
+    translate: none;
+    animation: none;
+    transition: none;
+  }
+}

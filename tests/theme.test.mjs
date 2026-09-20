@@ -118,4 +118,25 @@ describe("theme script and toggle in the built site", () => {
     assert.match(css, /@media\s*\(prefers-reduced-motion:\s*no-preference\)\s*\{\s*@view-transition\s*\{\s*navigation:\s*auto;?\s*\}\s*\}/);
     assert.doesNotMatch(css, /prefers-color-scheme/);
   });
+
+  it("prints the light set with every section in place, regardless of scroll (REQ-018, REQ-022)", async () => {
+    // Print never scrolls, so nothing may wait for reveal.js; and the dark set
+    // on white paper (backgrounds off by default) is faint. String-level: the
+    // block exists once and covers the switch rule and the entrance rules.
+    const css = await readFile(path.join(out, "assets", "css", "base.css"), "utf8");
+    const starts = [...css.matchAll(/@media\s+print\s*\{/g)];
+    assert.equal(starts.length, 1, "expected exactly one @media print block");
+    let depth = 1;
+    let end = starts[0].index + starts[0][0].length;
+    while (end < css.length && depth > 0) {
+      if (css[end] === "{") depth += 1;
+      else if (css[end] === "}") depth -= 1;
+      end += 1;
+    }
+    const block = css.slice(starts[0].index, end);
+    assert.match(block, /:root\[data-theme\][^{]*\{[^}]*color-scheme:\s*light;/, "print must force the light set past the data-theme switch");
+    assert.match(block, /html\.js \.reveal[^{]*\{[^}]*opacity:\s*1;[^}]*animation:\s*none;/, "print must show every .reveal in place");
+    assert.match(block, /html\.js \.console \.log-line[^{]*\{/, "print must show the console's log lines in place");
+    assert.doesNotMatch(block, /--color-/, "no token is redefined for print (tokens.css owns colour)");
+  });
 });
