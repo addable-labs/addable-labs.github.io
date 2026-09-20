@@ -6,8 +6,8 @@ ogType: article
 {#- Article page: title, date, category link, draft notice, summary, body and
     the link to the same article in the other language. The machine-translated
     notice is rendered by layouts/base.njk at the top of main for every page
-    with machineTranslated: true. `alternate` is computed by src.11tydata.js
-    from WI-05 on; until then the link is simply absent. The header/footer
+    with machineTranslated: true. `alternate` is computed by src.11tydata.js;
+    when it is null the link is simply absent. The header/footer
     inside the article are divs so each page keeps exactly one header and
     footer landmark. Conditional tags sit at column 0 so a false branch leaves
     an empty line rather than trailing whitespace. -#}

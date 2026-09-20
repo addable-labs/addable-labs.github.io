@@ -1,9 +1,10 @@
 // Shared helpers for the gate tests (node:test, no network, no browser).
 //
 // Positive cases run each gate against a fresh build of the real site written
-// to a temporary output directory, so tests never touch _site/. Negative cases
-// use the committed fixtures under tests/fixtures/ or a modified temporary
-// copy of the real build.
+// to a temporary output directory. Negative cases use the committed fixtures
+// under tests/fixtures/ or a modified temporary copy of the real build. Only
+// the aggregator suite (check.test.mjs) runs scripts/check/run.mjs, whose
+// first gate is `pnpm build` into the real _site/.
 
 import { spawnSync } from "node:child_process";
 import { cp, mkdtemp, rm } from "node:fs/promises";

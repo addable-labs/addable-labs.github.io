@@ -23,9 +23,6 @@
     "allArticles": "All articles"
   },
   "footer": {
-    "contact": "Contact",
-    "linkedin": "LinkedIn",
-    "copyright": "Addable Labs",
     "factoryLine": "This site is built and maintained by an agent-run software factory."
   },
   "categories": {
@@ -44,8 +41,6 @@
     "draftLabel": "Draft",
     "draftNotice": "Draft — this article is still being worked on and may change.",
     "machineTranslatedNotice": "This text was machine-translated and has not yet been reviewed by a person.",
-    "publishedOn": "Published",
-    "categoryLabel": "Category",
     "readInOtherLanguage": "Read this article in Swedish"
   },
   "themes": {
@@ -63,7 +58,6 @@
     }
   },
   "portfolio": {
-    "repoLink": "Source on GitHub",
     "niva": {
       "name": "nivå",
       "summary": "An AI fluency and AI adoption maturity self-assessment for individuals and teams: behaviour-anchored levels, a radar chart, a fluency index and per-category guides to the next level, with team heatmaps and gap analysis; English and Swedish; Next.js and Supabase."

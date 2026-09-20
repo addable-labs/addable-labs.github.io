@@ -1,9 +1,9 @@
 # Build, check and deploy the Addable Labs website (REQ-019, REQ-021).
 #
-# Pull requests targeting main run the build and every quality gate (pnpm
-# check) and never deploy. Pushes to main and manual dispatches build, check,
-# upload _site/ as the Pages artifact and deploy it with the official Pages
-# actions. Every action is pinned to a full commit SHA (the tag is in the
+# Pull requests targeting main run the build, every quality gate (pnpm check)
+# and the gate tests (pnpm test) and never deploy. Pushes to main and manual
+# dispatches build, check, test, upload _site/ as the Pages artifact and deploy
+# it with the official Pages actions. Every action is pinned to a full commit SHA (the tag is in the
 # trailing comment); permissions are the minimum each job needs; no secrets
 # are referenced — deploy-pages authenticates with the job's OIDC token.
 name: Build and deploy to GitHub Pages
@@ -44,6 +44,9 @@ jobs:
 
       - name: Build and run every quality gate
         run: pnpm check
+
+      - name: Run the gate tests
+        run: pnpm test
 
       - name: Configure GitHub Pages
         if: github.event_name != 'pull_request'

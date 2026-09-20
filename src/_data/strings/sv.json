@@ -23,9 +23,6 @@
     "allArticles": "Alla artiklar"
   },
   "footer": {
-    "contact": "Kontakt",
-    "linkedin": "LinkedIn",
-    "copyright": "Addable Labs",
     "factoryLine": "Den här webbplatsen byggs och underhålls av en agentdriven mjukvarufabrik."
   },
   "categories": {
@@ -44,8 +41,6 @@
     "draftLabel": "Utkast",
     "draftNotice": "Utkast — den här artikeln bearbetas fortfarande och kan ändras.",
     "machineTranslatedNotice": "Den här texten är maskinöversatt och har ännu inte granskats av en person.",
-    "publishedOn": "Publicerad",
-    "categoryLabel": "Kategori",
     "readInOtherLanguage": "Läs den här artikeln på engelska"
   },
   "themes": {
@@ -63,7 +58,6 @@
     }
   },
   "portfolio": {
-    "repoLink": "Källkod på GitHub",
     "niva": {
       "name": "nivå",
       "summary": "En självskattning av AI-kompetens och AI-mognad för individer och team: beteendeförankrade nivåer, ett radardiagram, ett kompetensindex och guider till nästa nivå per kategori, med värmekartor och gapanalys för team; engelska och svenska; Next.js och Supabase."

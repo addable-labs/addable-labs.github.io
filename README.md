@@ -147,7 +147,7 @@ build) and exiting non-zero if any fails. Each gate also runs on its own with
 | contrast | `pnpm check:contrast` | Every colour-token pair in `src/assets/css/tokens.css` meets WCAG AA in both colour schemes (4.5:1 text, 3:1 UI); no colour literal outside `tokens.css`. |
 | parity | `pnpm check:parity` | Every English page has its Swedish twin and vice versa, the feeds pair up, the strings files have identical keys with no empty values, pages pair one-to-one, the machine-translated notice appears only where flagged. |
 | feeds | `pnpm check:feeds` | Both feeds are well-formed RSS 2.0 with absolute links, exactly the language's articles, draft labels, and every page links its feed. |
-| content | `pnpm check:content` | The facts the site must state: founder and founding month, the three themes, the factory note, contact details, portfolio link policy, article lengths and draft labels. |
+| content | `pnpm check:content` | The facts the site must state: founder and founding month, the three themes, the factory note, contact details, portfolio link policy, article lengths and draft labels. The pinned facts (founder, founding month, factory phrase, forbidden links and names) are the constants at the top of `scripts/check/content.mjs`; change them there when the copy changes. |
 
 `pnpm test` runs `node --test` over `tests/`: every gate has a positive case
 against a fresh build and negative cases on fixtures (a broken link, two
@@ -159,9 +159,10 @@ early. It needs no network and no browser.
 
 `.github/workflows/pages.yml` is the only workflow. On a pull request targeting
 `main` it installs the dependencies and runs `pnpm check` — build plus all
-gates — and never deploys. On a push to `main` (a merged pull request; `main`
-is protected) and on a manual *Run workflow*, it runs the same check, uploads
-`_site/` with `actions/upload-pages-artifact` and deploys it with
+gates — and `pnpm test`, and never deploys. On a push to `main` (a merged pull
+request; `main` is protected) and on a manual *Run workflow*, it runs the same
+check and tests, uploads `_site/` with `actions/upload-pages-artifact` and
+deploys it with
 `actions/deploy-pages`. Every action is pinned to a commit SHA, the workflow
 needs no secrets (the deploy job uses the run's OIDC token with `pages: write`
 and `id-token: write`), and the repository's Pages source is set to *GitHub

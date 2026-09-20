@@ -1,11 +1,10 @@
-{#- Site footer: contact block, RSS slot and the short factory line. WI-05
-    fills the RSS slot with the language's feed link. -#}
+{#- Site footer: the contact block and the short factory line. The feed link
+    lives on the blog pages (REQ-007), not here. -#}
 <footer class="site-footer">
   <div class="container">
     <section class="footer-contact">
       {% include "partials/contact.njk" %}
     </section>
-    {#- RSS slot: WI-05 #}
     <p class="factory-line">{{ strings[lang].footer.factoryLine }}</p>
   </div>
 </footer>

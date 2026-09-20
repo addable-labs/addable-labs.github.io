@@ -4,7 +4,7 @@
 //
 // Every gate accepts an optional built-site directory as its first argument
 // and an optional source directory as its second (defaults: _site and src
-// under the repository root), so the WI-07 tests can point a gate at a
+// under the repository root), so the tests under tests/ can point a gate at a
 // fixture instead of the real build.
 
 import { readdir, readFile, stat } from "node:fs/promises";
