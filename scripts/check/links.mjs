@@ -6,7 +6,8 @@
 // x/index.html); fragment-only links must point at an id on the same page;
 // mailto:/tel: are ignored. External links are fetched with a 10 s timeout
 // and reported as warnings only (they never fail the gate); CHECK_OFFLINE=1
-// skips them. Optional arguments: <built-site dir> [<source dir>].
+// skips them and CHECK_LINK_TIMEOUT (milliseconds) shortens the timeout.
+// Optional arguments: <built-site dir> [<source dir>].
 
 import { readFile } from "node:fs/promises";
 import path from "node:path";
@@ -19,6 +20,7 @@ import { candidatesForPath, exists, internalPath, loadSite, reporter, resolveDir
 const { out, src } = resolveDirs();
 const site = await loadSite(src);
 const report = reporter("links");
+const timeoutMs = Number(process.env.CHECK_LINK_TIMEOUT) || 10_000;
 const relativeOut = path.relative(process.cwd(), out);
 const outLabel = relativeOut && !relativeOut.startsWith("..") ? relativeOut : out;
 
@@ -102,7 +104,7 @@ if (process.env.CHECK_OFFLINE === "1") {
 } else {
   for (const [url, source] of external) {
     const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), 10_000);
+    const timer = setTimeout(() => controller.abort(), timeoutMs);
     try {
       let response = await fetch(url, { method: "HEAD", redirect: "follow", signal: controller.signal });
       if (response.status === 405 || response.status === 403 || response.status === 404) {
@@ -111,7 +113,7 @@ if (process.env.CHECK_OFFLINE === "1") {
       if (response.ok) report.ok(`external ${url} → ${response.status}`);
       else report.warn(`external ${url} → HTTP ${response.status} (from ${source})`);
     } catch (error) {
-      report.warn(`external ${url} → ${error.name === "AbortError" ? "timed out after 10 s" : error.message} (from ${source})`);
+      report.warn(`external ${url} → ${error.name === "AbortError" ? `timed out after ${timeoutMs / 1000} s` : error.message} (from ${source})`);
     } finally {
       clearTimeout(timer);
     }

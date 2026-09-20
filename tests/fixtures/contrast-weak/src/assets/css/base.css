@@ -1,0 +1,5 @@
+/* Fixture base sheet: tokens only. */
+body {
+  color: var(--color-text);
+  background: var(--color-bg);
+}

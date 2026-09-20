@@ -1,0 +1,5 @@
+/* Fixture base sheet with a colour literal, which the gate must reject. */
+body {
+  color: #333;
+  background: var(--color-bg);
+}
