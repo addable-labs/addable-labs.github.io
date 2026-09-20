@@ -1,0 +1,13 @@
+{#- Work / portfolio: one card per entry of src/_data/portfolio.json, copy from
+    strings[lang].portfolio.<key>. Private repositories have url: null and get
+    no link (REQ-003); the status wording comes from strings[lang].portfolioStatus. -#}
+<ul class="card-grid portfolio">
+  {%- for entry in portfolio %}
+  {%- set copy = strings[lang].portfolio[entry.key] %}
+  <li class="card portfolio-entry">
+    <h3 class="portfolio-name">{% if entry.url %}<a href="{{ entry.url }}">{{ copy.name }}</a>{% else %}{{ copy.name }}{% endif %}</h3>
+    <p class="portfolio-meta">{{ strings[lang].themes[entry.theme].title }} · {{ strings[lang].portfolioStatus[entry.status] }}</p>
+    <p class="portfolio-summary">{{ copy.summary }}</p>
+  </li>
+  {%- endfor %}
+</ul>

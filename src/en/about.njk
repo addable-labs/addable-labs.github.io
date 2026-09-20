@@ -1,0 +1,23 @@
+---
+layout: layouts/base.njk
+translationKey: about
+eleventyComputed:
+  title: "{{ strings[lang].about.title }}"
+  description: "{{ strings[lang].about.description }}"
+---
+<h2>{{ strings[lang].about.founderHeading }}</h2>
+<p>{{ strings[lang].about.founderLine }}</p>
+{#- TODO(founder): review this paragraph — it is drawn only from the repository
+    READMEs and the three themes (REQ-002, plan Decision 6). #}
+<p>{{ strings[lang].about.founderWork }}</p>
+
+<h2>{{ strings[lang].about.approachHeading }}</h2>
+<p>{{ strings[lang].about.approachAiNative }}</p>
+<p>{{ strings[lang].about.approachTeam }}</p>
+<p>{{ strings[lang].about.approachOpen }}</p>
+<p>{{ strings[lang].about.approachFactory }}</p>
+<p>{{ strings[lang].about.grcLead }} <a href="https://github.com/Sushegaad/Claude-Skills-Governance-Risk-and-Compliance">{{ strings[lang].about.grcSource }}</a> {{ strings[lang].about.grcTail }}</p>
+
+<section class="contact">
+  {% include "partials/contact.njk" %}
+</section>

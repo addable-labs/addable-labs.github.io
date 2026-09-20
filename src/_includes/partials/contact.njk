@@ -1,0 +1,13 @@
+{#- Contact block (REQ-008), used on the landing page, the about page and in the
+    footer: the email as visible text inside a mailto: link and the LinkedIn
+    entry — plain placeholder text while site.linkedinUrl is null, a real link
+    once the founder sets it in src/_data/site.js. -#}
+<h2>{{ strings[lang].contact.heading }}</h2>
+<ul class="contact-list">
+  <li><a href="mailto:{{ site.email }}">{{ site.email }}</a></li>
+  {%- if site.linkedinUrl %}
+  <li><a href="{{ site.linkedinUrl }}">{{ strings[lang].contact.linkedinLabel }}</a></li>
+  {%- else %}
+  <li class="contact-placeholder">{{ strings[lang].contact.linkedinPlaceholder }}</li>
+  {%- endif %}
+</ul>

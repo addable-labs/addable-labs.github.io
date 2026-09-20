@@ -222,7 +222,13 @@ main {
 
 @media (min-width: 48rem) {
   .card-grid {
-    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 64rem) {
+  .card-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 
@@ -423,4 +429,54 @@ main {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-2) var(--space-4);
+}
+
+/* Landing and about: themes, portfolio, factory note, contact ------------- */
+
+.themes h2 {
+  font-size: var(--font-size-lg);
+  margin-block: 0 var(--space-2);
+}
+
+.portfolio-name {
+  font-size: var(--font-size-lg);
+  margin-block: 0 var(--space-1);
+}
+
+.portfolio-meta {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  margin-block-end: var(--space-2);
+}
+
+.portfolio-summary {
+  margin-block-end: 0;
+}
+
+.factory-note {
+  max-width: var(--measure);
+  margin-block: var(--space-5);
+  padding: var(--space-3) var(--space-4);
+  border: var(--border-width) solid var(--color-border);
+  border-inline-start: var(--space-1) solid var(--color-accent);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+}
+
+.factory-note p {
+  margin-block-end: 0;
+}
+
+.contact-list {
+  list-style: none;
+  padding: 0;
+  margin-block: 0 var(--space-3);
+}
+
+.contact-list li {
+  margin-block-end: var(--space-1);
+}
+
+.contact-placeholder {
+  color: var(--color-text-muted);
 }

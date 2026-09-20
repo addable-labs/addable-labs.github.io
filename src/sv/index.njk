@@ -1,7 +1,33 @@
 ---
 layout: layouts/base.njk
 translationKey: home
+machineTranslated: true
 eleventyComputed:
   title: "{{ strings[lang].home.title }}"
+  description: "{{ strings[lang].home.description }}"
 ---
-<p>{{ strings[lang].home.lead }}</p>
+<p class="lead">{{ strings[lang].home.intro }}</p>
+
+<div class="card-grid themes">
+  {%- for key in ["ai-apps", "ai-adoption", "investing"] %}
+  <section class="card theme">
+    <h2>{{ strings[lang].themes[key].title }}</h2>
+    <p>{{ strings[lang].themes[key].text }}</p>
+  </section>
+  {%- endfor %}
+</div>
+
+<h2>{{ strings[lang].home.workHeading }}</h2>
+{% include "partials/portfolio.njk" %}
+
+{% include "partials/factory-note.njk" %}
+
+<h2>{{ strings[lang].home.latestHeading }}</h2>
+{% set posts = collections["posts_" + lang] %}
+{% set listHeading = "h3" %}
+{% include "partials/article-list.njk" %}
+<p><a href="/sv/blog/">{{ strings[lang].home.allArticles }}</a></p>
+
+<section class="contact">
+  {% include "partials/contact.njk" %}
+</section>

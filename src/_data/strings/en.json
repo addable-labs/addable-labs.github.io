@@ -16,7 +16,11 @@
   },
   "home": {
     "title": "Addable Labs",
-    "lead": "This page is a placeholder while the site is being built."
+    "description": "A Swedish apps factory that builds AI-powered applications, largely with AI agents, and shares what it learns.",
+    "intro": "Addable Labs is a Swedish apps factory founded in September 2026 by Peter Blenessy. It builds AI-powered applications, largely with AI agents, and shares what it learns.",
+    "workHeading": "Work",
+    "latestHeading": "Latest articles",
+    "allArticles": "All articles"
   },
   "footer": {
     "contact": "Contact",
@@ -43,5 +47,82 @@
     "publishedOn": "Published",
     "categoryLabel": "Category",
     "readInOtherLanguage": "Read this article in Swedish"
+  },
+  "themes": {
+    "ai-apps": {
+      "title": "AI-powered apps",
+      "text": "Desktop and web applications where AI is part of the product: an editor that collaborates with AI, a backup browser that scans for threats locally, a game written entirely by agents."
+    },
+    "ai-adoption": {
+      "title": "AI adoption",
+      "text": "Helping individuals and teams become fluent with AI — assessing where they stand today, and running AI automation privately so that untrusted content stays in the airlock."
+    },
+    "investing": {
+      "title": "Investing and market-data tools",
+      "text": "Tools for following Swedish investment companies, real-estate companies and funds, and for seeing how stocks move together."
+    }
+  },
+  "portfolio": {
+    "repoLink": "Source on GitHub",
+    "niva": {
+      "name": "nivå",
+      "summary": "An AI fluency and AI adoption maturity self-assessment for individuals and teams: behaviour-anchored levels, a radar chart, a fluency index and per-category guides to the next level, with team heatmaps and gap analysis; English and Swedish; Next.js and Supabase."
+    },
+    "notesage": {
+      "name": "Notesage",
+      "summary": "A polished rich text markdown editor with AI collaboration, built as a native desktop app with Tauri v2, React and Tiptap. It connects to several AI providers, including local models."
+    },
+    "traceloupe": {
+      "name": "TraceLoupe",
+      "summary": "A privacy-first macOS app that opens, decrypts and lets you browse your own iPhone backup, checks it for spyware and stalkerware, and can review messages and notes with a local AI for safety concerns. Nothing leaves your Mac."
+    },
+    "ashlands": {
+      "name": "Ashlands",
+      "summary": "An action-RPG built entirely by AI agents from a single prompt, with an honest evaluation of what that produced. An experiment in agentic software development and a case study, not a game product."
+    },
+    "airlocked-agents": {
+      "name": "airlocked-agents",
+      "summary": "Deterministic infrastructure-as-code for a private, self-hosted AI automation stack, built to keep one rule true: no single component reads untrusted content, holds your credentials and can send, all at once."
+    },
+    "stoqster": {
+      "name": "Stoqster",
+      "summary": "A desktop app for following Swedish investment companies, real-estate companies and funds, with watchlists, alerts and portfolio performance. Built with Tauri and Vue 3."
+    },
+    "investable": {
+      "name": "investable",
+      "summary": "A stock correlation heatmap web app with several market-data providers."
+    }
+  },
+  "portfolioStatus": {
+    "in-development": "in development",
+    "open-source-mit": "shipped, open source (MIT)",
+    "open-source-apache": "shipped, open source (Apache-2.0)",
+    "experiment": "experiment and case study",
+    "open-source-infrastructure": "open source infrastructure (MIT)",
+    "desktop-public-source": "desktop app, source on GitHub",
+    "prototype": "prototype"
+  },
+  "factoryNote": {
+    "text": "This site was designed, built and is maintained by an agent-run software factory. The founder reviews every change before it is published. What the agents learn along the way ends up on the blog."
+  },
+  "contact": {
+    "heading": "Contact",
+    "linkedinLabel": "LinkedIn",
+    "linkedinPlaceholder": "LinkedIn — coming soon"
+  },
+  "about": {
+    "title": "About",
+    "description": "The founder of Addable Labs and the company's approach: AI-native, a small team, agents as staff, building in the open.",
+    "founderHeading": "Founder",
+    "founderLine": "Peter Blenessy, founder. Sweden.",
+    "founderWork": "Peter builds AI-powered desktop and web applications — a markdown editor that collaborates with AI, a privacy-first browser for iPhone backups, tools for following Swedish investment companies and funds — and works on how individuals and teams become fluent with AI, from a self-assessment of AI fluency and adoption maturity to a self-hosted automation stack where untrusted content stays in the airlock. He builds largely with AI agents and shares what that teaches.",
+    "approachHeading": "Approach",
+    "approachAiNative": "AI-native. AI is part of what Addable Labs builds and part of how it builds: the products on this site were made largely with AI agents, and the company's own work is organised around them.",
+    "approachTeam": "A small team, with agents as staff. A person sets the direction, makes the decisions that matter and reviews the result; agents plan, implement and review the work in between. Keeping the team small keeps the decisions close to the work.",
+    "approachOpen": "Building in the open, sharing what is learned. The public repositories carry their own documentation and, where an experiment did not live up to its brief, an honest evaluation of what it produced. The blog records the lessons as they happen.",
+    "approachFactory": "This website is an example of the approach: it was designed, built and is maintained by an agent-run software factory, with the founder reviewing every change before it is published.",
+    "grcLead": "As an area of interest, Peter also explores Claude skills for governance, risk and compliance, through a fork of",
+    "grcSource": "the original work by Sushegaad",
+    "grcTail": "(MIT)."
   }
 }

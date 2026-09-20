@@ -5,6 +5,9 @@
   <a class="skip-link" href="#main">{{ strings[lang].nav.skipToContent }}</a>
   {% include "partials/header.njk" %}
   <main id="main" class="container">
+{%- if machineTranslated %}
+    {% include "partials/notice-mt.njk" %}
+{%- endif %}
 {%- if not titleInContent %}
     <h1>{{ title }}</h1>
 {%- endif %}

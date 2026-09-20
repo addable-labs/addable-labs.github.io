@@ -1,11 +1,9 @@
-{#- Site footer: contact slot, RSS slot and the short factory line. WI-03
-    replaces the contact slot with partials/contact.njk (adds the LinkedIn
-    placeholder); WI-05 fills the RSS slot with the language's feed link. -#}
+{#- Site footer: contact block, RSS slot and the short factory line. WI-05
+    fills the RSS slot with the language's feed link. -#}
 <footer class="site-footer">
   <div class="container">
     <section class="footer-contact">
-      <h2>{{ strings[lang].footer.contact }}</h2>
-      <p><a href="mailto:{{ site.email }}">{{ site.email }}</a></p>
+      {% include "partials/contact.njk" %}
     </section>
     {#- RSS slot: WI-05 #}
     <p class="factory-line">{{ strings[lang].footer.factoryLine }}</p>
