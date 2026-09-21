@@ -215,9 +215,9 @@
   },
   "about": {
     "title": "About",
-    "description": "The founder of Addable Labs and the company's approach: AI-native, a small team, agents as staff, building in the open.",
+    "description": "The founder of Addable Labs and the company's approach: AI-native, a senior person, agents as staff, building in the open.",
     "eyebrow": "Addable Labs · Sweden",
-    "lead": "An AI-native software company: a small senior team, agents as staff, and a person in charge of every decision that matters.",
+    "lead": "An AI-native software company: a senior person in charge of every decision that matters, and agents as staff.",
     "founderHeading": "Founder",
     "founderLine": "Peter Blenessy, founder · Founded in September 2026 · Sweden",
     "founderWork": "Peter builds AI-powered desktop and web applications — a markdown editor that collaborates with AI, a privacy-first browser for iPhone backups, tools for following Swedish investment companies and funds — and works on how individuals and teams become fluent with AI, from a self-assessment of AI fluency and adoption maturity to a self-hosted automation stack where untrusted content stays in the airlock. He builds largely with AI agents and shares what that teaches.",
@@ -228,8 +228,8 @@
         "text": "AI is part of what Addable Labs builds and part of how it builds: the products on this site were made largely with AI agents, and the company's own work is organised around them."
       },
       "team": {
-        "title": "A small team, agents as staff",
-        "text": "A person sets the direction, makes the decisions that matter and reviews the result; agents plan, implement and review the work in between. Keeping the team small keeps the decisions close to the work."
+        "title": "A senior person, agents as staff",
+        "text": "A senior person sets the direction, makes the decisions that matter and reviews the result; agents plan, implement and review the work in between. Keeping the team that small keeps the decisions close to the work."
       },
       "open": {
         "title": "Building in the open",

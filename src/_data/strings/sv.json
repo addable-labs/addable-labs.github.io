@@ -215,9 +215,9 @@
   },
   "about": {
     "title": "Om oss",
-    "description": "Grundaren av Addable Labs och företagets arbetssätt: AI-nativt, ett litet team, agenter som medarbetare, att bygga i det öppna.",
+    "description": "Grundaren av Addable Labs och företagets arbetssätt: AI-nativt, en senior person, agenter som medarbetare, att bygga i det öppna.",
     "eyebrow": "Addable Labs · Sverige",
-    "lead": "Ett AI-nativt mjukvaruföretag: ett litet seniort team, agenter som medarbetare och en person som ansvarar för varje beslut som spelar roll.",
+    "lead": "Ett AI-nativt mjukvaruföretag: en senior person som ansvarar för varje beslut som spelar roll, och agenter som medarbetare.",
     "founderHeading": "Grundare",
     "founderLine": "Peter Blenessy, grundare · grundat i september 2026 · Sverige",
     "founderWork": "Peter bygger AI-drivna skrivbords- och webbapplikationer – en markdown-redigerare som samarbetar med AI, en integritetsfokuserad läsare för iPhone-backuper, verktyg för att följa svenska investmentbolag och fonder – och arbetar med hur individer och team lär sig behärska AI, från en självskattning av AI-kompetens och AI-mognad till en självhostad automationsmiljö där icke betrott innehåll stannar i luftslussen. Han bygger till stor del med AI-agenter och delar med sig av vad det lär honom.",
@@ -228,8 +228,8 @@
         "text": "AI är en del av vad Addable Labs bygger och en del av hur det byggs: produkterna på den här webbplatsen har till stor del skapats med AI-agenter, och företagets eget arbete är organiserat kring dem."
       },
       "team": {
-        "title": "Ett litet team, agenter som medarbetare",
-        "text": "En person sätter riktningen, fattar de beslut som spelar roll och granskar resultatet; agenter planerar, genomför och granskar arbetet däremellan. Att hålla teamet litet håller besluten nära arbetet."
+        "title": "En senior person, agenter som medarbetare",
+        "text": "En senior person sätter riktningen, fattar de beslut som spelar roll och granskar resultatet; agenter planerar, genomför och granskar arbetet däremellan. Att hålla teamet så litet håller besluten nära arbetet."
       },
       "open": {
         "title": "Att bygga i det öppna",
