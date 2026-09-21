@@ -253,7 +253,9 @@ an app without breaking the balance*.
 `pnpm check` builds the site and runs nine gate scripts against `_site/`,
 printing one `PASS <gate>`, `FAIL <gate>` or `SKIP <gate> (run pnpm
 check:<gate>)` line per gate (ten lines with the build) and exiting non-zero
-if any gate fails. Each gate also runs on its own with `pnpm check:<gate>`
+if any gate fails. If the build itself fails, the other nine are not run —
+they could only read a stale `_site/` — and each prints `FAIL <gate> (not
+run: build failed)`. Each gate also runs on its own with `pnpm check:<gate>`
 after a `pnpm build`:
 
 | Gate | Command | What it checks |
