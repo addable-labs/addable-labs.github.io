@@ -66,6 +66,9 @@ genomförandesteg började på fel arbetspaket och fick lämnas tillbaka, vilket
 precis därför varje steg avslutas med en skriven sammanfattning som en granskare
 kan kontrollera.
 
-Webbplatsen i sig är enkel: statisk HTML och CSS, inget JavaScript, inga
-webbtypsnitt, inga anrop till tredje part. Det var ett beslut, inte en slump,
-och det är ett som kvalitetsgrindarna kan verifiera.
+Webbplatsen i sig är enkel: statisk HTML och CSS, två små skript (ett som
+växlar mellan mörkt och ljust läge och ett som tonar in innehållet när du
+rullar; sidan fungerar utan båda), ett självhostat typsnitt och inga anrop till
+tredje part, ingen webbanalys. Det var ett beslut, inte en slump, och den del
+som spelar roll – att inget laddas från någon annans servrar – är en som
+kvalitetsgrindarna verifierar vid varje bygge.

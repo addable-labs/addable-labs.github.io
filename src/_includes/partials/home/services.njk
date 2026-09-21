@@ -1,12 +1,16 @@
 {#- Services (REQ-010 as amended by A-02; plan D-14): three article.card.service
     blocks on the balanced subgrid — number | title | text | "What you get"
     heading | list (2–4 items) | action — the six tracks base.css spans.
-    Headings, texts and lists come from strings.themes.<key> (the keys stay
-    ai-apps / ai-adoption / investing so the apps data keeps validating); the
-    app-development card acts through the primary mailto:, the other two
-    through #apps anchors. The copy bands (title ≤ 20 characters, texts within
-    a 25 % band) are asserted by tests/apps.test.mjs. -#}
+    Headings, texts and lists come from strings.themes.<key> (the keys are
+    ai-apps / ai-adoption / experiments — THEME_KEYS in scripts/lib/apps.mjs —
+    so the apps data keeps validating; experiments replaced investing in
+    founder feedback round 1, si-yp2x); the first two cards act through #apps
+    anchors, the experiments card through the blog index of the page's
+    language. The copy bands (title ≤ 20 characters, texts within a 25 % band)
+    are asserted by tests/apps.test.mjs. -#}
 {%- set services = strings[lang].services -%}
+{%- set langPrefix = "" if lang == site.languages.default else "/" + lang -%}
+{%- set actions = { "ai-apps": "#apps", "ai-adoption": "#apps", "experiments": langPrefix + "/blog/" } -%}
 <section id="services" class="section" aria-labelledby="services-title">
   <div class="container">
     <div class="section-head reveal">
@@ -14,7 +18,7 @@
       <h2 id="services-title">{{ services.heading }}</h2>
     </div>
     <div class="service-grid">
-      {%- for key in ["ai-apps", "ai-adoption", "investing"] %}
+      {%- for key in ["ai-apps", "ai-adoption", "experiments"] %}
       {%- set theme = strings[lang].themes[key] %}
       <article class="card service reveal">
         <p class="num">0{{ loop.index }}</p>
@@ -26,7 +30,7 @@
           <li>{{ item }}</li>
           {%- endfor %}
         </ul>
-        <a class="text-link" href="{{ strings[lang].hero.ctaPrimary | mailtoSubject if key == "ai-apps" else "#apps" }}">{{ theme.cta }}<span class="arrow" aria-hidden="true">→</span></a>
+        <a class="text-link" href="{{ actions[key] }}">{{ theme.cta }}<span class="arrow" aria-hidden="true">→</span></a>
       </article>
       {%- endfor %}
     </div>

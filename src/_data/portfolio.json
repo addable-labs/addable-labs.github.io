@@ -16,22 +16,6 @@
     "source": { "readme": "https://github.com/PeterBlenessy/notesage/blob/main/README.md", "retrieved": "2026-09-20" }
   },
   {
-    "key": "marketdata-api",
-    "theme": "investing",
-    "repo": "PeterBlenessy/marketdata",
-    "url": null,
-    "status": "private",
-    "source": { "readme": "https://github.com/PeterBlenessy/marketdata/blob/master/README.md", "retrieved": "2026-09-20" }
-  },
-  {
-    "key": "compound",
-    "theme": "investing",
-    "repo": "PeterBlenessy/portfolio-app",
-    "url": null,
-    "status": "in-development",
-    "source": { "readme": "https://github.com/PeterBlenessy/portfolio-app/blob/main/README.md", "retrieved": "2026-09-20" }
-  },
-  {
     "key": "ashlands",
     "theme": "ai-apps",
     "repo": "PeterBlenessy/ashlands",

@@ -185,7 +185,8 @@ one-liner in both strings files and its key in the curated list `APP_KEYS`
 }
 ```
 
-- `theme` is `ai-apps`, `ai-adoption` or `investing` (the three services);
+- `theme` is `ai-apps`, `ai-adoption` or `experiments` (the three services;
+  `experiments` replaced `investing` in founder feedback round 1);
   `repo` is `owner/name`; `url` is the public repository, or `null` for a
   private one — private entries get the "Private repository — no public link
   yet" line instead of a link, and nothing may name `addable-labs/factory`.
@@ -197,9 +198,9 @@ one-liner in both strings files and its key in the curated list `APP_KEYS`
 - **The copy bands keep the cards balanced** (the design never changes with
   the content): a name is at most 16 characters, a service title at most 20,
   a status label at most 22 (except the founder-confirmed `private` label,
-  which is fixed), and the six summaries — like the three service texts —
+  which is fixed), and the four summaries — like the three service texts —
   stay within a 25 % length band per language (the longest at most 1.25 ×
-  the shortest; today's summaries are 132–153 characters). Write the new
+  the shortest; today's summaries are 133–164 characters). Write the new
   one-liner to that length.
 - **The guard** is `tests/apps.test.mjs` (`validateApps()` in
   `scripts/lib/apps.mjs`): it fails naming the key, the language or the band
@@ -234,9 +235,12 @@ an app without breaking the balance*.
   edit the default instead).
 - `email` — `hello@addablelabs.se`, rendered as visible text inside a `mailto:`
   link in the landing page's contact band, on the about page and in every
-  footer; the calls to action are `mailto:` links with a pre-filled subject
-  ("Start a project" / "Starta ett projekt"), encoded by the `mailtoSubject`
-  filter in `eleventy.config.js`, never by hand.
+  footer; the contact band's and the header's call to action is a `mailto:`
+  link with a pre-filled subject — the button label, "Reach out" / "Hör av
+  dig" — encoded by the `mailtoSubject` filter in `eleventy.config.js`, never
+  by hand. The hero's primary call to action links the apps section
+  (`#apps`) instead: since founder feedback round 1 the site promotes what
+  exists rather than "Start a project".
 - `linkedinUrl` — `null` until the founder decides between a company page and a
   founder profile (`// TODO(founder)` in the file). While it is `null` every
   footer shows the placeholder text "LinkedIn — coming soon"; once set, the
@@ -434,4 +438,7 @@ pair.
 
 The status labels of marketdata-api ("private · API keys on request") and
 Compound ("in development") and the about page's GRC note were settled at
-the plan gate and are not open.
+the plan gate and are not open. Both tools left the apps grid in founder
+feedback round 1 (`plans/website-redesign/build/items/content-feedback-1.md`)
+pending the founder's decision on investment-related content; the wording is
+kept in `PRIVATE_STATUS_LABEL` for the day one returns.

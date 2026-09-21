@@ -490,7 +490,7 @@ values as literals and are changed by hand: the `theme-color` meta in
 ## Adding an app without breaking the balance
 
 An app is one entry in `src/_data/portfolio.json` — `key`, `theme`
-(`ai-apps`, `ai-adoption` or `investing`), `repo` (`owner/name`), `url`
+(`ai-apps`, `ai-adoption` or `experiments`), `repo` (`owner/name`), `url`
 (the public repository, or `null` for a private one), `status`, and
 `source.readme` + `source.retrieved` — plus `portfolio.<key>.name` and
 `portfolio.<key>.summary` in both `src/_data/strings/en.json` and

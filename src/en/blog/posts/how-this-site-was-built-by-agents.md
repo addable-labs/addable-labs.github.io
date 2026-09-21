@@ -63,6 +63,8 @@ the founder still reads all of it. The agents also made mistakes along the way:
 one implementation step started on the wrong item and had to be handed back,
 which is exactly why every step ends with a written summary a reviewer can check.
 
-The site itself is plain: static HTML and CSS, no JavaScript, no web fonts, no
-third-party requests. That was a decision, not an accident, and it is one the
-gates can verify.
+The site itself is plain: static HTML and CSS, two small scripts (an
+appearance toggle and a scroll-reveal effect; the page works without both), one
+self-hosted typeface, and no third-party requests or analytics. That was a
+decision, not an accident, and the part that matters — that nothing is loaded
+from anyone else's servers — is one the gates verify on every build.

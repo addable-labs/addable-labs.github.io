@@ -65,6 +65,13 @@ describe("content gate", () => {
     assert.match(output, /FAIL {2}index\.html: nivå entry has no link \(private repository\)/);
   });
 
+  it("fails when the hero's primary CTA no longer points at the apps section (REQ-009 as amended by founder feedback round 1, si-yp2x)", async () => {
+    const broken = await withLandingEdit("primary-mailto", (html) => html.replace('<a class="button button-primary" href="#apps">See what we have built', '<a class="button button-primary" href="mailto:hello@addablelabs.se?subject=Start%20a%20project">See what we have built'));
+    const { status, output } = runGate("content", broken);
+    assert.equal(status, 1);
+    assert.match(output, /FAIL {2}index\.html: primary CTA is "See what we have built" linking #apps/);
+  });
+
   it("fails when the secondary CTA promises a live product while site.nivaUrl is null (REQ-009, D-11)", async () => {
     const broken = await withLandingEdit("niva-try", (html) => html.replace("Get early access to nivå</a>", "Try nivå</a>"));
     const { status, output } = runGate("content", broken);

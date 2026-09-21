@@ -7,8 +7,10 @@ import { loadSite, loadStrings } from "../scripts/lib/site.mjs";
 import { SRC } from "./helpers.mjs";
 
 // Apps data and copy (REQ-011, REQ-025; AC-11, AC-12, AC-30; plan D-14, D-15;
-// A-01, A-02, A-04): the real files validate, and every rule fails on a
-// modified in-memory copy naming the key, the language or the band.
+// A-01, A-02, A-04; founder feedback round 1, si-yp2x: four entries, the
+// experiments service in place of investing): the real files validate, and
+// every rule fails on a modified in-memory copy naming the key, the language
+// or the band.
 
 describe("apps data and copy (REQ-011, REQ-025; AC-11, AC-12, AC-30)", () => {
   let data;
@@ -36,8 +38,8 @@ describe("apps data and copy (REQ-011, REQ-025; AC-11, AC-12, AC-30)", () => {
     reordered.data.reverse();
     assert.ok(problemsOf(reordered).some((p) => /entries are out of order/.test(p)), problemsOf(reordered).join("\n"));
     const missing = copy();
-    missing.data = missing.data.filter((entry) => entry.key !== "compound");
-    assert.ok(problemsOf(missing).some((p) => p === 'portfolio.json lacks the entry "compound"'), problemsOf(missing).join("\n"));
+    missing.data = missing.data.filter((entry) => entry.key !== "gaimer");
+    assert.ok(problemsOf(missing).some((p) => p === 'portfolio.json lacks the entry "gaimer"'), problemsOf(missing).join("\n"));
   });
 
   it("gives every entry a name and a summary in both languages, and every strings entry a data entry", () => {
@@ -54,7 +56,7 @@ describe("apps data and copy (REQ-011, REQ-025; AC-11, AC-12, AC-30)", () => {
 
   it("fails an added entry that lacks Swedish strings, naming the key and the language (AC-12)", () => {
     const added = copy();
-    added.data.push({ key: "newapp", theme: "investing", repo: "PeterBlenessy/newapp", url: "https://github.com/PeterBlenessy/newapp", status: "open-source-mit", source: { readme: "https://github.com/PeterBlenessy/newapp/blob/main/README.md", retrieved: "2026-09-20" } });
+    added.data.push({ key: "newapp", theme: "ai-apps", repo: "PeterBlenessy/newapp", url: "https://github.com/PeterBlenessy/newapp", status: "open-source-mit", source: { readme: "https://github.com/PeterBlenessy/newapp/blob/main/README.md", retrieved: "2026-09-20" } });
     added.strings.en.portfolio.newapp = { name: "New app", summary: "A desktop app for following markets, funds and portfolios in one place." };
     const problems = problemsOf({ ...added, keys: [...APP_KEYS, "newapp"] });
     assert.ok(problems.includes("sv: portfolio.newapp.name is missing"), problems.join("\n"));
@@ -117,8 +119,11 @@ describe("apps data and copy (REQ-011, REQ-025; AC-11, AC-12, AC-30)", () => {
   });
 
   it("keeps status labels within 22 characters except the founder-confirmed private label, asserted verbatim (A-04)", () => {
+    // No entry carries the private status since feedback round 1 (si-yp2x),
+    // so the strings hold no private label; the verbatim rule still applies
+    // to any private label that is present (the reworded case below).
     for (const lang of site.languages.codes) {
-      assert.equal(strings[lang].portfolioStatus.private, PRIVATE_STATUS_LABEL[lang], lang);
+      assert.equal(strings[lang].portfolioStatus.private, undefined, `${lang}: no private label while no entry is private`);
       for (const [status, label] of Object.entries(strings[lang].portfolioStatus)) {
         if (status !== "private") assert.ok([...label].length <= BANDS.statusLabel, `${lang}: ${status}`);
       }
@@ -133,7 +138,7 @@ describe("apps data and copy (REQ-011, REQ-025; AC-11, AC-12, AC-30)", () => {
     assert.ok(problemsOf(reworded).some((p) => /^sv: portfolioStatus\.private must read "privat · API-nycklar på förfrågan"/.test(p)), problemsOf(reworded).join("\n"));
   });
 
-  it("keeps the six summaries within a 25 % length band per language (D-14, AC-30)", () => {
+  it("keeps the four summaries within a 25 % length band per language (D-14, AC-30)", () => {
     for (const lang of site.languages.codes) {
       const lengths = APP_KEYS.map((key) => [...strings[lang].portfolio[key].summary].length);
       assert.ok(Math.max(...lengths) <= Math.min(...lengths) * BANDS.ratio, `${lang}: ${lengths.join(", ")}`);
@@ -154,12 +159,14 @@ describe("apps data and copy (REQ-011, REQ-025; AC-11, AC-12, AC-30)", () => {
       }
     }
     const long = copy();
-    long.strings.sv.themes.investing.title = "Investerings- och marknadsdataverktyg";
-    assert.ok(problemsOf(long).some((p) => /^sv: themes\.investing\.title .* is 37 characters \(band: ≤ 20\)$/.test(p)), problemsOf(long).join("\n"));
+    long.strings.sv.themes.experiments.title = "AI-experiment och lärdomarna från dem";
+    assert.ok(problemsOf(long).some((p) => /^sv: themes\.experiments\.title .* is 37 characters \(band: ≤ 20\)$/.test(p)), problemsOf(long).join("\n"));
     const few = copy();
     few.strings.en.themes["ai-adoption"].gets = { only: "A fluency baseline" };
     assert.ok(problemsOf(few).includes("en: themes.ai-adoption.gets has 1 item(s) (band: 2–4 non-empty items)"), problemsOf(few).join("\n"));
     const many = copy();
+    // Every card holds three items since feedback round 1; two more overflow the band.
+    many.strings.en.themes["ai-apps"].gets.fourth = "A fourth item";
     many.strings.en.themes["ai-apps"].gets.fifth = "A fifth item";
     assert.ok(problemsOf(many).includes("en: themes.ai-apps.gets has 5 item(s) (band: 2–4 non-empty items)"), problemsOf(many).join("\n"));
     const uneven = copy();

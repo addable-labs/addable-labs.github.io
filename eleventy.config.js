@@ -73,10 +73,12 @@ export default function (eleventyConfig) {
   );
   eleventyConfig.addFilter("isoDate", (date) => date.toISOString().slice(0, 10));
 
-  // Primary CTA (redesign REQ-009, plan D-10): `"Start a project" | mailtoSubject`
-  // gives mailto:hello@addablelabs.se?subject=Start%20a%20project — the
-  // subject is the strings value, percent-encoded here and never by hand, so
-  // the contact band, the hero and the header button share one mechanism.
+  // Contact CTA (redesign REQ-009, plan D-10): `"Reach out" | mailtoSubject`
+  // gives mailto:hello@addablelabs.se?subject=Reach%20out — the subject is
+  // the strings value, percent-encoded here and never by hand, so the contact
+  // band, the header button and the hero's nivå early-access CTA share one
+  // mechanism (the hero's primary CTA is an anchor to the apps since founder
+  // feedback round 1, si-yp2x).
   eleventyConfig.addFilter("mailtoSubject", (subject, email = site.email) =>
     `mailto:${email}?subject=${encodeURIComponent(subject)}`,
   );

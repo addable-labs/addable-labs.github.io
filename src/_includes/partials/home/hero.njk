@@ -1,7 +1,9 @@
-{#- Landing hero (REQ-009; plan D-10, D-11): eyebrow, the page's only h1 (a
-    U+2060 word joiner inside "AI-powered" keeps it on one line), the lead,
-    the primary CTA — a mailto: whose subject is the label, percent-encoded by
-    the mailtoSubject filter — and the secondary CTA for nivå: while
+{#- Landing hero (REQ-009; plan D-10, D-11; founder feedback round 1,
+    si-yp2x): eyebrow, the page's only h1 (a U+2060 word joiner inside
+    "AI-powered" keeps it on one line), the lead, the primary CTA — since
+    feedback round 1 an anchor to the apps section (#apps in apps.njk), the
+    site promotes what exists rather than "Start a project" — and the
+    secondary CTA for nivå: while
     site.nivaUrl is null it is an honest early-access mailto:, once the
     founder sets the URL it links there and reads "Try nivå" with no template
     change. Then the proof line and the console: an honest log of this
@@ -18,7 +20,7 @@
       <h1 id="hero-title" class="reveal">{{ hero.title }}</h1>
       <p class="lead reveal">{{ hero.lead }}</p>
       <p class="cta-row reveal">
-        <a class="button button-primary" href="{{ hero.ctaPrimary | mailtoSubject }}">{{ hero.ctaPrimary }}<span class="arrow" aria-hidden="true">→</span></a>
+        <a class="button button-primary" href="#apps">{{ hero.ctaPrimary }}<span class="arrow" aria-hidden="true">→</span></a>
         {%- if site.nivaUrl %}
         <a class="button button-secondary" href="{{ site.nivaUrl }}">{{ hero.nivaTry }}</a>
         {%- else %}

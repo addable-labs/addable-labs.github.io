@@ -27,7 +27,7 @@
     "eyebrow": "AI-native software company · Sweden",
     "title": "We build AI-⁠powered apps and help teams put AI to work.",
     "lead": "Addable Labs ships AI-powered products — largely built by AI agents with a person in charge — and helps companies and teams become fluent with AI, from assessment to adoption.",
-    "ctaPrimary": "Start a project",
+    "ctaPrimary": "See what we have built",
     "nivaEarlyAccess": "Get early access to nivå",
     "nivaEarlyAccessSubject": "Early access to nivå",
     "nivaTry": "Try nivå",
@@ -86,43 +86,42 @@
   "themes": {
     "ai-apps": {
       "title": "AI-powered apps",
-      "text": "Desktop and web applications where AI is part of the product, not a bolt-on. We design, build and ship them with an agent-run factory and a senior person in the loop.",
+      "text": "AI as part of the product, not a bolt-on: the apps below were built largely by AI agents, with a senior person in the loop. We build new apps only when they are clearly a job for an AI agent team.",
       "getsHeading": "What you get",
       "gets": {
         "product": "A working product, not a slide deck",
         "source": "Source you own, with quality gates and CI from day one",
-        "team": "A small senior team that decides fast",
         "honesty": "An honest account of what AI can and cannot do for the product"
       },
-      "cta": "Start a project"
+      "cta": "See the apps"
     },
     "ai-adoption": {
       "title": "AI adoption",
-      "text": "Find out where your people stand with AI, then move them: nivå self-assessments, hands-on workshops and a plan that fits the work your team actually does.",
+      "text": "Find out where your people stand with AI, then move them: nivå self-assessments, a guide to the next level, and what we learn adopting AI ourselves, shared as we go.",
       "getsHeading": "What you get",
       "gets": {
         "baseline": "A fluency baseline per person and per team",
-        "workshops": "Workshops built around your real work, not demos",
+        "experience": "Experience and articles from our own AI adoption, shared as we learn",
         "guide": "A guide to the next level for each person and the team"
       },
       "cta": "See nivå"
     },
-    "investing": {
-      "title": "Investing tools",
-      "text": "Tools that make market data usable: a pipeline and API for Swedish and US market data, and a portfolio analysis framework that scores and flags but never trades.",
+    "experiments": {
+      "title": "AI experiments",
+      "text": "We try things with AI agents — a game built from a single prompt, a website built end to end by an agent-run factory — and publish what worked and what did not.",
       "getsHeading": "What you get",
       "gets": {
-        "api": "An API for fundamentals, TA metrics and short-selling data",
-        "analysis": "Portfolio analysis for your own holdings and mandate",
-        "open": "Prototypes evaluated in the open"
+        "evaluations": "Honest evaluations, including the experiments that fell short",
+        "notes": "Notes on how the agent-run factory works, stage by stage",
+        "repositories": "Open-source repositories you can read and run"
       },
-      "cta": "See the tools"
+      "cta": "Read the notes"
     }
   },
   "apps": {
     "eyebrow": "Apps and products",
     "heading": "What we have built",
-    "lead": "Six projects, from shipped open-source apps to private tools in development. Status is stated as each repository states it."
+    "lead": "Four projects, from shipped open-source apps to a private tool in development. Status is stated as each repository states it."
   },
   "portfolio": {
     "niva": {
@@ -131,15 +130,7 @@
     },
     "notesage": {
       "name": "Notesage",
-      "summary": "A rich-text Markdown editor that collaborates with AI. A native desktop app on Tauri v2, React and Tiptap; it connects to local models too."
-    },
-    "marketdata-api": {
-      "name": "marketdata-api",
-      "summary": "A market-data pipeline and API: reference universe, fundamentals, TA metrics, credit spreads and the Swedish short-selling register."
-    },
-    "compound": {
-      "name": "Compound",
-      "summary": "An analysis and planning framework for a core/satellite equity portfolio in Swedish ISK accounts. It scores and flags; it does not trade."
+      "summary": "A rich-text Markdown editor that collaborates with AI. A native desktop app; a companion iOS app records and transcribes conversations and collects shared articles."
     },
     "ashlands": {
       "name": "Ashlands",
@@ -155,8 +146,7 @@
   "portfolioStatus": {
     "in-development": "in development",
     "open-source-mit": "open source · MIT",
-    "experiment": "experiment",
-    "private": "private · API keys on request"
+    "experiment": "experiment"
   },
   "trust": {
     "eyebrow": "How we work",
@@ -168,7 +158,7 @@
       },
       "agents": {
         "title": "Agents as staff",
-        "text": "A small senior team sets the direction and reviews every change; agents plan, implement and review the work in between."
+        "text": "One senior person sets the direction and reviews every change; agents plan, implement and review the work in between."
       },
       "proof": {
         "title": "Proof, not claims",
@@ -217,9 +207,9 @@
   },
   "contact": {
     "eyebrow": "Contact",
-    "heading": "Have a project in mind?",
-    "text": "Tell us what you want to build or where your team stands with AI. We reply within a couple of days.",
-    "cta": "Start a project",
+    "heading": "Have an idea?",
+    "text": "Tell us about the app you have in mind, where your team stands with AI, or a project you would hand to an AI agent team. We reply within a couple of days.",
+    "cta": "Reach out",
     "linkedinLabel": "LinkedIn",
     "linkedinPlaceholder": "LinkedIn — coming soon"
   },

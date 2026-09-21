@@ -1,26 +1,32 @@
 // Apps and services copy rules (redesign REQ-011, REQ-025; plan D-14, D-15;
-// amendments A-01, A-02, A-04; decomposition decision 4), as one pure check
-// over src/_data/portfolio.json and the two strings files: the founder's six
-// entries in order, strings in every language, known statuses with labels,
+// amendments A-01, A-02, A-04; decomposition decision 4; founder feedback
+// round 1, si-yp2x), as one pure check over src/_data/portfolio.json and the
+// two strings files: the founder's four entries in order (marketdata-api and
+// Compound left the grid in feedback round 1, pending the founder's research
+// decision), strings in every language, known statuses with labels,
 // the private/public URL rule, the factory never named, and the copy bands
 // that keep the balanced cards balanced (one-line names and titles, one-line
 // chip rows, descriptions within a length band). Used by tests/apps.test.mjs
 // and available to the content gate.
 
-/** The six entries of A-01 (plan D-15), in grid order. */
-export const APP_KEYS = ["niva", "notesage", "marketdata-api", "compound", "ashlands", "gaimer"];
+/** The entries of A-01 (plan D-15) minus the two investing tools removed in
+    feedback round 1 (si-yp2x), in grid order. */
+export const APP_KEYS = ["niva", "notesage", "ashlands", "gaimer"];
 
 /** Private repositories: url must be null (REQ-011 honesty rule, A-01). */
-export const PRIVATE_APP_KEYS = ["niva", "marketdata-api", "compound"];
+export const PRIVATE_APP_KEYS = ["niva"];
 
-/** The three services (REQ-010); every entry's theme is one of them. */
-export const THEME_KEYS = ["ai-apps", "ai-adoption", "investing"];
+/** The three services (REQ-010; the third card is the experiments card since
+    feedback round 1); every entry's theme is one of them. */
+export const THEME_KEYS = ["ai-apps", "ai-adoption", "experiments"];
 
 /** Status keys the site labels (strings.portfolioStatus) and styles (chip-<key>). */
 export const STATUS_KEYS = ["in-development", "open-source-mit", "experiment", "private"];
 
 /** The founder-confirmed wording of the `private` label (A-04), asserted verbatim
-    because it is longer than the status-label band (decomposition decision 4). */
+    because it is longer than the status-label band (decomposition decision 4).
+    No entry carries the status since feedback round 1, so the strings files
+    hold no `private` label today; the rule applies the day one returns. */
 export const PRIVATE_STATUS_LABEL = {
   en: "private · API keys on request",
   sv: "privat · API-nycklar på förfrågan",

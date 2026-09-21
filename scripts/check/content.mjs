@@ -3,10 +3,12 @@
 // landing model by the redesign, REQ-024 as amended by A-01, AC-09 … AC-15).
 // The load-bearing facts of the acceptance criteria, checked as queries over
 // the built output:
-//   - both landing pages: exactly one h1, inside the hero; the primary CTA is
-//     a mailto:hello@addablelabs.se with a subject; the secondary CTA honours
-//     site.nivaUrl (the URL when set, otherwise an honest early-access mailto:
-//     with the hero.nivaEarlyAccess label); three service headings equal to
+//   - both landing pages: exactly one h1, inside the hero; the primary CTA
+//     promotes the existing apps — a.button-primary in the hero links the
+//     #apps section (founder feedback round 1, si-yp2x; before that it was a
+//     mailto: with a subject); the secondary CTA honours site.nivaUrl (the
+//     URL when set, otherwise an honest early-access mailto: with the
+//     hero.nivaEarlyAccess label); three service headings equal to
 //     the strings; the apps grid renders every data entry in order with its
 //     name and status label — private entries without any link, public ones
 //     with exactly one link to their repository; the trust section carries
@@ -51,8 +53,9 @@ const AI_NATIVE = { en: "AI-native", sv: "AI-nativ" };
 const EARLY_ACCESS_SUBJECT = { en: /access/i, sv: /tillgång/i };
 const ARTICLE_SLUG = "how-this-site-was-built-by-agents";
 // REQ-011 as amended by A-01: the private repositories of the curated six
-// (marketdata-api and Compound join nivå), the first build's private
-// entries and the factory itself are never linked.
+// (marketdata-api and Compound join nivå — both left the grid in feedback
+// round 1, si-yp2x, but stay private and unlinkable), the first build's
+// private entries and the factory itself are never linked.
 const PRIVATE_LINKS = ["github.com/addable-labs/niva", "github.com/PeterBlenessy/investable", "github.com/PeterBlenessy/StockSight", "github.com/PeterBlenessy/marketdata", "github.com/PeterBlenessy/portfolio-app", "addable-labs/factory"];
 // A-01: StockSight-AI is not listed, so the first build's ban on the text stands.
 const FORBIDDEN_TEXT = ["StockSight"];
@@ -86,9 +89,16 @@ for (const lang of site.languages.codes) {
 
   // REQ-009 (AC-09): the hero contains the page's only h1.
   report.check(doc.querySelectorAll("h1").length === 1 && hero?.querySelectorAll("h1").length === 1, `${rel}: exactly one h1, inside .hero`);
-  // REQ-009 (AC-09; plan D-10): the primary CTA starts a conversation by email with a subject.
-  const primary = hero?.querySelector('a[href^="mailto:hello@addablelabs.se?subject="]');
-  report.check(primary !== null && primary !== undefined && mailtoSubject(attr(primary, "href")).trim() !== "", `${rel}: primary CTA is mailto:hello@addablelabs.se with a subject`);
+  // REQ-009 (AC-09; plan D-10) as amended by founder feedback round 1
+  // (si-yp2x): the primary CTA promotes what exists — it is the hero's
+  // a.button-primary, labelled hero.ctaPrimary, and links the apps section
+  // (#apps, an id on the same page). Email stays the secondary CTA's and the
+  // contact band's job.
+  const primary = hero?.querySelector("a.button-primary");
+  const primaryHref = attr(primary, "href") ?? "";
+  // The button's text is the label plus the decorative, aria-hidden arrow.
+  const primaryLabel = text(primary).replace(/→$/, "").trim();
+  report.check(primary !== null && primary !== undefined && primaryHref === "#apps" && doc.querySelector("#apps") !== null && primaryLabel === strings[lang].hero.ctaPrimary, `${rel}: primary CTA is "${strings[lang].hero.ctaPrimary}" linking #apps`);
   // REQ-009 (AC-09; plan D-11): the secondary CTA honours site.nivaUrl.
   const secondary = hero?.querySelector("a.button-secondary");
   const secondaryHref = attr(secondary, "href") ?? "";
@@ -102,7 +112,7 @@ for (const lang of site.languages.codes) {
   // REQ-010 (AC-10): three service headings equal to the strings.
   const serviceHeadings = doc.querySelectorAll(".service h2, .service h3").map(text);
   report.check(serviceHeadings.length === 3, `${rel}: three service headings (${serviceHeadings.length})`);
-  for (const key of ["ai-apps", "ai-adoption", "investing"]) {
+  for (const key of ["ai-apps", "ai-adoption", "experiments"]) {
     const title = strings[lang].themes[key].title;
     report.check(serviceHeadings.includes(title), `${rel}: service heading "${title}"`);
   }
