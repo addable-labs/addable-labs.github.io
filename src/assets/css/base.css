@@ -1333,8 +1333,18 @@ html:not(.js) .theme-toggle {
   padding-block: var(--space-5) var(--space-7);
 }
 
+/* One centred reading column (founder request 2026-09-21): header, body and
+   footer share the body's old 68ch measure (≈ 40rem in the system sans at
+   1.0625rem) and sit in the middle of the container instead of hugging its
+   left edge like the full-width sections do. */
+.article-header,
+.article-body,
+.article-footer {
+  max-width: 40rem;
+  margin-inline: auto;
+}
+
 .article-header {
-  max-width: 48rem;
   margin-bottom: var(--space-5);
 }
 
@@ -1360,7 +1370,6 @@ html:not(.js) .theme-toggle {
 }
 
 .article-body {
-  max-width: 68ch;
   font-size: 1.0625rem;
   line-height: 1.7;
 }
