@@ -726,13 +726,17 @@ html:not(.js) .theme-toggle {
   font-weight: 500;
 }
 
+/* The block sits on the baseline at cap height (JetBrains Mono ~0.73em), so it
+   lines up with the state word instead of hanging into the descender space
+   (founder feedback, 2026-09-21). An empty inline-block's baseline is its
+   bottom margin edge. */
 .caret {
   display: inline-block;
   width: 0.55em;
-  height: 1em;
+  height: 0.75em;
   margin-inline-start: 0.3em;
   background: currentColor;
-  vertical-align: text-bottom;
+  vertical-align: baseline;
   animation: blink 1.1s steps(2, start) infinite;
 }
 
