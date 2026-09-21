@@ -11,8 +11,11 @@
 // (lighthouse, layout) exit with code 3 when no Chrome is found; the runner
 // reports that as SKIP — never PASS — and still exits 0 unless
 // CHECK_REQUIRE_CHROME=1 (set in CI, where Chrome is preinstalled), under
-// which a skip is a failure. Every gate is also available on its own as
-// `pnpm check:<gate>`.
+// which a skip is a failure. When the build itself fails, the other gates
+// are not run — they could only report on a stale or missing _site/ — and
+// each prints `FAIL <gate> (not run: build failed)` so the count stays ten
+// and no PASS line follows the failure. Every gate is also available on its
+// own as `pnpm check:<gate>`.
 
 import { spawnSync } from "node:child_process";
 import path from "node:path";
@@ -45,7 +48,12 @@ function run(gate) {
 }
 
 let failed = 0;
-for (const gate of GATES) {
-  if (run(gate) === "fail") failed += 1;
+for (const [index, gate] of GATES.entries()) {
+  if (run(gate) !== "fail") continue;
+  failed += 1;
+  if (gate !== "build") continue;
+  // Nothing to prove without a build: name the rest as not run and stop.
+  for (const rest of GATES.slice(index + 1)) console.log(`FAIL ${rest} (not run: build failed)`);
+  break;
 }
 process.exit(failed === 0 ? 0 : 1);

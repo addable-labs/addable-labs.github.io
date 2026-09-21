@@ -14,9 +14,9 @@ import { withChrome } from "../lib/chrome.mjs";
 import { evaluate } from "../lib/layout-report.mjs";
 import { resolveDirs } from "../lib/site.mjs";
 
-export const PAGES = ["/", "/sv/"];
-export const WIDTHS = [360, 768, 1024, 1280, 1920];
-export const HEIGHT = 1000;
+const PAGES = ["/", "/sv/"];
+const WIDTHS = [360, 768, 1024, 1280, 1920];
+const HEIGHT = 1000;
 
 // Runs inside the page: plain numbers per card, in the shape
 // scripts/lib/layout-report.mjs documents. Selectors follow the built HTML

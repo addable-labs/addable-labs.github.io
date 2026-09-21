@@ -11,7 +11,7 @@
  * Sections: base · type helpers · buttons, links, chips · header and toggle ·
  * hero and console · sections and cards (the D-14 balance rule) · trust,
  * writing, contact · footer · page hero, about, article, blog, 404 ·
- * first-build bridge (landing only) · motion and reduced motion.
+ * motion, reduced motion and print.
  */
 
 /* Base ------------------------------------------------------------------ */
@@ -147,14 +147,6 @@ img {
   height: 1px;
   padding: 0;
   margin: -1px;
-  overflow: hidden;
-  clip-path: inset(50%);
-}
-
-.visually-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
   overflow: hidden;
   clip-path: inset(50%);
 }
@@ -332,15 +324,12 @@ a:hover .arrow,
   flex: none;
 }
 
-.chip-shipped,
-.chip-open-source-mit,
-.chip-open-source-apache {
+.chip-open-source-mit {
   color: var(--color-accent-text);
   border-color: var(--color-accent-text);
 }
 
 .chip-in-development,
-.chip-prototype,
 .chip-draft {
   color: var(--color-secondary-text);
   border-color: var(--color-secondary-text);
@@ -372,8 +361,7 @@ a.chip:hover {
   color: var(--color-accent-strong);
 }
 
-a.chip:active,
-.chip[aria-pressed="true"] {
+a.chip:active {
   background: var(--color-surface-2);
 }
 
@@ -454,6 +442,8 @@ a.chip:active,
 .site-nav a {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
+  min-width: 44px;
   min-height: 44px;
   padding: 0 var(--space-3);
   font-family: var(--font-mono);
@@ -1203,6 +1193,7 @@ html:not(.js) .theme-toggle {
 .footer-list a {
   display: inline-flex;
   align-items: center;
+  min-width: 44px;
   min-height: 44px;
   color: var(--color-text);
 }
@@ -1215,8 +1206,7 @@ html:not(.js) .theme-toggle {
   padding: 0;
 }
 
-.contact-placeholder,
-.placeholder {
+.contact-placeholder {
   display: inline-flex;
   align-items: center;
   min-height: 44px;

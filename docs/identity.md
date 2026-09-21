@@ -281,10 +281,10 @@ change colour, border, transform and box-shadow only.
   its text intact at every width in both languages.
 - **Chips.** Pills, mono Medium 0.75 rem, 28 px tall, a 1 px outline and a
   6 px dot in `currentColor`. Kinds follow the data's status keys:
-  `chip-open-source-mit` (and `-shipped`, `-open-source-apache`) in the
-  accent text colour; `chip-in-development`, `chip-prototype` and
-  `chip-draft` in the status orange; `chip-experiment`, `chip-private` and
-  `chip-mt` (machine-translated) muted. Category chips (`chip-cat`) and the
+  `chip-open-source-mit` in the accent text colour; `chip-in-development`
+  and `chip-draft` in the status orange; `chip-experiment`, `chip-private`
+  and `chip-mt` (machine-translated) muted — a new status brings its own
+  rule (see *Adding an app*). Category chips (`chip-cat`) and the
   RSS chip (`chip-rss`) are links: 44 px tall targets with the pill drawn
   inside as an inset ring, accent text, hover turns the ring accent and the
   text accent-strong, pressed fills `surface-2`; on a category page the
@@ -350,7 +350,9 @@ change colour, border, transform and box-shadow only.
   text wraps anywhere, so nothing scrolls horizontally at 360 px and 4K
   stops at 76 rem. Breakpoints: 30, 40, 46, 48, 64 and 70 rem. Buttons,
   navigation and footer links, category chips, card title links, the
-  toggle and the language switches are all at least 44 px tall.
+  toggle and the language switches are all at least 44 px tall, and
+  navigation and footer links at least 44 px wide as well (`min-width`), so
+  a short label such as "Hem" or "RSS" is still a 44 × 44 target.
 
 ## Motion
 
@@ -475,6 +477,10 @@ for anything read, `ui` for borders, rings and edges; `schemes: ["light"]`
 for a light-only pair) — a colour token in no pair fails the gate — or list
 it in `DECORATIVE` if it is never text and never the boundary of a control.
 Run `pnpm check:contrast` and copy the printed ratios into the tables above.
+A new token also moves the counts `tests/contrast.test.mjs` pins (22 pairs,
+43 evaluations, 15 tokens) and must be added to the two fixture copies of
+`tokens.css` under `tests/fixtures/contrast-{weak,literal}/`, which are full
+copies of the real file; update all three or `pnpm test` turns red.
 Colour literals outside `tokens.css` fail the gate. Three places repeat token
 values as literals and are changed by hand: the `theme-color` meta in
 `partials/head.njk` and the two backgrounds in `src/assets/js/theme.js`

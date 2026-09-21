@@ -31,7 +31,10 @@
     ~1 KB script is inlined (never a separate request) before the stylesheets
     so the theme is set before first paint on every page, including the
     language switch. The theme logic is scripts/lib/theme-logic.mjs, whose
-    resolve() text the script must contain verbatim (tests/theme.test.mjs). #}
+    resolve() text the script must contain verbatim (tests/theme.test.mjs).
+    The include is a Nunjucks include, so theme.js is rendered as a template:
+    it must never contain "{{" or "{%" (the passthrough copy of the file under
+    _site/assets/js/ is never referenced). #}
   <meta name="color-scheme" content="dark light">
   <meta name="theme-color" content="#0B0E10">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">

@@ -83,6 +83,18 @@ describe("layout report evaluation (A-02, AC-30)", () => {
     empty[1].grids.apps = [];
     assert.deepEqual(evaluate(empty).problems, ["/sv/ 360: apps grid has no cards"]);
   });
+
+  it("names a card whose element was not found instead of passing on NaN or null (AC-30: never silently)", () => {
+    const missing = structuredClone(aligned);
+    missing[0].grids.apps[1].midTop = null; // a NaN measurement arrives as null over the protocol
+    missing[0].grids.apps[1].actionBottom = NaN;
+    missing[1].grids.services[0].title = { height: NaN, lineHeight: NaN };
+    assert.deepEqual(evaluate(missing).problems, [
+      "/ 1280: apps card 2 has no measurable summary, action row (element not found)",
+      "/sv/ 360: services card 1 has no measurable title, title line height (element not found)",
+    ]);
+    assert.match(evaluate(missing).lines[0], /^layout \/ 1280: FAIL — apps card 2 has no measurable/);
+  });
 });
 
 describe("layout gate without Chrome (REQ-024: an explicit skip)", () => {

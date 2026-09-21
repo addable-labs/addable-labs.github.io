@@ -15,7 +15,7 @@ import { resolveDirs } from "../lib/site.mjs";
 
 // The pages the gate measures (REQ-021): both landing pages, the about page,
 // the blog index, a category page, an article and the 404 page.
-export const PAGES = ["/", "/sv/", "/about/", "/blog/", "/blog/app-development/", "/blog/how-this-site-was-built-by-agents/", "/404.html"];
+const PAGES = ["/", "/sv/", "/about/", "/blog/", "/blog/app-development/", "/blog/how-this-site-was-built-by-agents/", "/404.html"];
 
 const { out } = resolveDirs();
 

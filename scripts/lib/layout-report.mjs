@@ -38,6 +38,22 @@ export function rowsOf(cards, tolerance = TOLERANCE) {
 const spread = (values) => Math.max(...values) - Math.min(...values);
 
 /**
+ * The elements of a card that were not measured: a selector that matches
+ * nothing measures NaN in the page, which arrives as null over the protocol;
+ * either would compare as "equal" and let the card pass silently (AC-30).
+ */
+function unmeasured(card, grid) {
+  const numbers = [
+    ["title", card.title?.height],
+    ["title line height", card.title?.lineHeight],
+    [grid === "services" ? '"What you get" heading' : "summary", card.midTop],
+    ["action row", card.actionBottom],
+  ];
+  if (card.chip) numbers.push(["chip row", card.chip.height], ["chip row line height", card.chip.lineHeight]);
+  return numbers.filter(([, value]) => !Number.isFinite(value)).map(([element]) => element);
+}
+
+/**
  * Judge the measurements of one or more page × width runs.
  * @param {Array<object>} measurements
  * @param {number} [tolerance]
@@ -55,8 +71,16 @@ export function evaluate(measurements, tolerance = TOLERANCE) {
         problems.push(`${where}: ${grid} grid has no cards`);
         continue;
       }
+      const measured = [];
       for (const card of cards) {
         const name = `${grid} card ${card.index + 1}`;
+        // A card with an element that was not found is named, never compared.
+        const missing = unmeasured(card, grid);
+        if (missing.length > 0) {
+          problems.push(`${where}: ${name} has no measurable ${missing.join(", ")} (element not found)`);
+          continue;
+        }
+        measured.push(card);
         // AC-30: the title's box is one line tall.
         if (!(card.title.height <= LINE_RATIO * card.title.lineHeight)) {
           problems.push(`${where}: ${name} title wraps (${card.title.height} px for a ${card.title.lineHeight} px line)`);
@@ -66,7 +90,7 @@ export function evaluate(measurements, tolerance = TOLERANCE) {
           problems.push(`${where}: ${name} chip row wraps (${card.chip.height} px for a ${card.chip.lineHeight} px line)`);
         }
       }
-      for (const row of rowsOf(cards, tolerance)) {
+      for (const row of rowsOf(measured, tolerance)) {
         if (row.length < 2) continue;
         const names = row.map((card) => card.index + 1).join(", ");
         // AC-30: cards sharing a grid row have equal heights …
