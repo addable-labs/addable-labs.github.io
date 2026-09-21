@@ -130,7 +130,7 @@
     },
     "notesage": {
       "name": "Notesage",
-      "summary": "A rich-text Markdown editor that collaborates with AI. A native desktop app; a companion iOS app records and transcribes conversations and collects shared articles."
+      "summary": "A rich-text Markdown editor that collaborates with AI. A native desktop app that transcribes; a companion iOS app records conversations and collects shared articles."
     },
     "ashlands": {
       "name": "Ashlands",
