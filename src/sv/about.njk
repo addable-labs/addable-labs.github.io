@@ -9,11 +9,13 @@ eleventyComputed:
 ---
 {#- About page (REQ-012, REQ-016; plan D-12, A-04): the hero-style title, the
     founder section carrying the founding month, the approach as the trust
-    points, the GRC-fork note kept in substance (attribution, the link to the
-    original, never an Addable Labs product) as a labelled card, and the
-    contact band. Every string comes from strings[lang].about; the Swedish
-    twin differs only in its machineTranslated flag. -#}
+    points, a labelled card linking the "how this site was built" article as
+    the approach in practice (founder call 2026-09-21: it replaced the
+    GRC-fork note of A-04), and the contact band. Every string comes from
+    strings[lang].about; the Swedish twin differs only in its
+    machineTranslated flag. -#}
 {%- set about = strings[lang].about -%}
+{%- set langPrefix = "" if lang == site.languages.default else "/" + lang -%}
 {%- set heroEyebrow = about.eyebrow -%}
 {%- set heroTitle = about.title -%}
 {%- set heroLead = about.lead -%}
@@ -42,11 +44,11 @@ eleventyComputed:
       </div>
       {%- endfor %}
     </dl>
-    <aside class="card note reveal" aria-labelledby="grc-title">
-      <p class="eyebrow">{{ about.grc.label }}</p>
-      <h3 id="grc-title">{{ about.grc.title }}</h3>
-      <p class="note-text">{{ about.grc.text }}</p>
-      <a class="app-action" href="https://github.com/Sushegaad/Claude-Skills-Governance-Risk-and-Compliance">{{ about.grc.link }}<span class="arrow" aria-hidden="true">↗</span></a>
+    <aside class="card note reveal" aria-labelledby="article-title">
+      <p class="eyebrow">{{ about.article.label }}</p>
+      <h3 id="article-title">{{ about.article.title }}</h3>
+      <p class="note-text">{{ about.article.text }}</p>
+      <a class="app-action" href="{{ langPrefix }}/blog/how-this-site-was-built-by-agents/">{{ about.article.link }}<span class="arrow" aria-hidden="true">→</span></a>
     </aside>
   </div>
 </section>

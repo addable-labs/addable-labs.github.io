@@ -240,11 +240,11 @@
         "text": "This website is an example of the approach: it was designed, built and is maintained by an agent-run software factory, with the founder reviewing every change before it is published."
       }
     },
-    "grc": {
-      "label": "Also exploring",
-      "title": "Claude skills for governance, risk and compliance",
-      "text": "An area of interest, not an Addable Labs product: Peter explores these skills through a fork of the original work by Sushegaad (MIT).",
-      "link": "Original repository by Sushegaad"
+    "article": {
+      "label": "The approach in practice",
+      "title": "How this site was built by agents",
+      "text": "The stages, the gates and the reviews behind this website — the first thing an agent-run software factory produced for the company from start to finish.",
+      "link": "Read the article"
     }
   },
   "feed": {

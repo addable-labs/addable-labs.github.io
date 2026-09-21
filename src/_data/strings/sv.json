@@ -240,11 +240,11 @@
         "text": "Den här webbplatsen är ett exempel på arbetssättet: den har designats, byggts och underhålls av en agentdriven mjukvarufabrik, och grundaren granskar varje ändring innan den publiceras."
       }
     },
-    "grc": {
-      "label": "Utforskar också",
-      "title": "Claude-skills för styrning, risk och regelefterlevnad",
-      "text": "Ett intresseområde, inte en produkt från Addable Labs: Peter utforskar dessa skills genom en fork av Sushegaads originalarbete (MIT).",
-      "link": "Sushegaads ursprungliga kodförråd"
+    "article": {
+      "label": "Arbetssättet i praktiken",
+      "title": "Så byggdes den här webbplatsen av agenter",
+      "text": "Stegen, kvalitetsgrindarna och granskningarna bakom den här webbplatsen – den första som en agentdriven mjukvarufabrik tog fram åt företaget från början till slut.",
+      "link": "Läs artikeln"
     }
   },
   "feed": {

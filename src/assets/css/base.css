@@ -1305,8 +1305,9 @@ html:not(.js) .theme-toggle {
   }
 }
 
-/* Labelled note card (A-04, the GRC-fork note): eyebrow label, a mono title,
-   the text and the link as the cards' action row. */
+/* Labelled note card (the about page's article card; A-04's GRC-fork note
+   until the founder replaced it): eyebrow label, a mono title, the text and
+   the link as the cards' action row. */
 .note {
   max-width: 34rem;
 }
