@@ -5,8 +5,11 @@
 // title/link/description, every item has title/link/guid/pubDate, item links
 // are absolute (site.url) and carry the language prefix of their feed, each
 // feed lists exactly that language's articles (from src/<lang>/blog/posts),
-// draft articles carry the localised label in the item title, and every built
-// HTML page links its language's feed with <link rel="alternate"
+// draft articles carry the localised label in the item title, an item's
+// content carries the prose only — no <figure>: the inline-SVG article
+// illustrations are stripped by the feed templates (si-55iu) because their
+// classes and custom properties do not travel — and every built HTML page
+// links its language's feed with <link rel="alternate"
 // type="application/rss+xml">. Exit 0 when everything passes, 1 otherwise.
 // Optional arguments: <built-site dir> [<source dir>].
 
@@ -73,6 +76,8 @@ async function checkFeed(feed) {
     report.check(!Number.isNaN(Date.parse(textOf(item.pubDate))), `${feed.file}: item "${title}" pubDate parses`);
     const article = expected.find((entry) => entry.url === link);
     report.check(article !== undefined, `${feed.file}: item link is a ${feed.lang} article (${link})`);
+    // si-55iu: the figures stay on the page; the feed carries the prose.
+    report.check(!/<figure[\s>]/.test(textOf(item["content:encoded"])), `${feed.file}: item "${title}" carries no <figure> (the illustrations stay on the page)`);
     if (article) {
       seen.add(article.slug);
       if (article.draft) {

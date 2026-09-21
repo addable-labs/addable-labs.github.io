@@ -30,6 +30,20 @@ describe("feeds gate", () => {
     assert.match(output, /FAIL feeds/);
   });
 
+  it("fails when an item carries an article figure (the feeds carry the prose only, si-55iu)", async () => {
+    // The feed templates strip the inline-SVG figures with `withoutFigures`;
+    // one that slips through is escaped markup inside <content:encoded>.
+    const broken = await copyDir(built, path.join(tmp.dir, "figure-in-feed"));
+    const feed = path.join(broken, "feed.xml");
+    const xml = await readFile(feed, "utf8");
+    const edited = xml.replace("<content:encoded>", "<content:encoded>&lt;figure class=&quot;figure figure-side&quot;&gt;&lt;svg viewBox=&quot;0 0 1 1&quot;&gt;&lt;/svg&gt;&lt;/figure&gt;");
+    assert.notEqual(edited, xml, "the first item's content must be found");
+    await writeFile(feed, edited);
+    const { status, output } = runGate("feeds", broken);
+    assert.equal(status, 1);
+    assert.match(output, /FAIL {2}feed\.xml: item ".*" carries no <figure> \(the illustrations stay on the page\)/);
+  });
+
   it("fails on malformed XML", async () => {
     const broken = await copyDir(built, path.join(tmp.dir, "malformed"));
     const feed = path.join(broken, "sv", "feed.xml");

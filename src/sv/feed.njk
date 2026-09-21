@@ -20,7 +20,7 @@ eleventyExcludeFromCollections: true
       <pubDate>{{ post.date | dateToRfc822 }}</pubDate>
       <description>{{ post.data.description }}</description>
       <category>{{ strings[lang].categories[post.data.category] }}</category>
-      <content:encoded>{{ post.templateContent | htmlToAbsoluteUrls(absolutePostUrl) }}</content:encoded>
+      <content:encoded>{{ post.templateContent | withoutFigures | htmlToAbsoluteUrls(absolutePostUrl) }}</content:encoded>
     </item>
 {%- endfor %}
   </channel>

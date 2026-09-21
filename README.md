@@ -162,7 +162,24 @@ Brödtext i Markdown.
   set it in the file.
 - **Length.** The content gate (`pnpm check:content`) counts the words of the
   built English article body: 300–600 for the two seed articles (REQ-006) and
-  300–1,500 for every later article. The Swedish twin is not counted.
+  300–1,500 for every later article. The Swedish twin is not counted, and
+  neither are the figures (captions and diagram labels are not prose).
+- **Figures.** An article can carry custom SVG illustrations (REQ-008): put
+  `{% figure "<id>" %}` on its own line between two paragraphs — the same
+  line in both language files — for a figure that floats beside the text
+  that follows it from 64 rem, or `{% figure "<id>", "wide" %}` for one
+  that spans the whole article width; below 64 rem both sit between the
+  paragraphs. A figure is drawn by `src/_includes/figures/figures.mjs`
+  (`FIGURES` names the six: `stages`, `gates`, `loop`, `assessment`,
+  `team`, `harness`) and every word it shows — panel titles, labels, notes,
+  the caption — comes from `figures.<id>` in the two strings files, so one
+  drawing serves both languages; a label too long for its slot fails the
+  build naming the key. Adding a figure means one drawing function, its
+  strings under `figures.<id>` in `en.json` and `sv.json`, and the two
+  shortcode lines. Figures never reach the feeds (`withoutFigures` in the
+  feed templates), and the layout gate measures every article page: the
+  44 rem measure, no horizontal scroll, side figures in the lane and wide
+  ones across the body, labels at least 12 px.
 
 Pages other than articles (landing, about, blog index, category pages) are
 Nunjucks templates under `src/en/` and `src/sv/` whose copy lives in
@@ -273,10 +290,10 @@ after a `pnpm build`:
 | pages | `pnpm check:pages` | Per page: `header`/`nav`/`main`/`footer` once, one `h1`, no skipped heading levels, the skip link is the first focusable element, `html[lang]` matches the path, every `img` has `alt`/`width`/`height`, unique title, description, canonical, Open Graph tags, three `hreflang` alternates, the feed link, the language switch, scripts only from the site's origin, no cross-origin resource (font preloads and `@font-face` sources included), HTML + CSS ≤ 150 KB, and on both landing pages CSS + JavaScript ≤ 60 KB compressed. |
 | contrast | `pnpm check:contrast` | `src/assets/css/tokens.css` keeps its structure (dark by default, light only under the toggle's `[data-theme="light"]`, every fallback equal to its dark value, no OS media query, no token outside `:root`); every colour pair meets WCAG AA in both themes (4.5:1 text, 3:1 UI); no colour literal outside `tokens.css`. |
 | parity | `pnpm check:parity` | Every English page has its Swedish twin and vice versa, the feeds pair up, the strings files have identical keys with no empty values, pages pair one-to-one, the machine-translated notice appears only where flagged. |
-| feeds | `pnpm check:feeds` | Both feeds are well-formed RSS 2.0 with absolute links, exactly the language's articles, draft labels, and every page links its feed. |
+| feeds | `pnpm check:feeds` | Both feeds are well-formed RSS 2.0 with absolute links, exactly the language's articles, draft labels, items that carry the prose only (no `<figure>`), and every page links its feed. |
 | content | `pnpm check:content` | The facts the site must state: one `h1` in the hero, the primary `mailto:` call to action with a subject, the nivå button honouring `site.nivaUrl`, the three service headings, the six apps in data order with the private ones unlinked and the public ones linked once, the trust section's phrase, founder, article link and proof link, the latest-writing cards, the founding month on the about page; on every page the footer's address, the LinkedIn rule, the language switches, the toggle and the feed link; no private-repository link, no "StockSight", no factory name; article lengths and draft labels. The pinned facts are the constants at the top of `scripts/check/content.mjs`. |
 | lighthouse | `pnpm check:lighthouse` | Serves `_site/` locally, runs Lighthouse 13 (mobile configuration) in headless Chrome on `/`, `/sv/`, `/about/`, `/blog/`, a category page, an article and `/404.html`: Performance, Accessibility, Best Practices and SEO each ≥ 95 and cumulative layout shift ≤ 0.1, one line per page. |
-| layout | `pnpm check:layout` | Renders `/` and `/sv/` at 360, 768, 1024, 1280 and 1920 px in headless Chrome and measures the balanced cards: every service and app title one line, cards in a row equal in height with their "What you get" heading / summary tops and action rows aligned (± 1 px), every chip row one line. |
+| layout | `pnpm check:layout` | Renders `/` and `/sv/` at 360, 768, 1024, 1280 and 1920 px in headless Chrome and measures the balanced cards: every service and app title one line, cards in a row equal in height with their "What you get" heading / summary tops and action rows aligned (± 1 px), every chip row one line. Renders every article page at the same widths and measures the article layout: no horizontal scroll, every text block on the 44 rem measure at the body's left edge, from 64 rem every side figure in the lane (right edge at the body's, 20–24.5 rem wide, never above or under the paragraph it accompanies) and every wide figure across the body, below 64 rem every figure across the body, every panel rendered so a 13-unit label is at least 12 px. |
 
 **Chrome.** The last two gates need Google Chrome (or Chromium). They find
 it through Lighthouse's own launcher, or through `CHROME_PATH` if set (the
@@ -431,6 +448,10 @@ pair.
    - `about.eyebrow`, `about.lead`, `about.founderLine`,
      `about.points.{aiNative,team,open,proof}.{title,text}`,
      `about.grc.{label,title,text,link}`
+   - `figures.{stages,gates,loop,assessment,team,harness}.*` — the six
+     article illustrations' panel titles, labels, notes and captions
+     (si-55iu); every label has a character budget, so a longer rewording
+     must keep the build green
 9. **The four unlisted repositories.** TraceLoupe, airlocked-agents, Stoqster
    and investable were removed from the apps grid at your request ("not
    sure" was read as do-not-publish); say so if any of them should return —

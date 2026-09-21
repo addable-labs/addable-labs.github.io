@@ -26,8 +26,10 @@
 //   - no GitHub links for private repositories; StockSight-AI and the factory
 //     are absent everywhere
 //   - both seed articles exist in both languages, the seed articles are
-//     300–600 English words and every later article 300–1,500, drafts show
-//     "Draft"/"Utkast" on the article page, in the listings and in the feeds
+//     300–600 English words of prose and every later article 300–1,500 (the
+//     figures' captions and diagram labels are not prose and do not count,
+//     si-55iu), drafts show "Draft"/"Utkast" on the article page, in the
+//     listings and in the feeds
 // Optional arguments: <built-site dir> [<source dir>].
 
 import { readFile } from "node:fs/promises";
@@ -282,7 +284,12 @@ for (const lang of site.languages.codes) {
     const built = await page(rel);
     if (!built) continue;
     if (lang === site.languages.default) {
-      const words = text(built.doc.querySelector(".article-body")).split(/\s+/).filter(Boolean).length;
+      // The prose only: a figure's caption and the labels inside its SVG
+      // panels are removed before counting (founder feedback 2026-09-21,
+      // si-55iu), so an illustrated article is measured like a plain one.
+      const body = built.doc.querySelector(".article-body");
+      for (const figure of body?.querySelectorAll("figure") ?? []) figure.remove();
+      const words = text(body).split(/\s+/).filter(Boolean).length;
       const [min, max] = SEED_ARTICLES.has(article.slug) ? WORD_RANGE.seed : WORD_RANGE.other;
       report.check(words >= min && words <= max, `${rel}: ${words} words (${min}–${max})`);
     }

@@ -27,7 +27,11 @@ alternativ den förkastade. Nedbrytningen delade upp planen i arbetspaket, vart
 och ett med ett eget beviskommando, och en agent genomförde dem sedan ett i
 taget på en lokal gren.
 
+{% figure "stages", "wide" %}
+
 ## Vad grundaren granskar
+
+{% figure "loop" %}
 
 Ingenting på den här webbplatsen blir offentligt enbart på en agents ord.
 Grundaren granskar kraven, planens beslut och varje commit lokalt innan något
@@ -38,6 +42,8 @@ agenterna var tvungna att anta något säger planen det och markerar antagandet
 för granskning.
 
 ## Kvalitetsgrindarna
+
+{% figure "gates" %}
 
 Ett enda kommando kör varje kontroll, och samma kommando körs på varje pull
 request. Det bygger webbplatsen, verifierar att varje intern länk pekar på en

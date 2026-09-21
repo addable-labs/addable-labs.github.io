@@ -205,6 +205,163 @@
     "machineTranslatedNotice": "This text was machine-translated and has not yet been reviewed by a person.",
     "readInOtherLanguage": "Read this article in Swedish"
   },
+  "figures": {
+    "stages": {
+      "caption": "The seven stages of the build and the founder's two gates: the design direction after the plan review, and the final acceptance before publication. Every stage wrote a document the next one had to read.",
+      "done": "done",
+      "gatesState": "10/10",
+      "panels": {
+        "documents": {
+          "title": "Stages one to three and the founder's first gate",
+          "head": "before the code"
+        },
+        "build": {
+          "title": "Stages four to six",
+          "head": "the build"
+        },
+        "release": {
+          "title": "The review of the result, the founder's second gate and publication",
+          "head": "before it is public"
+        }
+      },
+      "rows": {
+        "requirements": {
+          "label": "requirements",
+          "note": "a brief becomes numbered statements"
+        },
+        "plan": {
+          "label": "plan",
+          "note": "stack, URLs, schema, palette"
+        },
+        "review": {
+          "label": "review",
+          "note": "of the plan, with amendments"
+        },
+        "direction": {
+          "label": "founder gate",
+          "note": "the design direction is chosen"
+        },
+        "decomposition": {
+          "label": "decomposition",
+          "note": "ten work items, each with a proof"
+        },
+        "implementation": {
+          "label": "implementation",
+          "note": "one item at a time, one branch"
+        },
+        "gates": {
+          "label": "gates",
+          "note": "ten checks on every change"
+        },
+        "resultReview": {
+          "label": "review",
+          "note": "of the result, three review lanes"
+        },
+        "acceptance": {
+          "label": "founder gate",
+          "note": "final acceptance"
+        },
+        "publication": {
+          "label": "publication",
+          "note": "never on an agent's say-so"
+        }
+      }
+    },
+    "gates": {
+      "title": "The ten checks of pnpm check and what each one guards",
+      "head": "pnpm check",
+      "score": "10/10",
+      "pass": "PASS",
+      "caption": "The gate board: one command runs the ten checks, in this order, on every change and on every pull request; each has a test proving that it fails when something is deliberately broken.",
+      "guards": {
+        "build": "the site builds",
+        "links": "internal links resolve",
+        "html": "valid markup",
+        "pages": "landmarks, h1, skip link",
+        "contrast": "every pair, both schemes",
+        "parity": "sv/en pages and strings",
+        "feeds": "well-formed RSS, all items",
+        "content": "the facts the pages state",
+        "lighthouse": "four scores at 95 or more",
+        "layout": "card grids at five widths"
+      }
+    },
+    "loop": {
+      "title": "The loop from a change to a published page",
+      "head": "the loop",
+      "change": "change",
+      "changeNote": "one local commit",
+      "gates": "gates",
+      "gatesNote": "10/10 must pass",
+      "founder": "founder",
+      "founderNote": "reviews, approves",
+      "published": "published",
+      "publishedNote": "the page is live",
+      "again": "next change",
+      "caption": "Every change runs the ten gates, then the founder reviews it; only then does a page go live."
+    },
+    "assessment": {
+      "title": "One person's assessment: the five levels of one area become a radar",
+      "head": "one person · one area",
+      "levels": "five levels, one chosen",
+      "radar": "the person's radar",
+      "caption": "For each area the individual picks the behaviourally anchored statement, level one to five, that matches how they actually work; the picks become a radar with a fluency index and a guide to the next level. Schematic — no real answers."
+    },
+    "team": {
+      "caption": "The team's picture, schematic: the aggregate radar over each member's own, the heatmap of members against areas, and the gap to the target level per area. No real team, no real scores.",
+      "panels": {
+        "radar": {
+          "title": "The team's aggregate radar over the members' own",
+          "head": "team radar"
+        },
+        "heatmap": {
+          "title": "The heatmap of members against areas",
+          "head": "members × areas"
+        },
+        "gap": {
+          "title": "The gap to the target level per area",
+          "head": "gap to target"
+        }
+      },
+      "legendTeam": "team",
+      "legendMembers": "members",
+      "legendLevel": "level",
+      "legendCurrent": "current",
+      "legendTarget": "target",
+      "legendGap": "gap"
+    },
+    "harness": {
+      "title": "The harness before the features: the checks before every commit",
+      "head": "the harness",
+      "rows": {
+        "types": {
+          "label": "type-check",
+          "note": "before every commit"
+        },
+        "lint": {
+          "label": "lint",
+          "note": "before every commit"
+        },
+        "unit": {
+          "label": "unit tests",
+          "note": "before every commit"
+        },
+        "e2e": {
+          "label": "end-to-end tests",
+          "note": "exercise the built app"
+        },
+        "migrations": {
+          "label": "migrations",
+          "note": "append-only, never rewritten"
+        },
+        "commit": {
+          "label": "commit",
+          "note": "the change lands"
+        }
+      },
+      "caption": "Build the harness before the features: type-checking, linting and unit tests run before every commit, end-to-end tests exercise the built app, and database migrations are append-only. Slower for a week, faster for every week after it."
+    }
+  },
   "contact": {
     "eyebrow": "Contact",
     "heading": "Have an idea?",

@@ -27,7 +27,11 @@ rejected. The decomposition cut that plan into work items, each with its own
 proof command, and an agent then implemented them one at a time on a local
 branch.
 
+{% figure "stages", "wide" %}
+
 ## What the founder reviews
+
+{% figure "loop" %}
 
 Nothing on this site goes public on an agent's say-so. The founder reviews the
 requirements, the plan's decisions and every commit locally before anything is
@@ -37,6 +41,8 @@ mentioned, and the steps that touch the domain and hosting. Where the agents had
 to assume something, the plan says so and marks the assumption for review.
 
 ## The gates
+
+{% figure "gates" %}
 
 One command runs every check, and the same command runs on each pull request.
 It builds the site, verifies that every internal link points at a real page,

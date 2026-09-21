@@ -85,7 +85,7 @@ preload is same-origin and the fonts test that at most two are preloaded.
 **Body copy is the system sans (plan D-04).** Paragraphs, leads, card text
 and article bodies use `ui-sans-serif, system-ui, -apple-system, "Segoe UI",
 Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif` at 1 rem / 1.6
-(lead 1.125 rem; article body 1.0625 rem / 1.7 on a 68ch measure). Reasons:
+(lead 1.125 rem; article body 1.0625 rem / 1.7 on a 44 rem measure). Reasons:
 monospace paragraphs cost 15–20 % more line length and read measurably
 slower; the system stack costs zero bytes; and the mono still dominates
 every screen through headings, labels, buttons, chips, metadata and the
@@ -339,12 +339,35 @@ change colour, border, transform and box-shadow only.
   hover.
 - **Page hero, article, blog, 404.** Inner pages open with the landing
   hero's glow and grid mask behind an eyebrow, the page's only `h1` and a
-  lead (`partials/page-hero.njk`; centred on the 404 page). Articles set the
-  body on a 68ch measure with mono `h2`/`h3` under an accent bar, code on
-  the surface colour, blockquotes with a green rule and mono metadata; the
+  lead (`partials/page-hero.njk`; centred on the 404 page). Articles span
+  the whole container like every other page (founder feedback 2026-09-21,
+  si-55iu): header, footer and every text block sit on a 44 rem measure
+  (`--measure`, about 80 characters at 1.0625 rem / 1.7) at the container's
+  left edge, mono `h2`/`h3` under an accent bar, code on the surface
+  colour, blockquotes with a green rule and mono metadata; the
   other-language link is a secondary button. The about page's GRC-fork note
   is a labelled `aside.card.note` with the attribution link as its action
   row.
+- **Article figures** (`.figure`, `src/_includes/figures/figures.mjs`, the
+  `figure` shortcode). Custom inline-SVG illustrations (REQ-008): a
+  `<figure>` holding a row of `<svg>` panels and a mono caption. Each panel
+  is a card — surface, border, radius, an inset hairline — drawn on a
+  320-unit viewBox with a hairline grid, a muted mono header line and the
+  drawing vocabulary of the hero console: labels in the text tokens
+  (`.fig-label` 13 units Medium, `.fig-note` 10.5 units), the accent as
+  dots, cells and the "passed" check, `--color-accent-text` for passed /
+  highlight text and line art, `--color-secondary(-text)` for the founder's
+  gate diamond and "waiting" (with the console's blinking caret, off under
+  reduced motion), `--color-border` for arrows and members' lines,
+  hairlines for scaffolding; every word from `strings.figures.<id>`. From
+  64 rem a side figure floats into the lane to the right of the measure
+  (`clamp(20rem, 100% − measure − gap, 24.5rem)`, where a panel renders
+  between 1:1 and 1.23:1) beside the text that follows it, headings become
+  block formatting contexts so their rule stops at the lane, and a wide
+  figure clears the lane and spans the body with its panels in one row
+  (`auto-fit`, stacking below 48 rem); below 64 rem every figure sits
+  between the paragraphs with its panels at most 24.5 rem wide. The layout
+  gate measures all of it on every article page at five widths.
 - **Responsiveness and targets.** `.container` caps at 76 rem with fluid
   gutters; every grid uses `minmax(0, 1fr)` tracks and card and console
   text wraps anywhere, so nothing scrolls horizontally at 360 px and 4K

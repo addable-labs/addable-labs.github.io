@@ -1,4 +1,4 @@
-import { readFileSync } from "node:fs";
+import { readFileSync, statSync } from "node:fs";
 import { IdAttributePlugin } from "@11ty/eleventy";
 import rssPlugin from "@11ty/eleventy-plugin-rss";
 import { validateArticle } from "./scripts/lib/frontmatter.mjs";
@@ -14,6 +14,21 @@ const CATEGORY_KEYS = CATEGORIES.map((category) => category.key);
 
 // Articles live in src/<lang>/blog/posts/<slug>.md; the same slug in both languages.
 const ARTICLE_PATH = /^\.?\/?src\/([^/]+)\/blog\/posts\/[^/]+\.md$/;
+
+// The article illustrations (founder feedback 2026-09-21, si-55iu) are drawn
+// by src/_includes/figures/figures.mjs. The module is imported per build with
+// its modification time in the URL, so `eleventy --serve` renders an edited
+// figure on the next build; a static import would keep the first version
+// until the process restarts (ESM caches by URL).
+const FIGURES_MODULE = new URL("./src/_includes/figures/figures.mjs", import.meta.url);
+function loadFigures() {
+  const { mtimeMs } = statSync(FIGURES_MODULE);
+  return import(`${FIGURES_MODULE.href}?mtime=${mtimeMs}`);
+}
+
+// A figure rendered into an article body, as the shortcode emits it:
+// <figure class="figure …">…</figure>, never nested.
+const FIGURE_HTML = /<figure class="figure[^"]*"[^>]*>[\s\S]*?<\/figure>\n?/g;
 
 // Newest first; equal dates fall back to the slug so the order is stable.
 function byDateDescThenSlug(a, b) {
@@ -82,6 +97,27 @@ export default function (eleventyConfig) {
   eleventyConfig.addFilter("mailtoSubject", (subject, email = site.email) =>
     `mailto:${email}?subject=${encodeURIComponent(subject)}`,
   );
+
+  // Article figures (founder feedback 2026-09-21, si-55iu; REQ-008): an
+  // article calls `{% figure "stages", "wide" %}` — the same call in both
+  // language files — and gets an inline-SVG <figure> whose panel titles,
+  // labels and caption come from strings[lang].figures.<id>, so one drawing
+  // serves both languages. "side" (the default) floats the figure beside the
+  // text from 64 rem, "wide" spans the whole article width between
+  // paragraphs; below 64 rem both sit between paragraphs (base.css).
+  eleventyConfig.addAsyncShortcode("figure", async function (id, placement = "side") {
+    const { renderFigure } = await loadFigures();
+    const lang = this.ctx?.lang;
+    const strings = this.ctx?.strings?.[lang];
+    if (!strings) throw new Error(`${this.page?.inputPath ?? "figure"}: the figure shortcode needs the page's lang and strings`);
+    return renderFigure(id, { placement, lang, strings });
+  });
+
+  // The feeds carry the prose only: `post.templateContent | withoutFigures`
+  // drops the inline-SVG figures, which would render unstyled (classes and
+  // custom properties do not travel) and bloat every item, so the feed
+  // output stays what it was before the figures (REQ-016).
+  eleventyConfig.addFilter("withoutFigures", (html) => String(html).replace(FIGURE_HTML, ""));
 
   return {
     dir: {

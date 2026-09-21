@@ -205,6 +205,163 @@
     "machineTranslatedNotice": "Den här texten är maskinöversatt och har ännu inte granskats av en person.",
     "readInOtherLanguage": "Läs den här artikeln på engelska"
   },
+  "figures": {
+    "stages": {
+      "caption": "Byggets sju steg och grundarens två grindar: designriktningen efter plangranskningen och det slutliga godkännandet före publiceringen. Varje steg skrev ett dokument som nästa steg var tvunget att läsa.",
+      "done": "klart",
+      "gatesState": "10/10",
+      "panels": {
+        "documents": {
+          "title": "Steg ett till tre och grundarens första grind",
+          "head": "före koden"
+        },
+        "build": {
+          "title": "Steg fyra till sex",
+          "head": "bygget"
+        },
+        "release": {
+          "title": "Granskningen av resultatet, grundarens andra grind och publiceringen",
+          "head": "innan det blir offentligt"
+        }
+      },
+      "rows": {
+        "requirements": {
+          "label": "krav",
+          "note": "en uppdragstext blir numrerade krav"
+        },
+        "plan": {
+          "label": "plan",
+          "note": "teknik, URL:er, schema, palett"
+        },
+        "review": {
+          "label": "granskning",
+          "note": "av planen, med tillägg"
+        },
+        "direction": {
+          "label": "grundarens grind",
+          "note": "designriktningen väljs"
+        },
+        "decomposition": {
+          "label": "nedbrytning",
+          "note": "tio arbetspaket med varsitt bevis"
+        },
+        "implementation": {
+          "label": "genomförande",
+          "note": "ett paket i taget, en gren"
+        },
+        "gates": {
+          "label": "grindar",
+          "note": "tio kontroller vid varje ändring"
+        },
+        "resultReview": {
+          "label": "granskning",
+          "note": "av resultatet, tre granskningsspår"
+        },
+        "acceptance": {
+          "label": "grundarens grind",
+          "note": "slutligt godkännande"
+        },
+        "publication": {
+          "label": "publicering",
+          "note": "aldrig enbart på en agents ord"
+        }
+      }
+    },
+    "gates": {
+      "title": "De tio kontrollerna i pnpm check och vad var och en vaktar",
+      "head": "pnpm check",
+      "score": "10/10",
+      "pass": "PASS",
+      "caption": "Grindtavlan: ett kommando kör de tio kontrollerna, i den här ordningen, vid varje ändring och varje pull request; var och en har ett test som bevisar att den misslyckas när något medvetet har gjorts sönder.",
+      "guards": {
+        "build": "webbplatsen byggs",
+        "links": "interna länkar finns",
+        "html": "giltig HTML",
+        "pages": "landmärken, h1, hopplänk",
+        "contrast": "varje färgpar, båda teman",
+        "parity": "sv/en sidor och texter",
+        "feeds": "giltig RSS, alla artiklar",
+        "content": "fakta sidorna måste ange",
+        "lighthouse": "fyra poäng på minst 95",
+        "layout": "kortraster vid fem bredder"
+      }
+    },
+    "loop": {
+      "title": "Loopen från en ändring till en publicerad sida",
+      "head": "loopen",
+      "change": "ändring",
+      "changeNote": "en lokal commit",
+      "gates": "grindar",
+      "gatesNote": "10/10 måste klara",
+      "founder": "grundaren",
+      "founderNote": "läser, godkänner",
+      "published": "publicerad",
+      "publishedNote": "sidan är live",
+      "again": "nästa ändring",
+      "caption": "Varje ändring körs genom de tio grindarna och granskas sedan av grundaren; först då blir sidan publik."
+    },
+    "assessment": {
+      "title": "En persons självskattning: ett områdes fem nivåer blir ett radardiagram",
+      "head": "en person · ett område",
+      "levels": "fem nivåer, en vald",
+      "radar": "personens radar",
+      "caption": "För varje område väljer individen det beteendeförankrade påstående, nivå ett till fem, som stämmer med hur personen faktiskt arbetar; valen blir ett radardiagram med ett kompetensindex och en guide till nästa nivå. Schematiskt – inga riktiga svar."
+    },
+    "team": {
+      "caption": "Teamets bild, schematiskt: det samlade radardiagrammet över medlemmarnas egna, värmekartan över medlemmar mot områden och gapet mot målnivån per område. Inget riktigt team, inga riktiga poäng.",
+      "panels": {
+        "radar": {
+          "title": "Teamets samlade radardiagram över medlemmarnas egna",
+          "head": "teamets radar"
+        },
+        "heatmap": {
+          "title": "Värmekartan över medlemmar mot områden",
+          "head": "medlemmar × områden"
+        },
+        "gap": {
+          "title": "Gapet mot målnivån per område",
+          "head": "gap mot mål"
+        }
+      },
+      "legendTeam": "teamet",
+      "legendMembers": "medlemmar",
+      "legendLevel": "nivå",
+      "legendCurrent": "nuläge",
+      "legendTarget": "mål",
+      "legendGap": "gap"
+    },
+    "harness": {
+      "title": "Testmiljön före funktionerna: kontrollerna före varje commit",
+      "head": "testmiljön",
+      "rows": {
+        "types": {
+          "label": "typkontroll",
+          "note": "före varje commit"
+        },
+        "lint": {
+          "label": "lintning",
+          "note": "före varje commit"
+        },
+        "unit": {
+          "label": "enhetstester",
+          "note": "före varje commit"
+        },
+        "e2e": {
+          "label": "end-to-end-tester",
+          "note": "prövar den byggda appen"
+        },
+        "migrations": {
+          "label": "migreringar",
+          "note": "får bara läggas till, aldrig ändras"
+        },
+        "commit": {
+          "label": "commit",
+          "note": "ändringen landar"
+        }
+      },
+      "caption": "Bygg testmiljön före funktionerna: typkontroll, lintning och enhetstester körs före varje commit, end-to-end-tester prövar den byggda appen och databasmigreringar får bara läggas till, aldrig ändras. Långsammare i en vecka, snabbare varje vecka därefter."
+    }
+  },
   "contact": {
     "eyebrow": "Kontakt",
     "heading": "Har du en idé?",

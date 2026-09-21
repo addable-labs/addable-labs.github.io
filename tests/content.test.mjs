@@ -145,6 +145,20 @@ describe("content gate", () => {
     assert.match(output, /FAIL {2}blog\/how-this-site-was-built-by-agents\/index\.html: \d+ words \(300–600\)/);
   });
 
+  it("counts the prose only: figure captions and diagram labels do not count (si-55iu)", async () => {
+    // 400 words inside a <figure> would push the seed article past 600 if
+    // they counted; the same words in a <p> (the test above) do.
+    const copy = await copyDir(built, path.join(tmp.dir, "seed-figure"));
+    const page = path.join(copy, "blog", "how-this-site-was-built-by-agents", "index.html");
+    const html = await readFile(page, "utf8");
+    const padded = html.replace('<div class="article-body">', `<div class="article-body"><figure class="figure figure-side"><svg viewBox="0 0 10 10" role="img" aria-labelledby="pad-title"><title id="pad-title">padding</title><text>${"label ".repeat(200).trim()}</text></svg><figcaption>${"caption ".repeat(200).trim()}</figcaption></figure>`);
+    assert.notEqual(padded, html, "the article body must be found");
+    await writeFile(page, padded);
+    const { status, output } = runGate("content", copy);
+    assert.equal(status, 0, output);
+    assert.match(output, /ok {4}blog\/how-this-site-was-built-by-agents\/index\.html: \d+ words \(300–600\)/);
+  });
+
   it("fails when a later article grows past 1,500 English words (the series ceiling, si-xcpc)", async () => {
     const broken = await withPaddedArticle("series-long", "why-we-run-an-agent-run-factory", 600);
     const { status, output } = runGate("content", broken);

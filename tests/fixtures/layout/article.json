@@ -1,0 +1,365 @@
+[
+  {
+    "page": "/blog/how-this-site-was-built-by-agents/",
+    "width": 1024,
+    "article": {
+      "rem": 16,
+      "scrollWidth": 1024,
+      "innerWidth": 1024,
+      "body": {
+        "left": 40,
+        "right": 984
+      },
+      "blocks": [
+        {
+          "tag": "p",
+          "left": 40,
+          "right": 744,
+          "top": 427.06
+        },
+        {
+          "tag": "h2",
+          "left": 40,
+          "right": 744,
+          "top": 582.63
+        },
+        {
+          "tag": "p",
+          "left": 40,
+          "right": 744,
+          "top": 677.3
+        },
+        {
+          "tag": "h2",
+          "left": 40,
+          "right": 744,
+          "top": 1221.17
+        },
+        {
+          "tag": "p",
+          "left": 40,
+          "right": 744,
+          "top": 1315.84
+        },
+        {
+          "tag": "h2",
+          "left": 40,
+          "right": 624,
+          "top": 1558.08
+        },
+        {
+          "tag": "p",
+          "left": 40,
+          "right": 744,
+          "top": 1652.75
+        },
+        {
+          "tag": "h2",
+          "left": 40,
+          "right": 624,
+          "top": 1952.77
+        },
+        {
+          "tag": "p",
+          "left": 40,
+          "right": 744,
+          "top": 2047.44
+        },
+        {
+          "tag": "p",
+          "left": 40,
+          "right": 744,
+          "top": 2179
+        },
+        {
+          "tag": "p",
+          "left": 40,
+          "right": 744,
+          "top": 2397.23
+        }
+      ],
+      "figures": [
+        {
+          "id": "fig-stages",
+          "placement": "wide",
+          "left": 40,
+          "right": 984,
+          "top": 932.42,
+          "nextTop": 1221.17,
+          "nextLinesRight": 568.69,
+          "scale": 0.95
+        },
+        {
+          "id": "fig-loop",
+          "placement": "side",
+          "left": 664,
+          "right": 984,
+          "top": 1315.84,
+          "nextTop": 1315.84,
+          "nextLinesRight": 614.91,
+          "scale": 1
+        },
+        {
+          "id": "fig-gates",
+          "placement": "side",
+          "left": 664,
+          "right": 984,
+          "top": 1652.75,
+          "nextTop": 1652.75,
+          "nextLinesRight": 616.98,
+          "scale": 1
+        }
+      ]
+    }
+  },
+  {
+    "page": "/blog/how-this-site-was-built-by-agents/",
+    "width": 360,
+    "article": {
+      "rem": 16,
+      "scrollWidth": 360,
+      "innerWidth": 360,
+      "body": {
+        "left": 16,
+        "right": 344
+      },
+      "blocks": [
+        {
+          "tag": "p",
+          "left": 16,
+          "right": 344,
+          "top": 538.95
+        },
+        {
+          "tag": "h2",
+          "left": 16,
+          "right": 344,
+          "top": 810.08
+        },
+        {
+          "tag": "p",
+          "left": 16,
+          "right": 344,
+          "top": 893.27
+        },
+        {
+          "tag": "h2",
+          "left": 16,
+          "right": 344,
+          "top": 2206.02
+        },
+        {
+          "tag": "p",
+          "left": 16,
+          "right": 344,
+          "top": 2640.7
+        },
+        {
+          "tag": "h2",
+          "left": 16,
+          "right": 344,
+          "top": 3027.39
+        },
+        {
+          "tag": "p",
+          "left": 16,
+          "right": 344,
+          "top": 3566.06
+        },
+        {
+          "tag": "h2",
+          "left": 16,
+          "right": 344,
+          "top": 4097.2
+        },
+        {
+          "tag": "p",
+          "left": 16,
+          "right": 344,
+          "top": 4212.58
+        },
+        {
+          "tag": "p",
+          "left": 16,
+          "right": 344,
+          "top": 4459.7
+        },
+        {
+          "tag": "p",
+          "left": 16,
+          "right": 344,
+          "top": 4880.17
+        }
+      ],
+      "figures": [
+        {
+          "id": "fig-stages",
+          "placement": "wide",
+          "left": 16,
+          "right": 344,
+          "top": 1437.3,
+          "nextTop": 2206.02,
+          "nextLinesRight": 259.61,
+          "scale": 1.02
+        },
+        {
+          "id": "fig-loop",
+          "placement": "side",
+          "left": 16,
+          "right": 344,
+          "top": 2329.39,
+          "nextTop": 2640.7,
+          "nextLinesRight": 342.97,
+          "scale": 1.02
+        },
+        {
+          "id": "fig-gates",
+          "placement": "side",
+          "left": 16,
+          "right": 344,
+          "top": 3118.58,
+          "nextTop": 3566.06,
+          "nextLinesRight": 341.5,
+          "scale": 1.02
+        }
+      ]
+    }
+  },
+  {
+    "page": "/blog/lessons-from-building-niva/",
+    "width": 1920,
+    "article": {
+      "rem": 16,
+      "scrollWidth": 1920,
+      "innerWidth": 1920,
+      "body": {
+        "left": 392,
+        "right": 1528
+      },
+      "blocks": [
+        {
+          "tag": "p",
+          "left": 392,
+          "right": 1096,
+          "top": 440.97
+        },
+        {
+          "tag": "h2",
+          "left": 392,
+          "right": 1096,
+          "top": 567.64
+        },
+        {
+          "tag": "p",
+          "left": 392,
+          "right": 1096,
+          "top": 664.64
+        },
+        {
+          "tag": "h2",
+          "left": 392,
+          "right": 1096,
+          "top": 820.2
+        },
+        {
+          "tag": "p",
+          "left": 392,
+          "right": 1096,
+          "top": 917.2
+        },
+        {
+          "tag": "h2",
+          "left": 392,
+          "right": 1096,
+          "top": 1665.86
+        },
+        {
+          "tag": "p",
+          "left": 392,
+          "right": 1096,
+          "top": 1762.86
+        },
+        {
+          "tag": "h2",
+          "left": 392,
+          "right": 1096,
+          "top": 1889.53
+        },
+        {
+          "tag": "p",
+          "left": 392,
+          "right": 1096,
+          "top": 1986.53
+        },
+        {
+          "tag": "p",
+          "left": 392,
+          "right": 1096,
+          "top": 2118.09
+        },
+        {
+          "tag": "p",
+          "left": 392,
+          "right": 1096,
+          "top": 2249.66
+        },
+        {
+          "tag": "p",
+          "left": 392,
+          "right": 1096,
+          "top": 2381.22
+        },
+        {
+          "tag": "p",
+          "left": 392,
+          "right": 1096,
+          "top": 2483.89
+        },
+        {
+          "tag": "h2",
+          "left": 392,
+          "right": 1096,
+          "top": 2610.56
+        },
+        {
+          "tag": "p",
+          "left": 392,
+          "right": 1096,
+          "top": 2707.56
+        }
+      ],
+      "figures": [
+        {
+          "id": "fig-assessment",
+          "placement": "side",
+          "left": 1136,
+          "right": 1528,
+          "top": 917.2,
+          "nextTop": 917.2,
+          "nextLinesRight": 1087.7,
+          "scale": 1.23
+        },
+        {
+          "id": "fig-team",
+          "placement": "wide",
+          "left": 392,
+          "right": 1528,
+          "top": 1312.14,
+          "nextTop": 1665.86,
+          "nextLinesRight": 740.02,
+          "scale": 1.15
+        },
+        {
+          "id": "fig-harness",
+          "placement": "side",
+          "left": 1136,
+          "right": 1528,
+          "top": 2381.22,
+          "nextTop": 2381.22,
+          "nextLinesRight": 1094.08,
+          "scale": 1.23
+        }
+      ]
+    }
+  }
+]

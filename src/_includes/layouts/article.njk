@@ -6,7 +6,11 @@ ogType: article
 {#- Article page (REQ-016): the header carries the mono metadata — date, the
     category chip (a link to the category page), the draft chip and the
     machine-translated chip when they apply — then the title, the summary and
-    the draft notice box; the body sits on the 68ch measure; the footer links
+    the draft notice box; header, body blocks and footer sit on a 44rem
+    measure at the container's left edge and, from 64rem, the figures the
+    article calls with `{% figure "<id>"[, "wide"] %}` float into the lane
+    to its right or span the whole width (base.css, founder feedback
+    2026-09-21, si-55iu); the footer links
     the same article in the other language as a secondary button. The
     machine-translated notice box is rendered by layouts/base.njk at the top
     of main for every page with machineTranslated: true. `alternate` is
