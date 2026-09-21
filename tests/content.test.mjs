@@ -127,6 +127,31 @@ describe("content gate", () => {
     assert.match(output, /FAIL {2}sv\/about\/index\.html: footer lacks the LinkedIn link to/);
   });
 
+  /** A copy of the build with `count` filler words prepended to one article's body. */
+  async function withPaddedArticle(name, slug, count) {
+    const copy = await copyDir(built, path.join(tmp.dir, name));
+    const page = path.join(copy, "blog", slug, "index.html");
+    const html = await readFile(page, "utf8");
+    const padded = html.replace('<div class="article-body">', `<div class="article-body"><p>${"filler ".repeat(count).trim()}</p>`);
+    assert.notEqual(padded, html, `${name}: the article body must be found`);
+    await writeFile(page, padded);
+    return copy;
+  }
+
+  it("fails when a seed article grows past 600 English words (REQ-006, AC-11)", async () => {
+    const broken = await withPaddedArticle("seed-long", "how-this-site-was-built-by-agents", 400);
+    const { status, output } = runGate("content", broken);
+    assert.equal(status, 1);
+    assert.match(output, /FAIL {2}blog\/how-this-site-was-built-by-agents\/index\.html: \d+ words \(300–600\)/);
+  });
+
+  it("fails when a later article grows past 1,500 English words (the series ceiling, si-xcpc)", async () => {
+    const broken = await withPaddedArticle("series-long", "why-we-run-an-agent-run-factory", 600);
+    const { status, output } = runGate("content", broken);
+    assert.equal(status, 1);
+    assert.match(output, /FAIL {2}blog\/why-we-run-an-agent-run-factory\/index\.html: \d+ words \(300–1500\)/);
+  });
+
   it("fails when a private repository is linked", async () => {
     const broken = await withLandingEdit("private-link", (html) => html.replace("</main>", '<a href="https://github.com/PeterBlenessy/portfolio-app">Compound</a></main>'));
     const { status, output } = runGate("content", broken);

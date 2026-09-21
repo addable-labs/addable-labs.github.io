@@ -25,9 +25,9 @@
 //     link to the page language's feed
 //   - no GitHub links for private repositories; StockSight-AI and the factory
 //     are absent everywhere
-//   - both seed articles exist in both languages, English articles are
-//     300–600 words, drafts show "Draft"/"Utkast" on the article page, in the
-//     listings and in the feeds
+//   - both seed articles exist in both languages, the seed articles are
+//     300–600 English words and every later article 300–1,500, drafts show
+//     "Draft"/"Utkast" on the article page, in the listings and in the feeds
 // Optional arguments: <built-site dir> [<source dir>].
 
 import { readFile } from "node:fs/promises";
@@ -52,6 +52,11 @@ const AI_NATIVE = { en: "AI-native", sv: "AI-nativ" };
 // an early-access mailto: whose subject says so in the page's language.
 const EARLY_ACCESS_SUBJECT = { en: /access/i, sv: /tillgång/i };
 const ARTICLE_SLUG = "how-this-site-was-built-by-agents";
+// REQ-006 (AC-11): the two seed articles are 300–600 English words. Later
+// articles (the factory series, si-xcpc) get a floor against stubs and a
+// ceiling for a readable post: 300–1,500.
+const SEED_ARTICLES = new Set([ARTICLE_SLUG, "lessons-from-building-niva"]);
+const WORD_RANGE = { seed: [300, 600], other: [300, 1500] };
 // REQ-011 as amended by A-01: the private repositories of the curated six
 // (marketdata-api and Compound join nivå — both left the grid in feedback
 // round 1, si-yp2x, but stay private and unlinkable), the first build's
@@ -278,7 +283,8 @@ for (const lang of site.languages.codes) {
     if (!built) continue;
     if (lang === site.languages.default) {
       const words = text(built.doc.querySelector(".article-body")).split(/\s+/).filter(Boolean).length;
-      report.check(words >= 300 && words <= 600, `${rel}: ${words} words (300–600)`);
+      const [min, max] = SEED_ARTICLES.has(article.slug) ? WORD_RANGE.seed : WORD_RANGE.other;
+      report.check(words >= min && words <= max, `${rel}: ${words} words (${min}–${max})`);
     }
     const hasNotice = built.doc.querySelector(".notice-draft") !== null;
     report.check(hasNotice === article.draft, `${rel}: draft notice ${article.draft ? "shown" : "absent"}`);

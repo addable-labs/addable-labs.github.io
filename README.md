@@ -160,6 +160,9 @@ Brödtext i Markdown.
   the build naming the file and listing the allowed keys), `draft` and
   `machineTranslated` must be booleans. `lang` comes from the directory; do not
   set it in the file.
+- **Length.** The content gate (`pnpm check:content`) counts the words of the
+  built English article body: 300–600 for the two seed articles (REQ-006) and
+  300–1,500 for every later article. The Swedish twin is not counted.
 
 Pages other than articles (landing, about, blog index, category pages) are
 Nunjucks templates under `src/en/` and `src/sv/` whose copy lives in
