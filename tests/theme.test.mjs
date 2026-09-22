@@ -3,12 +3,34 @@ import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { after, before, describe, it } from "node:test";
 import { parse } from "node-html-parser";
+import { parseTokens } from "../scripts/lib/contrast.mjs";
 import { resolve } from "../scripts/lib/theme-logic.mjs";
 import { buildSite, ROOT, tempDir } from "./helpers.mjs";
 
 const SCRIPT_FILE = path.join(ROOT, "src", "assets", "js", "theme.js");
 const LOGIC_FILE = path.join(ROOT, "scripts", "lib", "theme-logic.mjs");
-const DARK_BACKGROUND = "#0B0E10";
+const TOKENS_FILE = path.join(ROOT, "src", "assets", "css", "tokens.css");
+const TOKENS = parseTokens(await readFile(TOKENS_FILE, "utf8"));
+const DARK_BACKGROUND = TOKENS.dark["--color-bg"];
+
+// Three files repeat token values as literals, changed by hand
+// (docs/identity.md, "Changing a colour"). Every hex literal in each file, in
+// source order, with the token and theme it copies.
+const COPIES = {
+  "src/_includes/partials/head.njk": [
+    ["the theme-color meta", "--color-bg", "dark"],
+  ],
+  "src/assets/js/theme.js": [
+    ["the theme-color for dark", "--color-bg", "dark"],
+    ["the theme-color for light", "--color-bg", "light"],
+  ],
+  "src/favicon.svg": [
+    ["the tile fill", "--color-bg", "dark"],
+    ["the tile edge", "--color-bg", "dark"],
+    ["the tile edge on a light tab bar", "--color-accent-text", "light"],
+    ["the plus", "--color-accent", "dark"],
+  ],
+};
 
 async function walkHtml(dir) {
   const { walk } = await import("../scripts/lib/site.mjs");
@@ -30,6 +52,27 @@ describe("theme logic (REQ-007 as amended by A-03/A-04, D-13)", () => {
   it("consults no media query", async () => {
     const logic = await readFile(LOGIC_FILE, "utf8");
     assert.doesNotMatch(logic, /matchMedia|prefers-color-scheme/);
+  });
+});
+
+describe("colours copied by hand from tokens.css", () => {
+  it("head.njk, theme.js and favicon.svg repeat the token values they copy, literal for literal", async () => {
+    // Collect every stale copy before failing: a changed token leaves several.
+    const stale = [];
+    for (const [file, copies] of Object.entries(COPIES)) {
+      const text = await readFile(path.join(ROOT, file), "utf8");
+      const literals = [...text.matchAll(/#[0-9a-f]{3,8}\b/gi)];
+      assert.equal(literals.length, copies.length, `${file} has ${literals.length} colour literals (${literals.map(([hex]) => hex).join(", ")}), COPIES lists ${copies.length}: name the token each one copies`);
+      copies.forEach(([what, token, scheme], i) => {
+        const [literal] = literals[i];
+        const value = TOKENS[scheme][token];
+        if (literal.toLowerCase() !== value?.toLowerCase()) {
+          const line = text.slice(0, literals[i].index).split("\n").length;
+          stale.push(`${file}:${line}: ${what} is ${literal}, but ${token} (${scheme}) in tokens.css is ${value}`);
+        }
+      });
+    }
+    assert.deepEqual(stale, []);
   });
 });
 
@@ -80,7 +123,7 @@ describe("theme script and toggle in the built site", () => {
       const doc = parse(await readFile(file, "utf8"));
       const metas = doc.querySelectorAll('meta[name="theme-color"]');
       assert.equal(metas.length, 1, `${file}: expected exactly one theme-color meta`);
-      assert.equal(metas[0].getAttribute("content"), DARK_BACKGROUND, file);
+      assert.equal(metas[0].getAttribute("content")?.toLowerCase(), DARK_BACKGROUND.toLowerCase(), `${file}: theme-color must be --color-bg (dark) in tokens.css`);
       assert.equal(metas[0].getAttribute("media"), undefined, `${file}: theme-color must not depend on the OS scheme`);
       assert.equal(doc.querySelector('meta[name="color-scheme"]')?.getAttribute("content"), "dark light", file);
     }
