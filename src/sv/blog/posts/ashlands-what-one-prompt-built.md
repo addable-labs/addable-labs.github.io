@@ -5,17 +5,18 @@ date: 2026-09-22
 category: ai-journey             # app-development | ai-journey
 translationKey: ashlands-what-one-prompt-built
 draft: false                     # publicerad — sätt true för att hålla den utanför publika bygget
-machineTranslated: true          # true tills en person har granskat texten
+aiGenerated: true                # AI har skrivit texten
+humanReviewed: true              # en person har läst den
 ---
 
 Den 31 juli 2026 gav vi Claude Code [en enda
 prompt](https://github.com/addable-labs/ashlands#this-is-an-experiment):
-bygg ett action-rollspel i nivå med Morrowind, i Three.js, fäll ut
-underagenter, låt en separat hård kritiker jämföra varje del sida vid sida
-med det riktiga spelet och sluta inte förrän varje kritiker är imponerad.
-Ingen arkitektur, ingen uppgiftslista, ingen definition av vad som är klart.
-Bygget pågick i tre dagar; den 10 augusti skrev agenten på vår begäran en
-utvärdering av sin egen körning. Båda är offentliga:
+bygg ett action-rollspel i nivå med Morrowind, i Three.js, starta
+underagenter parallellt, låt en separat hård kritiker jämföra varje del sida
+vid sida med det riktiga spelet och sluta inte förrän varje kritiker är
+imponerad. Ingen arkitektur, ingen uppgiftslista, ingen definition av vad som
+är klart. Bygget pågick i tre dagar; den 10 augusti skrev agenten på vår
+begäran en utvärdering av sin egen körning. Båda är offentliga:
 [Ashlands](https://github.com/addable-labs/ashlands) är MIT-licensierat och
 dess
 [utvärderingsrapport](https://github.com/addable-labs/ashlands/blob/main/EVALUATION.md)
@@ -40,9 +41,9 @@ Ungefär 94 000 rader TypeScript i 160 filer; sexton delsystem, vart och ett
 bakom ett namngivet kontrakt; arton uppdrag med dialog, fraktioner, brott
 och en dagbok; noll binära resurser – terräng, material, himmel, växtlighet,
 arkitektur, varelser, musik och ljud genereras alla ur kod. Agenten byggde
-också maskineriet som dömer den: 32 grindkontroller och 17 kontroller från
-ände till ände som kör en riktig webbläsare. Vid körningens slut föll 1 av
-32 grindkontroller, 16 av 16 kontroller från ände till ände gick igenom och
+också maskineriet som dömer den: 32 grindkontroller och 17
+end-to-end-kontroller som kör en riktig webbläsare. Vid körningens slut föll
+1 av 32 grindkontroller, 16 av 16 end-to-end-kontroller gick igenom och
 spelet gick i 20 till 35 bilder per sekund i den upplösning som bilderna
 fångades i, på en MacBook Air.
 

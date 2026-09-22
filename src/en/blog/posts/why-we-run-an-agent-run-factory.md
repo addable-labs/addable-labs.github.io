@@ -5,7 +5,8 @@ date: 2026-09-21
 category: ai-journey             # app-development | ai-journey
 translationKey: why-we-run-an-agent-run-factory
 draft: false                     # published — set true to keep it out of the public build (see README)
-machineTranslated: false         # Swedish files: true until a person has reviewed the text
+aiGenerated: true                # AI produced this text
+humanReviewed: true              # a person has read it
 ---
 
 Addable Labs builds software largely with AI agents, and since September 2026
@@ -75,12 +76,13 @@ orchestrator, and ran the first build the same afternoon.
 
 {% figure "setup" %}
 
-Beads is a command-line issue tracker backed by a version-controlled database.
-Every unit of work is a bead — a task, a message between agents, the record of
-a session — with dependencies between them. A bead with an open blocker is not
-offered to any agent as ready work, which is how order is kept without a
-central scheduler. An agent claims a bead, works, writes down what it did and
-closes it; if its session dies halfway, the bead stays open for the next one.
+Beads is a command-line issue tracker backed by a version-controlled
+database. Every unit of work is a bead — a task, a message between agents,
+the record of a session — with dependencies between them. A bead blocked by
+another is not offered to any agent, which is how order is kept without a
+central scheduler. An agent claims a bead, works, writes down what it did
+and closes it; if its session dies halfway, the bead stays open for the next
+one.
 
 Gas City is the orchestrator around that ledger and hard-codes no roles. An
 agent is configuration: a name, a prompt, a scope. A formula is a workflow
@@ -118,19 +120,19 @@ it wrote are in the repository. It began on 20 September 2026 at 17:34 UTC
 with a short brief, and the review report was finalised at 00:14 the next
 morning: six hours and forty minutes of wall-clock time. In between, the
 requirements step produced 31 requirements with acceptance criteria; the
-plan step rendered three design directions as real pages, and, already
-looking at them on the author's preview server, we picked one within two
-minutes of being asked and approved the reviewed plan at 19:45; the
-decomposition produced ten work items; one implementation worker, in four
-sessions, worked through them in 22 commits; and three review lanes found
-two required fixes, made by a fix lane before the report was written. The
-branch ended at 39 commits touching 90 source files, passing ten automated
-gates, 101 tests and Lighthouse scores of 97 to 100 on all seven pages it
-checks. Our part was six short messages while the run was on — the pick, our
-corrections, the plan-gate answers — and, next morning, our verdict on the
-finished page. The run itself was 112 beads, 17 agent sessions in ten roles
-and ten mails between the mayor and the floor that we never had to carry;
-nothing went public on the agents' own say-so.
+plan step rendered three design directions as real pages — we were already
+looking at them on the preview server and picked one within two minutes of
+being asked — and approved the reviewed plan at 19:45; the decomposition
+produced ten work items; one implementation worker, in four sessions, worked
+through them in 22 commits; and three review lanes found two required fixes,
+made by a fix lane before the report was written. The branch ended at 39
+commits touching 90 source files, passing ten automated gates, 101 tests and
+Lighthouse scores of 97 to 100 on all seven pages it checks. Our part was
+six short messages while the run was on — the pick, our corrections, the
+plan-gate answers — and, next morning, our verdict on the finished page. The
+run itself was 112 beads, 17 agent sessions in ten roles and ten mails
+between the mayor and the floor that we never had to carry; nothing went
+public on the agents' own say-so.
 
 {% figure "build", "wide" %}
 

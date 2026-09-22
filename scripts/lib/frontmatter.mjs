@@ -10,7 +10,8 @@
 //   category: app-development    a key from src/_data/categories.json
 //   translationKey: some-slug    the same slug in both languages
 //   draft: true                  boolean; built locally, left out of the public build
-//   machineTranslated: false     boolean; Swedish files: true until reviewed
+//   aiGenerated: true            boolean; AI produced this text, whatever the language
+//   humanReviewed: false         boolean; a person has read this text
 //
 // `lang` comes from the directory data file; an explicit per-file `lang` must
 // equal the directory's.
@@ -24,7 +25,8 @@ export const REQUIRED_KEYS = [
   "category",
   "translationKey",
   "draft",
-  "machineTranslated",
+  "aiGenerated",
+  "humanReviewed",
 ];
 
 const SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
@@ -136,8 +138,10 @@ export function validateArticle(data, { allowedCategories, dirLang, file = "arti
   if (data.draft !== undefined && typeof data.draft !== "boolean") {
     problems.push(`draft must be true or false, got ${JSON.stringify(data.draft)}`);
   }
-  if (data.machineTranslated !== undefined && typeof data.machineTranslated !== "boolean") {
-    problems.push(`machineTranslated must be true or false, got ${JSON.stringify(data.machineTranslated)}`);
+  for (const key of ["aiGenerated", "humanReviewed"]) {
+    if (data[key] !== undefined && typeof data[key] !== "boolean") {
+      problems.push(`${key} must be true or false, got ${JSON.stringify(data[key])}`);
+    }
   }
   if (dirLang && data.lang !== undefined && data.lang !== dirLang) {
     problems.push(`lang ${JSON.stringify(data.lang)} does not match the directory language ${JSON.stringify(dirLang)}`);

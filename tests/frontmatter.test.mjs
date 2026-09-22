@@ -10,7 +10,8 @@ const valid = {
   category: "ai-journey",
   translationKey: "a-valid-article",
   draft: true,
-  machineTranslated: false,
+  aiGenerated: true,
+  humanReviewed: false,
   lang: "en",
 };
 
@@ -27,7 +28,27 @@ describe("article front-matter validator", () => {
   });
 
   it("reports every missing required key", () => {
+    assert.equal(REQUIRED_KEYS.length, 8);
     assert.throws(() => validateArticle({}, { allowedCategories }), new RegExp(`missing required keys: ${REQUIRED_KEYS.join(", ")}`));
+  });
+
+  // aiGenerated says how the text came to exist and humanReviewed whether a
+  // person has read it; the two are independent, so all four combinations are
+  // valid and only a non-boolean is a problem.
+  it("accepts every combination of aiGenerated and humanReviewed, and rejects a non-boolean", () => {
+    for (const aiGenerated of [true, false]) {
+      for (const humanReviewed of [true, false]) {
+        assert.deepEqual(validateArticle({ ...valid, aiGenerated, humanReviewed }, { allowedCategories }), []);
+      }
+    }
+    assert.throws(
+      () => validateArticle({ ...valid, aiGenerated: "yes" }, { allowedCategories }),
+      /aiGenerated must be true or false, got "yes"/,
+    );
+    assert.throws(
+      () => validateArticle({ ...valid, humanReviewed: "no" }, { allowedCategories }),
+      /humanReviewed must be true or false, got "no"/,
+    );
   });
 
   it("rejects a non-slug translationKey, a non-boolean draft and a lang mismatch", () => {
