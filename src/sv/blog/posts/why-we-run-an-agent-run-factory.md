@@ -11,7 +11,8 @@ machineTranslated: true          # true tills en person har granskat texten
 Addable Labs bygger mjukvara till stor del med AI-agenter och sedan
 september 2026 byggs och underhålls den här webbplatsen av det vi kallar
 fabriken: ett litet team av kodande agenter, organiserat som ett företag, som
-samordnar sig genom en gemensam ärendehanterare, med en person som ansvarar.
+samordnar sig genom en gemensam ärendehanterare, med en person som är ansvarig
+för fabriken.
 Avsnittet [Så arbetar vi](/sv/#how) på startsidan säger det på fyra rader och
 [en tidigare artikel](/sv/blog/how-this-site-was-built-by-agents/) berättade om
 ett bygge. Den här serien beskriver själva uppsättningen – ett lager i taget –
@@ -30,7 +31,7 @@ planera, bygga, granska och publicera medan grundaren gör något annat.
 Tre saker måste vara på plats först. Arbetet måste skrivas ner någonstans där
 varje agent kan läsa det, så att vilken session som helst kan ta vid där en
 annan slutade. Granskningen måste göras av en annan agent än den som skrev
-koden. Och den som ansvarar måste vara inblandad vid några få kända punkter –
+koden. Och den som är ansvarig måste vara inblandad vid några få kända punkter –
 en plan att godkänna, en gren att läsa innan den pushas – i stället för hela
 tiden. Vi ville inte bygga det maskineriet själva och det visade sig att vi
 inte behövde.

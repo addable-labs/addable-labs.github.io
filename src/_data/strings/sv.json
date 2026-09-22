@@ -26,7 +26,7 @@
   "hero": {
     "eyebrow": "AI-nativt mjukvaruföretag · Sverige",
     "title": "Vi bygger AI-⁠drivna appar och hjälper team att sätta AI i arbete.",
-    "lead": "Addable Labs levererar AI-drivna produkter – till stor del byggda av AI-agenter med en person som ansvarar – och hjälper företag och team att behärska AI, från kartläggning till införande.",
+    "lead": "Addable Labs levererar AI-drivna produkter – till stor del byggda av AI-agenter med en person som är ansvarig för arbetet – och hjälper företag och team att behärska AI, från kartläggning till införande.",
     "ctaPrimary": "Se vad vi har byggt",
     "nivaEarlyAccess": "Få tidig tillgång till nivå",
     "nivaEarlyAccessSubject": "Tidig tillgång till nivå",
@@ -150,7 +150,7 @@
   },
   "trust": {
     "eyebrow": "Så arbetar vi",
-    "heading": "AI-nativt, agenter som medarbetare, en person som ansvarar",
+    "heading": "AI-nativt, agenter som medarbetare, en person som är ansvarig",
     "points": {
       "aiNative": {
         "title": "AI-nativt",
