@@ -154,7 +154,8 @@ function stageList(id, rows, top = 64) {
   return parts.join("");
 }
 
-// The six figures. Each takes the figure's strings, its id (for the error
+// The figures — six from si-55iu, four for the factory article from
+// si-hct0 (from (7) on). Each takes the figure's strings, its id (for the error
 // messages of `fit`) and the figure's DOM id (`fig-<id>`, which prefixes the
 // panel ids and so the marker ids an arrow references) and returns
 // { panels: [...], caption }; a panel is { title, head, headRight?, height,
@@ -355,7 +356,173 @@ function harness(t, id, figureId) {
   };
 }
 
-export const FIGURES = { stages, gates, loop, assessment, team, harness };
+// The four figures of the factory article (founder request 2026-09-22,
+// si-hct0), redrawn from the factory's design documents in the site's own
+// language: the before/after of the shared ledger, the timeline of what the
+// setup is built on, the setup in one picture and the second build as a
+// clock. Facts come from the article and the run records it cites; nothing
+// private from the documents (no ports, hosts, session names, model tiers).
+
+/** A double-headed arrow: the marker at both ends. */
+function exchange(id, x1, y1, x2, y2, dashed = false) {
+  return `<line x1="${round(x1)}" y1="${round(y1)}" x2="${round(x2)}" y2="${round(y2)}" class="fig-line${dashed ? " fig-dashed" : ""}" marker-start="url(#${id}-arrow)" marker-end="url(#${id}-arrow)"/>`;
+}
+
+/** A rounded node with a centred label; `cls` colours the label. */
+function box(x, y, width, key, value, cls = "") {
+  return [
+    `<rect x="${x}" y="${y}" width="${width}" height="24" rx="6" class="fig-node"/>`,
+    text(x + width / 2, y + 16, fit(key, value, width - 12, "label"), `fig-label${cls}`, "middle"),
+  ].join("");
+}
+
+/** A muted footer line under a panel's rows, with a dot or the founder's diamond in front. */
+function footer(id, key, value, y, gate = false) {
+  const mark = gate ? diamond(24, y - 4, 4.5) : `<circle cx="24" cy="${y - 4}" r="2.5" class="fig-dot"/>`;
+  return mark + text(40, y, fit(key, value, 250), `fig-note${gate ? " fig-wait" : ""}`);
+}
+
+// (7) Before and after the ledger — one panel in two halves. Before: four
+// agents on one laptop, each on its own project, the founder at the centre
+// carrying every message by hand (the dashed lines). After: the sessions
+// read and write one shared ledger, the mayor is the one the founder talks
+// to, and the founder is involved at two known points.
+function ledger(t, id, figureId) {
+  const pid = `${figureId}-p1`;
+  const parts = [];
+  // Before.
+  parts.push(text(16, 54, fit(`${id}.before`, t.before, 288), "fig-note"));
+  const agents = [48, 122, 198, 272];
+  const founderBox = { x: 116, y: 116, w: 88 };
+  agents.forEach((x, i) => {
+    parts.push(text(x, 72, fit(`${id}.agent`, t.agent, 70), "fig-note", "middle"));
+    parts.push(`<circle cx="${x}" cy="84" r="4" class="fig-dot"/>`);
+    parts.push(exchange(pid, x, 90, founderBox.x + 20 + i * 16, founderBox.y, true));
+  });
+  parts.push(box(founderBox.x, founderBox.y, founderBox.w, `${id}.founder`, t.founder, " fig-wait"));
+  parts.push(text(160, 156, fit(`${id}.byHand`, t.byHand, 288), "fig-note", "middle"));
+  parts.push(`<line x1="16" y1="168" x2="${WIDTH - 16}" y2="168" class="fig-hair"/>`);
+  // After.
+  parts.push(text(16, 186, fit(`${id}.after`, t.after, 288), "fig-note"));
+  parts.push(box(16, 198, 88, `${id}.founder`, t.founder, " fig-wait"));
+  parts.push(exchange(pid, 106, 210, 134, 210));
+  parts.push(box(136, 198, 110, `${id}.mayor`, t.mayor));
+  parts.push(text(16, 234, fit(`${id}.points`, t.points, 134), "fig-note"));
+  parts.push(diamond(22, 246, 4.5));
+  parts.push(text(32, 250, fit(`${id}.plan`, t.plan, 108), "fig-note fig-wait"));
+  parts.push(diamond(22, 262, 4.5));
+  parts.push(text(32, 266, fit(`${id}.branch`, t.branch, 108), "fig-note fig-wait"));
+  parts.push(exchange(pid, 160, 224, 160, 270));
+  parts.push(text(238, 234, fit(`${id}.sessions`, t.sessions, 120), "fig-note", "middle"));
+  for (const x of [196, 238, 280]) {
+    parts.push(`<circle cx="${x}" cy="246" r="4" class="fig-dot"/>`);
+    parts.push(exchange(pid, x, 254, x, 270));
+  }
+  parts.push(`<rect x="16" y="272" width="288" height="24" rx="6" class="fig-node"/>`);
+  parts.push(text(160, 288, fit(`${id}.ledger`, t.ledger, 276, "label"), "fig-label fig-ok", "middle"));
+  parts.push(text(16, 316, fit(`${id}.handoff`, t.handoff, 288), "fig-note"));
+  return { caption: t.caption, panels: [{ title: t.title, head: t.head, height: 328, body: parts.join("") }] };
+}
+
+// (8) The timeline: what the setup is built on, dated as the article dates
+// it, with the credit the article gives; our own two builds close the list
+// with the commit's glow.
+function timeline(t, id, figureId) {
+  const keys = ["beads", "gastown", "gascity", "fences", "builds"];
+  const parts = [];
+  const top = 66;
+  const pitch = 44;
+  parts.push(`<line x1="100" y1="${top - 4}" x2="100" y2="${top + (keys.length - 1) * pitch - 4}" class="fig-hair"/>`);
+  keys.forEach((key, i) => {
+    const row = t.rows[key];
+    const y = top + i * pitch;
+    const ours = key === "builds";
+    parts.push(text(16, y, fit(`${id}.rows.${key}.date`, row.date, 72), "fig-note"));
+    if (ours) parts.push(`<circle cx="100" cy="${y - 4}" r="9" class="fig-glow"/>`);
+    parts.push(`<circle cx="100" cy="${y - 4}" r="4" class="fig-dot"/>`);
+    parts.push(text(112, y, fit(`${id}.rows.${key}.label`, row.label, 192, "label"), `fig-label${ours ? " fig-ok" : ""}`));
+    parts.push(text(112, y + 13, fit(`${id}.rows.${key}.note`, row.note, 192), "fig-note"));
+    parts.push(text(112, y + 25, fit(`${id}.rows.${key}.credit`, row.credit, 192), "fig-note"));
+  });
+  return { caption: t.caption, panels: [{ title: t.title, head: t.head, height: 288, body: parts.join("") }] };
+}
+
+// (9) The setup in one picture: the founder talks to the mayor over Discord;
+// the mayor and the floor roles read and write one Beads ledger; Gas City
+// drives the graph of beads and restarts sessions that crash; there is no
+// other message bus. Beneath, a bead's states as the article gives them.
+function setup(t, id, figureId) {
+  const pid = `${figureId}-p1`;
+  const parts = [];
+  // The founder and the mayor.
+  parts.push(text(16, 64, fit(`${id}.founder`, t.founder, 76, "label"), "fig-label fig-wait"));
+  parts.push(text(116, 52, fit(`${id}.discord`, t.discord, 60), "fig-note", "middle"));
+  parts.push(exchange(pid, 96, 60, 136, 60));
+  parts.push(text(144, 64, fit(`${id}.mayor`, t.mayor, 120, "label"), "fig-label"));
+  parts.push(exchange(pid, 160, 72, 160, 88));
+  // The ledger.
+  parts.push(`<rect x="16" y="90" width="288" height="36" rx="6" class="fig-node"/>`);
+  parts.push(text(28, 106, fit(`${id}.ledger`, t.ledger, 264, "label"), "fig-label fig-ok"));
+  parts.push(text(28, 120, fit(`${id}.noBus`, t.noBus, 264), "fig-note"));
+  // The floor, and Gas City driving both.
+  parts.push(exchange(pid, 48, 128, 48, 144));
+  parts.push(text(58, 141, fit(`${id}.floorArrow`, t.floorArrow, 150), "fig-note"));
+  parts.push(`<rect x="16" y="146" width="272" height="62" rx="6" class="fig-node"/>`);
+  parts.push(text(28, 162, fit(`${id}.floor`, t.floor, 100, "label"), "fig-label"));
+  parts.push(text(276, 162, fit(`${id}.floorNote`, t.floorNote, 140), "fig-note", "end"));
+  ["a", "b", "c"].forEach((key, i) => {
+    parts.push(text(28, 177 + i * 12.5, fit(`${id}.roles.${key}`, t.roles[key], 248), "fig-note"));
+  });
+  parts.push(arrow(pid, 256, 228, 256, 210));
+  parts.push(arrow(pid, 296, 228, 296, 128));
+  parts.push(text(304, 244, fit(`${id}.orchestrator`, t.orchestrator, 120, "label"), "fig-label", "end"));
+  parts.push(text(304, 258, fit(`${id}.orchestratorNote`, t.orchestratorNote, 288), "fig-note", "end"));
+  parts.push(`<line x1="16" y1="268" x2="${WIDTH - 16}" y2="268" class="fig-hair"/>`);
+  // A bead's states: open (hollow), claimed (the accent dot), closed (the check).
+  parts.push(text(16, 284, fit(`${id}.bead.head`, t.bead.head, 288), "fig-note"));
+  parts.push(`<circle cx="22" cy="298" r="4.5" class="fig-node"/>`);
+  parts.push(text(32, 302, fit(`${id}.bead.open`, t.bead.open, 46, "label"), "fig-label"));
+  parts.push(arrow(pid, 80, 298, 98, 298));
+  parts.push(`<circle cx="108" cy="298" r="4" class="fig-dot"/>`);
+  parts.push(text(118, 302, fit(`${id}.bead.claimed`, t.bead.claimed, 62, "label"), "fig-label"));
+  parts.push(arrow(pid, 182, 298, 200, 298));
+  parts.push(check(210, 298));
+  parts.push(text(220, 302, fit(`${id}.bead.closed`, t.bead.closed, 84, "label"), "fig-label fig-ok"));
+  parts.push(text(16, 318, fit(`${id}.bead.blocked`, t.bead.blocked, 288), "fig-note"));
+  parts.push(text(16, 332, fit(`${id}.bead.dies`, t.bead.dies, 288), "fig-note"));
+  return { caption: t.caption, panels: [{ title: t.title, head: t.head, height: 344, body: parts.join("") }] };
+}
+
+// (10) The second build as a clock — wide, three panels like the stages
+// figure of the earlier article, but every row closes with its time (UTC,
+// from the run's stage table) or its count, the founder's pick and plan gate
+// are the orange rows, and each panel ends with a footer line.
+function build(t, id, figureId) {
+  const height = 288;
+  const row = (key, extra = {}) => {
+    const r = t.rows[key];
+    const spec = { key, label: r.label, note: r.note, ...extra };
+    if (r.state) spec.state = { value: r.state, cls: extra.gate ? "fig-wait" : extra.count ? "fig-ok fig-strong" : "" };
+    return spec;
+  };
+  const panelSpec = (key, rows, gate) => ({
+    title: t.panels[key].title,
+    head: t.panels[key].head,
+    headRight: { value: fit(`${id}.panels.${key}.window`, t.panels[key].window, 104, "head"), cls: "" },
+    height,
+    body: stageList(id, rows) + footer(id, `${id}.footers.${key}`, t.footers[key], 64 + rows.length * 34, gate),
+  });
+  return {
+    caption: t.caption,
+    panels: [
+      panelSpec("documents", [row("brief"), row("requirements"), row("pick", { gate: true }), row("plan"), row("planReview"), row("gate", { gate: true })], true),
+      panelSpec("build", [row("decomposition"), row("implementation"), row("commits", { count: true }), row("gates", { count: true }), row("tests", { count: true }), row("summary")], false),
+      panelSpec("release", [row("review"), row("fixes"), row("report"), row("lighthouse", { count: true }), row("verdict", { gate: true })], false),
+    ],
+  };
+}
+
+export const FIGURES = { stages, gates, loop, assessment, team, harness, ledger, timeline, setup, build };
 
 /**
  * Render one figure as HTML: `<figure class="figure figure-inline|figure-wide">`

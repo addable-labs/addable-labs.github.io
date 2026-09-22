@@ -362,6 +362,198 @@
         }
       },
       "caption": "Build the harness before the features: type-checking, linting and unit tests run before every commit, end-to-end tests exercise the built app, and database migrations are append-only. Slower at first, faster for every commit after that."
+    },
+    "ledger": {
+      "title": "Before and after the ledger: one person carrying every message between four agents, then one shared ledger with the founder at a few known points",
+      "head": "before and after the ledger",
+      "before": "before: four agents, each on its own project",
+      "agent": "agent",
+      "founder": "founder",
+      "byHand": "every message carried by hand",
+      "after": "after: one ledger any session can claim from",
+      "mayor": "mayor",
+      "points": "a few known points:",
+      "plan": "a plan to approve",
+      "branch": "a branch to read",
+      "sessions": "sessions",
+      "ledger": "the ledger",
+      "handoff": "sessions hand work to each other through it",
+      "caption": "Before: four agents on one laptop, each on its own project, and every message between them carried by the founder — on 12 September, pasted into the rules file every agent reads first. After: one shared ledger that any session can claim from, sessions handing work to each other through it, and the founder at a few known points — a plan to approve, a branch to read — talking to the mayor."
+    },
+    "timeline": {
+      "title": "The timeline: Beads, Gas Town, Gas City, the Fences essay and our two builds",
+      "head": "from Beads to our two builds",
+      "rows": {
+        "beads": {
+          "date": "Oct 2025",
+          "label": "Beads",
+          "note": "memory for coding agents",
+          "credit": "Steve Yegge"
+        },
+        "gastown": {
+          "date": "Jan 2026",
+          "label": "Gas Town",
+          "note": "an agent is not a session",
+          "credit": "Steve Yegge"
+        },
+        "gascity": {
+          "date": "Apr 2026",
+          "label": "Gas City",
+          "note": "Gas Town rewritten as an SDK",
+          "credit": "Julian Knutsen, Chris Sells"
+        },
+        "fences": {
+          "date": "Aug 2026",
+          "label": "Fences, not Sandboxes",
+          "note": "written rules, not containment",
+          "credit": "Steve Yegge"
+        },
+        "builds": {
+          "date": "20 Sep 2026",
+          "label": "our two builds",
+          "note": "the day we read all of it",
+          "credit": "Addable Labs"
+        }
+      },
+      "caption": "What the setup is built on, dated as the article dates it: Steve Yegge's Beads (October 2025), Gas Town (January 2026) and the Fences essay (August 2026); Gas City (April 2026), written by Julian Knutsen and Chris Sells with the Gas Town Hall community; and 20 September 2026, the day we went through all of it and ran the first build, then the second."
+    },
+    "setup": {
+      "title": "The setup in one picture: the founder, the mayor, the floor and Gas City around one Beads ledger, and a bead's states",
+      "head": "one factory, one ledger",
+      "founder": "founder",
+      "discord": "Discord",
+      "mayor": "mayor",
+      "ledger": "Beads: one ledger",
+      "noBus": "no other message bus",
+      "floorArrow": "claim · write · close",
+      "floor": "the floor",
+      "floorNote": "one session per step",
+      "roles": {
+        "a": "requirements · plan · plan review",
+        "b": "decomposition · implementation",
+        "c": "three review lanes · publisher"
+      },
+      "orchestrator": "Gas City",
+      "orchestratorNote": "drives the graph, restarts crashed sessions",
+      "bead": {
+        "head": "a bead",
+        "open": "open",
+        "claimed": "claimed",
+        "closed": "closed",
+        "blocked": "blocked = not offered as ready work",
+        "dies": "a session that dies leaves the bead open"
+      },
+      "caption": "One factory: the founder talks to the mayor over Discord; the mayor and the floor roles — each a session started when a build step needs it — read and write one Beads ledger, which Gas City drives as a graph of beads, restarting sessions that crash. There is no other message bus. A bead is open, claimed or closed; a bead with an open blocker is not offered as ready work, and a session that dies leaves its bead open for the next one. Sessions are disposable, the work is persistent."
+    },
+    "build": {
+      "caption": "The factory's second build, 20–21 September 2026, 17:34 to 00:14 UTC — six hours and forty minutes from the brief to the review report, with each stage's closing time and the counts the run recorded. The founder's two points are the orange rows: his pick of a design direction and the plan gate.",
+      "panels": {
+        "documents": {
+          "title": "Stages one to three of the second build, 17:34 to 19:45 UTC, with the founder's pick and his plan gate",
+          "head": "before the code",
+          "window": "17:34–19:45 UTC"
+        },
+        "build": {
+          "title": "The build: decomposition, implementation, commits, gates, tests and summary, 20:13 to 23:07 UTC",
+          "head": "the build",
+          "window": "20:13–23:07 UTC"
+        },
+        "release": {
+          "title": "The review of the result, the fixes, the report, Lighthouse and the founder's verdict, from 00:04 UTC",
+          "head": "before it is public",
+          "window": "00:04–00:14 UTC"
+        }
+      },
+      "rows": {
+        "brief": {
+          "label": "brief",
+          "note": "a short brief starts the run",
+          "state": "17:34"
+        },
+        "requirements": {
+          "label": "requirements",
+          "note": "31 requirements, with criteria",
+          "state": "17:49"
+        },
+        "pick": {
+          "label": "founder's pick",
+          "note": "one of three directions, in two minutes",
+          "state": "18:23"
+        },
+        "plan": {
+          "label": "plan",
+          "note": "three directions rendered as real pages",
+          "state": "18:43"
+        },
+        "planReview": {
+          "label": "plan review",
+          "note": "approved for decomposition",
+          "state": "19:06"
+        },
+        "gate": {
+          "label": "founder gate",
+          "note": "the reviewed plan is approved",
+          "state": "19:45"
+        },
+        "decomposition": {
+          "label": "decomposition",
+          "note": "ten work items",
+          "state": "20:13"
+        },
+        "implementation": {
+          "label": "implementation",
+          "note": "one worker, four sessions",
+          "state": "22:57"
+        },
+        "commits": {
+          "label": "commits",
+          "note": "on one local branch",
+          "state": "22"
+        },
+        "gates": {
+          "label": "gates",
+          "note": "ten checks on every change",
+          "state": "10/10"
+        },
+        "tests": {
+          "label": "tests",
+          "note": "run with the gates",
+          "state": "101"
+        },
+        "summary": {
+          "label": "summary",
+          "note": "what was built, for the reviewers",
+          "state": "23:07"
+        },
+        "review": {
+          "label": "review",
+          "note": "three lanes, two required fixes",
+          "state": "00:04"
+        },
+        "fixes": {
+          "label": "fix lane",
+          "note": "both fixed before the report"
+        },
+        "report": {
+          "label": "review report",
+          "note": "approved: 39 commits, 90 source files",
+          "state": "00:14"
+        },
+        "lighthouse": {
+          "label": "lighthouse",
+          "note": "on all seven pages it checks",
+          "state": "97–100"
+        },
+        "verdict": {
+          "label": "founder's verdict",
+          "note": "next morning, on the finished page"
+        }
+      },
+      "footers": {
+        "documents": "six short messages while the run was on",
+        "build": "no agent pushes on its own",
+        "release": "nothing public on the agents' say-so"
+      }
     }
   },
   "contact": {

@@ -170,8 +170,8 @@ Brödtext i Markdown.
   reading measure with its caption beside it from 48 rem, under it below),
   or `{% figure "<id>", "wide" %}` for one that spans the whole container
   with its caption centred underneath. A figure is drawn by `src/_includes/figures/figures.mjs`
-  (`FIGURES` names the six: `stages`, `gates`, `loop`, `assessment`,
-  `team`, `harness`) and every word it shows — panel titles, labels, notes,
+  (`FIGURES` names the ten: `stages`, `gates`, `loop`, `assessment`,
+  `team`, `harness`, `ledger`, `timeline`, `setup`, `build`) and every word it shows — panel titles, labels, notes,
   the caption — comes from `figures.<id>` in the two strings files, so one
   drawing serves both languages; a label too long for its slot fails the
   build naming the key. Adding a figure means one drawing function, its
@@ -453,8 +453,9 @@ pair.
      `about.article.{label,title,text,link}`
    - `figures.{stages,gates,loop,assessment,team,harness}.*` — the six
      article illustrations' panel titles, labels, notes and captions
-     (si-55iu); every label has a character budget, so a longer rewording
-     must keep the build green
+     (si-55iu), and `figures.{ledger,timeline,setup,build}.*` — the four of
+     the factory article (si-hct0); every label has a character budget, so
+     a longer rewording must keep the build green
 9. **The four unlisted repositories.** TraceLoupe, airlocked-agents, Stoqster
    and investable were removed from the apps grid at your request ("not
    sure" was read as do-not-publish); say so if any of them should return —

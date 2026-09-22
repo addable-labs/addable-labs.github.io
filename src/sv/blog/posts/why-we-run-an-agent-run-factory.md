@@ -39,6 +39,8 @@ skalar inte till agenter som planerar, bygger, granskar och publicerar medan
 grundaren gör något annat och det håller honom kvar i detaljer han inte vill
 vara i.
 
+{% figure "ledger" %}
+
 Tre saker måste ändras: arbetet måste ligga i ett gemensamt register som
 vilken session som helst kan ta uppgifter ur, inte i ett enda projekts
 anteckningar; sessioner måste kunna lämna över arbete till varandra och följa
@@ -62,6 +64,8 @@ skrev det – det gjorde Julian Knutsen och Chris Sells. I augusti 2026 beskrev
 sedan "Fences, not Sandboxes" den organisation på femtio till sextio agenter
 som han driver, styrd av skrivna regler snarare än av inlåsning.
 
+{% figure "timeline" %}
+
 Vi gick igenom allt det där den 20 september 2026 och fann att nästan allt vi
 ville ha – en fabrik per projekt, en samordnare du kan prata med, delegering
 med uppföljning, ett gemensamt register – redan fanns, underhölls aktivt och
@@ -69,6 +73,8 @@ var MIT-licensierat. Vi byggde vidare på det i stället för att bygga ännu et
 orkestreringsverktyg och körde det första bygget samma eftermiddag.
 
 ## Gas City och Beads, i korthet
+
+{% figure "setup" %}
 
 Beads är en kommandoradsbaserad ärendehanterare ovanpå en versionshanterad
 databas. Varje arbetsenhet är en bead – en uppgift, ett meddelande mellan
@@ -131,6 +137,8 @@ rättelser, svaren vid plangrinden – och morgonen därpå hans omdöme om den
 färdiga sidan. Själva körningen var 112 beads, 17 agentsessioner i tio roller
 och tio mejl mellan borgmästaren och golvet som han aldrig behövde bära;
 ingenting blev offentligt enbart på agenternas ord.
+
+{% figure "build", "wide" %}
 
 Det första bygget, tidigare samma dag, tog ungefär fyra timmar för 27 krav och
 tio arbetspaket, behövde en rättning och hade ingen grind före slutet: han såg

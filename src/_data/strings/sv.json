@@ -362,6 +362,198 @@
         }
       },
       "caption": "Bygg testmiljön före funktionerna: typkontroll, lintning och enhetstester körs före varje commit, end-to-end-tester prövar den byggda appen och databasmigreringar får bara läggas till, aldrig ändras. Långsammare i början, snabbare för varje commit därefter."
+    },
+    "ledger": {
+      "title": "Före och efter registret: en person som bär varje meddelande mellan fyra agenter, sedan ett gemensamt register med grundaren vid några få kända punkter",
+      "head": "före och efter registret",
+      "before": "före: fyra agenter med varsitt projekt",
+      "agent": "agent",
+      "founder": "grundaren",
+      "byHand": "varje meddelande bärs för hand",
+      "after": "efter: ett register alla sessioner kan ta ur",
+      "mayor": "borgmästaren",
+      "points": "några kända punkter:",
+      "plan": "plan att godkänna",
+      "branch": "gren att läsa",
+      "sessions": "sessioner",
+      "ledger": "registret",
+      "handoff": "sessioner lämnar över arbete genom det",
+      "caption": "Före: fyra agenter på en bärbar dator, var och en med sitt eget projekt, och varje meddelande mellan dem buret av grundaren – den 12 september inklistrat i den regelfil som varje agent läser först. Efter: ett gemensamt register som vilken session som helst kan ta arbete ur, sessioner som lämnar över arbete till varandra genom det och grundaren vid några få kända punkter – en plan att godkänna, en gren att läsa – i samtal med borgmästaren."
+    },
+    "timeline": {
+      "title": "Tidslinjen: Beads, Gas Town, Gas City, essän Fences, not Sandboxes och våra två byggen",
+      "head": "från Beads till våra två byggen",
+      "rows": {
+        "beads": {
+          "date": "okt 2025",
+          "label": "Beads",
+          "note": "minne för kodande agenter",
+          "credit": "Steve Yegge"
+        },
+        "gastown": {
+          "date": "jan 2026",
+          "label": "Gas Town",
+          "note": "en agent är inte en session",
+          "credit": "Steve Yegge"
+        },
+        "gascity": {
+          "date": "apr 2026",
+          "label": "Gas City",
+          "note": "Gas Town omskrivet som ett SDK",
+          "credit": "Julian Knutsen, Chris Sells"
+        },
+        "fences": {
+          "date": "aug 2026",
+          "label": "Fences, not Sandboxes",
+          "note": "skrivna regler, inte inlåsning",
+          "credit": "Steve Yegge"
+        },
+        "builds": {
+          "date": "20 sep 2026",
+          "label": "våra två byggen",
+          "note": "dagen vi läste allt det där",
+          "credit": "Addable Labs"
+        }
+      },
+      "caption": "Det uppsättningen bygger på, daterat som artikeln daterar det: Steve Yegges Beads (oktober 2025), Gas Town (januari 2026) och essän Fences, not Sandboxes (augusti 2026); Gas City (april 2026), skrivet av Julian Knutsen och Chris Sells med gemenskapen kring Gas Town Hall; och den 20 september 2026, dagen vi gick igenom allt det där och körde det första bygget och sedan det andra."
+    },
+    "setup": {
+      "title": "Uppsättningen i en bild: grundaren, borgmästaren, golvet och Gas City runt ett Beads-register, och en beads tillstånd",
+      "head": "en fabrik, ett register",
+      "founder": "grundaren",
+      "discord": "Discord",
+      "mayor": "borgmästaren",
+      "ledger": "Beads: ett register",
+      "noBus": "ingen annan meddelandebuss",
+      "floorArrow": "tar · skriver · stänger",
+      "floor": "golvet",
+      "floorNote": "en session per steg",
+      "roles": {
+        "a": "krav · plan · plangranskning",
+        "b": "nedbrytning · genomförande",
+        "c": "tre granskningsspår · publicerare"
+      },
+      "orchestrator": "Gas City",
+      "orchestratorNote": "driver grafen, startar om kraschade sessioner",
+      "bead": {
+        "head": "en bead",
+        "open": "öppen",
+        "claimed": "tagen",
+        "closed": "stängd",
+        "blocked": "blockerad = erbjuds inte som redo arbete",
+        "dies": "en session som dör lämnar beaden öppen"
+      },
+      "caption": "En fabrik: grundaren pratar med borgmästaren via Discord; borgmästaren och golvets roller – var och en en session som startas när ett steg i bygget behöver den – läser och skriver i ett Beads-register, som Gas City driver som en graf av beads och startar om sessioner som kraschar. Det finns ingen annan meddelandebuss. En bead är öppen, tagen eller stängd; en bead med en öppen blockerare erbjuds ingen agent som redo arbete och en session som dör lämnar sin bead öppen för nästa. Sessioner är utbytbara, arbetet är beständigt."
+    },
+    "build": {
+      "caption": "Fabrikens andra bygge, 20–21 september 2026, 17:34 till 00:14 UTC – sex timmar och fyrtio minuter från uppdragsbeskrivningen till granskningsrapporten, med varje stegs sluttid och de tal körningen dokumenterade. Grundarens två punkter är de orangea raderna: hans val av designriktning och plangrinden.",
+      "panels": {
+        "documents": {
+          "title": "Det andra byggets steg ett till tre, 17:34 till 19:45 UTC, med grundarens val och hans plangrind",
+          "head": "före koden",
+          "window": "17:34–19:45 UTC"
+        },
+        "build": {
+          "title": "Bygget: nedbrytning, genomförande, commits, grindar, tester och sammanfattning, 20:13 till 23:07 UTC",
+          "head": "bygget",
+          "window": "20:13–23:07 UTC"
+        },
+        "release": {
+          "title": "Granskningen av resultatet, rättningarna, rapporten, Lighthouse och grundarens omdöme, från 00:04 UTC",
+          "head": "innan det blir offentligt",
+          "window": "00:04–00:14 UTC"
+        }
+      },
+      "rows": {
+        "brief": {
+          "label": "uppdrag",
+          "note": "en kort uppdragstext startar körningen",
+          "state": "17:34"
+        },
+        "requirements": {
+          "label": "krav",
+          "note": "31 krav med acceptanskriterier",
+          "state": "17:49"
+        },
+        "pick": {
+          "label": "grundarens val",
+          "note": "en av tre riktningar, på två minuter",
+          "state": "18:23"
+        },
+        "plan": {
+          "label": "plan",
+          "note": "tre riktningar renderade som sidor",
+          "state": "18:43"
+        },
+        "planReview": {
+          "label": "plangranskning",
+          "note": "godkänd för nedbrytning",
+          "state": "19:06"
+        },
+        "gate": {
+          "label": "grundarens grind",
+          "note": "den granskade planen godkänns",
+          "state": "19:45"
+        },
+        "decomposition": {
+          "label": "nedbrytning",
+          "note": "tio arbetspaket",
+          "state": "20:13"
+        },
+        "implementation": {
+          "label": "genomförande",
+          "note": "en agent, fyra sessioner",
+          "state": "22:57"
+        },
+        "commits": {
+          "label": "commits",
+          "note": "på en lokal gren",
+          "state": "22"
+        },
+        "gates": {
+          "label": "grindar",
+          "note": "tio kontroller vid varje ändring",
+          "state": "10/10"
+        },
+        "tests": {
+          "label": "tester",
+          "note": "körs med grindarna",
+          "state": "101"
+        },
+        "summary": {
+          "label": "sammanfattning",
+          "note": "vad som byggdes, för granskarna",
+          "state": "23:07"
+        },
+        "review": {
+          "label": "granskning",
+          "note": "tre spår, två fel som måste rättas",
+          "state": "00:04"
+        },
+        "fixes": {
+          "label": "rättningsspår",
+          "note": "båda rättade före rapporten"
+        },
+        "report": {
+          "label": "granskningsrapport",
+          "note": "godkänd: 39 commits, 90 källfiler",
+          "state": "00:14"
+        },
+        "lighthouse": {
+          "label": "lighthouse",
+          "note": "på alla sju sidor som kontrolleras",
+          "state": "97–100"
+        },
+        "verdict": {
+          "label": "grundarens omdöme",
+          "note": "morgonen därpå, om den färdiga sidan"
+        }
+      },
+      "footers": {
+        "documents": "sex korta meddelanden under körningen",
+        "build": "ingen agent pushar på egen hand",
+        "release": "inget offentligt bara på agenternas ord"
+      }
     }
   },
   "contact": {

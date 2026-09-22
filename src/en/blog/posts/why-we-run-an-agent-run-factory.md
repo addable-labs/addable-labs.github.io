@@ -37,6 +37,8 @@ message. That does not scale to agents that plan, build, review and publish
 while the founder does something else, and it keeps him in details he does not
 want to be in.
 
+{% figure "ledger" %}
+
 Three things had to change: the work had to sit in a shared ledger that any
 session could claim from, not in one project's notes; sessions had to hand
 work to each other and follow it up without a person in between; and the
@@ -58,6 +60,8 @@ write it — Julian Knutsen and Chris Sells did. Then in August 2026, "Fences,
 not Sandboxes" described the organisation of fifty to sixty agents he runs,
 governed by written rules rather than by containment.
 
+{% figure "timeline" %}
+
 We went through all of that on 20 September 2026 and found that nearly
 everything we wanted — a factory per project, a coordinator you can talk to,
 delegation with follow-up, one shared ledger — already existed, was actively
@@ -65,6 +69,8 @@ maintained and MIT-licensed. We built on it rather than build another
 orchestrator, and ran the first build the same afternoon.
 
 ## Gas City and Beads, briefly
+
+{% figure "setup" %}
 
 Beads is a command-line issue tracker backed by a version-controlled database.
 Every unit of work is a bead — a task, a message between agents, the record of
@@ -122,6 +128,8 @@ answers — and, next morning, his verdict on the finished page. The run itself
 was 112 beads, 17 agent sessions in ten roles and ten mails between the mayor
 and the floor that he never had to carry; nothing went public on the agents'
 own say-so.
+
+{% figure "build", "wide" %}
 
 The first build, earlier the same day, took about four hours for 27
 requirements and ten work items, needed one required fix and had no gate
