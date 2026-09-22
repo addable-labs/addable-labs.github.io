@@ -20,12 +20,12 @@ stylesheets under `previews/assets/`, the preview-only theme script and
 toggle, the `PREVIEW=1` build branch and the `pnpm preview` script) were
 removed from the source tree after the pick, as REQ-002 asks; only the picked
 direction is implemented, and the three rationales in this directory stay.
-Git history keeps the pages: they were added in `19d1378`, the console
-alignment fix landed in `ce5f6cc`, and every commit up to `ab4e93b` (the last
-one before the removal) can still serve them:
+Git history keeps the pages: they were added in `446527e`, the console
+alignment fix landed in `b4574f5`, and every commit from `446527e` up to
+`4f78dd1` (the last one before the removal) can still serve them:
 
 ```bash
-git worktree add ../previews ab4e93b
+git worktree add ../previews 4f78dd1
 cd ../previews && pnpm install --frozen-lockfile && pnpm preview
 # http://localhost:8080/preview/signal/  /preview/ledger/  /preview/terminal/
 ```
@@ -43,7 +43,7 @@ The design-author's recommendation was **A — Signal** (reasons in the plan,
 signal's design and look and feel! good job! also, as i said above: columns
 must align". The one note, that the hero console's columns must align across
 rows, was fixed the same evening (shared four-column subgrid on
-`.console-log`, both themes; `ce5f6cc`).
+`.console-log`, both themes; `b4574f5`).
 
 **Founder feedback #2** on the Signal preview (2026-09-20 20:38 CEST, folded
 into the plan at plan review as amendments A-01 … A-03): the services and

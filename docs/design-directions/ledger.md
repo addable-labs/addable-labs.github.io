@@ -1,8 +1,9 @@
 # Direction B — Ledger
 
 Preview: removed from `src/` after the founder's pick (REQ-002); the page
-lived at `/preview/ledger/` under `pnpm preview` and can still be served from
-any commit up to `ab4e93b` (see [../design-directions.md](../design-directions.md)).
+lived at `/preview/ledger/` under `pnpm preview` and can still be served by
+any commit from `446527e` up to `4f78dd1`
+(see [../design-directions.md](../design-directions.md)).
 Source then: `src/preview/ledger.njk`, `previews/assets/ledger.css`.
 
 **In one line.** Editorial and calm: a centred, type-led hero, numbered

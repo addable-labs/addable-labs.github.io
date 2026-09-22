@@ -1,8 +1,9 @@
 # Direction A — Signal
 
 Preview: removed from `src/` after the founder's pick (REQ-002); the page
-lived at `/preview/signal/` under `pnpm preview` and can still be served from
-any commit up to `ab4e93b` (see [../design-directions.md](../design-directions.md)).
+lived at `/preview/signal/` under `pnpm preview` and can still be served by
+any commit from `446527e` up to `4f78dd1`
+(see [../design-directions.md](../design-directions.md)).
 Source then: `src/preview/signal.njk`, `previews/assets/signal.css`. **This is
 the implemented direction** — the shipped system is documented in
 [../identity.md](../identity.md).
