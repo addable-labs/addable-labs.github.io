@@ -1,7 +1,8 @@
 // The rules of the layout gate — the card balance of the landing pages
 // (redesign A-02, AC-30; plan D-14) and the article measure and figure
-// placement (founder feedback 2026-09-21, si-55iu) — judged on plain
-// measurements so tests/layout.test.mjs runs on fixtures without Chrome.
+// placement (founder feedback 2026-09-21, si-55iu; centred composition,
+// founder feedback 2026-09-22) — judged on plain measurements so
+// tests/layout.test.mjs runs on fixtures without Chrome.
 // scripts/check/layout.mjs collects one measurement per page × viewport
 // width, of one of two kinds. A landing page:
 //
@@ -26,15 +27,16 @@
 //       rem, scrollWidth, innerWidth,
 //       body: { left, right },                                  // .article-body
 //       blocks:  [{ tag, left, right, top }, …],                // its text blocks
-//       figures: [{ id, placement, left, right, top, nextTop, nextLinesRight, scale }, …]
+//       figures: [{ id, placement, left, right, top, bottom,   // each .figure's box
+//                   panel: { left, right, top, bottom },        // its .figure-panels row
+//                   caption: { left, right, top, bottom },      // its figcaption
+//                   scale }, …]
 //     }
 //   }
 //
 // where `blocks` are the body's children other than figures, `placement` is
-// "side" or "wide", `nextTop` the top of the block that follows the figure
-// (the paragraph a side figure accompanies), `nextLinesRight` the right edge
-// of that block's lines of text (its line boxes, which a float shortens,
-// unlike its box) and `scale` the smallest render scale of the figure's SVG
+// "inline" or "wide", `panel` and `caption` are null when the element was
+// not found, and `scale` is the smallest render scale of the figure's SVG
 // panels (box width over viewBox width).
 
 /** Pixel tolerance for "equal" (AC-30: ± 1 px). */
@@ -46,11 +48,14 @@ export const LINE_RATIO = 1.1;
 /** The article's reading measure (base.css `--measure`), in rem. */
 export const MEASURE_REM = 44;
 
-/** The figure lane's floor and ceiling from 64rem (base.css .figure-side), in rem. */
-export const LANE_REM = { min: 20, max: 24.5 };
+/** An inline figure's panel: its floor and ceiling (base.css .figure-inline, .figure-panels-1), in rem. */
+export const PANEL_REM = { min: 20, max: 24.5 };
 
-/** The viewport width from which the figure lane exists, in px (base.css). */
-export const LANE_FROM_PX = 1024;
+/** The viewport width from which an inline figure's caption sits beside its panel, in px (base.css, 48rem). */
+export const BESIDE_FROM_PX = 768;
+
+/** The gap between an inline figure's panel and the caption beside it (base.css `--space-4`), in rem. */
+export const INLINE_GAP_REM = 1.5;
 
 /** A figure label is 13 user units (base.css .fig-label) and must render at 12 px or more. */
 export const LABEL_UNITS = 13;
@@ -86,8 +91,8 @@ function unmeasured(card, grid) {
 }
 
 /**
- * The article rules (si-55iu) for one run; returns its problems, each
- * prefixed with `where`.
+ * The article rules (si-55iu; centred composition, founder feedback
+ * 2026-09-22) for one run; returns its problems, each prefixed with `where`.
  */
 function evaluateArticle(run, where, tolerance) {
   const problems = [];
@@ -98,61 +103,75 @@ function evaluateArticle(run, where, tolerance) {
   }
   const { rem, body } = article;
   const measure = MEASURE_REM * rem;
+  const bodyCentre = (body.left + body.right) / 2;
+  const measurable = (box) => box && [box.left, box.right, box.top, box.bottom].every(Number.isFinite);
   if (article.scrollWidth > article.innerWidth) {
     problems.push(`${where}: the page scrolls horizontally (${article.scrollWidth} px wide for a ${article.innerWidth} px viewport)`);
   }
   if (!Array.isArray(article.blocks) || article.blocks.length === 0) {
     problems.push(`${where}: the article body has no text blocks`);
   }
+  let leftEdge = null;
   for (const [index, block] of (article.blocks ?? []).entries()) {
     const name = `block ${index + 1} (${block.tag})`;
     if (![block.left, block.right].every(Number.isFinite)) {
       problems.push(`${where}: ${name} has no measurable box`);
       continue;
     }
-    // The measure: every text block at most 44rem wide, at the body's left edge.
+    // The measure: every text block at most 44rem wide, centred in the
+    // body, and every block on the same left edge as the first.
     if (block.right - block.left > measure + tolerance) {
       problems.push(`${where}: ${name} is ${block.right - block.left} px wide, wider than the ${measure} px measure`);
     }
-    if (Math.abs(block.left - body.left) > tolerance) {
-      problems.push(`${where}: ${name} starts at ${block.left} px, not at the body's left edge (${body.left} px)`);
+    if (Math.abs((block.left + block.right) / 2 - bodyCentre) > tolerance) {
+      problems.push(`${where}: ${name} spans ${block.left}–${block.right} px, not centred in the body (${body.left}–${body.right} px)`);
+    }
+    if (leftEdge === null) leftEdge = block.left;
+    else if (Math.abs(block.left - leftEdge) > tolerance) {
+      problems.push(`${where}: ${name} starts at ${block.left} px, off the shared left edge (${leftEdge} px)`);
     }
   }
-  const lane = run.width >= LANE_FROM_PX;
+  const beside = run.width >= BESIDE_FROM_PX;
   for (const figure of article.figures ?? []) {
     const name = figure.id || "figure";
     if (![figure.left, figure.right, figure.top].every(Number.isFinite)) {
       problems.push(`${where}: ${name} has no measurable box`);
       continue;
     }
-    const width = figure.right - figure.left;
-    if (lane && figure.placement === "side") {
-      // In the lane: the right edge at the body's, between the lane's floor
-      // and ceiling, never above the paragraph it accompanies and never
-      // under that paragraph's lines of text.
-      if (Math.abs(figure.right - body.right) > tolerance) {
-        problems.push(`${where}: ${name} ends at ${figure.right} px, not at the body's right edge (${body.right} px)`);
-      }
-      if (width < LANE_REM.min * rem - tolerance || width > LANE_REM.max * rem + tolerance) {
-        problems.push(`${where}: ${name} is ${width} px wide, outside the ${LANE_REM.min * rem}–${LANE_REM.max * rem} px lane`);
-      }
-      if (Number.isFinite(figure.nextTop) && figure.top < figure.nextTop - tolerance) {
-        problems.push(`${where}: ${name} starts at ${figure.top} px, above the paragraph it accompanies (${figure.nextTop} px)`);
-      }
-      if (Number.isFinite(figure.nextLinesRight) && figure.nextLinesRight > figure.left + tolerance) {
-        problems.push(`${where}: ${name} at ${figure.left} px overlaps the text beside it, which reaches ${figure.nextLinesRight} px`);
+    if (figure.placement === "wide") {
+      // Across the whole body at every width.
+      if (Math.abs(figure.left - body.left) > tolerance || Math.abs(figure.right - body.right) > tolerance) {
+        problems.push(`${where}: ${name} is wide but spans ${figure.left}–${figure.right} px, not the body (${body.left}–${body.right} px)`);
       }
     } else {
-      // Across the body, between the paragraphs (a wide figure from 64rem,
-      // every figure below it), never wider than the body.
-      if (Math.abs(figure.left - body.left) > tolerance) {
-        problems.push(`${where}: ${name} starts at ${figure.left} px, not at the body's left edge (${body.left} px)`);
+      // On the measure, centred like a text block; its panel between the
+      // floor and the ceiling, the caption beside it from 48rem (to the
+      // right of the panel, top-aligned) and under it below.
+      if (figure.right - figure.left > measure + tolerance) {
+        problems.push(`${where}: ${name} is ${figure.right - figure.left} px wide, wider than the ${measure} px measure`);
       }
-      if (figure.right > body.right + tolerance) {
-        problems.push(`${where}: ${name} ends at ${figure.right} px, past the body's right edge (${body.right} px)`);
+      if (Math.abs((figure.left + figure.right) / 2 - bodyCentre) > tolerance) {
+        problems.push(`${where}: ${name} spans ${figure.left}–${figure.right} px, not centred in the body (${body.left}–${body.right} px)`);
       }
-      if (figure.placement === "wide" && Math.abs(figure.right - body.right) > tolerance) {
-        problems.push(`${where}: ${name} is wide but ends at ${figure.right} px, not at the body's right edge (${body.right} px)`);
+      if (!measurable(figure.panel) || !measurable(figure.caption)) {
+        problems.push(`${where}: ${name} has no measurable ${[!measurable(figure.panel) && "panel row", !measurable(figure.caption) && "caption"].filter(Boolean).join(" and ")} (element not found)`);
+      } else {
+        const { panel, caption } = figure;
+        const panelWidth = panel.right - panel.left;
+        const ceiling = Math.min(PANEL_REM.max * rem, figure.right - figure.left);
+        if (panelWidth > ceiling + tolerance || (beside && panelWidth < PANEL_REM.min * rem - tolerance)) {
+          problems.push(`${where}: ${name} panel is ${panelWidth} px wide, outside ${beside ? `${PANEL_REM.min * rem}–` : "up to "}${ceiling} px`);
+        }
+        if (beside) {
+          if (caption.left < panel.right + INLINE_GAP_REM * rem - tolerance) {
+            problems.push(`${where}: ${name} caption starts at ${caption.left} px, not beside the panel (which ends at ${panel.right} px, plus the ${INLINE_GAP_REM * rem} px gap)`);
+          }
+          if (Math.abs(caption.top - panel.top) > tolerance) {
+            problems.push(`${where}: ${name} caption starts at ${caption.top} px, not top-aligned with the panel (${panel.top} px)`);
+          }
+        } else if (caption.top < panel.bottom - tolerance) {
+          problems.push(`${where}: ${name} caption starts at ${caption.top} px, not under the panel (which ends at ${panel.bottom} px)`);
+        }
       }
     }
     if (!Number.isFinite(figure.scale)) {

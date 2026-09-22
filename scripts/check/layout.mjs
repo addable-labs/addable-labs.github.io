@@ -1,25 +1,27 @@
 #!/usr/bin/env node
-// Gate: layout (redesign A-02, AC-30; plan D-14; article layout si-55iu).
+// Gate: layout (redesign A-02, AC-30; plan D-14; article layout si-55iu and
+// founder feedback 2026-09-22).
 // Measures, in headless Chrome at 360, 768, 1024, 1280 and 1920 CSS px:
 //   - the balanced cards of both landing pages: in the services grid and the
 //     apps grid every title is one line, cards sharing a grid row have equal
 //     heights, equal "What you get" heading / summary tops and bottom-aligned
 //     action rows (± 1 px), and every chip row is one line;
-//   - every article page in both languages (founder feedback 2026-09-21,
-//     si-55iu): the page never scrolls horizontally, every text block of the
-//     body sits on the 44rem measure at the body's left edge, and every
-//     figure is where base.css puts it — from 64rem a side figure in the lane
-//     to the right (its right edge at the body's, 20–24.5rem wide, never
-//     above the paragraph it accompanies and never under that paragraph's
-//     lines) and a wide figure across the whole body; below 64rem every
-//     figure across the body between the paragraphs — with every panel
-//     rendered at a scale that keeps a 13-unit label at 12 px or more.
+//   - every article page in both languages: the page never scrolls
+//     horizontally, every text block of the body is at most 44rem wide and
+//     centred in the body on one shared left edge, and every figure is where
+//     base.css puts it — a wide figure across the whole body at every width;
+//     an inline figure at most the measure wide and centred like a text
+//     block, its panel 20–24.5rem wide with the caption beside it from
+//     768 px (48rem) and under it below — with every panel rendered at a
+//     scale that keeps a 13-unit label at 12 px or more.
 // Reduced motion is emulated so .reveal elements render in place and fonts
 // are awaited before measuring. One line per page × width; exit 1 on any
 // failure; the same SKIP (exit 3) as the Lighthouse gate when no Chrome is
 // found. Optional arguments: <built-site dir> [<source dir>] (the source dir
-// lists the articles).
+// lists the articles). LAYOUT_DUMP=<file> writes the raw measurements as
+// JSON (to regenerate tests/fixtures/layout/article.json).
 
+import { writeFile } from "node:fs/promises";
 import puppeteer from "puppeteer-core";
 import { withChrome } from "../lib/chrome.mjs";
 import { evaluate } from "../lib/layout-report.mjs";
@@ -65,10 +67,16 @@ function measureGrids() {
 
 // Runs inside an article page: the shape scripts/lib/layout-report.mjs
 // documents under `article`. Selectors follow layouts/article.njk and the
-// figure shortcode (`.figure`, `.figure-side` / `.figure-wide`, its panels).
+// figure shortcode (`.figure`, `.figure-inline` / `.figure-wide`, its
+// `.figure-panels` row and `figcaption`).
 function measureArticle() {
   const box = (el) => el.getBoundingClientRect();
   const round = (value) => Math.round(value * 100) / 100;
+  const rect = (el) => {
+    if (!el) return null;
+    const b = box(el);
+    return { left: round(b.left), right: round(b.right), top: round(b.top + scrollY), bottom: round(b.bottom + scrollY) };
+  };
   const rem = parseFloat(getComputedStyle(document.documentElement).fontSize);
   const body = document.querySelector(".article-body");
   const bodyBox = body ? box(body) : null;
@@ -79,28 +87,14 @@ function measureArticle() {
   const figures = children
     .filter((el) => el.classList.contains("figure"))
     .map((el) => {
-      const b = box(el);
-      const next = el.nextElementSibling;
-      // The right edge of the accompanying block's lines of text (its line
-      // boxes, not its box, which extends under a float).
-      let nextLinesRight = null;
-      if (next && !next.classList.contains("figure")) {
-        const range = document.createRange();
-        range.selectNodeContents(next);
-        const rects = [...range.getClientRects()].filter((rect) => rect.width > 0);
-        nextLinesRight = rects.length > 0 ? round(Math.max(...rects.map((rect) => rect.right))) : null;
-        range.detach();
-      }
       // Each panel's render scale: its box width over its viewBox width.
       const scales = [...el.querySelectorAll("svg[viewBox]")].map((svg) => box(svg).width / svg.viewBox.baseVal.width);
       return {
         id: el.id,
-        placement: el.classList.contains("figure-wide") ? "wide" : "side",
-        left: round(b.left),
-        right: round(b.right),
-        top: round(b.top + scrollY),
-        nextTop: next ? round(box(next).top + scrollY) : null,
-        nextLinesRight,
+        placement: el.classList.contains("figure-wide") ? "wide" : "inline",
+        ...rect(el),
+        panel: rect(el.querySelector(".figure-panels")),
+        caption: rect(el.querySelector("figcaption")),
         scale: scales.length > 0 ? round(Math.min(...scales)) : null,
       };
     });
@@ -146,6 +140,7 @@ const exitCode = await withChrome("layout", out, async ({ baseUrl, port }) => {
   } finally {
     await browser.disconnect();
   }
+  if (process.env.LAYOUT_DUMP) await writeFile(process.env.LAYOUT_DUMP, `${JSON.stringify(measurements, null, 2)}\n`);
   const result = evaluate(measurements);
   for (const line of result.lines) console.log(line);
   if (!result.ok) {

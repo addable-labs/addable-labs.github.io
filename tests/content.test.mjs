@@ -159,6 +159,27 @@ describe("content gate", () => {
     assert.match(output, /ok {4}blog\/how-this-site-was-built-by-agents\/index\.html: \d+ words \(300–600\)/);
   });
 
+  it("fails an article page whose \"more from the blog\" band lists the page itself or is missing (founder feedback 2026-09-22)", async () => {
+    const copy = await copyDir(built, path.join(tmp.dir, "more-band"));
+    const first = path.join(copy, "blog", "how-this-site-was-built-by-agents", "index.html");
+    const firstHtml = await readFile(first, "utf8");
+    // The band's first card points back at the page itself.
+    const self = firstHtml.replace(/(class="post-title"[^>]*><a href=")\/blog\/why-we-run-an-agent-run-factory\/"/, "$1/blog/how-this-site-was-built-by-agents/\"");
+    assert.notEqual(self, firstHtml, "the band's first card must be found");
+    await writeFile(first, self);
+    const second = path.join(copy, "sv", "blog", "lessons-from-building-niva", "index.html");
+    const secondHtml = await readFile(second, "utf8");
+    const without = secondHtml.replace(/<section class="section section-alt article-more"[\s\S]*?<\/section>/, "");
+    assert.notEqual(without, secondHtml, "the band must be found");
+    await writeFile(second, without);
+    const { status, output } = runGate("content", copy);
+    assert.equal(status, 1);
+    assert.match(output, /FAIL {2}blog\/how-this-site-was-built-by-agents\/index\.html: "more from the blog" lists other en articles \(\/blog\/how-this-site-was-built-by-agents\/, \/blog\/lessons-from-building-niva\/\)/);
+    assert.match(output, /FAIL {2}sv\/blog\/lessons-from-building-niva\/index\.html: "more from the blog" lists other sv articles \(none\)/);
+    assert.match(output, /FAIL {2}sv\/blog\/lessons-from-building-niva\/index\.html: "more from the blog" links the sv blog index/);
+    assert.match(output, /ok {4}blog\/lessons-from-building-niva\/index\.html: "more from the blog" lists other en articles/);
+  });
+
   it("fails when a later article grows past 1,500 English words (the series ceiling, si-xcpc)", async () => {
     const broken = await withPaddedArticle("series-long", "why-we-run-an-agent-run-factory", 600);
     const { status, output } = runGate("content", broken);

@@ -3,14 +3,16 @@ import { spawnSync } from "node:child_process";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { after, before, describe, it } from "node:test";
-import { evaluate, LABEL_MIN_PX, LABEL_UNITS, LANE_FROM_PX, LANE_REM, LINE_RATIO, MEASURE_REM, rowsOf, TOLERANCE } from "../scripts/lib/layout-report.mjs";
+import { BESIDE_FROM_PX, evaluate, INLINE_GAP_REM, LABEL_MIN_PX, LABEL_UNITS, LINE_RATIO, MEASURE_REM, PANEL_REM, rowsOf, TOLERANCE } from "../scripts/lib/layout-report.mjs";
 import { skipMessage, SKIP_EXIT_CODE } from "../scripts/lib/chrome.mjs";
 import { fixture, ROOT, tempDir } from "./helpers.mjs";
 
 // The card-balance rules of the layout gate on fixture measurements (A-02,
 // AC-30, REQ-025; plan D-14), the article rules on fixture measurements of
-// the illustrated articles (founder feedback 2026-09-21, si-55iu) — no
-// Chrome needed — and the gate's explicit SKIP when no Chrome is found.
+// the illustrated articles (si-55iu; centred composition, founder feedback
+// 2026-09-22) — no Chrome needed — and the gate's explicit SKIP when no
+// Chrome is found. Regenerate the article fixture from a real run with
+// `LAYOUT_DUMP=<file> pnpm check:layout` and keep its three runs.
 
 function runLayoutGate(out, env) {
   const result = spawnSync(process.execPath, [path.join(ROOT, "scripts", "check", "layout.mjs"), out], {
@@ -98,10 +100,11 @@ describe("layout report evaluation (A-02, AC-30)", () => {
   });
 });
 
-describe("layout report evaluation — article measure and figures (si-55iu)", () => {
-  // Real measurements: the first article at 1024 (the lane's floor) and at
-  // 360 (everything stacked), the nivå article at 1920 (the lane at its
-  // ceiling, a wide three-panel figure).
+describe("layout report evaluation — article measure and figures (si-55iu, centred 2026-09-22)", () => {
+  // Real measurements: the first article at 1024 and at 360 (everything
+  // stacked, the panels at the body's width), the nivå article at 1920 (two
+  // inline figures with the caption beside the panel, a wide three-panel
+  // figure across the body).
   let article;
   before(async () => {
     article = JSON.parse(await readFile(fixture("layout", "article.json"), "utf8"));
@@ -116,8 +119,9 @@ describe("layout report evaluation — article measure and figures (si-55iu)", (
       "layout /blog/lessons-from-building-niva/ 1920: ok (15 blocks on the measure, 3 figures)",
     ]);
     assert.equal(MEASURE_REM, 44);
-    assert.deepEqual(LANE_REM, { min: 20, max: 24.5 });
-    assert.equal(LANE_FROM_PX, 1024);
+    assert.deepEqual(PANEL_REM, { min: 20, max: 24.5 });
+    assert.equal(BESIDE_FROM_PX, 768);
+    assert.equal(INLINE_GAP_REM, 1.5);
     assert.equal(LABEL_UNITS, 13);
     assert.equal(LABEL_MIN_PX, 12);
   });
@@ -128,49 +132,71 @@ describe("layout report evaluation — article measure and figures (si-55iu)", (
     assert.deepEqual(evaluate(wide).problems, ["/blog/how-this-site-was-built-by-agents/ 360: the page scrolls horizontally (372 px wide for a 360 px viewport)"]);
   });
 
-  it("fails a text block wider than the 44rem measure or off the body's left edge", () => {
+  it("fails a text block wider than the 44rem measure, one off the body's centre and one off the shared left edge", () => {
     const off = structuredClone(article);
-    off[2].article.blocks[3].right = 392 + 44 * 16 + 3; // 3 px past the measure at 1920
-    off[2].article.blocks[5].left += 4;
+    off[2].article.blocks[3].left -= 2; // 708 px: 4 px past the measure at 1920, still centred, 2 px off the edge
+    off[2].article.blocks[3].right += 2;
+    off[2].article.blocks[5].left += 4; // shifted right: off centre and off the shared edge
+    off[2].article.blocks[5].right += 4;
     assert.deepEqual(evaluate(off).problems, [
-      "/blog/lessons-from-building-niva/ 1920: block 4 (h2) is 707 px wide, wider than the 704 px measure",
-      "/blog/lessons-from-building-niva/ 1920: block 6 (h2) starts at 396 px, not at the body's left edge (392 px)",
+      "/blog/lessons-from-building-niva/ 1920: block 4 (h2) is 708 px wide, wider than the 704 px measure",
+      "/blog/lessons-from-building-niva/ 1920: block 4 (h2) starts at 606 px, off the shared left edge (608 px)",
+      "/blog/lessons-from-building-niva/ 1920: block 6 (h2) spans 612–1316 px, not centred in the body (392–1528 px)",
+      "/blog/lessons-from-building-niva/ 1920: block 6 (h2) starts at 612 px, off the shared left edge (608 px)",
     ]);
   });
 
-  it("fails a side figure that leaves the lane from 64rem: not at the right edge, too narrow or too wide, above its paragraph, under its paragraph's lines", () => {
+  it("fails an inline figure off the measure or off centre, a panel outside 20–24.5rem, and a caption not beside its panel from 48rem", () => {
     const astray = structuredClone(article);
-    const [loop, gates] = [astray[0].article.figures[1], astray[0].article.figures[2]];
-    loop.right -= 8; // 312 px wide: off the right edge and under the 20rem floor
-    gates.top -= 30; // above the paragraph it accompanies
-    gates.nextLinesRight = gates.left + 12; // the text runs under it
+    const [, loop, gates] = astray[0].article.figures;
+    loop.right += 8; // 712 px wide and 4 px off centre
+    loop.panel.right -= 80; // a 312 px panel, under the 20rem floor
+    gates.caption.left = gates.panel.right + 12; // inside the 24 px gap
+    gates.caption.top += 30; // not top-aligned
+    const harness = astray[2].article.figures[2];
+    harness.panel.right += 10; // 402 px, over the 24.5rem ceiling (the caption keeps its gap)
+    harness.caption.left += 10;
     assert.deepEqual(evaluate(astray).problems, [
-      "/blog/how-this-site-was-built-by-agents/ 1024: fig-loop ends at 976 px, not at the body's right edge (984 px)",
-      "/blog/how-this-site-was-built-by-agents/ 1024: fig-loop is 312 px wide, outside the 320–392 px lane",
-      "/blog/how-this-site-was-built-by-agents/ 1024: fig-gates starts at 1622.75 px, above the paragraph it accompanies (1652.75 px)",
-      "/blog/how-this-site-was-built-by-agents/ 1024: fig-gates at 664 px overlaps the text beside it, which reaches 676 px",
+      "/blog/how-this-site-was-built-by-agents/ 1024: fig-loop is 712 px wide, wider than the 704 px measure",
+      "/blog/how-this-site-was-built-by-agents/ 1024: fig-loop spans 160–872 px, not centred in the body (40–984 px)",
+      "/blog/how-this-site-was-built-by-agents/ 1024: fig-loop panel is 312 px wide, outside 320–392 px",
+      "/blog/how-this-site-was-built-by-agents/ 1024: fig-gates caption starts at 564 px, not beside the panel (which ends at 552 px, plus the 24 px gap)",
+      "/blog/how-this-site-was-built-by-agents/ 1024: fig-gates caption starts at 1998.16 px, not top-aligned with the panel (1968.16 px)",
+      "/blog/lessons-from-building-niva/ 1920: fig-harness panel is 402 px wide, outside 320–392 px",
     ]);
   });
 
-  it("fails a wide figure that does not span the body, and any figure past the body below 64rem", () => {
+  it("fails, below 48rem, a caption not under its panel and a panel wider than the figure", () => {
+    const stacked = structuredClone(article);
+    const [, loop, gates] = stacked[1].article.figures;
+    loop.caption.top = loop.panel.bottom - 40; // the caption climbs into the panel
+    gates.panel.right += 6; // wider than the 328 px figure
+    assert.deepEqual(evaluate(stacked).problems, [
+      "/blog/how-this-site-was-built-by-agents/ 360: fig-loop caption starts at 2549.14 px, not under the panel (which ends at 2589.14 px)",
+      "/blog/how-this-site-was-built-by-agents/ 360: fig-gates panel is 334 px wide, outside up to 328 px",
+    ]);
+  });
+
+  it("fails a wide figure that does not span the body at any width", () => {
     const short = structuredClone(article);
     short[2].article.figures[1].right -= 40; // the wide team figure stops short at 1920
-    short[1].article.figures[0].right += 6; // the stacked stages figure overflows at 360
-    short[1].article.figures[1].left += 5; // the stacked loop figure is indented at 360
+    short[1].article.figures[0].left += 5; // the stacked stages figure is indented at 360
     assert.deepEqual(evaluate(short).problems, [
-      "/blog/how-this-site-was-built-by-agents/ 360: fig-stages ends at 350 px, past the body's right edge (344 px)",
-      "/blog/how-this-site-was-built-by-agents/ 360: fig-stages is wide but ends at 350 px, not at the body's right edge (344 px)",
-      "/blog/how-this-site-was-built-by-agents/ 360: fig-loop starts at 21 px, not at the body's left edge (16 px)",
-      "/blog/lessons-from-building-niva/ 1920: fig-team is wide but ends at 1488 px, not at the body's right edge (1528 px)",
+      "/blog/how-this-site-was-built-by-agents/ 360: fig-stages is wide but spans 21–344 px, not the body (16–344 px)",
+      "/blog/lessons-from-building-niva/ 1920: fig-team is wide but spans 392–1488 px, not the body (392–1528 px)",
     ]);
   });
 
-  it("fails a panel rendered too small for a 12 px label, and one that was not found", () => {
+  it("fails a panel rendered too small for a 12 px label, one that was not found, and an inline figure without a panel row or caption", () => {
     const tiny = structuredClone(article);
     tiny[0].article.figures[0].scale = 0.9; // a 13-unit label at 11.7 px
     tiny[2].article.figures[2].scale = null;
+    tiny[2].article.figures[0].caption = null;
+    tiny[1].article.figures[1].panel = { left: 16, right: 344, top: NaN, bottom: null }; // an unmeasured box arrives as null over the protocol
     assert.deepEqual(evaluate(tiny).problems, [
       "/blog/how-this-site-was-built-by-agents/ 1024: fig-stages renders a 13-unit label at 11.7 px, below 12 px",
+      "/blog/how-this-site-was-built-by-agents/ 360: fig-loop has no measurable panel row (element not found)",
+      "/blog/lessons-from-building-niva/ 1920: fig-assessment has no measurable caption (element not found)",
       "/blog/lessons-from-building-niva/ 1920: fig-harness has no measurable panel (svg[viewBox] not found)",
     ]);
   });
@@ -178,8 +204,11 @@ describe("layout report evaluation — article measure and figures (si-55iu)", (
   it("tolerates one pixel and names a missing article body", () => {
     const nudged = structuredClone(article);
     nudged[0].article.figures[1].right -= 1;
-    nudged[0].article.figures[2].top -= 1;
+    nudged[0].article.figures[2].caption.top -= 1;
+    nudged[0].article.figures[2].caption.left -= 1;
+    nudged[1].article.figures[1].caption.top -= 1;
     nudged[2].article.blocks[0].left += 1;
+    nudged[2].article.figures[1].left += 1;
     assert.deepEqual(evaluate(nudged).problems, []);
     const missing = structuredClone(article);
     missing[1].article.body = null;

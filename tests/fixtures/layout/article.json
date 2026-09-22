@@ -13,69 +13,69 @@
       "blocks": [
         {
           "tag": "p",
-          "left": 40,
-          "right": 744,
+          "left": 160,
+          "right": 864,
           "top": 427.06
         },
         {
           "tag": "h2",
-          "left": 40,
-          "right": 744,
-          "top": 582.63
+          "left": 160,
+          "right": 864,
+          "top": 606.63
         },
         {
           "tag": "p",
-          "left": 40,
-          "right": 744,
-          "top": 677.3
+          "left": 160,
+          "right": 864,
+          "top": 672.81
         },
         {
           "tag": "h2",
-          "left": 40,
-          "right": 744,
-          "top": 1221.17
+          "left": 160,
+          "right": 864,
+          "top": 1264.69
         },
         {
           "tag": "p",
-          "left": 40,
-          "right": 744,
-          "top": 1315.84
+          "left": 160,
+          "right": 864,
+          "top": 1640.63
         },
         {
           "tag": "h2",
-          "left": 40,
-          "right": 624,
-          "top": 1558.08
+          "left": 160,
+          "right": 864,
+          "top": 1877.97
         },
         {
           "tag": "p",
-          "left": 40,
-          "right": 744,
-          "top": 1652.75
+          "left": 160,
+          "right": 864,
+          "top": 2370.91
         },
         {
           "tag": "h2",
-          "left": 40,
-          "right": 624,
-          "top": 1952.77
+          "left": 160,
+          "right": 864,
+          "top": 2666.03
         },
         {
           "tag": "p",
-          "left": 40,
-          "right": 744,
-          "top": 2047.44
+          "left": 160,
+          "right": 864,
+          "top": 2732.22
         },
         {
           "tag": "p",
-          "left": 40,
-          "right": 744,
-          "top": 2179
+          "left": 160,
+          "right": 864,
+          "top": 2863.78
         },
         {
           "tag": "p",
-          "left": 40,
-          "right": 744,
-          "top": 2397.23
+          "left": 160,
+          "right": 864,
+          "top": 3082.02
         }
       ],
       "figures": [
@@ -84,30 +84,63 @@
           "placement": "wide",
           "left": 40,
           "right": 984,
-          "top": 932.42,
-          "nextTop": 1221.17,
-          "nextLinesRight": 568.69,
+          "top": 943.94,
+          "bottom": 1200.69,
+          "panel": {
+            "left": 40,
+            "right": 984,
+            "top": 943.94,
+            "bottom": 1127.13
+          },
+          "caption": {
+            "left": 160,
+            "right": 864,
+            "top": 1143.13,
+            "bottom": 1200.69
+          },
           "scale": 0.95
         },
         {
           "id": "fig-loop",
-          "placement": "side",
-          "left": 664,
-          "right": 984,
-          "top": 1315.84,
-          "nextTop": 1315.84,
-          "nextLinesRight": 614.91,
-          "scale": 1
+          "placement": "inline",
+          "left": 160,
+          "right": 864,
+          "top": 1354.88,
+          "bottom": 1600.63,
+          "panel": {
+            "left": 160,
+            "right": 552,
+            "top": 1354.88,
+            "bottom": 1600.63
+          },
+          "caption": {
+            "left": 576,
+            "right": 864,
+            "top": 1354.88,
+            "bottom": 1428.44
+          },
+          "scale": 1.23
         },
         {
           "id": "fig-gates",
-          "placement": "side",
-          "left": 664,
-          "right": 984,
-          "top": 1652.75,
-          "nextTop": 1652.75,
-          "nextLinesRight": 616.98,
-          "scale": 1
+          "placement": "inline",
+          "left": 160,
+          "right": 864,
+          "top": 1968.16,
+          "bottom": 2330.91,
+          "panel": {
+            "left": 160,
+            "right": 552,
+            "top": 1968.16,
+            "bottom": 2330.91
+          },
+          "caption": {
+            "left": 576,
+            "right": 864,
+            "top": 1968.16,
+            "bottom": 2080.09
+          },
+          "scale": 1.23
         }
       ]
     }
@@ -134,61 +167,61 @@
           "tag": "h2",
           "left": 16,
           "right": 344,
-          "top": 810.08
+          "top": 834.08
         },
         {
           "tag": "p",
           "left": 16,
           "right": 344,
-          "top": 893.27
+          "top": 900.27
         },
         {
           "tag": "h2",
           "left": 16,
           "right": 344,
-          "top": 2206.02
+          "top": 2261.02
         },
         {
           "tag": "p",
           "left": 16,
           "right": 344,
-          "top": 2640.7
+          "top": 2702.7
         },
         {
           "tag": "h2",
           "left": 16,
           "right": 344,
-          "top": 3027.39
+          "top": 3113.39
         },
         {
           "tag": "p",
           "left": 16,
           "right": 344,
-          "top": 3566.06
+          "top": 3659.06
         },
         {
           "tag": "h2",
           "left": 16,
           "right": 344,
-          "top": 4097.2
+          "top": 4214.2
         },
         {
           "tag": "p",
           "left": 16,
           "right": 344,
-          "top": 4212.58
+          "top": 4312.58
         },
         {
           "tag": "p",
           "left": 16,
           "right": 344,
-          "top": 4459.7
+          "top": 4559.7
         },
         {
           "tag": "p",
           "left": 16,
           "right": 344,
-          "top": 4880.17
+          "top": 4980.17
         }
       ],
       "figures": [
@@ -197,29 +230,62 @@
           "placement": "wide",
           "left": 16,
           "right": 344,
-          "top": 1437.3,
-          "nextTop": 2206.02,
-          "nextLinesRight": 259.61,
+          "top": 1460.3,
+          "bottom": 2197.02,
+          "panel": {
+            "left": 16,
+            "right": 344,
+            "top": 1460.3,
+            "bottom": 2085.08
+          },
+          "caption": {
+            "left": 16,
+            "right": 344,
+            "top": 2101.08,
+            "bottom": 2197.02
+          },
           "scale": 1.02
         },
         {
           "id": "fig-loop",
-          "placement": "side",
+          "placement": "inline",
           "left": 16,
           "right": 344,
-          "top": 2329.39,
-          "nextTop": 2640.7,
-          "nextLinesRight": 342.97,
+          "top": 2383.39,
+          "bottom": 2662.7,
+          "panel": {
+            "left": 16,
+            "right": 344,
+            "top": 2383.39,
+            "bottom": 2589.14
+          },
+          "caption": {
+            "left": 16,
+            "right": 344,
+            "top": 2605.14,
+            "bottom": 2662.7
+          },
           "scale": 1.02
         },
         {
           "id": "fig-gates",
-          "placement": "side",
+          "placement": "inline",
           "left": 16,
           "right": 344,
-          "top": 3118.58,
-          "nextTop": 3566.06,
-          "nextLinesRight": 341.5,
+          "top": 3203.58,
+          "bottom": 3619.06,
+          "panel": {
+            "left": 16,
+            "right": 344,
+            "top": 3203.58,
+            "bottom": 3507.13
+          },
+          "caption": {
+            "left": 16,
+            "right": 344,
+            "top": 3523.13,
+            "bottom": 3619.06
+          },
           "scale": 1.02
         }
       ]
@@ -239,104 +305,115 @@
       "blocks": [
         {
           "tag": "p",
-          "left": 392,
-          "right": 1096,
+          "left": 608,
+          "right": 1312,
           "top": 440.97
         },
         {
           "tag": "h2",
-          "left": 392,
-          "right": 1096,
-          "top": 567.64
+          "left": 608,
+          "right": 1312,
+          "top": 591.64
         },
         {
           "tag": "p",
-          "left": 392,
-          "right": 1096,
-          "top": 664.64
+          "left": 608,
+          "right": 1312,
+          "top": 657.83
         },
         {
           "tag": "h2",
-          "left": 392,
-          "right": 1096,
-          "top": 820.2
+          "left": 608,
+          "right": 1312,
+          "top": 837.39
         },
         {
           "tag": "p",
-          "left": 392,
-          "right": 1096,
-          "top": 917.2
+          "left": 608,
+          "right": 1312,
+          "top": 1242.58
         },
         {
           "tag": "h2",
-          "left": 392,
-          "right": 1096,
-          "top": 1665.86
+          "left": 608,
+          "right": 1312,
+          "top": 1841.64
         },
         {
           "tag": "p",
-          "left": 392,
-          "right": 1096,
-          "top": 1762.86
+          "left": 608,
+          "right": 1312,
+          "top": 1907.83
         },
         {
           "tag": "h2",
-          "left": 392,
-          "right": 1096,
-          "top": 1889.53
+          "left": 608,
+          "right": 1312,
+          "top": 2087.39
         },
         {
           "tag": "p",
-          "left": 392,
-          "right": 1096,
-          "top": 1986.53
+          "left": 608,
+          "right": 1312,
+          "top": 2153.58
         },
         {
           "tag": "p",
-          "left": 392,
-          "right": 1096,
-          "top": 2118.09
+          "left": 608,
+          "right": 1312,
+          "top": 2285.14
         },
         {
           "tag": "p",
-          "left": 392,
-          "right": 1096,
-          "top": 2249.66
+          "left": 608,
+          "right": 1312,
+          "top": 2416.7
         },
         {
           "tag": "p",
-          "left": 392,
-          "right": 1096,
-          "top": 2381.22
+          "left": 608,
+          "right": 1312,
+          "top": 2918.95
         },
         {
           "tag": "p",
-          "left": 392,
-          "right": 1096,
-          "top": 2483.89
+          "left": 608,
+          "right": 1312,
+          "top": 3021.63
         },
         {
           "tag": "h2",
-          "left": 392,
-          "right": 1096,
-          "top": 2610.56
+          "left": 608,
+          "right": 1312,
+          "top": 3172.3
         },
         {
           "tag": "p",
-          "left": 392,
-          "right": 1096,
-          "top": 2707.56
+          "left": 608,
+          "right": 1312,
+          "top": 3238.48
         }
       ],
       "figures": [
         {
           "id": "fig-assessment",
-          "placement": "side",
-          "left": 1136,
-          "right": 1528,
-          "top": 917.2,
-          "nextTop": 917.2,
-          "nextLinesRight": 1087.7,
+          "placement": "inline",
+          "left": 608,
+          "right": 1312,
+          "top": 927.58,
+          "bottom": 1202.58,
+          "panel": {
+            "left": 608,
+            "right": 1000,
+            "top": 927.58,
+            "bottom": 1202.58
+          },
+          "caption": {
+            "left": 1024,
+            "right": 1312,
+            "top": 927.58,
+            "bottom": 1058.7
+          },
           "scale": 1.23
         },
         {
@@ -344,19 +421,41 @@
           "placement": "wide",
           "left": 392,
           "right": 1528,
-          "top": 1312.14,
-          "nextTop": 1665.86,
-          "nextLinesRight": 740.02,
+          "top": 1455.92,
+          "bottom": 1777.64,
+          "panel": {
+            "left": 392,
+            "right": 1528,
+            "top": 1455.92,
+            "bottom": 1723.27
+          },
+          "caption": {
+            "left": 608,
+            "right": 1312,
+            "top": 1739.27,
+            "bottom": 1777.64
+          },
           "scale": 1.15
         },
         {
           "id": "fig-harness",
-          "placement": "side",
-          "left": 1136,
-          "right": 1528,
-          "top": 2381.22,
-          "nextTop": 2381.22,
-          "nextLinesRight": 1094.08,
+          "placement": "inline",
+          "left": 608,
+          "right": 1312,
+          "top": 2572.27,
+          "bottom": 2878.95,
+          "panel": {
+            "left": 608,
+            "right": 1000,
+            "top": 2572.27,
+            "bottom": 2878.95
+          },
+          "caption": {
+            "left": 1024,
+            "right": 1312,
+            "top": 2572.27,
+            "bottom": 2722.58
+          },
           "scale": 1.23
         }
       ]

@@ -166,10 +166,10 @@ Brödtext i Markdown.
   neither are the figures (captions and diagram labels are not prose).
 - **Figures.** An article can carry custom SVG illustrations (REQ-008): put
   `{% figure "<id>" %}` on its own line between two paragraphs — the same
-  line in both language files — for a figure that floats beside the text
-  that follows it from 64 rem, or `{% figure "<id>", "wide" %}` for one
-  that spans the whole article width; below 64 rem both sit between the
-  paragraphs. A figure is drawn by `src/_includes/figures/figures.mjs`
+  line in both language files — for an inline figure (one panel on the
+  reading measure with its caption beside it from 48 rem, under it below),
+  or `{% figure "<id>", "wide" %}` for one that spans the whole container
+  with its caption centred underneath. A figure is drawn by `src/_includes/figures/figures.mjs`
   (`FIGURES` names the six: `stages`, `gates`, `loop`, `assessment`,
   `team`, `harness`) and every word it shows — panel titles, labels, notes,
   the caption — comes from `figures.<id>` in the two strings files, so one
@@ -178,8 +178,9 @@ Brödtext i Markdown.
   strings under `figures.<id>` in `en.json` and `sv.json`, and the two
   shortcode lines. Figures never reach the feeds (`withoutFigures` in the
   feed templates), and the layout gate measures every article page: the
-  44 rem measure, no horizontal scroll, side figures in the lane and wide
-  ones across the body, labels at least 12 px.
+  centred 44 rem measure, no horizontal scroll, wide figures across the
+  body and inline figures on the measure with the caption beside the
+  panel, labels at least 12 px.
 
 Pages other than articles (landing, about, blog index, category pages) are
 Nunjucks templates under `src/en/` and `src/sv/` whose copy lives in
@@ -293,7 +294,7 @@ after a `pnpm build`:
 | feeds | `pnpm check:feeds` | Both feeds are well-formed RSS 2.0 with absolute links, exactly the language's articles, draft labels, items that carry the prose only (no `<figure>`), and every page links its feed. |
 | content | `pnpm check:content` | The facts the site must state: one `h1` in the hero, the primary `mailto:` call to action with a subject, the nivå button honouring `site.nivaUrl`, the three service headings, the six apps in data order with the private ones unlinked and the public ones linked once, the trust section's phrase, founder, article link and proof link, the latest-writing cards, the founding month on the about page; on every page the footer's address, the LinkedIn rule, the language switches, the toggle and the feed link; no private-repository link, no "StockSight", no factory name; article lengths and draft labels. The pinned facts are the constants at the top of `scripts/check/content.mjs`. |
 | lighthouse | `pnpm check:lighthouse` | Serves `_site/` locally, runs Lighthouse 13 (mobile configuration) in headless Chrome on `/`, `/sv/`, `/about/`, `/blog/`, a category page, an article and `/404.html`: Performance, Accessibility, Best Practices and SEO each ≥ 95 and cumulative layout shift ≤ 0.1, one line per page. |
-| layout | `pnpm check:layout` | Renders `/` and `/sv/` at 360, 768, 1024, 1280 and 1920 px in headless Chrome and measures the balanced cards: every service and app title one line, cards in a row equal in height with their "What you get" heading / summary tops and action rows aligned (± 1 px), every chip row one line. Renders every article page at the same widths and measures the article layout: no horizontal scroll, every text block on the 44 rem measure at the body's left edge, from 64 rem every side figure in the lane (right edge at the body's, 20–24.5 rem wide, never above or under the paragraph it accompanies) and every wide figure across the body, below 64 rem every figure across the body, every panel rendered so a 13-unit label is at least 12 px. |
+| layout | `pnpm check:layout` | Renders `/` and `/sv/` at 360, 768, 1024, 1280 and 1920 px in headless Chrome and measures the balanced cards: every service and app title one line, cards in a row equal in height with their "What you get" heading / summary tops and action rows aligned (± 1 px), every chip row one line. Renders every article page at the same widths and measures the article layout: no horizontal scroll, every text block at most 44 rem wide, centred in the body and on one shared left edge, every wide figure across the body, every inline figure on the measure and centred with its panel 20–24.5 rem wide and its caption beside the panel from 768 px (top-aligned, after the gap) and under it below, every panel rendered so a 13-unit label is at least 12 px. `LAYOUT_DUMP=<file>` writes the raw measurements (the source of `tests/fixtures/layout/article.json`). |
 
 **Chrome.** The last two gates need Google Chrome (or Chromium). They find
 it through Lighthouse's own launcher, or through `CHROME_PATH` if set (the

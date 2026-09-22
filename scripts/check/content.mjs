@@ -30,7 +30,9 @@
 //     300–600 English words of prose and every later article 300–1,500 (the
 //     figures' captions and diagram labels are not prose and do not count,
 //     si-55iu), drafts show "Draft"/"Utkast" on the article page, in the
-//     listings and in the feeds
+//     listings and in the feeds, and every article page ends with the "More
+//     from the blog" band listing other articles of its language, never
+//     itself (founder feedback 2026-09-22)
 // Optional arguments: <built-site dir> [<source dir>].
 
 import { readFile } from "node:fs/promises";
@@ -300,6 +302,14 @@ for (const lang of site.languages.codes) {
     }
     const hasNotice = built.doc.querySelector(".notice-draft") !== null;
     report.check(hasNotice === article.draft, `${rel}: draft notice ${article.draft ? "shown" : "absent"}`);
+    // The ending band (founder feedback 2026-09-22): the other articles of
+    // the page's language as .post cards — at least one, never the page
+    // itself, every one an article of this language — and the blog link.
+    const more = built.doc.querySelector(".article-more");
+    const moreLinks = (more?.querySelectorAll(".post .post-title a") ?? []).map((a) => attr(a, "href"));
+    const others = articles.filter((other) => other.path !== article.path).map((other) => other.path);
+    report.check(more !== null && moreLinks.length >= 1 && moreLinks.every((href) => others.includes(href)), `${rel}: "more from the blog" lists other ${lang} articles (${moreLinks.length ? moreLinks.join(", ") : "none"})`);
+    report.check(more !== null && (more.querySelectorAll("a[href]") ?? []).some((a) => attr(a, "href") === `${prefixOf(lang)}/blog/`), `${rel}: "more from the blog" links the ${lang} blog index`);
     if (listing) {
       // REQ-013, REQ-016: the listings are .post cards whose title link is the
       // article and whose draft label is the .chip-draft chip.
