@@ -1,6 +1,6 @@
 ---
 title: "Ashlands: vad en enda prompt byggde"
-description: En prompt och en flotta underagenter gav 94 000 rader av ett spel som går att spela – men klarade inte den sista biten. Vad Gauntlet Loop fick rätt, vad det kostade och vad grundaren själv fick tillföra.
+description: En prompt och en flotta underagenter gav 94 000 rader av ett spel som går att spela – men klarade inte den sista biten. Vad Gauntlet Loop fick rätt, vad det kostade och vad grundaren tillförde.
 date: 2026-09-22
 category: ai-journey             # app-development | ai-journey
 translationKey: ashlands-what-one-prompt-built
@@ -155,25 +155,25 @@ nej på båda.
 
 ## Vad vi tar med oss in i fabriken
 
-Vi kör agenter tvärtom – steg, kvalitetsgrindar, ett gemensamt register och
-en granskning av grundaren innan något publiceras, vilket är så [den här
-sajten byggdes](/sv/blog/how-this-site-was-built-by-agents/) och vad
-[fabriksartikeln](/sv/blog/why-we-run-an-agent-run-factory/) beskriver. I
-Shumers metod ingår att titta på körningen utan att avbryta den; den här
-körningen styrdes och styrningarna finns i kodförrådet: armarna, diagnosen
-av bildfrekvensen, grinden och kartan över steg. Instrumenten byggdes under
-loopen av den agent vars arbete de dömde och de hade fel sju gånger. Så:
-bygg instrumentet först och kalibrera det
-mot en känd defekt, lägg referensen i kritikerns händer före första rundan
-och håll kvar en människa där en agent inte kan tala om för dig att den har
-fel. Kontrakten först, byggare som hålls isär från kritiker och ett rent
-negativt resultat som ett fullgott svar tar vi som de är.
+Vi kör agenter tvärtom – steg, kvalitetsgrindar, ett gemensamt register
+och en granskning av grundaren innan något publiceras, vilket är så [den
+här sajten byggdes](/sv/blog/how-this-site-was-built-by-agents/) och vad
+[fabriksartikeln](/sv/blog/why-we-run-an-agent-run-factory/) beskriver.
+Den här körningen styrdes och styrningarna finns i kodförrådet: armarna,
+diagnosen av bildfrekvensen, grinden och kartan över steg. Instrumenten
+byggdes under loopen av den agent vars arbete de dömde och de hade fel sju
+gånger. Så, för våra egna körningar: bygg instrumentet först och kalibrera
+det mot en känd defekt, lägg referensen i kritikerns händer före första
+rundan och håll kvar en människa där en agent inte kan tala om för dig att
+den har fel. Kontrakten först, byggare som hålls isär från kritiker och
+ett rent negativt resultat som ett fullgott svar tar vi som de är.
 
-Inget av detta är ett argument mot metoden. Rapporten avslutas med en
-omarbetad startprompt för den som vill göra om körningen och det den lägger
-till är hur arbetet ska verifieras: namnge referensen, namnge instrumentet, säg
-vad ett godkänt resultat är innan första agenten startar. Kör den så
-och den här körningen hade slutat längre fram.
+Metoden är det som fick 94 000 rader att köra över huvud taget och
+rapporten avslutas med att bygga på den: en omarbetad startprompt för den
+som vill göra om körningen, där tillägget är hur arbetet ska verifieras –
+namnge referensen, namnge instrumentet, säg vad ett godkänt resultat är
+innan första agenten startar. Kör den så och den här körningen hade slutat
+längre fram.
 
 *Morrowind nämns här bara som den designförebild experimentet mätte sig mot;
 Ashlands innehåller inga resurser från de spelen. The Elder Scrolls och

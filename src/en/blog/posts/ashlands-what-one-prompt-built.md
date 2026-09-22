@@ -1,6 +1,6 @@
 ---
 title: "Ashlands: what one prompt built"
-description: One prompt and a fleet of sub-agents produced 94,000 lines of a running game — and could not close the last stretch. What the Gauntlet Loop got right, what it cost, and what the founder had to supply himself.
+description: One prompt and a fleet of sub-agents produced 94,000 lines of a running game — and could not close the last stretch. What the Gauntlet Loop got right, what it cost, and what the founder brought to the run.
 date: 2026-09-22
 category: ai-journey             # app-development | ai-journey
 translationKey: ashlands-what-one-prompt-built
@@ -150,22 +150,21 @@ both counts.
 We run agents the other way round — stages, gates, a ledger and a founder
 review before anything is published, which is how [this site was
 built](/blog/how-this-site-was-built-by-agents/) and what the [factory
-article](/blog/why-we-run-an-agent-run-factory/) describes. Shumer's method
-includes watching the run without interrupting it; this one was steered,
-and the steers are in the repository: the arms, the frame-rate diagnosis,
-the gate and the map of steps. The instruments were built during the loop
-by the agent whose work they judged, and were wrong seven times. So: build
-the instrument first and calibrate it against a known
-defect, put the reference in the critic's hands before the first round, and
-keep a person where an agent cannot tell you it is wrong. Contract-first
-decomposition, builders kept away from critics and a clean negative treated
-as a complete answer — those we take as they are.
+article](/blog/why-we-run-an-agent-run-factory/) describes. This run was
+steered, and the steers are in the repository: the arms, the frame-rate
+diagnosis, the gate and the map of steps. The instruments were built
+during the loop by the agent whose work they judged, and were wrong seven
+times. So, for our own runs: build the instrument first and calibrate it
+against a known defect, put the reference in the critic's hands before the
+first round, and keep a person where an agent cannot tell you it is wrong.
+Contract-first decomposition, builders kept away from critics and a clean
+negative treated as a complete answer — those we take as they are.
 
-None of which is an argument against the method. The report closes with a
-revised starting prompt for anyone rerunning this, and what it adds is how
-the work is to be verified: name the reference, name the instrument, say what
-a pass looks like before the first agent starts. Run it that way and
-this run would have ended further along.
+The method is what got 94,000 lines running at all, and the report closes
+by adding to it: a revised starting prompt for anyone rerunning this,
+whose addition is how the work is to be verified — name the reference,
+name the instrument, say what a pass looks like before the first agent
+starts. Run it that way and this run would have ended further along.
 
 *Morrowind is named here only as the design target the experiment measured
 itself against; Ashlands contains no assets from those games. The Elder
