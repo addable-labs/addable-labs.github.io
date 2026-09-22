@@ -8,10 +8,16 @@ humanReviewed: true
     file are excluded from collections) with hreflang alternates (REQ-016,
     REQ-010). `listed` drops the articles dated after today: a scheduled
     article still builds at its real URL, but it is not advertised to search
-    engines before the day it is dated (si-gxyg). -#}
+    engines before the day it is dated (si-gxyg).
+    The pages are listed in URL order (si-s3nr). collections.all comes in
+    date order, and a page without a `date:` (every page here but the
+    articles) is dated by its file's creation time, so without the sort each
+    checkout would list those pages in its own order. `sort(false, true,
+    "url")` is ascending and case-sensitive, so no two URLs tie and the
+    order depends on the URLs alone. -#}
 <?xml version="1.0" encoding="utf-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
-{%- for item in collections.all | listed %}
+{%- for item in collections.all | listed | sort(false, true, "url") %}
 {%- if item.data.translationKey and item.data.alternate %}
 {%- set englishUrl = item.url if item.data.lang == site.languages.default else item.data.alternate.url %}
   <url>
