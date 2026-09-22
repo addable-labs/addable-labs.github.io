@@ -115,8 +115,8 @@ GitHub until we say so. We talk to the mayor over Discord.
 
 ## One build, in numbers
 
-The redesign of this site was the factory's second build, and the documents
-it wrote are in the repository. It began on 20 September 2026 at 17:34 UTC
+The redesign of this site was the factory's second build. It began on
+20 September 2026 at 17:34 UTC
 with a short brief, and the review report was finalised at 00:14 the next
 morning: six hours and forty minutes of wall-clock time. In between, the
 requirements step produced 31 requirements with acceptance criteria; the

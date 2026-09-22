@@ -122,8 +122,8 @@ pratar med borgmästaren via Discord.
 
 ## Ett bygge, i siffror
 
-Omdesignen av den här sajten var fabrikens andra bygge och dokumenten den
-skrev finns i kodförrådet. Det började den 20 september 2026 klockan 17:34
+Omdesignen av den här sajten var fabrikens andra bygge. Det började den
+20 september 2026 klockan 17:34
 UTC med en kort uppdragsbeskrivning och granskningsrapporten färdigställdes
 00:14 nästa morgon: sex timmar och fyrtio minuter från start till mål.
 Däremellan tog kravsteget fram 31 krav med acceptanskriterier; plansteget
