@@ -4,7 +4,7 @@ description: The first article in a series about the factory behind this site �
 date: 2026-09-21
 category: ai-journey             # app-development | ai-journey
 translationKey: why-we-run-an-agent-run-factory
-draft: true                      # published, but labelled "Draft" / "Utkast"
+draft: false                     # published — set true to keep it out of the public build (see README)
 machineTranslated: false         # Swedish files: true until a person has reviewed the text
 ---
 
@@ -19,8 +19,7 @@ what is it built on?
 
 ## What one agent and one person could not do
 
-nivå, the product behind [Lessons from building
-nivå](/blog/lessons-from-building-niva/), was built the other way round: one
+nivå was built the other way round: one
 coding agent and one person, 480 commits in 26 days, every one co-authored
 by the agent. That setup does not start from nothing. A file of working
 agreements, four written routines — review, gates, deploys and content

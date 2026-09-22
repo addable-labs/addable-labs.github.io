@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { readFile, writeFile } from "node:fs/promises";
+import { readFile, stat, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { after, before, describe, it } from "node:test";
 import { walk } from "../scripts/lib/site.mjs";
@@ -203,18 +203,43 @@ describe("content gate", () => {
 // two extra articles — one dated tomorrow, one dated today — so the real tree
 // carries no fixture of its own, and compare that build with one of the real
 // tree.
-describe("scheduled posts", () => {
-  // The blog index of the real tree, newest first, as it stands today: the
-  // exclusion must neither reorder nor drop anything. Add a line when an
-  // article is added.
-  const EN_ORDER = [
-    "/blog/ashlands-what-one-prompt-built/",
-    "/blog/why-we-run-an-agent-run-factory/",
-    "/blog/how-this-site-was-built-by-agents/",
-    "/blog/lessons-from-building-niva/",
-  ];
-  const SV_ORDER = EN_ORDER.map((url) => `/sv${url}`);
+// The blog index of the real tree, newest first, as it stands today, in a
+// development build — where every article is present, drafts included: an
+// exclusion must neither reorder nor drop anything else. Add a line when an
+// article is added.
+const EN_ORDER = [
+  "/blog/ashlands-what-one-prompt-built/",
+  "/blog/why-we-run-an-agent-run-factory/",
+  "/blog/how-this-site-was-built-by-agents/",
+  "/blog/lessons-from-building-niva/",
+];
+const SV_ORDER = EN_ORDER.map((url) => `/sv${url}`);
 
+/** YYYY-MM-DD, `offset` days from today in UTC — the unit the collections compare. */
+function utcDate(offset) {
+  const now = new Date();
+  return new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + offset)).toISOString().slice(0, 10);
+}
+
+/** Write one article, both languages, into a copy of the project. */
+async function writeArticlePair(project, slug, date, enTitle, svTitle, { draft = false } = {}) {
+  for (const [lang, title] of [["en", enTitle], ["sv", svTitle]]) {
+    const frontMatter = ["---", `title: ${title}`, `description: ${title}, one sentence.`, `date: ${date}`, "category: app-development", `translationKey: ${slug}`, `draft: ${draft}`, `machineTranslated: ${lang === "sv"}`, "---"];
+    // A body long enough to clear the content gate's 300-word floor, so the
+    // gates can run against this build as they do against the real one.
+    const body = `The body of ${title}.\n\n${"One sentence of filler prose, written only to give this fixture article its words. ".repeat(30)}`;
+    await writeFile(path.join(project, "src", lang, "blog", "posts", `${slug}.md`), `${frontMatter.join("\n")}\n\n${body}\n`);
+  }
+}
+
+/** The article URLs of a built listing page, in the order it lists them. */
+async function listed(out, ...parts) {
+  const html = await readFile(path.join(out, ...parts), "utf8");
+  // The heading carries an id from the IdAttributePlugin.
+  return [...html.matchAll(/class="post-title"[^>]*><a href="([^"]+)"/g)].map(([, url]) => url);
+}
+
+describe("scheduled posts", () => {
   let tmp;
   let built; // the build of the copy that carries the two extra articles
   let builtSrc; // that copy's source tree, for the gates
@@ -229,30 +254,6 @@ describe("scheduled posts", () => {
     real = buildSite(path.join(tmp.dir, "real"));
   });
   after(() => tmp.cleanup());
-
-  /** YYYY-MM-DD, `offset` days from today in UTC — the unit the collections compare. */
-  function utcDate(offset) {
-    const now = new Date();
-    return new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + offset)).toISOString().slice(0, 10);
-  }
-
-  /** Write one article, both languages, into a copy of the project. */
-  async function writeArticlePair(project, slug, date, enTitle, svTitle) {
-    for (const [lang, title] of [["en", enTitle], ["sv", svTitle]]) {
-      const frontMatter = ["---", `title: ${title}`, `description: ${title}, one sentence.`, `date: ${date}`, "category: app-development", `translationKey: ${slug}`, "draft: false", `machineTranslated: ${lang === "sv"}`, "---"];
-      // A body long enough to clear the content gate's 300-word floor, so the
-      // gates can run against this build as they do against the real one.
-      const body = `The body of ${title}.\n\n${"One sentence of filler prose, written only to give this fixture article its words. ".repeat(30)}`;
-      await writeFile(path.join(project, "src", lang, "blog", "posts", `${slug}.md`), `${frontMatter.join("\n")}\n\n${body}\n`);
-    }
-  }
-
-  /** The article URLs of a built listing page, in the order it lists them. */
-  async function listed(out, ...parts) {
-    const html = await readFile(path.join(out, ...parts), "utf8");
-    // The heading carries an id from the IdAttributePlugin.
-    return [...html.matchAll(/class="post-title"[^>]*><a href="([^"]+)"/g)].map(([, url]) => url);
-  }
 
   it("lists neither language of an article dated tomorrow, and does list one dated today", async () => {
     // The blog index of each language, the category page the two extra
@@ -304,8 +305,10 @@ describe("scheduled posts", () => {
     // scheduled article must not turn the workflow red.
     const feeds = runGate("feeds", built, builtSrc);
     assert.equal(feeds.status, 0, feeds.output);
-    assert.match(feeds.output, /ok {4}feed\.xml: no scheduled article \(scheduled-tomorrow on \d{4}-\d{2}-\d{2}\)/);
-    assert.match(feeds.output, /ok {4}sv\/feed\.xml: no scheduled article \(scheduled-tomorrow on \d{4}-\d{2}-\d{2}\)/);
+    // One message now names every article the feed is expected to omit, each
+    // with its reason — the scheduled one by its date, a draft as a draft.
+    assert.match(feeds.output, /ok {4}feed\.xml: no unlisted article \([^)]*\bscheduled-tomorrow on \d{4}-\d{2}-\d{2}\b[^)]*\)/);
+    assert.match(feeds.output, /ok {4}sv\/feed\.xml: no unlisted article \([^)]*\bscheduled-tomorrow on \d{4}-\d{2}-\d{2}\b[^)]*\)/);
     const content = runGate("content", built, builtSrc);
     assert.equal(content.status, 0, content.output);
     assert.match(content.output, /ok {4}en blog index does not list \/blog\/scheduled-tomorrow\/ before \d{4}-\d{2}-\d{2}/);
@@ -321,5 +324,124 @@ describe("scheduled posts", () => {
     // one dated tomorrow is not there, and nothing else moves.
     assert.deepEqual((await listed(built, "blog", "index.html")).filter((url) => !url.endsWith("-today/")), EN_ORDER);
     assert.deepEqual((await listed(built, "sv", "blog", "index.html")).filter((url) => !url.endsWith("-today/")), SV_ORDER);
+  });
+});
+
+// Drafts (founder ask 2026-09-22, si-mzf1): `draft: true` means the article is
+// there to read in a local build — listed, reachable, labelled — and is not in
+// the production build at all: no listing, no feed item, no sitemap entry and
+// no page at its URL. That is a stronger rule than scheduling above, and the
+// two are checked apart. The cases build one copy of the project twice, once
+// each way, so the only difference between the two builds is SITE_ENV.
+describe("draft posts", () => {
+  let tmp;
+  let dev; // the development build: drafts present
+  let prod; // the production build: drafts absent
+  let builtSrc; // the source tree both were built from, for the gates
+  before(async () => {
+    tmp = await tempDir("drafts-");
+    const project = await copyProject(path.join(tmp.dir, "project"));
+    builtSrc = path.join(project, "src");
+    await writeArticlePair(project, "a-draft", utcDate(0), "A draft", "Ett utkast", { draft: true });
+    await writeArticlePair(project, "not-a-draft", utcDate(0), "Not a draft", "Inte ett utkast", { draft: false });
+    dev = buildSite(path.join(tmp.dir, "dev"), { SITE_ENV: "" }, project);
+    prod = buildSite(path.join(tmp.dir, "prod"), { SITE_ENV: "production" }, project);
+  });
+  after(() => tmp.cleanup());
+
+  /** Does `out` carry this path? */
+  async function built(out, ...parts) {
+    try {
+      return (await stat(path.join(out, ...parts))).isFile();
+    } catch {
+      return false;
+    }
+  }
+
+  const LISTINGS = [["blog", "index.html"], ["blog", "app-development", "index.html"], ["index.html"], ["sv", "blog", "index.html"], ["sv", "blog", "app-development", "index.html"], ["sv", "index.html"]];
+
+  it("lists a draft in a local build, in both languages, wearing its label", async () => {
+    for (const page of LISTINGS) {
+      const urls = await listed(dev, ...page);
+      const prefix = page[0] === "sv" ? "/sv" : "";
+      assert.deepEqual(urls.filter((url) => url.endsWith("/a-draft/")), [`${prefix}/blog/a-draft/`], page.join("/"));
+    }
+    const index = await readFile(path.join(dev, "blog", "index.html"), "utf8");
+    assert.match(index, /chip-draft/, "the draft chip is still shown in the listing");
+    const page = await readFile(path.join(dev, "blog", "a-draft", "index.html"), "utf8");
+    assert.match(page, /notice-draft/, "the draft notice is still shown on the page");
+  });
+
+  it("carries a draft in both feeds and in the sitemap of a local build", async () => {
+    // The URL form throughout: /a-draft/ as a bare pattern also matches the
+    // not-a-draft fixture beside it.
+    for (const feed of [["feed.xml"], ["sv", "feed.xml"]]) {
+      assert.match(await readFile(path.join(dev, ...feed), "utf8"), /blog\/a-draft\//, feed.join("/"));
+    }
+    assert.match(await readFile(path.join(dev, "sitemap.xml"), "utf8"), /blog\/a-draft\//);
+  });
+
+  it("lists no draft in the production build, in either language", async () => {
+    for (const page of LISTINGS) {
+      const urls = await listed(prod, ...page);
+      const prefix = page[0] === "sv" ? "/sv" : "";
+      assert.deepEqual(urls.filter((url) => url.endsWith("/a-draft/")), [], page.join("/"));
+      // The article that is not a draft is untouched by any of this.
+      assert.deepEqual(urls.filter((url) => url.endsWith("/not-a-draft/")), [`${prefix}/blog/not-a-draft/`], page.join("/"));
+    }
+  });
+
+  it("keeps a draft out of both feeds and out of the sitemap of the production build", async () => {
+    for (const feed of [["feed.xml"], ["sv", "feed.xml"]]) {
+      const xml = await readFile(path.join(prod, ...feed), "utf8");
+      assert.doesNotMatch(xml, /blog\/a-draft\//, feed.join("/"));
+      assert.match(xml, /blog\/not-a-draft\//, feed.join("/"));
+    }
+    const sitemap = await readFile(path.join(prod, "sitemap.xml"), "utf8");
+    assert.doesNotMatch(sitemap, /blog\/a-draft\//);
+    assert.match(sitemap, /<loc>https:\/\/addablelabs\.se\/blog\/not-a-draft\/<\/loc>/);
+  });
+
+  it("builds no page at all for a draft in production — absent, not unlisted", async () => {
+    // The difference from a scheduled article, which IS built at its URL.
+    assert.equal(await built(dev, "blog", "a-draft", "index.html"), true);
+    assert.equal(await built(dev, "sv", "blog", "a-draft", "index.html"), true);
+    assert.equal(await built(prod, "blog", "a-draft", "index.html"), false);
+    assert.equal(await built(prod, "sv", "blog", "a-draft", "index.html"), false);
+    assert.equal(await built(prod, "blog", "not-a-draft", "index.html"), true);
+    assert.equal(await built(prod, "sv", "blog", "not-a-draft", "index.html"), true);
+  });
+
+  it("leaves the gates passing in both modes, naming what each expects", () => {
+    // The gates read the source tree, so they see the draft in both modes and
+    // must expect the opposite thing in each: the founder's draft must turn
+    // the workflow red in neither.
+    for (const [out, env] of [[dev, ""], [prod, "production"]]) {
+      for (const gate of ["links", "feeds", "content", "parity"]) {
+        const { status, output } = runGate(gate, out, builtSrc, { SITE_ENV: env });
+        assert.equal(status, 0, `${gate} in ${env || "development"}:\n${output}`);
+      }
+    }
+    const devContent = runGate("content", dev, builtSrc, { SITE_ENV: "" });
+    assert.match(devContent.output, /ok {4}en blog index lists \/blog\/a-draft\//);
+    assert.match(devContent.output, /ok {4}en blog index entry for a-draft carries "Draft"/);
+    const prodContent = runGate("content", prod, builtSrc, { SITE_ENV: "production" });
+    assert.match(prodContent.output, /ok {4}blog\/a-draft\/index\.html is not built \(a draft, and this is the production build\)/);
+    assert.match(prodContent.output, /ok {4}en blog index does not list \/blog\/a-draft\/ \(a draft, and this is the production build\)/);
+    assert.match(prodContent.output, /ok {4}sv feed has no item for a-draft \(a draft, and this is the production build\)/);
+    const prodFeeds = runGate("feeds", prod, builtSrc, { SITE_ENV: "production" });
+    // The message names every article it expects to be absent — the fixture
+    // draft and the repository's own.
+    assert.match(prodFeeds.output, /ok {4}feed\.xml: no unlisted article \([^)]*\ba-draft is a draft\b[^)]*\)/);
+  });
+
+  it("leaves the order of the published articles unchanged in both builds", async () => {
+    // Nothing else moves: the repository's own four articles keep their order
+    // in the development build, and the three that are not drafts keep theirs
+    // in the production build.
+    const withoutFixtures = (urls) => urls.filter((url) => !url.endsWith("/a-draft/") && !url.endsWith("/not-a-draft/"));
+    assert.deepEqual(withoutFixtures(await listed(dev, "blog", "index.html")), EN_ORDER);
+    assert.deepEqual(withoutFixtures(await listed(prod, "blog", "index.html")), EN_ORDER.filter((url) => !url.includes("lessons-from-building-niva")));
+    assert.deepEqual(withoutFixtures(await listed(prod, "sv", "blog", "index.html")), SV_ORDER.filter((url) => !url.includes("lessons-from-building-niva")));
   });
 });

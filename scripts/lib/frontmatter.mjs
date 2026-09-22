@@ -9,11 +9,13 @@
 //   date: 2026-09-20             a valid date (YAML date or ISO string)
 //   category: app-development    a key from src/_data/categories.json
 //   translationKey: some-slug    the same slug in both languages
-//   draft: true                  boolean; published but labelled "Draft" / "Utkast"
+//   draft: true                  boolean; built locally, left out of the public build
 //   machineTranslated: false     boolean; Swedish files: true until reviewed
 //
 // `lang` comes from the directory data file; an explicit per-file `lang` must
 // equal the directory's.
+
+import process from "node:process";
 
 export const REQUIRED_KEYS = [
   "title",
@@ -39,6 +41,43 @@ const SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 export function isScheduled(date, now = new Date()) {
   const when = date instanceof Date ? date : new Date(date);
   return utcDay(when) > utcDay(now);
+}
+
+/**
+ * Is this the production build — the one published to the public web?
+ *
+ * One explicit signal, `SITE_ENV=production`, set by the deployment workflow
+ * (.github/workflows/pages.yml) and by nothing else. The default is
+ * development: an unset or misspelt variable means local, so forgetting to
+ * set something can never publish a draft. `ELEVENTY_RUN_MODE` cannot answer
+ * this — `pnpm build` is the command both locally and in CI — so nothing
+ * anywhere infers the mode any other way.
+ */
+export function isProductionBuild(env = process.env) {
+  return env.SITE_ENV === "production";
+}
+
+/**
+ * An omitted article is one the build leaves out altogether: no page at its
+ * URL, no entry in any collection, and so nothing in the listings, the feeds
+ * or the sitemap. A draft is omitted from the production build and only from
+ * it (founder ask 2026-09-22, si-mzf1): he reviews drafts on localhost, so a
+ * local build carries a draft like any other article — listed, reachable,
+ * wearing its "Draft" / "Utkast" label — and the public build does not carry
+ * it at all.
+ *
+ * That is a stronger rule than `isScheduled` above, and the two must not be
+ * confused: a scheduled article IS built and IS reachable at its URL, just
+ * unlisted, so it is unlisted, not secret. A draft is absent from production,
+ * which is why the founder can keep an unfinished post in `main`.
+ *
+ * `draft` is validated as a boolean by `validateArticle`, so the build fails
+ * on anything else rather than quietly publishing it. eleventy.config.js
+ * reads this to drop the page and scripts/lib/site.mjs to tell the gates what
+ * to expect, so the build and the gates can never drift apart.
+ */
+export function isOmitted({ draft }, production = isProductionBuild()) {
+  return draft === true && production;
 }
 
 function utcDay(date) {

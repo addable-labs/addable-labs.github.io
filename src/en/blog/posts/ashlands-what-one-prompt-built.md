@@ -4,7 +4,7 @@ description: One prompt and a fleet of sub-agents produced 94,000 lines of a run
 date: 2026-09-22
 category: ai-journey             # app-development | ai-journey
 translationKey: ashlands-what-one-prompt-built
-draft: true                      # published, but labelled "Draft" / "Utkast"
+draft: false                     # published — set true to keep it out of the public build (see README)
 machineTranslated: false         # Swedish files: true until a person has reviewed the text
 ---
 

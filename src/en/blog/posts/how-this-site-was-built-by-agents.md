@@ -4,7 +4,7 @@ description: The stages, gates and founder reviews behind the first site an agen
 date: 2026-09-20
 category: app-development        # app-development | ai-journey
 translationKey: how-this-site-was-built-by-agents
-draft: true                      # published, but labelled "Draft" / "Utkast"
+draft: false                     # published — set true to keep it out of the public build (see README)
 machineTranslated: false         # Swedish files: true until a person has reviewed the text
 ---
 

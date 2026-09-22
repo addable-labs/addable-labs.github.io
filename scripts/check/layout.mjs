@@ -112,7 +112,11 @@ const { out, src } = resolveDirs();
 const site = await loadSite(src);
 const ARTICLES = [];
 for (const lang of site.languages.codes) {
-  for (const article of await readArticleSources(src, site, lang)) ARTICLES.push(article.path);
+  // A draft has no page in the production build (si-mzf1), so there is
+  // nothing to measure and asking for it would be a 404.
+  for (const article of await readArticleSources(src, site, lang)) {
+    if (!article.omitted) ARTICLES.push(article.path);
+  }
 }
 
 const exitCode = await withChrome("layout", out, async ({ baseUrl, port }) => {

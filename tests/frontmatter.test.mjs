@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
-import { isScheduled, REQUIRED_KEYS, validateArticle } from "../scripts/lib/frontmatter.mjs";
+import { isOmitted, isProductionBuild, isScheduled, REQUIRED_KEYS, validateArticle } from "../scripts/lib/frontmatter.mjs";
 
 const allowedCategories = ["app-development", "ai-journey"];
 const valid = {
@@ -72,5 +72,48 @@ describe("scheduled articles", () => {
     // dated the 23rd stays scheduled until UTC reaches it.
     assert.equal(isScheduled("2026-09-23", new Date("2026-09-22T23:30:00+02:00")), true);
     assert.equal(isScheduled("2026-09-23", new Date("2026-09-23T00:00:00Z")), false);
+  });
+});
+
+// The rule that keeps a draft off the public web (si-mzf1): a draft is built
+// and listed everywhere except the production build, which does not carry it
+// at all. Unlike `isScheduled` this one asks about the build, not the clock.
+describe("drafts and the production build", () => {
+  it("calls a build production only on SITE_ENV=production", () => {
+    assert.equal(isProductionBuild({ SITE_ENV: "production" }), true);
+    assert.equal(isProductionBuild({ SITE_ENV: "development" }), false);
+    assert.equal(isProductionBuild({}), false);
+  });
+
+  it("defaults to development, so forgetting the variable cannot publish a draft", () => {
+    // Every spelling but the exact one is a local build: unset, empty, the
+    // wrong case, a stray space.
+    for (const value of [undefined, "", "Production", "PRODUCTION", " production", "prod", "1", "true"]) {
+      assert.equal(isProductionBuild({ SITE_ENV: value }), false, JSON.stringify(value));
+    }
+  });
+
+  it("omits a draft from the production build and from no other", () => {
+    assert.equal(isOmitted({ draft: true }, true), true);
+    assert.equal(isOmitted({ draft: true }, false), false);
+  });
+
+  it("never omits an article that is not a draft", () => {
+    assert.equal(isOmitted({ draft: false }, true), false);
+    assert.equal(isOmitted({ draft: undefined }, true), false);
+    // `draft` is validated as a boolean, so nothing else should reach this;
+    // if something does, it is not a draft and stays in the build.
+    assert.equal(isOmitted({ draft: "true" }, true), false);
+  });
+
+  it("is a different rule from scheduling: neither implies the other", () => {
+    // A draft dated in the past is omitted from production but not scheduled;
+    // an article dated tomorrow is scheduled but built in production.
+    const tomorrow = new Date("2026-09-23");
+    const lateOn22nd = new Date("2026-09-22T23:30:00Z");
+    assert.equal(isOmitted({ draft: true }, true), true);
+    assert.equal(isScheduled("2020-01-01", lateOn22nd), false);
+    assert.equal(isOmitted({ draft: false }, true), false);
+    assert.equal(isScheduled(tomorrow, lateOn22nd), true);
   });
 });

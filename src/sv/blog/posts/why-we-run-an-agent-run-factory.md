@@ -4,7 +4,7 @@ description: Första artikeln i en serie om fabriken bakom den här sajten – v
 date: 2026-09-21
 category: ai-journey             # app-development | ai-journey
 translationKey: why-we-run-an-agent-run-factory
-draft: true                      # publiceras, men märks "Draft" / "Utkast"
+draft: false                     # publicerad — sätt true för att hålla den utanför publika bygget
 machineTranslated: true          # true tills en person har granskat texten
 ---
 
@@ -20,8 +20,7 @@ bygger det på?
 
 ## Vad en agent och en person inte kunde göra
 
-nivå, produkten bakom [Lärdomar från att bygga
-nivå](/sv/blog/lessons-from-building-niva/), byggdes tvärtom: en kodande
+nivå byggdes tvärtom: en kodande
 agent och en person, 480 commits på 26 dagar, varenda en med agenten som
 medförfattare. Den uppsättningen börjar inte från noll. En fil med
 arbetsöverenskommelser, fyra nedskrivna rutiner – granskning,

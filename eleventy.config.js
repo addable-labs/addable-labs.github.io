@@ -1,7 +1,7 @@
 import { readFileSync, statSync } from "node:fs";
 import { IdAttributePlugin } from "@11ty/eleventy";
 import rssPlugin from "@11ty/eleventy-plugin-rss";
-import { isScheduled, validateArticle } from "./scripts/lib/frontmatter.mjs";
+import { isOmitted, isScheduled, validateArticle } from "./scripts/lib/frontmatter.mjs";
 import site from "./src/_data/site.js";
 
 // Paths copied verbatim into _site/: the stylesheets and mark, the SVG favicon
@@ -35,12 +35,24 @@ function byDateDescThenSlug(a, b) {
   return b.date - a.date || a.fileSlug.localeCompare(b.fileSlug);
 }
 
-// Scheduled articles (founder ask 2026-09-22, si-gxyg): an article dated after
-// today is still built at its real URL — that is how it gets previewed — but
-// no listing shows it until the day it is dated, so articles can be prepared
-// in advance. It is unlisted, not secret. `isScheduled` (frontmatter.mjs)
-// holds the rule; anything that is not an article is always listed, which
-// matters for collections.all, the collection the sitemap walks.
+// Two rules keep an article off the blog, and they are deliberately not the
+// same rule (frontmatter.mjs holds both):
+//
+//   scheduled — dated after today (founder ask 2026-09-22, si-gxyg). Still
+//     built at its real URL, in every build — that is how it gets previewed —
+//     but no listing shows it until the day it is dated, so articles can be
+//     prepared in advance. Unlisted, not secret. `isListed` below.
+//   draft — `draft: true` (founder ask 2026-09-22, si-mzf1). Present and
+//     listed like any other article in a local build, because that is where
+//     the founder reads it, and left out of the production build altogether
+//     by the `omit-drafts` preprocessor: no page, no collection entry,
+//     nothing. `isOmitted`.
+//
+// So `isListed` asks about the date and nothing else: a draft that reaches it
+// is a draft in a local build, where it belongs in the listing, and a draft
+// in production never reaches it because the template no longer exists.
+// Anything that is not an article is always listed, which matters for
+// collections.all, the collection the sitemap walks.
 function isListed(item) {
   return !ARTICLE_PATH.test(item.inputPath) || !isScheduled(item.date);
 }
@@ -73,6 +85,19 @@ export default function (eleventyConfig) {
     validateArticle(data, { allowedCategories: CATEGORY_KEYS, dirLang: match[1], file });
   });
 
+  // Drafts in the production build (si-mzf1): returning false from a
+  // preprocessor drops the template before anything else sees it, so the
+  // draft has no output file, no entry in collections.all and no computed
+  // data — genuinely absent, not merely unlisted. `permalink: false` alone
+  // would leave it in the collections; `eleventyExcludeFromCollections` alone
+  // would leave the page on the public web. Both languages of an article
+  // carry the same `draft`, so a draft and its counterpart leave together and
+  // no surviving page is left hunting for a translation that is not there.
+  eleventyConfig.addPreprocessor("omit-drafts", "md", (data) => {
+    if (!ARTICLE_PATH.test(data.page.inputPath)) return;
+    if (isOmitted(data)) return false;
+  });
+
   // posts_<lang>: every listed article of a language, newest first;
   // posts_<lang>_<category>: the same filtered to one category. Both drop the
   // scheduled articles, so the blog index, the category pages, the landing
@@ -96,7 +121,9 @@ export default function (eleventyConfig) {
 
   // The sitemap walks collections.all, not the collections above, so it needs
   // the same exclusion of its own: a scheduled article is not advertised to
-  // search engines either (si-gxyg).
+  // search engines either (si-gxyg). A draft needs no exclusion here — in
+  // production it is not in collections.all at all, and in a local build the
+  // sitemap is never served to anyone (si-mzf1).
   eleventyConfig.addFilter("listed", (items) => (items ?? []).filter(isListed));
 
   // Dates: `localeDate` renders a Date for humans in the page's language

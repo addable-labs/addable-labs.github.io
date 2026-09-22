@@ -37,6 +37,15 @@ jobs:
     runs-on: ubuntu-latest
     env:
       CHECK_REQUIRE_CHROME: "1" # the Chrome-backed gates (lighthouse, layout) may never skip in CI (REQ-024)
+      # The one signal that says this build is the public one (si-mzf1). A
+      # draft is built and listed everywhere else — that is how the founder
+      # reads it on localhost — and left out of this build altogether. It sits
+      # on the job, not on a step, because `pnpm test` builds _site/ again
+      # after `pnpm check` and before the artifact is uploaded: a development
+      # build there would put the drafts back into what gets deployed.
+      # Anything without this variable is a development build, so forgetting
+      # it can only fail safe.
+      SITE_ENV: production
     steps:
       - name: Check out the repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1

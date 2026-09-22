@@ -4,7 +4,7 @@ description: Stegen, kvalitetsgrindarna och grundarens granskningar bakom den f�
 date: 2026-09-20
 category: app-development        # app-development | ai-journey
 translationKey: how-this-site-was-built-by-agents
-draft: true                      # publiceras, men märks "Draft" / "Utkast"
+draft: false                     # publicerad — sätt true för att hålla den utanför publika bygget
 machineTranslated: true          # true tills en person har granskat texten
 ---
 

@@ -11,7 +11,7 @@ import { readdir, readFile, stat } from "node:fs/promises";
 import path from "node:path";
 import process from "node:process";
 import { pathToFileURL } from "node:url";
-import { isScheduled } from "./frontmatter.mjs";
+import { isOmitted, isScheduled } from "./frontmatter.mjs";
 
 export const ROOT = path.resolve(new URL("../..", import.meta.url).pathname);
 
@@ -110,8 +110,19 @@ export async function exists(file) {
 
 /**
  * Articles of a language from the source tree: slug, draft flag, title, url
- * path, date and whether the article is scheduled — dated after today, so it
- * is built but no listing shows it yet (si-gxyg).
+ * path, date, and what this build owes each one. The gates read the source
+ * tree, so they see every article; these three flags say what the built site
+ * must therefore show, and they read the same rules the build does
+ * (frontmatter.mjs), so the two cannot drift:
+ *
+ *   scheduled — dated after today (si-gxyg): built at its URL, listed nowhere
+ *   omitted   — a draft in the production build (si-mzf1): no page at all
+ *   listed    — neither of the above: built and in every listing
+ *
+ * `omitted` follows SITE_ENV, which the gates inherit from the build that
+ * produced the site they are checking, so `pnpm check` asserts the right
+ * thing in both modes: locally a draft is present and listed, in CI it is
+ * absent everywhere.
  */
 export async function readArticleSources(srcDir, site, lang) {
   const dir = path.join(srcDir, lang, "blog", "posts");
@@ -130,13 +141,18 @@ export async function readArticleSources(srcDir, site, lang) {
       (new RegExp(`^${key}:\\s*(.*)$`, "m").exec(frontMatter)?.[1] ?? "").replace(/\s+#.*$/, "").trim();
     const slug = name.replace(/\.md$/, "");
     const date = field("date");
+    const draft = /^true\b/.test(field("draft"));
+    const scheduled = isScheduled(date);
+    const omitted = isOmitted({ draft });
     articles.push({
       slug,
       lang,
-      draft: /^true\b/.test(field("draft")),
+      draft,
       title: field("title"),
       date,
-      scheduled: isScheduled(date),
+      scheduled,
+      omitted,
+      listed: !omitted && !scheduled,
       path: `${prefix}/blog/${slug}/`,
       url: `${site.url}${prefix}/blog/${slug}/`,
     });

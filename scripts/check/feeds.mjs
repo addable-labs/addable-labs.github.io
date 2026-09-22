@@ -5,9 +5,11 @@
 // title/link/description, every item has title/link/guid/pubDate, item links
 // are absolute (site.url) and carry the language prefix of their feed, each
 // feed lists exactly that language's listed articles (from src/<lang>/blog/
-// posts, minus the ones dated after today, which are built but unlisted),
-// draft articles carry the localised label in the item title, an item's
-// content carries the prose only — no <figure>: the inline-SVG article
+// posts, minus the ones dated after today, which are built but unlisted, and
+// minus the drafts, which a production build leaves out altogether — a local
+// build carries its drafts and they belong in the feed there), draft articles
+// carry the localised label in the item title, an item's content carries the
+// prose only — no <figure>: the inline-SVG article
 // illustrations are stripped by the feed templates (si-55iu) because their
 // classes and custom properties do not travel — and every built HTML page
 // links its language's feed with <link rel="alternate"
@@ -62,11 +64,16 @@ async function checkFeed(feed) {
   report.check(textOf(channel.link).startsWith(site.url), `${feed.file}: channel link is absolute (${textOf(channel.link)})`);
 
   const items = asArray(channel.item);
-  // A scheduled article (dated after today) is built but unlisted, so the feed
-  // must not carry it and must carry every other article (si-gxyg).
+  // The feed carries exactly the listed articles. An article is missing from
+  // it for one of two reasons, and the message says which: it is scheduled —
+  // dated after today, so built but unlisted (si-gxyg) — or it is a draft and
+  // this is the production build, which does not carry drafts at all
+  // (si-mzf1). In a local build a draft is listed and so belongs in the feed,
+  // label and all.
   const sources = await readArticleSources(src, site, feed.lang);
-  const expected = sources.filter((entry) => !entry.scheduled);
-  const scheduled = sources.filter((entry) => entry.scheduled);
+  const expected = sources.filter((entry) => entry.listed);
+  const absent = sources.filter((entry) => !entry.listed);
+  const why = (entry) => (entry.omitted ? `${entry.slug} is a draft` : `${entry.slug} on ${entry.date}`);
   const draftLabel = strings[feed.lang].article.draftLabel;
   report.check(items.length > 0, `${feed.file}: has items (${items.length})`);
 
@@ -94,8 +101,8 @@ async function checkFeed(feed) {
   }
   const missing = expected.filter((entry) => !seen.has(entry.slug)).map((entry) => entry.slug);
   report.check(missing.length === 0, `${feed.file}: every listed ${feed.lang} article appears${missing.length ? ` (missing: ${missing.join(", ")})` : ""}`);
-  const early = scheduled.filter((entry) => xml.includes(entry.url)).map((entry) => entry.slug);
-  report.check(early.length === 0, `${feed.file}: no scheduled article${scheduled.length ? ` (${scheduled.map((entry) => `${entry.slug} on ${entry.date}`).join(", ")})` : ""}${early.length ? ` — listed early: ${early.join(", ")}` : ""}`);
+  const leaked = absent.filter((entry) => xml.includes(entry.url)).map((entry) => entry.slug);
+  report.check(leaked.length === 0, `${feed.file}: no unlisted article${absent.length ? ` (${absent.map(why).join(", ")})` : ""}${leaked.length ? ` — present: ${leaked.join(", ")}` : ""}`);
 }
 
 async function checkPageFeedLinks() {

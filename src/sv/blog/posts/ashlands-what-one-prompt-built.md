@@ -4,7 +4,7 @@ description: En prompt och en flotta underagenter gav 94 000 rader av ett spel s
 date: 2026-09-22
 category: ai-journey             # app-development | ai-journey
 translationKey: ashlands-what-one-prompt-built
-draft: true                      # publiceras, men märks "Draft" / "Utkast"
+draft: false                     # publicerad — sätt true för att hålla den utanför publika bygget
 machineTranslated: true          # true tills en person har granskat texten
 ---
 

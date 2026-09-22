@@ -29,8 +29,10 @@
 //   - both seed articles exist in both languages, the seed articles are
 //     300–600 English words of prose and every later article 300–1,500 (the
 //     figures' captions and diagram labels are not prose and do not count,
-//     si-55iu), drafts show "Draft"/"Utkast" on the article page, in the
-//     listings and in the feeds, and every article page ends with the "More
+//     si-55iu), a draft shows "Draft"/"Utkast" on its page, in the listings
+//     and in the feeds of a local build and has no page at all in the
+//     production build (si-mzf1), an article dated after today is built but
+//     listed nowhere (si-gxyg), and every article page ends with the "More
 //     from the blog" band listing other articles of its language, never
 //     itself (founder feedback 2026-09-22)
 // Optional arguments: <built-site dir> [<source dir>].
@@ -278,7 +280,19 @@ report.check(linkedinProblems === 0, site.linkedinUrl ? `LinkedIn links ${site.l
 report.check(controlProblems === 0, "every page carries the language switch to its counterpart, the appearance toggle and the feed link");
 report.check(forbiddenProblems === 0, "no links to private repositories, no StockSight-AI, no factory name");
 
-// Seed articles: existence, word count, draft labels
+/**
+ * Why the built site owes this article nothing: it is a draft and this is the
+ * production build, which leaves drafts out altogether (si-mzf1), or it is
+ * dated after today and so is built but unlisted (si-gxyg). Used in the
+ * message the gate prints, so a passing run says out loud which article it
+ * expected to be absent and why.
+ */
+function because(article) {
+  return article.omitted ? "(a draft, and this is the production build)" : `before ${article.date}`;
+}
+
+// Articles: existence, word count, the draft label, and the two ways an
+// article stays off the listings
 for (const lang of site.languages.codes) {
   const articles = await readArticleSources(src, site, lang);
   report.check(articles.length >= 2, `${lang}: at least two articles in the source tree (${articles.length})`);
@@ -288,6 +302,17 @@ for (const lang of site.languages.codes) {
   const draftLabel = strings[lang].article.draftLabel;
   for (const article of articles) {
     const rel = `${article.path.replace(/^\//, "")}index.html`;
+    if (article.omitted) {
+      // The production build carries no draft at all: not merely unlisted —
+      // there is no page at its URL, and nothing anywhere points at one
+      // (si-mzf1). Assert that rather than skipping the article, or the gate
+      // would fall silent on exactly the thing it is here to prove.
+      report.check(!(await exists(path.join(out, rel))), `${rel} is not built ${because(article)}`);
+      const entries = listing?.doc.querySelectorAll(".post") ?? [];
+      report.check(entries.every((item) => attr(item.querySelector(".post-title a"), "href") !== article.path), `${lang} blog index does not list ${article.path} ${because(article)}`);
+      report.check(!feed.includes(article.url), `${lang} feed has no item for ${article.slug} ${because(article)}`);
+      continue;
+    }
     const built = await page(rel);
     if (!built) continue;
     if (lang === site.languages.default) {
@@ -314,7 +339,9 @@ for (const lang of site.languages.codes) {
       // REQ-013, REQ-016: the listings are .post cards whose title link is the
       // article and whose draft label is the .chip-draft chip. An article
       // dated after today is built, as the page above, but listed nowhere
-      // until that day (si-gxyg).
+      // until that day (si-gxyg). A draft that reaches here is a draft in a
+      // local build, where it is listed and wears its label like any other
+      // article (si-mzf1).
       const entry = listing.doc.querySelectorAll(".post").find((item) => attr(item.querySelector(".post-title a"), "href") === article.path);
       if (article.scheduled) {
         report.check(entry === undefined, `${lang} blog index does not list ${article.path} before ${article.date}`);

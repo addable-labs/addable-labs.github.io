@@ -32,13 +32,18 @@ export async function tempDir(prefix = "gates-") {
  * not carry. Eleventy reads the config, the input directory and the
  * collections' globs relative to the working directory, so a copy is built
  * from its own directory rather than with `--input`.
+ *
+ * SITE_ENV is cleared first, so every build here is a development build —
+ * drafts present and listed — whatever the environment the suite runs in (CI
+ * sets SITE_ENV=production for the job). A case that wants the production
+ * build asks for it: `buildSite(out, { SITE_ENV: "production" })`.
  */
 export function buildSite(outDir, env = {}, cwd = ROOT) {
   const args = [path.join(ROOT, "node_modules", "@11ty", "eleventy", "cmd.cjs"), "--quiet", `--output=${outDir}`];
   const result = spawnSync(process.execPath, args, {
     cwd,
     encoding: "utf8",
-    env: { ...process.env, ...env },
+    env: { ...process.env, SITE_ENV: "", ...env },
   });
   if (result.status !== 0) {
     throw new Error(`eleventy build failed:\n${result.stdout}\n${result.stderr}`);
@@ -46,12 +51,17 @@ export function buildSite(outDir, env = {}, cwd = ROOT) {
   return outDir;
 }
 
-/** Run one gate script against `out` and `src`; returns { status, output }. */
+/**
+ * Run one gate script against `out` and `src`; returns { status, output }.
+ * SITE_ENV is cleared for the same reason as in `buildSite`: a gate must be
+ * told what kind of build it is looking at, and these cases build development
+ * sites unless they say otherwise.
+ */
 export function runGate(gate, out, src = SRC, env = {}) {
   const result = spawnSync(process.execPath, [path.join(ROOT, "scripts", "check", `${gate}.mjs`), out, src], {
     cwd: ROOT,
     encoding: "utf8",
-    env: { ...process.env, CHECK_OFFLINE: "1", ...env },
+    env: { ...process.env, SITE_ENV: "", CHECK_OFFLINE: "1", ...env },
     maxBuffer: 64 * 1024 * 1024,
   });
   return { status: result.status, output: `${result.stdout}${result.stderr}` };
