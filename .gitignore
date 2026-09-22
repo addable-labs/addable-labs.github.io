@@ -6,6 +6,10 @@
 .beads/proxieddb/
 *.gate.lock*
 
+# Gas City
+.beads/*
+!.beads/identity.toml
+
 # Site build output and local agent tooling (plan Decision 10)
 node_modules/
 _site/
