@@ -21,7 +21,8 @@ bygger det på?
 
 ## Vad en agent och en person inte kunde göra
 
-nivå byggdes tvärtom: en kodande
+nivå, produkten bakom [Lärdomar från att bygga
+nivå](/sv/blog/lessons-from-building-niva/), byggdes tvärtom: en kodande
 agent och en person, 480 commits på 26 dagar, varenda en med agenten som
 medförfattare. Den uppsättningen börjar inte från noll. En fil med
 arbetsöverenskommelser, fyra nedskrivna rutiner – granskning,

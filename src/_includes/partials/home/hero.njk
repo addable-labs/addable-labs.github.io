@@ -5,8 +5,10 @@
     site promotes what exists rather than "Start a project" — and the
     secondary CTA for nivå: while
     site.nivaUrl is null it is an honest early-access mailto:, once the
-    founder sets the URL it links there and reads "Try nivå" with no template
-    change. Then the proof line and the console: an honest log of this
+    founder sets the URL it links there and reads "nivå" with no template
+    change — just the name (si-jqrf), which misleads no one while nivå is
+    not yet open to everyone and needs no change when it opens.
+    Then the proof line and the console: an honest log of this
     factory's build stages, every line a string, rendered as a three-column
     subgrid (stage | text | state) with the caret on the last line. It carries
     no times (si-qr13): the timed record of that run is the "build" figure in
@@ -25,7 +27,7 @@
       <p class="cta-row reveal">
         <a class="button button-primary" href="#apps">{{ hero.ctaPrimary }}<span class="arrow" aria-hidden="true">→</span></a>
         {%- if site.nivaUrl %}
-        <a class="button button-secondary" href="{{ site.nivaUrl }}">{{ hero.nivaTry }}</a>
+        <a class="button button-secondary" href="{{ site.nivaUrl }}">{{ hero.nivaLink }}</a>
         {%- else %}
         <a class="button button-secondary" href="{{ hero.nivaEarlyAccessSubject | mailtoSubject }}">{{ hero.nivaEarlyAccess }}</a>
         {%- endif %}
