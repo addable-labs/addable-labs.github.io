@@ -6,17 +6,12 @@
   {% include "partials/header.njk" %}
 {#- main carries no container of its own (REQ-016): the landing page uses
     full-width section bands and every other template wraps its content in
-    .container. The machine-translated notice and the page title, when the
-    template does not render its own h1, sit in a .page-head container. -#}
+    .container. The page title, when the template does not render its own h1,
+    sits in a .page-head container. -#}
   <main id="main">
-{%- if machineTranslated or not titleInContent %}
-    <div class="container page-head">
-{%- if machineTranslated %}
-      {% include "partials/notice-mt.njk" %}
-{%- endif %}
 {%- if not titleInContent %}
+    <div class="container page-head">
       <h1>{{ title }}</h1>
-{%- endif %}
     </div>
 {%- endif %}
     {{ content | safe }}

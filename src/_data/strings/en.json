@@ -200,9 +200,6 @@
   },
   "article": {
     "draftLabel": "Draft",
-    "draftNotice": "Draft — this article is still being worked on and may change.",
-    "machineTranslatedLabel": "Machine-translated",
-    "machineTranslatedNotice": "This text was machine-translated and has not yet been reviewed by a person.",
     "readInOtherLanguage": "Read this article in Swedish",
     "moreEyebrow": "Keep reading",
     "moreHeading": "More from the blog"

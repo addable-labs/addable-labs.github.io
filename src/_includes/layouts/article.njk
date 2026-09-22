@@ -4,20 +4,17 @@ titleInContent: true
 ogType: article
 ---
 {#- Article page (REQ-016): the header carries the mono metadata — date, the
-    category chip (a link to the category page), the draft chip and the
-    machine-translated chip when they apply — then the title, the summary and
-    the draft notice box; header, body blocks and footer sit on one centred
-    44rem measure and the figures the article calls with
+    category chip (a link to the category page) and the draft chip when it
+    applies — then the title and the summary; header, body blocks and footer
+    sit on one centred 44rem measure and the figures the article calls with
     `{% figure "<id>"[, "wide"] %}` sit in the flow — an inline figure on the
     measure with its caption beside the panel, a wide one across the whole
     container (base.css, founder feedback 2026-09-22); the footer links the
     same article in the other language as a secondary button. After the
     article, the "More from the blog" band lists the other articles of the
     page's language (the landing's writing band, partials/post-list.njk) and
-    links the blog index, so the page ends with somewhere to go. The
-    machine-translated notice box is rendered by layouts/base.njk at the top
-    of main for every page with machineTranslated: true. `alternate` is
-    computed by src.11tydata.js; when it is null the link is simply absent.
+    links the blog index, so the page ends with somewhere to go. `alternate`
+    is computed by src.11tydata.js; when it is null the link is simply absent.
     The header/footer inside the article are divs so each page keeps exactly
     one header and footer landmark. Conditional tags sit at column 0 so a
     false branch leaves an empty line rather than trailing whitespace. -#}
@@ -30,15 +27,9 @@ ogType: article
 {%- if draft %}
       <span class="chip chip-draft"><span class="chip-dot" aria-hidden="true"></span>{{ strings[lang].article.draftLabel }}</span>
 {%- endif %}
-{%- if machineTranslated %}
-      <span class="chip chip-mt"><span class="chip-dot" aria-hidden="true"></span>{{ strings[lang].article.machineTranslatedLabel }}</span>
-{%- endif %}
     </p>
     <h1>{{ title }}</h1>
     <p class="article-summary">{{ description }}</p>
-{% if draft %}
-    {% include "partials/notice-draft.njk" %}
-{% endif %}
   </div>
   <div class="article-body">
     {{ content | safe }}

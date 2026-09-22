@@ -7,8 +7,6 @@
 //   - every page pairs with exactly one counterpart: the hreflang alternates
 //     in the built pages form a one-to-one mapping between the two languages
 //     (each translationKey occurs once per language)
-//   - the machine-translated notice appears only on pages that opt in (all
-//     such pages are Swedish) and never on English pages
 // Failures name the offending path or key. Optional arguments: <built-site
 // dir> [<source dir>].
 
@@ -100,23 +98,5 @@ for (const lang of others) {
   }
   report.check(problems === 0, `${targets.size} ${defaultLang} ↔ ${lang} page pair(s) map one-to-one`);
 }
-
-// 4. Machine-translated notice only on opted-in Swedish pages, never on English
-const noticeText = Object.fromEntries(site.languages.codes.map((lang) => [lang, strings[lang].article.machineTranslatedNotice]));
-let noticeProblems = 0;
-for (const page of pages) {
-  const notices = page.doc.querySelectorAll(".notice-mt");
-  if (page.lang === defaultLang && notices.length > 0) {
-    noticeProblems += 1;
-    report.fail(`${page.relPath}: machine-translated notice on a ${defaultLang} page`);
-  }
-  for (const notice of notices) {
-    if (notice.textContent.trim() !== noticeText[page.lang]) {
-      noticeProblems += 1;
-      report.fail(`${page.relPath}: machine-translated notice text is not the ${page.lang} string`);
-    }
-  }
-}
-report.check(noticeProblems === 0, `machine-translated notices only on ${others.join("/")} pages that opt in (${pages.filter((p) => p.doc.querySelector(".notice-mt")).length} page(s))`);
 
 report.finish();

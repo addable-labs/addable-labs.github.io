@@ -369,7 +369,7 @@ describe("draft posts", () => {
     const index = await readFile(path.join(dev, "blog", "index.html"), "utf8");
     assert.match(index, /chip-draft/, "the draft chip is still shown in the listing");
     const page = await readFile(path.join(dev, "blog", "a-draft", "index.html"), "utf8");
-    assert.match(page, /notice-draft/, "the draft notice is still shown on the page");
+    assert.match(page, /chip-draft/, "the draft chip is still shown on the page");
   });
 
   it("carries a draft in both feeds and in the sitemap of a local build", async () => {

@@ -168,8 +168,8 @@ Brödtext i Markdown.
 - **`draft: true` keeps the article off the public web.** A draft is a normal
   article in a local build — listed on `/blog/`, in the feeds and in the
   sitemap, readable at its URL, wearing a "Draft" / "Utkast" chip in the
-  listings and a notice on the page, and its feed item titled "Draft:" /
-  "Utkast:" — because a local build is where a draft is read and reviewed.
+  listings and on the page, and its feed item titled "Draft:" / "Utkast:" —
+  because a local build is where a draft is read and reviewed.
   The published build does not contain it **at all**: no listing, no feed
   item, no sitemap entry and **no page at its URL**. Set the same value in
   both languages, and set it to `false` to publish. Which build is which is
@@ -194,9 +194,10 @@ Brödtext i Markdown.
   clock, so a scheduled article appears only on the next build: the deployment
   workflow rebuilds and redeploys `main` once a day for exactly that reason
   (see *Deployment*).
-- **`machineTranslated: true`** shows a "Machine-translated" chip and a
-  notice saying the text has not yet been reviewed by a person. Clear it
-  once the translation has been read. English files keep `false`.
+- **`machineTranslated: true`** records that a text has not yet been read by
+  a person. It is source metadata only: since the founder's call of
+  2026-09-22 (si-sfh8) it renders nowhere on the site. Clear it once the
+  translation has been read. English files keep `false`.
 - **`translationKey`** pairs the two files: the language switches in the
   header and the footer, the `hreflang` links and the sitemap are all derived
   from it. It must be a slug (lowercase letters, digits and single hyphens)
@@ -342,7 +343,7 @@ after a `pnpm build`:
 | html | `pnpm check:html` | `html-validate` with the `recommended` and `a11y` presets (`.htmlvalidate.json`, inline styles forbidden), zero errors. |
 | pages | `pnpm check:pages` | Per page: `header`/`nav`/`main`/`footer` once, one `h1`, no skipped heading levels, the skip link is the first focusable element, `html[lang]` matches the path, every `img` has `alt`/`width`/`height`, unique title, description, canonical, Open Graph tags, three `hreflang` alternates, the feed link, the language switch, scripts only from the site's origin, no cross-origin resource (font preloads and `@font-face` sources included), HTML + CSS ≤ 150 KB, and on both landing pages CSS + JavaScript ≤ 60 KB compressed. |
 | contrast | `pnpm check:contrast` | `src/assets/css/tokens.css` keeps its structure (dark by default, light only under the toggle's `[data-theme="light"]`, every fallback equal to its dark value, no OS media query, no token outside `:root`); every colour pair meets WCAG AA in both themes (4.5:1 text, 3:1 UI); no colour literal outside `tokens.css`. |
-| parity | `pnpm check:parity` | Every English page has its Swedish twin and vice versa, the feeds pair up, the strings files have identical keys with no empty values, pages pair one-to-one, the machine-translated notice appears only where flagged. |
+| parity | `pnpm check:parity` | Every English page has its Swedish twin and vice versa, the feeds pair up, the strings files have identical keys with no empty values, pages pair one-to-one. |
 | feeds | `pnpm check:feeds` | Both feeds are well-formed RSS 2.0 with absolute links, exactly the language's listed articles — never one dated after today, and never a draft unless this is a development build — draft labels, items that carry the prose only (no `<figure>`), and every page links its feed. |
 | content | `pnpm check:content` | The facts the site must state: one `h1` in the hero, the primary `mailto:` call to action with a subject, the nivå button honouring `site.nivaUrl`, the three service headings, the six apps in data order with the private ones unlinked and the public ones linked once, the trust section's phrase, founder, article link and proof link, the latest-writing cards, the founding month on the about page; on every page the footer's address, the LinkedIn rule, the language switches, the toggle and the feed link; no private-repository link, no "StockSight", no factory name; article lengths and draft labels; that an article dated after today is built but listed in neither its language's blog index nor its feed; and that a draft is listed and built in a development build but has no page at all in the published one. The pinned facts are the constants at the top of `scripts/check/content.mjs`. |
 | lighthouse | `pnpm check:lighthouse` | Serves `_site/` locally, runs Lighthouse 13 (mobile configuration) in headless Chrome on `/`, `/sv/`, `/about/`, `/blog/`, a category page, an article and `/404.html`: Performance, Accessibility, Best Practices and SEO each ≥ 95 and cumulative layout shift ≤ 0.1, one line per page. |
@@ -486,10 +487,10 @@ pair.
    The service headings are the short forms ("AI-powered apps", "AI
    adoption", "Investing tools") because a card title must fit one line.
 8. **Copy review — Swedish.** Every Swedish string below was written by the
-   factory and not yet reviewed by a person (the machine-translated notice
-   stays on `src/sv/index.njk`, `src/sv/about.njk` and every article under
-   `src/sv/blog/posts/` until you clear `machineTranslated: true`; clear
-   `draft: true` on an article in both languages when it is ready to go
+   factory and not yet reviewed by a person (`machineTranslated: true` still
+   records that on `src/sv/index.njk`, `src/sv/about.njk` and every article
+   under `src/sv/blog/posts/`, but nothing on the page says so any more;
+   clear `draft: true` on an article in both languages when it is ready to go
    public — while it is set the article is not on the public site at all). Keys in `src/_data/strings/sv.json`,
    new or changed in the redesign — the values are quoted in the item
    summaries under `plans/website-redesign/build/items/`:
@@ -512,7 +513,7 @@ pair.
    - `writing.eyebrow`, `writing.heading`, `writing.all`
    - `contact.eyebrow`, `contact.heading`, `contact.text`, `contact.cta`
    - `blog.eyebrow`, `blog.categoryEyebrow`, `blog.allArticles`;
-     `article.machineTranslatedLabel`; `notFound.eyebrow`
+     `notFound.eyebrow`
    - `about.eyebrow`, `about.lead`, `about.missionHeading`, `about.facts`,
      `about.missionText`, `about.approachHeading`,
      `about.points.{aiNative,team,open,proof}.{title,text}`,

@@ -325,8 +325,6 @@ for (const lang of site.languages.codes) {
       const [min, max] = SEED_ARTICLES.has(article.slug) ? WORD_RANGE.seed : WORD_RANGE.other;
       report.check(words >= min && words <= max, `${rel}: ${words} words (${min}–${max})`);
     }
-    const hasNotice = built.doc.querySelector(".notice-draft") !== null;
-    report.check(hasNotice === article.draft, `${rel}: draft notice ${article.draft ? "shown" : "absent"}`);
     // The ending band (founder feedback 2026-09-22): the other articles of
     // the page's language as .post cards — at least one, never the page
     // itself, every one an article of this language — and the blog link.

@@ -200,9 +200,6 @@
   },
   "article": {
     "draftLabel": "Utkast",
-    "draftNotice": "Utkast – den här artikeln är fortfarande under arbete och kan ändras.",
-    "machineTranslatedLabel": "Maskinöversatt",
-    "machineTranslatedNotice": "Den här texten är maskinöversatt och har ännu inte granskats av en person.",
     "readInOtherLanguage": "Läs den här artikeln på engelska",
     "moreEyebrow": "Läs vidare",
     "moreHeading": "Mer från bloggen"
