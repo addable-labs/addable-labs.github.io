@@ -359,7 +359,7 @@
           "note": "the change lands"
         }
       },
-      "caption": "Build the harness before the features: type-checking, linting and unit tests run before every commit, end-to-end tests exercise the built app, and database migrations are append-only. Slower for a week, faster for every week after it."
+      "caption": "Build the harness before the features: type-checking, linting and unit tests run before every commit, end-to-end tests exercise the built app, and database migrations are append-only. Slower at first, faster for every commit after that."
     }
   },
   "contact": {

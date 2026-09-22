@@ -359,7 +359,7 @@
           "note": "ändringen landar"
         }
       },
-      "caption": "Bygg testmiljön före funktionerna: typkontroll, lintning och enhetstester körs före varje commit, end-to-end-tester prövar den byggda appen och databasmigreringar får bara läggas till, aldrig ändras. Långsammare i en vecka, snabbare varje vecka därefter."
+      "caption": "Bygg testmiljön före funktionerna: typkontroll, lintning och enhetstester körs före varje commit, end-to-end-tester prövar den byggda appen och databasmigreringar får bara läggas till, aldrig ändras. Långsammare i början, snabbare för varje commit därefter."
     }
   },
   "contact": {
