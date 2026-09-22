@@ -5,7 +5,8 @@ date: 2026-09-20
 category: app-development        # app-development | ai-journey
 translationKey: how-this-site-was-built-by-agents
 draft: false                     # publicerad — sätt true för att hålla den utanför publika bygget
-machineTranslated: true          # true tills en person har granskat texten
+aiGenerated: true                # AI har skrivit texten
+humanReviewed: true              # en person har läst den
 ---
 
 Addable Labs bygger mjukvara till stor del med AI-agenter och den här sajten
@@ -70,12 +71,12 @@ svensk sida eller en färg som inte klarar kontrastkravet fångas automatiskt;
 om en mening om en produkt är sann kan de däremot inte avgöra. Därför kan
 fakta om apparna spåras till en källa – den README som var och en hämtades
 från och datumet då den lästes – och vi läser ändå allt. Agenterna gjorde
-också misstag: en session tog en bokföringspost i stället för sin uppgift
-och behövde fjorton minuter för att ta sig runt det.
+också misstag: en session tog en administrativ post i registret i stället
+för sin uppgift och behövde fjorton minuter för att ta sig runt det.
 
 Webbplatsen är enkel: statisk HTML och CSS, två små skript (ett som växlar
 mellan mörkt och ljust läge och ett som tonar in innehållet när du rullar;
-sidan fungerar utan båda), ett självhostat typsnitt och inga anrop till tredje
-part, ingen webbanalys. Det var ett beslut och den del som spelar roll – att
-inget laddas från någon annans servrar – verifieras av en kvalitetsgrind vid
-varje bygge.
+sidan fungerar utan båda), ett typsnitt vi levererar från vår egen server
+och inga anrop till tredje part, ingen webbanalys. Det var ett beslut och
+den del som spelar roll – att inget laddas från någon annans servrar –
+verifieras av en kvalitetsgrind vid varje bygge.

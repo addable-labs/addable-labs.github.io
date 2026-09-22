@@ -138,7 +138,8 @@ date: 2026-09-20
 category: app-development        # app-development | ai-journey
 translationKey: how-this-site-was-built-by-agents
 draft: true                      # built locally, left out of the public build
-machineTranslated: false         # Swedish files: true until a person has reviewed the text
+aiGenerated: true                # AI produced this text, written or translated
+humanReviewed: false             # true once a person has read it
 ---
 
 Body in Markdown. Raw HTML is allowed; headings get ids for deep links.
@@ -154,7 +155,8 @@ date: 2026-09-20
 category: app-development
 translationKey: how-this-site-was-built-by-agents
 draft: true                      # the same in both languages
-machineTranslated: true
+aiGenerated: true
+humanReviewed: false
 ---
 
 Brödtext i Markdown.
@@ -194,10 +196,23 @@ Brödtext i Markdown.
   clock, so a scheduled article appears only on the next build: the deployment
   workflow rebuilds and redeploys `main` once a day for exactly that reason
   (see *Deployment*).
-- **`machineTranslated: true`** records that a text has not yet been read by
-  a person. It is source metadata only: since the founder's call of
-  2026-09-22 (si-sfh8) it renders nowhere on the site. Clear it once the
-  translation has been read. English files keep `false`.
+- **`aiGenerated` and `humanReviewed`** are two separate facts about a text,
+  and every combination of them is valid:
+
+  | | `humanReviewed: false` | `humanReviewed: true` |
+  | --- | --- | --- |
+  | **`aiGenerated: true`** | AI-produced, not yet read — the default for a new article | AI-produced and read |
+  | **`aiGenerated: false`** | person-written draft | person-written and read |
+
+  `aiGenerated` records how the text came to exist — AI produced it, whether
+  written from scratch or translated. It is a fact about the text's origin,
+  so reading the text does not change it. `humanReviewed` records that a
+  person has read the text; set it when someone has, and not before. Which
+  language is the source and which the translation is carried by the
+  directory (`src/en` is the source, `src/sv` the translation), so neither
+  field has to say it. Both are source metadata only: neither renders
+  anywhere on the site. They are set the same way on the page templates as on
+  the articles, so the whole of `src/` answers both questions.
 - **`translationKey`** pairs the two files: the language switches in the
   header and the footer, the `hreflang` links and the sitemap are all derived
   from it. It must be a slug (lowercase letters, digits and single hyphens)
@@ -207,11 +222,11 @@ Brödtext i Markdown.
   counterpart, for example `./src/en/blog/posts/new-article.md: expected
   exactly one "sv" page with translationKey "new-article", found 0 (none)`.
 - **Validation.** Every article's front matter is checked at build time
-  (`scripts/lib/frontmatter.mjs`): all seven keys are required, `date` must be
+  (`scripts/lib/frontmatter.mjs`): all eight keys are required, `date` must be
   a real date, `category` must be one of the keys above (an unknown key fails
-  the build naming the file and listing the allowed keys), `draft` and
-  `machineTranslated` must be booleans. `lang` comes from the directory; do not
-  set it in the file.
+  the build naming the file and listing the allowed keys), and `draft`,
+  `aiGenerated` and `humanReviewed` must be booleans. `lang` comes from the
+  directory; do not set it in the file.
 - **Length.** The content gate (`pnpm check:content`) counts the words of the
   built English article body: 300–600 for the two seed articles (REQ-006) and
   300–1,500 for every later article. The Swedish twin is not counted, and
@@ -487,12 +502,12 @@ pair.
    The service headings are the short forms ("AI-powered apps", "AI
    adoption", "Investing tools") because a card title must fit one line.
 7. **Copy review — Swedish.** Every Swedish string below was written by the
-   factory and not yet reviewed by a person (`machineTranslated: true` still
-   records that on `src/sv/index.njk`, `src/sv/about.njk` and every article
-   under `src/sv/blog/posts/`, but nothing on the page says so any more;
-   clear `draft: true` on an article in both languages when it is ready to go
-   public — while it is set the article is not on the public site at all). Keys in `src/_data/strings/sv.json`,
-   new or changed in the redesign:
+   factory, which is what `aiGenerated` records in the front matter (see
+   *Add an article*; neither that field nor `humanReviewed` renders on the
+   site). Clear `draft: true` on an article in both languages when it is
+   ready to go public — while it is set the article is not on the public site
+   at all. Keys in `src/_data/strings/sv.json`, new or changed in the
+   redesign:
    - `theme.toggleLabel`; `footer.contact`, `footer.site`
    - `hero.eyebrow`, `hero.title`, `hero.lead`, `hero.ctaPrimary`,
      `hero.nivaEarlyAccess`, `hero.nivaEarlyAccessSubject`, `hero.nivaTry`,

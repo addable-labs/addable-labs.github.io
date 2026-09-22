@@ -21,7 +21,7 @@
   },
   "home": {
     "title": "Addable Labs",
-    "description": "A Swedish apps factory that builds AI-powered applications, largely with AI agents, and shares what it learns."
+    "description": "A Swedish software company that builds AI-powered apps, largely with AI agents, and shares what it learns."
   },
   "hero": {
     "eyebrow": "AI-native software company · Sweden",
@@ -130,7 +130,7 @@
     },
     "notesage": {
       "name": "Notesage",
-      "summary": "A rich-text Markdown editor that collaborates with AI. A native desktop app that transcribes; a companion iOS app records conversations and collects shared articles."
+      "summary": "A rich-text (WYSIWYG) Markdown editor that collaborates with AI. A desktop app for Mac, Windows and Linux that transcribes."
     },
     "ashlands": {
       "name": "Ashlands",
@@ -438,10 +438,10 @@
         "open": "open",
         "claimed": "claimed",
         "closed": "closed",
-        "blocked": "blocked = not offered as ready work",
+        "blocked": "blocked = not offered to any agent",
         "dies": "a session that dies leaves the bead open"
       },
-      "caption": "One factory: the founder talks to the mayor over Discord; the mayor and the floor roles — each a session started when a build step needs it — read and write one Beads ledger, which Gas City drives as a graph of beads, restarting sessions that crash. There is no other message bus. A bead is open, claimed or closed; a bead with an open blocker is not offered as ready work, and a session that dies leaves its bead open for the next one. Sessions are disposable, the work is persistent."
+      "caption": "One factory: the founder talks to the mayor over Discord; the mayor and the floor roles — each a session started when a build step needs it — read and write one Beads ledger, which Gas City drives as a graph of beads, restarting sessions that crash. There is no other message bus. A bead is open, claimed or closed; a bead blocked by another is not offered to any agent, and a session that dies leaves its bead open for the next one. Sessions are disposable, the work is persistent."
     },
     "build": {
       "caption": "The factory's second build, 20–21 September 2026, 17:34 to 00:14 UTC — six hours and forty minutes from the brief to the review report, with each stage's closing time and the counts the run recorded. The founder's two points are the orange rows: his pick of a design direction and the plan gate.",
@@ -814,6 +814,6 @@
     "title": "Page not found",
     "description": "The page you asked for does not exist. Start again from the English or Swedish home page.",
     "text": "There is no page at this address. It may have moved, or the link may be wrong.",
-    "homeLink": "Go to the English start page"
+    "homeLink": "Go to the English home page"
   }
 }

@@ -282,8 +282,8 @@ change colour, border, transform and box-shadow only.
 - **Chips.** Pills, mono Medium 0.75 rem, 28 px tall, a 1 px outline and a
   6 px dot in `currentColor`. Kinds follow the data's status keys:
   `chip-open-source-mit` in the accent text colour; `chip-in-development`
-  and `chip-draft` in the status orange; `chip-experiment`, `chip-private`
-  and `chip-mt` (machine-translated) muted — a new status brings its own
+  and `chip-draft` in the status orange; `chip-experiment` and
+  `chip-private` muted — a new status brings its own
   rule (see *Adding an app*). Category chips (`chip-cat`) and the
   RSS chip (`chip-rss`) are links: 44 px tall targets with the pill drawn
   inside as an inset ring, accent text, hover turns the ring accent and the
@@ -315,9 +315,9 @@ change colour, border, transform and box-shadow only.
   44 px link that turns accent on hover, the description; the whole card
   lifts 2 px and turns its border green on hover. The landing page shows the
   newest three; the blog index and category pages show all.
-- **Notices.** `.notice-draft` (a box with an orange edge) on draft
-  articles; `.notice-mt` (a muted edge) on machine-translated Swedish pages;
-  both also appear as chips in article metadata.
+- **Notices.** None on the pages: both notice boxes were taken off (si-sfh8).
+  A draft is marked by `chip-draft` in the article metadata and in the
+  listings.
 - **Appearance toggle.** A real `button[data-theme-toggle]`, 44 × 44 px,
   transparent with a transparent border, a moon icon on dark and a sun on
   light, a visually hidden label ("Dark mode" / "Mörkt läge"),

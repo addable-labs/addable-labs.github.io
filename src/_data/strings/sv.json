@@ -1,7 +1,7 @@
 {
   "site": {
     "name": "Addable Labs",
-    "tagline": "Appar och AI, byggda i det öppna",
+    "tagline": "Appar och AI, byggda öppet",
     "wordmark": "addable",
     "wordmarkDim": "labs"
   },
@@ -21,18 +21,18 @@
   },
   "home": {
     "title": "Addable Labs",
-    "description": "En svensk appfabrik som bygger AI-drivna applikationer – till stor del med AI-agenter – och delar med sig av vad den lär sig."
+    "description": "Ett svenskt mjukvarubolag som bygger AI-drivna appar – till stor del med AI-agenter – och delar med sig av vad det lär sig."
   },
   "hero": {
     "eyebrow": "AI-nativt mjukvaruföretag · Sverige",
-    "title": "Vi bygger AI-⁠drivna appar och hjälper team att sätta AI i arbete.",
-    "lead": "Addable Labs levererar AI-drivna produkter – till stor del byggda av AI-agenter med en person som är ansvarig för arbetet – och hjälper företag och team att behärska AI, från kartläggning till införande.",
+    "title": "Vi bygger AI-⁠drivna appar och hjälper team att få AI att göra nytta.",
+    "lead": "Addable Labs levererar AI-drivna produkter – till stor del byggda av AI-agenter med en person som är ansvarig för arbetet – och hjälper företag och team att bli trygga med AI, från kartläggning till införande.",
     "ctaPrimary": "Se vad vi har byggt",
     "nivaEarlyAccess": "Få tidig tillgång till nivå",
     "nivaEarlyAccessSubject": "Tidig tillgång till nivå",
     "nivaTry": "Prova nivå",
     "proof": {
-      "agents": "Byggt av agenter, styrt av människor",
+      "agents": "Byggt av agenter, styrt av en människa",
       "open": "Öppen källkod där det går",
       "gates": "Kvalitetsgrindar vid varje ändring"
     }
@@ -86,7 +86,7 @@
   "themes": {
     "ai-apps": {
       "title": "AI-drivna appar",
-      "text": "AI som en del av produkten, inte ett tillägg: apparna här nedan är till stor del byggda av AI-agenter, med en senior person i varje steg. Nya appar bygger vi bara när det tydligt är ett jobb för ett team av AI-agenter.",
+      "text": "AI som en del av produkten, inte ett tillägg: apparna här nedan är till stor del byggda av AI-agenter, med en senior person med hela vägen. Nya appar bygger vi bara när det tydligt är ett jobb för ett team av AI-agenter.",
       "getsHeading": "Det här får du",
       "gets": {
         "product": "En fungerande produkt, inte en presentation",
@@ -130,7 +130,7 @@
     },
     "notesage": {
       "name": "Notesage",
-      "summary": "En markdown-redigerare med formaterad text som samarbetar med AI. En nativ skrivbordsapp med transkribering; en iOS-app som spelar in samtal och samlar delade artiklar."
+      "summary": "En Markdown-redigerare med formaterad text (WYSIWYG) som samarbetar med AI. En skrivbordsapp för Mac, Windows och Linux med transkribering."
     },
     "ashlands": {
       "name": "Ashlands",
@@ -438,10 +438,10 @@
         "open": "öppen",
         "claimed": "tagen",
         "closed": "stängd",
-        "blocked": "blockerad = erbjuds inte som redo arbete",
+        "blocked": "blockerad = erbjuds inte till någon agent",
         "dies": "en session som dör lämnar beaden öppen"
       },
-      "caption": "En fabrik: grundaren pratar med borgmästaren via Discord; borgmästaren och golvets roller – var och en en session som startas när ett steg i bygget behöver den – läser och skriver i ett Beads-register, som Gas City driver som en graf av beads och startar om sessioner som kraschar. Det finns ingen annan meddelandebuss. En bead är öppen, tagen eller stängd; en bead med en öppen blockerare erbjuds ingen agent som redo arbete och en session som dör lämnar sin bead öppen för nästa. Sessioner är utbytbara, arbetet är beständigt."
+      "caption": "En fabrik: grundaren pratar med borgmästaren via Discord; borgmästaren och golvets roller – var och en en session som startas när ett steg i bygget behöver den – läser och skriver i ett Beads-register, som Gas City driver som en graf av beads och startar om sessioner som kraschar. Det finns ingen annan meddelandebuss. En bead är öppen, tagen eller stängd; en bead som blockeras av en annan erbjuds inte till någon agent och en session som dör lämnar sin bead öppen för nästa. Sessioner är utbytbara, arbetet är beständigt."
     },
     "build": {
       "caption": "Fabrikens andra bygge, 20–21 september 2026, 17:34 till 00:14 UTC – sex timmar och fyrtio minuter från uppdragsbeskrivningen till granskningsrapporten, med varje stegs sluttid och de tal körningen dokumenterade. Grundarens två punkter är de orangea raderna: hans val av designriktning och plangrinden.",
@@ -652,7 +652,7 @@
       "caption": "Gauntlet Loop, efter Matt Shumer (somethingbig.ai): målet formuleras som ett utfall, ledaragenten delar upp det i delar och varje del löper en korridor av kritiker som jämför den mot en referens – en kritiker som inte är imponerad skickar tillbaka arbetet till byggaren. Referenserna är ritade tomma eftersom ingen någonsin togs fram i den här körningen, så varje omdöme gjordes mot agentens eget minne."
     },
     "agents": {
-      "title": "Slutfasens sex underagenter: deras tokens och vad varje runda gav – en skeppad rättning, fyra avslutade utredningar och en agent som dödades av veckogränsen för tokens",
+      "title": "Slutfasens sex subagenter: deras tokens och vad varje runda gav – en skeppad rättning, fyra avslutade utredningar och en agent som dödades av veckogränsen för tokens",
       "head": "slutfasen, sex agenter",
       "wall": "~3,8 h",
       "rows": {
@@ -692,7 +692,7 @@
       "totalNote": "1 skeppad rättning, 4 avslutade utredningar",
       "footer": "~1M av dem gick till en enda bild",
       "footerNote": "vars orsak var ett kameraplaceringsfel",
-      "caption": "Slutfasen, så som utvärderingsrapporten räknar den: sex underagenter varav fem blev klara, ungefär 1,32 miljoner tokens och 654 verktygsanrop på omkring 3,8 timmar, för en skeppad visuell rättning och fyra utredningar som stängdes för gott. Den sjätte dog innan den läst en enda fil när kontot slog i veckogränsen för tokens."
+      "caption": "Slutfasen, så som utvärderingsrapporten räknar den: sex subagenter varav fem blev klara, ungefär 1,32 miljoner tokens och 654 verktygsanrop på omkring 3,8 timmar, för en skeppad visuell rättning och fyra utredningar som stängdes för gott. Den sjätte dog innan den läst en enda fil när kontot slog i veckogränsen för tokens."
     },
     "critic": {
       "title": "Kritikerns egenskaper: den här körningen mot vad du vill ha – kostnad per omdöme, parallellitet, träffsäkerhet, determinism och utpekad orsak",
@@ -737,7 +737,7 @@
     "fleet": {
       "panels": {
         "total": {
-          "title": "Hela körningen: 242 underagenter, en ruta var – 236 av dem inuti 34 arbetsflöden och 6 startade direkt",
+          "title": "Hela körningen: 242 subagenter, en ruta var – 236 av dem inuti 34 arbetsflöden och 6 startade direkt",
           "head": "under tre dygn",
           "value": "242 agenter"
         },
@@ -762,7 +762,7 @@
       "longest": "längst 3 h 10",
       "footer": "vad sju samtidigt kostade datorn",
       "footerNote": "systembelastning 37 på 8 kärnor",
-      "caption": "Två sätt att räkna samma körning. Under tre dygn startade den 242 underagenter – 236 inuti 34 arbetsflöden, 6 startade direkt – men vid varje enskilt tillfälle levde som mest sju och tio nåddes aldrig. Agenterna är kortlivade, i median fyrtio minuter, så en stor total och en liten samtidig skara är samma bild: fem eller fler kördes tillsammans under sjutton av de sjuttiotvå timmarna och den trängseln, där varje agent drev sin egen webbläsare och grafikkrets, är den kollision rapporten noterar som en systembelastning på 37 på åtta kärnor."
+      "caption": "Två sätt att räkna samma körning. Under tre dygn startade den 242 subagenter – 236 inuti 34 arbetsflöden, 6 startade direkt – men vid varje enskilt tillfälle levde som mest sju och tio nåddes aldrig. Agenterna är kortlivade, i median fyrtio minuter, så en stor total och en liten samtidig skara är samma bild: fem eller fler kördes tillsammans under sjutton av de sjuttiotvå timmarna och den trängseln, där varje agent drev sin egen webbläsare och grafikkrets, är den kollision rapporten noterar som en systembelastning på 37 på åtta kärnor."
     }
   },
   "contact": {
@@ -773,12 +773,12 @@
   },
   "about": {
     "title": "Om oss",
-    "description": "Addable Labs mission och arbetssätt: AI-nativt, en senior person som är ansvarig, agenter som medarbetare, att bygga i det öppna.",
+    "description": "Addable Labs mission och arbetssätt: AI-nativt, en senior person som är ansvarig, agenter som medarbetare, att bygga öppet.",
     "eyebrow": "Addable Labs · Sverige",
     "lead": "Ett AI-nativt mjukvaruföretag från Sverige. Vi bygger appar och verktyg där AI är en del av produkten och en del av hur arbetet görs: agenter planerar, genomför och granskar och en senior person är ansvarig för varje beslut som spelar roll. Vi delar vad vi lär oss längs vägen – och hjälper människor och team att bli lika hemma med AI som vi är.",
     "missionHeading": "Vår mission",
     "facts": "Grundat i september 2026 · Sverige",
-    "missionText": "Addable Labs finns för att visa att AI-agenter kan vara riktiga medarbetare – och för att göra det arbetssättet tillgängligt för fler. Det betyder mjukvara byggd på det sättet, i det öppna, med ärliga redogörelser för vad som fungerade och vad som inte gjorde det; att hjälpa individer och team att hitta fotfästet med AI; och att starta nya produkter bara när jobbet tydligt är ett jobb för ett team av agenter.",
+    "missionText": "Addable Labs finns för att visa att AI-agenter kan vara riktiga medarbetare – och för att göra det arbetssättet tillgängligt för fler. Det betyder mjukvara byggd på det sättet, öppet, med ärliga redogörelser för vad som fungerade och vad som inte gjorde det; att hjälpa individer och team att hitta fotfästet med AI; och att starta nya produkter bara när jobbet tydligt är ett jobb för ett team av agenter.",
     "approachHeading": "Arbetssätt och värderingar",
     "points": {
       "aiNative": {
@@ -790,7 +790,7 @@
         "text": "En senior person sätter riktningen, fattar de beslut som spelar roll och granskar resultatet; agenter planerar, genomför och granskar arbetet däremellan. Att hålla teamet så litet håller besluten nära arbetet."
       },
       "open": {
-        "title": "Att bygga i det öppna",
+        "title": "Att bygga öppet",
         "text": "De publika kodförråden har sin egen dokumentation och, där ett experiment inte levde upp till sitt uppdrag, en ärlig utvärdering av vad det gav. Bloggen dokumenterar lärdomarna i takt med att de uppstår. Vi säger hellre vad som inte fungerade än låter det se bättre ut än det är."
       },
       "proof": {

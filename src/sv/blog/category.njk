@@ -7,6 +7,8 @@ pagination:
   addAllPagesToCollections: true
 permalink: "/sv/blog/{{ category.key }}/"
 titleInContent: true
+aiGenerated: true
+humanReviewed: true
 eleventyComputed:
   title: "{{ strings[lang].categories[category.key] | safe }}"
   description: "{{ strings[lang].blog.categoryLead | replace('{category}', strings[lang].categories[category.key]) | safe }}"

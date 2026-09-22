@@ -1,8 +1,9 @@
 ---
 layout: layouts/base.njk
 translationKey: about
-machineTranslated: true
 titleInContent: true
+aiGenerated: true
+humanReviewed: true
 eleventyComputed:
   title: "{{ strings[lang].about.title | safe }}"
   description: "{{ strings[lang].about.description | safe }}"
@@ -13,8 +14,8 @@ eleventyComputed:
     as the trust points, a labelled card linking the "how this site was built"
     article as the approach in practice (founder call 2026-09-21: it replaced
     the GRC-fork note of A-04), and the contact band. Every string comes from
-    strings[lang].about; the Swedish twin differs only in its
-    machineTranslated flag. -#}
+    strings[lang].about, so the Swedish twin is the same template under
+    /sv/. -#}
 {%- set about = strings[lang].about -%}
 {%- set langPrefix = "" if lang == site.languages.default else "/" + lang -%}
 {%- set heroEyebrow = about.eyebrow -%}

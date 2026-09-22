@@ -5,7 +5,8 @@ date: 2026-09-20
 category: app-development        # app-development | ai-journey
 translationKey: how-this-site-was-built-by-agents
 draft: false                     # published — set true to keep it out of the public build (see README)
-machineTranslated: false         # Swedish files: true until a person has reviewed the text
+aiGenerated: true                # AI produced this text
+humanReviewed: true              # a person has read it
 ---
 
 Addable Labs builds software largely with AI agents, and this website is the

@@ -5,7 +5,8 @@ date: 2026-09-21
 category: ai-journey             # app-development | ai-journey
 translationKey: why-we-run-an-agent-run-factory
 draft: false                     # publicerad — sätt true för att hålla den utanför publika bygget
-machineTranslated: true          # true tills en person har granskat texten
+aiGenerated: true                # AI har skrivit texten
+humanReviewed: true              # en person har läst den
 ---
 
 Addable Labs bygger mjukvara till stor del med AI-agenter och sedan september
@@ -40,12 +41,12 @@ något annat och det håller oss kvar i detaljer vi inte vill vara i.
 
 {% figure "ledger" %}
 
-Tre saker måste ändras: arbetet måste ligga i ett gemensamt register som
+Tre saker behövde ändras: arbetet behövde ligga i ett gemensamt register som
 vilken session som helst kan ta uppgifter ur, inte i ett enda projekts
-anteckningar; sessioner måste kunna lämna över arbete till varandra och följa
-upp det utan en person emellan; och den som är ansvarig måste vara inblandad
-vid några få kända punkter – en plan att godkänna, en gren att läsa innan den
-pushas – i stället för hela tiden.
+anteckningar; sessioner behövde kunna lämna över arbete till varandra och
+följa upp det utan en person emellan; och den som är ansvarig behövde vara
+inblandad vid några få kända punkter – en plan att godkänna, en gren att
+läsa innan den pushas – i stället för hela tiden.
 
 ## Steve Yegges iterationer
 
@@ -81,10 +82,10 @@ orkestreringsverktyg och körde det första bygget samma eftermiddag.
 
 Beads är en kommandoradsbaserad ärendehanterare ovanpå en versionshanterad
 databas. Varje arbetsenhet är en bead – en uppgift, ett meddelande mellan
-agenter, en anteckning om en session – med beroenden mellan dem. En bead med
-en öppen blockerare erbjuds ingen agent som redo arbete och det är så
-ordningen hålls utan någon central schemaläggare. En agent tar en bead,
-arbetar, skriver ner vad den gjorde och stänger den; om sessionen dör halvvägs
+agenter, en anteckning om en session – med beroenden mellan dem. En bead som
+blockeras av en annan erbjuds inte till någon agent, och det är så ordningen
+hålls utan någon central schemaläggare. En agent tar en bead, arbetar,
+skriver ner vad den gjorde och stänger den; om sessionen dör halvvägs
 förblir beaden öppen för nästa.
 
 Gas City är orkestreringsverktyget runt det registret och hårdkodar inga
@@ -126,17 +127,17 @@ skrev finns i kodförrådet. Det började den 20 september 2026 klockan 17:34
 UTC med en kort uppdragsbeskrivning och granskningsrapporten färdigställdes
 00:14 nästa morgon: sex timmar och fyrtio minuter från start till mål.
 Däremellan tog kravsteget fram 31 krav med acceptanskriterier; plansteget
-renderade tre designriktningar som riktiga sidor och vi, som redan tittade
-på dem på designförfattarens förhandsvisningsserver, valde en inom två
-minuter efter att ha fått frågan och godkände den granskade planen 19:45;
-nedbrytningen gav tio arbetspaket; en genomförandeagent arbetade sig igenom
-dem i fyra sessioner och 22 commits; och tre granskningsspår hittade två fel
-som måste rättas, vilket ett rättningsspår gjorde innan rapporten skrevs.
-Grenen slutade på 39 commits som rörde 90 källfiler, klarade tio automatiska
-kvalitetsgrindar, 101 tester och Lighthouse-poäng på 97 till 100 på alla sju
-sidor som kontrolleras. Vår del var sex korta meddelanden medan körningen
-pågick – valet, våra rättelser, svaren vid plangrinden – och morgonen därpå
-vårt omdöme om den färdiga sidan. Själva körningen var 112 beads, 17
+renderade tre designriktningar som riktiga sidor – vi såg dem redan på
+förhandsvisningsservern och valde en inom två minuter efter att ha fått
+frågan – och godkände den granskade planen 19:45; nedbrytningen gav tio
+arbetspaket; en genomförandeagent arbetade sig igenom dem i fyra sessioner
+och 22 commits; och tre granskningsspår hittade två fel som måste rättas,
+vilket ett rättningsspår gjorde innan rapporten skrevs. Grenen slutade på 39
+commits som rörde 90 källfiler, klarade tio automatiska kvalitetsgrindar,
+101 tester och Lighthouse-poäng på 97 till 100 på alla sju sidor som
+kontrolleras. Vår del var sex korta meddelanden medan körningen pågick –
+valet, våra rättelser, svaren vid plangrinden – och morgonen därpå vårt
+omdöme om den färdiga sidan. Själva körningen var 112 beads, 17
 agentsessioner i tio roller och tio mejl mellan borgmästaren och golvet som
 vi aldrig behövde bära; ingenting blev offentligt enbart på agenternas ord.
 
@@ -145,12 +146,12 @@ vi aldrig behövde bära; ingenting blev offentligt enbart på agenternas ord.
 Det första bygget, tidigare samma dag, tog ungefär fyra timmar för 27 krav
 och tio arbetspaket, behövde en rättning och hade ingen grind före slutet:
 vi såg resultatet när det var klart och gillade inte utseendet. Ingen av
-körningarna var felfri. I den första tog en session en bokföringspost i
-stället för sin uppgift och behövde fjorton minuter för att ta sig runt det;
-den skrev ner lösningen i sina anteckningar och när det andra byggets första
-session råkade ut för samma kapplöpning var den igång med sin uppgift inom
-en minut. Båda körningarna lämnade oss en lista med öppna punkter; vi ser de
-listorna som en del av produkten.
+körningarna var felfri. I den första tog en session en administrativ post i
+registret i stället för sin uppgift och behövde fjorton minuter för att ta
+sig runt det; den skrev ner lösningen i sina anteckningar och när det andra
+byggets första session råkade ut för samma kapplöpning var den igång med sin
+uppgift inom en minut. Båda körningarna lämnade oss en lista med öppna
+punkter; vi ser de listorna som en del av produkten.
 
 ## Tack
 

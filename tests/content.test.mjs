@@ -212,7 +212,7 @@ function utcDate(offset) {
 /** Write one article, both languages, into a copy of the project. */
 async function writeArticlePair(project, slug, date, enTitle, svTitle, { draft = false } = {}) {
   for (const [lang, title] of [["en", enTitle], ["sv", svTitle]]) {
-    const frontMatter = ["---", `title: ${title}`, `description: ${title}, one sentence.`, `date: ${date}`, "category: app-development", `translationKey: ${slug}`, `draft: ${draft}`, `machineTranslated: ${lang === "sv"}`, "---"];
+    const frontMatter = ["---", `title: ${title}`, `description: ${title}, one sentence.`, `date: ${date}`, "category: app-development", `translationKey: ${slug}`, `draft: ${draft}`, "aiGenerated: true", "humanReviewed: true", "---"];
     // A body long enough to clear the content gate's 300-word floor, so the
     // gates can run against this build as they do against the real one.
     const body = `The body of ${title}.\n\n${"One sentence of filler prose, written only to give this fixture article its words. ".repeat(30)}`;
