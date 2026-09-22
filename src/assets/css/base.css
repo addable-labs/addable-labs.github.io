@@ -608,8 +608,9 @@ html:not(.js) .theme-toggle {
 }
 
 /* Copy beside the console from 70 rem: below that the console spans the
-   full width, so its four columns and one-line log texts stay readable
-   (at 64 rem the 5fr column left the text 88 px). */
+   full width, so its columns and one-line log texts stay readable (at
+   64 rem the 5fr column left the text 88 px, when the console still had a
+   time column). */
 @media (min-width: 70rem) {
   .hero-grid {
     grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);

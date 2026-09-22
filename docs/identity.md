@@ -24,8 +24,8 @@ it works with an honest agent console, and offers two actions; it gives the
 brand mono the leading role without asking readers to read paragraphs in a
 monospace; and its light theme already works with the darkened brand
 variants the contrast gate enforces. The founder's one note at the pick —
-the console's columns must align across rows — became the four-column
-subgrid of `.console-log`. His second round of feedback (20:38 CEST) shaped
+the console's columns must align across rows — became the subgrid of
+`.console-log`. His second round of feedback (20:38 CEST) shaped
 the shipped cards and default theme: services and apps cards are *balanced*
 (one-line titles, descriptions of equal length, "What you get" at the same
 height, links bottom-aligned, a design that never changes with the content),
@@ -292,17 +292,20 @@ change colour, border, transform and box-shadow only.
   accent ring, `surface-2`).
 - **Console** (`figure.console`). A surface panel with an 18 px radius, a
   glow shadow, a title bar with three dots and a mono title, and
-  `ol.console-log`: the list owns four columns — time | stage | text |
-  state — and every `.log-line` is a subgrid row, so the columns align down
-  the whole console (the founder's note); below 30 rem the time column is
-  dropped. Stages are the full text colour, times and texts muted, "done"
-  states in the accent text colour, the waiting state in the status orange
-  with a blinking caret. The content is honest: every line is a string in
-  `strings.console.lines` drawn from this factory's real build-basic stages
-  and the numbers and start times of the run that built the page; changing
-  the console means changing strings, never the template. The copy beside
-  the console appears from 70 rem; below that the console spans the full
-  width so its lines stay one line.
+  `ol.console-log`: the list owns three columns — stage | text | state —
+  and every `.log-line` is a subgrid row, so the columns align down the
+  whole console (the founder's note). Stages are the full text colour,
+  texts muted, "done" states in the accent text colour, the waiting state
+  in the status orange with a blinking caret. The content is honest: every
+  line is a string in `strings.console.lines` drawn from this factory's
+  real build-basic stages and the numbers of the run that built the page;
+  changing the console means changing strings, never the template. It shows
+  no times (si-qr13): each one was a stage's start time on a row marked
+  done, on a clock the page never named. The timed record of that run is
+  the "build" figure in "Why we run an agent-run software factory", in UTC,
+  each stage at the time it closed. The copy beside the console appears
+  from 70 rem; below that the console spans the full width so its lines
+  stay one line.
 - **Trust block** (`.trust-grid`, `.trust-points`). A 5fr / 7fr split from
   64 rem: eyebrow, heading and actions on the left; a definition list of
   points on the right, two columns from 40 rem, each point with a 2 px
