@@ -121,7 +121,7 @@
   "apps": {
     "eyebrow": "Appar och produkter",
     "heading": "Det vi har byggt",
-    "lead": "Fyra projekt, från lanserade appar med öppen källkod till ett privat verktyg under utveckling. Statusen är den som varje kodförråd själv anger."
+    "lead": "Fyra projekt, från appar med öppen källkod till ett privat verktyg under utveckling. Statusen är den som varje kodförråd själv anger."
   },
   "portfolio": {
     "niva": {
@@ -209,7 +209,7 @@
   },
   "figures": {
     "stages": {
-      "caption": "Byggets sju steg och grundarens två grindar: designriktningen efter plangranskningen och det slutliga godkännandet före publiceringen. Varje steg skrev ett dokument som nästa steg var tvunget att läsa.",
+      "caption": "Byggets sju steg och grundarens två grindar: den granskade planen före nedbrytningen och det slutliga godkännandet före publiceringen. Varje steg skrev ett dokument som nästa steg var tvunget att läsa.",
       "done": "klart",
       "gatesState": "10/10",
       "panels": {
@@ -241,7 +241,7 @@
         },
         "direction": {
           "label": "grundarens grind",
-          "note": "designriktningen väljs"
+          "note": "den granskade planen godkänns"
         },
         "decomposition": {
           "label": "nedbrytning",

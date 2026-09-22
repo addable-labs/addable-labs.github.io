@@ -121,7 +121,7 @@
   "apps": {
     "eyebrow": "Apps and products",
     "heading": "What we have built",
-    "lead": "Four projects, from shipped open-source apps to a private tool in development. Status is stated as each repository states it."
+    "lead": "Four projects, from open-source apps to a private tool in development. Status is stated as each repository states it."
   },
   "portfolio": {
     "niva": {
@@ -209,7 +209,7 @@
   },
   "figures": {
     "stages": {
-      "caption": "The seven stages of the build and the founder's two gates: the design direction after the plan review, and the final acceptance before publication. Every stage wrote a document the next one had to read.",
+      "caption": "The seven stages of the build and the founder's two gates: the reviewed plan before decomposition, and the final acceptance before publication. Every stage wrote a document the next one had to read.",
       "done": "done",
       "gatesState": "10/10",
       "panels": {
@@ -241,7 +241,7 @@
         },
         "direction": {
           "label": "founder gate",
-          "note": "the design direction is chosen"
+          "note": "the reviewed plan is approved"
         },
         "decomposition": {
           "label": "decomposition",

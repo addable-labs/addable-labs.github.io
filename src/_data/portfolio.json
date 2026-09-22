@@ -13,22 +13,22 @@
     "repo": "PeterBlenessy/notesage",
     "url": "https://github.com/PeterBlenessy/notesage",
     "status": "open-source-mit",
-    "source": { "readme": "https://github.com/PeterBlenessy/notesage/blob/main/README.md", "retrieved": "2026-09-20" }
+    "source": { "readme": "https://github.com/PeterBlenessy/notesage/blob/main/README.md", "retrieved": "2026-09-22" }
   },
   {
     "key": "ashlands",
     "theme": "experiments",
-    "repo": "PeterBlenessy/ashlands",
-    "url": "https://github.com/PeterBlenessy/ashlands",
+    "repo": "addable-labs/ashlands",
+    "url": "https://github.com/addable-labs/ashlands",
     "status": "experiment",
-    "source": { "readme": "https://github.com/PeterBlenessy/ashlands/blob/main/README.md", "retrieved": "2026-09-20" }
+    "source": { "readme": "https://github.com/addable-labs/ashlands/blob/main/README.md", "retrieved": "2026-09-22" }
   },
   {
     "key": "gaimer",
     "theme": "ai-apps",
-    "repo": "PeterBlenessy/gaimer",
-    "url": "https://github.com/PeterBlenessy/gaimer",
+    "repo": "addable-labs/gaimer",
+    "url": "https://github.com/addable-labs/gaimer",
     "status": "open-source-mit",
-    "source": { "readme": "https://github.com/PeterBlenessy/gaimer/blob/main/README.md", "retrieved": "2026-09-20" }
+    "source": { "readme": "https://github.com/addable-labs/gaimer/blob/main/README.md", "retrieved": "2026-09-22" }
   }
 ]
