@@ -26,18 +26,18 @@ agent och en person, 480 commits på 26 dagar, varenda en med agenten som
 medförfattare. Den uppsättningen börjar inte från noll. En fil med
 arbetsöverenskommelser, fyra nedskrivna rutiner – granskning,
 kvalitetsgrindar, driftsättning och innehållsändringar – arton anteckningar
-som agenten för åt sig själv, tio av dem om sådant som grundaren har rättat,
-en framstegslogg med en post per session och 105 dokumenterade beslut bär
+som agenten för åt sig själv, tio av dem om sådant som vi har rättat, en
+framstegslogg med en post per session och 105 dokumenterade beslut bär
 arbetet från en session till nästa.
 
-Det den uppsättningen inte kan är att prata med någon annan än grundaren. Den
-12 september, med fyra agenter på en dator, var och en med sitt eget projekt,
-lät han nivå-agenten skriva ett meddelande som han själv kunde bära till de
+Det den uppsättningen inte kan är att prata med någon annan än oss. Den 12
+september, med fyra agenter på en dator, var och en med sitt eget projekt,
+lät vi nivå-agenten skriva ett meddelande som vi själva kunde bära till de
 andra tre och klistrade in det i den regelfil som varje agent på maskinen
-läser först. Varje uppgift börjar hos honom och när två sessioner behöver veta
-något om varandra är det han som bär meddelandet emellan. Det skalar inte till
-agenter som planerar, bygger, granskar och publicerar medan grundaren gör
-något annat och det håller honom kvar i detaljer han inte vill vara i.
+läser först. Varje uppgift börjar hos oss och när två sessioner behöver veta
+något om varandra är det vi som bär meddelandet emellan. Det skalar inte
+till agenter som planerar, bygger, granskar och publicerar medan vi gör
+något annat och det håller oss kvar i detaljer vi inte vill vara i.
 
 {% figure "ledger" %}
 
@@ -109,49 +109,49 @@ citerar, "varje mekanism som avvisar dig om du inte ska vara där" (vår
 
 Yegge driver femtio till sextio agenter; vi kör en handfull sessioner åt
 gången på en enda dator och siktar på en fabrik per projekt – hittills finns
-en, för den här sajten. Organisationsschemat är litet: en borgmästare som
-grundaren pratar med och ett golv av roller tagna som de är från startpaketet
-i Gas Citys paketregister – krav, plan, plangranskning, nedbrytning,
-genomförande, tre granskningsspår, en publicerare – var och en startad som en
-session när ett steg i bygget behöver den och avslutad efteråt. Vårt eget
-bidrag hittills är borgmästarens prompt, gränser för hur många sessioner en
-dator kör samtidigt och reglerna för en delad maskin. Grundarens grind sitter
-vid planen, sedan det andra bygget. Ingen agent pushar på egen hand: att
-publicera betyder en gren som grundaren läser lokalt och ingenting når GitHub
-förrän han säger till. Han pratar med borgmästaren via Discord.
+en, för den här sajten. Organisationsschemat är litet: en borgmästare och
+ett golv av roller tagna som de är från startpaketet i Gas Citys
+paketregister – krav, plan, plangranskning, nedbrytning, genomförande, tre
+granskningsspår, en publicerare – var och en startad som en session när ett
+steg i bygget behöver den och avslutad efteråt. Vårt eget bidrag hittills är
+borgmästarens prompt, gränser för hur många sessioner en dator kör samtidigt
+och reglerna för en delad maskin. Grundarens grind sitter vid planen, sedan
+det andra bygget. Ingen agent pushar på egen hand: att publicera betyder en
+gren som vi läser lokalt och ingenting når GitHub förrän vi säger till. Vi
+pratar med borgmästaren via Discord.
 
 ## Ett bygge, i siffror
 
 Omdesignen av den här sajten var fabrikens andra bygge och dokumenten den
-skrev finns i kodförrådet. Det började den 20 september 2026 klockan 17:34 UTC
-med en kort uppdragsbeskrivning och granskningsrapporten färdigställdes 00:14
-nästa morgon: sex timmar och fyrtio minuter från start till mål. Däremellan
-tog kravsteget fram 31 krav med acceptanskriterier; plansteget renderade tre
-designriktningar som riktiga sidor och grundaren, som redan tittade på dem på
-designförfattarens förhandsvisningsserver, valde en inom två minuter efter att
-ha fått frågan och godkände den granskade planen 19:45; nedbrytningen gav tio
-arbetspaket; en genomförandeagent arbetade sig igenom dem i fyra sessioner och
-22 commits; och tre granskningsspår hittade två fel som måste rättas, vilket
-ett rättningsspår gjorde innan rapporten skrevs. Grenen slutade på 39 commits
-som rörde 90 källfiler, klarade tio automatiska kvalitetsgrindar, 101 tester
-och Lighthouse-poäng på 97 till 100 på alla sju sidor som kontrolleras.
-Grundarens del var sex korta meddelanden medan körningen pågick – valet, hans
-rättelser, svaren vid plangrinden – och morgonen därpå hans omdöme om den
-färdiga sidan. Själva körningen var 112 beads, 17 agentsessioner i tio roller
-och tio mejl mellan borgmästaren och golvet som han aldrig behövde bära;
-ingenting blev offentligt enbart på agenternas ord.
+skrev finns i kodförrådet. Det började den 20 september 2026 klockan 17:34
+UTC med en kort uppdragsbeskrivning och granskningsrapporten färdigställdes
+00:14 nästa morgon: sex timmar och fyrtio minuter från start till mål.
+Däremellan tog kravsteget fram 31 krav med acceptanskriterier; plansteget
+renderade tre designriktningar som riktiga sidor och vi, som redan tittade
+på dem på designförfattarens förhandsvisningsserver, valde en inom två
+minuter efter att ha fått frågan och godkände den granskade planen 19:45;
+nedbrytningen gav tio arbetspaket; en genomförandeagent arbetade sig igenom
+dem i fyra sessioner och 22 commits; och tre granskningsspår hittade två fel
+som måste rättas, vilket ett rättningsspår gjorde innan rapporten skrevs.
+Grenen slutade på 39 commits som rörde 90 källfiler, klarade tio automatiska
+kvalitetsgrindar, 101 tester och Lighthouse-poäng på 97 till 100 på alla sju
+sidor som kontrolleras. Vår del var sex korta meddelanden medan körningen
+pågick – valet, våra rättelser, svaren vid plangrinden – och morgonen därpå
+vårt omdöme om den färdiga sidan. Själva körningen var 112 beads, 17
+agentsessioner i tio roller och tio mejl mellan borgmästaren och golvet som
+vi aldrig behövde bära; ingenting blev offentligt enbart på agenternas ord.
 
 {% figure "build", "wide" %}
 
-Det första bygget, tidigare samma dag, tog ungefär fyra timmar för 27 krav och
-tio arbetspaket, behövde en rättning och hade ingen grind före slutet: han såg
-resultatet när det var klart och gillade inte utseendet. Ingen av körningarna
-var felfri. I den första tog en session en bokföringspost i stället för sin
-uppgift och behövde fjorton minuter för att ta sig runt det; den skrev ner
-lösningen i sina anteckningar och när det andra byggets första session råkade
-ut för samma kapplöpning var den igång med sin uppgift inom en minut. Båda
-körningarna lämnade grundaren en lista med öppna punkter; vi ser de listorna
-som en del av produkten.
+Det första bygget, tidigare samma dag, tog ungefär fyra timmar för 27 krav
+och tio arbetspaket, behövde en rättning och hade ingen grind före slutet:
+vi såg resultatet när det var klart och gillade inte utseendet. Ingen av
+körningarna var felfri. I den första tog en session en bokföringspost i
+stället för sin uppgift och behövde fjorton minuter för att ta sig runt det;
+den skrev ner lösningen i sina anteckningar och när det andra byggets första
+session råkade ut för samma kapplöpning var den igång med sin uppgift inom
+en minut. Båda körningarna lämnade oss en lista med öppna punkter; vi ser de
+listorna som en del av produkten.
 
 ## Tack
 

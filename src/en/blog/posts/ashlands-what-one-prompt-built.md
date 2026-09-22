@@ -8,13 +8,13 @@ draft: true                      # published, but labelled "Draft" / "Utkast"
 machineTranslated: false         # Swedish files: true until a person has reviewed the text
 ---
 
-On 31 July 2026 the founder gave Claude Code [one
+On 31 July 2026 we gave Claude Code [one
 prompt](https://github.com/addable-labs/ashlands#this-is-an-experiment):
 build an action role-playing game at the level of Morrowind, in Three.js,
 fan out sub-agents, have a separate harsh critic compare each piece against
 the real game side by side, and don't stop until every critic is wowed. No
 architecture, no task list, no definition of done. The build ran for three
-days; on 10 August, at his request, the agent wrote an evaluation of its own
+days; on 10 August, at our request, the agent wrote an evaluation of its own
 run. Both are public: [Ashlands](https://github.com/addable-labs/ashlands)
 is MIT-licensed, and its [evaluation
 report](https://github.com/addable-labs/ashlands/blob/main/EVALUATION.md) is
@@ -78,14 +78,14 @@ had climbed to the nearest high shoulder and aimed point-blank at the peak:
 no shader change can fix a frame with no depth in it. A second multi-round
 hunt was the same bug class.
 
-## The human in the loop
+## Where the corrections came from
 
 The report is the agent's voice, and it is thin exactly where the human was
-decisive: the founder played the game as it was built and steered it. The
+decisive: we played the game as it was built and steered it. The
 first-person arms took about eleven rounds. On 1 August: "Those are really
 bad arms! Fingers go the wrong way and arms look like pipes rather that real
 arms." Later that day: "The hand looks like a left hand, but the player is
-holding the sword in its right hand." That evening he compared it to early
+holding the sword in its right hand." That evening we compared it to early
 image generation, where horses had five legs, and asked for the arm to be
 started over from a picture rather than patched. On 2 August, with a
 screenshot: "the knockles should be on the right side of the hand, not the
@@ -94,15 +94,15 @@ research how others do it". The agent's own summary of 3 August is blunter
 than the report: "User feedback each time was correct and mine was not."
 
 The frame rate went the same way: every sub-agent wanted 60 frames per
-second on a fanless laptop, none got near it, and it was the founder who
-proposed why — several agents were testing at once, each driving its own
-browser and GPU, so what each measured was not what a player would see. "We
-are doing all development on a MacBook Air. FPS will not become perfect.
-Also some other agents are working too. Keep going," he wrote on 1 August.
-The report records that collision as a finding of its own — a load average
-of 37 on eight cores — and credits "the user" in one clause.
+second on a fanless laptop, none got near it, and we worked out why —
+several agents were testing at once, each driving its own browser and GPU,
+so what each measured was not what a player would see. "We are doing all
+development on a MacBook Air. FPS will not become perfect. Also some other
+agents are working too. Keep going," we wrote on 1 August. The report
+records that collision as a finding of its own — a load average of 37 on
+eight cores — and credits "the user" in one clause.
 
-Then he asked for the two things the run was missing: "Build the regression
+Then we asked for the two things the run was missing: "Build the regression
 gate, and think about how we can transition from random walk workflow to a
 highly structured and intentional map of steps you need sub-agents to take."
 Both are in the repository now: the gate nothing merges without, and a

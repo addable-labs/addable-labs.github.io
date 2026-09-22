@@ -8,11 +8,11 @@ draft: true                      # publiceras, men märks "Draft" / "Utkast"
 machineTranslated: true          # true tills en person har granskat texten
 ---
 
-Addable Labs bygger mjukvara till stor del med AI-agenter och den här
-sajten är det första som en agentdriven mjukvarufabrik tog fram åt
-företaget från början till slut, i två byggen. Den här artikeln beskriver
-stegen, vad grundaren tittade på och de kontroller som står mellan en agents
-ändring och en publicerad sida.
+Addable Labs bygger mjukvara till stor del med AI-agenter och den här sajten
+är det första som en agentdriven mjukvarufabrik tog fram åt företaget från
+början till slut, i två byggen. Den här artikeln beskriver stegen, vad vi
+tittade på och de kontroller som står mellan en agents ändring och en
+publicerad sida.
 
 ## Stegen
 
@@ -32,14 +32,14 @@ beviskommando och en agent genomförde dem ett i taget på en lokal gren.
 
 {% figure "loop" %}
 
-Ingenting på den här sajten blir offentligt enbart på en agents ord. Men
-det första bygget kördes utan grind: krav, plan och tio arbetspaket gick
-igenom på fyra timmar och grundarens omdöme om den färdiga sajten var "en
-sida från 90-talet". Det andra bygget satte hans grind vid planen: han valde
-en av tre renderade riktningar, svarade på planens öppna frågor och gav sitt
-omdöme om resultatet på förhandsvisningen morgonen därpå. Han äger de delar
-som ingen agent kan avgöra: formuleringarna om företaget, den svenska texten,
-vilka privata projekt som får nämnas och stegen som rör domänen och driften.
+Ingenting på den här sajten blir offentligt enbart på en agents ord. Men det
+första bygget kördes utan grind: krav, plan och tio arbetspaket gick igenom
+på fyra timmar och grundarens omdöme om den färdiga sajten var "en sida från
+90-talet". Det andra bygget satte vår grind vid planen: vi valde en av tre
+renderade riktningar, svarade på planens öppna frågor och gav vårt omdöme om
+resultatet på förhandsvisningen morgonen därpå. Vi äger de delar som ingen
+agent kan avgöra: formuleringarna om företaget, den svenska texten, vilka
+privata projekt som får nämnas och stegen som rör domänen och driften.
 
 ## Kvalitetsgrindarna
 
@@ -57,21 +57,21 @@ att den misslyckas när något medvetet har gjorts sönder.
 
 ## Två ärliga iakttagelser
 
-Det mesta av det agenterna skrev var inte kod: i det första bygget 6 900 rader
-krav, planer, sammanfattningar och granskningar mot 3 700 rader webbplats,
-kvalitetsgrindar och tester. Precision i dokumenten betydde mer än finurlighet
-i koden: den enda rättning som granskningen krävde var en grind som hade
-hårdkodat en platshållare som grundaren ska byta ut.
+Det mesta av det agenterna skrev var inte kod: i det första bygget 6 900
+rader krav, planer, sammanfattningar och granskningar mot 3 700 rader
+webbplats, kvalitetsgrindar och tester. Precision i dokumenten betydde mer
+än finurlighet i koden: den enda rättning som granskningen krävde var en
+grind som hade hårdkodat en platshållare som vi ska byta ut.
 
 {% figure "words" %}
 
-Kvalitetsgrindarna fångar mekaniska misstag, inte osanningar: en saknad svensk
-sida eller en färg som inte klarar kontrastkravet fångas automatiskt; om en
-mening om en produkt är sann kan de däremot inte avgöra. Därför kan fakta om
-apparna spåras till en källa – den README som var och en hämtades från och
-datumet då den lästes – och grundaren läser ändå allt. Agenterna gjorde också
-misstag: en session tog en bokföringspost i stället för sin uppgift och
-behövde fjorton minuter för att ta sig runt det.
+Kvalitetsgrindarna fångar mekaniska misstag, inte osanningar: en saknad
+svensk sida eller en färg som inte klarar kontrastkravet fångas automatiskt;
+om en mening om en produkt är sann kan de däremot inte avgöra. Därför kan
+fakta om apparna spåras till en källa – den README som var och en hämtades
+från och datumet då den lästes – och vi läser ändå allt. Agenterna gjorde
+också misstag: en session tog en bokföringspost i stället för sin uppgift
+och behövde fjorton minuter för att ta sig runt det.
 
 Webbplatsen är enkel: statisk HTML och CSS, två små skript (ett som växlar
 mellan mörkt och ljust läge och ett som tonar in innehållet när du rullar;

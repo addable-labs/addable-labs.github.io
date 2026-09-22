@@ -20,21 +20,21 @@ what is it built on?
 ## What one agent and one person could not do
 
 nivå, the product behind [Lessons from building
-nivå](/blog/lessons-from-building-niva/), was built the other way round:
-one coding agent and one person, 480 commits in 26 days, every one co-authored
+nivå](/blog/lessons-from-building-niva/), was built the other way round: one
+coding agent and one person, 480 commits in 26 days, every one co-authored
 by the agent. That setup does not start from nothing. A file of working
-agreements, four written routines — review, gates, deploys and content changes
-— eighteen notes the agent keeps for itself, ten of them things the founder
-has corrected, a progress log with an entry per session and 105 recorded
+agreements, four written routines — review, gates, deploys and content
+changes — eighteen notes the agent keeps for itself, ten of them things we
+have corrected, a progress log with an entry per session and 105 recorded
 decisions carry the work from one session to the next.
 
-What that setup cannot do is talk to anyone but the founder. On 12 September,
-with four agents on one computer, each on its own project, he had the nivå
-agent write a message he could carry to the other three by hand, and pasted it
-into the rules file every agent on the machine reads first. Every task starts
-with him, and when two sessions need to know about each other, he carries the
-message. That does not scale to agents that plan, build, review and publish
-while the founder does something else, and it keeps him in details he does not
+What that setup cannot do is talk to anyone but us. On 12 September, with
+four agents on one computer, each on its own project, we had the nivå agent
+write a message we could carry to the other three by hand, and pasted it
+into the rules file every agent on the machine reads first. Every task
+starts with us, and when two sessions need to know about each other, we
+carry the message. That does not scale to agents that plan, build, review
+and publish while we do something else, and it keeps us in details we do not
 want to be in.
 
 {% figure "ledger" %}
@@ -102,47 +102,48 @@ you away if you aren't supposed to be there".
 
 Yegge runs fifty to sixty agents; we run a handful of sessions at a time on
 one computer and mean to run one factory per project — so far there is one,
-for this site. The org chart is small: a mayor the founder talks to, and a
-floor of roles taken as they are from the upstream starter pack —
-requirements, plan, plan review, decomposition, implementation, three review
-lanes, a publisher — each started as a session when a build step needs it and
-retired afterwards. Our own contribution so far is the mayor's prompt, limits
-on how many sessions one computer runs at once and the rules of a shared
-machine. The founder's gate sits at the plan, since the second build. No agent
-pushes on its own: publishing means a branch the founder reads locally, and
-nothing reaches GitHub until he says so. He talks to the mayor over Discord.
+for this site. The org chart is small: one mayor, and a floor of roles taken
+as they are from the upstream starter pack — requirements, plan, plan
+review, decomposition, implementation, three review lanes, a publisher —
+each started as a session when a build step needs it and retired afterwards.
+Our own contribution so far is the mayor's prompt, limits on how many
+sessions one computer runs at once and the rules of a shared machine. The
+founder's gate sits at the plan, since the second build. No agent pushes on
+its own: publishing means a branch we read locally, and nothing reaches
+GitHub until we say so. We talk to the mayor over Discord.
 
 ## One build, in numbers
 
-The redesign of this site was the factory's second build, and the documents it
-wrote are in the repository. It began on 20 September 2026 at 17:34 UTC with a
-short brief, and the review report was finalised at 00:14 the next morning:
-six hours and forty minutes of wall-clock time. In between, the requirements
-step produced 31 requirements with acceptance criteria; the plan step rendered
-three design directions as real pages, and the founder, already looking at
-them on the author's preview server, picked one within two minutes of being
-asked and approved the reviewed plan at 19:45; the decomposition produced ten
-work items; one implementation worker, in four sessions, worked through them
-in 22 commits; and three review lanes found two required fixes, made by a fix
-lane before the report was written. The branch ended at 39 commits touching 90
-source files, passing ten automated gates, 101 tests and Lighthouse scores of
-97 to 100 on all seven pages it checks. The founder's part was six short
-messages while the run was on — the pick, his corrections, the plan-gate
-answers — and, next morning, his verdict on the finished page. The run itself
-was 112 beads, 17 agent sessions in ten roles and ten mails between the mayor
-and the floor that he never had to carry; nothing went public on the agents'
-own say-so.
+The redesign of this site was the factory's second build, and the documents
+it wrote are in the repository. It began on 20 September 2026 at 17:34 UTC
+with a short brief, and the review report was finalised at 00:14 the next
+morning: six hours and forty minutes of wall-clock time. In between, the
+requirements step produced 31 requirements with acceptance criteria; the
+plan step rendered three design directions as real pages, and, already
+looking at them on the author's preview server, we picked one within two
+minutes of being asked and approved the reviewed plan at 19:45; the
+decomposition produced ten work items; one implementation worker, in four
+sessions, worked through them in 22 commits; and three review lanes found
+two required fixes, made by a fix lane before the report was written. The
+branch ended at 39 commits touching 90 source files, passing ten automated
+gates, 101 tests and Lighthouse scores of 97 to 100 on all seven pages it
+checks. Our part was six short messages while the run was on — the pick, our
+corrections, the plan-gate answers — and, next morning, our verdict on the
+finished page. The run itself was 112 beads, 17 agent sessions in ten roles
+and ten mails between the mayor and the floor that we never had to carry;
+nothing went public on the agents' own say-so.
 
 {% figure "build", "wide" %}
 
 The first build, earlier the same day, took about four hours for 27
 requirements and ten work items, needed one required fix and had no gate
-before the end: he saw the result when it was done and did not like the look
-of it. Neither run was flawless. In the first, a session claimed a bookkeeping
-record instead of its task and needed fourteen minutes to work around it; it
-wrote the fix into its notes, and when the second build's first session hit
-the same race, it was on its task within a minute. Both runs left the founder
-a list of open items; we consider those lists part of the product.
+before the end: we saw the result when it was done and did not like the look
+of it. Neither run was flawless. In the first, a session claimed a
+bookkeeping record instead of its task and needed fourteen minutes to work
+around it; it wrote the fix into its notes, and when the second build's
+first session hit the same race, it was on its task within a minute. Both
+runs left us a list of open items; we consider those lists part of the
+product.
 
 ## Thanks
 

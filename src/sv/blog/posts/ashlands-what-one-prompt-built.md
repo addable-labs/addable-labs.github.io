@@ -8,13 +8,13 @@ draft: true                      # publiceras, men märks "Draft" / "Utkast"
 machineTranslated: true          # true tills en person har granskat texten
 ---
 
-Den 31 juli 2026 gav grundaren Claude Code [en enda
+Den 31 juli 2026 gav vi Claude Code [en enda
 prompt](https://github.com/addable-labs/ashlands#this-is-an-experiment):
 bygg ett action-rollspel i nivå med Morrowind, i Three.js, fäll ut
 underagenter, låt en separat hård kritiker jämföra varje del sida vid sida
 med det riktiga spelet och sluta inte förrän varje kritiker är imponerad.
 Ingen arkitektur, ingen uppgiftslista, ingen definition av vad som är klart.
-Bygget pågick i tre dagar; den 10 augusti skrev agenten på hans begäran en
+Bygget pågick i tre dagar; den 10 augusti skrev agenten på vår begäran en
 utvärdering av sin egen körning. Båda är offentliga:
 [Ashlands](https://github.com/addable-labs/ashlands) är MIT-licensierat och
 dess
@@ -83,15 +83,15 @@ kameraläge, som hade klättrat upp på närmaste höjd och siktat rakt på
 toppen: ingen ändring i en shader kan rädda en bildruta utan djup. En andra
 flerrundig jakt var samma sorts fel.
 
-## Människan i loopen
+## Varifrån rättelserna kom
 
 Rapporten är agentens röst och den är tunn just där människan var avgörande:
-grundaren spelade spelet medan det byggdes och styrde det. Armarna i
+vi spelade spelet medan det byggdes och styrde det. Armarna i
 förstapersonsvy tog ett elvatal rundor. Den 1 augusti (citaten är översatta
 från engelska): "Vilka hemska armar! Fingrarna pekar åt fel håll och armarna
 ser ut som rör snarare än riktiga armar." Senare samma dag: "Handen ser ut
 som en vänsterhand, men spelaren håller svärdet i höger hand." På kvällen
-jämförde han det med tidig bildgenerering där hästar hade fem ben och bad om
+jämförde vi det med tidig bildgenerering där hästar hade fem ben och bad om
 att armen skulle göras om från en bild i stället för att lappas. Den 2
 augusti, med en skärmbild: "knogarna ska vara på höger sida av handen, inte
 på vänster". Sedan: "om du inte får handen rätt den här gången vill jag att
@@ -100,20 +100,19 @@ rakare än rapporten: "Användarens återkoppling var korrekt varje gång och
 min var det inte."
 
 Med bildfrekvensen gick det likadant: varje underagent ville nå 60 bilder
-per sekund på en fläktlös dator, ingen kom i närheten och det var grundaren
-som föreslog varför – flera agenter testade samtidigt, var och en med sin
-egen webbläsare och grafikkrets, så det som var och en mätte var inte det en
-spelare skulle se. "Vi gör all utveckling på en MacBook Air. Fps kommer inte
-att bli perfekt. Dessutom arbetar några andra agenter också. Fortsätt",
-skrev han den 1 augusti. Rapporten noterar den kollisionen som ett eget fynd
-– en systembelastning på 37 på åtta kärnor – och ger "användaren" en enda
-bisats.
+per sekund på en fläktlös dator, ingen kom i närheten och vi kom på varför –
+flera agenter testade samtidigt, var och en med sin egen webbläsare och
+grafikkrets, så det som var och en mätte var inte det en spelare skulle se.
+"Vi gör all utveckling på en MacBook Air. Fps kommer inte att bli perfekt.
+Dessutom arbetar några andra agenter också. Fortsätt", skrev vi den 1
+augusti. Rapporten noterar den kollisionen som ett eget fynd – en
+systembelastning på 37 på åtta kärnor – och ger "användaren" en enda bisats.
 
-Sedan bad han om de två saker körningen saknade: "Bygg regressionsgrinden
-och fundera på hur vi kan gå från ett slumpvandrande arbetsflöde till en
-tydligt strukturerad och avsiktlig karta över de steg underagenterna behöver
-ta." Båda finns i kodförrådet nu: grinden som ingen ändring får slås samman
-utan att ha klarat och en arbetsordning som håller verifieringen till en
+Sedan bad vi om de två saker körningen saknade: "Bygg regressionsgrinden och
+fundera på hur vi kan gå från ett slumpvandrande arbetsflöde till en tydligt
+strukturerad och avsiktlig karta över de steg underagenterna behöver ta."
+Båda finns i kodförrådet nu: grinden som ingen ändring får slås samman utan
+att ha klarat och en arbetsordning som håller verifieringen till en
 webbläsare i taget och tillåter en enda ändring av det gemensamma utseendet
 per runda – en fabrik som kommer inifrån en körning på en enda prompt, två
 dagar in.
