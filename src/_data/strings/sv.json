@@ -126,7 +126,7 @@
   "portfolio": {
     "niva": {
       "name": "nivå",
-      "summary": "Självskattning av AI-kompetens och AI-mognad för individer och team: nivåer, ett radardiagram, ett kompetensindex och värmekartor för team."
+      "summary": "Självskattning av AI-kompetens och AI-mognad för individer och team: nivåer, ett radardiagram, ett mognadsindex och värmekartor för team."
     },
     "notesage": {
       "name": "Notesage",
@@ -307,7 +307,7 @@
       "head": "en person · ett område",
       "levels": "fem nivåer, en vald",
       "radar": "personens radar",
-      "caption": "För varje område väljer individen det beteendeförankrade påstående, nivå ett till fem, som stämmer med hur personen faktiskt arbetar; valen blir ett radardiagram med ett kompetensindex och en guide till nästa nivå. Schematiskt – inga riktiga svar."
+      "caption": "För varje område väljer individen det beteendeförankrade påstående, nivå ett till fem, som stämmer med hur personen faktiskt arbetar; valen blir ett radardiagram med ett mognadsindex och en guide till nästa nivå. Schematiskt – inga riktiga svar."
     },
     "team": {
       "caption": "Teamets bild, schematiskt: det samlade radardiagrammet över medlemmarnas egna, värmekartan över medlemmar mot områden och gapet mot målnivån per område. Inget riktigt team, inga riktiga poäng.",

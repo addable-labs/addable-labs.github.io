@@ -126,7 +126,7 @@
   "portfolio": {
     "niva": {
       "name": "nivå",
-      "summary": "AI fluency and adoption maturity self-assessment for individuals and teams: levels, a radar chart, a fluency index and team heatmaps."
+      "summary": "AI fluency and adoption maturity self-assessment for individuals and teams: levels, a radar chart, a maturity index and team heatmaps."
     },
     "notesage": {
       "name": "Notesage",
@@ -307,7 +307,7 @@
       "head": "one person · one area",
       "levels": "five levels, one chosen",
       "radar": "the person's radar",
-      "caption": "For each area the individual picks the behaviourally anchored statement, level one to five, that matches how they actually work; the picks become a radar with a fluency index and a guide to the next level. Schematic — no real answers."
+      "caption": "For each area the individual picks the behaviourally anchored statement, level one to five, that matches how they actually work; the picks become a radar with a maturity index and a guide to the next level. Schematic — no real answers."
     },
     "team": {
       "caption": "The team's picture, schematic: the aggregate radar over each member's own, the heatmap of members against areas, and the gap to the target level per area. No real team, no real scores.",
