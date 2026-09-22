@@ -21,7 +21,7 @@
   },
   "home": {
     "title": "Addable Labs",
-    "description": "En svensk appfabrik som bygger AI-drivna applikationer, till stor del med AI-agenter, och delar med sig av vad den lär sig."
+    "description": "En svensk appfabrik som bygger AI-drivna applikationer – till stor del med AI-agenter – och delar med sig av vad den lär sig."
   },
   "hero": {
     "eyebrow": "AI-nativt mjukvaruföretag · Sverige",
@@ -374,7 +374,7 @@
     "title": "Om oss",
     "description": "Grundaren av Addable Labs och företagets arbetssätt: AI-nativt, en senior person, agenter som medarbetare, att bygga i det öppna.",
     "eyebrow": "Addable Labs · Sverige",
-    "lead": "Ett AI-nativt mjukvaruföretag: en senior person som ansvarar för varje beslut som spelar roll, och agenter som medarbetare.",
+    "lead": "Ett AI-nativt mjukvaruföretag: en senior person som ansvarar för varje beslut som spelar roll – och agenter som medarbetare.",
     "founderHeading": "Grundare",
     "founderLine": "Peter Blenessy, grundare · grundat i september 2026 · Sverige",
     "founderWork": "Peter bygger AI-drivna skrivbords- och webbapplikationer – en markdown-redigerare som samarbetar med AI, en integritetsfokuserad läsare för iPhone-backuper, verktyg för att följa svenska investmentbolag och fonder – och arbetar med hur individer och team lär sig behärska AI, från en självskattning av AI-kompetens och AI-mognad till en självhostad automationsmiljö där icke betrott innehåll stannar i luftslussen. Han bygger till stor del med AI-agenter och delar med sig av vad det lär honom.",
@@ -382,7 +382,7 @@
     "points": {
       "aiNative": {
         "title": "AI-nativt",
-        "text": "AI är en del av vad Addable Labs bygger och en del av hur det byggs: produkterna på den här webbplatsen har till stor del skapats med AI-agenter, och företagets eget arbete är organiserat kring dem."
+        "text": "AI är en del av vad Addable Labs bygger och en del av hur det byggs: produkterna på den här webbplatsen har till stor del skapats med AI-agenter och företagets eget arbete är organiserat kring dem."
       },
       "team": {
         "title": "En senior person, agenter som medarbetare",
@@ -394,7 +394,7 @@
       },
       "proof": {
         "title": "Bevis, inte påståenden",
-        "text": "Den här webbplatsen är ett exempel på arbetssättet: den har designats, byggts och underhålls av en agentdriven mjukvarufabrik, och grundaren granskar varje ändring innan den publiceras."
+        "text": "Den här webbplatsen är ett exempel på arbetssättet: den har designats, byggts och underhålls av en agentdriven mjukvarufabrik och grundaren granskar varje ändring innan den publiceras."
       }
     },
     "article": {
