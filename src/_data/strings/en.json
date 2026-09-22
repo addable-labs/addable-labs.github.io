@@ -554,6 +554,51 @@
         "build": "no agent pushes on its own",
         "release": "nothing public on the agents' say-so"
       }
+    },
+    "words": {
+      "title": "Documents against code in the first build: 6,900 lines of requirements, plans, summaries and reviews against 3,700 lines of site, gates and tests",
+      "head": "the first build, in lines",
+      "rows": {
+        "documents": {
+          "label": "documents",
+          "lines": "6,900",
+          "kinds": "requirements, plans, summaries, reviews"
+        },
+        "code": {
+          "label": "code",
+          "lines": "3,700",
+          "kinds": "site, gates, tests"
+        }
+      },
+      "point": {
+        "a": "precision in the documents mattered more",
+        "b": "than cleverness in the code"
+      },
+      "fix": {
+        "a": "the one fix the review required:",
+        "b": "a gate that hard-coded a placeholder"
+      },
+      "caption": "Most of what the agents wrote was not code: in the first build, 6,900 lines of requirements, plans, summaries and reviews against 3,700 lines of site, gates and tests. Precision in the documents mattered more than cleverness in the code — the one fix the review required was a gate that hard-coded a placeholder the founder is meant to replace."
+    },
+    "bilingual": {
+      "title": "Two languages, one key set, one test: the English and Swedish routes before any feature, two strings files whose key sets a unit test compares, and a build that fails when a key is missing",
+      "head": "two languages, one key set, one test",
+      "routesNote": "the routes existed before any feature",
+      "routes": {
+        "en": "English route",
+        "sv": "Swedish route"
+      },
+      "files": {
+        "en": "strings · en",
+        "sv": "strings · sv"
+      },
+      "missing": "missing",
+      "test": "unit test",
+      "testNote": "compares the two key sets",
+      "fails": "a missing key fails the build",
+      "failsNote": "instead of shipping",
+      "adopted": "this website adopted the same rule",
+      "caption": "Be bilingual from the first commit: the English and Swedish routes existed before any feature did, and the interface strings for both languages live in two files whose key sets are compared by a unit test, so a missing translation fails the build instead of shipping. Schematic — no real strings. This website adopted the same rule."
     }
   },
   "contact": {

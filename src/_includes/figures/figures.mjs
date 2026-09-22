@@ -28,8 +28,8 @@
 // figures are schematic — no real people, scores or screenshots.
 
 const WIDTH = 320;
-// Mono advance per character at the three type sizes used (0.6 em).
-const ADVANCE = { label: 13 * 0.6, note: 10.5 * 0.6, head: 11 * 0.6 };
+// Mono advance per character at the four type sizes used (0.6 em).
+const ADVANCE = { label: 13 * 0.6, small: 12 * 0.6, note: 10.5 * 0.6, head: 11 * 0.6 };
 
 /** Escape a string for an attribute value or text node. */
 function esc(value) {
@@ -155,7 +155,8 @@ function stageList(id, rows, top = 64) {
 }
 
 // The figures — six from si-55iu, four for the factory article from
-// si-hct0 (from (7) on). Each takes the figure's strings, its id (for the error
+// si-hct0 (from (7) on), one more for each of the two earlier articles from
+// si-ubr3 ((11) and (12)). Each takes the figure's strings, its id (for the error
 // messages of `fit`) and the figure's DOM id (`fig-<id>`, which prefixes the
 // panel ids and so the marker ids an arrow references) and returns
 // { panels: [...], caption }; a panel is { title, head, headRight?, height,
@@ -522,7 +523,102 @@ function build(t, id, figureId) {
   };
 }
 
-export const FIGURES = { stages, gates, loop, assessment, team, harness, ledger, timeline, setup, build };
+// Two more, one per earlier article (founder request 2026-09-22, si-ubr3):
+// documents against code for the site-build article, and two languages, one
+// key set, one test for the nivå article. Both draw only what the articles
+// say; the nivå one is schematic (abstract bars, no real strings).
+
+/** The digits of a count string ("6,900", "6 900") as a number; throws naming the key when there are none. */
+function count(key, value) {
+  const digits = Number(String(value).replace(/\D/g, ""));
+  if (!Number.isFinite(digits) || digits <= 0) throw new Error(`Figure label "${key}" must carry a count ("${value}")`);
+  return digits;
+}
+
+/** A horizontal bar from the baseline at x: square at the baseline, rounded at the data end. */
+function bar(x, y, width, height, cls) {
+  const r = Math.min(4, width / 2);
+  return `<path d="M${round(x)} ${round(y)}h${round(width - r)}a${r} ${r} 0 0 1 ${r} ${r}v${round(height - 2 * r)}a${r} ${r} 0 0 1 -${r} ${r}H${round(x)}z" class="${cls}"/>`;
+}
+
+// (11) Documents against code — one panel, two proportional bars: the lines
+// of requirements, plans, summaries and reviews the agents wrote in the first
+// build against the lines of site, gates and tests, as the article counts
+// them (the proportion comes from the digits of the two count strings, so a
+// rewording keeps the bars honest); beneath, the paragraph's point and the
+// one fix the review required.
+function words(t, id, figureId) {
+  const parts = [];
+  const track = { x: 16, w: 288 };
+  const rows = ["documents", "code"];
+  const lines = Object.fromEntries(rows.map((key) => [key, count(`${id}.rows.${key}.lines`, t.rows[key].lines)]));
+  const max = Math.max(...Object.values(lines));
+  rows.forEach((key, i) => {
+    const row = t.rows[key];
+    const y = 62 + i * 59;
+    parts.push(text(track.x, y, fit(`${id}.rows.${key}.label`, row.label, 200, "label"), "fig-label"));
+    parts.push(text(WIDTH - 16, y, fit(`${id}.rows.${key}.lines`, row.lines, 80, "label"), "fig-label fig-strong", "end"));
+    parts.push(bar(track.x, y + 7, (track.w * lines[key]) / max, 12, key === "documents" ? "fig-cell" : "fig-bar-muted"));
+    parts.push(text(track.x, y + 33, fit(`${id}.rows.${key}.kinds`, row.kinds, 288), "fig-note"));
+  });
+  parts.push(`<line x1="16" y1="168" x2="${WIDTH - 16}" y2="168" class="fig-hair"/>`);
+  parts.push(text(16, 186, fit(`${id}.point.a`, t.point.a, 288, "small"), "fig-label fig-small"));
+  parts.push(text(16, 201, fit(`${id}.point.b`, t.point.b, 288, "small"), "fig-label fig-small"));
+  parts.push(footer(id, `${id}.fix.a`, t.fix.a, 221));
+  parts.push(text(40, 234, fit(`${id}.fix.b`, t.fix.b, 250), "fig-note"));
+  return { caption: t.caption, panels: [{ title: t.title, head: t.head, height: 248, body: parts.join("") }] };
+}
+
+// (12) Two languages, one key set, one test — one panel in two columns: the
+// English and Swedish routes, which existed before any feature; under each,
+// its strings file with the keys as abstract bars (no real strings), one key
+// missing on the Swedish side (the orange dashed gap); both files feed the
+// unit test that compares the key sets; the outcome — a missing key fails the
+// build instead of shipping — and the footer: this website adopted the same rule.
+function bilingual(t, id, figureId) {
+  const pid = `${figureId}-p1`;
+  const parts = [];
+  const columns = { en: 16, sv: 172 };
+  const width = 132;
+  const centre = (x) => x + width / 2;
+  // The routes, before any feature.
+  parts.push(text(16, 54, fit(`${id}.routesNote`, t.routesNote, 288), "fig-note"));
+  for (const [lang, x] of Object.entries(columns)) {
+    parts.push(box(x, 60, width, `${id}.routes.${lang}`, t.routes[lang]));
+    parts.push(arrow(pid, centre(x), 86, centre(x), 100));
+  }
+  // The two strings files: a key bar and a value bar per row; the third key
+  // is missing from the Swedish file.
+  const keys = [44, 58, 36, 52];
+  for (const [lang, x] of Object.entries(columns)) {
+    parts.push(`<rect x="${x}" y="102" width="${width}" height="76" rx="6" class="fig-node"/>`);
+    parts.push(text(x + 12, 116, fit(`${id}.files.${lang}`, t.files[lang], 108), "fig-note"));
+    keys.forEach((valueWidth, i) => {
+      const y = 126 + i * 12;
+      if (lang === "sv" && i === 2) {
+        parts.push(`<line x1="${x + 12}" y1="${y + 1.5}" x2="${x + 34}" y2="${y + 1.5}" class="fig-gap"/>`);
+        parts.push(text(x + 40, y + 5, fit(`${id}.missing`, t.missing, 80), "fig-note fig-wait"));
+      } else {
+        parts.push(`<rect x="${x + 12}" y="${y}" width="22" height="3" rx="1.5" class="fig-bar"/>`);
+        parts.push(`<rect x="${x + 40}" y="${y}" width="${valueWidth}" height="3" rx="1.5" class="fig-bar-muted"/>`);
+      }
+    });
+  }
+  // The unit test both files feed, and what it compares.
+  parts.push(arrow(pid, centre(columns.en), 180, 128, 196));
+  parts.push(arrow(pid, centre(columns.sv), 180, 192, 196));
+  parts.push(box(96, 196, 128, `${id}.test`, t.test));
+  parts.push(text(160, 236, fit(`${id}.testNote`, t.testNote, 288), "fig-note", "middle"));
+  // The outcome, marked with the same gap as the missing key.
+  parts.push(`<line x1="16" y1="252" x2="32" y2="252" class="fig-gap"/>`);
+  parts.push(text(40, 256, fit(`${id}.fails`, t.fails, 264), "fig-note fig-wait"));
+  parts.push(text(40, 269, fit(`${id}.failsNote`, t.failsNote, 264), "fig-note"));
+  parts.push(`<line x1="16" y1="282" x2="${WIDTH - 16}" y2="282" class="fig-hair"/>`);
+  parts.push(footer(id, `${id}.adopted`, t.adopted, 300));
+  return { caption: t.caption, panels: [{ title: t.title, head: t.head, height: 314, body: parts.join("") }] };
+}
+
+export const FIGURES = { stages, gates, loop, assessment, team, harness, ledger, timeline, setup, build, words, bilingual };
 
 /**
  * Render one figure as HTML: `<figure class="figure figure-inline|figure-wide">`

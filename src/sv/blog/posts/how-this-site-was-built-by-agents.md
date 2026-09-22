@@ -63,6 +63,8 @@ kvalitetsgrindar och tester. Precision i dokumenten betydde mer än finurlighet
 i koden: den enda rättning som granskningen krävde var en grind som hade
 hårdkodat en platshållare som grundaren ska byta ut.
 
+{% figure "words" %}
+
 Kvalitetsgrindarna fångar mekaniska misstag, inte osanningar: en saknad svensk
 sida eller en färg som inte klarar kontrastkravet fångas automatiskt; om en
 mening om en produkt är sann kan de däremot inte avgöra. Därför kan fakta om

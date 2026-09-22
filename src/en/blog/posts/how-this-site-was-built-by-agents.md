@@ -62,6 +62,8 @@ tests. Precision in the documents mattered more than cleverness in the code:
 the one fix the review required was a gate that hard-coded a placeholder the
 founder is meant to replace.
 
+{% figure "words" %}
+
 The gates catch mechanical mistakes, not untruths: a missing Swedish page or a
 colour that fails contrast is caught automatically; whether a sentence about a
 product is true is not. So the facts about the apps trace to a source — the

@@ -554,6 +554,51 @@
         "build": "ingen agent pushar på egen hand",
         "release": "inget offentligt bara på agenternas ord"
       }
+    },
+    "words": {
+      "title": "Dokument mot kod i det första bygget: 6 900 rader krav, planer, sammanfattningar och granskningar mot 3 700 rader webbplats, kvalitetsgrindar och tester",
+      "head": "det första bygget, i rader",
+      "rows": {
+        "documents": {
+          "label": "dokument",
+          "lines": "6 900",
+          "kinds": "krav, planer, sammanfattningar, granskningar"
+        },
+        "code": {
+          "label": "kod",
+          "lines": "3 700",
+          "kinds": "webbplats, kvalitetsgrindar, tester"
+        }
+      },
+      "point": {
+        "a": "precision i dokumenten betydde mer",
+        "b": "än finurlighet i koden"
+      },
+      "fix": {
+        "a": "den enda rättning som krävdes:",
+        "b": "en grind med en hårdkodad platshållare"
+      },
+      "caption": "Det mesta av det agenterna skrev var inte kod: i det första bygget 6 900 rader krav, planer, sammanfattningar och granskningar mot 3 700 rader webbplats, kvalitetsgrindar och tester. Precision i dokumenten betydde mer än finurlighet i koden – den enda rättning som granskningen krävde var en grind som hade hårdkodat en platshållare som grundaren ska byta ut."
+    },
+    "bilingual": {
+      "title": "Två språk, en nyckeluppsättning, ett test: de engelska och svenska rutterna före funktionerna, två textfiler vars nyckeluppsättningar ett enhetstest jämför och ett bygge som stoppas när en nyckel saknas",
+      "head": "två språk, en nyckeluppsättning, ett test",
+      "routesNote": "rutterna fanns innan några funktioner",
+      "routes": {
+        "en": "engelska rutten",
+        "sv": "svenska rutten"
+      },
+      "files": {
+        "en": "texter · en",
+        "sv": "texter · sv"
+      },
+      "missing": "saknas",
+      "test": "enhetstest",
+      "testNote": "jämför de två nyckeluppsättningarna",
+      "fails": "en saknad nyckel stoppar bygget",
+      "failsNote": "i stället för att skeppas",
+      "adopted": "den här webbplatsen följer samma regel",
+      "caption": "Var tvåspråkig från första commit: de engelska och svenska rutterna fanns innan det fanns några funktioner och gränssnittstexterna för båda språken ligger i två filer vars nyckeluppsättningar jämförs av ett enhetstest, så att en saknad översättning stoppar bygget i stället för att skeppas. Schematiskt – inga riktiga texter. Den här webbplatsen har anammat samma regel."
     }
   },
   "contact": {
