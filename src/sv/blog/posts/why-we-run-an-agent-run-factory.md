@@ -12,15 +12,16 @@ Addable Labs bygger mjukvara till stor del med AI-agenter och sedan september
 2026 byggs och underhålls den här webbplatsen av det vi kallar fabriken: ett
 litet team av kodande agenter, organiserat som ett företag, som samordnar sig
 genom en gemensam ärendehanterare, med en person som är ansvarig för fabriken.
-[En tidigare artikel](/sv/blog/how-this-site-was-built-by-agents/) berättade
-om ett bygge; den här serien beskriver själva uppsättningen – ett lager i
-taget – och börjar med den uppenbara frågan: varför driva något sådant över
-huvud taget och vad bygger det på?
+Artikeln [Så byggdes den här webbplatsen av
+agenter](/sv/blog/how-this-site-was-built-by-agents/) berättade om ett bygge;
+den här serien beskriver själva uppsättningen – ett lager i taget – och börjar
+med den uppenbara frågan: varför driva något sådant över huvud taget och vad
+bygger det på?
 
 ## Vad en agent och en person inte kunde göra
 
-nivå, produkten bakom [en tidigare
-artikel](/sv/blog/lessons-from-building-niva/), byggdes tvärtom: en kodande
+nivå, produkten bakom [Lärdomar från att bygga
+nivå](/sv/blog/lessons-from-building-niva/), byggdes tvärtom: en kodande
 agent och en person, 480 commits på 26 dagar, varenda en med agenten som
 medförfattare. Den uppsättningen börjar inte från noll. En fil med
 arbetsöverenskommelser, fyra nedskrivna rutiner – granskning,

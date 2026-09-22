@@ -11,16 +11,16 @@ machineTranslated: false         # Swedish files: true until a person has review
 Addable Labs builds software largely with AI agents, and since September 2026
 this website has been built and maintained by what we call the factory: a
 small team of coding agents organised like a company, coordinating through a
-shared issue tracker, with one person in charge. [An earlier
-article](/blog/how-this-site-was-built-by-agents/) told the story of one
-build; this series describes the setup itself, one layer at a time, starting
-with the obvious question: why run something like this at all, and what is it
-built on?
+shared issue tracker, with one person in charge. The article [How this site
+was built by agents](/blog/how-this-site-was-built-by-agents/) told the story
+of one build; this series describes the setup itself, one layer at a time,
+starting with the obvious question: why run something like this at all, and
+what is it built on?
 
 ## What one agent and one person could not do
 
-nivå, the product behind [an earlier
-article](/blog/lessons-from-building-niva/), was built the other way round:
+nivå, the product behind [Lessons from building
+nivå](/blog/lessons-from-building-niva/), was built the other way round:
 one coding agent and one person, 480 commits in 26 days, every one co-authored
 by the agent. That setup does not start from nothing. A file of working
 agreements, four written routines — review, gates, deploys and content changes
