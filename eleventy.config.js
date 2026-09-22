@@ -1,7 +1,7 @@
 import { readFileSync, statSync } from "node:fs";
 import { IdAttributePlugin } from "@11ty/eleventy";
 import rssPlugin from "@11ty/eleventy-plugin-rss";
-import { isOmitted, isScheduled, validateArticle } from "./scripts/lib/frontmatter.mjs";
+import { isOmitted, isScheduled, validateArticle, validateArticleDate } from "./scripts/lib/frontmatter.mjs";
 import site from "./src/_data/site.js";
 
 // Paths copied verbatim into _site/: the stylesheets and mark, the SVG favicon
@@ -75,6 +75,21 @@ export default function (eleventyConfig) {
   for (const path of PASSTHROUGH) {
     eleventyConfig.addPassthroughCopy(path);
   }
+
+  // An article's date is checked as Eleventy maps it, ahead of the rest of
+  // its front matter (si-xpn0). Eleventy maps a page's date while it gathers
+  // the page's data, before any preprocessor runs, and throws on a date it
+  // cannot parse with an error that names the file and the value but not the
+  // rule — so `validate-posts` below never sees a bad date. `addDateParsing`
+  // is Eleventy's hook into that mapping: it gets the very value Eleventy is
+  // about to parse, and as this one hands nothing back, Eleventy then parses
+  // a good date exactly as before. The rest of the front matter, and a
+  // missing or empty date (Eleventy parses neither), stay with
+  // `validate-posts`.
+  eleventyConfig.addDateParsing(function (date) {
+    const file = this.page.inputPath;
+    if (ARTICLE_PATH.test(file)) validateArticleDate(date, { file });
+  });
 
   // Front-matter validation for every article (REQ-018): an unknown category,
   // a missing key or a wrong type fails the build naming the file.
