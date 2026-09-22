@@ -28,7 +28,9 @@ varje del av arbetet får löpa förbi kritiker om och om igen: kör den i ett
 agentsystem i stället för i en chatt, formulera målet utan att föreskriva
 lösningen, ge kritikern en konkret referens att jämföra mot, låt
 ledaragenten dela upp arbetet i delar som kan bedömas var för sig och låt
-aldrig en byggare sätta betyg på sitt eget arbete.
+aldrig en byggare sätta betyg på sitt eget arbete. Andra har kört den sedan
+dess och spelen de byggde finns samlade på [hans
+sajt](https://somethingbig.ai/games), flera av dem riktigt bra.
 
 {% figure "gauntlet", "wide" %}
 
@@ -43,6 +45,13 @@ också maskineriet som dömer den: 32 grindkontroller och 17 kontroller från
 32 grindkontroller, 16 av 16 kontroller från ände till ände gick igenom och
 spelet gick i 20 till 35 bilder per sekund i den upplösning som bilderna
 fångades i, på en MacBook Air.
+
+Och det går att spela: du kan vandra i världen, använda färdigheter och
+slutföra alla arton uppdrag – ett skript driver vart och ett till sista
+steget utan att fastna. Det som står öppet är bildfrekvensen och den
+konstnärliga riktningen: en palettkontroll som faller på en vy, trappsteg
+där vatten möter terräng, fläckighet på avstånd. Inte ett spel som faller
+ihop – ett ofärdigt.
 
 ## Vad metoden fick rätt
 
@@ -158,6 +167,12 @@ mot en känd defekt, lägg referensen i kritikerns händer före första rundan
 och håll kvar en människa där en agent inte kan tala om för dig att den har
 fel. Kontrakten först, byggare som hålls isär från kritiker och ett rent
 negativt resultat som ett fullgott svar tar vi som de är.
+
+Inget av detta är ett argument mot metoden. Rapporten avslutas med en
+omarbetad startprompt för den som vill göra om körningen och det den lägger
+till är hur arbetet ska verifieras: namnge referensen, namnge instrumentet, säg
+vad ett godkänt resultat är innan första agenten startar. Kör den så
+och den här körningen hade slutat längre fram.
 
 *Morrowind nämns här bara som den designförebild experimentet mätte sig mot;
 Ashlands innehåller inga resurser från de spelen. The Elder Scrolls och

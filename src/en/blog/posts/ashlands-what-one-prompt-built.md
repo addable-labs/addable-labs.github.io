@@ -26,7 +26,9 @@ in [How to Run a Gauntlet Loop](https://somethingbig.ai/gauntlet-loop): run
 it inside an agentic system rather than a chat, state the goal without
 prescribing the implementation, give the critic a concrete reference to
 compare against, let the lead agent split the work into pieces that can be
-judged separately, and never let a builder grade its own work.
+judged separately, and never let a builder grade its own work. Others have
+run it since; the games they built are collected on [his
+site](https://somethingbig.ai/games), several of them very good.
 
 {% figure "gauntlet", "wide" %}
 
@@ -40,6 +42,12 @@ also built the machinery that judges it: 32 gate checks and 17 end-to-end
 checks driving a real browser. At the close the gate was failing 1 of 32,
 end-to-end passed 16 of 16, and the game ran at 20 to 35 frames per second
 at capture resolution on a MacBook Air.
+
+And it plays: you can walk the world, use skills and finish all eighteen
+quests — a script drives every one to its final stage without sticking. What
+is open is art direction and frame rate: a palette check failing on one
+vantage, stair-stepping where water meets terrain, mottling at distance. Not
+a game that falls over — an unfinished one.
 
 ## What the method got right
 
@@ -150,6 +158,12 @@ defect, put the reference in the critic's hands before the first round, and
 keep a person where an agent cannot tell you it is wrong. Contract-first
 decomposition, builders kept away from critics and a clean negative treated
 as a complete answer — those we take as they are.
+
+None of which is an argument against the method. The report closes with a
+revised starting prompt for anyone rerunning this, and what it adds is how
+the work is to be verified: name the reference, name the instrument, say what
+a pass looks like before the first agent starts. Run it that way and
+this run would have ended further along.
 
 *Morrowind is named here only as the design target the experiment measured
 itself against; Ashlands contains no assets from those games. The Elder
