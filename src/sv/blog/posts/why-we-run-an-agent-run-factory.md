@@ -16,7 +16,7 @@ för fabriken.
 Avsnittet [Så arbetar vi](/sv/#how) på startsidan säger det på fyra rader och
 [en tidigare artikel](/sv/blog/how-this-site-was-built-by-agents/) berättade om
 ett bygge. Den här serien beskriver själva uppsättningen – ett lager i taget –
-och börjar med den självklara frågan: varför driva något sådant över huvud
+och börjar med den uppenbara frågan: varför driva något sådant över huvud
 taget och vad bygger det på?
 
 ## Problemet med en enda mycket duktig agent
