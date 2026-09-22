@@ -36,7 +36,7 @@ describe("feeds gate", () => {
     const broken = await copyDir(built, path.join(tmp.dir, "figure-in-feed"));
     const feed = path.join(broken, "feed.xml");
     const xml = await readFile(feed, "utf8");
-    const edited = xml.replace("<content:encoded>", "<content:encoded>&lt;figure class=&quot;figure figure-side&quot;&gt;&lt;svg viewBox=&quot;0 0 1 1&quot;&gt;&lt;/svg&gt;&lt;/figure&gt;");
+    const edited = xml.replace("<content:encoded>", "<content:encoded>&lt;figure class=&quot;figure figure-inline&quot;&gt;&lt;svg viewBox=&quot;0 0 1 1&quot;&gt;&lt;/svg&gt;&lt;/figure&gt;");
     assert.notEqual(edited, xml, "the first item's content must be found");
     await writeFile(feed, edited);
     const { status, output } = runGate("feeds", broken);

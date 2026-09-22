@@ -6,12 +6,15 @@ ogType: article
 {#- Article page (REQ-016): the header carries the mono metadata — date, the
     category chip (a link to the category page), the draft chip and the
     machine-translated chip when they apply — then the title, the summary and
-    the draft notice box; header, body blocks and footer sit on a 44rem
-    measure at the container's left edge and, from 64rem, the figures the
-    article calls with `{% figure "<id>"[, "wide"] %}` float into the lane
-    to its right or span the whole width (base.css, founder feedback
-    2026-09-21, si-55iu); the footer links
-    the same article in the other language as a secondary button. The
+    the draft notice box; header, body blocks and footer sit on one centred
+    44rem measure and the figures the article calls with
+    `{% figure "<id>"[, "wide"] %}` sit in the flow — an inline figure on the
+    measure with its caption beside the panel, a wide one across the whole
+    container (base.css, founder feedback 2026-09-22); the footer links the
+    same article in the other language as a secondary button. After the
+    article, the "More from the blog" band lists the other articles of the
+    page's language (the landing's writing band, partials/post-list.njk) and
+    links the blog index, so the page ends with somewhere to go. The
     machine-translated notice box is rendered by layouts/base.njk at the top
     of main for every page with machineTranslated: true. `alternate` is
     computed by src.11tydata.js; when it is null the link is simply absent.
@@ -46,3 +49,18 @@ ogType: article
   </div>
 {% endif %}
 </article>
+{%- set others = collections["posts_" + lang] | withoutUrl(page.url) %}
+{%- if others | length %}
+<section class="section section-alt article-more" aria-labelledby="more-title">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">{{ strings[lang].article.moreEyebrow }}</p>
+      <h2 id="more-title">{{ strings[lang].article.moreHeading }}</h2>
+    </div>
+    {%- set posts = others.slice(0, 3) %}
+    {%- set listHeading = "h3" %}
+    {%- include "partials/post-list.njk" %}
+    <p class="writing-all"><a class="text-link" href="{{ langPrefix }}/blog/">{{ strings[lang].writing.all }}<span class="arrow" aria-hidden="true">→</span></a></p>
+  </div>
+</section>
+{%- endif %}

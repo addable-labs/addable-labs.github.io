@@ -1337,22 +1337,23 @@ html:not(.js) .theme-toggle {
 
 .article {
   --measure: 44rem;
-  padding-block: var(--space-5) var(--space-7);
+  padding-block: var(--space-5) var(--space-6);
 }
 
-/* The article spans the whole container like every other page (founder
-   feedback 2026-09-21, si-55iu, replacing the centred 40rem column of
-   516b00b): header, footer and every block of the body sit on a 44rem
-   measure (about 80 characters at 1.0625rem/1.7) at the container's left
-   edge, and from 64rem the space to the right of the measure is the figure
-   lane — .figure-side floats there, next to the text that follows it, and
-   .figure-wide clears the lane and spans the whole width between
-   paragraphs. Figures are direct children of the body (the `figure`
-   shortcode, eleventy.config.js), so every other child is a text block. */
+/* The article is a centred composition (founder feedback 2026-09-22,
+   replacing the left-edge measure and figure lane of si-55iu): header,
+   footer and every block of the body sit on one 44rem measure (about 80
+   characters at 1.0625rem/1.7) centred in the container, and the page gets
+   its width from the elements that deserve it — a wide figure spans the
+   whole container, an inline figure sits at the measure with its caption
+   beside the panel, and the "More from the blog" band closes the page.
+   Figures are direct children of the body (the `figure` shortcode,
+   eleventy.config.js), so every other child is a text block. */
 .article-header,
 .article-footer,
 .article-body > :not(.figure) {
   max-width: var(--measure);
+  margin-inline: auto;
 }
 
 .article-header {
@@ -1385,11 +1386,20 @@ html:not(.js) .theme-toggle {
   line-height: 1.7;
 }
 
+/* Section headings a clear step below the title (the title is up to
+   3.25rem): the accent dash above them carries the rhythm, no rule. */
 .article-body h2,
 .article-body h3 {
+  margin-top: var(--space-6);
+}
+
+.article-body h2 {
+  font-size: 1.75rem;
+}
+
+.article-body h3 {
+  font-size: 1.25rem;
   margin-top: var(--space-5);
-  padding-top: var(--space-3);
-  border-top: 1px solid var(--color-hairline);
 }
 
 .article-body h2::before,
@@ -1455,7 +1465,7 @@ html:not(.js) .theme-toggle {
 }
 
 .article-footer {
-  margin-top: var(--space-5);
+  margin-top: var(--space-6);
   padding-top: var(--space-4);
   border-top: 1px solid var(--color-hairline);
   display: flex;
@@ -1466,17 +1476,15 @@ html:not(.js) .theme-toggle {
 /* Article figures (si-55iu; REQ-008): a <figure> holding a row of inline
    SVG panels and a mono caption. Every panel is drawn on a 320-unit-wide
    viewBox and rendered as a card — the console's surface, border and radius
-   — between 20rem (the lane's floor, where a panel renders 1:1) and 24.5rem
-   (the lane at the container's full width), so a 13-unit label is 13–16 px;
-   a wide figure's panels fill the row from 48rem and stack below it. Below
-   64rem every figure sits between the paragraphs; from 64rem a side figure
-   floats into the lane beside the text that follows it (a float, not a grid
-   row, so the text keeps flowing past a figure taller than its section),
-   headings become block formatting contexts so their rule stops at the
-   lane, and wide figures and the footer clear it. The layout gate measures
-   all of this on every article page at five widths. */
+   — between 20rem (a 360 px phone, where a panel renders 1:1) and 24.5rem,
+   so a 13-unit label is 13–16 px. A wide figure spans the whole container
+   with its panels in one row from 48rem (stacked below it) and its caption
+   centred underneath on the measure. An inline figure (one panel) sits in
+   the flow on the measure: from 48rem the panel on the left and the caption
+   beside it, top-aligned; below 48rem the caption under the panel. The
+   layout gate measures all of this on every article page at five widths. */
 .figure {
-  margin: var(--space-4) 0 var(--space-5);
+  margin: var(--space-5) auto;
 }
 
 .figure-panels {
@@ -1485,15 +1493,16 @@ html:not(.js) .theme-toggle {
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
 }
 
-/* One panel is the lane's width at most; two share a row only up to that
-   width each (auto-fit counts tracks by the definite maximum), so neither
-   stretches its type across a 71rem row the way 1fr would. */
+/* One panel is 24.5rem at most; two share a row only up to that width each
+   (auto-fit counts tracks by the definite maximum), so neither stretches
+   its type across a 71rem row the way 1fr would. */
 .figure-panels-1 {
   max-width: 24.5rem;
 }
 
 .figure-panels-2 {
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 24.5rem));
+  justify-content: center;
 }
 
 .figure-panel {
@@ -1507,34 +1516,51 @@ html:not(.js) .theme-toggle {
 
 .figure figcaption {
   max-width: var(--measure);
-  margin-top: var(--space-2);
+  margin-top: var(--space-3);
   font-family: var(--font-mono);
   font-size: var(--text-xs);
   line-height: 1.6;
   color: var(--color-text-muted);
 }
 
-@media (min-width: 64rem) {
-  .article-body {
-    display: flow-root;
+.figure-wide {
+  width: 100%;
+}
+
+.figure-wide .figure-panels-1 {
+  margin-inline: auto;
+}
+
+.figure-wide figcaption {
+  margin-inline: auto;
+  text-align: center;
+  text-wrap: balance;
+}
+
+.figure-inline {
+  max-width: var(--measure);
+}
+
+@media (min-width: 48rem) {
+  .figure-inline {
+    display: grid;
+    grid-template-columns: minmax(20rem, 24.5rem) minmax(0, 1fr);
+    gap: var(--space-4);
+    align-items: start;
   }
 
-  .article-body h2,
-  .article-body h3 {
-    display: flow-root;
+  .figure-inline figcaption {
+    margin-top: 0;
+    padding-top: var(--space-3);
   }
+}
 
-  .figure-side {
-    float: right;
-    clear: right;
-    width: clamp(20rem, calc(100% - var(--measure) - var(--space-5)), 24.5rem);
-    margin: 0 0 var(--space-3) var(--space-5);
-  }
-
-  .figure-wide,
-  .article-footer {
-    clear: both;
-  }
+/* The ending band (founder feedback 2026-09-22): the other articles of the
+   page's language as .post cards under the "More from the blog" heading,
+   the landing's writing band closing the article page — one card spans the
+   row, two or three share it — then the "All articles" link. */
+.article-more .post-list {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
 }
 
 /* The drawing vocabulary of the figures (src/_includes/figures/figures.mjs):

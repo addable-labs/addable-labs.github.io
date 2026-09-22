@@ -102,10 +102,11 @@ export default function (eleventyConfig) {
   // article calls `{% figure "stages", "wide" %}` — the same call in both
   // language files — and gets an inline-SVG <figure> whose panel titles,
   // labels and caption come from strings[lang].figures.<id>, so one drawing
-  // serves both languages. "side" (the default) floats the figure beside the
-  // text from 64 rem, "wide" spans the whole article width between
-  // paragraphs; below 64 rem both sit between paragraphs (base.css).
-  eleventyConfig.addAsyncShortcode("figure", async function (id, placement = "side") {
+  // serves both languages. "inline" (the default) sits on the reading
+  // measure with the caption beside the panel from 48 rem, "wide" spans the
+  // whole container with the caption centred underneath (base.css, founder
+  // feedback 2026-09-22).
+  eleventyConfig.addAsyncShortcode("figure", async function (id, placement = "inline") {
     const { renderFigure } = await loadFigures();
     const lang = this.ctx?.lang;
     const strings = this.ctx?.strings?.[lang];
@@ -118,6 +119,11 @@ export default function (eleventyConfig) {
   // custom properties do not travel) and bloat every item, so the feed
   // output stays what it was before the figures (REQ-016).
   eleventyConfig.addFilter("withoutFigures", (html) => String(html).replace(FIGURE_HTML, ""));
+
+  // The article page's "More from the blog" band lists the other articles of
+  // its language: the posts collection without the page itself, by URL
+  // (founder feedback 2026-09-22).
+  eleventyConfig.addFilter("withoutUrl", (posts, url) => (posts ?? []).filter((post) => post.url !== url));
 
   return {
     dir: {

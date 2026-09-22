@@ -14,11 +14,11 @@
 // hero: hairlines, the green for passed/highlight, the orange for
 // waiting/attention.
 //
-// Every panel is drawn on a 320-unit-wide viewBox — at the widest the figure
-// lane is 24.5 rem (392 px), at the narrowest 18 rem or a 360 px phone — so
-// a 13-unit label renders at 12–16 px everywhere. A wide figure is a row of
-// such panels that stacks below 48 rem instead of one wide drawing that would
-// shrink its type. Each label slot has a character budget (JetBrains Mono
+// Every panel is drawn on a 320-unit-wide viewBox — a panel is 24.5 rem
+// (392 px) at the widest and 20 rem on a 360 px phone — so a 13-unit label
+// renders at 12–16 px everywhere. A wide figure is a row of such panels that
+// stacks below 48 rem instead of one wide drawing that would shrink its
+// type; an inline figure is one panel with its caption beside it. Each label slot has a character budget (JetBrains Mono
 // advances 0.6 em per character); a string that does not fit fails the build
 // naming the key, like the front-matter validator, so a longer Swedish
 // translation cannot overflow its panel silently.
@@ -358,14 +358,14 @@ function harness(t, id, figureId) {
 export const FIGURES = { stages, gates, loop, assessment, team, harness };
 
 /**
- * Render one figure as HTML: `<figure class="figure figure-side|figure-wide">`
+ * Render one figure as HTML: `<figure class="figure figure-inline|figure-wide">`
  * with the panel row and the caption. The output contains no blank line so
  * markdown-it keeps it as one HTML block.
  */
-export function renderFigure(id, { placement = "side", strings }) {
+export function renderFigure(id, { placement = "inline", strings }) {
   const draw = FIGURES[id];
   if (!draw) throw new Error(`Unknown figure "${id}"; known figures: ${Object.keys(FIGURES).join(", ")}`);
-  if (placement !== "side" && placement !== "wide") throw new Error(`Figure "${id}": placement must be "side" or "wide", got ${JSON.stringify(placement)}`);
+  if (placement !== "inline" && placement !== "wide") throw new Error(`Figure "${id}": placement must be "inline" or "wide", got ${JSON.stringify(placement)}`);
   const t = strings?.figures?.[id];
   if (!t) throw new Error(`Figure "${id}": no strings under figures.${id}`);
   const figureId = `fig-${id}`;

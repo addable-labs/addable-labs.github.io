@@ -151,7 +151,7 @@ describe("content gate", () => {
     const copy = await copyDir(built, path.join(tmp.dir, "seed-figure"));
     const page = path.join(copy, "blog", "how-this-site-was-built-by-agents", "index.html");
     const html = await readFile(page, "utf8");
-    const padded = html.replace('<div class="article-body">', `<div class="article-body"><figure class="figure figure-side"><svg viewBox="0 0 10 10" role="img" aria-labelledby="pad-title"><title id="pad-title">padding</title><text>${"label ".repeat(200).trim()}</text></svg><figcaption>${"caption ".repeat(200).trim()}</figcaption></figure>`);
+    const padded = html.replace('<div class="article-body">', `<div class="article-body"><figure class="figure figure-inline"><svg viewBox="0 0 10 10" role="img" aria-labelledby="pad-title"><title id="pad-title">padding</title><text>${"label ".repeat(200).trim()}</text></svg><figcaption>${"caption ".repeat(200).trim()}</figcaption></figure>`);
     assert.notEqual(padded, html, "the article body must be found");
     await writeFile(page, padded);
     const { status, output } = runGate("content", copy);
