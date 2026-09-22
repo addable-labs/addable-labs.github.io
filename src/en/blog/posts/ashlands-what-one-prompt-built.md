@@ -149,7 +149,7 @@ seven times. So: build the instrument first and calibrate it against a known
 defect, put the reference in the critic's hands before the first round, and
 keep a person where an agent cannot tell you it is wrong. Contract-first
 decomposition, builders kept away from critics and a clean negative treated
-as a complete answer we take as they are.
+as a complete answer — those we take as they are.
 
 *Morrowind is named here only as the design target the experiment measured
 itself against; Ashlands contains no assets from those games. The Elder
