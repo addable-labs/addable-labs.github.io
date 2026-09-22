@@ -170,9 +170,9 @@ Brödtext i Markdown.
   reading measure with its caption beside it from 48 rem, under it below),
   or `{% figure "<id>", "wide" %}` for one that spans the whole container
   with its caption centred underneath. A figure is drawn by `src/_includes/figures/figures.mjs`
-  (`FIGURES` names the twelve: `stages`, `gates`, `loop`, `assessment`,
+  (`FIGURES` names the fifteen: `stages`, `gates`, `loop`, `assessment`,
   `team`, `harness`, `ledger`, `timeline`, `setup`, `build`, `words`,
-  `bilingual`) and every word it shows — panel titles, labels, notes,
+  `bilingual`, `gauntlet`, `agents`, `critic`) and every word it shows — panel titles, labels, notes,
   the caption — comes from `figures.<id>` in the two strings files, so one
   drawing serves both languages; a label too long for its slot fails the
   build naming the key. Adding a figure means one drawing function, its
@@ -422,10 +422,10 @@ pair.
    adoption", "Investing tools") because a card title must fit one line.
 8. **Copy review — Swedish.** Every Swedish string below was written by the
    factory and not yet reviewed by a person (the machine-translated notice
-   stays on `src/sv/index.njk`, `src/sv/about.njk` and the two articles under
+   stays on `src/sv/index.njk`, `src/sv/about.njk` and every article under
    `src/sv/blog/posts/` until you clear `machineTranslated: true`; clear
-   `draft: true` on the two seed articles in both languages when they are
-   ready to stand without the label). Keys in `src/_data/strings/sv.json`,
+   `draft: true` on the articles in both languages when they are ready to
+   stand without the label). Keys in `src/_data/strings/sv.json`,
    new or changed in the redesign — the values are quoted in the item
    summaries under `plans/website-redesign/build/items/`:
    - `theme.toggleLabel`; `footer.contact`, `footer.site`
@@ -455,9 +455,14 @@ pair.
    - `figures.{stages,gates,loop,assessment,team,harness}.*` — the six
      article illustrations' panel titles, labels, notes and captions
      (si-55iu), `figures.{ledger,timeline,setup,build}.*` — the four of
-     the factory article (si-hct0), and `figures.{words,bilingual}.*` — one
-     more for each of the two earlier articles (si-ubr3); every label has a
-     character budget, so a longer rewording must keep the build green
+     the factory article (si-hct0), `figures.{words,bilingual}.*` — one
+     more for each of the two earlier articles (si-ubr3) — and
+     `figures.{gauntlet,agents,critic}.*` — the three of the Ashlands post
+     (si-wqb7); every label has a character budget, so a longer rewording
+     must keep the build green
+   - the Swedish text of the Ashlands post itself
+     (`src/sv/blog/posts/ashlands-what-one-prompt-built.md`, si-wqb7),
+     including the founder's quotes, which are translated from English
 9. **The four unlisted repositories.** TraceLoupe, airlocked-agents, Stoqster
    and investable were removed from the apps grid at your request ("not
    sure" was read as do-not-publish); say so if any of them should return —

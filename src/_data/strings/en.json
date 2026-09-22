@@ -599,6 +599,142 @@
       "failsNote": "instead of shipping",
       "adopted": "this website adopted the same rule",
       "caption": "Be bilingual from the first commit: the English and Swedish routes existed before any feature did, and the interface strings for both languages live in two files whose key sets are compared by a unit test, so a missing translation fails the build instead of shipping. Schematic — no real strings. This website adopted the same rule."
+    },
+    "gauntlet": {
+      "panels": {
+        "brief": {
+          "title": "The brief: a goal stated as an outcome, which the lead agent splits into pieces that can be improved and judged separately",
+          "head": "the goal, not the plan"
+        },
+        "gauntlet": {
+          "title": "The gauntlet: the work runs a corridor between two rows of critics, each holding the reference it compares against; a critic that is not wowed sends the work back to the builder, and the exit is wowed",
+          "head": "the gauntlet"
+        },
+        "grading": {
+          "title": "Builders and critics kept apart: the builder knows why it made every decision, the critic has fresh context, the artefact and the reference",
+          "head": "nothing grades its own homework"
+        }
+      },
+      "goal": "the goal",
+      "goalNote": "stated as an outcome",
+      "goalNote2": "no architecture, no task list",
+      "lead": "the lead agent",
+      "leadNote": "splits the work into pieces",
+      "pieces": {
+        "a": "terrain",
+        "b": "sky",
+        "c": "combat"
+      },
+      "piecesNote": "each piece is judged on its own",
+      "contracts": "16 subsystems, each behind a contract",
+      "builder": "builder",
+      "critic": "critic",
+      "work": "the work",
+      "wowed": "wowed",
+      "back": "not wowed: back to the builder",
+      "noReference": "no reference was ever obtained here",
+      "builderCol": "the builder",
+      "criticCol": "the critic",
+      "builderSees": {
+        "a": "sees every decision",
+        "b": "remembers why",
+        "c": "defends its own work"
+      },
+      "criticSees": {
+        "a": "fresh context",
+        "b": "sees the artefact",
+        "c": "the reference"
+      },
+      "gradedItself": "graded itself:",
+      "independent": "an outside critic:",
+      "declared": "declared success",
+      "foundDefects": "found real defects",
+      "noRef": "here the critics had no reference",
+      "recollection": "every score was against recollection",
+      "caption": "The Gauntlet Loop, after Matt Shumer (somethingbig.ai): the goal is stated as an outcome, the lead agent splits it into pieces, and every piece runs a corridor of critics that compare it against a reference — a critic that is not wowed sends the work back to the builder. The references are drawn empty because none was ever obtained in this run, so every judgement was made against the agent's own recollection."
+    },
+    "agents": {
+      "title": "The six sub-agents of the closing phase: their tokens and what each round produced — one shipped fix, four closed investigations and one agent killed by the weekly token limit",
+      "head": "the closing phase, six agents",
+      "wall": "~3.8 h",
+      "rows": {
+        "silhouettes": {
+          "label": "black silhouettes",
+          "tokens": "241k",
+          "outcome": "diagnosis; refused to fix (wrong owner)"
+        },
+        "chevron": {
+          "label": "terrain chevron",
+          "tokens": "332k",
+          "outcome": "attribution, two attempts, both reverted"
+        },
+        "lattice": {
+          "label": "per-projection lattice",
+          "tokens": "176k",
+          "outcome": "shipped the fix"
+        },
+        "lighting": {
+          "label": "lighting / ambient",
+          "tokens": "332k",
+          "outcome": "negative; belonged to another stage"
+        },
+        "aerial": {
+          "label": "aerial perspective",
+          "tokens": "234k",
+          "outcome": "negative; found a real bug and a tool bug"
+        },
+        "waterline": {
+          "label": "waterline aliasing",
+          "tokens": "—",
+          "outcome": "died at once — the weekly limit"
+        }
+      },
+      "total": "total",
+      "totalValue": "~1.32M · 654 calls",
+      "totalNote": "1 shipped fix, 4 closed investigations",
+      "footer": "~1M of it went into one shot",
+      "footerNote": "whose cause was a camera-placement bug",
+      "caption": "The closing phase, as the evaluation report counts it: six sub-agents, five of which completed, about 1.32 million tokens and 654 tool calls over some 3.8 hours of wall clock, for one shipped visual fix and four investigations closed for good. The sixth died before reading a file when the account hit its weekly token limit."
+    },
+    "critic": {
+      "title": "The properties of the critic: this run against what you want — cost per judgement, parallelism, fidelity, determinism and attribution",
+      "head": "the critic decides the cost",
+      "columns": {
+        "ashlands": "Ashlands",
+        "want": "what you want"
+      },
+      "rows": {
+        "cost": {
+          "label": "cost per judgement",
+          "ashlands": "30–70 min",
+          "want": "milliseconds"
+        },
+        "parallel": {
+          "label": "parallelism",
+          "ashlands": "one GPU, serial",
+          "want": "unbounded"
+        },
+        "fidelity": {
+          "label": "fidelity",
+          "ashlands": "recollection",
+          "want": "an executable oracle"
+        },
+        "determinism": {
+          "label": "determinism",
+          "ashlands": "varied until pinned",
+          "want": "bit-exact"
+        },
+        "attribution": {
+          "label": "attribution",
+          "ashlands": "any of five stages",
+          "want": "the check names it"
+        }
+      },
+      "questions": {
+        "a": "is there an executable oracle?",
+        "b": "does a failing check name the unit?"
+      },
+      "caption": "The report's closing argument, which it marks as opinion rather than measurement: the cost of the loop is set by the critic, not the builder. Ashlands had close to a worst-case critic on every axis. Two questions predict the outcome better than anything else — is there an executable oracle, and does a failing check name the thing to fix."
     }
   },
   "contact": {

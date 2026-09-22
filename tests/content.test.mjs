@@ -174,7 +174,9 @@ describe("content gate", () => {
     await writeFile(second, without);
     const { status, output } = runGate("content", copy);
     assert.equal(status, 1);
-    assert.match(output, /FAIL {2}blog\/how-this-site-was-built-by-agents\/index\.html: "more from the blog" lists other en articles \(\/blog\/how-this-site-was-built-by-agents\/, \/blog\/lessons-from-building-niva\/\)/);
+    // The listed URLs are whatever articles exist, so the assertion pins the
+    // reason for the failure — the page itself among them — not the set.
+    assert.match(output, /FAIL {2}blog\/how-this-site-was-built-by-agents\/index\.html: "more from the blog" lists other en articles \([^)]*\/blog\/how-this-site-was-built-by-agents\/[^)]*\)/);
     assert.match(output, /FAIL {2}sv\/blog\/lessons-from-building-niva\/index\.html: "more from the blog" lists other sv articles \(none\)/);
     assert.match(output, /FAIL {2}sv\/blog\/lessons-from-building-niva\/index\.html: "more from the blog" links the sv blog index/);
     assert.match(output, /ok {4}blog\/lessons-from-building-niva\/index\.html: "more from the blog" lists other en articles/);

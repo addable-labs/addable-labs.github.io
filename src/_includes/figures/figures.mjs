@@ -49,10 +49,14 @@ function fit(key, value, slot, size = "note") {
   return value;
 }
 
-/** A <text> element; `cls` names the fig-* classes, `anchor` the text-anchor. */
-function text(x, y, value, cls, anchor) {
+/**
+ * A <text> element; `cls` names the fig-* classes, `anchor` the text-anchor
+ * and `struck` strikes the line through (the agent that never ran).
+ */
+function text(x, y, value, cls, anchor, struck = false) {
   const attrs = [`x="${round(x)}"`, `y="${round(y)}"`, `class="${cls}"`];
   if (anchor) attrs.push(`text-anchor="${anchor}"`);
+  if (struck) attrs.push(`text-decoration="line-through"`);
   return `<text ${attrs.join(" ")}>${esc(value)}</text>`;
 }
 
@@ -618,7 +622,163 @@ function bilingual(t, id, figureId) {
   return { caption: t.caption, panels: [{ title: t.title, head: t.head, height: 314, body: parts.join("") }] };
 }
 
-export const FIGURES = { stages, gates, loop, assessment, team, harness, ledger, timeline, setup, build, words, bilingual };
+// The three figures of the Ashlands post (founder request 2026-09-22,
+// si-wqb7): the Gauntlet Loop drawn as a gauntlet, what the closing phase's
+// six sub-agents cost, and the properties of the critic that decide whether
+// the loop is cheap or expensive. The method's parts are Matt Shumer's,
+// credited in the caption and linked in the prose; every number is the
+// repository's evaluation report as the article states it.
+
+/** A multi-segment arrow along a path, solid or dashed. */
+function pathArrow(id, d, dashed = false) {
+  return `<path d="${d}" class="fig-line${dashed ? " fig-dashed" : ""}" fill="none" marker-end="url(#${id}-arrow)"/>`;
+}
+
+/** The reference a critic holds: an empty dashed card — none was ever obtained here. */
+function emptyCard(x, y, size = 14) {
+  return `<rect x="${round(x)}" y="${round(y)}" width="${size}" height="${size}" rx="2" class="fig-gap"/>`;
+}
+
+// (13) The Gauntlet Loop as a gauntlet — wide, three panels: the goal the
+// lead agent splits into pieces, the corridor of critics the work runs, and
+// the rule that nothing grades its own homework. The critics' references are
+// drawn empty, because no reference was ever obtained in this run.
+function gauntlet(t, id, figureId) {
+  const height = 248;
+  const [p1, p2, p3] = [1, 2, 3].map((n) => `${figureId}-p${n}`);
+
+  // Panel 1 — the goal, not the plan.
+  const brief = [
+    box(88, 46, 144, `${id}.goal`, t.goal),
+    text(160, 86, fit(`${id}.goalNote`, t.goalNote, 288), "fig-note", "middle"),
+    text(160, 99, fit(`${id}.goalNote2`, t.goalNote2, 288), "fig-note", "middle"),
+    arrow(p1, 160, 104, 160, 118),
+    box(76, 120, 168, `${id}.lead`, t.lead),
+    text(160, 158, fit(`${id}.leadNote`, t.leadNote, 288), "fig-note", "middle"),
+    arrow(p1, 140, 166, 60, 180),
+    arrow(p1, 160, 166, 160, 180),
+    arrow(p1, 180, 166, 260, 180),
+    box(8, 184, 96, `${id}.pieces.a`, t.pieces.a),
+    box(112, 184, 96, `${id}.pieces.b`, t.pieces.b),
+    box(216, 184, 96, `${id}.pieces.c`, t.pieces.c),
+    text(160, 224, fit(`${id}.piecesNote`, t.piecesNote, 288), "fig-note", "middle"),
+    footer(id, `${id}.contracts`, t.contracts, 240),
+  ].join("");
+
+  // Panel 2 — the corridor: two rows of critics, each holding its reference.
+  const criticBox = (x, y) =>
+    [
+      `<rect x="${x}" y="${y}" width="96" height="24" rx="6" class="fig-node"/>`,
+      emptyCard(x + 8, y + 5),
+      text(x + 30, y + 16, fit(`${id}.critic`, t.critic, 58), "fig-note"),
+    ].join("");
+  const corridor = [
+    criticBox(100, 52),
+    criticBox(204, 52),
+    `<line x1="96" y1="88" x2="304" y2="88" class="fig-hair"/>`,
+    `<line x1="96" y1="144" x2="304" y2="144" class="fig-hair"/>`,
+    box(8, 104, 76, `${id}.builder`, t.builder),
+    arrow(p2, 88, 116, 222, 116),
+    text(96, 110, fit(`${id}.work`, t.work, 114), "fig-note"),
+    text(232, 121, fit(`${id}.wowed`, t.wowed, 72, "label"), "fig-label fig-ok"),
+    arrow(p2, 148, 78, 148, 86),
+    arrow(p2, 252, 78, 252, 86),
+    arrow(p2, 148, 154, 148, 146),
+    arrow(p2, 252, 154, 252, 146),
+    criticBox(100, 156),
+    criticBox(204, 156),
+    pathArrow(p2, "M252 182V202H46V132", true),
+    text(160, 216, fit(`${id}.back`, t.back, 250), "fig-note", "middle"),
+    emptyCard(18, 226, 12),
+    text(40, 236, fit(`${id}.noReference`, t.noReference, 250), "fig-note fig-wait"),
+  ].join("");
+
+  // Panel 3 — the builder and the critic, side by side.
+  const sees = (x, lines, budget, keyPrefix) =>
+    ["a", "b"].map((key, i) => text(x, 80 + i * 16, fit(`${keyPrefix}.${key}`, lines[key], budget), "fig-note")).join("");
+  const grading = [
+    `<line x1="160" y1="46" x2="160" y2="178" class="fig-hair"/>`,
+    text(16, 58, fit(`${id}.builderCol`, t.builderCol, 140, "small"), "fig-label fig-small"),
+    text(172, 58, fit(`${id}.criticCol`, t.criticCol, 132, "small"), "fig-label fig-small"),
+    sees(16, t.builderSees, 140, `${id}.builderSees`),
+    text(16, 112, fit(`${id}.builderSees.c`, t.builderSees.c, 140), "fig-note"),
+    sees(172, t.criticSees, 132, `${id}.criticSees`),
+    emptyCard(172, 102, 12),
+    text(190, 112, fit(`${id}.criticSees.c`, t.criticSees.c, 114), "fig-note"),
+    `<line x1="16" y1="130" x2="304" y2="130" class="fig-hair"/>`,
+    text(16, 150, fit(`${id}.gradedItself`, t.gradedItself, 140), "fig-note"),
+    text(172, 150, fit(`${id}.independent`, t.independent, 132), "fig-note"),
+    text(16, 166, fit(`${id}.declared`, t.declared, 140, "small"), "fig-label fig-small fig-wait"),
+    text(172, 166, fit(`${id}.foundDefects`, t.foundDefects, 132, "small"), "fig-label fig-small fig-ok"),
+    `<line x1="16" y1="186" x2="304" y2="186" class="fig-hair"/>`,
+    emptyCard(18, 198, 12),
+    text(40, 208, fit(`${id}.noRef`, t.noRef, 250), "fig-note fig-wait"),
+    text(40, 221, fit(`${id}.recollection`, t.recollection, 250), "fig-note"),
+  ].join("");
+
+  return {
+    caption: t.caption,
+    panels: [
+      { title: t.panels.brief.title, head: t.panels.brief.head, height, body: brief },
+      { title: t.panels.gauntlet.title, head: t.panels.gauntlet.head, height, body: corridor },
+      { title: t.panels.grading.title, head: t.panels.grading.head, height, body: grading },
+    ],
+  };
+}
+
+// (14) What the closing phase cost: the report's six sub-agents, their tokens
+// and what each round produced — five completed, the sixth killed by the
+// weekly token limit before it read a file (struck through).
+function agents(t, id, figureId) {
+  const keys = ["silhouettes", "chevron", "lattice", "lighting", "aerial", "waterline"];
+  const parts = [];
+  keys.forEach((key, i) => {
+    const row = t.rows[key];
+    const y = 58 + i * 32;
+    const dead = key === "waterline";
+    // The one round that shipped a visible fix is the green row.
+    const cls = dead ? " fig-muted" : key === "lattice" ? " fig-ok" : "";
+    parts.push(text(16, y, fit(`${id}.rows.${key}.label`, row.label, 230, "small"), `fig-label fig-small${cls}`, undefined, dead));
+    parts.push(text(WIDTH - 16, y, fit(`${id}.rows.${key}.tokens`, row.tokens, 60, "small"), `fig-label fig-small fig-strong${cls}`, "end"));
+    parts.push(text(16, y + 13, fit(`${id}.rows.${key}.outcome`, row.outcome, 288), `fig-note${dead ? " fig-wait" : ""}`));
+    if (i < keys.length - 1) parts.push(`<line x1="16" y1="${y + 21}" x2="${WIDTH - 16}" y2="${y + 21}" class="fig-hair"/>`);
+  });
+  parts.push(`<line x1="16" y1="244" x2="${WIDTH - 16}" y2="244" class="fig-hair"/>`);
+  parts.push(text(16, 264, fit(`${id}.total`, t.total, 100, "label"), "fig-label"));
+  parts.push(text(WIDTH - 16, 264, fit(`${id}.totalValue`, t.totalValue, 200, "label"), "fig-label fig-strong", "end"));
+  parts.push(text(16, 278, fit(`${id}.totalNote`, t.totalNote, 288), "fig-note fig-ok"));
+  parts.push(footer(id, `${id}.footer`, t.footer, 302));
+  parts.push(text(40, 315, fit(`${id}.footerNote`, t.footerNote, 250), "fig-note"));
+  return {
+    caption: t.caption,
+    panels: [{ title: t.title, head: t.head, headRight: { value: fit(`${id}.wall`, t.wall, 104, "head"), cls: "" }, height: 332, body: parts.join("") }],
+  };
+}
+
+// (15) The critic decides the cost: the five properties of §9.1, this run
+// against what you want, and the two questions that predict the outcome.
+function critic(t, id, figureId) {
+  const keys = ["cost", "parallel", "fidelity", "determinism", "attribution"];
+  const parts = [
+    `<line x1="162" y1="46" x2="162" y2="258" class="fig-hair"/>`,
+    text(16, 58, fit(`${id}.columns.ashlands`, t.columns.ashlands, 140, "small"), "fig-label fig-small fig-wait"),
+    text(172, 58, fit(`${id}.columns.want`, t.columns.want, 132, "small"), "fig-label fig-small fig-ok"),
+  ];
+  keys.forEach((key, i) => {
+    const row = t.rows[key];
+    const y = 82 + i * 36;
+    parts.push(text(16, y, fit(`${id}.rows.${key}.label`, row.label, 140, "small"), "fig-label fig-small"));
+    parts.push(text(16, y + 15, fit(`${id}.rows.${key}.ashlands`, row.ashlands, 140), "fig-note fig-wait"));
+    parts.push(text(172, y + 15, fit(`${id}.rows.${key}.want`, row.want, 132), "fig-note fig-ok"));
+    if (i < keys.length - 1) parts.push(`<line x1="16" y1="${y + 23}" x2="${WIDTH - 16}" y2="${y + 23}" class="fig-hair"/>`);
+  });
+  parts.push(`<line x1="16" y1="270" x2="${WIDTH - 16}" y2="270" class="fig-hair"/>`);
+  parts.push(footer(id, `${id}.questions.a`, t.questions.a, 290));
+  parts.push(footer(id, `${id}.questions.b`, t.questions.b, 306));
+  return { caption: t.caption, panels: [{ title: t.title, head: t.head, height: 320, body: parts.join("") }] };
+}
+
+export const FIGURES = { stages, gates, loop, assessment, team, harness, ledger, timeline, setup, build, words, bilingual, gauntlet, agents, critic };
 
 /**
  * Render one figure as HTML: `<figure class="figure figure-inline|figure-wide">`
