@@ -167,7 +167,7 @@ describe("content gate", () => {
     const self = firstHtml.replace(/(class="post-title"[^>]*><a href=")\/blog\/why-we-run-an-agent-run-factory\/"/, "$1/blog/how-this-site-was-built-by-agents/\"");
     assert.notEqual(self, firstHtml, "the band's first card must be found");
     await writeFile(first, self);
-    const second = path.join(copy, "sv", "blog", "lessons-from-building-niva", "index.html");
+    const second = path.join(copy, "sv", "blog", "ashlands-what-one-prompt-built", "index.html");
     const secondHtml = await readFile(second, "utf8");
     const without = secondHtml.replace(/<section class="section section-alt article-more"[\s\S]*?<\/section>/, "");
     assert.notEqual(without, secondHtml, "the band must be found");
@@ -177,9 +177,9 @@ describe("content gate", () => {
     // The listed URLs are whatever articles exist, so the assertion pins the
     // reason for the failure — the page itself among them — not the set.
     assert.match(output, /FAIL {2}blog\/how-this-site-was-built-by-agents\/index\.html: "more from the blog" lists other en articles \([^)]*\/blog\/how-this-site-was-built-by-agents\/[^)]*\)/);
-    assert.match(output, /FAIL {2}sv\/blog\/lessons-from-building-niva\/index\.html: "more from the blog" lists other sv articles \(none\)/);
-    assert.match(output, /FAIL {2}sv\/blog\/lessons-from-building-niva\/index\.html: "more from the blog" links the sv blog index/);
-    assert.match(output, /ok {4}blog\/lessons-from-building-niva\/index\.html: "more from the blog" lists other en articles/);
+    assert.match(output, /FAIL {2}sv\/blog\/ashlands-what-one-prompt-built\/index\.html: "more from the blog" lists other sv articles \(none\)/);
+    assert.match(output, /FAIL {2}sv\/blog\/ashlands-what-one-prompt-built\/index\.html: "more from the blog" links the sv blog index/);
+    assert.match(output, /ok {4}blog\/ashlands-what-one-prompt-built\/index\.html: "more from the blog" lists other en articles/);
   });
 
   it("fails when a later article grows past 1,500 English words (the series ceiling, si-xcpc)", async () => {
@@ -205,13 +205,13 @@ describe("content gate", () => {
 // tree.
 // The blog index of the real tree, newest first, as it stands today, in a
 // development build — where every article is present, drafts included: an
-// exclusion must neither reorder nor drop anything else. Add a line when an
-// article is added.
+// exclusion must neither reorder nor drop anything else. The tree carries no
+// draft of its own, so the cases below write the drafts they need. Add a line
+// when an article is added.
 const EN_ORDER = [
   "/blog/ashlands-what-one-prompt-built/",
   "/blog/why-we-run-an-agent-run-factory/",
   "/blog/how-this-site-was-built-by-agents/",
-  "/blog/lessons-from-building-niva/",
 ];
 const SV_ORDER = EN_ORDER.map((url) => `/sv${url}`);
 
@@ -436,12 +436,12 @@ describe("draft posts", () => {
   });
 
   it("leaves the order of the published articles unchanged in both builds", async () => {
-    // Nothing else moves: the repository's own four articles keep their order
-    // in the development build, and the three that are not drafts keep theirs
-    // in the production build.
+    // Nothing else moves: the repository's own articles carry no draft of
+    // their own, so they keep their order in both builds and only the
+    // fixture draft is missing from the production one.
     const withoutFixtures = (urls) => urls.filter((url) => !url.endsWith("/a-draft/") && !url.endsWith("/not-a-draft/"));
     assert.deepEqual(withoutFixtures(await listed(dev, "blog", "index.html")), EN_ORDER);
-    assert.deepEqual(withoutFixtures(await listed(prod, "blog", "index.html")), EN_ORDER.filter((url) => !url.includes("lessons-from-building-niva")));
-    assert.deepEqual(withoutFixtures(await listed(prod, "sv", "blog", "index.html")), SV_ORDER.filter((url) => !url.includes("lessons-from-building-niva")));
+    assert.deepEqual(withoutFixtures(await listed(prod, "blog", "index.html")), EN_ORDER);
+    assert.deepEqual(withoutFixtures(await listed(prod, "sv", "blog", "index.html")), SV_ORDER);
   });
 });

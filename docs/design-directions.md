@@ -2,7 +2,7 @@
 
 Three genuinely distinct directions were built as real pages with the site's
 own stack (Eleventy, Nunjucks, CSS, the self-hosted JetBrains Mono) for the
-founder's direction gate (requirements REQ-002, plan `plans/website-redesign/build/implementation-plan.md`).
+founder's direction gate (requirements REQ-002).
 They shared the same landing-page content model — hero, services, apps and
 products, how we work, latest writing, contact, footer — so the comparison was
 about design, not copy.

@@ -16,3 +16,6 @@ _site/
 _preview/
 .claude/
 .gc/
+
+# Factory working material — stays out of the public repo
+plans/

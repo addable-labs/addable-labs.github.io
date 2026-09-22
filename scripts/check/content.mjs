@@ -59,10 +59,10 @@ const AI_NATIVE = { en: "AI-native", sv: "AI-nativ" };
 // an early-access mailto: whose subject says so in the page's language.
 const EARLY_ACCESS_SUBJECT = { en: /access/i, sv: /tillgång/i };
 const ARTICLE_SLUG = "how-this-site-was-built-by-agents";
-// REQ-006 (AC-11): the two seed articles are 300–600 English words. Later
+// REQ-006 (AC-11): the seed article is 300–600 English words. Later
 // articles (the factory series, si-xcpc) get a floor against stubs and a
 // ceiling for a readable post: 300–1,500.
-const SEED_ARTICLES = new Set([ARTICLE_SLUG, "lessons-from-building-niva"]);
+const SEED_ARTICLES = new Set([ARTICLE_SLUG]);
 const WORD_RANGE = { seed: [300, 600], other: [300, 1500] };
 // REQ-011 as amended by A-01: the private repositories of the curated six
 // (marketdata-api and Compound join nivå — both left the grid in feedback

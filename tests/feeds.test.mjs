@@ -23,10 +23,10 @@ describe("feeds gate", () => {
     const broken = await copyDir(built, path.join(tmp.dir, "relative-link"));
     const feed = path.join(broken, "feed.xml");
     const xml = await readFile(feed, "utf8");
-    await writeFile(feed, xml.replace("<link>https://addablelabs.se/blog/lessons-from-building-niva/</link>", "<link>/blog/lessons-from-building-niva/</link>"));
+    await writeFile(feed, xml.replace("<link>https://addablelabs.se/blog/ashlands-what-one-prompt-built/</link>", "<link>/blog/ashlands-what-one-prompt-built/</link>"));
     const { status, output } = runGate("feeds", broken);
     assert.equal(status, 1);
-    assert.match(output, /FAIL {2}feed\.xml: item link absolute with language prefix \(\/blog\/lessons-from-building-niva\/\)/);
+    assert.match(output, /FAIL {2}feed\.xml: item link absolute with language prefix \(\/blog\/ashlands-what-one-prompt-built\/\)/);
     assert.match(output, /FAIL feeds/);
   });
 

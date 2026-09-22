@@ -168,7 +168,7 @@ function stageList(id, rows, top = 64) {
 
 // (1) The stages of the build with the founder's two gates — wide, three
 // panels: the documents before the code, the build, the steps before it is
-// public. Facts from the article and plans/website-redesign/build/factory-run.md:
+// public. Facts from the article and the factory's own record of the run:
 // ten work items, ten gates, no publication on an agent's say-so.
 function stages(t, id, figureId) {
   const ok = { value: t.done, cls: "fig-ok" };

@@ -492,8 +492,7 @@ pair.
    under `src/sv/blog/posts/`, but nothing on the page says so any more;
    clear `draft: true` on an article in both languages when it is ready to go
    public — while it is set the article is not on the public site at all). Keys in `src/_data/strings/sv.json`,
-   new or changed in the redesign — the values are quoted in the item
-   summaries under `plans/website-redesign/build/items/`:
+   new or changed in the redesign:
    - `theme.toggleLabel`; `footer.contact`, `footer.site`
    - `hero.eyebrow`, `hero.title`, `hero.lead`, `hero.ctaPrimary`,
      `hero.nivaEarlyAccess`, `hero.nivaEarlyAccessSubject`, `hero.nivaTry`,
@@ -541,6 +540,5 @@ pair.
 The status labels of marketdata-api ("private · API keys on request") and
 Compound ("in development") and the about page's GRC note were settled at
 the plan gate and are not open. Both tools left the apps grid in founder
-feedback round 1 (`plans/website-redesign/build/items/content-feedback-1.md`)
-pending the founder's decision on investment-related content; the wording is
+feedback round 1 pending the founder's decision on investment-related content; the wording is
 kept in `PRIVATE_STATUS_LABEL` for the day one returns.
