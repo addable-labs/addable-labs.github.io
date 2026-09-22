@@ -31,14 +31,13 @@ en framstegslogg med en post per session och 105 dokumenterade beslut bär
 arbetet från en session till nästa.
 
 Det den uppsättningen inte kan är att prata med någon annan än grundaren. Den
-12 september, med fyra agenter på en bärbar dator, var och en med sitt eget
-projekt, lät han nivå-agenten skriva ett meddelande som han själv kunde bära
-till de andra tre och klistrade in det i den regelfil som varje agent på
-maskinen läser först. Varje uppgift börjar hos honom och när två sessioner
-behöver veta något om varandra är det han som bär meddelandet emellan. Det
-skalar inte till agenter som planerar, bygger, granskar och publicerar medan
-grundaren gör något annat och det håller honom kvar i detaljer han inte vill
-vara i.
+12 september, med fyra agenter på en dator, var och en med sitt eget projekt,
+lät han nivå-agenten skriva ett meddelande som han själv kunde bära till de
+andra tre och klistrade in det i den regelfil som varje agent på maskinen
+läser först. Varje uppgift börjar hos honom och när två sessioner behöver veta
+något om varandra är det han som bär meddelandet emellan. Det skalar inte till
+agenter som planerar, bygger, granskar och publicerar medan grundaren gör
+något annat och det håller honom kvar i detaljer han inte vill vara i.
 
 {% figure "ledger" %}
 
@@ -52,18 +51,22 @@ pushas – i stället för hela tiden.
 ## Steve Yegges iterationer
 
 Uppsättningen vi driver bygger på öppen källkod som Steve Yegge påbörjade i
-oktober 2025 med Beads, en ärendehanterare som han beskriver som minne för
-kodande agenter snarare än som en att-göra-lista för människor. I januari 2026
-kom Gas Town, hans orkestreringsverktyg: upp till trettio agentsessioner som
-samordnar sig genom Beads, ett dussintal aktiva åt gången, med en fast
-uppsättning roller och en tes som vi har anammat rakt av, med hans egna ord:
-"en agent är inte en session" (vår översättning) – sessioner är utbytbara,
-arbetet är beständigt. I april 2026 kom Gas City: med hans egna ord "Gas Town,
-men sönderplockat och omskrivet från grunden som ett SDK för att bygga egna
-mörka fabriker" (vår översättning). Han är noga med att säga att han inte
-skrev det – det gjorde Julian Knutsen och Chris Sells. I augusti 2026 beskrev
-sedan "Fences, not Sandboxes" den organisation på femtio till sextio agenter
-som han driver, styrd av skrivna regler snarare än av inlåsning.
+oktober 2025 med [Beads](https://github.com/gastownhall/beads), en
+ärendehanterare som han beskriver som minne för kodande agenter snarare än som
+en att-göra-lista för människor. I januari 2026 kom [Gas
+Town](https://yegge.ai/essays/welcome-to-gas-town/), hans
+orkestreringsverktyg: upp till trettio agentsessioner som samordnar sig genom
+Beads, ett dussintal aktiva åt gången, med en fast uppsättning roller och en
+tes som vi har anammat rakt av, med hans egna ord: "en agent är inte en
+session" (vår översättning) – sessioner är utbytbara, arbetet är beständigt. I
+april 2026 kom [Gas City](https://yegge.ai/essays/welcome-to-gas-city/): med
+hans egna ord "Gas Town, men sönderplockat och omskrivet från grunden som ett
+SDK för att bygga egna mörka fabriker" (vår översättning). Han är noga med att
+säga att han inte skrev det – det gjorde Julian Knutsen och Chris Sells. I
+augusti 2026 beskrev sedan "[Fences, not
+Sandboxes](https://yegge.ai/essays/fences-not-sandboxes/)" den organisation på
+femtio till sextio agenter som han driver, styrd av skrivna regler snarare än
+av inlåsning.
 
 {% figure "timeline" %}
 
@@ -105,18 +108,17 @@ citerar, "varje mekanism som avvisar dig om du inte ska vara där" (vår
 översättning).
 
 Yegge driver femtio till sextio agenter; vi kör en handfull sessioner åt
-gången på en enda bärbar dator och siktar på en fabrik per projekt – hittills
-finns en, för den här webbplatsen. Organisationsschemat är litet: en
-borgmästare som grundaren pratar med och ett golv av roller tagna som de är
-från startpaketet i Gas Citys paketregister – krav, plan, plangranskning,
-nedbrytning, genomförande, tre granskningsspår, en publicerare – var och en
-startad som en session när ett steg i bygget behöver den och avslutad efteråt.
-Vårt eget bidrag hittills är borgmästarens prompt, gränser i laptopstorlek för
-hur många sessioner som kör samtidigt och reglerna för en delad maskin.
-Grundarens grind sitter vid planen, sedan det andra bygget. Ingen agent pushar
-på egen hand: att publicera betyder en gren som grundaren läser lokalt och
-ingenting når GitHub förrän han säger till. Han pratar med borgmästaren via
-Discord.
+gången på en enda dator och siktar på en fabrik per projekt – hittills finns
+en, för den här webbplatsen. Organisationsschemat är litet: en borgmästare som
+grundaren pratar med och ett golv av roller tagna som de är från startpaketet
+i Gas Citys paketregister – krav, plan, plangranskning, nedbrytning,
+genomförande, tre granskningsspår, en publicerare – var och en startad som en
+session när ett steg i bygget behöver den och avslutad efteråt. Vårt eget
+bidrag hittills är borgmästarens prompt, gränser för hur många sessioner en
+dator kör samtidigt och reglerna för en delad maskin. Grundarens grind sitter
+vid planen, sedan det andra bygget. Ingen agent pushar på egen hand: att
+publicera betyder en gren som grundaren läser lokalt och ingenting når GitHub
+förrän han säger till. Han pratar med borgmästaren via Discord.
 
 ## Ett bygge, i siffror
 

@@ -29,10 +29,10 @@ has corrected, a progress log with an entry per session and 105 recorded
 decisions carry the work from one session to the next.
 
 What that setup cannot do is talk to anyone but the founder. On 12 September,
-with four agents on one laptop, each on its own project, he had the nivå agent
-write a message he could carry to the other three by hand, and pasted it into
-the rules file every agent on the machine reads first. Every task starts with
-him, and when two sessions need to know about each other, he carries the
+with four agents on one computer, each on its own project, he had the nivå
+agent write a message he could carry to the other three by hand, and pasted it
+into the rules file every agent on the machine reads first. Every task starts
+with him, and when two sessions need to know about each other, he carries the
 message. That does not scale to agents that plan, build, review and publish
 while the founder does something else, and it keeps him in details he does not
 want to be in.
@@ -48,17 +48,21 @@ a branch to read before it is pushed — instead of all the time.
 ## Steve Yegge's iterations
 
 The setup we run is built on open-source work that Steve Yegge started in
-October 2025 with Beads, an issue tracker he describes as memory for coding
-agents rather than a to-do list for people. In January 2026 came Gas Town, his
-orchestrator: up to thirty agent sessions coordinating through Beads, a dozen
-or so active at a time, with a fixed cast of roles and a thesis we have
-adopted wholesale, in his words: "an agent is not a session" — sessions are
-disposable, the work is persistent. In April 2026 Gas City arrived: in his
-words, "Gas Town, but torn apart and rewritten from the ground up as an SDK
-for building your own dark factories". He is careful to say that he did not
-write it — Julian Knutsen and Chris Sells did. Then in August 2026, "Fences,
-not Sandboxes" described the organisation of fifty to sixty agents he runs,
-governed by written rules rather than by containment.
+October 2025 with [Beads](https://github.com/gastownhall/beads), an issue
+tracker he describes as memory for coding agents rather than a to-do list for
+people. In January 2026 came [Gas
+Town](https://yegge.ai/essays/welcome-to-gas-town/), his orchestrator: up to
+thirty agent sessions coordinating through Beads, a dozen or so active at a
+time, with a fixed cast of roles and a thesis we have adopted wholesale, in
+his words: "an agent is not a session" — sessions are disposable, the work is
+persistent. In April 2026 [Gas
+City](https://yegge.ai/essays/welcome-to-gas-city/) arrived: in his words,
+"Gas Town, but torn apart and rewritten from the ground up as an SDK for
+building your own dark factories". He is careful to say that he did not write
+it — Julian Knutsen and Chris Sells did. Then in August 2026, "[Fences, not
+Sandboxes](https://yegge.ai/essays/fences-not-sandboxes/)" described the
+organisation of fifty to sixty agents he runs, governed by written rules
+rather than by containment.
 
 {% figure "timeline" %}
 
@@ -97,16 +101,16 @@ by cage — a fence, in the definition he quotes, is "any mechanism that turns
 you away if you aren't supposed to be there".
 
 Yegge runs fifty to sixty agents; we run a handful of sessions at a time on
-one laptop and mean to run one factory per project — so far there is one, for
-this site. The org chart is small: a mayor the founder talks to, and a floor
-of roles taken as they are from the upstream starter pack — requirements,
-plan, plan review, decomposition, implementation, three review lanes, a
-publisher — each started as a session when a build step needs it and retired
-afterwards. Our own contribution so far is the mayor's prompt, laptop-sized
-limits on how many sessions run at once and the rules of a shared machine. The
-founder's gate sits at the plan, since the second build. No agent pushes on
-its own: publishing means a branch the founder reads locally, and nothing
-reaches GitHub until he says so. He talks to the mayor over Discord.
+one computer and mean to run one factory per project — so far there is one,
+for this site. The org chart is small: a mayor the founder talks to, and a
+floor of roles taken as they are from the upstream starter pack —
+requirements, plan, plan review, decomposition, implementation, three review
+lanes, a publisher — each started as a session when a build step needs it and
+retired afterwards. Our own contribution so far is the mayor's prompt, limits
+on how many sessions one computer runs at once and the rules of a shared
+machine. The founder's gate sits at the plan, since the second build. No agent
+pushes on its own: publishing means a branch the founder reads locally, and
+nothing reaches GitHub until he says so. He talks to the mayor over Discord.
 
 ## One build, in numbers
 
