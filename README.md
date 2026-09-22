@@ -231,7 +231,12 @@ Brödtext i Markdown.
   `category` must be one of the keys above (an unknown key fails the build
   naming the file and listing the allowed keys), and `draft`, `aiGenerated`
   and `humanReviewed` must be booleans. `lang` comes from the directory; do
-  not set it in the file.
+  not set it in the file. A bad `date` is reported first and on its own,
+  because Eleventy reads the date before anything else — for example
+  `Invalid article front matter in ./src/en/blog/posts/new-article.md: date
+  must be YYYY-MM-DD or YYYY-MM-DDTHH:MM(:SS)(Z), got "2026-09-22 23:00"` —
+  and any other problem in the file on the next build, once the date is
+  right.
 - **Length.** The content gate (`pnpm check:content`) counts the words of the
   built English article body: 300–600 for the two seed articles (REQ-006) and
   300–1,500 for every later article. The Swedish twin is not counted, and

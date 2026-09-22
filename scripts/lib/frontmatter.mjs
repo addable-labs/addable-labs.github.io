@@ -1,5 +1,6 @@
-// Article front-matter validation (REQ-018), shared by the Eleventy
-// preprocessor in eleventy.config.js and the unit tests.
+// Article front-matter validation (REQ-018), shared by eleventy.config.js —
+// the date as Eleventy maps it, everything else in a preprocessor — and the
+// unit tests.
 //
 // Every article is one Markdown file per language under src/<lang>/blog/posts/
 // with this front matter (documented in the README):
@@ -117,10 +118,10 @@ function isRealCalendarDay(year, month, day) {
  * Date at UTC midnight) arrives here as a Date and only has to be a real one.
  * A *string* date has a higher bar to clear: Eleventy parses it with Luxon —
  * `DateTime.fromISO(value, { zone: "utc" })` in @11ty/eleventy/src/Template.js
- * — and throws the whole build when Luxon says invalid. So this gate must
- * never accept a string Luxon would reject, or an article passes `pnpm check`
- * and then reds the build, with an error naming Eleventy rather than the front
- * matter that caused it.
+ * — and throws the whole build when Luxon says invalid. This gate runs just
+ * before that parse (`validateArticleDate` below), so it must never accept a
+ * string Luxon would reject: one it let through would still stop the build,
+ * but in Eleventy's words, which name neither the rule nor the fix.
  *
  * `new Date()` cannot be the judge of that, because V8 is more forgiving than
  * Luxon in exactly the two ways a person writes a date by hand:
@@ -149,6 +150,34 @@ function isValidDate(value) {
   return parts !== null && isRealCalendarDay(Number(parts[1]), Number(parts[2]), Number(parts[3]));
 }
 
+function dateProblem(date) {
+  return `date must be ${DATE_FORMS}, got ${JSON.stringify(date)}`;
+}
+
+function invalidFrontMatter(file, problems) {
+  return new Error(`Invalid article front matter in ${file}: ${problems.join("; ")}`);
+}
+
+/**
+ * Check an article's date on its own: throws the Error `validateArticle`
+ * throws for that date, word for word, and returns nothing.
+ *
+ * eleventy.config.js calls this as Eleventy maps the date (si-xpn0), which
+ * is before any preprocessor runs, so a bad date fails the build in our words
+ * rather than in Eleventy's; `validateArticle` would come too late.
+ *
+ * A date Eleventy does not parse — none at all, or an empty one; it falls
+ * back to the file's own dates instead — is left to `validateArticle`, which
+ * reports it with the file's other problems.
+ *
+ * @param {*} date                   the date as the data cascade holds it
+ * @param {object} [options]
+ * @param {string} [options.file]    path used in the error message
+ */
+export function validateArticleDate(date, { file = "article" } = {}) {
+  if (date && !isValidDate(date)) throw invalidFrontMatter(file, [dateProblem(date)]);
+}
+
 /**
  * Validate one article's data. Throws an Error whose message names the file
  * and every problem found; returns the list of problems (empty) otherwise.
@@ -172,7 +201,7 @@ export function validateArticle(data, { allowedCategories, dirLang, file = "arti
     problems.push("description must be a non-empty string");
   }
   if (data.date !== undefined && !isValidDate(data.date)) {
-    problems.push(`date must be ${DATE_FORMS}, got ${JSON.stringify(data.date)}`);
+    problems.push(dateProblem(data.date));
   }
   if (data.category !== undefined && !allowedCategories.includes(data.category)) {
     problems.push(
@@ -196,7 +225,7 @@ export function validateArticle(data, { allowedCategories, dirLang, file = "arti
     problems.push(`lang ${JSON.stringify(data.lang)} does not match the directory language ${JSON.stringify(dirLang)}`);
   }
   if (problems.length > 0) {
-    throw new Error(`Invalid article front matter in ${file}: ${problems.join("; ")}`);
+    throw invalidFrontMatter(file, problems);
   }
   return problems;
 }
