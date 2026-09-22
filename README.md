@@ -143,6 +143,18 @@ Brödtext i Markdown.
   the "Draft:" / "Utkast:" prefix in the feed item's title. Setting it to
   `false` removes the label everywhere; nothing is ever excluded from the
   build.
+- **Scheduling.** An article dated after today is built but not listed, so
+  articles can be prepared in advance: it is absent from `/blog/`, from its
+  category page, from the landing page's newest three, from the "more from the
+  blog" band on the other articles, from both feeds and from the sitemap until
+  the day it is dated. Its own page is still built at its real URL — that is
+  how a scheduled article is previewed — so **it is unlisted, not secret**:
+  anyone with the URL can read it. Never put anything confidential in one. The
+  date is compared at UTC midnight, so an article dated today is listed all day
+  whatever the build machine's timezone. A static site has no clock, so a
+  scheduled article appears only on the next build: the deployment workflow
+  rebuilds and redeploys `main` once a day for exactly that reason (see
+  *Deployment*).
 - **`machineTranslated: true`** shows a "Machine-translated" chip and a
   notice saying the text has not yet been reviewed by a person. Clear it
   once the translation has been read. English files keep `false`.
@@ -292,8 +304,8 @@ after a `pnpm build`:
 | pages | `pnpm check:pages` | Per page: `header`/`nav`/`main`/`footer` once, one `h1`, no skipped heading levels, the skip link is the first focusable element, `html[lang]` matches the path, every `img` has `alt`/`width`/`height`, unique title, description, canonical, Open Graph tags, three `hreflang` alternates, the feed link, the language switch, scripts only from the site's origin, no cross-origin resource (font preloads and `@font-face` sources included), HTML + CSS ≤ 150 KB, and on both landing pages CSS + JavaScript ≤ 60 KB compressed. |
 | contrast | `pnpm check:contrast` | `src/assets/css/tokens.css` keeps its structure (dark by default, light only under the toggle's `[data-theme="light"]`, every fallback equal to its dark value, no OS media query, no token outside `:root`); every colour pair meets WCAG AA in both themes (4.5:1 text, 3:1 UI); no colour literal outside `tokens.css`. |
 | parity | `pnpm check:parity` | Every English page has its Swedish twin and vice versa, the feeds pair up, the strings files have identical keys with no empty values, pages pair one-to-one, the machine-translated notice appears only where flagged. |
-| feeds | `pnpm check:feeds` | Both feeds are well-formed RSS 2.0 with absolute links, exactly the language's articles, draft labels, items that carry the prose only (no `<figure>`), and every page links its feed. |
-| content | `pnpm check:content` | The facts the site must state: one `h1` in the hero, the primary `mailto:` call to action with a subject, the nivå button honouring `site.nivaUrl`, the three service headings, the six apps in data order with the private ones unlinked and the public ones linked once, the trust section's phrase, founder, article link and proof link, the latest-writing cards, the founding month on the about page; on every page the footer's address, the LinkedIn rule, the language switches, the toggle and the feed link; no private-repository link, no "StockSight", no factory name; article lengths and draft labels. The pinned facts are the constants at the top of `scripts/check/content.mjs`. |
+| feeds | `pnpm check:feeds` | Both feeds are well-formed RSS 2.0 with absolute links, exactly the language's listed articles — never one dated after today — draft labels, items that carry the prose only (no `<figure>`), and every page links its feed. |
+| content | `pnpm check:content` | The facts the site must state: one `h1` in the hero, the primary `mailto:` call to action with a subject, the nivå button honouring `site.nivaUrl`, the three service headings, the six apps in data order with the private ones unlinked and the public ones linked once, the trust section's phrase, founder, article link and proof link, the latest-writing cards, the founding month on the about page; on every page the footer's address, the LinkedIn rule, the language switches, the toggle and the feed link; no private-repository link, no "StockSight", no factory name; article lengths and draft labels; and that an article dated after today is built but listed in neither its language's blog index nor its feed. The pinned facts are the constants at the top of `scripts/check/content.mjs`. |
 | lighthouse | `pnpm check:lighthouse` | Serves `_site/` locally, runs Lighthouse 13 (mobile configuration) in headless Chrome on `/`, `/sv/`, `/about/`, `/blog/`, a category page, an article and `/404.html`: Performance, Accessibility, Best Practices and SEO each ≥ 95 and cumulative layout shift ≤ 0.1, one line per page. |
 | layout | `pnpm check:layout` | Renders `/` and `/sv/` at 360, 768, 1024, 1280 and 1920 px in headless Chrome and measures the balanced cards: every service and app title one line, cards in a row equal in height with their "What you get" heading / summary tops and action rows aligned (± 1 px), every chip row one line. Renders every article page at the same widths and measures the article layout: no horizontal scroll, every text block at most 44 rem wide, centred in the body and on one shared left edge, every wide figure across the body, every inline figure on the measure and centred with its panel 20–24.5 rem wide and its caption beside the panel from 768 px (top-aligned, after the gap) and under it below, every panel rendered so a 13-unit label is at least 12 px. `LAYOUT_DUMP=<file>` writes the raw measurements (the source of `tests/fixtures/layout/article.json`). |
 
@@ -328,12 +340,21 @@ gates' `SKIP` path with `CHROME_PATH=/nonexistent`).
 `main` it installs the dependencies and runs `pnpm check` — build plus all
 gates, with `CHECK_REQUIRE_CHROME=1` so the Chrome-backed gates may never
 skip — and `pnpm test`, and never deploys. On a push to `main` (a merged pull
-request; `main` is protected) and on a manual *Run workflow*, it runs the same
-check and tests, uploads `_site/` with `actions/upload-pages-artifact` and
-deploys it with `actions/deploy-pages`. Every action is pinned to a commit
-SHA, the workflow needs no secrets (the deploy job uses the run's OIDC token
-with `pages: write` and `id-token: write`), and the repository's Pages source
-is set to *GitHub Actions*.
+request; `main` is protected), on the daily schedule and on a manual *Run
+workflow*, it runs the same check and tests, uploads `_site/` with
+`actions/upload-pages-artifact` and deploys it with `actions/deploy-pages`.
+Every action is pinned to a commit SHA, the workflow needs no secrets (the
+deploy job uses the run's OIDC token with `pages: write` and `id-token:
+write`), and the repository's Pages source is set to *GitHub Actions*.
+
+**The daily rebuild.** `schedule: cron: "17 4 * * *"` builds and deploys `main`
+every day at 04:17 UTC. It is what makes a scheduled article (see *Add an
+article*) appear on the day it is dated: the site is static, so the date is
+read at build time and nothing changes until the next build. A scheduled run
+takes the same path as a push — everything but a pull request deploys — and
+uses the default branch. GitHub disables a cron in a repository with no
+activity for 60 days; if that happens the Actions tab says so, and *Run
+workflow* both deploys and re-enables it.
 
 **About the `CNAME` file.** `src/CNAME` (`addablelabs.se`) is copied into the
 output as REQ-020 asks, but GitHub's documentation is explicit: "If you are

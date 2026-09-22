@@ -11,6 +11,7 @@ import { readdir, readFile, stat } from "node:fs/promises";
 import path from "node:path";
 import process from "node:process";
 import { pathToFileURL } from "node:url";
+import { isScheduled } from "./frontmatter.mjs";
 
 export const ROOT = path.resolve(new URL("../..", import.meta.url).pathname);
 
@@ -107,7 +108,11 @@ export async function exists(file) {
   }
 }
 
-/** Articles of a language from the source tree: slug, draft flag, title, url path. */
+/**
+ * Articles of a language from the source tree: slug, draft flag, title, url
+ * path, date and whether the article is scheduled — dated after today, so it
+ * is built but no listing shows it yet (si-gxyg).
+ */
 export async function readArticleSources(srcDir, site, lang) {
   const dir = path.join(srcDir, lang, "blog", "posts");
   let files = [];
@@ -124,11 +129,14 @@ export async function readArticleSources(srcDir, site, lang) {
     const field = (key) =>
       (new RegExp(`^${key}:\\s*(.*)$`, "m").exec(frontMatter)?.[1] ?? "").replace(/\s+#.*$/, "").trim();
     const slug = name.replace(/\.md$/, "");
+    const date = field("date");
     articles.push({
       slug,
       lang,
       draft: /^true\b/.test(field("draft")),
       title: field("title"),
+      date,
+      scheduled: isScheduled(date),
       path: `${prefix}/blog/${slug}/`,
       url: `${site.url}${prefix}/blog/${slug}/`,
     });

@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
-import { REQUIRED_KEYS, validateArticle } from "../scripts/lib/frontmatter.mjs";
+import { isScheduled, REQUIRED_KEYS, validateArticle } from "../scripts/lib/frontmatter.mjs";
 
 const allowedCategories = ["app-development", "ai-journey"];
 const valid = {
@@ -40,5 +40,37 @@ describe("article front-matter validator", () => {
   it("accepts ISO date strings and rejects nonsense dates", () => {
     assert.deepEqual(validateArticle({ ...valid, date: "2026-09-20" }, { allowedCategories }), []);
     assert.throws(() => validateArticle({ ...valid, date: "yesterday" }, { allowedCategories }), /date must be a valid date/);
+  });
+});
+
+// The rule the build and the gates share (si-gxyg): an article dated after
+// today is built but listed nowhere until the day it is dated.
+describe("scheduled articles", () => {
+  // Late on 22 September UTC, and the same instant seen from a machine two
+  // hours ahead — the comparison must give the same answer in both.
+  const lateOn22nd = new Date("2026-09-22T23:30:00Z");
+
+  it("does not schedule an article dated today, at any hour of that day", () => {
+    assert.equal(isScheduled("2026-09-22", new Date("2026-09-22T00:00:00Z")), false);
+    assert.equal(isScheduled("2026-09-22", lateOn22nd), false);
+    assert.equal(isScheduled(new Date("2026-09-22"), lateOn22nd), false);
+  });
+
+  it("does not schedule an article dated in the past", () => {
+    assert.equal(isScheduled("2026-09-21", lateOn22nd), false);
+    assert.equal(isScheduled("2020-01-01", lateOn22nd), false);
+  });
+
+  it("schedules an article dated tomorrow, however little of today is left", () => {
+    assert.equal(isScheduled("2026-09-23", lateOn22nd), true);
+    assert.equal(isScheduled(new Date("2026-09-23"), lateOn22nd), true);
+    assert.equal(isScheduled("2027-01-01", lateOn22nd), true);
+  });
+
+  it("reads both the date and the moment as UTC, so no article shifts by a day", () => {
+    // 01:30 on the 23rd in Stockholm is still the 22nd in UTC: an article
+    // dated the 23rd stays scheduled until UTC reaches it.
+    assert.equal(isScheduled("2026-09-23", new Date("2026-09-22T23:30:00+02:00")), true);
+    assert.equal(isScheduled("2026-09-23", new Date("2026-09-23T00:00:00Z")), false);
   });
 });

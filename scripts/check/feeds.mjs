@@ -4,7 +4,8 @@
 // Checks the built feeds: both are well-formed XML, RSS 2.0 with a channel
 // title/link/description, every item has title/link/guid/pubDate, item links
 // are absolute (site.url) and carry the language prefix of their feed, each
-// feed lists exactly that language's articles (from src/<lang>/blog/posts),
+// feed lists exactly that language's listed articles (from src/<lang>/blog/
+// posts, minus the ones dated after today, which are built but unlisted),
 // draft articles carry the localised label in the item title, an item's
 // content carries the prose only — no <figure>: the inline-SVG article
 // illustrations are stripped by the feed templates (si-55iu) because their
@@ -61,7 +62,11 @@ async function checkFeed(feed) {
   report.check(textOf(channel.link).startsWith(site.url), `${feed.file}: channel link is absolute (${textOf(channel.link)})`);
 
   const items = asArray(channel.item);
-  const expected = await readArticleSources(src, site, feed.lang);
+  // A scheduled article (dated after today) is built but unlisted, so the feed
+  // must not carry it and must carry every other article (si-gxyg).
+  const sources = await readArticleSources(src, site, feed.lang);
+  const expected = sources.filter((entry) => !entry.scheduled);
+  const scheduled = sources.filter((entry) => entry.scheduled);
   const draftLabel = strings[feed.lang].article.draftLabel;
   report.check(items.length > 0, `${feed.file}: has items (${items.length})`);
 
@@ -88,7 +93,9 @@ async function checkFeed(feed) {
     }
   }
   const missing = expected.filter((entry) => !seen.has(entry.slug)).map((entry) => entry.slug);
-  report.check(missing.length === 0, `${feed.file}: every ${feed.lang} article appears${missing.length ? ` (missing: ${missing.join(", ")})` : ""}`);
+  report.check(missing.length === 0, `${feed.file}: every listed ${feed.lang} article appears${missing.length ? ` (missing: ${missing.join(", ")})` : ""}`);
+  const early = scheduled.filter((entry) => xml.includes(entry.url)).map((entry) => entry.slug);
+  report.check(early.length === 0, `${feed.file}: no scheduled article${scheduled.length ? ` (${scheduled.map((entry) => `${entry.slug} on ${entry.date}`).join(", ")})` : ""}${early.length ? ` — listed early: ${early.join(", ")}` : ""}`);
 }
 
 async function checkPageFeedLinks() {

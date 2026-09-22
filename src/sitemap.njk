@@ -2,11 +2,14 @@
 permalink: /sitemap.xml
 eleventyExcludeFromCollections: true
 ---
-{#- Every page of both languages (the 404 page, feeds, robots and this file are
-    excluded from collections) with hreflang alternates (REQ-016, REQ-010). -#}
+{#- Every listed page of both languages (the 404 page, feeds, robots and this
+    file are excluded from collections) with hreflang alternates (REQ-016,
+    REQ-010). `listed` drops the articles dated after today: a scheduled
+    article still builds at its real URL, but it is not advertised to search
+    engines before the day it is dated (si-gxyg). -#}
 <?xml version="1.0" encoding="utf-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
-{%- for item in collections.all %}
+{%- for item in collections.all | listed %}
 {%- if item.data.translationKey and item.data.alternate %}
 {%- set englishUrl = item.url if item.data.lang == site.languages.default else item.data.alternate.url %}
   <url>

@@ -312,10 +312,20 @@ for (const lang of site.languages.codes) {
     report.check(more !== null && (more.querySelectorAll("a[href]") ?? []).some((a) => attr(a, "href") === `${prefixOf(lang)}/blog/`), `${rel}: "more from the blog" links the ${lang} blog index`);
     if (listing) {
       // REQ-013, REQ-016: the listings are .post cards whose title link is the
-      // article and whose draft label is the .chip-draft chip.
+      // article and whose draft label is the .chip-draft chip. An article
+      // dated after today is built, as the page above, but listed nowhere
+      // until that day (si-gxyg).
       const entry = listing.doc.querySelectorAll(".post").find((item) => attr(item.querySelector(".post-title a"), "href") === article.path);
-      report.check(entry !== undefined, `${lang} blog index lists ${article.path}`);
-      if (entry) report.check((text(entry.querySelector(".chip-draft")) === draftLabel) === article.draft, `${lang} blog index entry for ${article.slug} ${article.draft ? "carries" : "omits"} "${draftLabel}"`);
+      if (article.scheduled) {
+        report.check(entry === undefined, `${lang} blog index does not list ${article.path} before ${article.date}`);
+      } else {
+        report.check(entry !== undefined, `${lang} blog index lists ${article.path}`);
+        if (entry) report.check((text(entry.querySelector(".chip-draft")) === draftLabel) === article.draft, `${lang} blog index entry for ${article.slug} ${article.draft ? "carries" : "omits"} "${draftLabel}"`);
+      }
+    }
+    if (article.scheduled) {
+      report.check(!feed.includes(article.url), `${lang} feed has no item for ${article.slug} before ${article.date}`);
+      continue;
     }
     const itemTitle = new RegExp(`<title>${article.draft ? `${draftLabel}: ` : ""}[^<]*</title>[\\s\\S]*?<link>${article.url.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}</link>`);
     report.check(itemTitle.test(feed), `${lang} feed item for ${article.slug} ${article.draft ? `carries "${draftLabel}"` : "present"}`);

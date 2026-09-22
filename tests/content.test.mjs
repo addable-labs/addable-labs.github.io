@@ -3,7 +3,7 @@ import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { after, before, describe, it } from "node:test";
 import { walk } from "../scripts/lib/site.mjs";
-import { buildSite, copyDir, runGate, SRC, tempDir } from "./helpers.mjs";
+import { buildSite, copyDir, copyProject, runGate, SRC, tempDir } from "./helpers.mjs";
 
 // What the founder's documented step (README open item 5) sets in site.js.
 const LINKEDIN_URL = "https://www.linkedin.com/company/addable-labs";
@@ -194,5 +194,132 @@ describe("content gate", () => {
     const { status, output } = runGate("content", broken);
     assert.equal(status, 1);
     assert.match(output, /FAIL {2}index\.html: contains "github\.com\/PeterBlenessy\/portfolio-app"/);
+  });
+});
+
+// Scheduled articles (founder ask 2026-09-22, si-gxyg): an article dated after
+// today is built at its real URL but listed nowhere until the day it is dated,
+// so articles can be prepared in advance. The cases build a copy of src/ with
+// two extra articles — one dated tomorrow, one dated today — so the real tree
+// carries no fixture of its own, and compare that build with one of the real
+// tree.
+describe("scheduled posts", () => {
+  // The blog index of the real tree, newest first, as it stands today: the
+  // exclusion must neither reorder nor drop anything. Add a line when an
+  // article is added.
+  const EN_ORDER = [
+    "/blog/ashlands-what-one-prompt-built/",
+    "/blog/why-we-run-an-agent-run-factory/",
+    "/blog/how-this-site-was-built-by-agents/",
+    "/blog/lessons-from-building-niva/",
+  ];
+  const SV_ORDER = EN_ORDER.map((url) => `/sv${url}`);
+
+  let tmp;
+  let built; // the build of the copy that carries the two extra articles
+  let builtSrc; // that copy's source tree, for the gates
+  let real; // the repository's own tree, for the order comparison
+  before(async () => {
+    tmp = await tempDir("scheduled-");
+    const project = await copyProject(path.join(tmp.dir, "project"));
+    builtSrc = path.join(project, "src");
+    await writeArticlePair(project, "scheduled-tomorrow", utcDate(1), "Dated tomorrow", "Daterad i morgon");
+    await writeArticlePair(project, "published-today", utcDate(0), "Dated today", "Daterad i dag");
+    built = buildSite(path.join(tmp.dir, "site"), {}, project);
+    real = buildSite(path.join(tmp.dir, "real"));
+  });
+  after(() => tmp.cleanup());
+
+  /** YYYY-MM-DD, `offset` days from today in UTC — the unit the collections compare. */
+  function utcDate(offset) {
+    const now = new Date();
+    return new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + offset)).toISOString().slice(0, 10);
+  }
+
+  /** Write one article, both languages, into a copy of the project. */
+  async function writeArticlePair(project, slug, date, enTitle, svTitle) {
+    for (const [lang, title] of [["en", enTitle], ["sv", svTitle]]) {
+      const frontMatter = ["---", `title: ${title}`, `description: ${title}, one sentence.`, `date: ${date}`, "category: app-development", `translationKey: ${slug}`, "draft: false", `machineTranslated: ${lang === "sv"}`, "---"];
+      // A body long enough to clear the content gate's 300-word floor, so the
+      // gates can run against this build as they do against the real one.
+      const body = `The body of ${title}.\n\n${"One sentence of filler prose, written only to give this fixture article its words. ".repeat(30)}`;
+      await writeFile(path.join(project, "src", lang, "blog", "posts", `${slug}.md`), `${frontMatter.join("\n")}\n\n${body}\n`);
+    }
+  }
+
+  /** The article URLs of a built listing page, in the order it lists them. */
+  async function listed(out, ...parts) {
+    const html = await readFile(path.join(out, ...parts), "utf8");
+    // The heading carries an id from the IdAttributePlugin.
+    return [...html.matchAll(/class="post-title"[^>]*><a href="([^"]+)"/g)].map(([, url]) => url);
+  }
+
+  it("lists neither language of an article dated tomorrow, and does list one dated today", async () => {
+    // The blog index of each language, the category page the two extra
+    // articles belong to and the landing page's newest three.
+    const pages = [["blog", "index.html"], ["blog", "app-development", "index.html"], ["index.html"], ["sv", "blog", "index.html"], ["sv", "blog", "app-development", "index.html"], ["sv", "index.html"]];
+    for (const page of pages) {
+      const urls = await listed(built, ...page);
+      const prefix = page[0] === "sv" ? "/sv" : "";
+      assert.deepEqual(urls.filter((url) => url.endsWith("-tomorrow/")), [], page.join("/"));
+      assert.deepEqual(urls.filter((url) => url.endsWith("-today/")), [`${prefix}/blog/published-today/`], page.join("/"));
+    }
+  });
+
+  it("keeps an article dated tomorrow out of both feeds", async () => {
+    for (const feed of [["feed.xml"], ["sv", "feed.xml"]]) {
+      const xml = await readFile(path.join(built, ...feed), "utf8");
+      assert.doesNotMatch(xml, /scheduled-tomorrow/, feed.join("/"));
+      assert.match(xml, /published-today/, feed.join("/"));
+      // lastBuildDate reads the same collection, so it never runs ahead either.
+      const [, lastBuild] = xml.match(/<lastBuildDate>([^<]+)<\/lastBuildDate>/);
+      assert.ok(new Date(lastBuild) < new Date(`${utcDate(1)}T00:00:00Z`), `${feed.join("/")}: lastBuildDate ${lastBuild} runs ahead of the newest listed article`);
+    }
+  });
+
+  it("keeps an article dated tomorrow out of the sitemap", async () => {
+    const xml = await readFile(path.join(built, "sitemap.xml"), "utf8");
+    assert.doesNotMatch(xml, /scheduled-tomorrow/);
+    assert.match(xml, /<loc>https:\/\/addablelabs\.se\/blog\/published-today\/<\/loc>/);
+    assert.match(xml, /<loc>https:\/\/addablelabs\.se\/sv\/blog\/published-today\/<\/loc>/);
+  });
+
+  it("still builds the scheduled article at its own URL in both languages (unlisted, not secret)", async () => {
+    const en = await readFile(path.join(built, "blog", "scheduled-tomorrow", "index.html"), "utf8");
+    assert.match(en, /<h1[^>]*>Dated tomorrow<\/h1>/);
+    assert.match(en, /The body of Dated tomorrow\./);
+    const sv = await readFile(path.join(built, "sv", "blog", "scheduled-tomorrow", "index.html"), "utf8");
+    assert.match(sv, /<h1[^>]*>Daterad i morgon<\/h1>/);
+    // Reachable: each page sits at the URL its own canonical names, and the
+    // two point at each other through the language switch.
+    assert.match(en, /<link rel="canonical" href="https:\/\/addablelabs\.se\/blog\/scheduled-tomorrow\/"/);
+    assert.match(sv, /<link rel="canonical" href="https:\/\/addablelabs\.se\/sv\/blog\/scheduled-tomorrow\/"/);
+    assert.match(en, /href="\/sv\/blog\/scheduled-tomorrow\/"/);
+    assert.match(sv, /href="\/blog\/scheduled-tomorrow\/"/);
+  });
+
+  it("leaves the feeds gate and the content gate passing, naming the article they expect to be absent", () => {
+    // The gates read the source tree, so they see the scheduled article and
+    // must expect exactly the opposite of a listed one: the founder's first
+    // scheduled article must not turn the workflow red.
+    const feeds = runGate("feeds", built, builtSrc);
+    assert.equal(feeds.status, 0, feeds.output);
+    assert.match(feeds.output, /ok {4}feed\.xml: no scheduled article \(scheduled-tomorrow on \d{4}-\d{2}-\d{2}\)/);
+    assert.match(feeds.output, /ok {4}sv\/feed\.xml: no scheduled article \(scheduled-tomorrow on \d{4}-\d{2}-\d{2}\)/);
+    const content = runGate("content", built, builtSrc);
+    assert.equal(content.status, 0, content.output);
+    assert.match(content.output, /ok {4}en blog index does not list \/blog\/scheduled-tomorrow\/ before \d{4}-\d{2}-\d{2}/);
+    assert.match(content.output, /ok {4}sv feed has no item for scheduled-tomorrow before \d{4}-\d{2}-\d{2}/);
+    assert.match(content.output, /ok {4}en blog index lists \/blog\/published-today\//);
+  });
+
+  it("leaves the order of the articles that are listed unchanged", async () => {
+    assert.deepEqual(await listed(real, "blog", "index.html"), EN_ORDER);
+    assert.deepEqual(await listed(real, "sv", "blog", "index.html"), SV_ORDER);
+    // The same order inside the build that also carries the two extra
+    // articles: the one dated today takes its place among them by date and the
+    // one dated tomorrow is not there, and nothing else moves.
+    assert.deepEqual((await listed(built, "blog", "index.html")).filter((url) => !url.endsWith("-today/")), EN_ORDER);
+    assert.deepEqual((await listed(built, "sv", "blog", "index.html")).filter((url) => !url.endsWith("-today/")), SV_ORDER);
   });
 });

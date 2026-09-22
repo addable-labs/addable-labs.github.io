@@ -7,7 +7,7 @@
 // first gate is `pnpm build` into the real _site/.
 
 import { spawnSync } from "node:child_process";
-import { cp, mkdtemp, rm } from "node:fs/promises";
+import { cp, mkdtemp, rm, symlink } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 
@@ -25,10 +25,18 @@ export async function tempDir(prefix = "gates-") {
   return { dir, cleanup: () => rm(dir, { recursive: true, force: true }) };
 }
 
-/** Build the real site into `outDir` with Eleventy (quiet). Throws on failure. */
-export function buildSite(outDir, env = {}) {
-  const result = spawnSync(process.execPath, [path.join(ROOT, "node_modules", "@11ty", "eleventy", "cmd.cjs"), "--quiet", `--output=${outDir}`], {
-    cwd: ROOT,
+/**
+ * Build the site into `outDir` with Eleventy (quiet). Throws on failure.
+ * `cwd` builds a copy of the project (see `copyProject`) instead of the
+ * repository itself — used by cases that need an article the repository does
+ * not carry. Eleventy reads the config, the input directory and the
+ * collections' globs relative to the working directory, so a copy is built
+ * from its own directory rather than with `--input`.
+ */
+export function buildSite(outDir, env = {}, cwd = ROOT) {
+  const args = [path.join(ROOT, "node_modules", "@11ty", "eleventy", "cmd.cjs"), "--quiet", `--output=${outDir}`];
+  const result = spawnSync(process.execPath, args, {
+    cwd,
     encoding: "utf8",
     env: { ...process.env, ...env },
   });
@@ -62,4 +70,19 @@ export function runHtmlValidate(out) {
 export async function copyDir(from, to) {
   await cp(from, to, { recursive: true });
   return to;
+}
+
+/**
+ * Copy into `dir` everything a build reads — the Eleventy config, the source
+ * tree and the library the config imports — and link the repository's
+ * node_modules beside it, so `buildSite(out, {}, dir)` builds that copy
+ * exactly as the repository builds itself. Cases that need a source tree the
+ * repository does not carry edit the copy and build it.
+ */
+export async function copyProject(dir) {
+  for (const entry of ["eleventy.config.js", "package.json", "src", "scripts"]) {
+    await cp(path.join(ROOT, entry), path.join(dir, entry), { recursive: true });
+  }
+  await symlink(path.join(ROOT, "node_modules"), path.join(dir, "node_modules"), "dir");
+  return dir;
 }

@@ -27,6 +27,24 @@ export const REQUIRED_KEYS = [
 
 const SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
+/**
+ * A scheduled article is one dated after today (founder ask 2026-09-22,
+ * si-gxyg): it is built at its real URL but no listing shows it until the day
+ * it is dated. The comparison is on the calendar date at UTC midnight, like
+ * the site's `localeDate` and `isoDate` filters, so an article dated today is
+ * listed all day whatever the build machine's timezone. The build reads this
+ * from eleventy.config.js and the gates from scripts/lib/site.mjs, so the two
+ * can never drift apart.
+ */
+export function isScheduled(date, now = new Date()) {
+  const when = date instanceof Date ? date : new Date(date);
+  return utcDay(when) > utcDay(now);
+}
+
+function utcDay(date) {
+  return Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate());
+}
+
 export function isSlug(value) {
   return typeof value === "string" && SLUG.test(value);
 }

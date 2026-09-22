@@ -1,7 +1,7 @@
 import { readFileSync, statSync } from "node:fs";
 import { IdAttributePlugin } from "@11ty/eleventy";
 import rssPlugin from "@11ty/eleventy-plugin-rss";
-import { validateArticle } from "./scripts/lib/frontmatter.mjs";
+import { isScheduled, validateArticle } from "./scripts/lib/frontmatter.mjs";
 import site from "./src/_data/site.js";
 
 // Paths copied verbatim into _site/: the stylesheets and mark, the SVG favicon
@@ -35,6 +35,16 @@ function byDateDescThenSlug(a, b) {
   return b.date - a.date || a.fileSlug.localeCompare(b.fileSlug);
 }
 
+// Scheduled articles (founder ask 2026-09-22, si-gxyg): an article dated after
+// today is still built at its real URL — that is how it gets previewed — but
+// no listing shows it until the day it is dated, so articles can be prepared
+// in advance. It is unlisted, not secret. `isScheduled` (frontmatter.mjs)
+// holds the rule; anything that is not an article is always listed, which
+// matters for collections.all, the collection the sitemap walks.
+function isListed(item) {
+  return !ARTICLE_PATH.test(item.inputPath) || !isScheduled(item.date);
+}
+
 export default function (eleventyConfig) {
   // Markdown: raw HTML allowed, no typographic replacements. markdown-it is
   // Eleventy's own dependency; amendLibrary configures that instance without
@@ -63,21 +73,31 @@ export default function (eleventyConfig) {
     validateArticle(data, { allowedCategories: CATEGORY_KEYS, dirLang: match[1], file });
   });
 
-  // posts_<lang>: every article of a language, newest first;
-  // posts_<lang>_<category>: the same filtered to one category.
+  // posts_<lang>: every listed article of a language, newest first;
+  // posts_<lang>_<category>: the same filtered to one category. Both drop the
+  // scheduled articles, so the blog index, the category pages, the landing
+  // page's newest three, the article pages' "more from the blog" band and both
+  // feeds inherit the exclusion — including the feeds' lastBuildDate, which
+  // reads the collection and so never runs ahead of the newest listed article.
   for (const lang of LANGUAGES) {
     eleventyConfig.addCollection(`posts_${lang}`, (api) =>
-      api.getFilteredByGlob(`src/${lang}/blog/posts/*.md`).sort(byDateDescThenSlug),
+      api.getFilteredByGlob(`src/${lang}/blog/posts/*.md`).filter(isListed).sort(byDateDescThenSlug),
     );
     for (const key of CATEGORY_KEYS) {
       eleventyConfig.addCollection(`posts_${lang}_${key}`, (api) =>
         api
           .getFilteredByGlob(`src/${lang}/blog/posts/*.md`)
           .filter((post) => post.data.category === key)
+          .filter(isListed)
           .sort(byDateDescThenSlug),
       );
     }
   }
+
+  // The sitemap walks collections.all, not the collections above, so it needs
+  // the same exclusion of its own: a scheduled article is not advertised to
+  // search engines either (si-gxyg).
+  eleventyConfig.addFilter("listed", (items) => (items ?? []).filter(isListed));
 
   // Dates: `localeDate` renders a Date for humans in the page's language
   // ("September 20, 2026" / "20 september 2026"); `isoDate` gives the

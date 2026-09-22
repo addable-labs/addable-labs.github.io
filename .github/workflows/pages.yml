@@ -1,9 +1,11 @@
 # Build, check and deploy the Addable Labs website (REQ-019, REQ-021).
 #
 # Pull requests targeting main run the build, every quality gate (pnpm check)
-# and the gate tests (pnpm test) and never deploy. Pushes to main and manual
-# dispatches build, check, test, upload _site/ as the Pages artifact and deploy
-# it with the official Pages actions. Every action is pinned to a full commit SHA (the tag is in the
+# and the gate tests (pnpm test) and never deploy. Pushes to main, the daily
+# schedule and manual dispatches build, check, test, upload _site/ as the Pages
+# artifact and deploy it with the official Pages actions — everything but a
+# pull request takes the deploying path (`github.event_name != 'pull_request'`
+# below). Every action is pinned to a full commit SHA (the tag is in the
 # trailing comment); permissions are the minimum each job needs; no secrets
 # are referenced — deploy-pages authenticates with the job's OIDC token.
 name: Build and deploy to GitHub Pages
@@ -13,6 +15,13 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+  # A static site has no clock: an article dated in the future appears only on
+  # the next build, so main is rebuilt and redeployed once a day, early UTC
+  # (si-gxyg). Scheduled runs always use the default branch. GitHub disables a
+  # cron in a repository with no activity for 60 days; re-enable it from the
+  # Actions tab (or run the workflow by hand) if that ever happens.
+  schedule:
+    - cron: "17 4 * * *" # 04:17 UTC daily, off the hour — GitHub's scheduler is busiest on it
   workflow_dispatch:
 
 permissions:
