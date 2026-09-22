@@ -53,3 +53,62 @@ describe("feeds gate", () => {
     assert.match(output, /FAIL {2}sv\/feed\.xml: well-formed XML/);
   });
 });
+
+// Feed dates (si-vdle): the pages print every date in UTC — the `localeDate`
+// and `isoDate` filters in eleventy.config.js — and the feeds must too, or the
+// same commit builds a different feed on a different machine. The RSS
+// plugin's `dateToRfc822` writes the build machine's time zone unless it is
+// given one: before the feeds passed it "UTC", CI (which builds in UTC)
+// published "Tue, 22 Sep 2026 00:00:00 +0000" where a build in Stockholm wrote
+// "Tue, 22 Sep 2026 02:00:00 +0200" — the same instant, written differently.
+// The cases build the site in UTC and on either side of it: in Los Angeles a
+// date at UTC midnight falls on the day before.
+describe("feed dates", () => {
+  const ELSEWHERE = ["Europe/Stockholm", "America/Los_Angeles"];
+  const ZONES = ["UTC", ...ELSEWHERE];
+  const FEEDS = [["feed.xml"], ["sv", "feed.xml"]];
+  let tmp;
+  const built = {};
+  before(async () => {
+    tmp = await tempDir("feed-dates-");
+    for (const zone of ZONES) {
+      built[zone] = buildSite(path.join(tmp.dir, zone.replace("/", "-")), { TZ: zone });
+    }
+  });
+  after(() => tmp.cleanup());
+
+  const read = (zone, feed) => readFile(path.join(built[zone], ...feed), "utf8");
+
+  /** The lines on which two texts differ, as [line number, this line, that line]. */
+  function differingLines(text, other) {
+    const these = text.split("\n");
+    const those = other.split("\n");
+    const rows = Array.from({ length: Math.max(these.length, those.length) }, (_, index) => [index + 1, these[index], those[index]]);
+    return rows.filter(([, line, otherLine]) => line !== otherLine);
+  }
+
+  it("writes every pubDate and lastBuildDate in UTC, as +0000, whatever the build machine's time zone", async () => {
+    for (const zone of ZONES) {
+      for (const feed of FEEDS) {
+        const where = `${feed.join("/")} built in ${zone}`;
+        const dates = [...(await read(zone, feed)).matchAll(/<(?:pubDate|lastBuildDate)>([^<]*)</g)].map(([, date]) => date);
+        assert.ok(dates.length > 1, `${where} carries a lastBuildDate and the items' pubDates`);
+        for (const date of dates) {
+          // toUTCString() writes the same instant in RFC 822's shape, in UTC,
+          // naming the zone "GMT" where the feeds write "+0000".
+          assert.equal(date, new Date(date).toUTCString().replace(/GMT$/, "+0000"), where);
+        }
+      }
+    }
+  });
+
+  it("builds the same feeds in Stockholm and in Los Angeles as in UTC, where CI builds the published ones", async () => {
+    for (const feed of FEEDS) {
+      const published = await read("UTC", feed);
+      for (const zone of ELSEWHERE) {
+        // The differing lines only, so a failure names them rather than printing two whole feeds.
+        assert.deepEqual(differingLines(await read(zone, feed), published), [], `${feed.join("/")} built in ${zone}, line by line against the build in UTC`);
+      }
+    }
+  });
+});

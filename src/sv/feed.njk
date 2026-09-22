@@ -11,7 +11,7 @@ humanReviewed: true
     <link>{{ ("/" if lang == site.languages.default else "/" + lang + "/") | absoluteUrl(site.url) }}</link>
     <description>{{ strings[lang].feed.description }}</description>
     <language>{{ lang }}</language>
-    <lastBuildDate>{{ collections["posts_" + lang] | getNewestCollectionItemDate | dateToRfc822 }}</lastBuildDate>
+    <lastBuildDate>{{ collections["posts_" + lang] | getNewestCollectionItemDate | dateToRfc822("UTC") }}</lastBuildDate>
     <atom:link href="{{ page.url | absoluteUrl(site.url) }}" rel="self" type="application/rss+xml"/>
 {%- for post in collections["posts_" + lang] %}
 {%- set absolutePostUrl = post.url | absoluteUrl(site.url) %}
@@ -19,7 +19,7 @@ humanReviewed: true
       <title>{% if post.data.draft %}{{ strings[lang].article.draftLabel }}: {% endif %}{{ post.data.title }}</title>
       <link>{{ absolutePostUrl }}</link>
       <guid isPermaLink="true">{{ absolutePostUrl }}</guid>
-      <pubDate>{{ post.date | dateToRfc822 }}</pubDate>
+      <pubDate>{{ post.date | dateToRfc822("UTC") }}</pubDate>
       <description>{{ post.data.description }}</description>
       <category>{{ strings[lang].categories[post.data.category] }}</category>
       <content:encoded>{{ post.templateContent | withoutFigures | htmlToAbsoluteUrls(absolutePostUrl) }}</content:encoded>
