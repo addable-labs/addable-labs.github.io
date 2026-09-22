@@ -42,37 +42,31 @@
     "title": "factory · build-basic · website",
     "lines": {
       "requirements": {
-        "time": "19:34",
         "stage": "requirements",
-        "text": "31 reqs, 29 criteria",
+        "text": "31 reqs, 31 criteria",
         "state": "done"
       },
       "plan": {
-        "time": "19:49",
         "stage": "plan",
         "text": "design system, landing",
         "state": "done"
       },
       "review": {
-        "time": "20:43",
         "stage": "review",
         "text": "plan reviewed, approved",
         "state": "done"
       },
       "implement": {
-        "time": "22:13",
         "stage": "implement",
         "text": "10 work items, 1 branch",
         "state": "done"
       },
       "gates": {
-        "time": "--:--",
         "stage": "gates",
         "text": "ten gates on the build",
         "state": "10/10"
       },
       "founder": {
-        "time": "--:--",
         "stage": "founder",
         "text": "reviews and approves",
         "state": "waiting"

@@ -7,9 +7,12 @@
     site.nivaUrl is null it is an honest early-access mailto:, once the
     founder sets the URL it links there and reads "Try nivå" with no template
     change. Then the proof line and the console: an honest log of this
-    factory's build stages, every line a string, rendered as a four-column
-    subgrid (time | stage | text | state) with the caret on the last line.
-    Stagger indices come from the :nth-child rules in base.css. -#}
+    factory's build stages, every line a string, rendered as a three-column
+    subgrid (stage | text | state) with the caret on the last line. It carries
+    no times (si-qr13): the timed record of that run is the "build" figure in
+    "Why we run an agent-run software factory", which names its clock (UTC)
+    and gives each stage the time it closed. Stagger indices come from the
+    :nth-child rules in base.css. -#}
 {%- set hero = strings[lang].hero -%}
 {%- set console = strings[lang].console -%}
 <section class="hero" aria-labelledby="hero-title">
@@ -40,7 +43,7 @@
       </div>
       <ol class="console-log">
         {%- for key, line in console.lines %}
-        <li class="log-line"><span class="log-time">{{ line.time }}</span><span class="log-stage">{{ line.stage }}</span><span class="log-text">{{ line.text }}</span>{% if loop.last %}<span class="log-wait">{{ line.state }}<span class="caret" aria-hidden="true"></span></span>{% else %}<span class="log-ok">{{ line.state }}</span>{% endif %}</li>
+        <li class="log-line"><span class="log-stage">{{ line.stage }}</span><span class="log-text">{{ line.text }}</span>{% if loop.last %}<span class="log-wait">{{ line.state }}<span class="caret" aria-hidden="true"></span></span>{% else %}<span class="log-ok">{{ line.state }}</span>{% endif %}</li>
         {%- endfor %}
       </ol>
     </figure>
