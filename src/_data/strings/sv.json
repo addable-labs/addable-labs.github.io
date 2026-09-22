@@ -42,37 +42,31 @@
     "title": "factory · build-basic · website",
     "lines": {
       "requirements": {
-        "time": "19:34",
         "stage": "requirements",
-        "text": "31 krav, 29 kriterier",
+        "text": "31 krav, 31 kriterier",
         "state": "klart"
       },
       "plan": {
-        "time": "19:49",
         "stage": "plan",
         "text": "designsystem, startsida",
         "state": "klart"
       },
       "review": {
-        "time": "20:43",
         "stage": "review",
         "text": "plan granskad, godkänd",
         "state": "klart"
       },
       "implement": {
-        "time": "22:13",
         "stage": "implement",
         "text": "10 arbetspaket, 1 gren",
         "state": "klart"
       },
       "gates": {
-        "time": "--:--",
         "stage": "gates",
         "text": "tio grindar på bygget",
         "state": "10/10"
       },
       "founder": {
-        "time": "--:--",
         "stage": "founder",
         "text": "granskar och godkänner",
         "state": "väntar"
