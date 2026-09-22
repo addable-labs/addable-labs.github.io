@@ -1177,6 +1177,18 @@ html:not(.js) .theme-toggle {
   margin-top: var(--space-2);
 }
 
+/* Aktiebolagslagen 28 kap. 5 §: the company name, its organisation number and
+   its registered seat, published on the website. No 32 ch measure here — the
+   three facts read as one line wherever the column is wide enough, and only a
+   narrow column wraps them. */
+.footer-brand .company-line {
+  max-width: none;
+}
+
+.company-line span {
+  white-space: nowrap;
+}
+
 .footer-heading {
   font-size: var(--text-xs);
   text-transform: uppercase;
@@ -1207,12 +1219,6 @@ html:not(.js) .theme-toggle {
 
 .footer-list .lang-switch-footer {
   padding: 0;
-}
-
-.contact-placeholder {
-  display: inline-flex;
-  align-items: center;
-  min-height: 44px;
 }
 
 .footer-controls .theme-toggle {

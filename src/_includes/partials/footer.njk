@@ -1,11 +1,12 @@
-{#- Site footer (REQ-014, AC-15), three columns: brand + factory line; Contact —
-    the email as visible text inside mailto: and the LinkedIn entry per
-    site.linkedinUrl (placeholder text with no href while null, a link once the
-    founder sets it — REQ-029, unchanged mechanism; the content gate and its
-    test depend on li.contact-placeholder); Site — the language switch to the
-    same path in the other language (a.lang-switch-footer, absent on the 404
-    page), the RSS link to the page language's feed and the appearance toggle.
-    Column headings are h2 so heading order holds on every page. -#}
+{#- Site footer (REQ-014, AC-15), three columns: brand + factory line + the
+    company line — name, organisation number and registered seat, which
+    aktiebolagslagen 28 kap. 5 § makes a limited company publish on its
+    website (the town, never the street address, which is the founder's home);
+    Contact — the email as visible text inside mailto:; Site — the language
+    switch to the same path in the other language (a.lang-switch-footer,
+    absent on the 404 page), the RSS link to the page language's feed and the
+    appearance toggle. Column headings are h2 so heading order holds on every
+    page. -#}
 {%- set langPrefix = "" if lang == site.languages.default else "/" + lang -%}
 <footer class="site-footer">
   <div class="container footer-grid">
@@ -15,16 +16,17 @@
         <span class="wordmark">{{ strings[lang].site.wordmark }}<span class="wordmark-dim">{{ strings[lang].site.wordmarkDim }}</span></span>
       </a>
       <p class="factory-line">{{ strings[lang].footer.factoryLine }}</p>
+      {#- Each fact of the company line stays on one line: the line is split on
+          its separators and every fact rendered in a nowrap span, so a narrow
+          column breaks between facts and never inside one ("Säte:" away from
+          "Eslöv"). The visible text is the string, separators and all. -#}
+      {%- set companyFacts = strings[lang].footer.company.split(" · ") %}
+      <p class="company-line">{% for fact in companyFacts %}{% if not loop.first %} · {% endif %}<span>{{ fact }}</span>{% endfor %}</p>
     </div>
     <div>
       <h2 class="footer-heading">{{ strings[lang].footer.contact }}</h2>
       <ul class="footer-list">
         <li><a href="mailto:{{ site.email }}">{{ site.email }}</a></li>
-        {%- if site.linkedinUrl %}
-        <li><a href="{{ site.linkedinUrl }}">{{ strings[lang].contact.linkedinLabel }}</a></li>
-        {%- else %}
-        <li class="contact-placeholder">{{ strings[lang].contact.linkedinPlaceholder }}</li>
-        {%- endif %}
       </ul>
     </div>
     <div>

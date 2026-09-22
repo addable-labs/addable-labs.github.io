@@ -179,6 +179,7 @@
   },
   "footer": {
     "factoryLine": "Den här webbplatsen byggs och underhålls av en agentdriven mjukvarufabrik.",
+    "company": "Addable Labs AB · Org.nr 559602-2615 · Säte: Eslöv",
     "contact": "Kontakt",
     "site": "Webbplats",
     "rss": "RSS"
@@ -768,9 +769,7 @@
     "eyebrow": "Kontakt",
     "heading": "Har du en idé?",
     "text": "Berätta om appen du har i tankarna, var ditt team står med AI eller ett projekt du skulle lämna över till ett team av AI-agenter. Vi svarar inom ett par dagar.",
-    "cta": "Hör av dig",
-    "linkedinLabel": "LinkedIn",
-    "linkedinPlaceholder": "LinkedIn – kommer snart"
+    "cta": "Hör av dig"
   },
   "about": {
     "title": "Om oss",

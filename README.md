@@ -315,16 +315,20 @@ an app without breaking the balance*.
   by hand. The hero's primary call to action links the apps section
   (`#apps`) instead: since founder feedback round 1 the site promotes what
   exists rather than "Start a project".
-- `linkedinUrl` — `null` until the founder decides between a company page and a
-  founder profile (`// TODO(founder)` in the file). While it is `null` every
-  footer shows the placeholder text "LinkedIn — coming soon"; once set, the
-  same partial renders a real link.
-- `nivaUrl` — `null` until nivå has a public URL (`// TODO(founder)`). While
-  it is `null` the hero's secondary call to action is an honest early-access
-  `mailto:` ("Get early access to nivå" / "Få tidig tillgång till nivå");
-  once set, the same button reads "Try nivå" / "Prova nivå" and links there,
-  with no template change. The content gate checks whichever state applies.
+- `nivaUrl` — `null` until nivå has a public URL. While it is `null` the
+  hero's secondary call to action is an honest early-access `mailto:` ("Get
+  early access to nivå" / "Få tidig tillgång till nivå"); once set, the same
+  button reads "Try nivå" / "Prova nivå" and links there, with no template
+  change. The content gate checks whichever state applies.
 - `languages` — `en` (default, at the root) and `sv`.
+
+The company line in every footer is copy, not a `site.js` fact: `footer.company`
+in `src/_data/strings/{en,sv}.json`, "Addable Labs AB · Org.nr 559602-2615 ·
+Registered office: Eslöv" and its Swedish counterpart with "Säte: Eslöv".
+Aktiebolagslagen 28 kap. 5 § makes a limited company state its name, its
+organisation number and its registered seat on its website; the seat is the
+town, and the street address — the founder's home — is never published, nor is
+any private email address or phone number. The content gate pins both lines.
 
 ## Quality gates
 
@@ -345,7 +349,7 @@ after a `pnpm build`:
 | contrast | `pnpm check:contrast` | `src/assets/css/tokens.css` keeps its structure (dark by default, light only under the toggle's `[data-theme="light"]`, every fallback equal to its dark value, no OS media query, no token outside `:root`); every colour pair meets WCAG AA in both themes (4.5:1 text, 3:1 UI); no colour literal outside `tokens.css`. |
 | parity | `pnpm check:parity` | Every English page has its Swedish twin and vice versa, the feeds pair up, the strings files have identical keys with no empty values, pages pair one-to-one. |
 | feeds | `pnpm check:feeds` | Both feeds are well-formed RSS 2.0 with absolute links, exactly the language's listed articles — never one dated after today, and never a draft unless this is a development build — draft labels, items that carry the prose only (no `<figure>`), and every page links its feed. |
-| content | `pnpm check:content` | The facts the site must state: one `h1` in the hero, the primary `mailto:` call to action with a subject, the nivå button honouring `site.nivaUrl`, the three service headings, the six apps in data order with the private ones unlinked and the public ones linked once, the trust section's phrase, founder, article link and proof link, the latest-writing cards, the founding month on the about page; on every page the footer's address, the LinkedIn rule, the language switches, the toggle and the feed link; no private-repository link, no "StockSight", no factory name; article lengths and draft labels; that an article dated after today is built but listed in neither its language's blog index nor its feed; and that a draft is listed and built in a development build but has no page at all in the published one. The pinned facts are the constants at the top of `scripts/check/content.mjs`. |
+| content | `pnpm check:content` | The facts the site must state: one `h1` in the hero, the primary `mailto:` call to action with a subject, the nivå button honouring `site.nivaUrl`, the three service headings, the six apps in data order with the private ones unlinked and the public ones linked once, the trust section's phrase, founder, article link and proof link, the latest-writing cards, the founding month on the about page; on every page the footer's address, the company line with the organisation number and the registered seat, the language switches, the toggle and the feed link; no private-repository link, no "StockSight", no factory name; article lengths and draft labels; that an article dated after today is built but listed in neither its language's blog index nor its feed; and that a draft is listed and built in a development build but has no page at all in the published one. The pinned facts are the constants at the top of `scripts/check/content.mjs`. |
 | lighthouse | `pnpm check:lighthouse` | Serves `_site/` locally, runs Lighthouse 13 (mobile configuration) in headless Chrome on `/`, `/sv/`, `/about/`, `/blog/`, a category page, an article and `/404.html`: Performance, Accessibility, Best Practices and SEO each ≥ 95 and cumulative layout shift ≤ 0.1, one line per page. |
 | layout | `pnpm check:layout` | Renders `/` and `/sv/` at 360, 768, 1024, 1280 and 1920 px in headless Chrome and measures the balanced cards: every service and app title one line, cards in a row equal in height with their "What you get" heading / summary tops and action rows aligned (± 1 px), every chip row one line. Renders every article page at the same widths and measures the article layout: no horizontal scroll, every text block at most 44 rem wide, centred in the body and on one shared left edge, every wide figure across the body, every inline figure on the measure and centred with its panel 20–24.5 rem wide and its caption beside the panel from 768 px (top-aligned, after the gap) and under it below, every panel rendered so a 13-unit label is at least 12 px. `LAYOUT_DUMP=<file>` writes the raw measurements (the source of `tests/fixtures/layout/article.json`). |
 
@@ -467,15 +471,11 @@ pair.
 4. **Enforce HTTPS** — same settings page, tick *Enforce HTTPS* when the
    option becomes available (GitHub issues the certificate after the domain
    check; this can take up to 24 hours).
-5. **LinkedIn URL** — decide between a company page and a founder profile and
-   set `linkedinUrl` in `src/_data/site.js` (the `TODO(founder)` comment). The
-   placeholder "LinkedIn — coming soon" in every footer turns into a link; no
-   template change needed.
-6. **nivå URL** — set `nivaUrl` in `src/_data/site.js` (the `TODO(founder)`
-   comment) once nivå has a public address. Until then the hero's secondary
-   button is the early-access `mailto:`; afterwards it reads "Try nivå" /
-   "Prova nivå" and links there, with no template change.
-7. **Copy review — English.** The redesign wrote new English copy for the
+5. **nivå URL** — set `nivaUrl` in `src/_data/site.js` once nivå has a public
+   address. Until then the hero's secondary button is the early-access
+   `mailto:`; afterwards it reads "Try nivå" / "Prova nivå" and links there,
+   with no template change.
+6. **Copy review — English.** The redesign wrote new English copy for the
    landing page (hero, console lines, the three services and their "What
    you get" lists, the apps section and the six one-liners, the trust
    section, the writing and contact sections), the about page (lead,
@@ -486,7 +486,7 @@ pair.
    section, REQ-012).
    The service headings are the short forms ("AI-powered apps", "AI
    adoption", "Investing tools") because a card title must fit one line.
-8. **Copy review — Swedish.** Every Swedish string below was written by the
+7. **Copy review — Swedish.** Every Swedish string below was written by the
    factory and not yet reviewed by a person (`machineTranslated: true` still
    records that on `src/sv/index.njk`, `src/sv/about.njk` and every article
    under `src/sv/blog/posts/`, but nothing on the page says so any more;
@@ -529,13 +529,13 @@ pair.
    - the Swedish text of the Ashlands post itself
      (`src/sv/blog/posts/ashlands-what-one-prompt-built.md`, si-wqb7),
      including the founder's quotes, which are translated from English
-9. **The four unlisted repositories.** TraceLoupe, airlocked-agents, Stoqster
+8. **The four unlisted repositories.** TraceLoupe, airlocked-agents, Stoqster
    and investable were removed from the apps grid at your request ("not
    sure" was read as do-not-publish); say so if any of them should return —
    it is one data entry, two strings entries and its key in `APP_KEYS` each
    (see *Add an app*).
-10. **A manual Lighthouse report** is needed only if CI ever loses Chrome;
-    today the gate runs on every pull request and push.
+9. **A manual Lighthouse report** is needed only if CI ever loses Chrome;
+   today the gate runs on every pull request and push.
 
 The status labels of marketdata-api ("private · API keys on request") and
 Compound ("in development") and the about page's GRC note were settled at

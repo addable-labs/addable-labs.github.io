@@ -20,10 +20,10 @@
 //     month ("September 2026" / "september 2026") and no founder section
 //     (founder call 2026-09-22: a company page, not a personal one)
 //   - every page's footer: mailto:hello@addablelabs.se with the address as
-//     text, the LinkedIn entry as visible text with no href while
-//     site.linkedinUrl is null and as a link once set, the language switch to
-//     the counterpart path (footer and header), the appearance toggle and the
-//     link to the page language's feed
+//     text, the company line the law asks for — name, organisation number and
+//     registered seat (si-98hh) — the language switch to the counterpart path
+//     (footer and header), the appearance toggle and the link to the page
+//     language's feed
 //   - no GitHub links for private repositories; StockSight-AI and the factory
 //     are absent everywhere
 //   - both seed articles exist in both languages, the seed articles are
@@ -53,6 +53,10 @@ const prefixOf = (lang) => (lang === site.languages.default ? "" : `/${lang}`);
 const FOUNDER = "Peter Blenessy";
 const MONTH = { en: "September 2026", sv: "september 2026" };
 const FACTORY_PHRASE = { en: "agent-run software factory", sv: "agentdriven mjukvarufabrik" };
+// Aktiebolagslagen 28 kap. 5 § (si-98hh): a limited company states its name,
+// its organisation number and its registered seat on its website. The seat is
+// the town; the street address is the founder's home and is never published.
+const COMPANY = { en: "Addable Labs AB · Org.nr 559602-2615 · Registered office: Eslöv", sv: "Addable Labs AB · Org.nr 559602-2615 · Säte: Eslöv" };
 // REQ-012 (AC-13): "AI-native" or its Swedish rendering ("AI-nativt").
 const AI_NATIVE = { en: "AI-native", sv: "AI-nativ" };
 // REQ-009 (AC-09; plan D-11): while site.nivaUrl is null the secondary CTA is
@@ -198,12 +202,12 @@ for (const lang of site.languages.codes) {
   report.check(about.doc.querySelectorAll('main a[href^="mailto:hello@addablelabs.se"]').length >= 1, `${rel}: mailto:hello@addablelabs.se in the page body`);
 }
 
-// Every page: footer contact, LinkedIn placeholder or link, language switch,
-// toggle, feed link, forbidden links and names
+// Every page: footer contact, the company line, language switch, toggle, feed
+// link, forbidden links and names
 const pages = [];
 for (const file of await walk(out, ".html")) pages.push(await loadPage(file, out, site));
 let footerProblems = 0;
-let linkedinProblems = 0;
+let companyProblems = 0;
 let controlProblems = 0;
 let forbiddenProblems = 0;
 for (const p of pages) {
@@ -214,25 +218,13 @@ for (const p of pages) {
     footerProblems += 1;
     report.fail(`${p.relPath}: footer lacks the mailto:hello@addablelabs.se link with the address as text`);
   }
-  if (!text(footer).includes("LinkedIn")) {
-    linkedinProblems += 1;
-    report.fail(`${p.relPath}: footer lacks the LinkedIn entry`);
-  }
-  // Follow site.js (README open item 5): once the founder sets linkedinUrl,
-  // contact.njk renders a link to it and every footer must carry that link;
-  // while it is null, LinkedIn is placeholder text and no href may point at it.
-  if (site.linkedinUrl) {
-    if (!footer || !footer.querySelectorAll("a[href]").some((a) => attr(a, "href") === site.linkedinUrl)) {
-      linkedinProblems += 1;
-      report.fail(`${p.relPath}: footer lacks the LinkedIn link to ${site.linkedinUrl}`);
-    }
-  } else {
-    for (const a of p.doc.querySelectorAll("a[href]")) {
-      if (/linkedin/i.test(attr(a, "href") ?? "")) {
-        linkedinProblems += 1;
-        report.fail(`${p.relPath}: LinkedIn is a hyperlink (${attr(a, "href")}); expected placeholder text while site.linkedinUrl is null`);
-      }
-    }
+  // The company line the law asks for, in the page's language. Read from the
+  // rendered text, so the facts are checked as a visitor sees them however
+  // the partial marks them up.
+  const company = COMPANY[p.lang];
+  if (!text(footer).includes(company)) {
+    companyProblems += 1;
+    report.fail(`${p.relPath}: footer lacks the company line "${company}"`);
   }
   // REQ-014 (AC-15): the language switches point at the counterpart page —
   // the other language's hreflang alternate in the head — in the footer
@@ -276,7 +268,7 @@ for (const file of await walk(out, ".xml")) {
   }
 }
 report.check(footerProblems === 0, `every page's footer links mailto:hello@addablelabs.se with the address as text (${pages.length} pages)`);
-report.check(linkedinProblems === 0, site.linkedinUrl ? `LinkedIn links ${site.linkedinUrl} on every page` : "LinkedIn appears as placeholder text with no href");
+report.check(companyProblems === 0, `every page's footer states "${COMPANY[site.languages.default]}" in the page's language (${pages.length} pages)`);
 report.check(controlProblems === 0, "every page carries the language switch to its counterpart, the appearance toggle and the feed link");
 report.check(forbiddenProblems === 0, "no links to private repositories, no StockSight-AI, no factory name");
 

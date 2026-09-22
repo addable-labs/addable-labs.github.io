@@ -2,11 +2,7 @@ import assert from "node:assert/strict";
 import { readFile, stat, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { after, before, describe, it } from "node:test";
-import { walk } from "../scripts/lib/site.mjs";
-import { buildSite, copyDir, copyProject, runGate, SRC, tempDir } from "./helpers.mjs";
-
-// What the founder's documented step (README open item 5) sets in site.js.
-const LINKEDIN_URL = "https://www.linkedin.com/company/addable-labs";
+import { buildSite, copyDir, copyProject, runGate, tempDir } from "./helpers.mjs";
 
 // The content gate re-targeted to the Signal landing model (REQ-024 as
 // amended by A-01; AC-09 … AC-15): the real build passes, and every
@@ -14,14 +10,9 @@ const LINKEDIN_URL = "https://www.linkedin.com/company/addable-labs";
 describe("content gate", () => {
   let tmp;
   let built;
-  let srcWithUrl;
   before(async () => {
     tmp = await tempDir("content-");
     built = buildSite(path.join(tmp.dir, "site"));
-    // The real source tree with linkedinUrl set instead of null.
-    srcWithUrl = await copyDir(SRC, path.join(tmp.dir, "src-linkedin"));
-    const siteJs = path.join(srcWithUrl, "_data", "site.js");
-    await writeFile(siteJs, (await readFile(siteJs, "utf8")).replace("linkedinUrl: null,", `linkedinUrl: ${JSON.stringify(LINKEDIN_URL)},`));
   });
   after(() => tmp.cleanup());
 
@@ -36,10 +27,13 @@ describe("content gate", () => {
     return copy;
   }
 
-  it("passes on the real build", () => {
-    const { status, output } = runGate("content", built);
+  it("passes on the real build, stating the company line on every page (si-98hh)", () => {
+    // CHECK_QUIET=0 so the passing run prints its ok lines and the rule can be
+    // read back from them.
+    const { status, output } = runGate("content", built, undefined, { CHECK_QUIET: "0" });
     assert.equal(status, 0, output);
     assert.match(output, /PASS content/);
+    assert.match(output, /ok {4}every page's footer states "Addable Labs AB · Org\.nr 559602-2615 · Registered office: Eslöv" in the page's language/);
   });
 
   it("fails when the founder's name disappears from the trust section (REQ-012)", async () => {
@@ -107,24 +101,18 @@ describe("content gate", () => {
     assert.match(output, /FAIL {2}index\.html: contains "StockSight"/);
   });
 
-  it("passes once site.linkedinUrl is set and every footer links it", async () => {
-    // The build patched the way footer.njk renders the entry once the URL is
-    // set: the placeholder item becomes a link, everywhere the block appears.
-    const linked = await copyDir(built, path.join(tmp.dir, "linkedin-link"));
-    for (const file of await walk(linked, ".html")) {
-      await writeFile(file, (await readFile(file, "utf8")).replaceAll(/<li class="contact-placeholder">[^<]*<\/li>/g, `<li><a href="${LINKEDIN_URL}">LinkedIn</a></li>`));
-    }
-    const { status, output } = runGate("content", linked, srcWithUrl);
-    assert.equal(status, 0, output);
-    assert.match(output, /PASS content/);
-    assert.match(output, /ok {4}LinkedIn links https:\/\/www\.linkedin\.com\/company\/addable-labs on every page/);
+  it("fails when a footer drops the company line the law asks for (si-98hh)", async () => {
+    const broken = await withLandingEdit("no-company-line", (html) => html.replace(/<p class="company-line">.*?<\/p>/s, ""));
+    const { status, output } = runGate("content", broken);
+    assert.equal(status, 1);
+    assert.match(output, /FAIL {2}index\.html: footer lacks the company line "Addable Labs AB · Org\.nr 559602-2615 · Registered office: Eslöv"/);
   });
 
-  it("fails when site.linkedinUrl is set but the pages still show the placeholder", () => {
-    const { status, output } = runGate("content", built, srcWithUrl);
+  it("fails when a footer states the organisation number wrong (si-98hh)", async () => {
+    const broken = await withLandingEdit("wrong-org-nr", (html) => html.replace("559602-2615", "556000-0000"));
+    const { status, output } = runGate("content", broken);
     assert.equal(status, 1);
-    assert.match(output, /FAIL {2}index\.html: footer lacks the LinkedIn link to https:\/\/www\.linkedin\.com\/company\/addable-labs/);
-    assert.match(output, /FAIL {2}sv\/about\/index\.html: footer lacks the LinkedIn link to/);
+    assert.match(output, /FAIL {2}index\.html: footer lacks the company line/);
   });
 
   /** A copy of the build with `count` filler words prepended to one article's body. */

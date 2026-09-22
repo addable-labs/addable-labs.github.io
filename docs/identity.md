@@ -330,13 +330,15 @@ change colour, border, transform and box-shadow only.
   and `rel="alternate"`, pointing at the same page in the other language;
   absent on the 404 page, which has no counterpart.
 - **Footer.** A hairline on top, three columns from 48 rem (2fr / 1fr /
-  1fr): brand at 24 px with the factory line; *Contact* — the address as
-  visible text inside `mailto:` and the LinkedIn entry (placeholder text
-  with no `href` while `site.linkedinUrl` is null, a link once set); *Site*
-  — the language switch, the RSS link to the page language's feed and the
-  toggle. Column headings are `h2` in the eyebrow style so the heading order
-  holds on every page; links are 44 px, text colour turning accent on
-  hover.
+  1fr): brand at 24 px with the factory line and, under it, the company
+  line — name, organisation number and registered seat, which
+  aktiebolagslagen 28 kap. 5 § makes a limited company publish
+  (`p.company-line`, no measure of its own, each fact in a `nowrap` span so
+  a narrow column breaks between facts); *Contact* — the address as visible
+  text inside `mailto:`; *Site* — the language switch, the RSS link to the page
+  language's feed and the toggle. Column headings are `h2` in the eyebrow
+  style so the heading order holds on every page; links are 44 px, text
+  colour turning accent on hover.
 - **Page hero, article, blog, 404.** Inner pages open with the landing
   hero's glow and grid mask behind an eyebrow, the page's only `h1` and a
   lead (`partials/page-hero.njk`; centred on the 404 page). Articles are a

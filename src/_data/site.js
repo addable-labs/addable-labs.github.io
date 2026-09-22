@@ -3,9 +3,8 @@
 export default {
   url: process.env.SITE_URL || "https://addablelabs.se",
   email: "hello@addablelabs.se",
-  // TODO(founder): company page or founder profile? Set linkedinUrl.
-  linkedinUrl: null,
-  // TODO(founder): public URL for nivå? Set nivaUrl; until then the secondary CTA is an early-access mailto (redesign REQ-009, plan D-11).
+  // No public URL for nivå yet; until there is one the secondary CTA is an
+  // early-access mailto (redesign REQ-009, plan D-11).
   nivaUrl: null,
   languages: {
     default: "en",
