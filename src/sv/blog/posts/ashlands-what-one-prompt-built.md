@@ -1,6 +1,6 @@
 ---
 title: "Ashlands: vad en enda prompt byggde"
-description: En prompt och en flotta underagenter gav 94 000 rader av ett spel som går att spela – men klarade inte den sista biten. Vad Gauntlet Loop fick rätt, vad det kostade och vad grundaren tillförde.
+description: En prompt och en flotta subagenter gav 94 000 rader av ett spel som går att spela – men klarade inte den sista biten. Vad Gauntlet Loop fick rätt, vad det kostade och vad grundaren tillförde.
 date: 2026-09-22
 category: ai-journey             # app-development | ai-journey
 translationKey: ashlands-what-one-prompt-built
@@ -12,7 +12,7 @@ humanReviewed: true              # en person har läst den
 Den 31 juli 2026 gav vi Claude Code [en enda
 prompt](https://github.com/addable-labs/ashlands#this-is-an-experiment):
 bygg ett action-rollspel i nivå med Morrowind, i Three.js, starta
-underagenter parallellt, låt en separat hård kritiker jämföra varje del sida
+subagenter parallellt, låt en separat hård kritiker jämföra varje del sida
 vid sida med det riktiga spelet och sluta inte förrän varje kritiker är
 imponerad. Ingen arkitektur, ingen uppgiftslista, ingen definition av vad som
 är klart. Bygget pågick i tre dagar; den 10 augusti skrev agenten på vår
@@ -57,7 +57,7 @@ ihop – ett ofärdigt.
 ## Vad metoden fick rätt
 
 Kontrakten först: ett namngivet gränssnitt per delsystem som bara
-kommunicerar genom en händelsebuss, vilket lät underagenter skriva terräng,
+kommunicerar genom en händelsebuss, vilket lät subagenter skriva terräng,
 himmel, strid och ljud samtidigt med nästan inga integrationskonflikter –
 rapporten kallar det det beslut som mest av allt är skälet till att kodbasen
 finns. Byggare hålls isär från kritiker: agenter som satte betyg på sitt
@@ -77,7 +77,7 @@ ge kritikern något konkret att granska.
 
 Det dyraste felet var inte dålig kod utan självsäkert felaktig diagnos. En
 utsiktspunkt renderades som ett platt terrakottafärgat svep och tre rundor
-underagenter skickades till terrängmaterialet, ljussättningen och
+subagenter skickades till terrängmaterialet, ljussättningen och
 atmosfären; alla tre mätte rätt, fann ingenting och tog tillbaka sina
 ändringar. Orsaken var en enda saknad avståndsterm i sökningen efter
 kameraläge, som hade klättrat upp på närmaste höjd och siktat rakt på
@@ -100,7 +100,7 @@ du undersöker hur andra gör". Agentens egen sammanfattning den 3 augusti är
 rakare än rapporten: "Användarens återkoppling var korrekt varje gång och
 min var det inte."
 
-Med bildfrekvensen gick det likadant: varje underagent ville nå 60 bilder
+Med bildfrekvensen gick det likadant: varje subagent ville nå 60 bilder
 per sekund på en fläktlös dator, ingen kom i närheten och vi kom på varför –
 flera agenter testade samtidigt, var och en med sin egen webbläsare och
 grafikkrets, så det som var och en mätte var inte det en spelare skulle se.
@@ -111,7 +111,7 @@ systembelastning på 37 på åtta kärnor – och ger "användaren" en enda bisa
 
 Sedan bad vi om de två saker körningen saknade: "Bygg regressionsgrinden och
 fundera på hur vi kan gå från ett slumpvandrande arbetsflöde till en tydligt
-strukturerad och avsiktlig karta över de steg underagenterna behöver ta."
+strukturerad och avsiktlig karta över de steg subagenterna behöver ta."
 Båda finns i kodförrådet nu: grinden som ingen ändring får slås samman utan
 att ha klarat och en arbetsordning som håller verifieringen till en
 webbläsare i taget och tillåter en enda ändring av det gemensamma utseendet
@@ -120,7 +120,7 @@ dagar in.
 
 ## Vad det kostade
 
-Under tre dygn startade körningen 242 underagenter i 34 arbetsflöden – som
+Under tre dygn startade körningen 242 subagenter i 34 arbetsflöden – som
 mest sju samtidigt och aldrig tio. De är kortlivade, i median fyrtio
 minuter, så totalen växte medan antalet som kördes samtidigt förblev litet:
 fem eller fler under sjutton av de sjuttiotvå timmarna – trängseln bakom

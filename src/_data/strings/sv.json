@@ -652,7 +652,7 @@
       "caption": "Gauntlet Loop, efter Matt Shumer (somethingbig.ai): målet formuleras som ett utfall, ledaragenten delar upp det i delar och varje del löper en korridor av kritiker som jämför den mot en referens – en kritiker som inte är imponerad skickar tillbaka arbetet till byggaren. Referenserna är ritade tomma eftersom ingen någonsin togs fram i den här körningen, så varje omdöme gjordes mot agentens eget minne."
     },
     "agents": {
-      "title": "Slutfasens sex underagenter: deras tokens och vad varje runda gav – en skeppad rättning, fyra avslutade utredningar och en agent som dödades av veckogränsen för tokens",
+      "title": "Slutfasens sex subagenter: deras tokens och vad varje runda gav – en skeppad rättning, fyra avslutade utredningar och en agent som dödades av veckogränsen för tokens",
       "head": "slutfasen, sex agenter",
       "wall": "~3,8 h",
       "rows": {
@@ -692,7 +692,7 @@
       "totalNote": "1 skeppad rättning, 4 avslutade utredningar",
       "footer": "~1M av dem gick till en enda bild",
       "footerNote": "vars orsak var ett kameraplaceringsfel",
-      "caption": "Slutfasen, så som utvärderingsrapporten räknar den: sex underagenter varav fem blev klara, ungefär 1,32 miljoner tokens och 654 verktygsanrop på omkring 3,8 timmar, för en skeppad visuell rättning och fyra utredningar som stängdes för gott. Den sjätte dog innan den läst en enda fil när kontot slog i veckogränsen för tokens."
+      "caption": "Slutfasen, så som utvärderingsrapporten räknar den: sex subagenter varav fem blev klara, ungefär 1,32 miljoner tokens och 654 verktygsanrop på omkring 3,8 timmar, för en skeppad visuell rättning och fyra utredningar som stängdes för gott. Den sjätte dog innan den läst en enda fil när kontot slog i veckogränsen för tokens."
     },
     "critic": {
       "title": "Kritikerns egenskaper: den här körningen mot vad du vill ha – kostnad per omdöme, parallellitet, träffsäkerhet, determinism och utpekad orsak",
@@ -737,7 +737,7 @@
     "fleet": {
       "panels": {
         "total": {
-          "title": "Hela körningen: 242 underagenter, en ruta var – 236 av dem inuti 34 arbetsflöden och 6 startade direkt",
+          "title": "Hela körningen: 242 subagenter, en ruta var – 236 av dem inuti 34 arbetsflöden och 6 startade direkt",
           "head": "under tre dygn",
           "value": "242 agenter"
         },
@@ -762,7 +762,7 @@
       "longest": "längst 3 h 10",
       "footer": "vad sju samtidigt kostade datorn",
       "footerNote": "systembelastning 37 på 8 kärnor",
-      "caption": "Två sätt att räkna samma körning. Under tre dygn startade den 242 underagenter – 236 inuti 34 arbetsflöden, 6 startade direkt – men vid varje enskilt tillfälle levde som mest sju och tio nåddes aldrig. Agenterna är kortlivade, i median fyrtio minuter, så en stor total och en liten samtidig skara är samma bild: fem eller fler kördes tillsammans under sjutton av de sjuttiotvå timmarna och den trängseln, där varje agent drev sin egen webbläsare och grafikkrets, är den kollision rapporten noterar som en systembelastning på 37 på åtta kärnor."
+      "caption": "Två sätt att räkna samma körning. Under tre dygn startade den 242 subagenter – 236 inuti 34 arbetsflöden, 6 startade direkt – men vid varje enskilt tillfälle levde som mest sju och tio nåddes aldrig. Agenterna är kortlivade, i median fyrtio minuter, så en stor total och en liten samtidig skara är samma bild: fem eller fler kördes tillsammans under sjutton av de sjuttiotvå timmarna och den trängseln, där varje agent drev sin egen webbläsare och grafikkrets, är den kollision rapporten noterar som en systembelastning på 37 på åtta kärnor."
     }
   },
   "contact": {
