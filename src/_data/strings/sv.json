@@ -169,7 +169,7 @@
         "text": "Grundat av Peter Blenessy. Publika kodförråd och ärliga utvärderingar – även de experiment som inte nådde ända fram."
       }
     },
-    "articleLabel": "Så byggdes den här webbplatsen av agenter",
+    "articleLabel": "Så byggdes den här sajten av agenter",
     "proofLabel": "Se portföljen med öppen källkod"
   },
   "writing": {
@@ -597,8 +597,8 @@
       "testNote": "jämför de två nyckeluppsättningarna",
       "fails": "en saknad nyckel stoppar bygget",
       "failsNote": "i stället för att skeppas",
-      "adopted": "den här webbplatsen följer samma regel",
-      "caption": "Var tvåspråkig från första commit: de engelska och svenska rutterna fanns innan det fanns några funktioner och gränssnittstexterna för båda språken ligger i två filer vars nyckeluppsättningar jämförs av ett enhetstest, så att en saknad översättning stoppar bygget i stället för att skeppas. Schematiskt – inga riktiga texter. Den här webbplatsen har anammat samma regel."
+      "adopted": "den här sajten följer samma regel",
+      "caption": "Var tvåspråkig från första commit: de engelska och svenska rutterna fanns innan det fanns några funktioner och gränssnittstexterna för båda språken ligger i två filer vars nyckeluppsättningar jämförs av ett enhetstest, så att en saknad översättning stoppar bygget i stället för att skeppas. Schematiskt – inga riktiga texter. Den här sajten har anammat samma regel."
     }
   },
   "contact": {
@@ -638,8 +638,8 @@
     },
     "article": {
       "label": "Arbetssättet i praktiken",
-      "title": "Så byggdes den här webbplatsen av agenter",
-      "text": "Stegen, kvalitetsgrindarna och granskningarna bakom den här webbplatsen – den första som en agentdriven mjukvarufabrik tog fram åt företaget från början till slut.",
+      "title": "Så byggdes den här sajten av agenter",
+      "text": "Stegen, kvalitetsgrindarna och granskningarna bakom den här sajten – den första som en agentdriven mjukvarufabrik tog fram åt företaget från början till slut.",
       "link": "Läs artikeln"
     }
   },

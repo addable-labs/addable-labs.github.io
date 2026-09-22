@@ -1,6 +1,6 @@
 ---
-title: Så byggdes den här webbplatsen av agenter
-description: Stegen, kvalitetsgrindarna och grundarens granskningar bakom den första webbplats som en agentdriven mjukvarufabrik tog fram från början till slut.
+title: Så byggdes den här sajten av agenter
+description: Stegen, kvalitetsgrindarna och grundarens granskningar bakom den första sajt som en agentdriven mjukvarufabrik tog fram från början till slut.
 date: 2026-09-20
 category: app-development        # app-development | ai-journey
 translationKey: how-this-site-was-built-by-agents
@@ -9,7 +9,7 @@ machineTranslated: true          # true tills en person har granskat texten
 ---
 
 Addable Labs bygger mjukvara till stor del med AI-agenter och den här
-webbplatsen är det första som en agentdriven mjukvarufabrik tog fram åt
+sajten är det första som en agentdriven mjukvarufabrik tog fram åt
 företaget från början till slut, i två byggen. Den här artikeln beskriver
 stegen, vad grundaren tittade på och de kontroller som står mellan en agents
 ändring och en publicerad sida.
@@ -32,9 +32,9 @@ beviskommando och en agent genomförde dem ett i taget på en lokal gren.
 
 {% figure "loop" %}
 
-Ingenting på den här webbplatsen blir offentligt enbart på en agents ord. Men
+Ingenting på den här sajten blir offentligt enbart på en agents ord. Men
 det första bygget kördes utan grind: krav, plan och tio arbetspaket gick
-igenom på fyra timmar och grundarens omdöme om den färdiga webbplatsen var "en
+igenom på fyra timmar och grundarens omdöme om den färdiga sajten var "en
 sida från 90-talet". Det andra bygget satte hans grind vid planen: han valde
 en av tre renderade riktningar, svarade på planens öppna frågor och gav sitt
 omdöme om resultatet på förhandsvisningen morgonen därpå. Han äger de delar

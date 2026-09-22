@@ -1,6 +1,6 @@
 ---
 title: Därför driver vi en agentdriven mjukvarufabrik
-description: Första artikeln i en serie om fabriken bakom den här webbplatsen – vad Gas City och Beads är, vad vi tog från Steve Yegges arbete och vad vi ändrade, med ett bygge i verkliga siffror.
+description: Första artikeln i en serie om fabriken bakom den här sajten – vad Gas City och Beads är, vad vi tog från Steve Yegges arbete och vad vi ändrade, med ett bygge i verkliga siffror.
 date: 2026-09-21
 category: ai-journey             # app-development | ai-journey
 translationKey: why-we-run-an-agent-run-factory
@@ -9,10 +9,10 @@ machineTranslated: true          # true tills en person har granskat texten
 ---
 
 Addable Labs bygger mjukvara till stor del med AI-agenter och sedan september
-2026 byggs och underhålls den här webbplatsen av det vi kallar fabriken: ett
+2026 byggs och underhålls den här sajten av det vi kallar fabriken: ett
 litet team av kodande agenter, organiserat som ett företag, som samordnar sig
 genom en gemensam ärendehanterare, med en person som är ansvarig för fabriken.
-Artikeln [Så byggdes den här webbplatsen av
+Artikeln [Så byggdes den här sajten av
 agenter](/sv/blog/how-this-site-was-built-by-agents/) berättade om ett bygge;
 den här serien beskriver själva uppsättningen – ett lager i taget – och börjar
 med den uppenbara frågan: varför driva något sådant över huvud taget och vad
@@ -109,7 +109,7 @@ citerar, "varje mekanism som avvisar dig om du inte ska vara där" (vår
 
 Yegge driver femtio till sextio agenter; vi kör en handfull sessioner åt
 gången på en enda dator och siktar på en fabrik per projekt – hittills finns
-en, för den här webbplatsen. Organisationsschemat är litet: en borgmästare som
+en, för den här sajten. Organisationsschemat är litet: en borgmästare som
 grundaren pratar med och ett golv av roller tagna som de är från startpaketet
 i Gas Citys paketregister – krav, plan, plangranskning, nedbrytning,
 genomförande, tre granskningsspår, en publicerare – var och en startad som en
@@ -122,7 +122,7 @@ förrän han säger till. Han pratar med borgmästaren via Discord.
 
 ## Ett bygge, i siffror
 
-Omdesignen av den här webbplatsen var fabrikens andra bygge och dokumenten den
+Omdesignen av den här sajten var fabrikens andra bygge och dokumenten den
 skrev finns i kodförrådet. Det började den 20 september 2026 klockan 17:34 UTC
 med en kort uppdragsbeskrivning och granskningsrapporten färdigställdes 00:14
 nästa morgon: sex timmar och fyrtio minuter från start till mål. Däremellan
