@@ -83,13 +83,6 @@ kameraläge, som hade klättrat upp på närmaste höjd och siktat rakt på
 toppen: ingen ändring i en shader kan rädda en bildruta utan djup. En andra
 flerrundig jakt var samma sorts fel.
 
-Och instrumenten ljög: sju defekter i själva testmiljön. Ett mätetal med fel
-riktning, så att rörelse mot målet lästes som en försämring. En kontroll som
-slog om mellan godkänt och underkänt på ett oförändrat bygge. Ett
-diagnosverktyg som ogiltigförklarade varje mätning efter den första bilden i
-en körning. Sex av dem var ledaragentens eget verk och varenda en hittades
-av en slump under jakten på något annat.
-
 ## Människan i loopen
 
 Rapporten är agentens röst och den är tunn just där människan var avgörande:
@@ -127,7 +120,15 @@ dagar in.
 
 ## Vad det kostade
 
-Sex underagenter kördes i slutfasen och fem blev klara: ungefär 1,32
+Under tre dygn startade körningen 242 underagenter i 34 arbetsflöden – som
+mest sju samtidigt och aldrig tio. De är kortlivade, i median fyrtio
+minuter, så totalen växte medan antalet som kördes samtidigt förblev litet:
+fem eller fler under sjutton av de sjuttiotvå timmarna – trängseln bakom
+systembelastningen på 37.
+
+{% figure "fleet", "wide" %}
+
+De sista sex av de 242 kördes i slutfasen och fem blev klara: ungefär 1,32
 miljoner tokens och 654 verktygsanrop på omkring 3,8 timmar, för en skeppad
 visuell rättning och fyra avslutade utredningar. Den sjätte dog innan den
 läst en enda fil när kontot slog i veckogränsen för tokens – taket för den
@@ -158,11 +159,11 @@ Vi kör agenter tvärtom – steg, kvalitetsgrindar, ett gemensamt register och
 en granskning av grundaren innan något publiceras, vilket är så [den här
 sajten byggdes](/sv/blog/how-this-site-was-built-by-agents/) och vad
 [fabriksartikeln](/sv/blog/why-we-run-an-agent-run-factory/) beskriver. I
-Shumers metod ingår att titta på körningen utan att avbryta den och hans
-egen körning styrdes inte; den här styrdes och styrningarna finns i
-kodförrådet: armarna, diagnosen av bildfrekvensen, grinden och kartan över
-steg. Instrumenten byggdes under loopen av den agent vars arbete de dömde
-och de hade fel sju gånger. Så: bygg instrumentet först och kalibrera det
+Shumers metod ingår att titta på körningen utan att avbryta den; den här
+körningen styrdes och styrningarna finns i kodförrådet: armarna, diagnosen
+av bildfrekvensen, grinden och kartan över steg. Instrumenten byggdes under
+loopen av den agent vars arbete de dömde och de hade fel sju gånger. Så:
+bygg instrumentet först och kalibrera det
 mot en känd defekt, lägg referensen i kritikerns händer före första rundan
 och håll kvar en människa där en agent inte kan tala om för dig att den har
 fel. Kontrakten först, byggare som hålls isär från kritiker och ett rent

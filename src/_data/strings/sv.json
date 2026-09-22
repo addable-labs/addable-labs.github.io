@@ -735,6 +735,36 @@
         "b": "pekar en fallerande kontroll ut delen?"
       },
       "caption": "Rapportens avslutande resonemang, som den själv märker som åsikt och inte mätning: kostnaden för loopen sätts av kritikern, inte av byggaren. Ashlands hade nära nog värsta tänkbara kritiker på varje axel. Två frågor förutsäger utfallet bättre än något annat – finns det ett körbart orakel och pekar en fallerande kontroll ut det som ska rättas."
+    },
+    "fleet": {
+      "panels": {
+        "total": {
+          "title": "Hela körningen: 242 underagenter, en ruta var – 236 av dem inuti 34 arbetsflöden och 6 startade direkt",
+          "head": "under tre dygn",
+          "value": "242 agenter"
+        },
+        "once": {
+          "title": "Samtidigt: sju agenter som mest, tio nåddes aldrig och fem eller fler levande under sjutton av de sjuttiotvå timmarna",
+          "head": "samtidigt",
+          "value": "som mest 7"
+        }
+      },
+      "launches": "236 i 34 arbetsflöden",
+      "direct": "6 startade direkt",
+      "largest": "största arbetsflödet: 27 agenter",
+      "largestNote": "i vågor – aldrig 27 samtidigt",
+      "never": "nådde aldrig 10",
+      "peak": "7 som mest",
+      "peakNote": "1 augusti – körningens toppnotering",
+      "hours": "5 eller fler",
+      "hoursValue": "17 av 72 timmar",
+      "hoursNote": "av de tre dygnen, 31 juli till 3 augusti",
+      "life": "så länge levde en agent",
+      "median": "median 40 min",
+      "longest": "längst 3 h 10",
+      "footer": "vad sju samtidigt kostade datorn",
+      "footerNote": "systembelastning 37 på 8 kärnor",
+      "caption": "Två sätt att räkna samma körning. Under tre dygn startade den 242 underagenter – 236 inuti 34 arbetsflöden, 6 startade direkt – men vid varje enskilt tillfälle levde som mest sju och tio nåddes aldrig. Agenterna är kortlivade, i median fyrtio minuter, så en stor total och en liten samtidig skara är samma bild: fem eller fler kördes tillsammans under sjutton av de sjuttiotvå timmarna och den trängseln, där varje agent drev sin egen webbläsare och grafikkrets, är den kollision rapporten noterar som en systembelastning på 37 på åtta kärnor."
     }
   },
   "contact": {

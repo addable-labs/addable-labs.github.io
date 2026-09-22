@@ -778,7 +778,89 @@ function critic(t, id, figureId) {
   return { caption: t.caption, panels: [{ title: t.title, head: t.head, height: 320, body: parts.join("") }] };
 }
 
-export const FIGURES = { stages, gates, loop, assessment, team, harness, ledger, timeline, setup, build, words, bilingual, gauntlet, agents, critic };
+// (16) Total against concurrent (founder request 2026-09-22, si-z0d3) — wide,
+// two panels in one mark: 242 squares for every sub-agent the run started,
+// against the ten slots of which seven were ever filled at the same time, so
+// the eye does the arithmetic the sentence asks for. The counts come from the
+// mayor's sweep of the run's own session transcripts (every sub-agent writes
+// its own transcript; each file's first and last event is that agent's live
+// span, and the spans were swept for maximum overlap): 242 in total, 236 of
+// them inside 34 workflow launches and 6 called directly; at most 7 alive at
+// once and never 10; 5 or more for 17 of the run's ~72 hours; a median life of
+// 40 minutes and a longest of 3 h 10. Nothing else is drawn.
+function fleet(t, id, figureId) {
+  const height = 276;
+  const MARK = 8;
+  const PITCH = 13;
+  const square = (x, y, cls) => `<rect x="${round(x)}" y="${round(y)}" width="${MARK}" height="${MARK}" rx="1.5" class="${cls}"/>`;
+
+  // Panel 1 — the whole run, one square per sub-agent; the six direct calls
+  // are the empty squares at the end of the block.
+  const total = count(`${id}.panels.total.value`, t.panels.total.value);
+  const direct = count(`${id}.direct`, t.direct);
+  const COLS = 22; // 242 = 22 x 11, so the block is exactly full
+  const marks = Array.from({ length: total }, (_, i) =>
+    square(17 + (i % COLS) * PITCH, 52 + Math.floor(i / COLS) * PITCH, i < total - direct ? "fig-cell" : "fig-node"));
+  const legend = (y, cls, key, value) => square(16, y, cls) + text(32, y + 7, fit(key, value, 264), "fig-note");
+  const whole = [
+    marks.join(""),
+    legend(204, "fig-cell", `${id}.launches`, t.launches),
+    legend(218, "fig-node", `${id}.direct`, t.direct),
+    `<line x1="16" y1="238" x2="${WIDTH - 16}" y2="238" class="fig-hair"/>`,
+    footer(id, `${id}.largest`, t.largest, 256),
+    text(40, 269, fit(`${id}.largestNote`, t.largestNote, 250), "fig-note"),
+  ].join("");
+
+  // Panel 2 — the same square, ten slots wide: the seven the run reached and
+  // the three it never did, then the hours with five or more alive and how
+  // long one agent lived (the bars are minutes, to scale).
+  const peak = count(`${id}.panels.once.value`, t.panels.once.value);
+  const SLOTS = 10; // the line the run never crossed
+  const PLATEAU = 17;
+  const SPAN = 72; // hours with five or more alive, of the run's span
+  const MEDIAN = 40;
+  const LONGEST = 190; // an agent's life in minutes: median, and 3 h 10
+  const LIFE = 130; // the longest bar's width; the median is drawn to scale
+  const slots = Array.from({ length: SLOTS }, (_, i) =>
+    (i < peak ? square(16 + i * PITCH, 58, "fig-cell") : emptyCard(16 + i * PITCH, 58, MARK)));
+  const once = [
+    slots.join(""),
+    text(152, 65, fit(`${id}.never`, t.never, 152), "fig-note fig-wait"),
+    text(16, 86, fit(`${id}.peak`, t.peak, 288, "label"), "fig-label fig-ok"),
+    text(16, 99, fit(`${id}.peakNote`, t.peakNote, 288), "fig-note"),
+    `<line x1="16" y1="112" x2="${WIDTH - 16}" y2="112" class="fig-hair"/>`,
+    text(16, 130, fit(`${id}.hours`, t.hours, 160, "small"), "fig-label fig-small"),
+    text(WIDTH - 16, 130, fit(`${id}.hoursValue`, t.hoursValue, 130, "label"), "fig-label fig-strong", "end"),
+    `<rect x="16" y="136" width="288" height="10" class="fig-row"/>`,
+    bar(16, 136, (288 * PLATEAU) / SPAN, 10, "fig-cell"),
+    text(16, 162, fit(`${id}.hoursNote`, t.hoursNote, 288), "fig-note"),
+    `<line x1="16" y1="174" x2="${WIDTH - 16}" y2="174" class="fig-hair"/>`,
+    text(16, 192, fit(`${id}.life`, t.life, 200, "small"), "fig-label fig-small"),
+    bar(16, 198, (LIFE * MEDIAN) / LONGEST, 7, "fig-cell"),
+    text(154, 204, fit(`${id}.median`, t.median, 150), "fig-note"),
+    bar(16, 212, LIFE, 7, "fig-bar-muted"),
+    text(154, 218, fit(`${id}.longest`, t.longest, 150), "fig-note"),
+    `<line x1="16" y1="232" x2="${WIDTH - 16}" y2="232" class="fig-hair"/>`,
+    footer(id, `${id}.footer`, t.footer, 252),
+    text(40, 265, fit(`${id}.footerNote`, t.footerNote, 250), "fig-note"),
+  ].join("");
+
+  const head = (key) => ({
+    title: t.panels[key].title,
+    head: t.panels[key].head,
+    headRight: { value: fit(`${id}.panels.${key}.value`, t.panels[key].value, 104, "head"), cls: "" },
+    height,
+  });
+  return {
+    caption: t.caption,
+    panels: [
+      { ...head("total"), body: whole },
+      { ...head("once"), body: once },
+    ],
+  };
+}
+
+export const FIGURES = { stages, gates, loop, assessment, team, harness, ledger, timeline, setup, build, words, bilingual, gauntlet, agents, critic, fleet };
 
 /**
  * Render one figure as HTML: `<figure class="figure figure-inline|figure-wide">`

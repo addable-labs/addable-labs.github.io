@@ -78,13 +78,6 @@ had climbed to the nearest high shoulder and aimed point-blank at the peak:
 no shader change can fix a frame with no depth in it. A second multi-round
 hunt was the same bug class.
 
-And the instruments lied: seven defects in the verification harness itself.
-A metric scored in the wrong direction, so movement toward the target read
-as a regression. A check that flipped on an unchanged build. A diagnostic
-that invalidated every measurement after a run's first shot. Six were the
-lead agent's own work, and every one was found by accident while chasing
-something else.
-
 ## The human in the loop
 
 The report is the agent's voice, and it is thin exactly where the human was
@@ -119,12 +112,21 @@ single-prompt run, two days in.
 
 ## What it cost
 
-Six sub-agents ran in the closing phase and five completed: about 1.32
-million tokens and 654 tool calls over roughly 3.8 hours, for one shipped
-visual fix and four closed investigations. The sixth died before reading a
-file when the account hit its weekly token limit — the ceiling on this
-method is quota, and quota arrives without warning. About a million of those
-tokens went into the one vantage whose cause was that missing distance term.
+Over three days the run spawned 242 sub-agents across 34 workflow
+launches — at most seven alive at once, and never ten. They are
+short-lived, a median of forty minutes, so the total climbed while the
+number running together stayed small: five or more for seventeen of the
+seventy-two hours, the crowd behind that load average of 37.
+
+{% figure "fleet", "wide" %}
+
+The last six of those 242 ran in the closing phase and five completed:
+about 1.32 million tokens and 654 tool calls over roughly 3.8 hours, for
+one shipped visual fix and four closed investigations. The sixth died
+before reading a file when the account hit its weekly token limit — the
+ceiling on this method is quota, and quota arrives without warning. About a
+million of those tokens went into the one vantage whose cause was that
+missing distance term.
 
 {% figure "agents" %}
 
@@ -149,11 +151,11 @@ We run agents the other way round — stages, gates, a ledger and a founder
 review before anything is published, which is how [this site was
 built](/blog/how-this-site-was-built-by-agents/) and what the [factory
 article](/blog/why-we-run-an-agent-run-factory/) describes. Shumer's method
-includes watching the run without interrupting it, and his own run was not
-steered; this one was, and the steers are in the repository: the arms, the
-frame-rate diagnosis, the gate and the map of steps. The instruments were
-built during the loop by the agent whose work they judged, and were wrong
-seven times. So: build the instrument first and calibrate it against a known
+includes watching the run without interrupting it; this one was steered,
+and the steers are in the repository: the arms, the frame-rate diagnosis,
+the gate and the map of steps. The instruments were built during the loop
+by the agent whose work they judged, and were wrong seven times. So: build
+the instrument first and calibrate it against a known
 defect, put the reference in the critic's hands before the first round, and
 keep a person where an agent cannot tell you it is wrong. Contract-first
 decomposition, builders kept away from critics and a clean negative treated

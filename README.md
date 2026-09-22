@@ -170,9 +170,9 @@ Brödtext i Markdown.
   reading measure with its caption beside it from 48 rem, under it below),
   or `{% figure "<id>", "wide" %}` for one that spans the whole container
   with its caption centred underneath. A figure is drawn by `src/_includes/figures/figures.mjs`
-  (`FIGURES` names the fifteen: `stages`, `gates`, `loop`, `assessment`,
+  (`FIGURES` names the sixteen: `stages`, `gates`, `loop`, `assessment`,
   `team`, `harness`, `ledger`, `timeline`, `setup`, `build`, `words`,
-  `bilingual`, `gauntlet`, `agents`, `critic`) and every word it shows — panel titles, labels, notes,
+  `bilingual`, `gauntlet`, `agents`, `critic`, `fleet`) and every word it shows — panel titles, labels, notes,
   the caption — comes from `figures.<id>` in the two strings files, so one
   drawing serves both languages; a label too long for its slot fails the
   build naming the key. Adding a figure means one drawing function, its
@@ -458,8 +458,9 @@ pair.
      the factory article (si-hct0), `figures.{words,bilingual}.*` — one
      more for each of the two earlier articles (si-ubr3) — and
      `figures.{gauntlet,agents,critic}.*` — the three of the Ashlands post
-     (si-wqb7); every label has a character budget, so a longer rewording
-     must keep the build green
+     (si-wqb7) — and `figures.fleet.*`, the fourth, which sets the run's 242
+     sub-agents against the seven ever alive at once (si-z0d3); every label
+     has a character budget, so a longer rewording must keep the build green
    - the Swedish text of the Ashlands post itself
      (`src/sv/blog/posts/ashlands-what-one-prompt-built.md`, si-wqb7),
      including the founder's quotes, which are translated from English

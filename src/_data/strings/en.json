@@ -735,6 +735,36 @@
         "b": "does a failing check name the unit?"
       },
       "caption": "The report's closing argument, which it marks as opinion rather than measurement: the cost of the loop is set by the critic, not the builder. Ashlands had close to a worst-case critic on every axis. Two questions predict the outcome better than anything else — is there an executable oracle, and does a failing check name the thing to fix."
+    },
+    "fleet": {
+      "panels": {
+        "total": {
+          "title": "The whole run: 242 sub-agents, one square each — 236 of them inside 34 workflow launches and 6 called directly",
+          "head": "over three days",
+          "value": "242 agents"
+        },
+        "once": {
+          "title": "At the same time: seven agents at the peak, ten never reached, five or more alive for seventeen of the seventy-two hours",
+          "head": "at the same time",
+          "value": "at most 7"
+        }
+      },
+      "launches": "236 inside 34 workflow launches",
+      "direct": "6 called directly",
+      "largest": "largest launch: 27 agents",
+      "largestNote": "in waves, never 27 at once",
+      "never": "never reached 10",
+      "peak": "7 at the peak",
+      "peakNote": "1 August — the run's maximum",
+      "hours": "5 or more alive",
+      "hoursValue": "17 of 72 hours",
+      "hoursNote": "of the three days, 31 July to 3 August",
+      "life": "how long one agent lived",
+      "median": "median 40 min",
+      "longest": "longest 3 h 10",
+      "footer": "what seven at once cost the laptop",
+      "footerNote": "load average 37 on 8 cores",
+      "caption": "Two counts of the same run. Over three days it started 242 sub-agents — 236 inside 34 workflow launches, 6 called directly — but at any one moment at most seven were alive, and ten was never reached. Agents are short-lived, a median of forty minutes each, so a large total and a small crowd are the same picture: five or more ran together for seventeen of the seventy-two hours, and that crowd, each agent driving its own browser and GPU, is the collision the report records as a load average of 37 on eight cores."
     }
   },
   "contact": {
