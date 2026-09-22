@@ -114,25 +114,22 @@ describe("contrast library", () => {
     assert.deepEqual(found, [{ line: 2, query: "@media screen and (prefers-color-scheme: light)" }]);
   });
 
-  it("still parses the first build's structure (light on :root, dark in the media query)", async () => {
-    const inline = parseTokens(`
+  it("rejects the first build's structure: a token outside :root and a media query (REQ-024, D-13)", () => {
+    // The first build's tokens: the light set on :root, the dark set
+    // re-declared under the OS media query. The switch rules are in place, so
+    // the problems left are the two that structure causes.
+    const firstBuild = `
+      :root { color-scheme: dark; }
+      ${LIGHT_SWITCH}
       :root { --color-bg: #fff; --color-text: #000; }
-      @media (prefers-color-scheme: dark) { :root { --color-bg: #000; } }
-    `);
-    assert.deepEqual(inline.light, { "--color-bg": "#fff", "--color-text": "#000" });
-    assert.deepEqual(inline.dark, { "--color-bg": "#000", "--color-text": "#000" });
-    assert.deepEqual(inline.problems, []);
-
-    const legacy = auditTokens(await readFile(fixture("contrast-legacy", "tokens.css"), "utf8"));
-    assert.equal(Object.keys(legacy.light).length, 8);
-    assert.equal(legacy.light["--color-bg"], "#FAFAF7");
-    assert.equal(legacy.dark["--color-bg"], "#101416");
-    // It parses, but the redesign's structure rules reject it: no switch
-    // rules and an OS media query.
-    assert.equal(legacy.problems.length, 3, legacy.problems.join("\n"));
-    assert.match(legacy.problems[0], /^missing switch rule :root \{ color-scheme: dark \} \(found none\)/);
-    assert.match(legacy.problems[1], /^missing switch rule :root\[data-theme="light"\] \{ color-scheme: light \} \(found none\)/);
-    assert.match(legacy.problems[2], /^line 60: "@media \(prefers-color-scheme: dark\)" — tokens\.css may not contain a prefers-color-scheme media query/);
+      @media (prefers-color-scheme: dark) {
+        :root { --color-bg: #000; }
+      }
+    `;
+    assert.deepEqual(auditTokens(firstBuild).problems, [
+      '--color-bg is declared outside :root (in "@media (prefers-color-scheme: dark) > :root"); colour tokens live only on :root (REQ-024, A-03)',
+      'line 5: "@media (prefers-color-scheme: dark)" — tokens.css may not contain a prefers-color-scheme media query; dark is the default and light is reached only through the toggle (D-13, A-03)',
+    ]);
   });
 
   it("finds colour literals in declaration values only", () => {

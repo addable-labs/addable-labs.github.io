@@ -12,9 +12,7 @@
 // declaration; `color-scheme` is the only switch (dark on `:root`, light only
 // under `:root[data-theme="light"]`); there is no `prefers-color-scheme`
 // media query and no `--color-*` outside `:root`. The parser below reads that
-// structure, still reads the first build's structure (light on `:root`, dark
-// under `@media (prefers-color-scheme: dark)`) so old fixtures parse, and
-// reports every structural violation for the gate to print.
+// structure and reports every structural violation for the gate to print.
 
 /** Parse a #rgb, #rgba, #rrggbb or #rrggbbaa literal into [r, g, b] (0–255). */
 export function parseHexColor(hex) {
@@ -62,7 +60,6 @@ function blankComments(css) {
 }
 
 const BLOCK_AT_RULES = /^@(media|supports|layer|container|scope|document)\b/i;
-const LEGACY_DARK_MEDIA = /^@media\s*\(\s*prefers-color-scheme\s*:\s*dark\s*\)$/i;
 const LIGHT_SWITCH_SELECTOR = /^:root\[data-theme\s*=\s*["']?light["']?\]$/i;
 const COLOR_DECLARATION = /(--color-[-\w]+)\s*:\s*([^;]+)/g;
 
@@ -165,11 +162,6 @@ function sameValue(a, b) {
  *   - `--color-*` may be declared only on `:root` (not under the light
  *     switch, not in any other selector or block), so nothing can fork the
  *     two themes.
- *
- * The first build's structure — light values on `:root`, the dark set
- * re-declared inside `@media (prefers-color-scheme: dark)` — still parses:
- * the media block's values fill `dark`. The gate rejects that media query
- * separately (auditTokens), so old fixtures parse but do not pass.
  */
 export function parseTokens(css) {
   const source = stripComments(css);
@@ -178,19 +170,13 @@ export function parseTokens(css) {
   const problems = [];
   const fallbacks = {}; // plain value seen before a light-dark() one, per token
   const pairs = new Set(); // tokens whose last declaration is a light-dark() pair
-  const legacyDark = {};
 
   walkRules(source, ({ selector, body, ancestors }) => {
     const declarations = [...body.matchAll(COLOR_DECLARATION)];
     if (declarations.length === 0) return;
     const onRoot = selector === ":root" && ancestors.length === 0;
-    const inLegacyDark = selector === ":root" && ancestors.length === 1 && LEGACY_DARK_MEDIA.test(ancestors[0]);
     for (const [, name, rawValue] of declarations) {
       const value = rawValue.trim();
-      if (inLegacyDark) {
-        legacyDark[name] = value;
-        continue;
-      }
       if (!onRoot) {
         const where = [...ancestors, selector].join(" > ");
         problems.push(`${name} is declared outside :root (in "${where}"); colour tokens live only on :root (REQ-024, A-03)`);
@@ -218,10 +204,6 @@ export function parseTokens(css) {
     }
   });
 
-  for (const [name, value] of Object.entries(legacyDark)) {
-    dark[name] = value;
-    if (!(name in light)) light[name] = value;
-  }
   return { light, dark, problems };
 }
 
