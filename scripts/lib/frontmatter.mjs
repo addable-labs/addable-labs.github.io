@@ -6,7 +6,8 @@
 //
 //   title: …                     non-empty string
 //   description: …               non-empty string; listings, meta description, feed
-//   date: 2026-09-20             a valid date (YAML date or ISO string)
+//   date: 2026-09-20             a real date: YYYY-MM-DD, or a string with an
+//                                ISO time, YYYY-MM-DDTHH:MM(:SS)(Z), read as UTC
 //   category: app-development    a key from src/_data/categories.json
 //   translationKey: some-slug    the same slug in both languages
 //   draft: true                  boolean; built locally, left out of the public build
@@ -94,10 +95,58 @@ function isNonEmptyString(value) {
   return typeof value === "string" && value.trim().length > 0;
 }
 
+/**
+ * The string date forms this gate accepts, named in the error message.
+ */
+const DATE_FORMS = "YYYY-MM-DD or YYYY-MM-DDTHH:MM(:SS)(Z)";
+
+const DATE_STRING =
+  /^(\d{4})-(\d{2})-(\d{2})(?:T(?:[01]\d|2[0-3]):[0-5]\d(?::[0-5]\d(?:\.\d+)?)?(?:Z|[+-](?:0\d|1[0-4]):[0-5]\d)?)?$/;
+
+function isRealCalendarDay(year, month, day) {
+  const when = new Date(Date.UTC(year, month - 1, day));
+  return (
+    when.getUTCFullYear() === year && when.getUTCMonth() === month - 1 && when.getUTCDate() === day
+  );
+}
+
+/**
+ * Is this a date the build will accept?
+ *
+ * A YAML date (`date: 2026-09-22`, which the front-matter parser turns into a
+ * Date at UTC midnight) arrives here as a Date and only has to be a real one.
+ * A *string* date has a higher bar to clear: Eleventy parses it with Luxon —
+ * `DateTime.fromISO(value, { zone: "utc" })` in @11ty/eleventy/src/Template.js
+ * — and throws the whole build when Luxon says invalid. So this gate must
+ * never accept a string Luxon would reject, or an article passes `pnpm check`
+ * and then reds the build, with an error naming Eleventy rather than the front
+ * matter that caused it.
+ *
+ * `new Date()` cannot be the judge of that, because V8 is more forgiving than
+ * Luxon in exactly the two ways a person writes a date by hand:
+ *
+ *   2026-09-22 23:00     a space for the T — V8 takes it, Luxon does not, and
+ *                        a time without seconds is not a YAML timestamp either,
+ *                        so it really does reach the build as a string
+ *   "2026-02-30"         a day that does not exist — V8 rolls it over to
+ *                        2 March, Luxon rejects it
+ *
+ * so the pattern spells the grammar out and the day is checked against the
+ * calendar. Writing a time is worth supporting: two articles dated the same
+ * day are ordered by the full timestamp (`byDateDescThenSlug` in
+ * eleventy.config.js), so a time is the honest way to order them. Without a
+ * zone it is read as UTC, like every other date on the site.
+ *
+ * The pattern is a little stricter than Luxon in corners nobody writes by hand
+ * — ordinal dates (2026-266), week dates (2026-W39-2), the basic format
+ * (20260922), hour 24 — and that is the safe direction: the gate may refuse
+ * what the build would have taken, never the other way round.
+ */
 function isValidDate(value) {
   if (value instanceof Date) return !Number.isNaN(value.getTime());
-  if (typeof value !== "string" || !/^\d{4}-\d{2}-\d{2}(?:[T ].*)?$/.test(value)) return false;
-  return !Number.isNaN(new Date(value).getTime());
+  if (typeof value !== "string") return false;
+  const parts = DATE_STRING.exec(value);
+  return parts !== null && isRealCalendarDay(Number(parts[1]), Number(parts[2]), Number(parts[3]));
 }
 
 /**
@@ -123,7 +172,7 @@ export function validateArticle(data, { allowedCategories, dirLang, file = "arti
     problems.push("description must be a non-empty string");
   }
   if (data.date !== undefined && !isValidDate(data.date)) {
-    problems.push(`date must be a valid date (YYYY-MM-DD), got ${JSON.stringify(data.date)}`);
+    problems.push(`date must be ${DATE_FORMS}, got ${JSON.stringify(data.date)}`);
   }
   if (data.category !== undefined && !allowedCategories.includes(data.category)) {
     problems.push(

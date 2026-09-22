@@ -192,10 +192,14 @@ Brödtext i Markdown.
   Where a draft is *absent* from the public site, a scheduled article is
   merely *unannounced* on it; the two can be combined, and then the draft rule
   wins. The date is compared at UTC midnight, so an article dated today is
-  listed all day whatever the build machine's timezone. A static site has no
-  clock, so a scheduled article appears only on the next build: the deployment
-  workflow rebuilds and redeploys `main` once a day for exactly that reason
-  (see *Deployment*).
+  listed all day whatever the build machine's timezone. A date may also carry
+  a time — that is how two articles dated the same day are ordered — but it
+  has to use the ISO `T`, as in `2026-09-22T23:00`; a space instead of the `T`
+  is refused by the front-matter check, because Eleventy cannot parse it
+  either. A time with no zone is read as UTC, like the date itself. A static
+  site has no clock, so a scheduled article appears only on the next build:
+  the deployment workflow rebuilds and redeploys `main` once a day for exactly
+  that reason (see *Deployment*).
 - **`aiGenerated` and `humanReviewed`** are two separate facts about a text,
   and every combination of them is valid:
 
@@ -223,10 +227,11 @@ Brödtext i Markdown.
   exactly one "sv" page with translationKey "new-article", found 0 (none)`.
 - **Validation.** Every article's front matter is checked at build time
   (`scripts/lib/frontmatter.mjs`): all eight keys are required, `date` must be
-  a real date, `category` must be one of the keys above (an unknown key fails
-  the build naming the file and listing the allowed keys), and `draft`,
-  `aiGenerated` and `humanReviewed` must be booleans. `lang` comes from the
-  directory; do not set it in the file.
+  a real day (`YYYY-MM-DD`, or `YYYY-MM-DDTHH:MM(:SS)` with the ISO `T`),
+  `category` must be one of the keys above (an unknown key fails the build
+  naming the file and listing the allowed keys), and `draft`, `aiGenerated`
+  and `humanReviewed` must be booleans. `lang` comes from the directory; do
+  not set it in the file.
 - **Length.** The content gate (`pnpm check:content`) counts the words of the
   built English article body: 300–600 for the two seed articles (REQ-006) and
   300–1,500 for every later article. The Swedish twin is not counted, and

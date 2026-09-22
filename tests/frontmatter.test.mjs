@@ -58,9 +58,53 @@ describe("article front-matter validator", () => {
     );
   });
 
-  it("accepts ISO date strings and rejects nonsense dates", () => {
-    assert.deepEqual(validateArticle({ ...valid, date: "2026-09-20" }, { allowedCategories }), []);
-    assert.throws(() => validateArticle({ ...valid, date: "yesterday" }, { allowedCategories }), /date must be a valid date/);
+  // Eleventy parses a *string* date with Luxon and throws the whole build when
+  // Luxon says invalid, so this gate has to be no looser than Luxon is. It used
+  // to lean on `new Date()`, which is more forgiving in the two ways a person
+  // actually writes a date: a space for the T, and a day that does not exist
+  // (V8 rolls 30 February over into March; Luxon refuses it). Either one passed
+  // `pnpm check` and then reddened the build.
+  it("accepts the date forms the build accepts", () => {
+    for (const date of [
+      "2026-09-20",
+      "2026-09-22T23:00",
+      "2026-09-22T23:00:00",
+      "2026-09-22T23:00:00Z",
+      "2026-09-22T23:00:00+02:00",
+      "2028-02-29",
+    ]) {
+      assert.deepEqual(validateArticle({ ...valid, date }, { allowedCategories }), [], `should accept ${date}`);
+    }
+  });
+
+  it("rejects the date forms the build would throw on", () => {
+    for (const date of ["2026-09-22 23:00", "2026-02-30", "2026-09-31", "2026-13-01", "yesterday"]) {
+      assert.throws(
+        () => validateArticle({ ...valid, date }, { allowedCategories }),
+        /date must be YYYY-MM-DD or YYYY-MM-DDTHH:MM\(:SS\)\(Z\), got /,
+        `should reject ${date}`,
+      );
+    }
+  });
+
+  // The space form is the one that bit: `date: 2026-09-22 23:00` is not a YAML
+  // timestamp either (that needs seconds), so it really does reach the build as
+  // a string. The message has to name the forms that would have worked.
+  it("names the accepted forms in the message", () => {
+    assert.throws(
+      () => validateArticle({ ...valid, date: "2026-09-22 23:00" }, { allowedCategories }),
+      /date must be YYYY-MM-DD or YYYY-MM-DDTHH:MM\(:SS\)\(Z\), got "2026-09-22 23:00"/,
+    );
+  });
+
+  // A YAML date (`date: 2026-09-22`, no quotes) is parsed into a Date before it
+  // gets here and never goes near the pattern; that path must keep working.
+  it("still accepts a YAML date as a Date object, and rejects an unparsable one", () => {
+    assert.deepEqual(validateArticle({ ...valid, date: new Date("2026-09-22") }, { allowedCategories }), []);
+    assert.throws(
+      () => validateArticle({ ...valid, date: new Date("nope") }, { allowedCategories }),
+      /date must be YYYY-MM-DD or YYYY-MM-DDTHH:MM\(:SS\)\(Z\)/,
+    );
   });
 });
 
