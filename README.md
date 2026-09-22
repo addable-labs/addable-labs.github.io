@@ -411,10 +411,11 @@ pair.
    landing page (hero, console lines, the three services and their "What
    you get" lists, the apps section and the six one-liners, the trust
    section, the writing and contact sections), the about page (lead,
-   founder line, approach points, the GRC note) and the blog pages; the
-   founder paragraph on the about page (`about.founderWork`) is unchanged
-   from the first build, still marked `TODO(founder)` in the templates, and
-   still describes work behind projects that are no longer in the apps grid.
+   mission section with the facts line, approach points, the article note)
+   and the blog pages; the first build's founder paragraph is gone from the
+   about page (founder call 2026-09-22: a company page, no personal
+   section — the founder's name appears only in the landing page's trust
+   section, REQ-012).
    The service headings are the short forms ("AI-powered apps", "AI
    adoption", "Investing tools") because a card title must fit one line.
 8. **Copy review — Swedish.** Every Swedish string below was written by the
@@ -445,9 +446,10 @@ pair.
    - `contact.eyebrow`, `contact.heading`, `contact.text`, `contact.cta`
    - `blog.eyebrow`, `blog.categoryEyebrow`, `blog.allArticles`;
      `article.machineTranslatedLabel`; `notFound.eyebrow`
-   - `about.eyebrow`, `about.lead`, `about.founderLine`,
+   - `about.eyebrow`, `about.lead`, `about.missionHeading`, `about.facts`,
+     `about.missionText`, `about.approachHeading`,
      `about.points.{aiNative,team,open,proof}.{title,text}`,
-     `about.grc.{label,title,text,link}`
+     `about.article.{label,title,text,link}`
    - `figures.{stages,gates,loop,assessment,team,harness}.*` — the six
      article illustrations' panel titles, labels, notes and captions
      (si-55iu); every label has a character budget, so a longer rewording

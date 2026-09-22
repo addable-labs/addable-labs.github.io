@@ -16,8 +16,9 @@
 //     and the proof link and links nothing else named "factory"; at least two
 //     latest-writing cards with category chips and the draft chip where due,
 //     and the link to the blog index
-//   - the about pages have the founder and approach sections and, since the
-//     redesign, the founding month ("September 2026" / "september 2026")
+//   - the about pages have the mission and approach sections, the founding
+//     month ("September 2026" / "september 2026") and no founder section
+//     (founder call 2026-09-22: a company page, not a personal one)
 //   - every page's footer: mailto:hello@addablelabs.se with the address as
 //     text, the LinkedIn entry as visible text with no href while
 //     site.linkedinUrl is null and as a link once set, the language switch to
@@ -182,7 +183,11 @@ for (const lang of site.languages.codes) {
   if (!about) continue;
   const main = text(about.doc.querySelector("main"));
   const h2s = about.doc.querySelectorAll("main h2").map(text);
-  report.check(main.includes(FOUNDER) && h2s.includes(strings[lang].about.founderHeading), `${rel}: founder section names ${FOUNDER}`);
+  // Founder call 2026-09-22: the about page is a company page — a mission
+  // section instead of a founder section; the founder's name stays on the
+  // landing page's trust section (REQ-012) and nowhere else.
+  report.check(h2s.includes(strings[lang].about.missionHeading), `${rel}: mission section present`);
+  report.check(!main.includes(FOUNDER), `${rel}: no founder section (the name belongs to the landing page's trust section)`);
   // REQ-012 (plan D-12): the founding month moved from the landing page to the about page.
   report.check(main.includes(MONTH[lang]), `${rel}: contains "${MONTH[lang]}"`);
   report.check(h2s.includes(strings[lang].about.approachHeading), `${rel}: approach section present`);

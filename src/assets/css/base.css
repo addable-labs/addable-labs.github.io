@@ -1272,10 +1272,11 @@ html:not(.js) .theme-toggle {
   font-size: var(--text-2xl);
 }
 
-/* About page: the founder line in mono under the section heading; the
-   approach section places its note under the heading on wide screens while
-   the four points span both rows (DOM order: heading, points, note). */
-.founder-line {
+/* About page: the facts line (founding month, country) in mono under the
+   mission heading; the approach section places its note under the heading
+   on wide screens while the four points span both rows (DOM order: heading,
+   points, note). */
+.facts-line {
   font-family: var(--font-mono);
   font-size: var(--text-sm);
   color: var(--color-text-muted);
@@ -1283,7 +1284,7 @@ html:not(.js) .theme-toggle {
   text-wrap: balance;
 }
 
-.about-founder .section-lead {
+.about-mission .section-lead {
   margin: 0;
 }
 

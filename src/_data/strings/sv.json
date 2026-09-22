@@ -372,13 +372,13 @@
   },
   "about": {
     "title": "Om oss",
-    "description": "Grundaren av Addable Labs och företagets arbetssätt: AI-nativt, en senior person, agenter som medarbetare, att bygga i det öppna.",
+    "description": "Addable Labs mission och arbetssätt: AI-nativt, en senior person som är ansvarig, agenter som medarbetare, att bygga i det öppna.",
     "eyebrow": "Addable Labs · Sverige",
     "lead": "Ett AI-nativt mjukvaruföretag: en senior person som ansvarar för varje beslut som spelar roll – och agenter som medarbetare.",
-    "founderHeading": "Grundare",
-    "founderLine": "Peter Blenessy, grundare · grundat i september 2026 · Sverige",
-    "founderWork": "Peter bygger AI-drivna skrivbords- och webbapplikationer – en markdown-redigerare som samarbetar med AI, en integritetsfokuserad läsare för iPhone-backuper, verktyg för att följa svenska investmentbolag och fonder – och arbetar med hur individer och team lär sig behärska AI, från en självskattning av AI-kompetens och AI-mognad till en självhostad automationsmiljö där icke betrott innehåll stannar i luftslussen. Han bygger till stor del med AI-agenter och delar med sig av vad det lär honom.",
-    "approachHeading": "Arbetssätt",
+    "missionHeading": "Vår mission",
+    "facts": "Grundat i september 2026 · Sverige",
+    "missionText": "Addable Labs finns för att visa att AI-agenter kan vara riktiga medarbetare – och för att göra det arbetssättet tillgängligt för fler. Vi bygger mjukvara där AI är en del av produkten: agenter planerar, genomför och granskar arbetet och en senior person är ansvarig för varje beslut som spelar roll. Vi delar vad vi lär oss medan vi lär oss det – även när det inte gick som tänkt – och vi hjälper människor och team att bli lika hemma med AI som vi är. Nytt bygger vi bara när det tydligt är ett jobb för ett team av AI-agenter.",
+    "approachHeading": "Arbetssätt och värderingar",
     "points": {
       "aiNative": {
         "title": "AI-nativt",
@@ -390,11 +390,11 @@
       },
       "open": {
         "title": "Att bygga i det öppna",
-        "text": "De publika kodförråden har sin egen dokumentation och, där ett experiment inte levde upp till sitt uppdrag, en ärlig utvärdering av vad det gav. Bloggen dokumenterar lärdomarna i takt med att de uppstår."
+        "text": "De publika kodförråden har sin egen dokumentation och, där ett experiment inte levde upp till sitt uppdrag, en ärlig utvärdering av vad det gav. Bloggen dokumenterar lärdomarna i takt med att de uppstår. Vi säger hellre vad som inte fungerade än låter det se bättre ut än det är."
       },
       "proof": {
         "title": "Bevis, inte påståenden",
-        "text": "Den här webbplatsen är ett exempel på arbetssättet: den har designats, byggts och underhålls av en agentdriven mjukvarufabrik och grundaren granskar varje ändring innan den publiceras."
+        "text": "Den här webbplatsen är ett exempel på arbetssättet: den har designats, byggts och underhålls av en agentdriven mjukvarufabrik och en senior person granskar varje ändring innan den publiceras."
       }
     },
     "article": {

@@ -7,10 +7,11 @@ eleventyComputed:
   description: "{{ strings[lang].about.description | safe }}"
 ---
 {#- About page (REQ-012, REQ-016; plan D-12, A-04): the hero-style title, the
-    founder section carrying the founding month, the approach as the trust
-    points, a labelled card linking the "how this site was built" article as
-    the approach in practice (founder call 2026-09-21: it replaced the
-    GRC-fork note of A-04), and the contact band. Every string comes from
+    mission section carrying the founding month (founder call 2026-09-22: a
+    company page, no founder section and no personal paragraph), the approach
+    as the trust points, a labelled card linking the "how this site was built"
+    article as the approach in practice (founder call 2026-09-21: it replaced
+    the GRC-fork note of A-04), and the contact band. Every string comes from
     strings[lang].about; the Swedish twin differs only in its
     machineTranslated flag. -#}
 {%- set about = strings[lang].about -%}
@@ -19,15 +20,13 @@ eleventyComputed:
 {%- set heroTitle = about.title -%}
 {%- set heroLead = about.lead -%}
 {% include "partials/page-hero.njk" %}
-<section class="section about-founder" aria-labelledby="founder-title">
+<section class="section about-mission" aria-labelledby="mission-title">
   <div class="container trust-grid">
     <div class="trust-copy reveal">
-      <h2 id="founder-title">{{ about.founderHeading }}</h2>
-      <p class="founder-line">{{ about.founderLine }}</p>
+      <h2 id="mission-title">{{ about.missionHeading }}</h2>
+      <p class="facts-line">{{ about.facts }}</p>
     </div>
-    {#- TODO(founder): review this paragraph — it is drawn only from the repository
-        READMEs and the three themes (REQ-002, plan Decision 6). #}
-    <p class="section-lead reveal">{{ about.founderWork }}</p>
+    <p class="section-lead reveal">{{ about.missionText }}</p>
   </div>
 </section>
 <section class="section section-alt about-approach" aria-labelledby="approach-title">
