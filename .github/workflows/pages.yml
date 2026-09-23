@@ -27,9 +27,17 @@ on:
 permissions:
   contents: read
 
-# One Pages deployment at a time; a run already in progress is never cancelled.
+# Every run that deploys (push, schedule, dispatch) is in the group `pages`,
+# so there is one Pages deployment at a time. A run in progress is never
+# cancelled; a newer deploy queued behind it replaces an older one still
+# waiting, which is harmless: the newer one deploys a main at least as new.
+# A pull request run never deploys, so each pull request has a group of its
+# own, `pages-pr-<number>` (si-0kmh). It no longer waits behind a deploy and
+# can no longer replace one that is waiting, such as the 04:17 UTC rebuild
+# that lists the day's scheduled articles; while it waits, only a newer run
+# of the same pull request can replace it.
 concurrency:
-  group: pages
+  group: ${{ github.event_name == 'pull_request' && format('pages-pr-{0}', github.event.pull_request.number) || 'pages' }}
   cancel-in-progress: false
 
 jobs:
