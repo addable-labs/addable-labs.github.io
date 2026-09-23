@@ -110,9 +110,9 @@ review, decomposition, implementation, three review lanes, a publisher —
 each started as a session when a build step needs it and retired afterwards.
 Our own contribution so far is the mayor's prompt, limits on how many
 sessions one computer runs at once and the rules of a shared machine. The
-founder's gate sits at the plan, since the second build. No agent pushes on
-its own: publishing means a branch we read locally, and nothing reaches
-GitHub until we say so. We talk to the mayor over Discord.
+founder's gate sits at the plan, since the second build. The agents push to
+GitHub themselves: a change goes live only once the gates pass, and a text
+only once we have read it. We talk to the mayor over Discord.
 
 ## One build, in numbers
 

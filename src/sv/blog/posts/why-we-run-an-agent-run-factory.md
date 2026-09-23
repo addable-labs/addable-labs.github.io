@@ -117,9 +117,9 @@ granskningsspår, en publicerare – var och en startad som en session när ett
 steg i bygget behöver den och avslutad efteråt. Vårt eget bidrag hittills är
 borgmästarens prompt, gränser för hur många sessioner en dator kör samtidigt
 och reglerna för en delad maskin. Grundarens grind sitter vid planen, sedan
-det andra bygget. Ingen agent pushar på egen hand: att publicera betyder en
-gren som vi läser lokalt och ingenting når GitHub förrän vi säger till. Vi
-pratar med borgmästaren via Discord.
+det andra bygget. Agenterna pushar själva till GitHub: en ändring publiceras
+först när den klarat kvalitetsgrindarna och en text först när vi har läst
+den. Vi pratar med borgmästaren via Discord.
 
 ## Ett bygge, i siffror
 
