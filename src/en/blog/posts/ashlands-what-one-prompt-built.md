@@ -113,11 +113,13 @@ single-prompt run, two days in.
 
 ## What it cost
 
-Over three days the run spawned 242 sub-agents across 34 workflow
-launches — at most seven alive at once, and never ten. They are
-short-lived, a median of forty minutes, so the total climbed while the
-number running together stayed small: five or more for seventeen of the
-seventy-two hours, the crowd behind that load average of 37.
+Over three days the run spawned 242 sub-agents: 236 inside 34 workflow
+launches, 6 called directly. At most seven were alive at once, and never
+ten. They are short-lived, a median of forty minutes, so the total
+climbed while the number running together stayed small: five or more for
+seventeen of the seventy-two hours, the crowd behind the report's load
+average of 37. The other numbers here come not from the report but from
+the run's own session logs, which are not public.
 
 {% figure "fleet", "wide" %}
 

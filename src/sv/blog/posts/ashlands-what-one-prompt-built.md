@@ -120,11 +120,13 @@ dagar in.
 
 ## Vad det kostade
 
-Under tre dygn startade körningen 242 subagenter i 34 arbetsflöden – som
-mest sju samtidigt och aldrig tio. De är kortlivade, i median fyrtio
-minuter, så totalen växte medan antalet som kördes samtidigt förblev litet:
-fem eller fler under sjutton av de sjuttiotvå timmarna – trängseln bakom
-systembelastningen på 37.
+Under tre dygn startade körningen 242 subagenter: 236 inuti 34
+arbetsflöden och 6 direkt. Som mest levde sju samtidigt och tio nåddes
+aldrig. De är kortlivade, i median fyrtio minuter, så totalen växte medan
+antalet som kördes samtidigt förblev litet: fem eller fler under sjutton
+av de sjuttiotvå timmarna – trängseln bakom den systembelastning på 37 som
+rapporten noterar. De andra siffrorna här kommer inte från rapporten utan
+från körningens egna sessionsloggar, som inte är offentliga.
 
 {% figure "fleet", "wide" %}
 
