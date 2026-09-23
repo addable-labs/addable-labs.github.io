@@ -1,11 +1,9 @@
 import assert from "node:assert/strict";
-import { spawnSync } from "node:child_process";
 import { readFile } from "node:fs/promises";
-import path from "node:path";
 import { after, before, describe, it } from "node:test";
 import { BESIDE_FROM_PX, evaluate, INLINE_GAP_REM, LABEL_MIN_PX, LABEL_UNITS, LINE_RATIO, MEASURE_REM, PANEL_REM, rowsOf, TOLERANCE } from "../scripts/lib/layout-report.mjs";
 import { skipMessage, SKIP_EXIT_CODE } from "../scripts/lib/chrome.mjs";
-import { fixture, ROOT, tempDir } from "./helpers.mjs";
+import { fixture, runGate, SRC, tempDir } from "./helpers.mjs";
 
 // The card-balance rules of the layout gate on fixture measurements (A-02,
 // AC-30, REQ-025; plan D-14), the article rules on fixture measurements of
@@ -13,16 +11,6 @@ import { fixture, ROOT, tempDir } from "./helpers.mjs";
 // 2026-09-22) — no Chrome needed — and the gate's explicit SKIP when no
 // Chrome is found. Regenerate the article fixture from a real run with
 // `LAYOUT_DUMP=<file> pnpm check:layout` and keep its three runs.
-
-function runLayoutGate(out, env) {
-  const result = spawnSync(process.execPath, [path.join(ROOT, "scripts", "check", "layout.mjs"), out], {
-    cwd: ROOT,
-    encoding: "utf8",
-    env: { ...process.env, CHECK_REQUIRE_CHROME: "", ...env },
-    maxBuffer: 16 * 1024 * 1024,
-  });
-  return { status: result.status, output: `${result.stdout}${result.stderr}` };
-}
 
 describe("layout report evaluation (A-02, AC-30)", () => {
   let aligned;
@@ -225,14 +213,14 @@ describe("layout gate without Chrome (REQ-024: an explicit skip)", () => {
   after(() => tmp.cleanup());
 
   it("exits 3 and prints the SKIP line when CHROME_PATH points nowhere", () => {
-    const { status, output } = runLayoutGate(tmp.dir, { CHROME_PATH: "/nonexistent" });
+    const { status, output } = runGate("layout", tmp.dir, SRC, { CHROME_PATH: "/nonexistent" });
     assert.equal(status, SKIP_EXIT_CODE, output);
     assert.equal(output.trim(), skipMessage("layout"));
     assert.match(output, /^SKIP layout: no Chrome found \(run pnpm check:layout after installing Chrome or set CHROME_PATH\)/);
   });
 
   it("exits 1 under CHECK_REQUIRE_CHROME=1 when CHROME_PATH points nowhere", () => {
-    const { status, output } = runLayoutGate(tmp.dir, { CHROME_PATH: "/nonexistent", CHECK_REQUIRE_CHROME: "1" });
+    const { status, output } = runGate("layout", tmp.dir, SRC, { CHROME_PATH: "/nonexistent", CHECK_REQUIRE_CHROME: "1" });
     assert.equal(status, 1, output);
     assert.match(output, /FAIL layout: CHECK_REQUIRE_CHROME=1 and no Chrome was found/);
   });

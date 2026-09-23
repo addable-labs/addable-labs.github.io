@@ -55,13 +55,15 @@ export function buildSite(outDir, env = {}, cwd = ROOT) {
  * Run one gate script against `out` and `src`; returns { status, output }.
  * SITE_ENV is cleared for the same reason as in `buildSite`: a gate must be
  * told what kind of build it is looking at, and these cases build development
- * sites unless they say otherwise.
+ * sites unless they say otherwise. CHECK_REQUIRE_CHROME is cleared too, because
+ * CI sets it to 1 for the whole job: a case for a Chrome-backed gate states
+ * whether Chrome is required, so the suite behaves in CI as it does locally.
  */
 export function runGate(gate, out, src = SRC, env = {}) {
   const result = spawnSync(process.execPath, [path.join(ROOT, "scripts", "check", `${gate}.mjs`), out, src], {
     cwd: ROOT,
     encoding: "utf8",
-    env: { ...process.env, SITE_ENV: "", CHECK_OFFLINE: "1", ...env },
+    env: { ...process.env, SITE_ENV: "", CHECK_REQUIRE_CHROME: "", CHECK_OFFLINE: "1", ...env },
     maxBuffer: 64 * 1024 * 1024,
   });
   return { status: result.status, output: `${result.stdout}${result.stderr}` };

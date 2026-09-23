@@ -50,28 +50,11 @@ function counterpartPath(urlPath, lang) {
 }
 
 const titles = new Map();
-const cssSize = new Map();
-async function stylesheetSize(href) {
-  const urlPath = internalPath(href, site);
-  if (urlPath === null) return null;
-  if (!cssSize.has(urlPath)) {
-    let size = 0;
-    for (const candidate of candidatesForPath(urlPath)) {
-      const file = path.join(out, candidate);
-      if (await exists(file)) {
-        size = Buffer.byteLength(await readFile(file, "utf8"), "utf8");
-        break;
-      }
-    }
-    cssSize.set(urlPath, size);
-  }
-  return cssSize.get(urlPath);
-}
 
 // Same-origin asset text by URL path — stylesheets for the @font-face check
-// (REQ-004), stylesheets and scripts for the compressed budget (REQ-020).
-// null for a cross-origin URL or a file missing from the build (the links
-// gate reports missing files).
+// (REQ-004) and the HTML + CSS size budget, stylesheets and scripts for the
+// compressed budget (REQ-020). null for a cross-origin URL or a file missing
+// from the build (the links gate reports missing files).
 const assetText = new Map();
 async function readAsset(href) {
   const urlPath = internalPath(href, site);
@@ -203,10 +186,13 @@ for (const file of files) {
     }
   }
 
-  // Size budget: HTML + same-origin stylesheets
+  // Size budget: HTML + same-origin stylesheets. Every link counts, so a
+  // stylesheet linked twice counts twice; one that is cross-origin or
+  // missing from the build counts 0.
   let total = page.size;
   for (const el of doc.querySelectorAll("link[rel~=stylesheet]")) {
-    total += (await stylesheetSize(attr(el, "href") ?? "")) ?? 0;
+    const asset = await readAsset(attr(el, "href") ?? "");
+    total += asset ? Buffer.byteLength(asset.text, "utf8") : 0;
   }
   expect(total <= SIZE_BUDGET, `HTML + CSS is ${(total / 1024).toFixed(1)} KB, budget ${SIZE_BUDGET / 1024} KB`);
 
