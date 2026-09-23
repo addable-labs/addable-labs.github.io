@@ -4,8 +4,9 @@ import path from "node:path";
 import { after, before, describe, it } from "node:test";
 import { parse } from "node-html-parser";
 import { parseTokens } from "../scripts/lib/contrast.mjs";
+import { walk } from "../scripts/lib/site.mjs";
 import { resolve } from "../scripts/lib/theme-logic.mjs";
-import { buildSite, ROOT, tempDir } from "./helpers.mjs";
+import { buildSite, ROOT, SRC, tempDir } from "./helpers.mjs";
 
 const SCRIPT_FILE = path.join(ROOT, "src", "assets", "js", "theme.js");
 const LOGIC_FILE = path.join(ROOT, "scripts", "lib", "theme-logic.mjs");
@@ -32,10 +33,9 @@ const COPIES = {
   ],
 };
 
-async function walkHtml(dir) {
-  const { walk } = await import("../scripts/lib/site.mjs");
-  return walk(dir, ".html");
-}
+// A hex colour literal, as both tests below find one: "#" and three to eight
+// hex digits. "&#8212;" is a character reference, not a colour.
+const HEX_COLOUR = /(?<!&)#[0-9a-f]{3,8}\b/gi;
 
 describe("theme logic (REQ-007 as amended by A-03/A-04, D-13)", () => {
   it("returns light only for a stored \"light\" choice", () => {
@@ -61,7 +61,7 @@ describe("colours copied by hand from tokens.css", () => {
     const stale = [];
     for (const [file, copies] of Object.entries(COPIES)) {
       const text = await readFile(path.join(ROOT, file), "utf8");
-      const literals = [...text.matchAll(/#[0-9a-f]{3,8}\b/gi)];
+      const literals = [...text.matchAll(HEX_COLOUR)];
       assert.equal(literals.length, copies.length, `${file} has ${literals.length} colour literals (${literals.map(([hex]) => hex).join(", ")}), COPIES lists ${copies.length}: name the token each one copies`);
       copies.forEach(([what, token, scheme], i) => {
         const [literal] = literals[i];
@@ -74,6 +74,25 @@ describe("colours copied by hand from tokens.css", () => {
     }
     assert.deepEqual(stale, []);
   });
+
+  it("no other file under src/ has a hex colour literal (a new copy goes in COPIES)", async () => {
+    // tokens.css holds the colours and COPIES names every file that repeats
+    // one; a literal anywhere else would be a copy that nothing checks. Binary
+    // files (the fonts) are skipped: they contain a NUL byte, text never does.
+    const covered = new Set([TOKENS_FILE, ...Object.keys(COPIES).map((file) => path.join(ROOT, file))]);
+    const found = [];
+    for (const file of await walk(SRC)) {
+      if (covered.has(file)) continue;
+      const bytes = await readFile(file);
+      if (bytes.includes(0)) continue;
+      const text = bytes.toString("utf8");
+      for (const match of text.matchAll(HEX_COLOUR)) {
+        const line = text.slice(0, match.index).split("\n").length;
+        found.push(`${path.relative(ROOT, file)}:${line}: ${match[0]}`);
+      }
+    }
+    assert.deepEqual(found, []);
+  });
 });
 
 describe("theme script and toggle in the built site", () => {
@@ -85,7 +104,7 @@ describe("theme script and toggle in the built site", () => {
     temp = await tempDir("theme-");
     out = buildSite(temp.dir);
     script = await readFile(SCRIPT_FILE, "utf8");
-    pages = await walkHtml(out);
+    pages = await walk(out, ".html");
   });
   after(() => temp.cleanup());
 

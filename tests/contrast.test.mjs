@@ -208,10 +208,13 @@ describe("contrast gate", () => {
   });
 
   it("fails when a fallback does not equal its dark value, naming the token (A-03)", async () => {
-    const src = await variant((css) => css.replace("--color-bg: #0B0E10;", "--color-bg: #000000;"));
+    // The plain --color-bg declaration (the fallback before its light-dark()
+    // pair) takes the light value, whatever the two values are.
+    const { light, dark } = parseTokens(tokens);
+    const src = await variant((css) => css.replace(/--color-bg: (?!light-dark\()[^;]+;/, `--color-bg: ${light["--color-bg"]};`));
     const { status, output } = runGate("contrast", "", src);
     assert.equal(status, 1);
-    assert.match(output, /structure {2}--color-bg: plain fallback #000000 does not equal its dark value #0B0E10 .* FAIL/);
+    assert.match(output, new RegExp(`structure {2}--color-bg: plain fallback ${light["--color-bg"]} does not equal its dark value ${dark["--color-bg"]} .* FAIL`));
     assert.match(output, /FAIL contrast \(1 problem\)/);
   });
 
@@ -240,7 +243,8 @@ describe("contrast gate", () => {
   });
 
   it("fails when a colour token is in no pair and not decorative", async () => {
-    const src = await variant((css) => css.replace("--color-on-accent: #0B0E10;", "--color-on-accent: #0B0E10;\n  --color-extra: #FFFFFF;"));
+    // A new token as the first line of the :root block.
+    const src = await variant((css) => css.replace(/^:root \{$/m, ":root {\n  --color-extra: #FFFFFF;"));
     const { status, output } = runGate("contrast", "", src);
     assert.equal(status, 1);
     assert.match(output, /--color-extra is in no PAIRS entry and not listed in DECORATIVE.* FAIL/);
