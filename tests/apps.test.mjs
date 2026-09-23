@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { before, describe, it } from "node:test";
 import { APP_KEYS, BANDS, PRIVATE_APP_KEYS, PRIVATE_STATUS_LABEL, PUBLIC_REPOS, STATUS_KEYS, THEME_KEYS, githubRepos, publicRepo, validateApps } from "../scripts/lib/apps.mjs";
-import { loadSite, loadStrings } from "../scripts/lib/site.mjs";
+import { loadSite, loadStrings, readArticleSources } from "../scripts/lib/site.mjs";
 import { SRC } from "./helpers.mjs";
 
 // Apps data and copy (REQ-011, REQ-025; AC-11, AC-12, AC-30; plan D-14, D-15;
@@ -16,18 +16,21 @@ describe("apps data and copy (REQ-011, REQ-025; AC-11, AC-12, AC-30)", () => {
   let data;
   let strings;
   let site;
+  let articles; // the posts of each language, by file name
   before(async () => {
     data = JSON.parse(await readFile(path.join(SRC, "_data", "portfolio.json"), "utf8"));
     site = await loadSite(SRC);
     strings = await loadStrings(SRC, site);
+    articles = {};
+    for (const lang of site.languages.codes) articles[lang] = (await readArticleSources(SRC, site, lang)).map((article) => article.slug);
   });
 
   /** A deep copy of the real inputs for a negative case. */
-  const copy = () => ({ data: structuredClone(data), strings: structuredClone(strings) });
+  const copy = () => ({ data: structuredClone(data), strings: structuredClone(strings), articles: structuredClone(articles) });
   const problemsOf = (input) => validateApps(input).problems;
 
-  it("validates the real data file and both strings files", () => {
-    const result = validateApps({ data, strings });
+  it("validates the real data file, both strings files and the articles the cards link", () => {
+    const result = validateApps({ data, strings, articles });
     assert.deepEqual(result.problems, []);
     assert.equal(result.ok, true);
   });
@@ -149,6 +152,44 @@ describe("apps data and copy (REQ-011, REQ-025; AC-11, AC-12, AC-30)", () => {
       const problems = withReport(report);
       assert.ok(problems.includes(`ashlands: source.report must be the URL of a file in the entry's own repository, https://github.com/addable-labs/ashlands/blob/<branch>/<path>, got ${JSON.stringify(report)}`), problems.join("\n"));
     }
+  });
+
+  it("names the article about the app where there is one — Ashlands and nivå — and fails an article that is not a post in both languages (si-3hpa)", () => {
+    // The founder's request of 2026-09-23: the two apps with an article link
+    // it, by the post's file name; the others name none.
+    assert.deepEqual(Object.fromEntries(data.map((entry) => [entry.key, entry.article])), { niva: "lessons-from-building-niva", notesage: undefined, ashlands: "ashlands-what-one-prompt-built", gaimer: undefined });
+    for (const lang of site.languages.codes) {
+      assert.ok(strings[lang].portfolio.articleLink, `${lang}: portfolio.articleLink`);
+    }
+    const withArticle = (article, edit = () => {}) => {
+      const input = copy();
+      input.data.find((entry) => entry.key === "gaimer").article = article;
+      edit(input);
+      return problemsOf(input);
+    };
+    // A post of both languages passes, whichever app names it.
+    assert.deepEqual(withArticle("how-this-site-was-built-by-agents"), []);
+    // A name that is no post fails in each language, and so does a URL:
+    // the data names the post, and the build makes each language's link.
+    for (const article of ["no-such-article", "ashlands-what-one-prompt-built.md", "https://addablelabs.se/blog/ashlands-what-one-prompt-built/"]) {
+      const problems = withArticle(article);
+      for (const lang of site.languages.codes) {
+        assert.ok(problems.includes(`gaimer: article ${JSON.stringify(article)} names no post in ${lang}: there is no src/${lang}/blog/posts/${article}.md`), problems.join("\n"));
+      }
+    }
+    // A post of one language only fails for the other language.
+    const englishOnly = withArticle("how-this-site-was-built-by-agents", (input) => {
+      input.articles.sv = input.articles.sv.filter((slug) => slug !== "how-this-site-was-built-by-agents");
+    });
+    assert.deepEqual(englishOnly, ['gaimer: article "how-this-site-was-built-by-agents" names no post in sv: there is no src/sv/blog/posts/how-this-site-was-built-by-agents.md']);
+    // A value that is no file name at all.
+    for (const article of ["", null, 7]) {
+      assert.ok(withArticle(article).includes(`gaimer: article must be the file name of a post, without .md, got ${JSON.stringify(article)}`), JSON.stringify(article));
+    }
+    // The link's label in every language.
+    const unlabelled = copy();
+    delete unlabelled.strings.sv.portfolio.articleLink;
+    assert.deepEqual(problemsOf(unlabelled), ["sv: portfolio.articleLink is missing"]);
   });
 
   it("reads every GitHub repository a text names and matches the list without regard to case (si-vwu8)", () => {

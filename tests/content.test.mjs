@@ -39,6 +39,11 @@ describe("content gate", () => {
     // passing on none: the apps grid's, in a page, and the font's, in its
     // licence file (si-vwu8).
     assert.match(output, /ok {4}every GitHub repository the site names is one of the public repositories it may link: [^\n]*\baddable-labs\/ashlands\b[^\n]*\bJetBrains\/JetBrainsMono\b/);
+    // Ashlands and nivå link their articles beside their own links, in the
+    // page's language (si-3hpa).
+    assert.match(output, /ok {4}index\.html: Ashlands entry links its article \(\/blog\/ashlands-what-one-prompt-built\/\) through a\.app-action labelled "Article →", second in its action row/);
+    assert.match(output, /ok {4}sv\/index\.html: nivå entry links its article \(\/sv\/blog\/lessons-from-building-niva\/\) through a\.app-action labelled "Artikel →", second in its action row/);
+    assert.match(output, /ok {4}index\.html: Gaimer entry has one link, its repository, and no other/);
   });
 
   it("fails when the founder's name disappears from the trust section (REQ-012)", async () => {
@@ -57,18 +62,36 @@ describe("content gate", () => {
     assert.match(output, /FAIL {2}about\/index\.html: contains "September 2026"/);
   });
 
-  it("fails when the nivå card links more than its public page, or calls it \"Repository\" (REQ-011, A-01; si-gyc4)", async () => {
-    // The repository is private and the product is not: one link, to the
-    // page, labelled as a website.
-    const expected = /FAIL {2}index\.html: nivå entry links its public page exactly once \(https:\/\/erniva\.se\/\) through a\.app-action labelled "Website"/;
+  it("fails when the nivå card links more than its public page and its article, or calls the page \"Repository\" (REQ-011, A-01; si-gyc4, si-3hpa)", async () => {
+    // The repository is private and the product is not: the page, labelled
+    // as a website, then the article about nivå, and nothing else.
     const twice = await withLandingEdit("niva-linked", (html) => html.replace(/(<h3 class="app-name portfolio-name"[^>]*>)nivå(<\/h3>)/, '$1<a href="https://example.com/niva">nivå</a>$2'));
     const linked = runGate("content", twice);
     assert.equal(linked.status, 1);
-    assert.match(linked.output, expected);
+    assert.match(linked.output, /FAIL {2}index\.html: nivå entry has two links, its public page and its article, and no other/);
     const repository = await withLandingEdit("niva-repository", (html) => html.replace('href="https://erniva.se/">Website<span', 'href="https://erniva.se/">Repository<span'));
     const labelled = runGate("content", repository);
     assert.equal(labelled.status, 1);
-    assert.match(labelled.output, expected);
+    assert.match(labelled.output, /FAIL {2}index\.html: nivå entry links its public page \(https:\/\/erniva\.se\/\) through a\.app-action labelled "Website ↗", first in its action row/);
+  });
+
+  it("fails when an app card's article link is missing, wears the arrow of a link that leaves the site or links the other language's article (si-3hpa)", async () => {
+    const broken = await withLandingEdit("article-links", (html) => html
+      .replace(/\n\s*<a class="app-action" href="\/blog\/lessons-from-building-niva\/">Article<span class="arrow" aria-hidden="true">→<\/span><\/a>/, "")
+      .replace('href="/blog/ashlands-what-one-prompt-built/">Article<span class="arrow" aria-hidden="true">→', 'href="/blog/ashlands-what-one-prompt-built/">Article<span class="arrow" aria-hidden="true">↗'));
+    const sv = path.join(broken, "sv", "index.html");
+    const svHtml = await readFile(sv, "utf8");
+    const english = svHtml.replace('<a class="app-action" href="/sv/blog/ashlands-what-one-prompt-built/">', '<a class="app-action" href="/blog/ashlands-what-one-prompt-built/">');
+    assert.notEqual(english, svHtml, "the Swedish Ashlands card's article link must be found");
+    await writeFile(sv, english);
+    const { status, output } = runGate("content", broken);
+    assert.equal(status, 1);
+    assert.match(output, /FAIL {2}index\.html: nivå entry links its article \(\/blog\/lessons-from-building-niva\/\) through a\.app-action labelled "Article →", second in its action row/);
+    assert.match(output, /FAIL {2}index\.html: nivå entry has two links, its public page and its article, and no other/);
+    assert.match(output, /FAIL {2}index\.html: Ashlands entry links its article \(\/blog\/ashlands-what-one-prompt-built\/\) through a\.app-action labelled "Article →", second in its action row/);
+    assert.match(output, /FAIL {2}sv\/index\.html: Ashlands entry links its article \(\/sv\/blog\/ashlands-what-one-prompt-built\/\) through a\.app-action labelled "Artikel →", second in its action row/);
+    // The link beside each of them is untouched and still passes.
+    assert.match(output, /ok {4}index\.html: Ashlands entry links its repository \(https:\/\/github\.com\/addable-labs\/ashlands\) through a\.app-action labelled "Repository ↗", first in its action row/);
   });
 
   it("fails when the hero's primary CTA no longer points at the apps section (REQ-009 as amended by founder feedback round 1, si-yp2x)", async () => {
@@ -455,5 +478,89 @@ describe("draft posts", () => {
     assert.deepEqual(withoutFixtures(await listed(dev, "blog", "index.html")), EN_ORDER);
     assert.deepEqual(withoutFixtures(await listed(prod, "blog", "index.html")), EN_ORDER);
     assert.deepEqual(withoutFixtures(await listed(prod, "sv", "blog", "index.html")), SV_ORDER);
+  });
+});
+
+// App cards link the article about the app (founder request 2026-09-23,
+// si-3hpa) only while the build lists it, by the same rules as every listing:
+// a draft is linked in a local build, where it is listed, and not in the
+// production build, where it does not exist; an article dated after today is
+// linked by neither until its day. The cases point two entries of a copy of
+// the project at two fixture articles — a draft dated today and an article
+// dated tomorrow — and build the copy both ways.
+describe("app card articles", () => {
+  let tmp;
+  let dev; // the development build: the draft is linked
+  let prod; // the production build: it is not
+  let builtSrc; // the source tree both were built from, for the gates
+  before(async () => {
+    tmp = await tempDir("app-articles-");
+    const project = await copyProject(path.join(tmp.dir, "project"));
+    builtSrc = path.join(project, "src");
+    await writeArticlePair(project, "app-draft", utcDate(0), "A draft about an app", "Ett utkast om en app", { draft: true });
+    await writeArticlePair(project, "app-tomorrow", utcDate(1), "An app article for tomorrow", "En appartikel för i morgon");
+    const file = path.join(builtSrc, "_data", "portfolio.json");
+    const portfolio = JSON.parse(await readFile(file, "utf8"));
+    portfolio.find((entry) => entry.key === "gaimer").article = "app-draft";
+    portfolio.find((entry) => entry.key === "notesage").article = "app-tomorrow";
+    await writeFile(file, JSON.stringify(portfolio, null, 2));
+    dev = buildSite(path.join(tmp.dir, "dev"), { SITE_ENV: "" }, project);
+    prod = buildSite(path.join(tmp.dir, "prod"), { SITE_ENV: "production" }, project);
+  });
+  after(() => tmp.cleanup());
+
+  /** The hrefs of each app card's action row on a built landing page, by the app's name. */
+  async function cardLinks(out, ...parts) {
+    const html = await readFile(path.join(out, ...parts), "utf8");
+    const cards = html.matchAll(/<h3 class="app-name portfolio-name"[^>]*>([^<]+)<\/h3>[\s\S]*?<div class="app-actions">([\s\S]*?)<\/div>/g);
+    return Object.fromEntries([...cards].map(([, name, row]) => [name, [...row.matchAll(/href="([^"]+)"/g)].map(([, href]) => href)]));
+  }
+
+  const LANDINGS = [[["index.html"], ""], [["sv", "index.html"], "/sv"]];
+
+  it("links an article from its card in a local build while it is listed, a draft included, and never one dated after today", async () => {
+    for (const [page, prefix] of LANDINGS) {
+      const links = await cardLinks(dev, ...page);
+      assert.deepEqual(links.Gaimer, ["https://github.com/addable-labs/gaimer", `${prefix}/blog/app-draft/`], page.join("/"));
+      assert.deepEqual(links.Notesage, ["https://github.com/PeterBlenessy/notesage"], page.join("/"));
+      assert.deepEqual(links.Ashlands, ["https://github.com/addable-labs/ashlands", `${prefix}/blog/ashlands-what-one-prompt-built/`], page.join("/"));
+    }
+  });
+
+  it("links no draft from a card in the production build", async () => {
+    for (const [page, prefix] of LANDINGS) {
+      const links = await cardLinks(prod, ...page);
+      assert.deepEqual(links.Gaimer, ["https://github.com/addable-labs/gaimer"], page.join("/"));
+      assert.deepEqual(links.Notesage, ["https://github.com/PeterBlenessy/notesage"], page.join("/"));
+      assert.deepEqual(links.nivå, ["https://erniva.se/", `${prefix}/blog/lessons-from-building-niva/`], page.join("/"));
+    }
+  });
+
+  it("leaves the content and links gates passing in both modes, naming the article a card does not link and why", () => {
+    for (const [out, env] of [[dev, ""], [prod, "production"]]) {
+      for (const gate of ["content", "links"]) {
+        const { status, output } = runGate(gate, out, builtSrc, { SITE_ENV: env });
+        assert.equal(status, 0, `${gate} in ${env || "development"}:\n${output}`);
+      }
+    }
+    const devContent = runGate("content", dev, builtSrc, { SITE_ENV: "", CHECK_QUIET: "0" });
+    assert.match(devContent.output, /ok {4}index\.html: Gaimer entry links its article \(\/blog\/app-draft\/\) through a\.app-action labelled "Article →", second in its action row/);
+    assert.match(devContent.output, /ok {4}sv\/index\.html: Notesage entry does not link its article \/sv\/blog\/app-tomorrow\/ before \d{4}-\d{2}-\d{2}/);
+    const prodContent = runGate("content", prod, builtSrc, { SITE_ENV: "production", CHECK_QUIET: "0" });
+    assert.match(prodContent.output, /ok {4}index\.html: Gaimer entry does not link its article \/blog\/app-draft\/ \(a draft, and this is the production build\)/);
+    assert.match(prodContent.output, /ok {4}sv\/index\.html: Gaimer entry has one link, its repository, and no other/);
+  });
+
+  it("fails a card that links an article the build does not list", async () => {
+    const leaked = await copyDir(prod, path.join(tmp.dir, "leaked"));
+    const landing = path.join(leaked, "index.html");
+    const html = await readFile(landing, "utf8");
+    const edited = html.replace('href="https://github.com/addable-labs/gaimer">Repository<span class="arrow" aria-hidden="true">↗</span></a>', '$&<a class="app-action" href="/blog/app-draft/">Article<span class="arrow" aria-hidden="true">→</span></a>');
+    assert.notEqual(edited, html, "the Gaimer card's repository link must be found");
+    await writeFile(landing, edited);
+    const { status, output } = runGate("content", leaked, builtSrc, { SITE_ENV: "production" });
+    assert.equal(status, 1);
+    assert.match(output, /FAIL {2}index\.html: Gaimer entry does not link its article \/blog\/app-draft\/ \(a draft, and this is the production build\)/);
+    assert.match(output, /FAIL {2}index\.html: Gaimer entry has one link, its repository, and no other/);
   });
 });

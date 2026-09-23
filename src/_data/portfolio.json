@@ -4,6 +4,7 @@
     "theme": "ai-adoption",
     "repo": "addable-labs/niva",
     "url": "https://erniva.se/",
+    "article": "lessons-from-building-niva",
     "status": "in-development",
     "source": { "readme": "https://github.com/addable-labs/niva/blob/main/README.md", "retrieved": "2026-09-20" }
   },
@@ -20,6 +21,7 @@
     "theme": "experiments",
     "repo": "addable-labs/ashlands",
     "url": "https://github.com/addable-labs/ashlands",
+    "article": "ashlands-what-one-prompt-built",
     "status": "experiment",
     "source": { "readme": "https://github.com/addable-labs/ashlands/blob/main/README.md", "report": "https://github.com/addable-labs/ashlands/blob/main/EVALUATION.md", "retrieved": "2026-09-23" }
   },

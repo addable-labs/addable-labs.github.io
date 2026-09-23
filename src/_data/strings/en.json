@@ -136,7 +136,8 @@
     },
     "privateNote": "Private repository — no public link yet",
     "repoLink": "Repository",
-    "siteLink": "Website"
+    "siteLink": "Website",
+    "articleLink": "Article"
   },
   "portfolioStatus": {
     "in-development": "in development",

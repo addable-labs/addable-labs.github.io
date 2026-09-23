@@ -136,7 +136,8 @@
     },
     "privateNote": "Privat kodförråd – ingen publik länk ännu",
     "repoLink": "Kodförråd",
-    "siteLink": "Webbplats"
+    "siteLink": "Webbplats",
+    "articleLink": "Artikel"
   },
   "portfolioStatus": {
     "in-development": "under utveckling",

@@ -10,9 +10,11 @@
 //     URL when set, otherwise an honest early-access mailto: with the
 //     hero.nivaEarlyAccess label); three service headings equal to
 //     the strings; the apps grid renders every data entry in order with its
-//     name and status label — an entry without a url unlinked, the others
-//     linked exactly once, "Repository" to a public repository and "Website"
-//     to the public page of a product whose repository is private (si-gyc4);
+//     name and status label and exactly the links it calls for, in its
+//     action row: its url, "Repository" to a public repository and "Website"
+//     to the public page of a product whose repository is private (si-gyc4),
+//     then "Article" to the article about the app when the entry names one
+//     and the build lists it (si-3hpa) — an entry with neither unlinked;
 //     the trust section carries the factory phrase, the founder's name,
 //     "AI-native", the article link and the proof link and links nothing else
 //     named "factory"; at least two latest-writing cards with category chips
@@ -132,11 +134,18 @@ for (const lang of site.languages.codes) {
   }
 
   // REQ-011 as amended by A-01 (AC-11): one card per data entry, in data
-  // order, with the strings name and status label; an entry without a url
-  // carries no link at all, the others exactly one a.app-action to it —
-  // labelled "Repository" when it is the repository on github.com and
-  // "Website" when it is the public page of a product whose repository is
-  // private (si-gyc4), so no card calls a private repository open.
+  // order, with the strings name and status label, and exactly the links
+  // its entry calls for, each an a.app-action in the card's action row
+  // (.app-actions): first its url — labelled "Repository" when it is the
+  // repository on github.com and "Website" when it is the public page of a
+  // product whose repository is private (si-gyc4), so no card calls a
+  // private repository open — then, beside it, the article about the app
+  // when the entry names one and this build lists it (founder request
+  // 2026-09-23, si-3hpa), labelled "Article" and linking the article in the
+  // page's language. A draft in the production build and an article dated
+  // after today are listed nowhere, and no card links them either. An entry
+  // with no url and no listed article links nothing.
+  const articles = await readArticleSources(src, site, lang);
   const entries = doc.querySelectorAll(".portfolio-entry");
   report.check(entries.length === apps.length, `${rel}: apps grid renders one entry per data entry (${entries.length} of ${apps.length})`);
   apps.forEach((app, index) => {
@@ -146,15 +155,32 @@ for (const lang of site.languages.codes) {
     report.check(entry !== undefined && name === copy?.name, `${rel}: entry ${index + 1} is "${copy?.name}" (${name || "missing"})`);
     report.check(entry !== undefined && text(entry).includes(strings[lang].portfolioStatus[app.status] ?? "\u0000"), `${rel}: ${copy?.name} entry states its status "${strings[lang].portfolioStatus[app.status]}"`);
     const links = entry?.querySelectorAll("a[href]") ?? [];
-    if (app.url === null) {
-      report.check(entry !== undefined && links.length === 0, `${rel}: ${copy?.name} entry has no link (private repository)`);
-    } else {
+    // The links the entry calls for, in the order of its action row. Each
+    // link's text is its label and then its decorative, aria-hidden arrow:
+    // ↗ for a link that leaves the site, → for one that stays on it.
+    const wanted = [];
+    if (app.url !== null) {
       const repository = app.url.startsWith(PUBLIC_URL_PREFIX);
-      const label = repository ? strings[lang].portfolio.repoLink : strings[lang].portfolio.siteLink;
-      // The link's text is the label plus the decorative, aria-hidden arrow.
-      const linkText = text(links[0]).replace(/↗$/, "").trim();
-      report.check(links.length === 1 && attr(links[0], "href") === app.url && (attr(links[0], "class") ?? "").split(/\s+/).includes("app-action") && linkText === label, `${rel}: ${copy?.name} entry links ${repository ? "its repository" : "its public page"} exactly once (${app.url}) through a.app-action labelled "${label}"`);
+      wanted.push({ what: repository ? "its repository" : "its public page", href: app.url, label: strings[lang].portfolio[repository ? "repoLink" : "siteLink"], arrow: "↗" });
     }
+    if (app.article !== undefined) {
+      const article = articles.find((item) => item.slug === app.article);
+      if (!article) {
+        report.fail(`${rel}: ${copy?.name} entry names the article "${app.article}", which is not a ${lang} article`);
+      } else if (article.listed) {
+        wanted.push({ what: "its article", href: article.path, label: strings[lang].portfolio.articleLink, arrow: "→" });
+      } else {
+        report.check(!links.some((link) => attr(link, "href") === article.path), `${rel}: ${copy?.name} entry does not link its article ${article.path} ${because(article)}`);
+      }
+    }
+    const row = entry?.querySelector(".app-actions")?.querySelectorAll("a[href]") ?? [];
+    wanted.forEach((link, position) => {
+      const found = row[position];
+      const label = text(found).endsWith(link.arrow) ? text(found).slice(0, -link.arrow.length).trim() : undefined;
+      report.check(found !== undefined && attr(found, "href") === link.href && (attr(found, "class") ?? "").split(/\s+/).includes("app-action") && label === link.label, `${rel}: ${copy?.name} entry links ${link.what} (${link.href}) through a.app-action labelled "${link.label} ${link.arrow}", ${position === 0 ? "first" : "second"} in its action row`);
+    });
+    const count = ["no link", "one link", "two links"][wanted.length];
+    report.check(entry !== undefined && links.length === wanted.length, wanted.length === 0 ? `${rel}: ${copy?.name} entry has no link (private repository)` : `${rel}: ${copy?.name} entry has ${count}, ${wanted.map((link) => link.what).join(" and ")}, and no other`);
   });
 
   // REQ-012 (AC-13): the trust section.
@@ -176,7 +202,6 @@ for (const lang of site.languages.codes) {
   // each, the draft chip where the article is a draft, and the blog link.
   const posts = doc.querySelectorAll("main .post");
   report.check(posts.length >= 2, `${rel}: latest-writing section lists at least two articles (${posts.length})`);
-  const articles = await readArticleSources(src, site, lang);
   for (const post of posts) {
     const href = attr(post.querySelector(".post-title a"), "href");
     const chip = post.querySelector("a.chip-cat");

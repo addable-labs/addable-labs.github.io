@@ -940,8 +940,18 @@ html:not(.js) .theme-toggle {
   margin: 0 0 var(--space-3);
 }
 
-/* The action row is the same element in every card: a 44 px repository link
-   or the mono private note, above a dashed rule. */
+/* The action row is the same element in every card: a dashed rule over one
+   line of 44 px mono links — the repository or website link, or the private
+   note, then the article link when the app has one (si-3hpa). A link alone
+   takes the whole line, as it did before the article links; a card too
+   narrow for two would put the second on a line of its own. */
+.app-actions {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: var(--space-4);
+  border-top: 1px dashed var(--color-border);
+}
+
 .app-action,
 .app-private {
   display: inline-flex;
@@ -949,10 +959,20 @@ html:not(.js) .theme-toggle {
   min-height: 44px;
   margin: 0;
   padding-top: var(--space-2);
-  border-top: 1px dashed var(--color-border);
-  width: 100%;
   font-family: var(--font-mono);
   font-size: var(--text-xs);
+}
+
+/* In the row each item starts on the rule, as the one link did when it drew
+   the rule itself: the row stays 44 px tall, with the text where it was. */
+.app-actions > .app-action,
+.app-actions > .app-private {
+  margin-top: -1px;
+  padding-top: calc(var(--space-2) + 1px);
+}
+
+.app-actions > :only-child {
+  flex-grow: 1;
 }
 
 .app-action {
@@ -1319,8 +1339,11 @@ html:not(.js) .theme-toggle {
   font-size: var(--text-sm);
 }
 
+/* The note's link is its action row on its own, so it draws the rule. */
 .note .app-action {
+  width: 100%;
   margin-top: var(--space-2);
+  border-top: 1px dashed var(--color-border);
 }
 
 .article {

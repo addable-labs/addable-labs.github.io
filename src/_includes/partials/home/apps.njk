@@ -1,20 +1,28 @@
 {#- Apps and products (REQ-011 as amended by A-01, A-02; plan D-07, D-14, D-15):
     one article.card.app.portfolio-entry per entry of src/_data/portfolio.json,
     in data order, on the balanced subgrid — theme caption | chip row | name |
-    summary | action. The theme caption has its own track (not the chip row):
-    the founder-confirmed private label fills a three-column card's width on
-    its own, so the chip row holds only the status chip and stays one line.
-    Copy comes from strings.portfolio.<key>; the status label from
-    strings.portfolioStatus and the theme caption from strings.themes. The name
-    is plain text in every card; the action row is the same element for every
-    card: a.app-action to the entry's url (url set, the card gets app-linked
-    and the only a[href]) — "Repository ↗" when the url is the public
-    repository on github.com, "Website ↗" when it is the public page of a
-    product whose repository is private (nivå since si-gyc4), so the card
-    never calls a private repository open — or p.app-private with the private
-    note (url null, no link at all). .portfolio-entry and .portfolio-name are
-    the content gate's stable hooks. -#}
+    summary | action row. The theme caption has its own track (not the chip
+    row): the founder-confirmed private label fills a three-column card's
+    width on its own, so the chip row holds only the status chip and stays
+    one line. Copy comes from strings.portfolio.<key>; the status label from
+    strings.portfolioStatus and the theme caption from strings.themes. The
+    name is plain text in every card. The action row is the same element in
+    every card, div.app-actions, and it holds the card's only links, each an
+    a.app-action. First the entry's url (url set, the card gets app-linked):
+    "Repository ↗" when the url is the public repository on github.com,
+    "Website ↗" when it is the public page of a product whose repository is
+    private (nivå since si-gyc4), so the card never calls a private
+    repository open — or p.app-private with the private note (url null, no
+    link to the app). Then, beside it, "Article →" when the entry names the
+    article about the app (`article`, the post's file name; founder request
+    2026-09-23, si-3hpa): a page of this site, so → where the links that
+    leave it wear ↗, to the article in the page's language, and only while
+    that language's posts collection lists it — the postBySlug filter
+    (eleventy.config.js) finds no draft in the production build and no
+    article dated after today, so neither is linked. .portfolio-entry,
+    .portfolio-name and .app-actions are the content gate's stable hooks. -#}
 {%- set apps = strings[lang].apps -%}
+{%- set posts = collections["posts_" + lang] -%}
 <section id="apps" class="section section-alt" aria-labelledby="apps-title">
   <div class="container">
     <div class="section-head reveal">
@@ -25,6 +33,7 @@
     <div class="app-grid">
       {%- for entry in portfolio %}
       {%- set copy = strings[lang].portfolio[entry.key] %}
+      {%- set appArticle = posts | postBySlug(entry.article) %}
       <article class="card app portfolio-entry reveal{% if entry.url %} app-linked{% endif %}">
         <p class="app-theme">{{ strings[lang].themes[entry.theme].title }}</p>
         <div class="app-top">
@@ -32,11 +41,16 @@
         </div>
         <h3 class="app-name portfolio-name">{{ copy.name }}</h3>
         <p class="app-text">{{ copy.summary }}</p>
-        {%- if entry.url %}
-        <a class="app-action" href="{{ entry.url }}">{{ strings[lang].portfolio.repoLink if entry.url.startsWith("https://github.com/") else strings[lang].portfolio.siteLink }}<span class="arrow" aria-hidden="true">↗</span></a>
-        {%- else %}
-        <p class="app-private">{{ strings[lang].portfolio.privateNote }}</p>
-        {%- endif %}
+        <div class="app-actions">
+          {%- if entry.url %}
+          <a class="app-action" href="{{ entry.url }}">{{ strings[lang].portfolio.repoLink if entry.url.startsWith("https://github.com/") else strings[lang].portfolio.siteLink }}<span class="arrow" aria-hidden="true">↗</span></a>
+          {%- else %}
+          <p class="app-private">{{ strings[lang].portfolio.privateNote }}</p>
+          {%- endif %}
+          {%- if appArticle %}
+          <a class="app-action" href="{{ appArticle.url }}">{{ strings[lang].portfolio.articleLink }}<span class="arrow" aria-hidden="true">→</span></a>
+          {%- endif %}
+        </div>
       </article>
       {%- endfor %}
     </div>

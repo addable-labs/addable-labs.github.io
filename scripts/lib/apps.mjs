@@ -5,9 +5,10 @@
 // Compound left the grid in feedback round 1, and PRIVATE_STATUS_LABEL keeps
 // the wording of the `private` label marketdata-api carried), strings in
 // every language, known statuses with labels,
-// the private/public URL rule (a public entry links one of PUBLIC_REPOS), and
-// the copy bands that keep the balanced cards balanced (one-line names and
-// titles, one-line chip rows, descriptions within a length band). Used by
+// the private/public URL rule (a public entry links one of PUBLIC_REPOS), an
+// article the card links only when it is a post in every language (si-3hpa),
+// and the copy bands that keep the balanced cards balanced (one-line names
+// and titles, one-line chip rows, descriptions within a length band). Used by
 // tests/apps.test.mjs and by the content gate, which holds every GitHub
 // repository the built site names to the same PUBLIC_REPOS.
 
@@ -96,11 +97,13 @@ const quote = (value) => JSON.stringify(value);
  * @param {string[]} [options.themes] — the service keys
  * @param {object} [options.bands] — the copy bands
  * @param {Record<string, string>} [options.privateLabels] — the verbatim `private` label per language
+ * @param {Record<string, string[]>} [options.articles] — the posts of each language, by file name without .md; a language not given has none
  * @returns {{ ok: boolean, problems: string[] }}
  */
 export function validateApps({
   data,
   strings,
+  articles = {},
   statuses = STATUS_KEYS,
   keys = APP_KEYS,
   privateKeys = PRIVATE_APP_KEYS,
@@ -152,6 +155,20 @@ export function validateApps({
         problems.push(`${name}: source.report ${quote(report)} is in ${owner}/${repoName}, not in the entry's own repository ${quote(own)}`);
       }
     }
+    // An optional article about the app (founder request 2026-09-23,
+    // si-3hpa): the file name of a post, without .md, which the card links
+    // in the page's language — so it must be a post in every language, or
+    // one language's card would go without the link.
+    const article = entry?.article;
+    if (article !== undefined) {
+      if (!isText(article)) {
+        problems.push(`${name}: article must be the file name of a post, without .md, got ${quote(article)}`);
+      } else {
+        for (const lang of languages) {
+          if (!(articles[lang] ?? []).includes(article)) problems.push(`${name}: article ${quote(article)} names no post in ${lang}: there is no src/${lang}/blog/posts/${article}.md`);
+        }
+      }
+    }
     if (!statuses.includes(entry?.status)) {
       problems.push(`${name}: unknown status ${quote(entry?.status)} (known: ${statuses.join(", ")})`);
     }
@@ -188,7 +205,7 @@ export function validateApps({
     for (const [key, value] of Object.entries(portfolio)) {
       if (isMap(value) && !actual.includes(key)) problems.push(`${lang}: portfolio.${key} has no data entry`);
     }
-    for (const field of ["privateNote", "repoLink", "siteLink"]) {
+    for (const field of ["privateNote", "repoLink", "siteLink", "articleLink"]) {
       if (!isText(portfolio[field])) problems.push(`${lang}: portfolio.${field} is missing`);
     }
 

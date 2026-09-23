@@ -269,10 +269,16 @@ change colour, border, transform and box-shadow only.
   mono line like the services' number; `div.app-top` — the chip row, holding
   exactly the status chip on one line; `h3.app-name` — plain text, never a
   link; `p.app-text` — the one-liner; then the action row, the same element
-  in every card: `a.app-action` (44 px, mono, accent text, underline on
-  hover) — "Repository ↗" to a public repository, "Website ↗" to the public
-  page of a product whose repository is private (nivå's, si-gyc4) — or
-  `p.app-private` (the mono private note, muted), both above a dashed rule.
+  in every card: `div.app-actions`, a dashed rule over one line that holds
+  `a.app-action` (44 px, mono, accent text, underline on hover) —
+  "Repository ↗" to a public repository, "Website ↗" to the public page of a
+  product whose repository is private (nivå's, si-gyc4) — or `p.app-private`
+  (the mono private note, muted), and beside it, where the app has an
+  article, a second `a.app-action`, "Article →" / "Artikel →", to the article
+  in the page's language (Ashlands and nivå, founder request 2026-09-23,
+  si-3hpa). The arrow tells a link that stays on the site (→) from one that
+  leaves it (↗), as everywhere else on the site; a link alone takes the
+  whole line.
   **The chip-row mechanism:** the founder-confirmed
   `private` label ("privat · API-nycklar på förfrågan", 33 characters,
   275 px at the chip's size) is wider than a three-column card's content at
@@ -527,7 +533,8 @@ values as literals and are changed by hand: the `theme-color` meta in
 An app is one entry in `src/_data/portfolio.json` — `key`, `theme`
 (`ai-apps`, `ai-adoption` or `experiments`), `repo` (`owner/name`), `url`
 (the public repository; for a private one, the product's public page or
-`null`), `status`, and
+`null`), an optional `article` (the file name of the article about the app,
+without `.md`), `status`, and
 `source.readme` + `source.retrieved` (an optional `source.report` adds a file
 in the entry's own repository) — plus `portfolio.<key>.name` and
 `portfolio.<key>.summary` in both `src/_data/strings/en.json` and
@@ -558,6 +565,10 @@ when they are broken:
   `PUBLIC_REPOS` (`scripts/lib/apps.mjs`), the allow-list of public
   repositories the site may link, and the content gate refuses any other
   GitHub repository anywhere in the built site.
+- **An article is a post in both languages.** `article` names it by file
+  name, and the card links it beside the entry's own link as "Article →",
+  in the page's language; it is linked only while the blog lists it (never
+  a draft in the published build, nor an article dated after today).
 - **A new status** needs an entry in `STATUS_KEYS` (`scripts/lib/apps.mjs`),
   a label in both `portfolioStatus` maps, and a `chip-<status>` colour rule
   in `base.css` (accent for shipped/open source, orange for in progress,

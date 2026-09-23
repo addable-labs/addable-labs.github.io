@@ -33,7 +33,9 @@ const HEIGHT = 1000;
 
 // Runs inside the page: plain numbers per card, in the shape
 // scripts/lib/layout-report.mjs documents. Selectors follow the built HTML
-// (partials/home/services.njk and apps.njk).
+// (partials/home/services.njk and apps.njk). An app card's action row is
+// div.app-actions (si-3hpa), whether it holds one link, two or the private
+// note, so the gate measures the row's bottom, not a link's.
 function measureGrids() {
   const box = (el) => el.getBoundingClientRect();
   const lineHeight = (el) => parseFloat(getComputedStyle(el).lineHeight);
@@ -41,7 +43,7 @@ function measureGrids() {
   const grids = {};
   const specs = [
     ["services", ".service-grid > .service", "h3", ".gets-heading", ".text-link", null],
-    ["apps", ".app-grid > .app", ".app-name", ".app-text", ".app-action, .app-private", ".app-top"],
+    ["apps", ".app-grid > .app", ".app-name", ".app-text", ".app-actions", ".app-top"],
   ];
   for (const [grid, cardSelector, titleSelector, midSelector, actionSelector, chipSelector] of specs) {
     grids[grid] = [...document.querySelectorAll(cardSelector)].map((card, index) => {

@@ -208,6 +208,15 @@ export default function (eleventyConfig) {
   // (founder feedback 2026-09-22).
   eleventyConfig.addFilter("withoutUrl", (posts, url) => (posts ?? []).filter((post) => post.url !== url));
 
+  // An app card links the article about the app (founder request
+  // 2026-09-23, si-3hpa): the entry's `article` in portfolio.json names the
+  // post by its file name, and the card looks it up in the posts collection
+  // of the page's language, so it links an article only while the listings
+  // show it — a draft in the production build and an article dated after
+  // today are in no listing, and no card links them either. undefined when
+  // the collection holds no such post.
+  eleventyConfig.addFilter("postBySlug", (posts, slug) => (posts ?? []).find((post) => post.page.fileSlug === slug));
+
   return {
     dir: {
       input: "src",
