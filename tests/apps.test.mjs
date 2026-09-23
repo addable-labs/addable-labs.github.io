@@ -120,6 +120,37 @@ describe("apps data and copy (REQ-011, REQ-025; AC-11, AC-12, AC-30)", () => {
     assert.ok(problemsOf(noRepository).some((p) => /^notesage: url "https:\/\/github\.com\/example-org" is not a repository the site may link/.test(p)), problemsOf(noRepository).join("\n"));
   });
 
+  it("accepts an optional source.report in the entry's own repository — the Ashlands evaluation report — and fails one elsewhere or one that is no file URL (si-9qlz)", () => {
+    // The real one: the report, not the README, says a person steered the build.
+    assert.equal(data.find((entry) => entry.key === "ashlands").source.report, "https://github.com/addable-labs/ashlands/blob/main/EVALUATION.md");
+    const withReport = (report) => {
+      const input = copy();
+      input.data.find((entry) => entry.key === "ashlands").source.report = report;
+      return problemsOf(input);
+    };
+    // A good report passes: a heading anchor, a pinned commit, any case.
+    for (const report of [
+      "https://github.com/addable-labs/ashlands/blob/main/EVALUATION.md#6-honest-verdict-against-the-brief",
+      "https://github.com/addable-labs/ashlands/blob/126437d6bb4ce95e28ea15f06056f71dec06808f/EVALUATION.md",
+      "https://github.com/Addable-Labs/Ashlands/blob/main/EVALUATION.md",
+    ]) {
+      assert.deepEqual(withReport(report), [], report);
+    }
+    // A report in another repository fails, even one the site may link.
+    for (const [report, repo] of [
+      ["https://github.com/example-org/private-app/blob/main/EVALUATION.md", "example-org/private-app"],
+      ["https://github.com/addable-labs/gaimer/blob/main/README.md", "addable-labs/gaimer"],
+    ]) {
+      const problems = withReport(report);
+      assert.ok(problems.includes(`ashlands: source.report ${JSON.stringify(report)} is in ${repo}, not in the entry's own repository "addable-labs/ashlands"`), problems.join("\n"));
+    }
+    // A report that is no URL fails, and so does a URL that is no file's page.
+    for (const report of ["EVALUATION.md", "https://github.com/addable-labs/ashlands"]) {
+      const problems = withReport(report);
+      assert.ok(problems.includes(`ashlands: source.report must be the URL of a file in the entry's own repository, https://github.com/addable-labs/ashlands/blob/<branch>/<path>, got ${JSON.stringify(report)}`), problems.join("\n"));
+    }
+  });
+
   it("reads every GitHub repository a text names and matches the list without regard to case (si-vwu8)", () => {
     // A link, a feed's escaped markup and prose, with a ".git" suffix and a
     // sentence's full stop that are not part of the name.

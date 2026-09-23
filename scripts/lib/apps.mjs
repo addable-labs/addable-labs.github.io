@@ -55,6 +55,11 @@ export const PUBLIC_REPOS = ["addable-labs/ashlands", "addable-labs/gaimer", "Pe
     this prefix is a repository, and the card labels it so. */
 export const PUBLIC_URL_PREFIX = "https://github.com/";
 
+/** The page of a file in a GitHub repository,
+    https://github.com/<owner>/<name>/blob/<branch>/<path>, with owner and name
+    read as githubRepos() reads them. */
+const GITHUB_FILE_URL = /^https:\/\/github\.com\/([A-Za-z0-9-]+)\/([A-Za-z0-9_.-]+)\/blob\/[^/\s]+\/\S+$/;
+
 /**
  * Every GitHub repository a text names, as owner/name the way it is written:
  * each github.com/<owner>/<name> in it — a link, a feed's escaped markup and
@@ -132,6 +137,20 @@ export function validateApps({
     if (!(entry?.url === null || isText(entry?.url))) problems.push(`${name}: url must be null or a string`);
     if (!isText(entry?.source?.readme)) problems.push(`${name}: source.readme must point at the repository README`);
     if (!/^\d{4}-\d{2}-\d{2}$/.test(entry?.source?.retrieved ?? "")) problems.push(`${name}: source.retrieved must be a YYYY-MM-DD date`);
+    // An optional second source, for a fact the README does not state (the
+    // Ashlands evaluation report, si-9qlz): a file in the entry's own
+    // repository, so it names no repository the entry does not already name.
+    // Like publicRepo(), the match ignores case.
+    const report = entry?.source?.report;
+    if (report !== undefined) {
+      const own = isText(entry?.repo) ? entry.repo : "<owner>/<name>";
+      const [, owner, repoName] = (isText(report) && report.match(GITHUB_FILE_URL)) || [];
+      if (!owner) {
+        problems.push(`${name}: source.report must be the URL of a file in the entry's own repository, ${PUBLIC_URL_PREFIX}${own}/blob/<branch>/<path>, got ${quote(report)}`);
+      } else if (`${owner}/${repoName}`.toLowerCase() !== own.toLowerCase()) {
+        problems.push(`${name}: source.report ${quote(report)} is in ${owner}/${repoName}, not in the entry's own repository ${quote(own)}`);
+      }
+    }
     if (!statuses.includes(entry?.status)) {
       problems.push(`${name}: unknown status ${quote(entry?.status)} (known: ${statuses.join(", ")})`);
     }

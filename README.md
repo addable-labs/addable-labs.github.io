@@ -297,6 +297,10 @@ one-liner in both strings files and its key in the curated list `APP_KEYS`
 - `status` is one of `in-development`, `open-source-mit`, `experiment`,
   `private`, each with a label in `portfolioStatus` in both strings files.
   Statuses are stated as the repository states them, nothing is invented.
+- An optional `source.report` names a second file, for a fact the README
+  does not state (Ashlands: its `EVALUATION.md`), as a
+  `https://github.com/<owner>/<name>/blob/…` URL in the entry's own
+  repository; `source.retrieved` dates both.
 - `portfolio.<key>.name` and `portfolio.<key>.summary` go into
   `src/_data/strings/en.json` and `sv.json`.
 - **The copy bands keep the cards balanced** (the design never changes with
