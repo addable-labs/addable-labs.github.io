@@ -677,7 +677,7 @@ html:not(.js) .theme-toggle {
 
 /* The list owns the three columns (stage | text | state) and every line is a
    subgrid row, so the columns line up down the whole console (the founder's
-   note, ce5f6cc). Without subgrid a line falls back to its own grid with the
+   note, b4574f5). Without subgrid a line falls back to its own grid with the
    same tracks. There was a fourth column, the time, until si-qr13 took the
    timestamps out; these are the tracks every width used to fall back to
    below 30 rem. */

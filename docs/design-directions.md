@@ -36,8 +36,8 @@ output has no `preview/` directory and the sitemap no preview URL (AC-01).
 
 ## The pick
 
-The design-author's recommendation was **A — Signal** (reasons in the plan,
-*Decisions*, D-01).
+The design-author's recommendation was **A — Signal**, for the reasons under
+*Why this direction* in [signal.md](design-directions/signal.md).
 
 **Founder's pick:** **A — Signal**, 2026-09-20 20:23 CEST — "A, i love
 signal's design and look and feel! good job! also, as i said above: columns
@@ -45,14 +45,13 @@ must align". The one note, that the hero console's columns must align across
 rows, was fixed the same evening (shared four-column subgrid on
 `.console-log`, both themes; `b4574f5`).
 
-**Founder feedback #2** on the Signal preview (2026-09-20 20:38 CEST, folded
-into the plan at plan review as amendments A-01 … A-03): the services and
-apps cards must be *balanced* — one-line titles, descriptions of equal
-length, "What you get" at the same height, links bottom-aligned, cards that
-do not change design with their content; the apps grid lists exactly six
-projects — nivå, Notesage, marketdata-api, Compound, Ashlands, Gaimer — and
-not the other public repositories; and dark is the default. At the plan
-gate (21:44 CEST, A-04) he confirmed dark "regardless of host settings",
+**Founder feedback #2** on the Signal preview (2026-09-20 20:38 CEST): the
+services and apps cards must be *balanced* — one-line titles, descriptions
+of equal length, "What you get" at the same height, links bottom-aligned,
+cards that do not change design with their content; the apps grid lists
+exactly six projects — nivå, Notesage, marketdata-api, Compound, Ashlands,
+Gaimer — and not the other public repositories; and dark is the default. At
+the plan gate (21:44 CEST) he confirmed dark "regardless of host settings",
 the status labels of marketdata-api and Compound, and that the about page's
 GRC-fork note is kept and redesigned.
 

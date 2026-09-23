@@ -18,7 +18,7 @@ mechanics, and the two how-tos a maintainer needs (REQ-017, REQ-027).
 
 **Founder's pick: A — Signal**, 2026-09-20 20:23 CEST — "A, i love signal's
 design and look and feel! good job!" — matching the design-author's
-recommendation (plan D-01). Signal was the most "sells, not describes" of the
+recommendation. Signal was the most "sells, not describes" of the
 three directions: the first screen states what the company does, proves how
 it works with an honest agent console, and offers two actions; it gives the
 brand mono the leading role without asking readers to read paragraphs in a
@@ -63,9 +63,9 @@ founder's own brand source, ship **unmodified** and are pinned by SHA-256 in
 279,844 bytes in total, under the 300 KB font budget (REQ-005). **Licence:**
 the SIL Open Font License 1.1; `OFL.txt` ships beside the files at
 `/assets/fonts/OFL.txt` and must stay there. Subsetting to Latin + Latin
-Extended is the documented fallback (plan D-06) only if the Lighthouse gate
-ever demands it; if that happens, the digests in the test, this table and
-the derivation are updated together.
+Extended is the fallback, used only if the Lighthouse gate ever demands it;
+if that happens, the digests in the test, this table and the derivation are
+updated together.
 
 **Loading** (`src/assets/css/fonts.css`): three `@font-face` rules with
 `font-display: swap` and same-origin `src`, plus two metric-matched local
@@ -82,7 +82,7 @@ the `h1`, Medium for eyebrow, navigation and buttons — with
 Regular loads on demand. The pages gate proves every `@font-face` and
 preload is same-origin and the fonts test that at most two are preloaded.
 
-**Body copy is the system sans (plan D-04).** Paragraphs, leads, card text
+**Body copy is the system sans.** Paragraphs, leads, card text
 and article bodies use `ui-sans-serif, system-ui, -apple-system, "Segoe UI",
 Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif` at 1 rem / 1.6
 (lead 1.125 rem; article body 1.0625 rem / 1.7 on a 44 rem measure). Reasons:
@@ -175,8 +175,8 @@ clamp(1rem, 4vw, 2.5rem)`, `--ease: cubic-bezier(0.2, 0.7, 0.2, 1)`,
 
 ## Mark and favicon
 
-The mark is the plus sign — "add", for addable — as an outlined rounded tile
-(plan D-05): a 32 × 32 viewBox with a rounded square (`rx="7"`, 2 px stroke)
+The mark is the plus sign — "add", for addable — as an outlined rounded
+tile: a 32 × 32 viewBox with a rounded square (`rx="7"`, 2 px stroke)
 and a 3 px round-capped plus, drawn in `currentColor`
 (`src/assets/img/mark.svg`). The header inlines it at 28 px next to the
 wordmark, the footer at 24 px; it takes the accent text colour and turns
@@ -241,7 +241,7 @@ change colour, border, transform and box-shadow only.
   unlinked app cards keep a solid border on a transparent surface and show
   the mono line "Private repository — no public link yet", so they are
   visibly not links.
-- **Cards — the balance rule (plan D-14, amendment A-02, AC-30).** The
+- **Cards — the balance rule (AC-30).** The
   services grid and the apps grid never change design with their content.
   Mechanism: each grid declares only its column tracks and leaves the rows
   implicit; every card is itself a grid that spans N rows and takes its row
@@ -262,9 +262,8 @@ change colour, border, transform and box-shadow only.
   (grid-template-rows: subgrid)`) the cards fall back to flex columns with
   `align-items: stretch` on the grid (equal heights) and `margin-top: auto`
   on the action row (bottom-aligned links); only the cross-card alignment
-  of the inner rows is lost. The `check:layout` gate (plan T8, the
-  redesign's gates step) measures the rendered geometry on both landing
-  pages at 360, 768, 1024, 1280 and 1920 px.
+  of the inner rows is lost. The `check:layout` gate measures the rendered
+  geometry on both landing pages at 360, 768, 1024, 1280 and 1920 px.
 - **App card anatomy.** `p.app-theme` — the theme caption, a muted uppercase
   mono line like the services' number; `div.app-top` — the chip row, holding
   exactly the status chip on one line; `h3.app-name` — plain text, never a
@@ -432,11 +431,11 @@ Motion establishes hierarchy and never moves layout — only `opacity` and
 
 ## Theme mechanics
 
-The site is **dark by default for every visitor** (plan D-13, the founder's
-decision: "dark mode regardless of host settings"); light is reached only
-through the appearance toggle, and the choice persists.
+The site is **dark by default for every visitor** (the founder's decision:
+"dark mode regardless of host settings"); light is reached only through the
+appearance toggle, and the choice persists.
 
-- **Tokens** (`tokens.css`, plan D-03): every theme-dependent colour token is
+- **Tokens** (`tokens.css`): every theme-dependent colour token is
   declared twice on `:root` — a plain value equal to its dark value, then the
   `light-dark(<light>, <dark>)` pair — and `color-scheme` is the only
   switch: `color-scheme: dark` on `:root`, and the light set only under
@@ -486,19 +485,19 @@ through the appearance toggle, and the choice persists.
   toggle, a knocked-out plus mark: honest and cheap, but the founder judged
   the result "a page from the 90s, a wiki". The plus sign survives in its
   outlined Signal treatment; everything else was replaced.
-- **Mono for body copy** — rejected (plan D-04): monospace paragraphs are
+- **Mono for body copy** — rejected: monospace paragraphs are
   longer and slower to read, and the brand voice is carried by every heading
   and label already.
 - **A `system` state for the toggle** — rejected: two states read instantly,
   dark is the founder's default for everyone, and clearing storage returns
   the site to dark.
-- **`prefers-color-scheme` as the first-visit default** — the plan's
-  original reading; the founder decided dark for everyone. The revert would
+- **`prefers-color-scheme` as the first-visit default** — the approach
+  first proposed; the founder decided dark for everyone. The revert would
   be one line in `resolve()`, one media-query rule in `tokens.css` and the
   corresponding gate and test assertions.
 - **Pure hues as text on light** — fail 4.5:1 (1.32:1 for the green, 2.79:1
   for the orange); the darkened brand variants exist for that reason.
-- **Product screenshots and a social image** — not this run (plan D-08);
+- **Product screenshots and a social image** — not this run;
   the console is the product visual and no page carries raster imagery.
 - **Subset fonts** — kept as a fallback only; the unmodified files fit the
   budget and keep the OFL notice simple.
@@ -522,11 +521,17 @@ A new token also moves the counts `tests/contrast.test.mjs` pins (22 pairs,
 43 evaluations, 15 tokens) and must be added to the two fixture copies of
 `tokens.css` under `tests/fixtures/contrast-{weak,literal}/`, which are full
 copies of the real file; update all three or `pnpm test` turns red.
-Colour literals outside `tokens.css` fail the gate. Three places repeat token
-values as literals and are changed by hand: the `theme-color` meta in
-`partials/head.njk` and the two backgrounds in `src/assets/js/theme.js`
-(`#0B0E10` / `#F7F8F6`), and the fills and edge in `src/favicon.svg`
-(`#0B0E10`, `#83F35D`, `#256B15`).
+Colour literals in any stylesheet but `tokens.css` fail the gate. Three places
+repeat token values as literals and are changed by hand: the `theme-color`
+meta in `partials/head.njk` and the two backgrounds in
+`src/assets/js/theme.js` (`#0B0E10` / `#F7F8F6`), and the fills and edge in
+`src/favicon.svg` (`#0B0E10`, `#83F35D`, `#256B15`). `tests/theme.test.mjs`
+lists each of these literals in its `COPIES` table, with the token and theme
+it copies. The test fails when a copy differs from `tokens.css`, naming the
+file and line, and when one of the three files holds a literal the table
+does not list, naming the file. A hex colour literal in any other file under
+`src/` fails its test "no other file under src/ has a hex colour literal": a
+new copy goes in `COPIES`.
 
 ## Adding an app without breaking the balance
 
@@ -581,5 +586,5 @@ when they are broken:
   when the list and the data disagree.
 
 Then run `pnpm check` and `pnpm test`: the content gate proves the rendered
-grid and the layout gate (plan T8) measures the balance at five widths in
-both languages.
+grid and the layout gate measures the balance at five widths in both
+languages.

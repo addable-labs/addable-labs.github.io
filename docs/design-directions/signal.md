@@ -47,7 +47,8 @@ reserved for status and attention (the "in development" chip, the draft chip,
 the waiting cursor) so it never competes with the CTA. Light theme: paper
 `#F7F8F6`, ink `#14191D`, green text darkened to `#256B15` (6.2:1), orange text
 to `#A84600` (≥ 4.5:1); the pure hues stay as button surfaces and glows only.
-Every pair was measured (see the plan's palette table); borders meet 3:1, the
+Every pair was measured, and the shipped palette keeps these values: the
+ratios are in [../identity.md](../identity.md). Borders meet 3:1, the
 hairlines used for section rules are decorative.
 
 ## Component language
