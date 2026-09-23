@@ -42,10 +42,10 @@ describe("content gate", () => {
   });
 
   it("fails when the founder's name disappears from the trust section (REQ-012)", async () => {
-    const broken = await withLandingEdit("no-founder", (html) => html.replace("Peter Blenessy", "the founder"));
+    const broken = await withLandingEdit("no-founder", (html) => html.replace("Péter Blénessy", "the founder"));
     const { status, output } = runGate("content", broken);
     assert.equal(status, 1);
-    assert.match(output, /FAIL {2}index\.html: trust section names Peter Blenessy/);
+    assert.match(output, /FAIL {2}index\.html: trust section names Péter Blénessy/);
   });
 
   it("fails when the about page lacks the founding month (REQ-012, D-12)", async () => {

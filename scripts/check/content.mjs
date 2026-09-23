@@ -18,9 +18,10 @@
 //     named "factory"; at least two latest-writing cards with category chips
 //     and the draft chip where due, and the link to the blog index
 //   - the about pages have the mission and approach sections and the
-//     founding month ("September 2026" / "september 2026"), and the
-//     founder's name appears nowhere in their main content (founder call
-//     2026-09-22: no founder section)
+//     founding month ("September 2026" / "september 2026"), and outside the
+//     lead the founder's name appears nowhere in their main content (founder
+//     call 2026-09-22: no founder section; the lead's first sentence names
+//     the founder, at the founder's request of 2026-09-23)
 //   - every page's footer: mailto:hello@addablelabs.se with the address as
 //     text, the company line the law asks for — name, organisation number and
 //     registered seat (si-98hh) — the language switch to the counterpart path
@@ -54,7 +55,7 @@ const strings = await loadStrings(src, site);
 const apps = JSON.parse(await readFile(path.join(src, "_data", "portfolio.json"), "utf8"));
 const report = reporter("content");
 const prefixOf = (lang) => (lang === site.languages.default ? "" : `/${lang}`);
-const FOUNDER = "Peter Blenessy";
+const FOUNDER = "Péter Blénessy";
 const MONTH = { en: "September 2026", sv: "september 2026" };
 const FACTORY_PHRASE = { en: "agent-run software factory", sv: "agentdriven mjukvarufabrik" };
 // Aktiebolagslagen 28 kap. 5 § (si-98hh): a limited company states its name,
@@ -194,12 +195,14 @@ for (const lang of site.languages.codes) {
   const about = await page(rel);
   if (!about) continue;
   const main = text(about.doc.querySelector("main"));
+  const lead = text(about.doc.querySelector("main .page-hero .lead"));
   const h2s = about.doc.querySelectorAll("main h2").map(text);
   // Founder call 2026-09-22: a mission section and no founder section. The
-  // founder's name appears nowhere in the page's main content; the landing
-  // page's trust section carries it (REQ-012).
+  // lead's first sentence names the founder (the founder's request of
+  // 2026-09-23); outside the lead the name appears nowhere in the page's main
+  // content, and the landing page's trust section carries it (REQ-012).
   report.check(h2s.includes(strings[lang].about.missionHeading), `${rel}: mission section present`);
-  report.check(!main.includes(FOUNDER), `${rel}: no founder section (the name belongs to the landing page's trust section)`);
+  report.check(!main.replace(lead, "").includes(FOUNDER), `${rel}: no founder section (outside the lead, the main content does not name ${FOUNDER})`);
   // REQ-012 (plan D-12): the founding month moved from the landing page to the about page.
   report.check(main.includes(MONTH[lang]), `${rel}: contains "${MONTH[lang]}"`);
   report.check(h2s.includes(strings[lang].about.approachHeading), `${rel}: approach section present`);
