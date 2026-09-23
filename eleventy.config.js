@@ -2,6 +2,7 @@ import { readFileSync, statSync } from "node:fs";
 import { IdAttributePlugin } from "@11ty/eleventy";
 import rssPlugin from "@11ty/eleventy-plugin-rss";
 import { isOmitted, isScheduled, validateArticle, validateArticleDate } from "./scripts/lib/frontmatter.mjs";
+import { byDateDescThenSlug, checkPageUrls } from "./scripts/lib/urls.mjs";
 import site from "./src/_data/site.js";
 
 // Paths copied verbatim into _site/: the stylesheets and mark, the SVG favicon
@@ -29,11 +30,6 @@ function loadFigures() {
 // A figure rendered into an article body, as the shortcode emits it:
 // <figure class="figure …">…</figure>, never nested.
 const FIGURE_HTML = /<figure class="figure[^"]*"[^>]*>[\s\S]*?<\/figure>\n?/g;
-
-// Newest first; equal dates fall back to the slug so the order is stable.
-function byDateDescThenSlug(a, b) {
-  return b.date - a.date || a.fileSlug.localeCompare(b.fileSlug);
-}
 
 // Two rules keep an article off the blog, and they are deliberately not the
 // same rule (frontmatter.mjs holds both):
@@ -112,6 +108,18 @@ export default function (eleventyConfig) {
     if (!ARTICLE_PATH.test(data.page.inputPath)) return;
     if (isOmitted(data)) return false;
   });
+
+  // Every URL the build gives a page is made of slugs (si-2a7h). A file's
+  // name becomes its URL, and nothing checked those names: a "#", "?" or "%"
+  // broke the URL, and a letter outside ASCII made the order of same-date
+  // articles depend on the build machine. Eleventy hands this event every
+  // page's URL once, after it has formed them and before anything renders,
+  // so the check reads the URLs as the build made them — the category pages'
+  // (from categories.json) and any permalink included — and one error names
+  // every file at fault. A draft the production build leaves out forms no
+  // URL there, so a bad draft name fails the local build, where drafts are
+  // written.
+  eleventyConfig.on("eleventy.contentMap", ({ inputPathToUrl }) => checkPageUrls(inputPathToUrl));
 
   // posts_<lang>: every listed article of a language, newest first;
   // posts_<lang>_<category>: the same filtered to one category. Both drop the
