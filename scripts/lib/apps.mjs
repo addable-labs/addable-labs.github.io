@@ -13,7 +13,10 @@
     feedback round 1 (si-yp2x), in grid order. */
 export const APP_KEYS = ["niva", "notesage", "ashlands", "gaimer"];
 
-/** Private repositories: url must be null (REQ-011 honesty rule, A-01). */
+/** Private repositories: never linked (REQ-011 honesty rule, A-01). Their url
+    is null, or the public page of the product when there is one — nivå's
+    since si-gyc4 — and never on github.com, so the card says "Website", not
+    "Repository". */
 export const PRIVATE_APP_KEYS = ["niva"];
 
 /** The three services (REQ-010; the third card is the experiments card since
@@ -39,7 +42,8 @@ export const BANDS = { name: 16, serviceTitle: 20, statusLabel: 22, ratio: 1.25,
 /** Never named or linked anywhere (REQ-011). */
 export const FORBIDDEN_REPO = "addable-labs/factory";
 
-/** Public entries link the repository where it lives today (A-01). */
+/** Public entries link the repository where it lives today (A-01); a url with
+    this prefix is a repository, and the card labels it so. */
 export const PUBLIC_URL_PREFIX = "https://github.com/";
 
 const length = (value) => [...String(value)].length;
@@ -54,7 +58,7 @@ const quote = (value) => JSON.stringify(value);
  * @param {Record<string, object>} options.strings — { en: {...}, sv: {...} }
  * @param {string[]} [options.statuses] — status keys the site knows
  * @param {string[]} [options.keys] — the expected entry keys, in order
- * @param {string[]} [options.privateKeys] — entries that must not carry a URL
+ * @param {string[]} [options.privateKeys] — entries whose repository is private: no url, or the product's public page
  * @param {string[]} [options.themes] — the service keys
  * @param {object} [options.bands] — the copy bands
  * @param {Record<string, string>} [options.privateLabels] — the verbatim `private` label per language
@@ -103,7 +107,9 @@ export function validateApps({
       problems.push(`${name}: unknown status ${quote(entry?.status)} (known: ${statuses.join(", ")})`);
     }
     if (privateKeys.includes(key)) {
-      if (entry.url !== null) problems.push(`${name}: private repository must not carry a URL (${quote(entry.url)})`);
+      if (entry.url !== null && !(isText(entry.url) && entry.url.startsWith("https://") && !entry.url.startsWith(PUBLIC_URL_PREFIX))) {
+        problems.push(`${name}: private repository must not be linked — url is null or the product's public https:// page, never ${PUBLIC_URL_PREFIX} (got ${quote(entry.url)})`);
+      }
     } else if (keys.includes(key) && !(isText(entry?.url) && entry.url.startsWith(PUBLIC_URL_PREFIX))) {
       problems.push(`${name}: public entry needs a ${PUBLIC_URL_PREFIX} URL, got ${quote(entry?.url)}`);
     }
@@ -129,7 +135,7 @@ export function validateApps({
     for (const [key, value] of Object.entries(portfolio)) {
       if (isMap(value) && !actual.includes(key)) problems.push(`${lang}: portfolio.${key} has no data entry`);
     }
-    for (const field of ["privateNote", "repoLink"]) {
+    for (const field of ["privateNote", "repoLink", "siteLink"]) {
       if (!isText(portfolio[field])) problems.push(`${lang}: portfolio.${field} is missing`);
     }
 

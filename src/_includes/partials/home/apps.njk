@@ -7,10 +7,13 @@
     Copy comes from strings.portfolio.<key>; the status label from
     strings.portfolioStatus and the theme caption from strings.themes. The name
     is plain text in every card; the action row is the same element for every
-    card: a.app-action "Repository ↗" to the public repository (url set, the
-    card gets app-linked and the only a[href]) or p.app-private with the
-    private note (url null, no link at all). .portfolio-entry and
-    .portfolio-name are the content gate's stable hooks. -#}
+    card: a.app-action to the entry's url (url set, the card gets app-linked
+    and the only a[href]) — "Repository ↗" when the url is the public
+    repository on github.com, "Website ↗" when it is the public page of a
+    product whose repository is private (nivå since si-gyc4), so the card
+    never calls a private repository open — or p.app-private with the private
+    note (url null, no link at all). .portfolio-entry and .portfolio-name are
+    the content gate's stable hooks. -#}
 {%- set apps = strings[lang].apps -%}
 <section id="apps" class="section section-alt" aria-labelledby="apps-title">
   <div class="container">
@@ -30,7 +33,7 @@
         <h3 class="app-name portfolio-name">{{ copy.name }}</h3>
         <p class="app-text">{{ copy.summary }}</p>
         {%- if entry.url %}
-        <a class="app-action" href="{{ entry.url }}">{{ strings[lang].portfolio.repoLink }}<span class="arrow" aria-hidden="true">↗</span></a>
+        <a class="app-action" href="{{ entry.url }}">{{ strings[lang].portfolio.repoLink if entry.url.startsWith("https://github.com/") else strings[lang].portfolio.siteLink }}<span class="arrow" aria-hidden="true">↗</span></a>
         {%- else %}
         <p class="app-private">{{ strings[lang].portfolio.privateNote }}</p>
         {%- endif %}

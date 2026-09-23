@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { readFile, stat, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { after, before, describe, it } from "node:test";
+import { isScheduled } from "../scripts/lib/frontmatter.mjs";
 import { buildSite, copyDir, copyProject, runGate, tempDir } from "./helpers.mjs";
 
 // The content gate re-targeted to the Signal landing model (REQ-024 as
@@ -52,11 +53,18 @@ describe("content gate", () => {
     assert.match(output, /FAIL {2}about\/index\.html: contains "September 2026"/);
   });
 
-  it("fails when the nivå card is linked (REQ-011, A-01)", async () => {
-    const broken = await withLandingEdit("niva-linked", (html) => html.replace(/(<h3 class="app-name portfolio-name"[^>]*>)nivå(<\/h3>)/, '$1<a href="https://example.com/niva">nivå</a>$2'));
-    const { status, output } = runGate("content", broken);
-    assert.equal(status, 1);
-    assert.match(output, /FAIL {2}index\.html: nivå entry has no link \(private repository\)/);
+  it("fails when the nivå card links more than its public page, or calls it \"Repository\" (REQ-011, A-01; si-gyc4)", async () => {
+    // The repository is private and the product is not: one link, to the
+    // page, labelled as a website.
+    const expected = /FAIL {2}index\.html: nivå entry links its public page exactly once \(https:\/\/erniva\.se\/\) through a\.app-action labelled "Website"/;
+    const twice = await withLandingEdit("niva-linked", (html) => html.replace(/(<h3 class="app-name portfolio-name"[^>]*>)nivå(<\/h3>)/, '$1<a href="https://example.com/niva">nivå</a>$2'));
+    const linked = runGate("content", twice);
+    assert.equal(linked.status, 1);
+    assert.match(linked.output, expected);
+    const repository = await withLandingEdit("niva-repository", (html) => html.replace('href="https://erniva.se/">Website<span', 'href="https://erniva.se/">Repository<span'));
+    const labelled = runGate("content", repository);
+    assert.equal(labelled.status, 1);
+    assert.match(labelled.output, expected);
   });
 
   it("fails when the hero's primary CTA no longer points at the apps section (REQ-009 as amended by founder feedback round 1, si-yp2x)", async () => {
@@ -66,11 +74,11 @@ describe("content gate", () => {
     assert.match(output, /FAIL {2}index\.html: primary CTA is "See what we have built" linking #apps/);
   });
 
-  it("fails when the secondary CTA promises a live product while site.nivaUrl is null (REQ-009, D-11)", async () => {
-    const broken = await withLandingEdit("niva-try", (html) => html.replace("Get early access to nivå</a>", "Try nivå</a>"));
+  it("fails when the secondary CTA still asks for early access while site.nivaUrl is set (REQ-009, D-11; si-gyc4)", async () => {
+    const broken = await withLandingEdit("niva-early", (html) => html.replace('href="https://erniva.se/">nivå</a>', 'href="mailto:hello@addablelabs.se?subject=Early%20access%20to%20niv%C3%A5">Get early access to nivå</a>'));
     const { status, output } = runGate("content", broken);
     assert.equal(status, 1);
-    assert.match(output, /FAIL {2}index\.html: secondary CTA is an early-access mailto: labelled "Get early access to nivå" while site\.nivaUrl is null/);
+    assert.match(output, /FAIL {2}index\.html: secondary CTA links site\.nivaUrl \(https:\/\/erniva\.se\/\) as "nivå"/);
   });
 
   it("fails when the trust section links a URL containing \"factory\" (REQ-012)", async () => {
@@ -195,12 +203,16 @@ describe("content gate", () => {
 // development build — where every article is present, drafts included: an
 // exclusion must neither reorder nor drop anything else. The tree carries no
 // draft of its own, so the cases below write the drafts they need. Add a line
-// when an article is added.
-const EN_ORDER = [
-  "/blog/ashlands-what-one-prompt-built/",
-  "/blog/why-we-run-an-agent-run-factory/",
-  "/blog/how-this-site-was-built-by-agents/",
+// when an article is added, with its date: an article of the real tree can be
+// scheduled too (nivå until 2026-09-23, si-gyc4), and it joins the index on
+// its day — the daily rebuild runs this suite on every one of them.
+const ARTICLES = [
+  ["/blog/lessons-from-building-niva/", "2026-09-23"],
+  ["/blog/ashlands-what-one-prompt-built/", "2026-09-22"],
+  ["/blog/why-we-run-an-agent-run-factory/", "2026-09-21"],
+  ["/blog/how-this-site-was-built-by-agents/", "2026-09-20"],
 ];
+const EN_ORDER = ARTICLES.filter(([, date]) => !isScheduled(date)).map(([url]) => url);
 const SV_ORDER = EN_ORDER.map((url) => `/sv${url}`);
 
 /** YYYY-MM-DD, `offset` days from today in UTC — the unit the collections compare. */
@@ -209,13 +221,14 @@ function utcDate(offset) {
   return new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + offset)).toISOString().slice(0, 10);
 }
 
-/** Write one article, both languages, into a copy of the project. */
-async function writeArticlePair(project, slug, date, enTitle, svTitle, { draft = false } = {}) {
+/** Write one article, both languages, into a copy of the project; `linkTo` links another article's slug from the body. */
+async function writeArticlePair(project, slug, date, enTitle, svTitle, { draft = false, linkTo } = {}) {
   for (const [lang, title] of [["en", enTitle], ["sv", svTitle]]) {
     const frontMatter = ["---", `title: ${title}`, `description: ${title}, one sentence.`, `date: ${date}`, "category: app-development", `translationKey: ${slug}`, `draft: ${draft}`, "aiGenerated: true", "humanReviewed: true", "---"];
+    const link = linkTo ? `\n\nIt links [another article](${lang === "en" ? "" : `/${lang}`}/blog/${linkTo}/).` : "";
     // A body long enough to clear the content gate's 300-word floor, so the
     // gates can run against this build as they do against the real one.
-    const body = `The body of ${title}.\n\n${"One sentence of filler prose, written only to give this fixture article its words. ".repeat(30)}`;
+    const body = `The body of ${title}.${link}\n\n${"One sentence of filler prose, written only to give this fixture article its words. ".repeat(30)}`;
     await writeFile(path.join(project, "src", lang, "blog", "posts", `${slug}.md`), `${frontMatter.join("\n")}\n\n${body}\n`);
   }
 }
@@ -237,7 +250,11 @@ describe("scheduled posts", () => {
     const project = await copyProject(path.join(tmp.dir, "project"));
     builtSrc = path.join(project, "src");
     await writeArticlePair(project, "scheduled-tomorrow", utcDate(1), "Dated tomorrow", "Daterad i morgon");
-    await writeArticlePair(project, "published-today", utcDate(0), "Dated today", "Daterad i dag");
+    // The one dated today links the one dated tomorrow, as the factory
+    // article links the nivå article the day before it is listed (si-gyc4):
+    // unlisted, not secret, so the link is allowed and the feeds carry it in
+    // the item's content.
+    await writeArticlePair(project, "published-today", utcDate(0), "Dated today", "Daterad i dag", { linkTo: "scheduled-tomorrow" });
     built = buildSite(path.join(tmp.dir, "site"), {}, project);
     real = buildSite(path.join(tmp.dir, "real"));
   });
@@ -258,7 +275,9 @@ describe("scheduled posts", () => {
   it("keeps an article dated tomorrow out of both feeds", async () => {
     for (const feed of [["feed.xml"], ["sv", "feed.xml"]]) {
       const xml = await readFile(path.join(built, ...feed), "utf8");
-      assert.doesNotMatch(xml, /scheduled-tomorrow/, feed.join("/"));
+      // No item for it; the article dated today links it in its content.
+      assert.doesNotMatch(xml, /<link>[^<]*\/scheduled-tomorrow\/<\/link>/, feed.join("/"));
+      assert.match(xml, /href=&quot;https:\/\/addablelabs\.se\/(sv\/)?blog\/scheduled-tomorrow\/&quot;/, `${feed.join("/")}: the link in the content`);
       assert.match(xml, /published-today/, feed.join("/"));
       // lastBuildDate reads the same collection, so it never runs ahead either.
       const [, lastBuild] = xml.match(/<lastBuildDate>([^<]+)<\/lastBuildDate>/);

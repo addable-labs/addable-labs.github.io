@@ -286,9 +286,13 @@ one-liner in both strings files and its key in the curated list `APP_KEYS`
 
 - `theme` is `ai-apps`, `ai-adoption` or `experiments` (the three services;
   `experiments` replaced `investing` in founder feedback round 1);
-  `repo` is `owner/name`; `url` is the public repository, or `null` for a
-  private one — private entries get the "Private repository — no public link
-  yet" line instead of a link, and nothing may name `addable-labs/factory`.
+  `repo` is `owner/name`; `url` is the public repository. A private
+  repository is never linked: its `url` is the product's public page when
+  there is one — nivå's is `https://erniva.se/` — and the card labels it
+  "Website ↗" where a repository gets "Repository ↗", so no card calls a
+  private repository open; without a page it is `null` and the card gets the
+  "Private repository — no public link yet" line instead of a link. Nothing
+  may name `addable-labs/factory`.
 - `status` is one of `in-development`, `open-source-mit`, `experiment`,
   `private`, each with a label in `portfolioStatus` in both strings files.
   Statuses are stated as the repository states them, nothing is invented.
@@ -304,7 +308,7 @@ one-liner in both strings files and its key in the curated list `APP_KEYS`
 - **The guard** is `tests/apps.test.mjs` (`validateApps()` in
   `scripts/lib/apps.mjs`): it fails naming the key, the language or the band
   when an entry lacks strings in a language, uses an unknown or unused
-  status, carries a URL while private, or breaks a band. A new status also
+  status, links a private repository, or breaks a band. A new status also
   needs an entry in `STATUS_KEYS` there and a `chip-<status>` colour rule in
   `src/assets/css/base.css`.
 - **The list is curated.** The six entries are the founder's list (amendment
@@ -315,8 +319,8 @@ one-liner in both strings files and its key in the curated list `APP_KEYS`
 - **The proof** is `pnpm check:layout`: it renders both landing pages at
   five widths in headless Chrome and measures that every title is one line
   and every row of cards is aligned, and `pnpm check:content` proves the
-  rendered grid (six entries in order, the private ones unlinked, the public
-  ones linked once).
+  rendered grid (the entries in order, each linked once with the label its
+  link calls for, an entry without a `url` not at all).
 
 The mechanism behind the balance (subgrid rows, the chip-row rule, the
 breakpoints) is explained in [`docs/identity.md`](docs/identity.md), *Adding
@@ -340,11 +344,16 @@ an app without breaking the balance*.
   by hand. The hero's primary call to action links the apps section
   (`#apps`) instead: since founder feedback round 1 the site promotes what
   exists rather than "Start a project".
-- `nivaUrl` — `null` until nivå has a public URL. While it is `null` the
-  hero's secondary call to action is an honest early-access `mailto:` ("Get
-  early access to nivå" / "Få tidig tillgång till nivå"); once set, the same
-  button reads "Try nivå" / "Prova nivå" and links there, with no template
-  change. The content gate checks whichever state applies.
+- `nivaUrl` — nivå's public page, `https://erniva.se/` (its root sends a
+  visitor to `/en` or `/sv` by the browser's language). The hero's secondary
+  call to action reads "nivå" in both languages and links there, and so
+  does the AI adoption card's "Visit nivå" / "Besök nivå" — the founder's
+  call (2026-09-23): nothing that misleads while nivå is not yet open to
+  everyone, and nothing to change when it opens. Set to `null`, the
+  button becomes an honest early-access `mailto:` ("Get early access to
+  nivå" / "Få tidig tillgång till nivå") and the card links the apps
+  section, with no template change. The content gate checks the button in
+  whichever state applies.
 - `languages` — `en` (default, at the root) and `sv`.
 
 The company line in every footer is copy, not a `site.js` fact: `footer.company`
@@ -374,7 +383,7 @@ after a `pnpm build`:
 | contrast | `pnpm check:contrast` | `src/assets/css/tokens.css` keeps its structure (dark by default, light only under the toggle's `[data-theme="light"]`, every fallback equal to its dark value, no OS media query, no token outside `:root`); every colour pair meets WCAG AA in both themes (4.5:1 text, 3:1 UI); no colour literal outside `tokens.css`. |
 | parity | `pnpm check:parity` | Every English page has its Swedish twin and vice versa, the feeds pair up, the strings files have identical keys with no empty values, pages pair one-to-one. |
 | feeds | `pnpm check:feeds` | Both feeds are well-formed RSS 2.0 with absolute links, exactly the language's listed articles — never one dated after today, and never a draft unless this is a development build — draft labels, items that carry the prose only (no `<figure>`), and every page links its feed. |
-| content | `pnpm check:content` | The facts the site must state: one `h1` in the hero, the primary `mailto:` call to action with a subject, the nivå button honouring `site.nivaUrl`, the three service headings, the six apps in data order with the private ones unlinked and the public ones linked once, the trust section's phrase, founder, article link and proof link, the latest-writing cards, the founding month on the about page; on every page the footer's address, the company line with the organisation number and the registered seat, the language switches, the toggle and the feed link; no private-repository link, no "StockSight", no factory name; article lengths and draft labels; that an article dated after today is built but listed in neither its language's blog index nor its feed; and that a draft is listed and built in a development build but has no page at all in the published one. The pinned facts are the constants at the top of `scripts/check/content.mjs`. |
+| content | `pnpm check:content` | The facts the site must state: one `h1` in the hero, the primary `mailto:` call to action with a subject, the nivå button honouring `site.nivaUrl`, the three service headings, the apps in data order, each linked once — "Repository" to a public repository, "Website" to the public page of a product whose repository is private — and an entry without a `url` unlinked, the trust section's phrase, founder, article link and proof link, the latest-writing cards, the founding month on the about page; on every page the footer's address, the company line with the organisation number and the registered seat, the language switches, the toggle and the feed link; no private-repository link, no "StockSight", no factory name; article lengths and draft labels; that an article dated after today is built but listed in neither its language's blog index nor its feed; and that a draft is listed and built in a development build but has no page at all in the published one. The pinned facts are the constants at the top of `scripts/check/content.mjs`. |
 | lighthouse | `pnpm check:lighthouse` | Serves `_site/` locally, runs Lighthouse 13 (mobile configuration) in headless Chrome on `/`, `/sv/`, `/about/`, `/blog/`, a category page, an article and `/404.html`: Performance, Accessibility, Best Practices and SEO each ≥ 95 and cumulative layout shift ≤ 0.1, one line per page. |
 | layout | `pnpm check:layout` | Renders `/` and `/sv/` at 360, 768, 1024, 1280 and 1920 px in headless Chrome and measures the balanced cards: every service and app title one line, cards in a row equal in height with their "What you get" heading / summary tops and action rows aligned (± 1 px), every chip row one line. Renders every article page at the same widths and measures the article layout: no horizontal scroll, every text block at most 44 rem wide, centred in the body and on one shared left edge, every wide figure across the body, every inline figure on the measure and centred with its panel 20–24.5 rem wide and its caption beside the panel from 768 px (top-aligned, after the gap) and under it below, every panel rendered so a 13-unit label is at least 12 px. `LAYOUT_DUMP=<file>` writes the raw measurements (the source of `tests/fixtures/layout/article.json`). |
 
@@ -496,11 +505,7 @@ pair.
 4. **Enforce HTTPS** — same settings page, tick *Enforce HTTPS* when the
    option becomes available (GitHub issues the certificate after the domain
    check; this can take up to 24 hours).
-5. **nivå URL** — set `nivaUrl` in `src/_data/site.js` once nivå has a public
-   address. Until then the hero's secondary button is the early-access
-   `mailto:`; afterwards it reads "Try nivå" / "Prova nivå" and links there,
-   with no template change.
-6. **Copy review — English.** The redesign wrote new English copy for the
+5. **Copy review — English.** The redesign wrote new English copy for the
    landing page (hero, console lines, the three services and their "What
    you get" lists, the apps section and the six one-liners, the trust
    section, the writing and contact sections), the about page (lead,
@@ -511,7 +516,7 @@ pair.
    section, REQ-012).
    The service headings are the short forms ("AI-powered apps", "AI
    adoption", "Investing tools") because a card title must fit one line.
-7. **Copy review — Swedish.** Every Swedish string below was written by the
+6. **Copy review — Swedish.** Every Swedish string below was written by the
    factory, which is what `aiGenerated` records in the front matter (see
    *Add an article*; neither that field nor `humanReviewed` renders on the
    site). Clear `draft: true` on an article in both languages when it is
@@ -520,7 +525,7 @@ pair.
    redesign:
    - `theme.toggleLabel`; `footer.contact`, `footer.site`
    - `hero.eyebrow`, `hero.title`, `hero.lead`, `hero.ctaPrimary`,
-     `hero.nivaEarlyAccess`, `hero.nivaEarlyAccessSubject`, `hero.nivaTry`,
+     `hero.nivaEarlyAccess`, `hero.nivaEarlyAccessSubject`, `hero.nivaLink`,
      `hero.proof.{agents,open,gates}`
    - `console.ariaLabel`, `console.lines.{requirements,plan,review,implement,gates,founder}.{text,state}`
    - `services.eyebrow`, `services.heading`;
@@ -529,7 +534,7 @@ pair.
      `themes.investing.{title,text,getsHeading,gets.api,gets.analysis,gets.open,cta}`
    - `apps.eyebrow`, `apps.heading`, `apps.lead`;
      `portfolio.{niva,notesage,marketdata-api,compound,ashlands,gaimer}.summary`,
-     `portfolio.privateNote`, `portfolio.repoLink`;
+     `portfolio.privateNote`, `portfolio.repoLink`, `portfolio.siteLink`;
      `portfolioStatus.open-source-mit`, `portfolioStatus.private`
    - `trust.eyebrow`, `trust.heading`,
      `trust.points.{aiNative,agents,proof,swedish}.{title,text}`,
@@ -554,12 +559,15 @@ pair.
    - the Swedish text of the Ashlands post itself
      (`src/sv/blog/posts/ashlands-what-one-prompt-built.md`, si-wqb7),
      including the founder's quotes, which are translated from English
-8. **The four unlisted repositories.** TraceLoupe, airlocked-agents, Stoqster
+   - the Swedish text of the nivå post
+     (`src/sv/blog/posts/lessons-from-building-niva.md`), back from the
+     backup in si-gyc4 with `humanReviewed: false`
+7. **The four unlisted repositories.** TraceLoupe, airlocked-agents, Stoqster
    and investable were removed from the apps grid at your request ("not
    sure" was read as do-not-publish); say so if any of them should return —
    it is one data entry, two strings entries and its key in `APP_KEYS` each
    (see *Add an app*).
-9. **A manual Lighthouse report** is needed only if CI ever loses Chrome;
+8. **A manual Lighthouse report** is needed only if CI ever loses Chrome;
    today the gate runs on every pull request and push.
 
 The status labels of marketdata-api ("private · API keys on request") and

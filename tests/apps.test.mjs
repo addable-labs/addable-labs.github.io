@@ -64,14 +64,19 @@ describe("apps data and copy (REQ-011, REQ-025; AC-11, AC-12, AC-30)", () => {
     assert.ok(!problems.some((p) => p.startsWith("en: portfolio.newapp")), problems.join("\n"));
   });
 
-  it("keeps the private entries unlinked and links the public ones to github.com (A-01)", () => {
+  it("never links a private repository — nivå links its public page instead — and links the public ones to github.com (A-01, si-gyc4)", () => {
     for (const entry of data) {
-      if (PRIVATE_APP_KEYS.includes(entry.key)) assert.equal(entry.url, null, `${entry.key} is private`);
+      if (PRIVATE_APP_KEYS.includes(entry.key)) assert.ok(entry.url === null || !entry.url.startsWith("https://github.com/"), `${entry.key} is private`);
       else assert.match(entry.url, /^https:\/\/github\.com\//, `${entry.key} links its repository`);
     }
+    assert.equal(data.find((entry) => entry.key === "niva").url, "https://erniva.se/");
     const linked = copy();
     linked.data.find((entry) => entry.key === "niva").url = "https://github.com/addable-labs/niva";
-    assert.ok(problemsOf(linked).some((p) => /^niva: private repository must not carry a URL/.test(p)), problemsOf(linked).join("\n"));
+    assert.ok(problemsOf(linked).some((p) => /^niva: private repository must not be linked/.test(p)), problemsOf(linked).join("\n"));
+    // Without a public page a private entry is unlinked, as before si-gyc4.
+    const noPage = copy();
+    noPage.data.find((entry) => entry.key === "niva").url = null;
+    assert.deepEqual(problemsOf(noPage), []);
     const unlinked = copy();
     unlinked.data.find((entry) => entry.key === "notesage").url = null;
     assert.ok(problemsOf(unlinked).some((p) => /^notesage: public entry needs a https:\/\/github\.com\/ URL/.test(p)), problemsOf(unlinked).join("\n"));

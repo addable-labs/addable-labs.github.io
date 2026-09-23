@@ -20,7 +20,8 @@ what is it built on?
 
 ## What one agent and one person could not do
 
-nivå was built the other way round: one
+nivå, the product behind [Lessons from building
+nivå](/blog/lessons-from-building-niva/), was built the other way round: one
 coding agent and one person, 480 commits in 26 days, every one co-authored
 by the agent. That setup does not start from nothing. A file of working
 agreements, four written routines — review, gates, deploys and content

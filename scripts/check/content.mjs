@@ -10,12 +10,13 @@
 //     URL when set, otherwise an honest early-access mailto: with the
 //     hero.nivaEarlyAccess label); three service headings equal to
 //     the strings; the apps grid renders every data entry in order with its
-//     name and status label — private entries without any link, public ones
-//     with exactly one link to their repository; the trust section carries
-//     the factory phrase, the founder's name, "AI-native", the article link
-//     and the proof link and links nothing else named "factory"; at least two
-//     latest-writing cards with category chips and the draft chip where due,
-//     and the link to the blog index
+//     name and status label — an entry without a url unlinked, the others
+//     linked exactly once, "Repository" to a public repository and "Website"
+//     to the public page of a product whose repository is private (si-gyc4);
+//     the trust section carries the factory phrase, the founder's name,
+//     "AI-native", the article link and the proof link and links nothing else
+//     named "factory"; at least two latest-writing cards with category chips
+//     and the draft chip where due, and the link to the blog index
 //   - the about pages have the mission and approach sections, the founding
 //     month ("September 2026" / "september 2026") and no founder section
 //     (founder call 2026-09-22: a company page, not a personal one)
@@ -39,6 +40,7 @@
 
 import { readFile } from "node:fs/promises";
 import path from "node:path";
+import { PUBLIC_URL_PREFIX } from "../lib/apps.mjs";
 import { attr, loadPage, text } from "../lib/html.mjs";
 import { exists, internalPath, loadSite, loadStrings, readArticleSources, reporter, resolveDirs, walk } from "../lib/site.mjs";
 
@@ -63,10 +65,10 @@ const AI_NATIVE = { en: "AI-native", sv: "AI-nativ" };
 // an early-access mailto: whose subject says so in the page's language.
 const EARLY_ACCESS_SUBJECT = { en: /access/i, sv: /tillgång/i };
 const ARTICLE_SLUG = "how-this-site-was-built-by-agents";
-// REQ-006 (AC-11): the seed article is 300–600 English words. Later
+// REQ-006 (AC-11): the two seed articles are 300–600 English words. Later
 // articles (the factory series, si-xcpc) get a floor against stubs and a
 // ceiling for a readable post: 300–1,500.
-const SEED_ARTICLES = new Set([ARTICLE_SLUG]);
+const SEED_ARTICLES = new Set([ARTICLE_SLUG, "lessons-from-building-niva"]);
 const WORD_RANGE = { seed: [300, 600], other: [300, 1500] };
 // REQ-011 as amended by A-01: the private repositories of the curated six
 // (marketdata-api and Compound join nivå — both left the grid in feedback
@@ -119,7 +121,7 @@ for (const lang of site.languages.codes) {
   const secondary = hero?.querySelector("a.button-secondary");
   const secondaryHref = attr(secondary, "href") ?? "";
   if (site.nivaUrl) {
-    report.check(secondary && secondaryHref === site.nivaUrl && text(secondary) === strings[lang].hero.nivaTry, `${rel}: secondary CTA links site.nivaUrl (${site.nivaUrl}) as "${strings[lang].hero.nivaTry}"`);
+    report.check(secondary && secondaryHref === site.nivaUrl && text(secondary) === strings[lang].hero.nivaLink, `${rel}: secondary CTA links site.nivaUrl (${site.nivaUrl}) as "${strings[lang].hero.nivaLink}"`);
   } else {
     const honest = secondary && secondaryHref.startsWith("mailto:hello@addablelabs.se?subject=") && EARLY_ACCESS_SUBJECT[lang].test(mailtoSubject(secondaryHref)) && text(secondary) === strings[lang].hero.nivaEarlyAccess;
     report.check(honest, `${rel}: secondary CTA is an early-access mailto: labelled "${strings[lang].hero.nivaEarlyAccess}" while site.nivaUrl is null`);
@@ -134,8 +136,11 @@ for (const lang of site.languages.codes) {
   }
 
   // REQ-011 as amended by A-01 (AC-11): one card per data entry, in data
-  // order, with the strings name and status label; private entries carry no
-  // link at all, public ones exactly one a.app-action to their repository.
+  // order, with the strings name and status label; an entry without a url
+  // carries no link at all, the others exactly one a.app-action to it —
+  // labelled "Repository" when it is the repository on github.com and
+  // "Website" when it is the public page of a product whose repository is
+  // private (si-gyc4), so no card calls a private repository open.
   const entries = doc.querySelectorAll(".portfolio-entry");
   report.check(entries.length === apps.length, `${rel}: apps grid renders one entry per data entry (${entries.length} of ${apps.length})`);
   apps.forEach((app, index) => {
@@ -148,7 +153,11 @@ for (const lang of site.languages.codes) {
     if (app.url === null) {
       report.check(entry !== undefined && links.length === 0, `${rel}: ${copy?.name} entry has no link (private repository)`);
     } else {
-      report.check(links.length === 1 && attr(links[0], "href") === app.url && (attr(links[0], "class") ?? "").split(/\s+/).includes("app-action"), `${rel}: ${copy?.name} entry links its repository exactly once (${app.url}) through a.app-action`);
+      const repository = app.url.startsWith(PUBLIC_URL_PREFIX);
+      const label = repository ? strings[lang].portfolio.repoLink : strings[lang].portfolio.siteLink;
+      // The link's text is the label plus the decorative, aria-hidden arrow.
+      const linkText = text(links[0]).replace(/↗$/, "").trim();
+      report.check(links.length === 1 && attr(links[0], "href") === app.url && (attr(links[0], "class") ?? "").split(/\s+/).includes("app-action") && linkText === label, `${rel}: ${copy?.name} entry links ${repository ? "its repository" : "its public page"} exactly once (${app.url}) through a.app-action labelled "${label}"`);
     }
   });
 
@@ -291,6 +300,8 @@ for (const lang of site.languages.codes) {
   const listing = await page(`${prefixOf(lang).replace(/^\//, "")}${prefixOf(lang) ? "/" : ""}blog/index.html`);
   const feedFile = path.join(out, prefixOf(lang).replace(/^\//, ""), "feed.xml");
   const feed = (await exists(feedFile)) ? await readFile(feedFile, "utf8") : "";
+  // The article each feed item is for: the <link> that follows its <item>.
+  const feedItems = [...feed.matchAll(/<item>[\s\S]*?<link>([^<]*)<\/link>/g)].map(([, url]) => url);
   const draftLabel = strings[lang].article.draftLabel;
   for (const article of articles) {
     const rel = `${article.path.replace(/^\//, "")}index.html`;
@@ -341,7 +352,9 @@ for (const lang of site.languages.codes) {
       }
     }
     if (article.scheduled) {
-      report.check(!feed.includes(article.url), `${lang} feed has no item for ${article.slug} before ${article.date}`);
+      // No item for it. A listed article may still link it in its content:
+      // it is unlisted, not secret, and its page is built (si-gyc4).
+      report.check(!feedItems.includes(article.url), `${lang} feed has no item for ${article.slug} before ${article.date}`);
       continue;
     }
     const itemTitle = new RegExp(`<title>${article.draft ? `${draftLabel}: ` : ""}[^<]*</title>[\\s\\S]*?<link>${article.url.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}</link>`);

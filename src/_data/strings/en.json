@@ -30,7 +30,7 @@
     "ctaPrimary": "See what we have built",
     "nivaEarlyAccess": "Get early access to nivå",
     "nivaEarlyAccessSubject": "Early access to nivå",
-    "nivaTry": "Try nivå",
+    "nivaLink": "nivå",
     "proof": {
       "agents": "Agent-built, human-directed",
       "open": "Open source where it can be",
@@ -98,7 +98,7 @@
         "experience": "Experience and articles from our own AI adoption, shared as we learn",
         "guide": "A guide to the next level for each person and the team"
       },
-      "cta": "See nivå"
+      "cta": "Visit nivå"
     },
     "experiments": {
       "title": "AI experiments",
@@ -115,7 +115,7 @@
   "apps": {
     "eyebrow": "Apps and products",
     "heading": "What we have built",
-    "lead": "Four projects, from open-source apps to a private tool in development. Status is stated as each repository states it."
+    "lead": "Four projects, from open-source apps to a product in development. Status is stated as each repository states it."
   },
   "portfolio": {
     "niva": {
@@ -135,7 +135,8 @@
       "summary": "Describe a game in plain text and get a playable HTML5 game in seconds. A desktop app on Tauri 2, Vue 3 and Quasar with OpenAI or Claude."
     },
     "privateNote": "Private repository — no public link yet",
-    "repoLink": "Repository"
+    "repoLink": "Repository",
+    "siteLink": "Website"
   },
   "portfolioStatus": {
     "in-development": "in development",

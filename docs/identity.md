@@ -235,7 +235,7 @@ change colour, border, transform and box-shadow only.
   Inline text links are the WCAG 2.2 target-size exemption; every
   standalone link is 44 px tall.
 - **Cards.** `.card`: surface, 1 px border colour (3:1), 12 px radius,
-  24 px padding. Linked cards — apps with a repository (`.app-linked`) and
+  24 px padding. Linked cards — apps with a link (`.app-linked`) and
   article cards (`.post`) — lift 2–3 px and turn their border
   `--color-accent-text` on hover, with a soft glow shadow on app cards;
   unlinked app cards keep a solid border on a transparent surface and show
@@ -269,9 +269,11 @@ change colour, border, transform and box-shadow only.
   mono line like the services' number; `div.app-top` — the chip row, holding
   exactly the status chip on one line; `h3.app-name` — plain text, never a
   link; `p.app-text` — the one-liner; then the action row, the same element
-  in every card: `a.app-action` "Repository ↗" (44 px, mono, accent text,
-  underline on hover) or `p.app-private` (the mono private note, muted),
-  both above a dashed rule. **The chip-row mechanism:** the founder-confirmed
+  in every card: `a.app-action` (44 px, mono, accent text, underline on
+  hover) — "Repository ↗" to a public repository, "Website ↗" to the public
+  page of a product whose repository is private (nivå's, si-gyc4) — or
+  `p.app-private` (the mono private note, muted), both above a dashed rule.
+  **The chip-row mechanism:** the founder-confirmed
   `private` label ("privat · API-nycklar på förfrågan", 33 characters,
   275 px at the chip's size) is wider than a three-column card's content at
   1024–1100 px and a two-column card's at 640 px, so the theme caption has
@@ -522,7 +524,8 @@ values as literals and are changed by hand: the `theme-color` meta in
 
 An app is one entry in `src/_data/portfolio.json` — `key`, `theme`
 (`ai-apps`, `ai-adoption` or `experiments`), `repo` (`owner/name`), `url`
-(the public repository, or `null` for a private one), `status`, and
+(the public repository; for a private one, the product's public page or
+`null`), `status`, and
 `source.readme` + `source.retrieved` — plus `portfolio.<key>.name` and
 `portfolio.<key>.summary` in both `src/_data/strings/en.json` and
 `sv.json`. Templates contain no app copy. The copy bands keep the cards
@@ -543,9 +546,11 @@ when they are broken:
   a row take the same number of lines. Write the new one-liner to card
   length (today's summaries are 132–153 characters) and check the band.
 - **2–4 "What you get" items** per service.
-- **Private entries carry `url: null`** and get the private note; public
-  ones link `https://github.com/…` once, through the action row. Nothing may
-  name `addable-labs/factory`.
+- **A private repository is never linked.** A private entry links the
+  product's public page once, labelled "Website ↗" — never a
+  `https://github.com/…` URL — or carries `url: null` and gets the private
+  note; public ones link `https://github.com/…` once as "Repository ↗". Both
+  go through the action row. Nothing may name `addable-labs/factory`.
 - **A new status** needs an entry in `STATUS_KEYS` (`scripts/lib/apps.mjs`),
   a label in both `portfolioStatus` maps, and a `chip-<status>` colour rule
   in `base.css` (accent for shipped/open source, orange for in progress,

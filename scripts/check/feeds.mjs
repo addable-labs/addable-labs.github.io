@@ -101,7 +101,12 @@ async function checkFeed(feed) {
   }
   const missing = expected.filter((entry) => !seen.has(entry.slug)).map((entry) => entry.slug);
   report.check(missing.length === 0, `${feed.file}: every listed ${feed.lang} article appears${missing.length ? ` (missing: ${missing.join(", ")})` : ""}`);
-  const leaked = absent.filter((entry) => xml.includes(entry.url)).map((entry) => entry.slug);
+  // An item is the article its <link> and <guid> name. A listed article may
+  // still link an unlisted one in its content — a scheduled article is
+  // unlisted, not secret, and the links gate proves the page is built
+  // (si-gyc4) — so this reads the items, not the whole feed.
+  const itemUrls = new Set(items.flatMap((item) => [textOf(item.link), textOf(item.guid)]));
+  const leaked = absent.filter((entry) => itemUrls.has(entry.url)).map((entry) => entry.slug);
   report.check(leaked.length === 0, `${feed.file}: no unlisted article${absent.length ? ` (${absent.map(why).join(", ")})` : ""}${leaked.length ? ` — present: ${leaked.join(", ")}` : ""}`);
 }
 

@@ -30,7 +30,7 @@
     "ctaPrimary": "Se vad vi har byggt",
     "nivaEarlyAccess": "Få tidig tillgång till nivå",
     "nivaEarlyAccessSubject": "Tidig tillgång till nivå",
-    "nivaTry": "Prova nivå",
+    "nivaLink": "nivå",
     "proof": {
       "agents": "Byggt av agenter, styrt av en människa",
       "open": "Öppen källkod där det går",
@@ -98,7 +98,7 @@
         "experience": "Erfarenheter och artiklar från vårt eget AI-införande, delade i takt med att vi lär oss",
         "guide": "En guide till nästa nivå för varje person och för teamet"
       },
-      "cta": "Se nivå"
+      "cta": "Besök nivå"
     },
     "experiments": {
       "title": "AI-experiment",
@@ -115,7 +115,7 @@
   "apps": {
     "eyebrow": "Appar och produkter",
     "heading": "Det vi har byggt",
-    "lead": "Fyra projekt, från appar med öppen källkod till ett privat verktyg under utveckling. Statusen är den som varje kodförråd själv anger."
+    "lead": "Fyra projekt, från appar med öppen källkod till en produkt under utveckling. Statusen är den som varje kodförråd själv anger."
   },
   "portfolio": {
     "niva": {
@@ -135,7 +135,8 @@
       "summary": "Beskriv ett spel med egna ord och få ett spelbart HTML5-spel på några sekunder. En skrivbordsapp på Tauri 2, Vue 3 och Quasar med OpenAI eller Claude."
     },
     "privateNote": "Privat kodförråd – ingen publik länk ännu",
-    "repoLink": "Kodförråd"
+    "repoLink": "Kodförråd",
+    "siteLink": "Webbplats"
   },
   "portfolioStatus": {
     "in-development": "under utveckling",

@@ -4,13 +4,16 @@
     Headings, texts and lists come from strings.themes.<key> (the keys are
     ai-apps / ai-adoption / experiments — THEME_KEYS in scripts/lib/apps.mjs —
     so the apps data keeps validating; experiments replaced investing in
-    founder feedback round 1, si-yp2x); the first two cards act through #apps
-    anchors, the experiments card through the blog index of the page's
-    language. The copy bands (title ≤ 20 characters, texts within a 25 % band)
-    are asserted by tests/apps.test.mjs. -#}
+    founder feedback round 1, si-yp2x); the AI-powered apps card acts through
+    the #apps anchor, the AI adoption card through nivå's public page
+    (site.nivaUrl, since si-gyc4 — #apps while it is null) and the
+    experiments card through the blog index of the page's language. An action
+    that leaves the site wears ↗ instead of →, like the app cards' links. The
+    copy bands (title ≤ 20 characters, texts within a 25 % band) are asserted
+    by tests/apps.test.mjs. -#}
 {%- set services = strings[lang].services -%}
 {%- set langPrefix = "" if lang == site.languages.default else "/" + lang -%}
-{%- set actions = { "ai-apps": "#apps", "ai-adoption": "#apps", "experiments": langPrefix + "/blog/" } -%}
+{%- set actions = { "ai-apps": "#apps", "ai-adoption": site.nivaUrl or "#apps", "experiments": langPrefix + "/blog/" } -%}
 <section id="services" class="section" aria-labelledby="services-title">
   <div class="container">
     <div class="section-head reveal">
@@ -30,7 +33,7 @@
           <li>{{ item }}</li>
           {%- endfor %}
         </ul>
-        <a class="text-link" href="{{ actions[key] }}">{{ theme.cta }}<span class="arrow" aria-hidden="true">→</span></a>
+        <a class="text-link" href="{{ actions[key] }}">{{ theme.cta }}<span class="arrow" aria-hidden="true">{{ "↗" if actions[key].startsWith("https://") else "→" }}</span></a>
       </article>
       {%- endfor %}
     </div>
