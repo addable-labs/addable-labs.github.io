@@ -140,7 +140,7 @@ kontrolleras. Vår del var sex korta meddelanden medan körningen pågick –
 valet, våra rättelser, svaren vid plangrinden – och morgonen därpå vårt
 omdöme om den färdiga sidan. Själva körningen var 112 beads, 17
 agentsessioner i tio roller och tio mejl mellan borgmästaren och golvet som
-vi aldrig behövde bära; ingenting blev offentligt enbart på agenternas ord.
+vi aldrig behövde bära; ingen text blev offentlig utan att jag läst den.
 
 {% figure "build", "wide" %}
 

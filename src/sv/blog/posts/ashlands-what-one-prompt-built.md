@@ -158,7 +158,7 @@ nej på båda.
 ## Vad vi tar med oss in i fabriken
 
 Vi kör agenter tvärtom – steg, kvalitetsgrindar, ett gemensamt register
-och en granskning av grundaren innan något publiceras, vilket är så [den
+och grundaren som läser varje text innan den publiceras, vilket är så [den
 här sajten byggdes](/sv/blog/how-this-site-was-built-by-agents/) och vad
 [fabriksartikeln](/sv/blog/why-we-run-an-agent-run-factory/) beskriver.
 Den här körningen styrdes och styrningarna finns i kodförrådet: armarna,

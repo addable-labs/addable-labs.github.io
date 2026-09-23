@@ -80,7 +80,7 @@
   "themes": {
     "ai-apps": {
       "title": "AI-powered apps",
-      "text": "AI as part of the product, not a bolt-on: the apps below were built largely by AI agents, with a senior person in the loop. We build new apps only when they are clearly a job for an AI agent team.",
+      "text": "AI as part of the product, not a bolt-on: the apps below were built largely by AI agents, with the founder reviewing every change. We build new apps only when they are clearly a job for an AI agent team.",
       "getsHeading": "What you get",
       "gets": {
         "product": "A working product, not a slide deck",
@@ -102,7 +102,7 @@
     },
     "experiments": {
       "title": "AI experiments",
-      "text": "We try things with AI agents — a game built from a single prompt, a website built end to end by an agent-run factory — and publish what worked and what did not.",
+      "text": "We try things with AI agents — a game built from a single prompt, a website built end to end by an agent-run factory — and publish both what worked and what did not.",
       "getsHeading": "What you get",
       "gets": {
         "evaluations": "Honest evaluations, including the experiments that fell short",
@@ -124,7 +124,7 @@
     },
     "notesage": {
       "name": "Notesage",
-      "summary": "A rich-text (WYSIWYG) Markdown editor that collaborates with AI. A desktop app for Mac, Windows and Linux that transcribes."
+      "summary": "A rich-text (WYSIWYG) Markdown editor that collaborates with AI. A native desktop app that transcribes speech on the device."
     },
     "ashlands": {
       "name": "Ashlands",
@@ -145,19 +145,19 @@
   },
   "trust": {
     "eyebrow": "How we work",
-    "heading": "AI-native, agents as staff, a person in charge",
+    "heading": "AI-native, agents do the building, a person is accountable",
     "points": {
       "aiNative": {
         "title": "AI-native",
         "text": "AI is part of what we build and part of how we build. The products on this page were made largely with AI agents."
       },
       "agents": {
-        "title": "Agents as staff",
-        "text": "A senior person sets the direction and reviews every change; agents plan, implement and review the work in between."
+        "title": "Agents do the work",
+        "text": "The founder sets the direction and reads every text before it is published; agents plan, implement and review the work in between."
       },
       "proof": {
         "title": "Proof, not claims",
-        "text": "This very site was designed, built and is maintained by an agent-run software factory. The founder reviews every change before it is published."
+        "text": "This very site was designed, built and is maintained by an agent-run software factory. The founder reads every text before it is published."
       },
       "swedish": {
         "title": "A Swedish company",
@@ -258,7 +258,7 @@
         },
         "publication": {
           "label": "publication",
-          "note": "never on an agent's say-so"
+          "note": "never without a person reading it"
         }
       }
     },
@@ -289,11 +289,11 @@
       "gates": "gates",
       "gatesNote": "10/10 must pass",
       "founder": "founder",
-      "founderNote": "reviews, approves",
+      "founderNote": "reads the text",
       "published": "published",
       "publishedNote": "the page is live",
       "again": "next change",
-      "caption": "Every change runs the ten gates, then the founder reviews it; only then does a page go live."
+      "caption": "Every change runs the ten gates; a change to what the site says also waits until the founder has read it. Only then does a page go live."
     },
     "assessment": {
       "title": "One person's assessment: the five levels of one area become a radar",
@@ -545,7 +545,7 @@
       "footers": {
         "documents": "six short messages while the run was on",
         "build": "no agent pushes on its own",
-        "release": "nothing public on the agents' say-so"
+        "release": "no text public unread"
       }
     },
     "words": {
@@ -768,12 +768,13 @@
   },
   "about": {
     "title": "About",
-    "description": "Addable Labs' mission and approach: AI-native, a senior person in charge, agents as staff, building in the open.",
+    "description": "Addable Labs' mission and approach: AI-native, agents do the work, one person accountable, building in the open.",
     "eyebrow": "Addable Labs · Sweden",
-    "lead": "An AI-native software company from Sweden. We build apps and tools where AI is part of the product and part of how the work gets done: agents plan, implement and review, and a senior person is in charge of every decision that matters. We share what we learn along the way — and help people and teams become as much at home with AI as we are.",
+    "lead": "An AI-native software company from Sweden. We build apps and tools where AI is part of the product and part of how the work gets done: agents plan, implement and review, and I am accountable for every decision that matters. We share what we learn along the way — and help people and teams become as much at home with AI as we are.",
     "missionHeading": "Our mission",
     "facts": "Founded in September 2026 · Sweden",
-    "missionText": "Addable Labs exists to show that AI agents can be real colleagues — and to make that way of working available to more people. That means shipping software built this way, in the open, with honest accounts of what worked and what did not; helping individuals and teams find their footing with AI; and starting new products only when the job is clearly one for a team of agents.",
+    "missionText": "Part of why this company exists is a question I wanted answered: what can a team of AI agents actually build, and where does the approach break? That is the Labs in the name. Some of the work here is done for customers; some is an experiment run in the open, and written up whether the result flatters the method or not.",
+    "missionTextSecond": "I stay close to the work for a second reason: agents produce a great deal very quickly, and someone has to answer for what they produce.",
     "approachHeading": "How we work and what we stand for",
     "points": {
       "aiNative": {
@@ -781,8 +782,8 @@
         "text": "AI is part of what Addable Labs builds and part of how it builds: the products on this site were made largely with AI agents, and the company's own work is organised around them."
       },
       "team": {
-        "title": "A senior person, agents as staff",
-        "text": "A senior person sets the direction, makes the decisions that matter and reviews the result; agents plan, implement and review the work in between. Keeping the team that small keeps the decisions close to the work."
+        "title": "One person, a team of agents",
+        "text": "I set the direction, make the decisions that matter and review the result; agents plan, implement and review the work in between. Keeping the team that small keeps the decisions close to the work."
       },
       "open": {
         "title": "Building in the open",
@@ -790,7 +791,7 @@
       },
       "proof": {
         "title": "Proof, not claims",
-        "text": "This website is an example of the approach: it was designed, built and is maintained by an agent-run software factory, with a senior person reviewing every change before it is published."
+        "text": "This website is an example of the approach: it was designed, built and is maintained by an agent-run software factory, with the founder reading every text before it is published."
       }
     },
     "article": {

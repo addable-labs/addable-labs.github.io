@@ -33,7 +33,8 @@ beviskommando och en agent genomförde dem ett i taget på en lokal gren.
 
 {% figure "loop" %}
 
-Ingenting på den här sajten blir offentligt enbart på en agents ord. Men det
+Ingen artikel och ingen ändring av det som står på den här sajten blir
+offentlig utan att jag har läst den först. Men det
 första bygget kördes utan grind: krav, plan och tio arbetspaket gick igenom
 på fyra timmar och grundarens omdöme om den färdiga sajten var "en sida från
 90-talet". Det andra bygget satte vår grind vid planen: vi valde en av tre

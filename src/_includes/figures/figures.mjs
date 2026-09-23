@@ -169,7 +169,7 @@ function stageList(id, rows, top = 64) {
 // (1) The stages of the build with the founder's two gates — wide, three
 // panels: the documents before the code, the build, the steps before it is
 // public. Facts from the article and the factory's own record of the run:
-// ten work items, ten gates, no publication on an agent's say-so.
+// ten work items, ten gates, no text published unread.
 function stages(t, id, figureId) {
   const ok = { value: t.done, cls: "fig-ok" };
   const row = (key, extra = {}) => ({ key, label: t.rows[key].label, note: t.rows[key].note, ...extra });
@@ -217,8 +217,9 @@ function gates(t, id, figureId) {
   };
 }
 
-// (3) The loop: change → gates → founder review → published page, and the
-// next change starts it again.
+// (3) The loop: change → gates → the founder reads the text → published
+// page, and the next change starts it again. The caption says what the
+// drawing cannot: only a change to what the site says waits for the founder.
 function loop(t, id, figureId) {
   const pid = `${figureId}-p1`;
   const node = (x, y, label, note, cls = "") => {

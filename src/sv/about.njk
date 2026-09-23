@@ -8,12 +8,16 @@ eleventyComputed:
   title: "{{ strings[lang].about.title | safe }}"
   description: "{{ strings[lang].about.description | safe }}"
 ---
-{#- About page (REQ-012, REQ-016; plan D-12, A-04): the hero-style title, the
-    mission section carrying the founding month (founder call 2026-09-22: a
-    company page, no founder section and no personal paragraph), the approach
-    as the trust points, a labelled card linking the "how this site was built"
-    article as the approach in practice (founder call 2026-09-21: it replaced
-    the GRC-fork note of A-04), and the contact band. Every string comes from
+{#- About page (REQ-012, REQ-016; plan D-12, A-04), in this order: the
+    hero-style title; the approach as the trust points, with a labelled card
+    linking the "how this site was built" article as the approach in practice
+    (founder call 2026-09-21: it replaced the GRC-fork note of A-04); the
+    mission section with the founding month; the contact band. The mission is
+    two first-person paragraphs, placed after the approach, by founder call
+    2026-09-23 (it replaced the company-voice mission of the 2026-09-22 call).
+    Still no founder section and no founder name here: the name stays on the
+    landing page's trust section. Section backgrounds alternate by position:
+    plain, section-alt, then the plain contact band. Every string comes from
     strings[lang].about, so the Swedish twin is the same template under
     /sv/. -#}
 {%- set about = strings[lang].about -%}
@@ -22,16 +26,7 @@ eleventyComputed:
 {%- set heroTitle = about.title -%}
 {%- set heroLead = about.lead -%}
 {% include "partials/page-hero.njk" %}
-<section class="section about-mission" aria-labelledby="mission-title">
-  <div class="container trust-grid">
-    <div class="trust-copy reveal">
-      <h2 id="mission-title">{{ about.missionHeading }}</h2>
-      <p class="facts-line">{{ about.facts }}</p>
-    </div>
-    <p class="section-lead reveal">{{ about.missionText }}</p>
-  </div>
-</section>
-<section class="section section-alt about-approach" aria-labelledby="approach-title">
+<section class="section about-approach" aria-labelledby="approach-title">
   <div class="container trust-grid">
     <div class="trust-copy reveal">
       <h2 id="approach-title">{{ about.approachHeading }}</h2>
@@ -50,6 +45,18 @@ eleventyComputed:
       <p class="note-text">{{ about.article.text }}</p>
       <a class="app-action" href="{{ langPrefix }}/blog/how-this-site-was-built-by-agents/">{{ about.article.link }}<span class="arrow" aria-hidden="true">→</span></a>
     </aside>
+  </div>
+</section>
+<section class="section section-alt about-mission" aria-labelledby="mission-title">
+  <div class="container trust-grid">
+    <div class="trust-copy reveal">
+      <h2 id="mission-title">{{ about.missionHeading }}</h2>
+      <p class="facts-line">{{ about.facts }}</p>
+    </div>
+    <div class="reveal">
+      <p class="section-lead">{{ about.missionText }}</p>
+      <p class="section-lead">{{ about.missionTextSecond }}</p>
+    </div>
   </div>
 </section>
 <section class="section contact" aria-labelledby="contact-title">

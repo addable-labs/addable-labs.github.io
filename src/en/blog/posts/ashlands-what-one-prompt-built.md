@@ -151,7 +151,7 @@ both counts.
 ## What we take into the factory
 
 We run agents the other way round — stages, gates, a ledger and a founder
-review before anything is published, which is how [this site was
+who reads every text first, which is how [this site was
 built](/blog/how-this-site-was-built-by-agents/) and what the [factory
 article](/blog/why-we-run-an-agent-run-factory/) describes. This run was
 steered, and the steers are in the repository: the arms, the frame-rate

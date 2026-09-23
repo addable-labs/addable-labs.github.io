@@ -1260,9 +1260,10 @@ html:not(.js) .theme-toggle {
 }
 
 /* About page: the facts line (founding month, country) in mono under the
-   mission heading; the approach section places its note under the heading
-   on wide screens while the four points span both rows (DOM order: heading,
-   points, note). */
+   mission heading, whose two paragraphs share the grid's second column a
+   normal paragraph gap apart; the approach section places its note under
+   the heading on wide screens while the four points span both rows (DOM
+   order: heading, points, note). */
 .facts-line {
   font-family: var(--font-mono);
   font-size: var(--text-sm);
@@ -1271,8 +1272,8 @@ html:not(.js) .theme-toggle {
   text-wrap: balance;
 }
 
-.about-mission .section-lead {
-  margin: 0;
+.about-mission .section-lead:last-child {
+  margin-bottom: 0;
 }
 
 .about-approach .trust-points {

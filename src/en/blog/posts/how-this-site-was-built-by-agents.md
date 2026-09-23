@@ -33,7 +33,8 @@ and an agent implemented them one at a time on a local branch.
 
 {% figure "loop" %}
 
-Nothing on this site goes public on an agent's say-so. But the first build
+No article, and no change to what this site says, goes public without me
+reading it first. But the first build
 ran without a gate: requirements, plan and ten work items went through in
 four hours, and the founder's verdict on the finished site was "a page from
 the 90s". The second build put our gate at the plan: we picked one of three

@@ -21,7 +21,7 @@ alternatives that lost and every token, component and state are documented
 in [`docs/identity.md`](docs/identity.md) (see *Design directions*).
 
 This site was designed, built and is maintained by an agent-run software
-factory, with the founder reviewing every change before it is published.
+factory, with the founder reading every text before it is published.
 
 No consent banner is needed: the site sets no cookies, loads nothing from
 third parties and collects nothing. The only JavaScript is ~2 KB of the

@@ -80,7 +80,7 @@
   "themes": {
     "ai-apps": {
       "title": "AI-drivna appar",
-      "text": "AI som en del av produkten, inte ett tillägg: apparna här nedan är till stor del byggda av AI-agenter, med en senior person med hela vägen. Nya appar bygger vi bara när det tydligt är ett jobb för ett team av AI-agenter.",
+      "text": "AI som en del av produkten, inte ett tillägg: apparna här nedan är till stor del byggda av AI-agenter och grundaren granskar varje ändring. Nya appar bygger vi bara när det tydligt är ett jobb för ett team av AI-agenter.",
       "getsHeading": "Det här får du",
       "gets": {
         "product": "En fungerande produkt, inte en presentation",
@@ -124,7 +124,7 @@
     },
     "notesage": {
       "name": "Notesage",
-      "summary": "En Markdown-redigerare med formaterad text (WYSIWYG) som samarbetar med AI. En skrivbordsapp för Mac, Windows och Linux med transkribering."
+      "summary": "En Markdown-redigerare med formaterad text (WYSIWYG) som samarbetar med AI. En skrivbordsapp som transkriberar tal på enheten."
     },
     "ashlands": {
       "name": "Ashlands",
@@ -145,19 +145,19 @@
   },
   "trust": {
     "eyebrow": "Så arbetar vi",
-    "heading": "AI-nativt, agenter som medarbetare, en person som är ansvarig",
+    "heading": "AI-nativt, agenterna gör jobbet, en människa är ansvarig",
     "points": {
       "aiNative": {
         "title": "AI-nativt",
         "text": "AI är en del av vad vi bygger och en del av hur vi bygger. Produkterna på den här sidan har till stor del skapats med AI-agenter."
       },
       "agents": {
-        "title": "Agenter som medarbetare",
-        "text": "En senior person sätter riktningen och granskar varje ändring; agenter planerar, genomför och granskar arbetet däremellan."
+        "title": "Agenterna gör jobbet",
+        "text": "Grundaren sätter riktningen och läser varje text innan den publiceras; agenter planerar, genomför och granskar arbetet däremellan."
       },
       "proof": {
         "title": "Bevis, inte påståenden",
-        "text": "Den här webbplatsen har designats, byggts och underhålls av en agentdriven mjukvarufabrik. Grundaren granskar varje ändring innan den publiceras."
+        "text": "Den här webbplatsen har designats, byggts och underhålls av en agentdriven mjukvarufabrik. Grundaren läser varje text innan den publiceras."
       },
       "swedish": {
         "title": "Ett svenskt företag",
@@ -258,7 +258,7 @@
         },
         "publication": {
           "label": "publicering",
-          "note": "aldrig enbart på en agents ord"
+          "note": "aldrig utan att en människa läst den"
         }
       }
     },
@@ -289,11 +289,11 @@
       "gates": "grindar",
       "gatesNote": "10/10 måste klara",
       "founder": "grundaren",
-      "founderNote": "läser, godkänner",
+      "founderNote": "läser texten",
       "published": "publicerad",
       "publishedNote": "sidan är live",
       "again": "nästa ändring",
-      "caption": "Varje ändring körs genom de tio grindarna och granskas sedan av grundaren; först då blir sidan publik."
+      "caption": "Varje ändring körs genom de tio grindarna; en ändring av det som står på sajten väntar dessutom tills grundaren har läst den. Först då blir sidan publik."
     },
     "assessment": {
       "title": "En persons självskattning: ett områdes fem nivåer blir ett radardiagram",
@@ -545,7 +545,7 @@
       "footers": {
         "documents": "sex korta meddelanden under körningen",
         "build": "ingen agent pushar på egen hand",
-        "release": "inget offentligt bara på agenternas ord"
+        "release": "ingen text publicerad oläst"
       }
     },
     "words": {
@@ -768,12 +768,13 @@
   },
   "about": {
     "title": "Om oss",
-    "description": "Addable Labs mission och arbetssätt: AI-nativt, en senior person som är ansvarig, agenter som medarbetare, att bygga öppet.",
+    "description": "Addable Labs mission och arbetssätt: AI-nativt, agenterna gör jobbet, en människa är ansvarig, att bygga öppet.",
     "eyebrow": "Addable Labs · Sverige",
-    "lead": "Ett AI-nativt mjukvaruföretag från Sverige. Vi bygger appar och verktyg där AI är en del av produkten och en del av hur arbetet görs: agenter planerar, genomför och granskar och en senior person är ansvarig för varje beslut som spelar roll. Vi delar vad vi lär oss längs vägen – och hjälper människor och team att bli lika hemma med AI som vi är.",
+    "lead": "Ett AI-nativt mjukvaruföretag från Sverige. Vi bygger appar och verktyg där AI är en del av produkten och en del av hur arbetet görs: agenter planerar, genomför och granskar och jag är ansvarig för varje beslut som spelar roll. Vi delar vad vi lär oss längs vägen – och hjälper människor och team att bli lika hemma med AI som vi är.",
     "missionHeading": "Vår mission",
     "facts": "Grundat i september 2026 · Sverige",
-    "missionText": "Addable Labs finns för att visa att AI-agenter kan vara riktiga medarbetare – och för att göra det arbetssättet tillgängligt för fler. Det betyder mjukvara byggd på det sättet, öppet, med ärliga redogörelser för vad som fungerade och vad som inte gjorde det; att hjälpa individer och team att hitta fotfästet med AI; och att starta nya produkter bara när jobbet tydligt är ett jobb för ett team av agenter.",
+    "missionText": "En del av varför bolaget finns är en fråga jag ville ha svar på: vad kan ett team av AI-agenter faktiskt bygga och var går metoden sönder? Det är därför det står Labs i namnet. En del av arbetet här görs åt kunder, en del är experiment som körs öppet och redovisas oavsett om resultatet smickrar metoden eller inte.",
+    "missionTextSecond": "Jag är kvar nära arbetet av ett andra skäl: agenter producerar mycket på kort tid och någon måste svara för det de producerar.",
     "approachHeading": "Arbetssätt och värderingar",
     "points": {
       "aiNative": {
@@ -781,8 +782,8 @@
         "text": "AI är en del av vad Addable Labs bygger och en del av hur det byggs: produkterna på den här webbplatsen har till stor del skapats med AI-agenter och företagets eget arbete är organiserat kring dem."
       },
       "team": {
-        "title": "En senior person, agenter som medarbetare",
-        "text": "En senior person sätter riktningen, fattar de beslut som spelar roll och granskar resultatet; agenter planerar, genomför och granskar arbetet däremellan. Att hålla teamet så litet håller besluten nära arbetet."
+        "title": "En människa, ett team av agenter",
+        "text": "Jag sätter riktningen, fattar de beslut som spelar roll och granskar resultatet; agenter planerar, genomför och granskar arbetet däremellan. Att hålla teamet så litet håller besluten nära arbetet."
       },
       "open": {
         "title": "Att bygga öppet",
@@ -790,7 +791,7 @@
       },
       "proof": {
         "title": "Bevis, inte påståenden",
-        "text": "Den här webbplatsen är ett exempel på arbetssättet: den har designats, byggts och underhålls av en agentdriven mjukvarufabrik och en senior person granskar varje ändring innan den publiceras."
+        "text": "Den här webbplatsen är ett exempel på arbetssättet: den har designats, byggts och underhålls av en agentdriven mjukvarufabrik och grundaren läser varje text innan den publiceras."
       }
     },
     "article": {

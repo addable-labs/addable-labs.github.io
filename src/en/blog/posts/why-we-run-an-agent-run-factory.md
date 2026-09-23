@@ -132,8 +132,8 @@ Lighthouse scores of 97 to 100 on all seven pages it checks. Our part was
 six short messages while the run was on — the pick, our corrections, the
 plan-gate answers — and, next morning, our verdict on the finished page. The
 run itself was 112 beads, 17 agent sessions in ten roles and ten mails
-between the mayor and the floor that we never had to carry; nothing went
-public on the agents' own say-so.
+between the mayor and the floor that we never had to carry; no text went
+public without me reading it.
 
 {% figure "build", "wide" %}
 
