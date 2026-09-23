@@ -3,9 +3,9 @@
 //
 // Discovery: an explicit CHROME_PATH wins and must exist (a wrong path is
 // "no Chrome", never a fallback to a search), otherwise chrome-launcher's
-// default search of the installed browsers. chrome-launcher is lighthouse's
-// own dependency, resolved through lighthouse so the project adds no
-// devDependency for it; it never downloads a browser.
+// default search of the installed browsers. chrome-launcher is a pinned
+// devDependency, used to find and launch the installed Chrome; it never
+// downloads a browser.
 //
 // Skip: when nothing is found the gate prints an explicit SKIP line and exits
 // with code 3, which scripts/check/run.mjs reports as SKIP — never PASS.
@@ -14,23 +14,16 @@
 
 import { accessSync, constants } from "node:fs";
 import { mkdtemp, rm } from "node:fs/promises";
-import { createRequire } from "node:module";
 import os from "node:os";
 import path from "node:path";
 import process from "node:process";
+import { launch, Launcher } from "chrome-launcher";
 
 /** Exit code of a gate that found no Chrome (the runner prints SKIP). */
 export const SKIP_EXIT_CODE = 3;
 
 /** The Chrome flags every gate launches with: headless, no first-run UI. */
 export const CHROME_FLAGS = ["--headless=new", "--disable-gpu", "--no-first-run", "--no-default-browser-check", "--hide-scrollbars", "--disable-extensions"];
-
-const requireFromLighthouse = createRequire(createRequire(import.meta.url).resolve("lighthouse"));
-
-/** chrome-launcher, loaded lazily from lighthouse's dependency tree. */
-export async function loadChromeLauncher() {
-  return import(requireFromLighthouse.resolve("chrome-launcher"));
-}
 
 function isExecutable(file) {
   try {
@@ -49,7 +42,6 @@ export async function findChrome(env = process.env) {
   const explicit = env.CHROME_PATH;
   if (explicit !== undefined && explicit !== "") return isExecutable(explicit) ? explicit : null;
   try {
-    const { Launcher } = await loadChromeLauncher();
     return Launcher.getFirstInstallation() ?? null;
   } catch {
     return null;
@@ -81,7 +73,6 @@ export function skip(gate, env = process.env) {
  * @param {{ chromePath: string }} options
  */
 export async function launchChrome({ chromePath }) {
-  const { launch } = await loadChromeLauncher();
   const userDataDir = await mkdtemp(path.join(os.tmpdir(), "addable-chrome-"));
   const chrome = await launch({ chromePath, chromeFlags: CHROME_FLAGS, userDataDir, logLevel: "silent" });
   let killed = false;

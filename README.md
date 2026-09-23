@@ -44,7 +44,7 @@ the quality gates fail the build if any of that changes.
 ## Run locally
 
 ```bash
-pnpm install --frozen-lockfile   # the nine pinned dev dependencies, nothing else
+pnpm install --frozen-lockfile   # the ten pinned dev dependencies, nothing else
 pnpm dev                         # http://localhost:8080/, rebuilds on save
 pnpm build                       # writes the whole site to _site/
 pnpm check                       # builds, then runs all ten quality gates
@@ -410,16 +410,17 @@ after a `pnpm build`:
 | layout | `pnpm check:layout` | Renders `/` and `/sv/` at 360, 768, 1024, 1280 and 1920 px in headless Chrome and measures the balanced cards: every service and app title one line, cards in a row equal in height with their "What you get" heading / summary tops and action rows aligned (± 1 px), every chip row one line. Renders every article page at the same widths and measures the article layout: no horizontal scroll, every text block at most 44 rem wide, centred in the body and on one shared left edge, every wide figure across the body, every inline figure on the measure and centred with its panel 20–24.5 rem wide and its caption beside the panel from 768 px (top-aligned, after the gap) and under it below, every panel rendered so a 13-unit label is at least 12 px. `LAYOUT_DUMP=<file>` writes the raw measurements (the source of `tests/fixtures/layout/article.json`). |
 
 **Chrome.** The last two gates need Google Chrome (or Chromium). They find
-it through Lighthouse's own launcher, or through `CHROME_PATH` if set (the
+it through `chrome-launcher`, or through `CHROME_PATH` if set (the
 variable is then the only candidate). When no Chrome is found each gate
 prints `SKIP <gate>: no Chrome found (run pnpm check:<gate> after installing
 Chrome or set CHROME_PATH)` and exits with code 3; the runner reports `SKIP
 lighthouse (run pnpm check:lighthouse)` — never `PASS` — and still exits 0.
 `CHECK_REQUIRE_CHROME=1` turns a skip into a failure; the CI workflow sets
 it, so the gates always run there (Chrome is preinstalled on GitHub's
-runners). Nothing downloads a browser: `lighthouse` and `puppeteer-core`
-are the only dev dependencies the two gates add, and both attach to the
-installed Chrome. A single slow Lighthouse run does not fail CI (see the
+runners). Nothing downloads a browser: `chrome-launcher`, `lighthouse` and
+`puppeteer-core` are the only dev dependencies the two gates add;
+`chrome-launcher` finds and launches the installed Chrome, and the other two
+attach to it. A single slow Lighthouse run does not fail CI (see the
 lighthouse row); a page still below 95 on the median of three fails, and
 thresholds are never lowered. Only if CI ever loses Chrome would a
 manually produced Lighthouse report be committed as evidence — nothing of
