@@ -39,11 +39,12 @@ Supabase, med data som lagras i Stockholm.
 
 ## Nuläget
 
-nivå är under utveckling. Applikationsskalet, språkrutterna, test- och
-CI-miljön, självskattningen i sig, dess datamodell och inloggningen är alla på
-plats. Det som återstår är en noggrann granskning av guidetexterna och de
-svenska översättningarna, samt att färdigställa backoffice-applikationen. Det
-finns ännu inget lanseringsdatum.
+Applikationen nivå är fortfarande under utveckling, men landningssidan är
+publicerad och där går det att registrera sig. Applikationsskalet,
+språkrutterna, test- och CI-miljön, självskattningen i sig, dess datamodell och
+inloggningen är alla på plats. Det som återstår är en noggrann granskning av
+guidetexterna och de svenska översättningarna, samt att färdigställa
+backoffice-applikationen. Applikationen har ännu inget lanseringsdatum.
 
 ## Lärdomar hittills
 
@@ -80,9 +81,9 @@ uppmärksamheten åt kärnan i självskattningen.
 
 ## Vad vi inte vet ännu
 
-Om guiderna är tillräckligt användbara för alla användare, om team har nytta
-av värmekartan och hur självskattningen beter sig i större skala är öppna
-frågor som bara verklig användning kan besvara. Vi samlar inte in data, så
-svaren kommer från återkoppling – därför planerar vi att erbjuda
-förhandsversioner av moduler, för att kunna putsa dem lite till innan de blir
-slutgiltiga. När det finns något att berätta skriver vi om det här.
+Om guiderna är tillräckligt användbara för alla användare, om team har nytta av
+värmekartan och hur självskattningen beter sig i större skala är öppna frågor
+som bara verklig användning kan besvara. Svaren kommer från återkoppling –
+därför planerar vi att erbjuda förhandsversioner av moduler, för att kunna putsa
+dem lite till innan de blir slutgiltiga. När det finns något att berätta skriver
+vi om det här.

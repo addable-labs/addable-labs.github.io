@@ -37,11 +37,12 @@ built on Next.js and Supabase, with the data hosted in Stockholm.
 
 ## Where it stands
 
-nivå is in development. The application shell, the locale routing, the test
-and CI harness, the assessment itself, its data model and sign-in are all in
-place. What remains is a meticulous review of the guide texts and the Swedish
-translations, and finishing the back-office application. There is no launch
-date yet.
+The nivå application is still in development, but its landing page is live and
+you can sign up there. The application shell, the locale routing, the test and
+CI harness, the assessment itself, its data model and sign-in are all in place.
+What remains is a meticulous review of the guide texts and the Swedish
+translations, and finishing the back-office application. The application has no
+launch date yet.
 
 ## Lessons so far
 
@@ -76,9 +77,8 @@ of those is a decision to spend attention on the core of the assessment first.
 
 ## What we do not know yet
 
-Whether the guides are useful enough to every user, whether teams get value
-from the heatmap, and how the assessment behaves at scale are open questions
-that only real use can answer. We do not collect data, so the answers will come
-from feedback — which is why we plan to offer preview releases of modules, to
-polish them a bit more before they are final. When there is something to tell,
-we will write about it here.
+Whether the guides are useful enough to every user, whether teams get value from
+the heatmap, and how the assessment behaves at scale are open questions that
+only real use can answer. The answers will come from feedback — which is why we
+plan to offer preview releases of modules, to polish them a bit more before they
+are final. When there is something to tell, we will write about it here.
