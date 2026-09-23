@@ -20,10 +20,10 @@
 //     named "factory"; at least two latest-writing cards with category chips
 //     and the draft chip where due, and the link to the blog index
 //   - the about pages have the mission and approach sections and the
-//     founding month ("September 2026" / "september 2026"), and outside the
-//     lead the founder's name appears nowhere in their main content (founder
-//     call 2026-09-22: no founder section; the lead's first sentence names
-//     the founder, at the founder's request of 2026-09-23)
+//     founding month ("September 2026" / "september 2026"), their lead names
+//     the founder (its first sentence does, at the founder's request of
+//     2026-09-23) and outside the lead the founder's name appears nowhere in
+//     their main content (founder call 2026-09-22: no founder section)
 //   - every page's footer: mailto:hello@addablelabs.se with the address as
 //     text, the company line the law asks for — name, organisation number and
 //     registered seat (si-98hh) — the language switch to the counterpart path
@@ -224,9 +224,11 @@ for (const lang of site.languages.codes) {
   const h2s = about.doc.querySelectorAll("main h2").map(text);
   // Founder call 2026-09-22: a mission section and no founder section. The
   // lead's first sentence names the founder (the founder's request of
-  // 2026-09-23); outside the lead the name appears nowhere in the page's main
-  // content, and the landing page's trust section carries it (REQ-012).
+  // 2026-09-23), and the lead must carry the name, as the landing page's
+  // trust section must (REQ-012); outside the lead the name appears nowhere
+  // in the page's main content.
   report.check(h2s.includes(strings[lang].about.missionHeading), `${rel}: mission section present`);
+  report.check(lead.includes(FOUNDER), `${rel}: lead names ${FOUNDER}`);
   report.check(!main.replace(lead, "").includes(FOUNDER), `${rel}: no founder section (outside the lead, the main content does not name ${FOUNDER})`);
   // REQ-012 (plan D-12): the founding month moved from the landing page to the about page.
   report.check(main.includes(MONTH[lang]), `${rel}: contains "${MONTH[lang]}"`);

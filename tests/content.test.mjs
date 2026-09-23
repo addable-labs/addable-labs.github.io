@@ -62,6 +62,46 @@ describe("content gate", () => {
     assert.match(output, /FAIL {2}about\/index\.html: contains "September 2026"/);
   });
 
+  it("passes on the real build, whose about pages name the founder in the lead and nowhere else in their main content (founder call 2026-09-22, founder request 2026-09-23)", () => {
+    const { status, output } = runGate("content", built, undefined, { CHECK_QUIET: "0" });
+    assert.equal(status, 0, output);
+    assert.match(output, /ok {4}about\/index\.html: lead names Péter Blénessy/);
+    assert.match(output, /ok {4}about\/index\.html: no founder section \(outside the lead, the main content does not name Péter Blénessy\)/);
+    assert.match(output, /ok {4}sv\/about\/index\.html: lead names Péter Blénessy/);
+    assert.match(output, /ok {4}sv\/about\/index\.html: no founder section \(outside the lead, the main content does not name Péter Blénessy\)/);
+  });
+
+  it("fails when the about page names the founder outside the lead, as a founder section would (founder call 2026-09-22)", async () => {
+    const broken = await copyDir(built, path.join(tmp.dir, "founder-outside-lead"));
+    const about = path.join(broken, "about", "index.html");
+    const html = await readFile(about, "utf8");
+    // The mission section's facts line names the founder as well. The lead is
+    // untouched, so only the rule against a founder section can fail.
+    const edited = html.replace('<p class="facts-line">', '<p class="facts-line">Péter Blénessy · ');
+    assert.notEqual(edited, html, "the facts line must be found");
+    await writeFile(about, edited);
+    const { status, output } = runGate("content", broken);
+    assert.equal(status, 1);
+    assert.match(output, /FAIL {2}about\/index\.html: no founder section \(outside the lead, the main content does not name Péter Blénessy\)/);
+    assert.match(output, /ok {4}about\/index\.html: lead names Péter Blénessy/);
+  });
+
+  it("fails when the about page's lead no longer names the founder (founder request 2026-09-23)", async () => {
+    const broken = await copyDir(built, path.join(tmp.dir, "lead-without-founder"));
+    const about = path.join(broken, "about", "index.html");
+    const html = await readFile(about, "utf8");
+    // The first sentence drops its founder clause. The name is then nowhere in
+    // the page's main content, so the rule against a founder section still
+    // passes: only the lead rule can catch this.
+    const edited = html.replace(", founded by Péter Blénessy", "");
+    assert.notEqual(edited, html, "the lead's founder clause must be found");
+    await writeFile(about, edited);
+    const { status, output } = runGate("content", broken);
+    assert.equal(status, 1);
+    assert.match(output, /FAIL {2}about\/index\.html: lead names Péter Blénessy/);
+    assert.match(output, /ok {4}about\/index\.html: no founder section \(outside the lead, the main content does not name Péter Blénessy\)/);
+  });
+
   it("fails when the nivå card links more than its public page and its article, or calls the page \"Repository\" (REQ-011, A-01; si-gyc4, si-3hpa)", async () => {
     // The repository is private and the product is not: the page, labelled
     // as a website, then the article about nivå, and nothing else.
