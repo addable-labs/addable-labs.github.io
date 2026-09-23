@@ -7,9 +7,9 @@ import process from "node:process";
 import { after, before, describe, it } from "node:test";
 import yaml from "js-yaml";
 import { DateTime } from "luxon";
-import { isOmitted, isProductionBuild, isScheduled, parseFrontMatter, REQUIRED_KEYS, validateArticle, validateArticleDate } from "../scripts/lib/frontmatter.mjs";
+import { isOmitted, isProductionBuild, isScheduled, parseFrontMatter, REQUIRED_KEYS, siteNow, validateArticle, validateArticleDate } from "../scripts/lib/frontmatter.mjs";
 import { loadSite, readArticleSources, walk } from "../scripts/lib/site.mjs";
-import { buildSite, copyProject, ROOT, SRC, tempDir } from "./helpers.mjs";
+import { buildSite, copyProject, ROOT, SRC, tempDir, utcDate } from "./helpers.mjs";
 
 // The string dates the validator accepts and the ones it refuses, shared by
 // its own cases and the checks of the date on its own and in the build.
@@ -43,12 +43,6 @@ async function inZone(zone, fn) {
     if (saved === undefined) delete process.env.TZ;
     else process.env.TZ = saved;
   }
-}
-
-/** YYYY-MM-DD, `offset` days from today in UTC — the unit the collections compare. */
-function utcDate(offset) {
-  const now = new Date();
-  return new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + offset)).toISOString().slice(0, 10);
 }
 
 const allowedCategories = ["app-development", "ai-journey"];
@@ -492,6 +486,67 @@ describe("scheduled articles", () => {
         assert.equal(isScheduled("2026-09-22T23:45", lateOn22nd), false, zone);
       });
     }
+  });
+});
+
+// The moment a build or a gate takes for now (si-nka4): the one SITE_NOW
+// names, typed and read like an article's date, or the clock when it names
+// none. Whatever runs several builds and gates sets it once for all of them.
+describe("now, as the build and the gates take it", () => {
+  let tmp;
+  before(async () => {
+    tmp = await tempDir("now-");
+  });
+  after(() => tmp.cleanup());
+
+  it("reads SITE_NOW as an article's date is read, in UTC unless it names a zone, in any time zone", async () => {
+    const forms = [
+      ["2026-09-24", "2026-09-24T00:00:00.000Z"],
+      ["2026-09-24T04:17", "2026-09-24T04:17:00.000Z"],
+      ["2026-09-24T04:17:00", "2026-09-24T04:17:00.000Z"],
+      // What toISOString() writes, and so what `pnpm check` and the tests set.
+      ["2026-09-24T04:17:00.123Z", "2026-09-24T04:17:00.123Z"],
+      ["2026-09-24T01:30:00+02:00", "2026-09-23T23:30:00.000Z"],
+    ];
+    for (const zone of ["Pacific/Kiritimati", "Pacific/Pago_Pago"]) {
+      await inZone(zone, () => {
+        for (const [value, instant] of forms) assert.equal(siteNow({ SITE_NOW: value }).toISOString(), instant, `${value} in ${zone}`);
+      });
+    }
+  });
+
+  it("reads the clock when SITE_NOW is unset or empty", () => {
+    for (const env of [{}, { SITE_NOW: "" }]) {
+      const before = Date.now();
+      const now = siteNow(env).getTime();
+      assert.ok(before <= now && now <= Date.now(), JSON.stringify(env));
+    }
+  });
+
+  it("refuses a SITE_NOW it cannot read, naming the forms it takes, rather than reading the clock", () => {
+    // Besides the dates an article may not have: a blank, a count of seconds,
+    // and the form a mail header writes, which `new Date()` would read.
+    for (const value of [...REJECTED_DATES, " ", "1790183964", "Wed, 23 Sep 2026 17:19:24 GMT"]) {
+      assert.throws(() => siteNow({ SITE_NOW: value }), { message: `SITE_NOW must be YYYY-MM-DD or YYYY-MM-DDTHH:MM(:SS)(Z), got ${JSON.stringify(value)}` }, value);
+    }
+  });
+
+  it("is the moment isScheduled takes when it is given none", () => {
+    // SITE_NOW holds this file's moment (tests/helpers.mjs); two others, briefly.
+    const saved = process.env.SITE_NOW;
+    try {
+      process.env.SITE_NOW = "2026-09-22T23:59:59.500Z";
+      assert.equal(isScheduled("2026-09-23"), true);
+      process.env.SITE_NOW = "2026-09-23T00:00:00.500Z";
+      assert.equal(isScheduled("2026-09-23"), false);
+    } finally {
+      if (saved === undefined) delete process.env.SITE_NOW;
+      else process.env.SITE_NOW = saved;
+    }
+  });
+
+  it("fails the build on a SITE_NOW it cannot read", () => {
+    assert.throws(() => buildSite(path.join(tmp.dir, "site"), { SITE_NOW: "tomorrow" }), /SITE_NOW must be YYYY-MM-DD or YYYY-MM-DDTHH:MM\(:SS\)\(Z\), got "tomorrow"/);
   });
 });
 

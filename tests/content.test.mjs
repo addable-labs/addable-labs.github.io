@@ -3,7 +3,8 @@ import { readFile, stat, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { after, before, describe, it } from "node:test";
 import { isScheduled } from "../scripts/lib/frontmatter.mjs";
-import { buildSite, copyDir, copyProject, runGate, tempDir } from "./helpers.mjs";
+import { walk } from "../scripts/lib/site.mjs";
+import { buildSite, clockAt, copyDir, copyProject, NOW, runGate, tempDir, utcDate } from "./helpers.mjs";
 
 // The content gate re-targeted to the Signal landing model (REQ-024 as
 // amended by A-01; AC-09 … AC-15): the real build passes, and every
@@ -280,14 +281,8 @@ const ARTICLES = [
   ["/blog/why-we-run-an-agent-run-factory/", "2026-09-21"],
   ["/blog/how-this-site-was-built-by-agents/", "2026-09-20"],
 ];
-const EN_ORDER = ARTICLES.filter(([, date]) => !isScheduled(date)).map(([url]) => url);
+const EN_ORDER = ARTICLES.filter(([, date]) => !isScheduled(date, NOW)).map(([url]) => url);
 const SV_ORDER = EN_ORDER.map((url) => `/sv${url}`);
-
-/** YYYY-MM-DD, `offset` days from today in UTC — the unit the collections compare. */
-function utcDate(offset) {
-  const now = new Date();
-  return new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + offset)).toISOString().slice(0, 10);
-}
 
 /** Write one article, both languages, into a copy of the project; `linkTo` links another article's slug from the body. */
 async function writeArticlePair(project, slug, date, enTitle, svTitle, { draft = false, linkTo } = {}) {
@@ -399,6 +394,83 @@ describe("scheduled posts", () => {
     // one dated tomorrow is not there, and nothing else moves.
     assert.deepEqual((await listed(built, "blog", "index.html")).filter((url) => !url.endsWith("-today/")), EN_ORDER);
     assert.deepEqual((await listed(built, "sv", "blog", "index.html")).filter((url) => !url.endsWith("-today/")), SV_ORDER);
+  });
+});
+
+// One moment for everything a run starts (si-nka4). The build and each gate
+// take the day in a process of their own, and so do the builds a test
+// compares, so a run that began a moment before 00:00 UTC on the eve of an
+// article's date built the site once without the article listed and once
+// with it, or built it without and then ran gates that expected it listed.
+// Each test file now pins one moment, its NOW, for every build and gate it
+// starts (tests/helpers.mjs), and `pnpm check` pins one for its own
+// (tests/check.test.mjs). The cases build a copy of the project that carries
+// an article dated tomorrow, on clocks half a second either side of the
+// midnight that begins it (tests/fixtures/clock.mjs), and run gates after
+// that midnight on the build made before it — once taking this file's NOW,
+// as every build and gate here does, and once on their clocks alone.
+describe("builds and gates a second apart across 00:00 UTC", () => {
+  const midnight = Date.parse(`${utcDate(1)}T00:00:00Z`);
+  const BEFORE = new Date(midnight - 500).toISOString();
+  const AFTER = new Date(midnight + 500).toISOString();
+  let tmp;
+  let builtSrc; // the copy's source tree, for the gates
+  const built = {};
+  before(async () => {
+    tmp = await tempDir("midnight-");
+    const project = await copyProject(path.join(tmp.dir, "project"));
+    builtSrc = path.join(project, "src");
+    await writeArticlePair(project, "after-midnight", utcDate(1), "Dated after midnight", "Daterad efter midnatt");
+    // An empty SITE_NOW leaves a build to its clock, as before si-nka4.
+    for (const [name, env] of [["before", clockAt(BEFORE)], ["after", clockAt(AFTER)], ["before-unpinned", { ...clockAt(BEFORE), SITE_NOW: "" }], ["after-unpinned", { ...clockAt(AFTER), SITE_NOW: "" }]]) {
+      built[name] = buildSite(path.join(tmp.dir, name), env, project);
+    }
+  });
+  after(() => tmp.cleanup());
+
+  /** The files that differ between two built sites, and those only one of them has. */
+  async function differingFiles(one, other) {
+    const names = new Set();
+    for (const out of [one, other]) for (const file of await walk(out)) names.add(path.relative(out, file));
+    const differing = [];
+    for (const name of [...names].sort()) {
+      const [these, those] = await Promise.all([one, other].map((out) => readFile(path.join(out, name)).catch(() => null)));
+      if (these === null || those === null || !these.equals(those)) differing.push(name);
+    }
+    return differing;
+  }
+
+  const INDEXES = [[["blog", "index.html"], ""], [["sv", "blog", "index.html"], "/sv"]];
+
+  it("builds the same site on either side of midnight when both builds take this file's moment, listing the article dated tomorrow in neither", async () => {
+    assert.deepEqual(await differingFiles(built.before, built.after), []);
+    for (const [page, prefix] of INDEXES) {
+      assert.equal((await listed(built.after, ...page)).includes(`${prefix}/blog/after-midnight/`), false, page.join("/"));
+    }
+  });
+
+  it("builds two different sites on their clocks alone: the clocks do cross midnight", async () => {
+    for (const [page, prefix] of INDEXES) {
+      assert.equal((await listed(built["before-unpinned"], ...page)).includes(`${prefix}/blog/after-midnight/`), false, page.join("/"));
+      assert.equal((await listed(built["after-unpinned"], ...page)).includes(`${prefix}/blog/after-midnight/`), true, page.join("/"));
+    }
+  });
+
+  it("passes the gates run after midnight on the build made before it, all taking this file's moment", () => {
+    for (const gate of ["feeds", "content"]) {
+      const { status, output } = runGate(gate, built.before, builtSrc, clockAt(AFTER));
+      assert.equal(status, 0, `${gate}:\n${output}`);
+    }
+  });
+
+  it("fails those gates on their clocks alone, each expecting the article that build does not list", () => {
+    const feeds = runGate("feeds", built.before, builtSrc, { ...clockAt(AFTER), SITE_NOW: "" });
+    assert.equal(feeds.status, 1, feeds.output);
+    // Among any article of the real tree dated the same day.
+    assert.match(feeds.output, /FAIL {2}feed\.xml: every listed en article appears \(missing: [^)]*\bafter-midnight\b[^)]*\)/);
+    const content = runGate("content", built.before, builtSrc, { ...clockAt(AFTER), SITE_NOW: "" });
+    assert.equal(content.status, 1, content.output);
+    assert.match(content.output, /FAIL {2}en blog index lists \/blog\/after-midnight\//);
   });
 });
 

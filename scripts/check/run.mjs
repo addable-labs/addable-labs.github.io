@@ -16,6 +16,13 @@
 // each prints `FAIL <gate> (not run: build failed)` so the count stays ten
 // and no PASS line follows the failure. Every gate is also available on its
 // own as `pnpm check:<gate>`.
+//
+// The build and the gates take one moment for now (si-nka4): the runner fixes
+// it as it starts, unless SITE_NOW already names one, and hands it to each of
+// them as SITE_NOW, which they read instead of their own clocks. A check that
+// built the site at 23:59:59 UTC on the eve of an article's date used to run
+// its gates after midnight, expecting the article listed in a build that did
+// not list it.
 
 import { spawnSync } from "node:child_process";
 import path from "node:path";
@@ -27,6 +34,8 @@ const GATES = ["build", "links", "html", "pages", "contrast", "parity", "feeds",
 const SKIP_EXIT_CODE = 3;
 const verbose = process.env.CHECK_VERBOSE === "1";
 const requireChrome = process.env.CHECK_REQUIRE_CHROME === "1";
+// Passed on as given: a malformed one fails the build, in the build's words.
+const SITE_NOW = process.env.SITE_NOW || new Date().toISOString();
 
 /** Run one gate; returns "pass", "fail" or "skip". */
 function run(gate) {
@@ -34,7 +43,7 @@ function run(gate) {
   const result = spawnSync("pnpm", args, {
     cwd: ROOT,
     encoding: "utf8",
-    env: { ...process.env, CHECK_QUIET: verbose ? "0" : "1" },
+    env: { ...process.env, SITE_NOW, CHECK_QUIET: verbose ? "0" : "1" },
     maxBuffer: 64 * 1024 * 1024,
   });
   const output = `${result.stdout ?? ""}${result.stderr ?? ""}`.trim();

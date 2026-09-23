@@ -208,7 +208,10 @@ Brödtext i Markdown.
   not the build machine's locale). A static
   site has no clock, so a scheduled article appears only on the next build:
   the deployment workflow rebuilds and redeploys `main` once a day for exactly
-  that reason (see *Deployment*).
+  that reason (see *Deployment*). `SITE_NOW` makes a build take the moment
+  it names for now instead of its clock — typed like a `date`, or the build
+  fails — so `SITE_NOW=2026-09-24 pnpm build` lists what the 24th will list;
+  `pnpm check` sets it once for its build and every gate.
 - **`aiGenerated` and `humanReviewed`** are two separate facts about a text,
   and every combination of them is valid:
 

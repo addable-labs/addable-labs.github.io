@@ -122,7 +122,9 @@ export async function exists(file) {
  * `omitted` follows SITE_ENV, which the gates inherit from the build that
  * produced the site they are checking, so `pnpm check` asserts the right
  * thing in both modes: locally a draft is present and listed, in CI it is
- * absent everywhere.
+ * absent everywhere. `scheduled` takes today from SITE_NOW when it is set
+ * (`siteNow`, frontmatter.mjs), and `pnpm check` sets it once for the build
+ * and every gate, so the two agree on the day even across midnight.
  *
  * The front matter is read with the build's own parser (`parseFrontMatter`,
  * si-8zyg), so every value means here what it means to the build: a quoted

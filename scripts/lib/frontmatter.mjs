@@ -83,9 +83,36 @@ export function parseFrontMatter(text) {
  * from eleventy.config.js and the gates from scripts/lib/site.mjs, so the two
  * can never drift apart: the build asks with the date Eleventy mapped, the
  * gates with the text that was typed, which is read here as Eleventy reads it.
+ * Today is the day of `siteNow` below unless the caller names a moment.
  */
-export function isScheduled(date, now = new Date()) {
+export function isScheduled(date, now = siteNow()) {
   return utcDay(eleventyDate(date)) > utcDay(now);
+}
+
+/**
+ * The moment a build or a gate takes for now (si-nka4): the instant SITE_NOW
+ * names when it is set, and the clock when it is not (unset or empty).
+ *
+ * The build and each gate run in a process of their own, and each used to
+ * read its own clock. Two of them a second apart across 00:00 UTC on the eve
+ * of an article's date disagreed about whether it is listed — a `pnpm check`
+ * that built the site at 23:59:59 and ran its gates after midnight failed a
+ * good build — so whatever runs several of them fixes one instant and hands
+ * it to each: scripts/check/run.mjs once per `pnpm check`, tests/helpers.mjs
+ * once per test file. CI sets none, so there every run takes the real moment
+ * it starts, and the daily rebuild lists an article from its date.
+ *
+ * SITE_NOW is typed like an article's `date` and read the same way, in UTC
+ * unless it names a zone: `2026-09-24`, `2026-09-24T04:17` or
+ * `2026-09-24T04:17:00.000Z`, the form `toISOString()` writes. Anything else
+ * throws, so a mistyped value fails the build instead of quietly reading the
+ * clock.
+ */
+export function siteNow(env = process.env) {
+  const value = env.SITE_NOW;
+  if (!value) return new Date();
+  if (!isValidDate(value)) throw new Error(`SITE_NOW must be ${DATE_FORMS}, got ${JSON.stringify(value)}`);
+  return eleventyDate(value);
 }
 
 /**
