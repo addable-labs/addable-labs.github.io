@@ -44,7 +44,7 @@ Three things had to change: the work had to sit in a shared ledger that any
 session could claim from, not in one project's notes; sessions had to hand
 work to each other and follow it up without a person in between; and the
 person in charge had to be involved at a few known points — a plan to approve,
-a branch to read before it is pushed — instead of all the time.
+a text to read before it goes live — instead of all the time.
 
 ## Steve Yegge's iterations
 

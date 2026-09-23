@@ -544,7 +544,7 @@
       },
       "footers": {
         "documents": "sex korta meddelanden under körningen",
-        "build": "ingen agent pushar på egen hand",
+        "build": "ingen agent pushade under körningen",
         "release": "ingen text publicerad oläst"
       }
     },

@@ -46,8 +46,8 @@ Tre saker behövde ändras: arbetet behövde ligga i ett gemensamt register som
 vilken session som helst kan ta uppgifter ur, inte i ett enda projekts
 anteckningar; sessioner behövde kunna lämna över arbete till varandra och
 följa upp det utan en person emellan; och den som är ansvarig behövde vara
-inblandad vid några få kända punkter – en plan att godkänna, en gren att
-läsa innan den pushas – i stället för hela tiden.
+inblandad vid några få kända punkter – en plan att godkänna, en text att
+läsa innan den publiceras – i stället för hela tiden.
 
 ## Steve Yegges iterationer
 

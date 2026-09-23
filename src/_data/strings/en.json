@@ -544,7 +544,7 @@
       },
       "footers": {
         "documents": "six short messages while the run was on",
-        "build": "no agent pushes on its own",
+        "build": "no agent pushed during the run",
         "release": "no text public unread"
       }
     },
