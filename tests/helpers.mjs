@@ -37,10 +37,11 @@ export function utcDate(offset) {
 }
 
 /**
- * The environment that starts a process's clock at `instant` (an ISO 8601
- * string) and lets it run on from there: tests/fixtures/clock.mjs, preloaded.
- * With it a case builds the site, or runs a gate, as a machine would at a
- * moment it chooses — just before 00:00 UTC, or just after.
+ * The environment that stops a process's clock at `instant` (an ISO 8601
+ * string): tests/fixtures/clock.mjs, preloaded. With it a case builds the
+ * site, or runs a gate, as a machine would at a moment it chooses — just
+ * before 00:00 UTC, or just after — and the process reads that moment however
+ * long it takes to ask.
  */
 export function clockAt(instant) {
   const preload = `--import=${pathToFileURL(path.join(FIXTURES, "clock.mjs")).href}`;

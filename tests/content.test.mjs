@@ -1,7 +1,9 @@
 import assert from "node:assert/strict";
+import { execFile } from "node:child_process";
 import { readFile, stat, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { after, before, describe, it } from "node:test";
+import { promisify } from "node:util";
 import { isScheduled } from "../scripts/lib/frontmatter.mjs";
 import { walk } from "../scripts/lib/site.mjs";
 import { buildSite, clockAt, copyDir, copyProject, NOW, runGate, tempDir, utcDate } from "./helpers.mjs";
@@ -405,10 +407,13 @@ describe("scheduled posts", () => {
 // Each test file now pins one moment, its NOW, for every build and gate it
 // starts (tests/helpers.mjs), and `pnpm check` pins one for its own
 // (tests/check.test.mjs). The cases build a copy of the project that carries
-// an article dated tomorrow, on clocks half a second either side of the
-// midnight that begins it (tests/fixtures/clock.mjs), and run gates after
+// an article dated tomorrow, on clocks stopped half a second either side of
+// the midnight that begins it (tests/fixtures/clock.mjs), and run gates after
 // that midnight on the build made before it — once taking this file's NOW,
-// as every build and gate here does, and once on their clocks alone.
+// as every build and gate here does, and once on their clocks alone. The
+// clocks stand still (si-0xjb): the CI runner took longer than half a second
+// to reach its first read of the clock, and one that ran on from before
+// midnight had passed it by then.
 describe("builds and gates a second apart across 00:00 UTC", () => {
   const midnight = Date.parse(`${utcDate(1)}T00:00:00Z`);
   const BEFORE = new Date(midnight - 500).toISOString();
@@ -442,6 +447,16 @@ describe("builds and gates a second apart across 00:00 UTC", () => {
 
   const INDEXES = [[["blog", "index.html"], ""], [["sv", "blog", "index.html"], "/sv"]];
 
+  it("keeps each clock at its instant however long the process runs, so a slow build or gate still asks on its own side of midnight", async () => {
+    // A process that reads its clock a second after it starts: twice the half
+    // second the clocks leave on either side of midnight.
+    const read = "setTimeout(() => console.log(JSON.stringify([new Date(), Date.now(), Date()])), 1000)";
+    await Promise.all([BEFORE, AFTER].map(async (instant) => {
+      const { stdout } = await promisify(execFile)(process.execPath, ["-e", read], { env: { ...process.env, ...clockAt(instant) } });
+      assert.deepEqual(JSON.parse(stdout), [instant, Date.parse(instant), new Date(instant).toString()], instant);
+    }));
+  });
+
   it("builds the same site on either side of midnight when both builds take this file's moment, listing the article dated tomorrow in neither", async () => {
     assert.deepEqual(await differingFiles(built.before, built.after), []);
     for (const [page, prefix] of INDEXES) {
@@ -449,7 +464,7 @@ describe("builds and gates a second apart across 00:00 UTC", () => {
     }
   });
 
-  it("builds two different sites on their clocks alone: the clocks do cross midnight", async () => {
+  it("builds two different sites on their clocks alone: one clock is before midnight, the other after it", async () => {
     for (const [page, prefix] of INDEXES) {
       assert.equal((await listed(built["before-unpinned"], ...page)).includes(`${prefix}/blog/after-midnight/`), false, page.join("/"));
       assert.equal((await listed(built["after-unpinned"], ...page)).includes(`${prefix}/blog/after-midnight/`), true, page.join("/"));
