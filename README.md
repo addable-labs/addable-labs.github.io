@@ -126,6 +126,12 @@ An article is one Markdown file per language with the same file name:
 - English: `src/en/blog/posts/<slug>.md` → `/blog/<slug>/`
 - Swedish: `src/sv/blog/posts/<slug>.md` → `/sv/blog/<slug>/`
 
+The file name becomes the URL, so it must be a slug (lowercase letters,
+digits and single hyphens); otherwise `pnpm build` fails and names each file
+at fault, for example `./src/en/blog/posts/About.md: URL /blog/About/ has
+"About"`. Every other page is checked the same way: a page's URL comes from
+its path under `src/`.
+
 Both files are required — a missing counterpart fails the build (see below).
 The English file:
 
@@ -195,7 +201,10 @@ Brödtext i Markdown.
   a time — that is how two articles dated the same day are ordered — but it
   has to use the ISO `T`, as in `2026-09-22T23:00`; a space instead of the `T`
   is refused by the front-matter check, because Eleventy cannot parse it
-  either. A time with no zone is read as UTC, like the date itself. A static
+  either. A time with no zone is read as UTC, like the date itself. Articles
+  with the same date and time, or the same date and no time, are listed by
+  file name in alphabetical order, the same on every machine (code-unit order,
+  not the build machine's locale). A static
   site has no clock, so a scheduled article appears only on the next build:
   the deployment workflow rebuilds and redeploys `main` once a day for exactly
   that reason (see *Deployment*).
