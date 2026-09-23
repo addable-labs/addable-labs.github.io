@@ -70,10 +70,11 @@ grind som hade hårdkodat en platshållare som vi ska byta ut.
 Kvalitetsgrindarna fångar mekaniska misstag, inte osanningar: en saknad
 svensk sida eller en färg som inte klarar kontrastkravet fångas automatiskt;
 om en mening om en produkt är sann kan de däremot inte avgöra. Därför kan
-fakta om apparna spåras till en källa – den README som var och en hämtades
-från och datumet då den lästes – och vi läser ändå allt. Agenterna gjorde
-också misstag: en session tog en administrativ post i registret i stället
-för sin uppgift och behövde fjorton minuter för att ta sig runt det.
+varje uppgift om apparna på startsidan spåras till en källa – README-filen
+eller rapporten i appens kodförråd och datumet då den lästes – och vi läser
+ändå allt. Agenterna gjorde också misstag: en session tog en administrativ
+post i registret i stället för sin uppgift och behövde fjorton minuter för att
+ta sig runt det.
 
 Webbplatsen är enkel: statisk HTML och CSS, två små skript (ett som växlar
 mellan mörkt och ljust läge och ett som tonar in innehållet när du rullar;

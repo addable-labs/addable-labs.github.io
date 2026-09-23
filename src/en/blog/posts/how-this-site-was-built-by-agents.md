@@ -68,11 +68,11 @@ placeholder we are meant to replace.
 
 The gates catch mechanical mistakes, not untruths: a missing Swedish page or
 a colour that fails contrast is caught automatically; whether a sentence
-about a product is true is not. So the facts about the apps trace to a
-source — the README each was taken from and the date it was read — and we
-still read all of it. Agents also made mistakes: one session claimed a
-bookkeeping record instead of its task and needed fourteen minutes to work
-around it.
+about a product is true is not. So each fact about the apps on the home page
+traces to a source — the README or report in the app's repository and the date
+it was read — and we still read all of it. Agents also made mistakes: one
+session claimed a bookkeeping record instead of its task and needed fourteen
+minutes to work around it.
 
 The site is plain: static HTML and CSS, two small scripts (an appearance
 toggle and a scroll-reveal effect; the page works without both), one
