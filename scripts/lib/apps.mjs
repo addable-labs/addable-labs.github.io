@@ -2,8 +2,9 @@
 // amendments A-01, A-02, A-04; decomposition decision 4; founder feedback
 // round 1, si-yp2x), as one pure check over src/_data/portfolio.json and the
 // two strings files: the founder's four entries in order (marketdata-api and
-// Compound left the grid in feedback round 1, pending the founder's research
-// decision), strings in every language, known statuses with labels,
+// Compound left the grid in feedback round 1, and PRIVATE_STATUS_LABEL keeps
+// the wording of the `private` label marketdata-api carried), strings in
+// every language, known statuses with labels,
 // the private/public URL rule (a public entry links one of PUBLIC_REPOS), and
 // the copy bands that keep the balanced cards balanced (one-line names and
 // titles, one-line chip rows, descriptions within a length band). Used by

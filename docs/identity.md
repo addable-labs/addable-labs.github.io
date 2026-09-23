@@ -29,9 +29,9 @@ the console's columns must align across rows — became the subgrid of
 the shipped cards and default theme: services and apps cards are *balanced*
 (one-line titles, descriptions of equal length, "What you get" at the same
 height, links bottom-aligned, a design that never changes with the content),
-the apps grid lists exactly six curated projects, and dark is the default
-for every visitor "regardless of host settings" (confirmed at the plan gate,
-21:44 CEST).
+the apps grid lists only curated projects, not every public repository,
+and dark is the default for every visitor "regardless of host settings"
+(confirmed at the plan gate, 21:44 CEST).
 
 The two alternatives — **B — Ledger** (editorial, centred, label | content
 sections, ledger rows instead of cards, Stripe-like restraint) and **C —
@@ -217,9 +217,9 @@ change colour, border, transform and box-shadow only.
   `aria-current="page"`; the controls — the language switch (`a.lang-switch`,
   named in the target language), the appearance toggle and, from 64 rem, the
   small primary call to action with the same subject-encoded `mailto:` as
-  the hero. Below 40 rem the row wraps: brand and controls on the first
-  line, the navigation on a full second line, so Home / About / Blog stay
-  reachable by keyboard at every width (the navigation is never hidden).
+  the contact band. Below 40 rem the row wraps: brand and controls on the
+  first line, the navigation on a full second line, so Home / About / Blog
+  stay reachable by keyboard at every width (the navigation is never hidden).
 - **Buttons.** Pills, mono Medium 0.875 rem, `min-height: 44px`. `.button-primary`:
   accent surface, on-accent text, the 1 px accent-strong edge; hover: the
   accent-strong surface, a 6 px glow ring and a 2 px lift; active: back to
@@ -313,8 +313,10 @@ change colour, border, transform and box-shadow only.
   points on the right, two columns from 40 rem, each point with a 2 px
   accent rule on top, a mono Medium term and muted small copy. The landing
   page's "Proof, not claims" text is `p.factory-note`, the content gate's
-  hook. The about page reuses the same components for its founder and
-  approach sections.
+  hook. The about page reuses the same components for its approach section,
+  with its article card under the heading from 64 rem, and the same split
+  for its mission section: the heading and the facts line (founding month,
+  country) on the left, the two first-person paragraphs on the right.
 - **Article list items** (`.post`). Surface cards in a two-column grid from
   48 rem: mono metadata (date, category chip, draft chip), the title as a
   44 px link that turns accent on hover, the description; the whole card
@@ -355,9 +357,9 @@ change colour, border, transform and box-shadow only.
   (the other articles as post cards, then "All articles"); mono `h2`
   (1.75 rem) / `h3` (1.25 rem) under an accent dash, code on the surface
   colour, blockquotes with a green rule and mono metadata; the
-  other-language link is a secondary button. The about page's GRC-fork note
-  is a labelled `aside.card.note` with the attribution link as its action
-  row.
+  other-language link is a secondary button. The about page's article card
+  is a labelled `aside.card.note` with the link to the article on how this
+  site was built as its action row.
 - **Article figures** (`.figure`, `src/_includes/figures/figures.mjs`, the
   `figure` shortcode). Custom inline-SVG illustrations (REQ-008): a
   `<figure>` holding a row of `<svg>` panels and a mono caption. Each panel
@@ -526,7 +528,8 @@ An app is one entry in `src/_data/portfolio.json` — `key`, `theme`
 (`ai-apps`, `ai-adoption` or `experiments`), `repo` (`owner/name`), `url`
 (the public repository; for a private one, the product's public page or
 `null`), `status`, and
-`source.readme` + `source.retrieved` — plus `portfolio.<key>.name` and
+`source.readme` + `source.retrieved` (an optional `source.report` adds a file
+in the entry's own repository) — plus `portfolio.<key>.name` and
 `portfolio.<key>.summary` in both `src/_data/strings/en.json` and
 `sv.json`. Templates contain no app copy. The copy bands keep the cards
 balanced, and `tests/apps.test.mjs` (`validateApps()` in
@@ -543,8 +546,9 @@ when they are broken:
   lengthen it further.
 - **Summaries within a 25 % length band** per language (the longest at most
   1.25 × the shortest), as are the three service texts, so descriptions in
-  a row take the same number of lines. Write the new one-liner to card
-  length (today's summaries are 132–153 characters) and check the band.
+  a row take the same number of lines. Write the new one-liner to fit that
+  band: at least 0.8 × the longest summary of its language and at most
+  1.25 × the shortest.
 - **2–4 "What you get" items** per service.
 - **A private repository is never linked.** A private entry links the
   product's public page once, labelled "Website ↗" — never a
@@ -559,7 +563,7 @@ when they are broken:
   in `base.css` (accent for shipped/open source, orange for in progress,
   muted for the rest); unused labels are rejected, so remove a label when
   its last entry goes.
-- Keep the order of the six entries the founder chose (`APP_KEYS`); a new
+- Keep the order of the entries the founder chose (`APP_KEYS`); a new
   entry extends the list in `apps.mjs` and the data file together, and
   `PRIVATE_APP_KEYS` too for a private one or `PUBLIC_REPOS` for a public
   one, once its repository is public — the apps test fails naming the entry

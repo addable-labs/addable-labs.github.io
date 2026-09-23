@@ -17,9 +17,10 @@
 //     "AI-native", the article link and the proof link and links nothing else
 //     named "factory"; at least two latest-writing cards with category chips
 //     and the draft chip where due, and the link to the blog index
-//   - the about pages have the mission and approach sections, the founding
-//     month ("September 2026" / "september 2026") and no founder section
-//     (founder call 2026-09-22: a company page, not a personal one)
+//   - the about pages have the mission and approach sections and the
+//     founding month ("September 2026" / "september 2026"), and the
+//     founder's name appears nowhere in their main content (founder call
+//     2026-09-22: no founder section)
 //   - every page's footer: mailto:hello@addablelabs.se with the address as
 //     text, the company line the law asks for — name, organisation number and
 //     registered seat (si-98hh) — the language switch to the counterpart path
@@ -194,9 +195,9 @@ for (const lang of site.languages.codes) {
   if (!about) continue;
   const main = text(about.doc.querySelector("main"));
   const h2s = about.doc.querySelectorAll("main h2").map(text);
-  // Founder call 2026-09-22: the about page is a company page — a mission
-  // section instead of a founder section; the founder's name stays on the
-  // landing page's trust section (REQ-012) and nowhere else.
+  // Founder call 2026-09-22: a mission section and no founder section. The
+  // founder's name appears nowhere in the page's main content; the landing
+  // page's trust section carries it (REQ-012).
   report.check(h2s.includes(strings[lang].about.missionHeading), `${rel}: mission section present`);
   report.check(!main.includes(FOUNDER), `${rel}: no founder section (the name belongs to the landing page's trust section)`);
   // REQ-012 (plan D-12): the founding month moved from the landing page to the about page.

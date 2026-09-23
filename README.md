@@ -295,8 +295,9 @@ one-liner in both strings files and its key in the curated list `APP_KEYS`
   the allow-list of public repositories the site may link; the content gate
   refuses any other GitHub repository anywhere in the built site.
 - `status` is one of `in-development`, `open-source-mit`, `experiment`,
-  `private`, each with a label in `portfolioStatus` in both strings files.
-  Statuses are stated as the repository states them, nothing is invented.
+  `private`; every status in use has a label in `portfolioStatus` in both
+  strings files, and a label no entry uses is refused. Statuses are stated
+  as the repository states them, nothing is invented.
 - An optional `source.report` names a second file, for a fact the README
   does not state (Ashlands: its `EVALUATION.md`), as a
   `https://github.com/<owner>/<name>/blob/…` URL in the entry's own
@@ -306,18 +307,19 @@ one-liner in both strings files and its key in the curated list `APP_KEYS`
 - **The copy bands keep the cards balanced** (the design never changes with
   the content): a name is at most 16 characters, a service title at most 20,
   a status label at most 22 (except the founder-confirmed `private` label,
-  which is fixed), and the four summaries — like the three service texts —
+  which is fixed), and the app summaries — like the three service texts —
   stay within a 25 % length band per language (the longest at most 1.25 ×
-  the shortest; today's summaries are 133–164 characters). Write the new
-  one-liner to that length.
+  the shortest). Write the new one-liner to fit that band: at least 0.8 ×
+  the longest summary of its language and at most 1.25 × the shortest.
 - **The guard** is `tests/apps.test.mjs` (`validateApps()` in
   `scripts/lib/apps.mjs`): it fails naming the key, the language or the band
   when an entry lacks strings in a language, uses an unknown or unused
   status, links a private repository or one not on `PUBLIC_REPOS`, or breaks
   a band. A new status also needs an entry in `STATUS_KEYS` there and a
   `chip-<status>` colour rule in `src/assets/css/base.css`.
-- **The list is curated.** The six entries are the founder's list (amendment
-  A-01), pinned as `APP_KEYS` in `scripts/lib/apps.mjs`: append the new key
+- **The list is curated.** The entries are the founder's list (amendment
+  A-01, without the two investing tools founder feedback round 1 took out),
+  pinned as `APP_KEYS` in `scripts/lib/apps.mjs`: append the new key
   there in grid order — and to `PRIVATE_APP_KEYS` if the repository is
   private — so the data file and the list agree; `pnpm test` fails naming
   the entry when they differ. A public repository also goes on
@@ -391,7 +393,7 @@ after a `pnpm build`:
 | contrast | `pnpm check:contrast` | `src/assets/css/tokens.css` keeps its structure (dark by default, light only under the toggle's `[data-theme="light"]`, every fallback equal to its dark value, no OS media query, no token outside `:root`); every colour pair meets WCAG AA in both themes (4.5:1 text, 3:1 UI); no colour literal outside `tokens.css`. |
 | parity | `pnpm check:parity` | Every English page has its Swedish twin and vice versa, the feeds pair up, the strings files have identical keys with no empty values, pages pair one-to-one. |
 | feeds | `pnpm check:feeds` | Both feeds are well-formed RSS 2.0 with absolute links, exactly the language's listed articles — never one dated after today, and never a draft unless this is a development build — draft labels, items that carry the prose only (no `<figure>`), and every page links its feed. |
-| content | `pnpm check:content` | The facts the site must state: one `h1` in the hero, the primary `mailto:` call to action with a subject, the nivå button honouring `site.nivaUrl`, the three service headings, the apps in data order, each linked once — "Repository" to a public repository, "Website" to the public page of a product whose repository is private — and an entry without a `url` unlinked, the trust section's phrase, founder, article link and proof link, the latest-writing cards, the founding month on the about page; on every page the footer's address, the company line with the organisation number and the registered seat, the language switches, the toggle and the feed link; every GitHub repository named in a page, a feed, the sitemap or a text file one of the public repositories the site may link (`PUBLIC_REPOS` in `scripts/lib/apps.mjs`, an allow-list); article lengths and draft labels; that an article dated after today is built but listed in neither its language's blog index nor its feed; and that a draft is listed and built in a development build but has no page at all in the published one. The pinned facts are the constants at the top of `scripts/check/content.mjs`. |
+| content | `pnpm check:content` | The facts the site must state: one `h1` in the hero, the primary call to action linking the apps section (`#apps`), the nivå button honouring `site.nivaUrl`, the three service headings, the apps in data order, each linked once — "Repository" to a public repository, "Website" to the public page of a product whose repository is private — and an entry without a `url` unlinked, the trust section's phrase, founder, article link and proof link, the latest-writing cards, the founding month on the about page; on every page the footer's address, the company line with the organisation number and the registered seat, the language switches, the toggle and the feed link; every GitHub repository named in a page, a feed, the sitemap or a text file one of the public repositories the site may link (`PUBLIC_REPOS` in `scripts/lib/apps.mjs`, an allow-list); article lengths and draft labels; that an article dated after today is built but listed in neither its language's blog index nor its feed; and that a draft is listed and built in a development build but has no page at all in the published one. The pinned facts are the constants at the top of `scripts/check/content.mjs`. |
 | lighthouse | `pnpm check:lighthouse` | Serves `_site/` locally, runs Lighthouse 13 (mobile configuration) in headless Chrome on `/`, `/sv/`, `/about/`, `/blog/`, a category page, an article and `/404.html`: Performance, Accessibility, Best Practices and SEO each ≥ 95 and cumulative layout shift ≤ 0.1, one line per page. A page whose only problem is Performance < 95 is measured twice more and the median of its three Performance scores decides (its line shows the median, then the three: `performance 96 (85, 97, 96)`); in CI the lines also go to the run's summary page. |
 | layout | `pnpm check:layout` | Renders `/` and `/sv/` at 360, 768, 1024, 1280 and 1920 px in headless Chrome and measures the balanced cards: every service and app title one line, cards in a row equal in height with their "What you get" heading / summary tops and action rows aligned (± 1 px), every chip row one line. Renders every article page at the same widths and measures the article layout: no horizontal scroll, every text block at most 44 rem wide, centred in the body and on one shared left edge, every wide figure across the body, every inline figure on the measure and centred with its panel 20–24.5 rem wide and its caption beside the panel from 768 px (top-aligned, after the gap) and under it below, every panel rendered so a 13-unit label is at least 12 px. `LAYOUT_DUMP=<file>` writes the raw measurements (the source of `tests/fixtures/layout/article.json`). |
 
