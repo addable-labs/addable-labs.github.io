@@ -23,7 +23,15 @@ describe("sitemap order", () => {
   const sitemap = (out) => readFile(path.join(out, "sitemap.xml"), "utf8");
 
   it("lists every URL once, in ascending order", async () => {
-    const urls = [...(await sitemap(built)).matchAll(/<loc>([^<]*)<\/loc>/g)].map(([, url]) => url);
+    // Decoded first (si-8fl3): absoluteUrl writes each <loc> with new URL(),
+    // which percent-encodes a letter outside ASCII, while the template sorts
+    // the raw page URLs. A page at /blog/å-x/ is listed after every ASCII slug,
+    // but its <loc> .../blog/%C3%A5-x/ sorts before them ("%" comes before
+    // every digit and letter, "å" after all of them), so the encoded <loc>s
+    // would fail this case although every checkout writes the same file.
+    // Decoded, each <loc> is site.url, the same on all of them, followed by
+    // the raw URL the template sorted by.
+    const urls = [...(await sitemap(built)).matchAll(/<loc>([^<]*)<\/loc>/g)].map(([, loc]) => decodeURI(loc));
     assert.ok(urls.length > 1, "the sitemap lists the pages");
     assert.deepEqual(urls.filter((url, index) => urls.indexOf(url) !== index), [], "URLs listed more than once");
     assert.deepEqual(urls, urls.toSorted());
