@@ -33,7 +33,7 @@ inbjudningar, ett samlat radardiagram, en värmekarta över medlemmar mot områd
 en gapanalys mot målet, trender över tid och målnivåer per område som teamet
 själv sätter; formuleringarna av nivåerna förblir nivås egna.
 Produkten är tvåspråkig – engelska och svenska – och är byggd på Next.js och
-Supabase, med data som lagras i Stockholm.
+Supabase, med data som lagras i Sverige.
 
 {% figure "team", "wide" %}
 

@@ -77,5 +77,5 @@ around it.
 The site is plain: static HTML and CSS, two small scripts (an appearance
 toggle and a scroll-reveal effect; the page works without both), one
 self-hosted typeface and no third-party requests or analytics. That was a
-decision, and the part that matters — nothing loaded from anyone else's
-servers — is verified by a gate on every build.
+decision, and the part that matters — nothing loaded from any other
+site — is verified by a gate on every build.

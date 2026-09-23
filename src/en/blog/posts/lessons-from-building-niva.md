@@ -31,7 +31,7 @@ index and, per area, a guide to the next level. Teams add invites, an aggregate
 radar, a heatmap of members against areas, a gap-to-target analysis, trends over
 time and target levels per area that the team sets itself; the wording of the
 levels stays nivå's own. The product is bilingual, English and Swedish, and is
-built on Next.js and Supabase, with the data hosted in Stockholm.
+built on Next.js and Supabase, with the data hosted in Sweden.
 
 {% figure "team", "wide" %}
 

@@ -77,7 +77,7 @@ för sin uppgift och behövde fjorton minuter för att ta sig runt det.
 
 Webbplatsen är enkel: statisk HTML och CSS, två små skript (ett som växlar
 mellan mörkt och ljust läge och ett som tonar in innehållet när du rullar;
-sidan fungerar utan båda), ett typsnitt vi levererar från vår egen server
+sidan fungerar utan båda), ett typsnitt vi levererar själva
 och inga anrop till tredje part, ingen webbanalys. Det var ett beslut och
-den del som spelar roll – att inget laddas från någon annans servrar –
+den del som spelar roll – att inget laddas från någon annan webbplats –
 verifieras av en kvalitetsgrind vid varje bygge.
