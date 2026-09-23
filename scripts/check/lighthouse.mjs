@@ -3,14 +3,19 @@
 // D-08). Serves the production build over http, launches headless Chrome
 // and runs Lighthouse 13 (default mobile configuration, the four scored
 // categories) against seven pages; every category must score ≥ 95 and the
-// page's cumulative layout shift must stay ≤ 0.1. One line per page with
-// the four scores and CLS; exit 1 on any failure. Without Chrome the gate
-// prints an explicit SKIP line and exits 3 (1 under CHECK_REQUIRE_CHROME=1);
-// set CHROME_PATH to point at a browser. Optional argument: <built-site dir>.
+// page's cumulative layout shift must stay ≤ 0.1. A page whose only problem
+// is a performance score under 95 is measured twice more in the same Chrome
+// and the median of its three performance scores decides (si-0rxb; the rule
+// is judgePage in scripts/lib/lighthouse-report.mjs). One line per page with
+// the four scores and CLS, a re-measured page's performance followed by its
+// three samples; under GitHub Actions the lines also go to the step summary.
+// Exit 1 on any failure. Without Chrome the gate prints an explicit SKIP
+// line and exits 3 (1 under CHECK_REQUIRE_CHROME=1); set CHROME_PATH to
+// point at a browser. Optional argument: <built-site dir>.
 
 import lighthouse from "lighthouse";
 import { withChrome } from "../lib/chrome.mjs";
-import { CATEGORIES, evaluate, formatLine } from "../lib/lighthouse-report.mjs";
+import { appendStepSummary, CATEGORIES, formatLine, judgePage } from "../lib/lighthouse-report.mjs";
 import { resolveDirs } from "../lib/site.mjs";
 
 // The pages the gate measures (REQ-021): both landing pages, the about page,
@@ -20,14 +25,18 @@ const PAGES = ["/", "/sv/", "/about/", "/blog/", "/blog/app-development/", "/blo
 const { out } = resolveDirs();
 
 const exitCode = await withChrome("lighthouse", out, async ({ baseUrl, port }) => {
+  const lines = [];
   let failures = 0;
   for (const page of PAGES) {
     const url = `${baseUrl}${page}`;
-    const runnerResult = await lighthouse(url, { port, output: "json", logLevel: "error", onlyCategories: CATEGORIES });
-    const result = evaluate(runnerResult?.lhr);
-    console.log(formatLine(page, result));
+    const measure = async () => (await lighthouse(url, { port, output: "json", logLevel: "error", onlyCategories: CATEGORIES }))?.lhr;
+    const result = await judgePage(measure);
+    const line = formatLine(page, result);
+    console.log(line);
+    lines.push(line);
     if (!result.ok) failures += 1;
   }
+  await appendStepSummary(lines);
   if (failures > 0) {
     console.log(`FAIL lighthouse (${failures} problem${failures === 1 ? "" : "s"})`);
     return 1;
