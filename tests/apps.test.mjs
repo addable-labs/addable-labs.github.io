@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { before, describe, it } from "node:test";
-import { APP_KEYS, BANDS, PRIVATE_APP_KEYS, PRIVATE_STATUS_LABEL, STATUS_KEYS, THEME_KEYS, validateApps } from "../scripts/lib/apps.mjs";
+import { APP_KEYS, BANDS, PRIVATE_APP_KEYS, PRIVATE_STATUS_LABEL, PUBLIC_REPOS, STATUS_KEYS, THEME_KEYS, githubRepos, publicRepo, validateApps } from "../scripts/lib/apps.mjs";
 import { loadSite, loadStrings } from "../scripts/lib/site.mjs";
 import { SRC } from "./helpers.mjs";
 
@@ -56,9 +56,9 @@ describe("apps data and copy (REQ-011, REQ-025; AC-11, AC-12, AC-30)", () => {
 
   it("fails an added entry that lacks Swedish strings, naming the key and the language (AC-12)", () => {
     const added = copy();
-    added.data.push({ key: "newapp", theme: "ai-apps", repo: "PeterBlenessy/newapp", url: "https://github.com/PeterBlenessy/newapp", status: "open-source-mit", source: { readme: "https://github.com/PeterBlenessy/newapp/blob/main/README.md", retrieved: "2026-09-20" } });
+    added.data.push({ key: "newapp", theme: "ai-apps", repo: "example-org/newapp", url: "https://github.com/example-org/newapp", status: "open-source-mit", source: { readme: "https://github.com/example-org/newapp/blob/main/README.md", retrieved: "2026-09-20" } });
     added.strings.en.portfolio.newapp = { name: "New app", summary: "A desktop app for following markets, funds and portfolios in one place." };
-    const problems = problemsOf({ ...added, keys: [...APP_KEYS, "newapp"] });
+    const problems = problemsOf({ ...added, keys: [...APP_KEYS, "newapp"], publicRepos: [...PUBLIC_REPOS, "example-org/newapp"] });
     assert.ok(problems.includes("sv: portfolio.newapp.name is missing"), problems.join("\n"));
     assert.ok(problems.includes("sv: portfolio.newapp.summary is missing"), problems.join("\n"));
     assert.ok(!problems.some((p) => p.startsWith("en: portfolio.newapp")), problems.join("\n"));
@@ -71,7 +71,7 @@ describe("apps data and copy (REQ-011, REQ-025; AC-11, AC-12, AC-30)", () => {
     }
     assert.equal(data.find((entry) => entry.key === "niva").url, "https://erniva.se/");
     const linked = copy();
-    linked.data.find((entry) => entry.key === "niva").url = "https://github.com/addable-labs/niva";
+    linked.data.find((entry) => entry.key === "niva").url = "https://github.com/example-org/private-app";
     assert.ok(problemsOf(linked).some((p) => /^niva: private repository must not be linked/.test(p)), problemsOf(linked).join("\n"));
     // Without a public page a private entry is unlinked, as before si-gyc4.
     const noPage = copy();
@@ -104,13 +104,29 @@ describe("apps data and copy (REQ-011, REQ-025; AC-11, AC-12, AC-30)", () => {
     assert.ok(problemsOf({ ...unused, statuses: [...STATUS_KEYS, "prototype"] }).includes("sv: portfolioStatus.prototype is not used by any entry"));
   });
 
-  it("never names the factory in a repo, url or source (REQ-011)", () => {
-    for (const entry of data) {
-      for (const value of [entry.repo, entry.url, entry.source.readme]) assert.ok(!String(value).includes("addable-labs/factory"), entry.key);
+  it("links every public entry to one of the public repositories the site may link, and fails one it does not list (REQ-011, si-vwu8)", () => {
+    for (const entry of data.filter((item) => !PRIVATE_APP_KEYS.includes(item.key))) {
+      const [repo] = githubRepos(entry.url);
+      assert.ok(repo && publicRepo(repo), `${entry.key}: ${entry.url}`);
     }
-    const named = copy();
-    named.data.find((entry) => entry.key === "niva").repo = "addable-labs/factory";
-    assert.ok(problemsOf(named).includes("niva: repo names addable-labs/factory"));
+    // A made-up repository: the list refuses whatever it does not name, so no
+    // real private one is needed to prove it.
+    const unlisted = copy();
+    unlisted.data.find((entry) => entry.key === "notesage").url = "https://github.com/example-org/private-app";
+    assert.ok(problemsOf(unlisted).includes('notesage: url "https://github.com/example-org/private-app" is not a repository the site may link — the public ones are PUBLIC_REPOS in scripts/lib/apps.mjs'), problemsOf(unlisted).join("\n"));
+    // Nor is a github.com page that is no repository at all.
+    const noRepository = copy();
+    noRepository.data.find((entry) => entry.key === "notesage").url = "https://github.com/example-org";
+    assert.ok(problemsOf(noRepository).some((p) => /^notesage: url "https:\/\/github\.com\/example-org" is not a repository the site may link/.test(p)), problemsOf(noRepository).join("\n"));
+  });
+
+  it("reads every GitHub repository a text names and matches the list without regard to case (si-vwu8)", () => {
+    // A link, a feed's escaped markup and prose, with a ".git" suffix and a
+    // sentence's full stop that are not part of the name.
+    const text = '<a href="https://github.com/addable-labs/ashlands/blob/main/README.md">it</a>, href=&quot;https://github.com/gastownhall/beads&quot; and github.com/Example-Org/private-app.git. Also github.com/JetBrains/JetBrainsMono.';
+    assert.deepEqual(githubRepos(text), ["addable-labs/ashlands", "gastownhall/beads", "Example-Org/private-app", "JetBrains/JetBrainsMono"]);
+    assert.equal(publicRepo("jetbrains/jetbrainsmono"), "JetBrains/JetBrainsMono");
+    assert.equal(publicRepo("example-org/private-app"), undefined);
   });
 
   it("keeps names within 16 characters and fails a 17-character name naming the band (D-14)", () => {

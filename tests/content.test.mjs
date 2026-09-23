@@ -35,6 +35,10 @@ describe("content gate", () => {
     assert.equal(status, 0, output);
     assert.match(output, /PASS content/);
     assert.match(output, /ok {4}every page's footer states "Addable Labs AB · Org\.nr 559602-2615 · Registered office: Eslöv" in the page's language/);
+    // The repository rule saw the site's GitHub repositories rather than
+    // passing on none: the apps grid's, in a page, and the font's, in its
+    // licence file (si-vwu8).
+    assert.match(output, /ok {4}every GitHub repository the site names is one of the public repositories it may link: [^\n]*\baddable-labs\/ashlands\b[^\n]*\bJetBrains\/JetBrainsMono\b/);
   });
 
   it("fails when the founder's name disappears from the trust section (REQ-012)", async () => {
@@ -100,13 +104,6 @@ describe("content gate", () => {
     const { status, output } = runGate("content", broken);
     assert.equal(status, 1);
     assert.match(output, /FAIL {2}index\.html: footer language switch does not point at \/sv\//);
-  });
-
-  it("fails when a page contains \"StockSight\" (A-01: the ban stays)", async () => {
-    const broken = await withLandingEdit("stocksight", (html) => html.replace("</main>", "<p>StockSight-AI is coming.</p></main>"));
-    const { status, output } = runGate("content", broken);
-    assert.equal(status, 1);
-    assert.match(output, /FAIL {2}index\.html: contains "StockSight"/);
   });
 
   it("fails when a footer drops the company line the law asks for (si-98hh)", async () => {
@@ -185,11 +182,19 @@ describe("content gate", () => {
     assert.match(output, /FAIL {2}blog\/why-we-run-an-agent-run-factory\/index\.html: \d+ words \(300–1500\)/);
   });
 
-  it("fails when a private repository is linked", async () => {
-    const broken = await withLandingEdit("private-link", (html) => html.replace("</main>", '<a href="https://github.com/PeterBlenessy/portfolio-app">Compound</a></main>'));
+  it("fails a GitHub repository that is not one of the public ones the site may link, in a page and in a feed (si-vwu8)", async () => {
+    // A made-up repository: the rule is an allow-list, so any repository it
+    // does not list is refused and the test needs no real private one.
+    const broken = await withLandingEdit("private-link", (html) => html.replace("</main>", '<a href="https://github.com/example-org/private-app">A private app</a></main>'));
+    const feed = path.join(broken, "feed.xml");
+    const xml = await readFile(feed, "utf8");
+    const linked = xml.replace("</channel>", "<item><title>A private app</title><link>https://github.com/example-org/private-app</link></item></channel>");
+    assert.notEqual(linked, xml, "the feed's channel must be found");
+    await writeFile(feed, linked);
     const { status, output } = runGate("content", broken);
     assert.equal(status, 1);
-    assert.match(output, /FAIL {2}index\.html: contains "github\.com\/PeterBlenessy\/portfolio-app"/);
+    assert.match(output, /FAIL {2}index\.html: names github\.com\/example-org\/private-app, which is not one of the public repositories the site may link \(PUBLIC_REPOS in scripts\/lib\/apps\.mjs\)/);
+    assert.match(output, /FAIL {2}feed\.xml: names github\.com\/example-org\/private-app, which is not one of the public repositories the site may link/);
   });
 });
 

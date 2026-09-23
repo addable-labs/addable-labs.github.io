@@ -7,9 +7,8 @@ root, Swedish under `/sv/`) static site with a landing page, an about page and
 a blog with two categories, RSS feeds, a sitemap and a bilingual 404 page. It
 is built with [Eleventy](https://www.11ty.dev/) 3.1.6 from Markdown and
 Nunjucks templates and published with GitHub Pages from this repository
-(`addable-labs/addable-labs.github.io`) at `https://addablelabs.se` —
-`https://addable-labs.github.io/` until the custom domain is configured (see
-*Deployment*).
+(`addable-labs/addable-labs.github.io`) at `https://addablelabs.se`;
+`https://addable-labs.github.io/` redirects there (see *Deployment*).
 
 The site looks the way it does because the founder picked **Direction A —
 Signal** at the redesign's direction gate (2026-09-20): a product-led,
@@ -277,10 +276,10 @@ one-liner in both strings files and its key in the curated list `APP_KEYS`
 {
   "key": "gaimer",
   "theme": "ai-apps",
-  "repo": "PeterBlenessy/gaimer",
-  "url": "https://github.com/PeterBlenessy/gaimer",
+  "repo": "addable-labs/gaimer",
+  "url": "https://github.com/addable-labs/gaimer",
   "status": "open-source-mit",
-  "source": { "readme": "https://github.com/PeterBlenessy/gaimer/blob/main/README.md", "retrieved": "2026-09-20" }
+  "source": { "readme": "https://github.com/addable-labs/gaimer/blob/main/README.md", "retrieved": "2026-09-22" }
 }
 ```
 
@@ -291,8 +290,10 @@ one-liner in both strings files and its key in the curated list `APP_KEYS`
   there is one — nivå's is `https://erniva.se/` — and the card labels it
   "Website ↗" where a repository gets "Repository ↗", so no card calls a
   private repository open; without a page it is `null` and the card gets the
-  "Private repository — no public link yet" line instead of a link. Nothing
-  may name `addable-labs/factory`.
+  "Private repository — no public link yet" line instead of a link. A public
+  entry's repository must be one of `PUBLIC_REPOS` in `scripts/lib/apps.mjs`,
+  the allow-list of public repositories the site may link; the content gate
+  refuses any other GitHub repository anywhere in the built site.
 - `status` is one of `in-development`, `open-source-mit`, `experiment`,
   `private`, each with a label in `portfolioStatus` in both strings files.
   Statuses are stated as the repository states them, nothing is invented.
@@ -308,14 +309,17 @@ one-liner in both strings files and its key in the curated list `APP_KEYS`
 - **The guard** is `tests/apps.test.mjs` (`validateApps()` in
   `scripts/lib/apps.mjs`): it fails naming the key, the language or the band
   when an entry lacks strings in a language, uses an unknown or unused
-  status, links a private repository, or breaks a band. A new status also
-  needs an entry in `STATUS_KEYS` there and a `chip-<status>` colour rule in
-  `src/assets/css/base.css`.
+  status, links a private repository or one not on `PUBLIC_REPOS`, or breaks
+  a band. A new status also needs an entry in `STATUS_KEYS` there and a
+  `chip-<status>` colour rule in `src/assets/css/base.css`.
 - **The list is curated.** The six entries are the founder's list (amendment
   A-01), pinned as `APP_KEYS` in `scripts/lib/apps.mjs`: append the new key
   there in grid order — and to `PRIVATE_APP_KEYS` if the repository is
   private — so the data file and the list agree; `pnpm test` fails naming
-  the entry when they differ.
+  the entry when they differ. A public repository also goes on
+  `PUBLIC_REPOS` there, once it is public: without a token,
+  `curl -s -o /dev/null -w '%{http_code}' https://api.github.com/repos/<owner>/<name>`
+  prints `200`.
 - **The proof** is `pnpm check:layout`: it renders both landing pages at
   five widths in headless Chrome and measures that every title is one line
   and every row of cards is aligned, and `pnpm check:content` proves the
@@ -383,7 +387,7 @@ after a `pnpm build`:
 | contrast | `pnpm check:contrast` | `src/assets/css/tokens.css` keeps its structure (dark by default, light only under the toggle's `[data-theme="light"]`, every fallback equal to its dark value, no OS media query, no token outside `:root`); every colour pair meets WCAG AA in both themes (4.5:1 text, 3:1 UI); no colour literal outside `tokens.css`. |
 | parity | `pnpm check:parity` | Every English page has its Swedish twin and vice versa, the feeds pair up, the strings files have identical keys with no empty values, pages pair one-to-one. |
 | feeds | `pnpm check:feeds` | Both feeds are well-formed RSS 2.0 with absolute links, exactly the language's listed articles — never one dated after today, and never a draft unless this is a development build — draft labels, items that carry the prose only (no `<figure>`), and every page links its feed. |
-| content | `pnpm check:content` | The facts the site must state: one `h1` in the hero, the primary `mailto:` call to action with a subject, the nivå button honouring `site.nivaUrl`, the three service headings, the apps in data order, each linked once — "Repository" to a public repository, "Website" to the public page of a product whose repository is private — and an entry without a `url` unlinked, the trust section's phrase, founder, article link and proof link, the latest-writing cards, the founding month on the about page; on every page the footer's address, the company line with the organisation number and the registered seat, the language switches, the toggle and the feed link; no private-repository link, no "StockSight", no factory name; article lengths and draft labels; that an article dated after today is built but listed in neither its language's blog index nor its feed; and that a draft is listed and built in a development build but has no page at all in the published one. The pinned facts are the constants at the top of `scripts/check/content.mjs`. |
+| content | `pnpm check:content` | The facts the site must state: one `h1` in the hero, the primary `mailto:` call to action with a subject, the nivå button honouring `site.nivaUrl`, the three service headings, the apps in data order, each linked once — "Repository" to a public repository, "Website" to the public page of a product whose repository is private — and an entry without a `url` unlinked, the trust section's phrase, founder, article link and proof link, the latest-writing cards, the founding month on the about page; on every page the footer's address, the company line with the organisation number and the registered seat, the language switches, the toggle and the feed link; every GitHub repository named in a page, a feed, the sitemap or a text file one of the public repositories the site may link (`PUBLIC_REPOS` in `scripts/lib/apps.mjs`, an allow-list); article lengths and draft labels; that an article dated after today is built but listed in neither its language's blog index nor its feed; and that a draft is listed and built in a development build but has no page at all in the published one. The pinned facts are the constants at the top of `scripts/check/content.mjs`. |
 | lighthouse | `pnpm check:lighthouse` | Serves `_site/` locally, runs Lighthouse 13 (mobile configuration) in headless Chrome on `/`, `/sv/`, `/about/`, `/blog/`, a category page, an article and `/404.html`: Performance, Accessibility, Best Practices and SEO each ≥ 95 and cumulative layout shift ≤ 0.1, one line per page. A page whose only problem is Performance < 95 is measured twice more and the median of its three Performance scores decides (its line shows the median, then the three: `performance 96 (85, 97, 96)`); in CI the lines also go to the run's summary page. |
 | layout | `pnpm check:layout` | Renders `/` and `/sv/` at 360, 768, 1024, 1280 and 1920 px in headless Chrome and measures the balanced cards: every service and app title one line, cards in a row equal in height with their "What you get" heading / summary tops and action rows aligned (± 1 px), every chip row one line. Renders every article page at the same widths and measures the article layout: no horizontal scroll, every text block at most 44 rem wide, centred in the body and on one shared left edge, every wide figure across the body, every inline figure on the measure and centred with its panel 20–24.5 rem wide and its caption beside the panel from 768 px (top-aligned, after the gap) and under it below, every panel rendered so a 13-unit label is at least 12 px. `LAYOUT_DUMP=<file>` writes the raw measurements (the source of `tests/fixtures/layout/article.json`). |
 
@@ -444,25 +448,51 @@ workflow* both deploys and re-enables it.
 output as REQ-020 asks, but GitHub's documentation is explicit: "If you are
 publishing from a custom GitHub Actions workflow, no `CNAME` file is created,
 and any existing `CNAME` file is ignored and is not required." The custom
-domain is set in the repository's Pages settings instead, so merging this
-branch before DNS exists is safe: nothing redirects until the founder saves
-the domain there.
+domain is set in the repository's Pages settings instead (step 3 below), so
+the file on its own changes nothing: nothing redirects until the domain is
+saved there.
 
-**Custom domain and HTTPS, in this order** (plan Decision 1; GitHub warns that
-"configuring your custom domain with your DNS provider without adding your
-custom domain to GitHub could result in someone else being able to host a site
-on one of your subdomains"):
+**Custom domain and HTTPS.** The site is served at `https://addablelabs.se`
+and `addable-labs.github.io` redirects there. The domain is set up in four
+steps, in this order (plan Decision 1; GitHub warns that "configuring your
+custom domain with your DNS provider without adding your custom domain to
+GitHub could result in someone else being able to host a site on one of your
+subdomains"):
 
-1. Verify `addablelabs.se` for the `addable-labs` organisation.
-2. Create the DNS records at the registrar.
-3. Once DNS resolves, enter `addablelabs.se` as the custom domain in the
-   repository's Pages settings — `addable-labs.github.io` starts redirecting
-   to it at that moment.
-4. Enable *Enforce HTTPS* once GitHub has issued the certificate.
+1. **Verify the domain for the organisation** first: it stops other GitHub
+   users from taking the domain over for a Pages site of their own.
+   GitHub → organisation `addable-labs` → *Settings* → *Pages* (under *Code,
+   planning, and automation*) → *Add a domain* → `addablelabs.se`. Create the
+   TXT record GitHub shows — name `_github-pages-challenge-addable-labs`
+   (i.e. `_github-pages-challenge-addable-labs.addablelabs.se`), value as
+   displayed — wait for DNS (immediate to 24 hours) and click *Verify*.
+   Keep the TXT record: verification lapses without it. Verifying the apex
+   also covers its immediate subdomains, so `www` is included.
+2. **The DNS records** at the registrar for `addablelabs.se`:
+   - `A` records for the apex: `185.199.108.153`, `185.199.109.153`,
+     `185.199.110.153`, `185.199.111.153`
+   - `AAAA` records for the apex, for IPv6 (optional in GitHub's
+     documentation, and never instead of the `A` records):
+     `2606:50c0:8000::153`, `2606:50c0:8001::153`, `2606:50c0:8002::153`,
+     `2606:50c0:8003::153`
+   - `CNAME` for `www` → `addable-labs.github.io`
 
-The exact steps are the first four founder open items below. Actions are
-pinned by SHA and updated by hand; enabling Dependabot for GitHub Actions
-(`.github/dependabot.yml`) is a founder option that was not enabled in this run.
+   Check with `dig addablelabs.se +noall +answer` and
+   `dig www.addablelabs.se +noall +answer`.
+3. **The custom domain** — repository `addable-labs/addable-labs.github.io` →
+   *Settings* → *Pages* → *Custom domain* → `addablelabs.se` → *Save*, once
+   DNS resolves. GitHub checks the DNS and, from then on, redirects
+   `addable-labs.github.io` to `addablelabs.se`. Before this step the site is
+   reachable at `https://addable-labs.github.io/` with absolute URLs pointing
+   at `addablelabs.se`; build with `SITE_URL=https://addable-labs.github.io`
+   if the `.github.io` address should be canonical for a while (see *Site
+   configuration*).
+4. **Enforce HTTPS** — same settings page, tick *Enforce HTTPS* when the
+   option becomes available (GitHub issues the certificate after the domain
+   check; this can take up to 24 hours).
+
+Actions are pinned by SHA and updated by hand; Dependabot for GitHub Actions
+(`.github/dependabot.yml`) is not enabled.
 
 ## Design directions
 
@@ -477,102 +507,3 @@ theme mechanics, the alternatives considered and the two how-tos (changing a
 colour, adding an app) — is [`docs/identity.md`](docs/identity.md). The tokens
 live in `src/assets/css/tokens.css`; `pnpm check:contrast` re-measures every
 pair.
-
-## Open items for the founder
-
-1. **Verify the domain for the organisation** (takeover-safe first step).
-   GitHub → organisation `addable-labs` → *Settings* → *Pages* (under *Code,
-   planning, and automation*) → *Add a domain* → `addablelabs.se`. Create the
-   TXT record GitHub shows — name `_github-pages-challenge-addable-labs`
-   (i.e. `_github-pages-challenge-addable-labs.addablelabs.se`), value as
-   displayed — wait for DNS (immediate to 24 hours) and click *Verify*.
-   Keep the TXT record: verification lapses without it. Verifying the apex
-   also covers its immediate subdomains, so `www` is included.
-2. **DNS records** at the registrar for `addablelabs.se`:
-   - `A` records for the apex: `185.199.108.153`, `185.199.109.153`,
-     `185.199.110.153`, `185.199.111.153`
-   - `AAAA` records for the apex: `2606:50c0:8000::153`,
-     `2606:50c0:8001::153`, `2606:50c0:8002::153`, `2606:50c0:8003::153`
-   - `CNAME` for `www` → `addable-labs.github.io`
-   Check with `dig addablelabs.se +noall +answer` and
-   `dig www.addablelabs.se +noall +answer`.
-3. **Custom domain** — repository `addable-labs/addable-labs.github.io` →
-   *Settings* → *Pages* → *Custom domain* → `addablelabs.se` → *Save*, once
-   DNS resolves. GitHub checks the DNS and, from then on, redirects
-   `addable-labs.github.io` to `addablelabs.se`. (Until this step, the site is
-   reachable at `https://addable-labs.github.io/` with absolute URLs pointing
-   at `addablelabs.se`; build with `SITE_URL=https://addable-labs.github.io`
-   if the `.github.io` address should be canonical for a while.)
-4. **Enforce HTTPS** — same settings page, tick *Enforce HTTPS* when the
-   option becomes available (GitHub issues the certificate after the domain
-   check; this can take up to 24 hours).
-5. **Copy review — English.** The redesign wrote new English copy for the
-   landing page (hero, console lines, the three services and their "What
-   you get" lists, the apps section and the six one-liners, the trust
-   section, the writing and contact sections), the about page (lead,
-   mission section with the facts line, approach points, the article note)
-   and the blog pages; the first build's founder paragraph is gone from the
-   about page (founder call 2026-09-22: a company page, no personal
-   section — the founder's name appears only in the landing page's trust
-   section, REQ-012).
-   The service headings are the short forms ("AI-powered apps", "AI
-   adoption", "Investing tools") because a card title must fit one line.
-6. **Copy review — Swedish.** Every Swedish string below was written by the
-   factory, which is what `aiGenerated` records in the front matter (see
-   *Add an article*; neither that field nor `humanReviewed` renders on the
-   site). Clear `draft: true` on an article in both languages when it is
-   ready to go public — while it is set the article is not on the public site
-   at all. Keys in `src/_data/strings/sv.json`, new or changed in the
-   redesign:
-   - `theme.toggleLabel`; `footer.contact`, `footer.site`
-   - `hero.eyebrow`, `hero.title`, `hero.lead`, `hero.ctaPrimary`,
-     `hero.nivaEarlyAccess`, `hero.nivaEarlyAccessSubject`, `hero.nivaLink`,
-     `hero.proof.{agents,open,gates}`
-   - `console.ariaLabel`, `console.lines.{requirements,plan,review,implement,gates,founder}.{text,state}`
-   - `services.eyebrow`, `services.heading`;
-     `themes.ai-apps.{text,getsHeading,gets.product,gets.source,gets.team,gets.honesty,cta}`,
-     `themes.ai-adoption.{text,getsHeading,gets.baseline,gets.workshops,gets.guide,cta}`,
-     `themes.investing.{title,text,getsHeading,gets.api,gets.analysis,gets.open,cta}`
-   - `apps.eyebrow`, `apps.heading`, `apps.lead`;
-     `portfolio.{niva,notesage,marketdata-api,compound,ashlands,gaimer}.summary`,
-     `portfolio.privateNote`, `portfolio.repoLink`, `portfolio.siteLink`;
-     `portfolioStatus.open-source-mit`, `portfolioStatus.private`
-   - `trust.eyebrow`, `trust.heading`,
-     `trust.points.{aiNative,agents,proof,swedish}.{title,text}`,
-     `trust.articleLabel`, `trust.proofLabel`
-   - `writing.eyebrow`, `writing.heading`, `writing.all`
-   - `contact.eyebrow`, `contact.heading`, `contact.text`, `contact.cta`
-   - `blog.eyebrow`, `blog.categoryEyebrow`, `blog.allArticles`;
-     `notFound.eyebrow`
-   - `about.eyebrow`, `about.lead`, `about.missionHeading`, `about.facts`,
-     `about.missionText`, `about.approachHeading`,
-     `about.points.{aiNative,team,open,proof}.{title,text}`,
-     `about.article.{label,title,text,link}`
-   - `figures.{stages,gates,loop,assessment,team,harness}.*` — the six
-     article illustrations' panel titles, labels, notes and captions
-     (si-55iu), `figures.{ledger,timeline,setup,build}.*` — the four of
-     the factory article (si-hct0), `figures.{words,bilingual}.*` — one
-     more for each of the two earlier articles (si-ubr3) — and
-     `figures.{gauntlet,agents,critic}.*` — the three of the Ashlands post
-     (si-wqb7) — and `figures.fleet.*`, the fourth, which sets the run's 242
-     sub-agents against the seven ever alive at once (si-z0d3); every label
-     has a character budget, so a longer rewording must keep the build green
-   - the Swedish text of the Ashlands post itself
-     (`src/sv/blog/posts/ashlands-what-one-prompt-built.md`, si-wqb7),
-     including the founder's quotes, which are translated from English
-   - the Swedish text of the nivå post
-     (`src/sv/blog/posts/lessons-from-building-niva.md`), back from the
-     backup in si-gyc4 with `humanReviewed: false`
-7. **The four unlisted repositories.** TraceLoupe, airlocked-agents, Stoqster
-   and investable were removed from the apps grid at your request ("not
-   sure" was read as do-not-publish); say so if any of them should return —
-   it is one data entry, two strings entries and its key in `APP_KEYS` each
-   (see *Add an app*).
-8. **A manual Lighthouse report** is needed only if CI ever loses Chrome;
-   today the gate runs on every pull request and push.
-
-The status labels of marketdata-api ("private · API keys on request") and
-Compound ("in development") and the about page's GRC note were settled at
-the plan gate and are not open. Both tools left the apps grid in founder
-feedback round 1 pending the founder's decision on investment-related content; the wording is
-kept in `PRIVATE_STATUS_LABEL` for the day one returns.

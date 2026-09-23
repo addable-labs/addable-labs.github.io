@@ -4,10 +4,11 @@
 // two strings files: the founder's four entries in order (marketdata-api and
 // Compound left the grid in feedback round 1, pending the founder's research
 // decision), strings in every language, known statuses with labels,
-// the private/public URL rule, the factory never named, and the copy bands
-// that keep the balanced cards balanced (one-line names and titles, one-line
-// chip rows, descriptions within a length band). Used by tests/apps.test.mjs
-// and available to the content gate.
+// the private/public URL rule (a public entry links one of PUBLIC_REPOS), and
+// the copy bands that keep the balanced cards balanced (one-line names and
+// titles, one-line chip rows, descriptions within a length band). Used by
+// tests/apps.test.mjs and by the content gate, which holds every GitHub
+// repository the built site names to the same PUBLIC_REPOS.
 
 /** The entries of A-01 (plan D-15) minus the two investing tools removed in
     feedback round 1 (si-yp2x), in grid order. */
@@ -39,12 +40,38 @@ export const PRIVATE_STATUS_LABEL = {
     the shortest description of a language. */
 export const BANDS = { name: 16, serviceTitle: 20, statusLabel: 22, ratio: 1.25, getsMin: 2, getsMax: 4 };
 
-/** Never named or linked anywhere (REQ-011). */
-export const FORBIDDEN_REPO = "addable-labs/factory";
+/** The GitHub repositories the site may link, as owner/name: the public
+    repositories it links today — the public apps', the tooling the articles
+    cite and the font's, named in its licence file. An allow-list (si-vwu8):
+    the content gate refuses any other repository anywhere in the built site
+    and a public entry must link one of these, so a private repository nobody
+    thought to list is refused too, and the list itself names only public
+    things. Add a repository only once it is public: without a token,
+    `curl -s -o /dev/null -w '%{http_code}' https://api.github.com/repos/<owner>/<name>`
+    prints 200. */
+export const PUBLIC_REPOS = ["addable-labs/ashlands", "addable-labs/gaimer", "PeterBlenessy/notesage", "JetBrains/JetBrainsMono", "gastownhall/beads", "gastownhall/gascity", "gastownhall/gascity-packs"];
 
 /** Public entries link the repository where it lives today (A-01); a url with
     this prefix is a repository, and the card labels it so. */
 export const PUBLIC_URL_PREFIX = "https://github.com/";
+
+/**
+ * Every GitHub repository a text names, as owner/name the way it is written:
+ * each github.com/<owner>/<name> in it — a link, a feed's escaped markup and
+ * plain prose alike. A sentence's full stop and a ".git" suffix are not part
+ * of the name.
+ * @param {string} text
+ * @returns {string[]}
+ */
+export function githubRepos(text) {
+  return [...String(text).matchAll(/\bgithub\.com\/([A-Za-z0-9-]+)\/([A-Za-z0-9_.-]+)/gi)].map(([, owner, name]) => `${owner}/${name.replace(/\.+$/, "").replace(/\.git$/i, "")}`);
+}
+
+/** The entry of `repos` that is this owner/name, or undefined. GitHub matches
+    names without regard to case, and so does this. */
+export function publicRepo(repo, repos = PUBLIC_REPOS) {
+  return repos.find((allowed) => allowed.toLowerCase() === repo.toLowerCase());
+}
 
 const length = (value) => [...String(value)].length;
 const isText = (value) => typeof value === "string" && value.trim() !== "";
@@ -59,6 +86,7 @@ const quote = (value) => JSON.stringify(value);
  * @param {string[]} [options.statuses] — status keys the site knows
  * @param {string[]} [options.keys] — the expected entry keys, in order
  * @param {string[]} [options.privateKeys] — entries whose repository is private: no url, or the product's public page
+ * @param {string[]} [options.publicRepos] — the GitHub repositories a public entry may link, as owner/name
  * @param {string[]} [options.themes] — the service keys
  * @param {object} [options.bands] — the copy bands
  * @param {Record<string, string>} [options.privateLabels] — the verbatim `private` label per language
@@ -70,6 +98,7 @@ export function validateApps({
   statuses = STATUS_KEYS,
   keys = APP_KEYS,
   privateKeys = PRIVATE_APP_KEYS,
+  publicRepos = PUBLIC_REPOS,
   themes = THEME_KEYS,
   bands = BANDS,
   privateLabels = PRIVATE_STATUS_LABEL,
@@ -93,7 +122,7 @@ export function validateApps({
     }
   }
 
-  // 2. Shape, status, URL and forbidden-name rules per entry.
+  // 2. Shape, status and URL rules per entry.
   for (const entry of data) {
     const key = entry?.key;
     const name = isText(key) ? key : "(entry without key)";
@@ -110,11 +139,15 @@ export function validateApps({
       if (entry.url !== null && !(isText(entry.url) && entry.url.startsWith("https://") && !entry.url.startsWith(PUBLIC_URL_PREFIX))) {
         problems.push(`${name}: private repository must not be linked — url is null or the product's public https:// page, never ${PUBLIC_URL_PREFIX} (got ${quote(entry.url)})`);
       }
-    } else if (keys.includes(key) && !(isText(entry?.url) && entry.url.startsWith(PUBLIC_URL_PREFIX))) {
-      problems.push(`${name}: public entry needs a ${PUBLIC_URL_PREFIX} URL, got ${quote(entry?.url)}`);
-    }
-    for (const [field, value] of [["repo", entry?.repo], ["url", entry?.url], ["source.readme", entry?.source?.readme]]) {
-      if (typeof value === "string" && value.includes(FORBIDDEN_REPO)) problems.push(`${name}: ${field} names ${FORBIDDEN_REPO}`);
+    } else if (keys.includes(key)) {
+      // A public entry links its repository, and the repository is one the
+      // site may link (si-vwu8).
+      const [repo] = isText(entry?.url) ? githubRepos(entry.url) : [];
+      if (!(isText(entry?.url) && entry.url.startsWith(PUBLIC_URL_PREFIX))) {
+        problems.push(`${name}: public entry needs a ${PUBLIC_URL_PREFIX} URL, got ${quote(entry?.url)}`);
+      } else if (!repo || !publicRepo(repo, publicRepos)) {
+        problems.push(`${name}: url ${quote(entry.url)} is not a repository the site may link — the public ones are PUBLIC_REPOS in scripts/lib/apps.mjs`);
+      }
     }
   }
 

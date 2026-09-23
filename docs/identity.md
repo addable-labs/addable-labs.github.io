@@ -550,7 +550,10 @@ when they are broken:
   product's public page once, labelled "Website ↗" — never a
   `https://github.com/…` URL — or carries `url: null` and gets the private
   note; public ones link `https://github.com/…` once as "Repository ↗". Both
-  go through the action row. Nothing may name `addable-labs/factory`.
+  go through the action row. A public entry's repository must be one of
+  `PUBLIC_REPOS` (`scripts/lib/apps.mjs`), the allow-list of public
+  repositories the site may link, and the content gate refuses any other
+  GitHub repository anywhere in the built site.
 - **A new status** needs an entry in `STATUS_KEYS` (`scripts/lib/apps.mjs`),
   a label in both `portfolioStatus` maps, and a `chip-<status>` colour rule
   in `base.css` (accent for shipped/open source, orange for in progress,
@@ -558,8 +561,9 @@ when they are broken:
   its last entry goes.
 - Keep the order of the six entries the founder chose (`APP_KEYS`); a new
   entry extends the list in `apps.mjs` and the data file together, and
-  `PRIVATE_APP_KEYS` too for a private one — the apps test fails naming the
-  entry when the list and the data disagree.
+  `PRIVATE_APP_KEYS` too for a private one or `PUBLIC_REPOS` for a public
+  one, once its repository is public — the apps test fails naming the entry
+  when the list and the data disagree.
 
 Then run `pnpm check` and `pnpm test`: the content gate proves the rendered
 grid and the layout gate (plan T8) measures the balance at five widths in

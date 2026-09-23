@@ -25,8 +25,9 @@
 //     registered seat (si-98hh) — the language switch to the counterpart path
 //     (footer and header), the appearance toggle and the link to the page
 //     language's feed
-//   - no GitHub links for private repositories; StockSight-AI and the factory
-//     are absent everywhere
+//   - every GitHub repository the built site names — in a page, a feed, the
+//     sitemap or a text file — is one of the public repositories it may link
+//     (PUBLIC_REPOS in scripts/lib/apps.mjs, an allow-list, si-vwu8)
 //   - both seed articles exist in both languages, the seed articles are
 //     300–600 English words of prose and every later article 300–1,500 (the
 //     figures' captions and diagram labels are not prose and do not count,
@@ -40,7 +41,7 @@
 
 import { readFile } from "node:fs/promises";
 import path from "node:path";
-import { PUBLIC_URL_PREFIX } from "../lib/apps.mjs";
+import { PUBLIC_REPOS, PUBLIC_URL_PREFIX, githubRepos, publicRepo } from "../lib/apps.mjs";
 import { attr, loadPage, text } from "../lib/html.mjs";
 import { exists, internalPath, loadSite, loadStrings, readArticleSources, reporter, resolveDirs, walk } from "../lib/site.mjs";
 
@@ -70,13 +71,6 @@ const ARTICLE_SLUG = "how-this-site-was-built-by-agents";
 // ceiling for a readable post: 300–1,500.
 const SEED_ARTICLES = new Set([ARTICLE_SLUG, "lessons-from-building-niva"]);
 const WORD_RANGE = { seed: [300, 600], other: [300, 1500] };
-// REQ-011 as amended by A-01: the private repositories of the curated six
-// (marketdata-api and Compound join nivå — both left the grid in feedback
-// round 1, si-yp2x, but stay private and unlinkable), the first build's
-// private entries and the factory itself are never linked.
-const PRIVATE_LINKS = ["github.com/addable-labs/niva", "github.com/PeterBlenessy/investable", "github.com/PeterBlenessy/StockSight", "github.com/PeterBlenessy/marketdata", "github.com/PeterBlenessy/portfolio-app", "addable-labs/factory"];
-// A-01: StockSight-AI is not listed, so the first build's ban on the text stands.
-const FORBIDDEN_TEXT = ["StockSight"];
 
 async function page(relPath) {
   const file = path.join(out, relPath);
@@ -170,7 +164,7 @@ for (const lang of site.languages.codes) {
   report.check(trust !== null && trustText.includes(AI_NATIVE[lang]), `${rel}: trust section says "${AI_NATIVE[lang]}"`);
   const trustLinks = trust?.querySelectorAll("a[href]") ?? [];
   report.check(trustLinks.some((a) => attr(a, "href") === articlePath), `${rel}: trust section links ${articlePath}`);
-  report.check(trustLinks.some((a) => attr(a, "href") === "#apps" || (attr(a, "href") ?? "").startsWith("https://github.com/PeterBlenessy/ashlands")), `${rel}: trust section links #apps or the Ashlands repository as proof`);
+  report.check(trustLinks.some((a) => attr(a, "href") === "#apps" || (attr(a, "href") ?? "").startsWith("https://github.com/addable-labs/ashlands")), `${rel}: trust section links #apps or the Ashlands repository as proof`);
   const factoryLinks = trustLinks.filter((a) => attr(a, "href") !== articlePath && /factory/i.test(`${text(a)} ${attr(a, "href")}`));
   report.check(trust !== null && factoryLinks.length === 0, `${rel}: trust section has no other link named "factory"`);
   const note = doc.querySelector(".factory-note");
@@ -212,13 +206,12 @@ for (const lang of site.languages.codes) {
 }
 
 // Every page: footer contact, the company line, language switch, toggle, feed
-// link, forbidden links and names
+// link
 const pages = [];
 for (const file of await walk(out, ".html")) pages.push(await loadPage(file, out, site));
 let footerProblems = 0;
 let companyProblems = 0;
 let controlProblems = 0;
-let forbiddenProblems = 0;
 for (const p of pages) {
   const footer = p.doc.querySelector("footer");
   // REQ-014 (AC-15): the address is the visible text of the footer's mailto: link.
@@ -260,26 +253,33 @@ for (const p of pages) {
     controlProblems += 1;
     report.fail(`${p.relPath}: no link to ${feedPath}`);
   }
-  for (const needle of [...PRIVATE_LINKS, ...FORBIDDEN_TEXT]) {
-    if (p.html.includes(needle)) {
-      forbiddenProblems += 1;
-      report.fail(`${p.relPath}: contains "${needle}"`);
-    }
-  }
-}
-for (const file of await walk(out, ".xml")) {
-  const xml = await readFile(file, "utf8");
-  for (const needle of [...PRIVATE_LINKS, ...FORBIDDEN_TEXT]) {
-    if (xml.includes(needle)) {
-      forbiddenProblems += 1;
-      report.fail(`${path.relative(out, file)}: contains "${needle}"`);
-    }
-  }
 }
 report.check(footerProblems === 0, `every page's footer links mailto:hello@addablelabs.se with the address as text (${pages.length} pages)`);
 report.check(companyProblems === 0, `every page's footer states "${COMPANY[site.languages.default]}" in the page's language (${pages.length} pages)`);
 report.check(controlProblems === 0, "every page carries the language switch to its counterpart, the appearance toggle and the feed link");
-report.check(forbiddenProblems === 0, "no links to private repositories, no StockSight-AI, no factory name");
+
+// REQ-011 (si-vwu8): every GitHub repository the built site names — a link or
+// text, in a page, a feed, the sitemap or a text file such as the font
+// licence — is one of the public repositories it may link. An allow-list, not
+// a list of private repositories to keep out: it refuses a repository nobody
+// thought of, and it names only public things.
+const named = new Set(); // the PUBLIC_REPOS entries the site names
+let repoProblems = 0;
+for (const extension of [".html", ".xml", ".txt"]) {
+  for (const file of await walk(out, extension)) {
+    const rel = path.relative(out, file).split(path.sep).join("/");
+    for (const repo of new Set(githubRepos(await readFile(file, "utf8")))) {
+      const allowed = publicRepo(repo);
+      if (allowed) {
+        named.add(allowed);
+      } else {
+        repoProblems += 1;
+        report.fail(`${rel}: names github.com/${repo}, which is not one of the public repositories the site may link (PUBLIC_REPOS in scripts/lib/apps.mjs)`);
+      }
+    }
+  }
+}
+report.check(repoProblems === 0, `every GitHub repository the site names is one of the public repositories it may link: ${PUBLIC_REPOS.filter((repo) => named.has(repo)).join(", ") || "none named"}`);
 
 /**
  * Why the built site owes this article nothing: it is a draft and this is the
