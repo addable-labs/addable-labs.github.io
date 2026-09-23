@@ -1,14 +1,16 @@
-// Article front-matter validation (REQ-018), shared by eleventy.config.js —
-// the date as Eleventy maps it, everything else in a preprocessor — and the
-// unit tests.
+// Article front matter (REQ-018): how it is read and how it is validated,
+// shared by eleventy.config.js — the parse, the date as Eleventy maps it,
+// everything else in a preprocessor — the gates (scripts/lib/site.mjs) and
+// the unit tests.
 //
 // Every article is one Markdown file per language under src/<lang>/blog/posts/
 // with this front matter (documented in the README):
 //
 //   title: …                     non-empty string
 //   description: …               non-empty string; listings, meta description, feed
-//   date: 2026-09-20             a real date: YYYY-MM-DD, or a string with an
-//                                ISO time, YYYY-MM-DDTHH:MM(:SS)(Z), read as UTC
+//   date: 2026-09-20             a real day: YYYY-MM-DD, or with an ISO time,
+//                                YYYY-MM-DDTHH:MM(:SS)(Z), read as UTC; quoted
+//                                or not, it is read as typed (parseFrontMatter)
 //   category: app-development    a key from src/_data/categories.json
 //   translationKey: some-slug    the same slug in both languages
 //   draft: true                  boolean; built locally, left out of the public build
@@ -19,6 +21,8 @@
 // equal the directory's.
 
 import process from "node:process";
+import yaml from "js-yaml";
+import { DateTime } from "luxon";
 
 export const REQUIRED_KEYS = [
   "title",
@@ -34,17 +38,65 @@ export const REQUIRED_KEYS = [
 const SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
 /**
+ * The YAML schema front matter is read with (si-8zyg): js-yaml's default
+ * schema — the one Eleventy reads front matter with on its own, from the same
+ * copy of js-yaml — less its timestamp type.
+ *
+ * That type is YAML 1.1's. It turns an unquoted `date: 2026-09-22` into a
+ * Date before any code of ours runs, and it builds that Date with Date.UTC,
+ * which rolls a day that does not exist over into one that does, so a typo
+ * published the article on another day without a word:
+ *
+ *   date: 2026-09-31     1 October
+ *   date: 2026-02-30     2 March
+ *   date: 2026-13-01     1 January 2027
+ *
+ * `isValidDate`, handed a real Date, could not tell. Without the type a date
+ * stays the text that was typed, quoted or not, so the check judges what the
+ * person wrote, and Eleventy parses that text itself (Luxon, in UTC) to the
+ * same instant YAML made of it, for every form the check accepts. Every other
+ * value — booleans, numbers, null, strings, lists, maps, merge keys and the
+ * explicit tags — is read as before; only an explicit `!!timestamp`, which
+ * nothing here writes, is now an unknown tag.
+ */
+const FRONT_MATTER_SCHEMA = new yaml.Schema({
+  implicit: yaml.DEFAULT_SCHEMA.implicit.filter((type) => type !== yaml.types.timestamp),
+  explicit: yaml.DEFAULT_SCHEMA.explicit,
+});
+
+/**
+ * Read the YAML of one front-matter block, the text between its `---` lines.
+ * The build and the gates both read front matter with this and nothing else,
+ * so they cannot read it differently: eleventy.config.js makes it Eleventy's
+ * YAML engine, and scripts/lib/site.mjs reads the article sources with it.
+ */
+export function parseFrontMatter(text) {
+  return yaml.load(text, { schema: FRONT_MATTER_SCHEMA });
+}
+
+/**
  * A scheduled article is one dated after today (founder ask 2026-09-22,
  * si-gxyg): it is built at its real URL but no listing shows it until the day
  * it is dated. The comparison is on the calendar date at UTC midnight, like
  * the site's `localeDate` and `isoDate` filters, so an article dated today is
  * listed all day whatever the build machine's timezone. The build reads this
  * from eleventy.config.js and the gates from scripts/lib/site.mjs, so the two
- * can never drift apart.
+ * can never drift apart: the build asks with the date Eleventy mapped, the
+ * gates with the text that was typed, which is read here as Eleventy reads it.
  */
 export function isScheduled(date, now = new Date()) {
-  const when = date instanceof Date ? date : new Date(date);
-  return utcDay(when) > utcDay(now);
+  return utcDay(eleventyDate(date)) > utcDay(now);
+}
+
+/**
+ * The instant Eleventy makes of a date in the data cascade (`getMappedDate`
+ * in @11ty/eleventy/src/Template.js): a Date stays what it is, and a string
+ * goes through Luxon in UTC — the same call, from the same copy of Luxon — so
+ * a time typed without a zone is UTC here as it is in the build. `new Date()`
+ * would read that time in the machine's own zone, a day off near midnight.
+ */
+function eleventyDate(date) {
+  return date instanceof Date ? date : DateTime.fromISO(date, { zone: "utc" }).toJSDate();
 }
 
 /**
@@ -114,9 +166,10 @@ function isRealCalendarDay(year, month, day) {
 /**
  * Is this a date the build will accept?
  *
- * A YAML date (`date: 2026-09-22`, which the front-matter parser turns into a
- * Date at UTC midnight) arrives here as a Date and only has to be a real one.
- * A *string* date has a higher bar to clear: Eleventy parses it with Luxon —
+ * Front matter hands every date over as the string that was typed, quoted or
+ * not (`parseFrontMatter` above); only a date set in JavaScript arrives as a
+ * Date, and that only has to be a real one. A string has a higher bar to
+ * clear: Eleventy parses it with Luxon —
  * `DateTime.fromISO(value, { zone: "utc" })` in @11ty/eleventy/src/Template.js
  * — and throws the whole build when Luxon says invalid. This gate runs just
  * before that parse (`validateArticleDate` below), so it must never accept a
@@ -126,10 +179,8 @@ function isRealCalendarDay(year, month, day) {
  * `new Date()` cannot be the judge of that, because V8 is more forgiving than
  * Luxon in exactly the two ways a person writes a date by hand:
  *
- *   2026-09-22 23:00     a space for the T — V8 takes it, Luxon does not, and
- *                        a time without seconds is not a YAML timestamp either,
- *                        so it really does reach the build as a string
- *   "2026-02-30"         a day that does not exist — V8 rolls it over to
+ *   2026-09-22 23:00     a space for the T — V8 takes it, Luxon does not
+ *   2026-02-30           a day that does not exist — V8 rolls it over to
  *                        2 March, Luxon rejects it
  *
  * so the pattern spells the grammar out and the day is checked against the

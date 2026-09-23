@@ -1,7 +1,7 @@
 import { readFileSync, statSync } from "node:fs";
 import { IdAttributePlugin } from "@11ty/eleventy";
 import rssPlugin from "@11ty/eleventy-plugin-rss";
-import { isOmitted, isScheduled, validateArticle, validateArticleDate } from "./scripts/lib/frontmatter.mjs";
+import { isOmitted, isScheduled, parseFrontMatter, validateArticle, validateArticleDate } from "./scripts/lib/frontmatter.mjs";
 import { byDateDescThenSlug, checkPageUrls } from "./scripts/lib/urls.mjs";
 import site from "./src/_data/site.js";
 
@@ -71,6 +71,19 @@ export default function (eleventyConfig) {
   for (const path of PASSTHROUGH) {
     eleventyConfig.addPassthroughCopy(path);
   }
+
+  // Front matter is read with our YAML engine instead of Eleventy's own
+  // (si-8zyg): the same js-yaml without YAML's timestamp type, so a date
+  // stays the text that was typed and the date check below judges that text.
+  // With the type, `date: 2026-09-31` typed without quotes became 1 October
+  // before any code of ours ran, and the article went out on another day
+  // without a word. Eleventy still makes the page's date of the text itself,
+  // with Luxon in UTC, on the same day as before for every form the check
+  // accepts. The engine reads every page, not only the articles: a page that
+  // is not an article gets its date the same way, so there a day that does
+  // not exist now stops the build in Eleventy's words, naming the file and
+  // the value, instead of rolling over. No page but the articles has a date.
+  eleventyConfig.setFrontMatterParsingOptions({ engines: { yaml: parseFrontMatter } });
 
   // An article's date is checked as Eleventy maps it, ahead of the rest of
   // its front matter (si-xpn0). Eleventy maps a page's date while it gathers

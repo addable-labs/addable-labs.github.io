@@ -1,9 +1,15 @@
 import assert from "node:assert/strict";
-import { copyFile, readFile, writeFile } from "node:fs/promises";
+import { realpathSync } from "node:fs";
+import { copyFile, mkdir, readFile, writeFile } from "node:fs/promises";
+import { createRequire } from "node:module";
 import path from "node:path";
+import process from "node:process";
 import { after, before, describe, it } from "node:test";
-import { isOmitted, isProductionBuild, isScheduled, REQUIRED_KEYS, validateArticle, validateArticleDate } from "../scripts/lib/frontmatter.mjs";
-import { buildSite, copyProject, ROOT, tempDir } from "./helpers.mjs";
+import yaml from "js-yaml";
+import { DateTime } from "luxon";
+import { isOmitted, isProductionBuild, isScheduled, parseFrontMatter, REQUIRED_KEYS, validateArticle, validateArticleDate } from "../scripts/lib/frontmatter.mjs";
+import { loadSite, readArticleSources, walk } from "../scripts/lib/site.mjs";
+import { buildSite, copyProject, ROOT, SRC, tempDir } from "./helpers.mjs";
 
 // The string dates the validator accepts and the ones it refuses, shared by
 // its own cases and the checks of the date on its own and in the build.
@@ -16,6 +22,34 @@ const ACCEPTED_DATES = [
   "2028-02-29",
 ];
 const REJECTED_DATES = ["2026-09-22 23:00", "2026-02-30", "2026-09-31", "2026-13-01", "yesterday"];
+
+// Days that do not exist, typed the way every article types its date: YAML's
+// timestamp type used to turn each into a real Date on another day (1 October,
+// 2 March, 1 January 2027) before the check could see it (si-8zyg).
+const IMPOSSIBLE_DAYS = ["2026-09-31", "2026-02-30", "2026-13-01"];
+
+/** The instant Eleventy makes of a string date: Luxon, in UTC (Template.js, getMappedDate). */
+function eleventyReads(date) {
+  return DateTime.fromISO(date, { zone: "utc" }).toJSDate();
+}
+
+/** Run `fn` as on a build machine in another time zone, then put the zone back. */
+async function inZone(zone, fn) {
+  const saved = process.env.TZ;
+  process.env.TZ = zone;
+  try {
+    return await fn();
+  } finally {
+    if (saved === undefined) delete process.env.TZ;
+    else process.env.TZ = saved;
+  }
+}
+
+/** YYYY-MM-DD, `offset` days from today in UTC — the unit the collections compare. */
+function utcDate(offset) {
+  const now = new Date();
+  return new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + offset)).toISOString().slice(0, 10);
+}
 
 const allowedCategories = ["app-development", "ai-journey"];
 const valid = {
@@ -105,9 +139,10 @@ describe("article front-matter validator", () => {
     );
   });
 
-  // A YAML date (`date: 2026-09-22`, no quotes) is parsed into a Date before it
-  // gets here and never goes near the pattern; that path must keep working.
-  it("still accepts a YAML date as a Date object, and rejects an unparsable one", () => {
+  // Front matter no longer makes a Date of anything (si-8zyg), but a date set
+  // in JavaScript — a data file, a computed value — still arrives as one and
+  // never goes near the pattern; that path must keep working.
+  it("still accepts a Date object, and rejects an unparsable one", () => {
     assert.deepEqual(validateArticle({ ...valid, date: new Date("2026-09-22") }, { allowedCategories }), []);
     assert.throws(
       () => validateArticle({ ...valid, date: new Date("nope") }, { allowedCategories }),
@@ -157,6 +192,112 @@ function thrownBy(fn) {
   return assert.fail("expected an error");
 }
 
+// How front matter is read (si-8zyg): the build (eleventy.config.js makes this
+// Eleventy's YAML engine) and the gates (scripts/lib/site.mjs) read it with
+// `parseFrontMatter` — js-yaml's default schema, which Eleventy's own engine
+// used, less the timestamp type. A date stays the text that was typed, and
+// nothing else changes.
+describe("reading front matter", () => {
+  it("keeps a date as the text that was typed, quoted or not, a day that does not exist included", () => {
+    for (const date of [...ACCEPTED_DATES, ...IMPOSSIBLE_DAYS]) {
+      for (const typed of [date, `"${date}"`, `'${date}'`]) {
+        assert.equal(parseFrontMatter(`date: ${typed}`).date, date, typed);
+      }
+    }
+  });
+
+  // YAML used to hand Eleventy a Date for most of these; Eleventy now parses
+  // the text itself. Every form the check accepts has to come out as the same
+  // instant as before, or an article would move.
+  it("gives every accepted form the instant YAML gave it", () => {
+    const forms = [...ACCEPTED_DATES, "2026-09-22T23:00Z", "2026-09-22T23:59:59.999Z", "2026-09-22T01:00:00.123456+02:00"];
+    for (const date of forms) {
+      const before = yaml.load(`date: ${date}`).date;
+      const was = before instanceof Date ? before : eleventyReads(before);
+      assert.equal(eleventyReads(parseFrontMatter(`date: ${date}`).date).toISOString(), was.toISOString(), date);
+    }
+  });
+
+  it("reads every other kind of value as js-yaml's default schema does", () => {
+    const text = [
+      "flag: true",
+      "capital: True",
+      "cleared: false",
+      "word: yes",
+      "nothing: null",
+      "tilde: ~",
+      "empty:",
+      "integer: 42",
+      "hex: 0x1F",
+      "octal: 0o17",
+      "float: 3.14",
+      "infinity: .inf",
+      "nan: .nan",
+      "version: 1.10",
+      "plain: plain text",
+      'quoted: "a title: with a colon"',
+      "single: 'it''s'",
+      "folded: >\n  one\n  two",
+      "literal: |\n  one\n  two",
+      "list: [a, 1, true]",
+      "map: { key: value }",
+      "base: &base { x: 1 }",
+      "merged:\n  <<: *base\n  y: 2",
+      "binary: !!binary aGVsbG8=",
+      "set: !!set { a, b }",
+      "pairs: !!pairs [ { a: 1 }, { a: 2 } ]",
+      "tagged: !!str 2026-09-22",
+    ].join("\n");
+    assert.deepEqual(parseFrontMatter(text), yaml.load(text));
+  });
+
+  // Every page of the site, articles and the rest, against what Eleventy's own
+  // engine made of it: the same values, but for a date YAML made a Date of,
+  // which is now its text and gives Eleventy the same instant. Every article
+  // types its date that way today, as the README shows.
+  it("reads every page's front matter as before, a date aside, which keeps its instant", async () => {
+    let pages = 0;
+    let dated = 0;
+    for (const file of await walk(SRC)) {
+      if (!/\.(md|njk)$/.test(file)) continue;
+      const block = /^---\n([\s\S]*?)\n---/.exec(await readFile(file, "utf8"))?.[1];
+      if (block === undefined) continue;
+      pages += 1;
+      const now = parseFrontMatter(block) ?? {};
+      const before = yaml.load(block) ?? {};
+      if (before.date instanceof Date) {
+        dated += 1;
+        assert.equal(eleventyReads(now.date).toISOString(), before.date.toISOString(), file);
+      } else {
+        assert.equal(now.date, before.date, file);
+      }
+      assert.deepEqual({ ...now, date: undefined }, { ...before, date: undefined }, file);
+    }
+    assert.ok(pages > dated && dated > 0, `${pages} pages, ${dated} with a date YAML made a Date of`);
+  });
+
+  // An explicit tag must not bring the type back: nothing here writes one.
+  it("refuses an explicit !!timestamp", () => {
+    assert.throws(() => parseFrontMatter("date: !!timestamp 2026-09-31"), /unknown tag/);
+  });
+
+  // The engine is Eleventy's minus one type, and the gates read a date as
+  // Eleventy does, only while both come from the copies Eleventy itself uses:
+  // package.json pins js-yaml and luxon to the versions Eleventy resolves.
+  // When an Eleventy upgrade moves either one, move the pin with it.
+  it("uses the very copies of js-yaml and luxon that Eleventy uses", () => {
+    const ours = createRequire(import.meta.url);
+    const eleventys = createRequire(import.meta.resolve("@11ty/eleventy"));
+    for (const name of ["js-yaml", "luxon"]) {
+      assert.equal(
+        realpathSync(ours.resolve(`${name}/package.json`)),
+        realpathSync(eleventys.resolve(`${name}/package.json`)),
+        name,
+      );
+    }
+  });
+});
+
 // The order in the build (si-xpn0). Eleventy maps a page's date while it
 // gathers the page's data, before any preprocessor runs, so a bad date used to
 // stop the build with Eleventy's own error, which names the value but not the
@@ -178,22 +319,25 @@ describe("an article date in the build", () => {
   const article = (lang, slug) => path.join("src", lang, "blog", "posts", `${slug}.md`);
 
   /**
-   * Build the copy with these lines set — `{ [article]: { key: "value as
-   * typed" } }` — and every other article as the repository has it. Returns
-   * the output directory; throws with the build's output when it fails.
+   * Build the copy with these lines set — `{ [file]: { key: "value as
+   * typed" } }`, a key the file lacks added at the top of its front matter —
+   * and every other file as the repository has it, in the environment `env`
+   * adds to. Returns the output directory; throws with the build's output
+   * when it fails.
    */
-  async function buildWith(edits) {
+  async function buildWith(edits, env = {}) {
     for (const file of touched) await copyFile(path.join(ROOT, file), path.join(project, file));
     touched = Object.keys(edits);
     for (const [file, lines] of Object.entries(edits)) {
       let text = await readFile(path.join(ROOT, file), "utf8");
       for (const [key, value] of Object.entries(lines)) {
-        text = text.replace(new RegExp(`^${key}:.*$`, "m"), `${key}: ${value}`);
+        const line = new RegExp(`^${key}:.*$`, "m");
+        text = line.test(text) ? text.replace(line, `${key}: ${value}`) : text.replace(/^---\n/, `---\n${key}: ${value}\n`);
       }
       await writeFile(path.join(project, file), text);
     }
     builds += 1;
-    return buildSite(path.join(tmp.dir, `site-${builds}`), {}, project);
+    return buildSite(path.join(tmp.dir, `site-${builds}`), env, project);
   }
 
   /** The output of a build that has to fail. */
@@ -234,25 +378,59 @@ describe("an article date in the build", () => {
     }
   });
 
-  // Quoted where YAML would otherwise make a Date of it, so each reaches the
-  // check as a string, the form it rules on; an unquoted bare date, a YAML
-  // Date, is what every article in the repository carries.
-  it("still builds a bare date, a time, a UTC time and an offset, each on the day it names", async () => {
-    const out = await buildWith({
-      [EN]: { date: '"2026-09-19"' },
-      [article("en", "how-this-site-was-built-by-agents")]: { date: "2026-09-18T23:00" },
-      [article("en", "ashlands-what-one-prompt-built")]: { date: '"2026-09-17T23:00:00Z"' },
-      [article("sv", "why-we-run-an-agent-run-factory")]: { date: '"2026-09-17T01:00:00+02:00"' },
+  // The hole si-8zyg closes. Typed without quotes, as every article types its
+  // date, a day that does not exist was turned into a Date on another day by
+  // YAML before the check saw it, and the article went out on that day with
+  // no error. Front matter now keeps the text, and the check refuses it.
+  for (const date of IMPOSSIBLE_DAYS) {
+    it(`fails ${date} typed without quotes in our words, in either language`, async () => {
+      for (const lang of ["en", "sv"]) {
+        const file = article(lang, "why-we-run-an-agent-run-factory");
+        const output = await failure({ [file]: { date } });
+        assert.ok(
+          output.includes(`Invalid article front matter in ./${file}: date must be YYYY-MM-DD or YYYY-MM-DDTHH:MM(:SS)(Z), got "${date}"`),
+          `${lang}:\n${output}`,
+        );
+        assert.doesNotMatch(output, ELEVENTY_DATE_ERROR, lang);
+      }
     });
-    const day = async (...parts) => {
-      const html = await readFile(path.join(out, ...parts, "index.html"), "utf8");
-      return html.match(/class="article-meta">\s*<time datetime="([^"]+)"/)[1];
-    };
-    assert.equal(await day("blog", "why-we-run-an-agent-run-factory"), "2026-09-19");
-    assert.equal(await day("blog", "how-this-site-was-built-by-agents"), "2026-09-18");
-    assert.equal(await day("blog", "ashlands-what-one-prompt-built"), "2026-09-17");
-    // 01:00 at +02:00 is 23:00 UTC the day before: the offset is honoured.
-    assert.equal(await day("sv", "blog", "why-we-run-an-agent-run-factory"), "2026-09-16");
+  }
+
+  // Every form the check accepts, typed as is and again in quotes, each on
+  // the UTC day it names. Before si-8zyg YAML made a Date of the unquoted
+  // bare date, the time with seconds, the UTC time and the offset, and the
+  // rest reached Eleventy as text; now all of it does. The builds run 14
+  // hours ahead of UTC, where a date read as the machine's own time would
+  // land a day early.
+  it("builds every accepted form on the day it names, typed with quotes or without", async () => {
+    const forms = [
+      ["en", "why-we-run-an-agent-run-factory", "2026-09-19", "2026-09-19"],
+      ["en", "how-this-site-was-built-by-agents", "2026-09-18T01:00", "2026-09-18"],
+      ["en", "ashlands-what-one-prompt-built", "2026-09-17T01:00:00", "2026-09-17"],
+      ["en", "lessons-from-building-niva", "2026-09-16T01:00:00Z", "2026-09-16"],
+      // 01:00 at +02:00 is 23:00 UTC the day before: the offset is honoured.
+      ["sv", "why-we-run-an-agent-run-factory", "2026-09-15T01:00:00+02:00", "2026-09-14"],
+    ];
+    for (const quote of ["", '"']) {
+      const edits = Object.fromEntries(forms.map(([lang, slug, date]) => [article(lang, slug), { date: `${quote}${date}${quote}` }]));
+      const out = await buildWith(edits, { TZ: "Pacific/Kiritimati" });
+      for (const [lang, slug, date, day] of forms) {
+        const html = await readFile(path.join(out, lang === "en" ? "" : lang, "blog", slug, "index.html"), "utf8");
+        assert.equal(html.match(/class="article-meta">\s*<time datetime="([^"]+)"/)[1], day, `${quote}${date}${quote}`);
+      }
+    }
+  });
+
+  // The engine reads every page, not only the articles. A page that is not
+  // an article gets its date the same way — kept as typed, parsed by
+  // Eleventy — so a day that does not exist stops the build there too, in
+  // Eleventy's own words, where YAML used to roll it over. A real date on
+  // such a page still builds: tests/sitemap.test.mjs dates the Swedish home
+  // page.
+  it("stops the build on a day that does not exist on a page that is not an article, in Eleventy's words", async () => {
+    const output = await failure({ [path.join("src", "sv", "index.njk")]: { date: "2026-09-31" } });
+    assert.match(output, /Data cascade value for `date` \(2026-09-31\) is invalid for \.\/src\/sv\/index\.njk/);
+    assert.doesNotMatch(output, /Invalid article front matter/);
   });
 
   // Which error wins when the date is not the only problem: the date, alone.
@@ -302,6 +480,64 @@ describe("scheduled articles", () => {
     assert.equal(isScheduled("2026-09-23", new Date("2026-09-22T23:30:00+02:00")), true);
     assert.equal(isScheduled("2026-09-23", new Date("2026-09-23T00:00:00Z")), false);
   });
+
+  // The build asks with the date Eleventy made, the gates with the text that
+  // was typed (scripts/lib/site.mjs). A time without a zone is UTC to
+  // Eleventy, so it has to be here too, on a machine far ahead of UTC and on
+  // one far behind it: `new Date()` read it as the machine's own time.
+  it("reads a time typed without a zone as UTC, as the build does, in any time zone", async () => {
+    for (const zone of ["Pacific/Kiritimati", "Pacific/Pago_Pago"]) {
+      await inZone(zone, () => {
+        assert.equal(isScheduled("2026-09-23T00:30", lateOn22nd), true, zone);
+        assert.equal(isScheduled("2026-09-22T23:45", lateOn22nd), false, zone);
+      });
+    }
+  });
+});
+
+// The gates work out from the article sources what the built site must show
+// (scripts/lib/site.mjs, readArticleSources), so they have to read them as the
+// build does. They used to read each key with a regular expression: a quoted
+// date kept its quotes, `draft: True` was no draft, and `new Date()` read the
+// date — quoted, or with a time and no zone — as the machine's own time, so
+// near an article's date the gates could fail a good build. Each article here
+// is typed so that such a reading gets it wrong: the flag anywhere, each date
+// in one of the two zones.
+describe("the gates read an article's front matter as the build does", () => {
+  let tmp;
+  let src;
+  const today = utcDate(0);
+  const tomorrow = utcDate(1);
+  before(async () => {
+    tmp = await tempDir("sources-");
+    src = path.join(tmp.dir, "src");
+    const dir = path.join(src, "en", "blog", "posts");
+    await mkdir(dir, { recursive: true });
+    const lines = {
+      "quoted-tomorrow": [`title: "Quoted: a title"`, `date: "${tomorrow}"`, "draft: false"],
+      "tomorrow-after-midnight": ["title: After midnight", `date: ${tomorrow}T00:30`, "draft: false"],
+      "today-before-midnight": ["title: Before midnight", `date: ${today}T23:59`, "draft: false"],
+      "capital-true": ["title: A draft", `date: ${today}`, "draft: True"],
+    };
+    for (const [slug, front] of Object.entries(lines)) {
+      await writeFile(path.join(dir, `${slug}.md`), ["---", ...front, "---", "", "The body.", ""].join("\n"));
+    }
+  });
+  after(() => tmp.cleanup());
+
+  for (const zone of ["Pacific/Kiritimati", "Pacific/Pago_Pago"]) {
+    it(`reads the title, the date, the schedule and the draft flag as the build does, in ${zone}`, async () => {
+      const site = await loadSite(SRC);
+      const read = await inZone(zone, () => readArticleSources(src, site, "en"));
+      const by = Object.fromEntries(read.map((article) => [article.slug, article]));
+      assert.equal(by["quoted-tomorrow"].title, "Quoted: a title");
+      assert.equal(by["quoted-tomorrow"].date, tomorrow);
+      assert.equal(by["quoted-tomorrow"].scheduled, true);
+      assert.equal(by["tomorrow-after-midnight"].scheduled, true);
+      assert.equal(by["today-before-midnight"].scheduled, false);
+      assert.equal(by["capital-true"].draft, true);
+    });
+  }
 });
 
 // The rule that keeps a draft off the public web (si-mzf1): a draft is built

@@ -11,7 +11,7 @@ import { readdir, readFile, stat } from "node:fs/promises";
 import path from "node:path";
 import process from "node:process";
 import { pathToFileURL } from "node:url";
-import { isOmitted, isScheduled } from "./frontmatter.mjs";
+import { isOmitted, isScheduled, parseFrontMatter } from "./frontmatter.mjs";
 
 export const ROOT = path.resolve(new URL("../..", import.meta.url).pathname);
 
@@ -123,6 +123,11 @@ export async function exists(file) {
  * produced the site they are checking, so `pnpm check` asserts the right
  * thing in both modes: locally a draft is present and listed, in CI it is
  * absent everywhere.
+ *
+ * The front matter is read with the build's own parser (`parseFrontMatter`,
+ * si-8zyg), so every value means here what it means to the build: a quoted
+ * date without its quotes, `draft: True` a draft, and a date the text that
+ * was typed, which `isScheduled` reads as Eleventy does.
  */
 export async function readArticleSources(srcDir, site, lang) {
   const dir = path.join(srcDir, lang, "blog", "posts");
@@ -136,20 +141,17 @@ export async function readArticleSources(srcDir, site, lang) {
   const articles = [];
   for (const name of files) {
     const text = await readFile(path.join(dir, name), "utf8");
-    const frontMatter = /^---\n([\s\S]*?)\n---/.exec(text)?.[1] ?? "";
-    const field = (key) =>
-      (new RegExp(`^${key}:\\s*(.*)$`, "m").exec(frontMatter)?.[1] ?? "").replace(/\s+#.*$/, "").trim();
+    const data = parseFrontMatter(/^---\n([\s\S]*?)\n---/.exec(text)?.[1] ?? "") ?? {};
     const slug = name.replace(/\.md$/, "");
-    const date = field("date");
-    const draft = /^true\b/.test(field("draft"));
-    const scheduled = isScheduled(date);
+    const draft = data.draft === true;
+    const scheduled = isScheduled(data.date);
     const omitted = isOmitted({ draft });
     articles.push({
       slug,
       lang,
       draft,
-      title: field("title"),
-      date,
+      title: data.title,
+      date: data.date,
       scheduled,
       omitted,
       listed: !omitted && !scheduled,

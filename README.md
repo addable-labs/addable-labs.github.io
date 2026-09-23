@@ -44,7 +44,7 @@ the quality gates fail the build if any of that changes.
 ## Run locally
 
 ```bash
-pnpm install --frozen-lockfile   # the seven pinned dev dependencies, nothing else
+pnpm install --frozen-lockfile   # the nine pinned dev dependencies, nothing else
 pnpm dev                         # http://localhost:8080/, rebuilds on save
 pnpm build                       # writes the whole site to _site/
 pnpm check                       # builds, then runs all ten quality gates
@@ -235,7 +235,10 @@ Brödtext i Markdown.
   `Invalid article front matter in ./src/en/blog/posts/new-article.md: date
   must be YYYY-MM-DD or YYYY-MM-DDTHH:MM(:SS)(Z), got "2026-09-22 23:00"` —
   and any other problem in the file on the next build, once the date is
-  right.
+  right. The date is checked as it was typed, with quotes or without: front
+  matter is read without YAML's own date type, which used to turn a day that
+  does not exist, such as `2026-09-31`, into a real one (1 October) before
+  the check could see it.
 - **Length.** The content gate (`pnpm check:content`) counts the words of the
   built English article body: 300–600 for the two seed articles (REQ-006) and
   300–1,500 for every later article. The Swedish twin is not counted, and
@@ -406,7 +409,7 @@ lighthouse (run pnpm check:lighthouse)` — never `PASS` — and still exits 0.
 `CHECK_REQUIRE_CHROME=1` turns a skip into a failure; the CI workflow sets
 it, so the gates always run there (Chrome is preinstalled on GitHub's
 runners). Nothing downloads a browser: `lighthouse` and `puppeteer-core`
-are the only additions to the dev dependencies and both attach to the
+are the only dev dependencies the two gates add, and both attach to the
 installed Chrome. A single slow Lighthouse run does not fail CI (see the
 lighthouse row); a page still below 95 on the median of three fails, and
 thresholds are never lowered. Only if CI ever loses Chrome would a
