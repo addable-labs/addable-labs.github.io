@@ -12,7 +12,7 @@ import {
   parseTokens,
   relativeLuminance,
 } from "../scripts/lib/contrast.mjs";
-import { fixture, runGate, SRC, tempDir } from "./helpers.mjs";
+import { runGate, SRC, tempDir } from "./helpers.mjs";
 
 const TOKENS_FILE = path.join(SRC, "assets", "css", "tokens.css");
 const LIGHT_SWITCH = ':root[data-theme="light"] { color-scheme: light; }';
@@ -153,15 +153,19 @@ describe("contrast gate", () => {
   });
   after(() => temp.cleanup());
 
-  // A source tree whose tokens.css is the real one transformed; the transform
-  // must change the text so a stale replacement cannot pass silently.
+  // A source tree whose tokens.css is the real one, transformed unless
+  // `transform` is null, with `extraFiles` (file name → text) beside it. A
+  // transform must change the text so a stale replacement cannot pass silently.
   let variants = 0;
-  async function variant(transform) {
+  async function variant(transform, extraFiles = {}) {
     const dir = path.join(temp.dir, `variant-${(variants += 1)}`);
     await mkdir(path.join(dir, "assets", "css"), { recursive: true });
-    const changed = transform(tokens);
-    assert.notEqual(changed, tokens, "the variant transform changed nothing");
+    const changed = transform ? transform(tokens) : tokens;
+    if (transform) assert.notEqual(changed, tokens, "the variant transform changed nothing");
     await writeFile(path.join(dir, "assets", "css", "tokens.css"), changed);
+    for (const [name, text] of Object.entries(extraFiles)) {
+      await writeFile(path.join(dir, "assets", "css", name), text);
+    }
     return dir;
   }
 
@@ -193,17 +197,25 @@ describe("contrast gate", () => {
     assert.match(output, /PASS contrast/);
   });
 
-  it("fails when a text pair drops below 4.5:1", () => {
-    const { status, output } = runGate("contrast", "", fixture("contrast-weak", "src"));
+  it("fails when a text pair drops below 4.5:1", async () => {
+    // The light --color-text-muted becomes a mid grey, below 4.5:1 on every
+    // background but a near-black one, so exactly its light pairs fail. The
+    // count follows those pairs, so a new surface it sits on needs no edit here.
+    const src = await variant((css) => css.replace(/(--color-text-muted: light-dark\()[^,]+/, "$1#9AA0A6"));
+    const { status, output } = runGate("contrast", "", src);
     assert.equal(status, 1);
     assert.match(output, /light {2}--color-text-muted {6}on --color-bg .* text ≥ 4\.5:1 {2}FAIL/);
-    assert.match(output, /FAIL contrast \(3 problems\)/);
+    const lines = output.split("\n");
+    const failed = lines.filter((line) => line.endsWith("  FAIL"));
+    assert.deepEqual(failed, lines.filter((line) => line.startsWith("light  --color-text-muted ")));
+    assert.match(output, new RegExp(`FAIL contrast \\(${failed.length} problems\\)`));
   });
 
-  it("fails on a colour literal outside tokens.css, naming the file and line", () => {
-    const { status, output } = runGate("contrast", "", fixture("contrast-literal", "src"));
+  it("fails on a colour literal outside tokens.css, naming the file and line", async () => {
+    const src = await variant(null, { "base.css": "body {\n  color: #333;\n  background: var(--color-bg);\n}\n" });
+    const { status, output } = runGate("contrast", "", src);
     assert.equal(status, 1);
-    assert.match(output, /base\.css:\d+ {2}colour literal "#333" in "color: #333" {2}FAIL/);
+    assert.match(output, /base\.css:2 {2}colour literal "#333" in "color: #333" {2}FAIL/);
     assert.match(output, /FAIL contrast \(1 problem\)/);
   });
 

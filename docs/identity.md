@@ -518,9 +518,8 @@ for a light-only pair) — a colour token in no pair fails the gate — or list
 it in `DECORATIVE` if it is never text and never the boundary of a control.
 Run `pnpm check:contrast` and copy the printed ratios into the tables above.
 A new token also moves the counts `tests/contrast.test.mjs` pins (22 pairs,
-43 evaluations, 15 tokens) and must be added to the two fixture copies of
-`tokens.css` under `tests/fixtures/contrast-{weak,literal}/`, which are full
-copies of the real file; update all three or `pnpm test` turns red.
+43 evaluations, 15 tokens) and, for a decorative token, the test's list of
+skips; update them with the token, or `pnpm test` turns red.
 Colour literals in any stylesheet but `tokens.css` fail the gate. Three places
 repeat token values as literals and are changed by hand: the `theme-color`
 meta in `partials/head.njk` and the two backgrounds in
