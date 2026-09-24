@@ -7,7 +7,7 @@ import process from "node:process";
 import { after, before, describe, it } from "node:test";
 import yaml from "js-yaml";
 import { DateTime } from "luxon";
-import { isOmitted, isProductionBuild, isScheduled, parseFrontMatter, REQUIRED_KEYS, siteNow, validateArticle, validateArticleDate } from "../scripts/lib/frontmatter.mjs";
+import { frontMatterBlock, isOmitted, isProductionBuild, isScheduled, parseFrontMatter, REQUIRED_KEYS, siteNow, validateArticle, validateArticleDate } from "../scripts/lib/frontmatter.mjs";
 import { loadSite, readArticleSources, walk } from "../scripts/lib/site.mjs";
 import { buildSite, copyProject, ROOT, SRC, tempDir, utcDate } from "./helpers.mjs";
 
@@ -254,7 +254,7 @@ describe("reading front matter", () => {
     let dated = 0;
     for (const file of await walk(SRC)) {
       if (!/\.(md|njk)$/.test(file)) continue;
-      const block = /^---\n([\s\S]*?)\n---/.exec(await readFile(file, "utf8"))?.[1];
+      const block = frontMatterBlock(await readFile(file, "utf8"));
       if (block === undefined) continue;
       pages += 1;
       const now = parseFrontMatter(block) ?? {};
@@ -287,6 +287,71 @@ describe("reading front matter", () => {
         realpathSync(ours.resolve(`${name}/package.json`)),
         realpathSync(eleventys.resolve(`${name}/package.json`)),
         name,
+      );
+    }
+  });
+});
+
+// How the block is split off a file (si-0eez). Eleventy hands every file to
+// gray-matter and the gates split with `frontMatterBlock`, which follows
+// gray-matter's rules; these cases hold the one to the other. gray-matter is
+// the copy Eleventy loads, called with the engine eleventy.config.js gives it,
+// and the two must split off the same block and read the same data from it,
+// however a file opens and closes its block, and on every page of the site.
+describe("splitting front matter off a file", () => {
+  const matter = createRequire(import.meta.resolve("@11ty/eleventy"))("gray-matter");
+  const byBuild = (text) => {
+    const file = matter(text, { engines: { yaml: parseFrontMatter } });
+    return { block: file.matter ?? "", data: file.data };
+  };
+  const byGates = (text) => {
+    const block = frontMatterBlock(text) ?? "";
+    return { block, data: parseFrontMatter(block) ?? {} };
+  };
+
+  it("splits off the block the build does, and reads the same data from it, however the file opens and closes it", () => {
+    const texts = {
+      "Unix line endings": "---\ntitle: A\ndraft: true\n---\nThe body.\n",
+      "Windows line endings": "---\r\ntitle: A\r\ndraft: true\r\n---\r\nThe body.\r\n",
+      "a byte-order mark": "\uFEFF---\ntitle: A\ndraft: true\n---\nThe body.\n",
+      "the language named": "---yaml\ntitle: A\n---\nThe body.\n",
+      "the language named in capitals, between spaces": "--- YAML \ntitle: A\n---\nThe body.\n",
+      "yml named, with Windows line endings": "---yml\r\ntitle: A\r\n---\r\nThe body.\r\n",
+      "spaces after the opening dashes": "---  \ntitle: A\n---\nThe body.\n",
+      "no closing line": "---\ntitle: A\ndraft: true\n",
+      "a closing line of five dashes": "---\ntitle: A\n-----\nThe body.\n",
+      "four dashes, which open no block": "----\ntitle: A\n----\nThe body.\n",
+      "no front matter": "title: A\n",
+      "an empty block": "---\n---\nThe body.\n",
+      "a block of comments": "---\n# a comment\n---\nThe body.\n",
+      "three dashes and nothing else": "---",
+      "one line and no line end": "---a",
+      "nothing at all": "",
+    };
+    for (const [name, text] of Object.entries(texts)) assert.deepEqual(byGates(text), byBuild(text), name);
+  });
+
+  it("splits every page of the site as the build does", async () => {
+    let pages = 0;
+    for (const file of await walk(SRC)) {
+      if (!/\.(md|njk)$/.test(file)) continue;
+      const text = await readFile(file, "utf8");
+      assert.deepEqual(byGates(text), byBuild(text), file);
+      pages += 1;
+    }
+    assert.ok(pages > 0);
+  });
+
+  // The build reads a block in another language with an engine that is not
+  // ours — JSON's, or Eleventy's JavaScript — so the gates cannot promise to
+  // read it the same way and refuse it: a check may stop where the build
+  // would have gone on, never the other way round. Nothing here writes one.
+  it("refuses a block in any language but YAML, naming the file and the opening line", () => {
+    for (const opening of ["---json", "---js", "---javascript", "--- toml"]) {
+      assert.throws(
+        () => frontMatterBlock(`${opening}\n{ "title": "A" }\n---\nThe body.\n`, { file: "src/en/blog/posts/a.md" }),
+        { message: `Front matter in src/en/blog/posts/a.md must be YAML (---, ---yaml or ---yml), got ${JSON.stringify(opening)}` },
+        opening,
       );
     }
   });
@@ -593,6 +658,69 @@ describe("the gates read an article's front matter as the build does", () => {
       assert.equal(by["capital-true"].draft, true);
     });
   }
+});
+
+// The same for the block as a whole (si-0eez). The gates used to cut it out
+// with /^---\n([\s\S]*?)\n---/, while Eleventy's gray-matter splits it by rules
+// of its own, so an article saved in any of the ways below had no front matter
+// to the gates — no draft flag, no date, no category — and the gates and the
+// build disagreed about drafts and scheduling. A copy of the project carries
+// one article saved each way, a draft with a date and a category in both
+// languages, and is built; the article's page shows what the build read — the
+// date, the category chip and the draft chip — and the gates must read the
+// same from the source.
+describe("the gates split an article's front matter off as the build does", () => {
+  const SAVED = [
+    ["saved with Windows line endings", "windows-line-endings", (text) => text.replaceAll("\n", "\r\n")],
+    ["whose opening line names its language (---yaml)", "language-named", (text) => text.replace(/^---\n/, "---yaml\n")],
+    ["saved with a byte-order mark", "byte-order-mark", (text) => `\uFEFF${text}`],
+    ["with spaces after its opening ---", "spaces-after-dashes", (text) => text.replace(/^---\n/, "---  \n")],
+  ];
+  let tmp;
+  let src;
+  let out;
+  before(async () => {
+    tmp = await tempDir("split-");
+    const project = await copyProject(path.join(tmp.dir, "project"));
+    src = path.join(project, "src");
+    for (const [index, [, slug, save]] of SAVED.entries()) {
+      const front = [`date: 2026-09-0${index + 1}`, `category: ${index % 2 ? "ai-journey" : "app-development"}`, `translationKey: ${slug}`, "draft: true"];
+      for (const lang of ["en", "sv"]) {
+        const text = ["---", `title: Saved ${slug}`, "description: One sentence.", ...front, "aiGenerated: true", "humanReviewed: false", "---", "", "The body.", ""].join("\n");
+        await writeFile(path.join(src, lang, "blog", "posts", `${slug}.md`), save(text));
+      }
+    }
+    out = buildSite(path.join(tmp.dir, "site"), {}, project);
+  });
+  after(() => tmp.cleanup());
+
+  for (const [how, slug] of SAVED) {
+    it(`reads the draft flag, the date and the category the build reads from an article ${how}`, async () => {
+      const site = await loadSite(SRC);
+      for (const lang of ["en", "sv"]) {
+        const article = (await readArticleSources(src, site, lang)).find((source) => source.slug === slug);
+        const html = await readFile(path.join(out, article.path, "index.html"), "utf8");
+        const meta = /<p class="article-meta">([\s\S]*?)<\/p>/.exec(html)[1];
+        const page = {
+          draft: meta.includes("chip-draft"),
+          date: /<time datetime="([^"]+)"/.exec(meta)[1],
+          category: /class="chip chip-cat" href="[^"]*\/blog\/([^/"]+)\/"/.exec(meta)[1],
+        };
+        assert.deepEqual({ draft: article.draft, date: article.date, category: article.category }, page, lang);
+      }
+    });
+  }
+
+  // A block in another language stops the gates, naming the file ("splitting
+  // front matter off a file" above).
+  it("stops at an article whose front matter is not YAML, naming the file", async () => {
+    const dir = path.join(tmp.dir, "json", "en", "blog", "posts");
+    await mkdir(dir, { recursive: true });
+    await writeFile(path.join(dir, "a.md"), '---json\n{ "title": "A" }\n---\nThe body.\n');
+    await assert.rejects(readArticleSources(path.join(tmp.dir, "json"), await loadSite(SRC), "en"), {
+      message: `Front matter in ${path.join(dir, "a.md")} must be YAML (---, ---yaml or ---yml), got "---json"`,
+    });
+  });
 });
 
 // The rule that keeps a draft off the public web (si-mzf1): a draft is built

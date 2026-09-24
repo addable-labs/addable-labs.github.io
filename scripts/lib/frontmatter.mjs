@@ -68,10 +68,59 @@ const FRONT_MATTER_SCHEMA = new yaml.Schema({
  * Read the YAML of one front-matter block, the text between its `---` lines.
  * The build and the gates both read front matter with this and nothing else,
  * so they cannot read it differently: eleventy.config.js makes it Eleventy's
- * YAML engine, and scripts/lib/site.mjs reads the article sources with it.
+ * YAML engine, and scripts/lib/site.mjs reads the article sources with it,
+ * each block split off its file as the build splits it (`frontMatterBlock`).
  */
 export function parseFrontMatter(text) {
   return yaml.load(text, { schema: FRONT_MATTER_SCHEMA });
+}
+
+/**
+ * A file's front-matter block, split off as the build splits it (si-0eez):
+ * the text `parseFrontMatter` reads, or undefined when the file has none.
+ *
+ * Eleventy hands every file to gray-matter (4.0.3, a dependency of Eleventy's,
+ * not ours), and this follows its rules (parseMatter in gray-matter/index.js):
+ *
+ *   - a byte-order mark before the opening `---` is dropped;
+ *   - `----`, a fourth dash, is no front matter at all;
+ *   - what follows the opening `---` on its line names the block's language,
+ *     as `---yaml` does; spaces alone name none;
+ *   - the block ends at the first line that starts with `---` (`\n---`), so
+ *     a file with Windows line endings ends it at the same line, the `\r` of
+ *     each line kept for YAML to read as part of the line end; without such
+ *     a line the rest of the file is the block.
+ *
+ * The gates used to cut the block out with /^---\n([\s\S]*?)\n---/, which
+ * finds none in a file saved with Windows line endings, with a byte-order
+ * mark or with anything after the opening `---`: such an article had no
+ * draft flag, date or category to the gates while the build read all three,
+ * so the two disagreed about what the site must show.
+ *
+ * The build hands a block to `parseFrontMatter` when its language is YAML —
+ * none named, or yaml or yml in any case — and any other to an engine that is
+ * not ours (JSON's, Eleventy's JavaScript), so a block in any other language
+ * throws here, naming the file: the gates refuse it rather than read it in a
+ * way the build does not.
+ *
+ * @param {string} text              the file's text
+ * @param {object} [options]
+ * @param {string} [options.file]    path used in the error message
+ */
+export function frontMatterBlock(text, { file = "this file" } = {}) {
+  const content = text.startsWith("\uFEFF") ? text.slice(1) : text;
+  if (!content.startsWith("---") || content.charAt(3) === "-") return undefined;
+  let block = content.slice(3);
+  // gray-matter's own expression, so a file of one line reads as it does there.
+  const opening = block.slice(0, block.search(/\r?\n/));
+  if (opening.trim() !== "") {
+    if (!/^ya?ml$/i.test(opening.trim())) {
+      throw new Error(`Front matter in ${file} must be YAML (---, ---yaml or ---yml), got ${JSON.stringify(`---${opening}`)}`);
+    }
+    block = block.slice(opening.length);
+  }
+  const end = block.indexOf("\n---");
+  return end === -1 ? block : block.slice(0, end);
 }
 
 /**

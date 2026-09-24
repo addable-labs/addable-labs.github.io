@@ -11,7 +11,7 @@ import { readdir, readFile, stat } from "node:fs/promises";
 import path from "node:path";
 import process from "node:process";
 import { pathToFileURL } from "node:url";
-import { eleventyDate, isOmitted, isScheduled, parseFrontMatter } from "./frontmatter.mjs";
+import { eleventyDate, frontMatterBlock, isOmitted, isScheduled, parseFrontMatter } from "./frontmatter.mjs";
 import { byDateDescThenSlug } from "./urls.mjs";
 
 export const ROOT = path.resolve(new URL("../..", import.meta.url).pathname);
@@ -139,7 +139,10 @@ export async function exists(file) {
  * The front matter is read with the build's own parser (`parseFrontMatter`,
  * si-8zyg), so every value means here what it means to the build: a quoted
  * date without its quotes, `draft: True` a draft, and a date the text that
- * was typed, which `isScheduled` reads as Eleventy does.
+ * was typed, which `isScheduled` reads as Eleventy does. It is split off the
+ * file by the build's rules too (`frontMatterBlock`, si-0eez), so an article
+ * saved with Windows line endings or a byte-order mark, or opened with
+ * `---yaml`, has here the front matter it has in the build.
  */
 export async function readArticleSources(srcDir, site, lang) {
   const dir = path.join(srcDir, lang, "blog", "posts");
@@ -152,8 +155,8 @@ export async function readArticleSources(srcDir, site, lang) {
   const prefix = langPrefix(lang, site);
   const articles = [];
   for (const name of files) {
-    const text = await readFile(path.join(dir, name), "utf8");
-    const data = parseFrontMatter(/^---\n([\s\S]*?)\n---/.exec(text)?.[1] ?? "") ?? {};
+    const file = path.join(dir, name);
+    const data = parseFrontMatter(frontMatterBlock(await readFile(file, "utf8"), { file }) ?? "") ?? {};
     const slug = name.replace(/\.md$/, "");
     const draft = data.draft === true;
     const scheduled = isScheduled(data.date);

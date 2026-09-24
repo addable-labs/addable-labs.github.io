@@ -103,6 +103,10 @@ export default function (eleventyConfig) {
   // is not an article gets its date the same way, so there a day that does
   // not exist now stops the build in Eleventy's words, naming the file and
   // the value, instead of rolling over. No page but the articles has a date.
+  // Eleventy's gray-matter still splits the block off each file, and the
+  // gates split it by the same rules (`frontMatterBlock`, si-0eez), so an
+  // option here that changes the split — `delimiters`, `language` — must
+  // change there too.
   eleventyConfig.setFrontMatterParsingOptions({ engines: { yaml: parseFrontMatter } });
 
   // An article's date is checked as Eleventy maps it, ahead of the rest of
