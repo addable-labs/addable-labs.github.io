@@ -389,10 +389,9 @@ for (const lang of site.languages.codes) {
       // The production build carries no draft at all: not merely unlisted —
       // there is no page at its URL, and nothing anywhere points at one
       // (si-mzf1). Assert that rather than skipping the article, or the gate
-      // would fall silent on exactly the thing it is here to prove.
+      // would fall silent on exactly the thing it is here to prove. The blog
+      // index's line below names it as left out, and refuses a card for it.
       report.check(!(await exists(path.join(out, rel))), `${rel} is not built ${because(article)}`);
-      const entries = listing?.doc.querySelectorAll(".post") ?? [];
-      report.check(entries.every((item) => attr(item.querySelector(".post-title a"), "href") !== article.path), `${lang} blog index does not list ${article.path} ${because(article)}`);
       report.check(!feed.includes(article.url), `${lang} feed has no item for ${article.slug} ${because(article)}`);
       continue;
     }
@@ -418,20 +417,16 @@ for (const lang of site.languages.codes) {
     const others = articles.filter((other) => other.path !== article.path).map((other) => other.path);
     report.check(more !== null && moreLinks.length >= 1 && moreLinks.every((href) => others.includes(href)), `${rel}: "more from the blog" lists other ${lang} articles (${moreLinks.length ? moreLinks.join(", ") : "none"})`);
     report.check(more !== null && (more.querySelectorAll("a[href]") ?? []).some((a) => attr(a, "href") === `${prefix}/blog/`), `${rel}: "more from the blog" links the ${lang} blog index`);
-    if (listing) {
+    if (listing && !article.scheduled) {
       // REQ-013, REQ-016: the listings are .post cards whose title link is the
-      // article and whose draft label is the .chip-draft chip. An article
-      // dated after today is built, as the page above, but listed nowhere
-      // until that day (si-gxyg). A draft that reaches here is a draft in a
-      // local build, where it is listed and wears its label like any other
-      // article (si-mzf1).
+      // article and whose draft label is the .chip-draft chip. A draft that
+      // reaches here is a draft in a local build, where it is listed and wears
+      // its label like any other article (si-mzf1). Which articles the index
+      // lists is the index line's to check, below: it names each one missing
+      // and each card for an article dated after today, which is built, as
+      // the page above, but listed nowhere until that day (si-gxyg).
       const entry = listing.doc.querySelectorAll(".post").find((item) => attr(item.querySelector(".post-title a"), "href") === article.path);
-      if (article.scheduled) {
-        report.check(entry === undefined, `${lang} blog index does not list ${article.path} before ${article.date}`);
-      } else {
-        report.check(entry !== undefined, `${lang} blog index lists ${article.path}`);
-        if (entry) report.check((text(entry.querySelector(".chip-draft")) === draftLabel) === article.draft, `${lang} blog index entry for ${article.slug} ${article.draft ? "carries" : "omits"} "${draftLabel}"`);
-      }
+      if (entry) report.check((text(entry.querySelector(".chip-draft")) === draftLabel) === article.draft, `${lang} blog index entry for ${article.slug} ${article.draft ? "carries" : "omits"} "${draftLabel}"`);
     }
     if (article.scheduled) {
       // No item for it. A listed article may still link it in its content:
@@ -445,10 +440,12 @@ for (const lang of site.languages.codes) {
 
   // The blog index (REQ-013, REQ-016; si-absd): exactly the listed articles
   // of the language, newest first — the list each category page shows its
-  // share of and the landing page its first three. The loop above finds each
-  // listed article on it; this line also refuses any other card and any
-  // other order. The build fills the index from posts_<lang>
-  // (eleventy.config.js); this works the list out from the source tree.
+  // share of and the landing page its first three. One line names every
+  // article the index misses, every card it should not show and any other
+  // order, and it is the only line that does: a line per article as well
+  // gave one missing card two FAIL lines (si-eieu). The build fills the index
+  // from posts_<lang> (eleventy.config.js); this works the list out from the
+  // source tree.
   if (listing) {
     const want = listedNewestFirst(articles);
     const got = listing.doc.querySelectorAll(".post .post-title a").map((a) => attr(a, "href"));
