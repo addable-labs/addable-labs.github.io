@@ -17,8 +17,8 @@ session records of 20 to 24 September 2026. From 20 to 22 September about half
 of a session's growth came before its first outward action, while it
 re-oriented itself after a hand-off. The notes kept between sessions, the
 hand-off points, the prompt hooks and the start-up content have since been
-changed; one change has been measured, once, and whether re-orientation now
-costs less is open.
+changed; two changes have been measured, once each, and whether re-orientation
+now costs less is open.
 
 ## Configuration
 
@@ -58,13 +58,13 @@ The sources, none of them public: the mayor's session transcripts with their
 token-usage records, its start-up records, its direct messages with the
 founder on Discord and its memory files. The mayor's report of 22 September
 covers its 38 sessions from 20 September, 12:33 UTC, to the evening of 22
-September; on 24 September the mayor repeated the count for 22 September,
-21:09 UTC, to 23 September, 18:54 UTC. Tokens were counted per call to the
-model, each session's first call included. A script sorted the tool output
-into categories, accurate to a few percentage points.
+September; a second count covers 22 September, 21:09 UTC, to 23 September,
+18:54 UTC. Tokens were counted per call to the model, each session's first
+call included. A script sorted the tool output into categories, accurate to a
+few percentage points.
 
-Limits: one project; the plugin effect is one measurement; no other change is
-measured yet.
+Limits: one project; the plugin and connector effects are one measurement
+each; no other change is measured yet.
 
 ## Findings
 
@@ -78,7 +78,7 @@ The report of 22 September:
 - The median session grew by 87,000 tokens, 49,000 of them before its first
   outward action (a reply, a dispatch, a bead written, a commit): about half
 
-The count of 24 September:
+The count for 22–23 September:
 
 - 51 sessions and 2,315 calls to the model, 45 per session
 - A mean context of 124,000 tokens per call
@@ -125,8 +125,7 @@ was an append-only log of 769 lines and 138 KB.
 2. **Start-up content that no session used.** Until 24 September the list of
    skills held 91 skills in 32,572 characters; 12,128 of those were the 40
    lines of a plugin for a hosting platform the factory does not use. Nor did
-   any session use the account's connectors, one of which added about 210 tool
-   names shortly after each start.
+   any session use the account's connectors.
 3. **Slow answers to simple questions.** A separate Claude Code session run by
    the founder found on 23 September that the machine was not the bottleneck
    (a load average of 2.2; the bead tool answered in 0.07 seconds). The
@@ -134,16 +133,16 @@ was an append-only log of 769 lines and 138 KB.
    fresh state before answering even what the mayor already knew; two prompt
    hooks with 15-second timeouts before every message; and the size of the
    context.
-4. **Facts that go stale inside a long session.** A session trusts its context
-   and notes, however old, unless it checks them. On 22 September the founder
-   asked for the factory's task database to sync to a private repository;
-   until then it had been synced to the public repository this site is built
-   from. The 32nd mayor session created the private repository, set the sync
-   setting to it and reported the sync as moved. The database's own remote
-   still named the public repository, which a timed job pushes every 15
-   minutes; at 16:58 UTC its push of the whole database failed only because
-   the connection was closed. The 34th session re-checked the state instead of
-   relying on its notes and repointed the remote at 17:13 UTC.
+4. **Old facts taken as current.** A session trusts its context and notes,
+   however old, unless it checks them. On 22 September the founder asked for
+   the factory's task database to sync to a private repository; until then it
+   had been synced to the public repository this site is built from. The 32nd
+   mayor session created the private repository, set the sync setting to it
+   and reported the sync as moved. The database's own remote still named the
+   public repository, and a timed job pushes to it every 15 minutes; at 16:58
+   UTC its push of the whole database failed only because the connection was
+   closed. The 34th session re-checked the state instead of relying on its
+   notes and repointed the remote at 17:13 UTC.
 5. **A hand-off point set by a wrong window size.** Gas City did not know the
    model and, until 23 September, took its window to be 200,000 tokens and
    called hand-offs at about 160,000, 16% of the real window.
@@ -173,13 +172,15 @@ was an append-only log of 769 lines and 138 KB.
   three before. Between 51,020 and 46,290 only the lists of skills and agents
   changed, about 12,000 characters shorter, so the hosting-platform plugin
   cost about 4,700 tokens a start: a tenth, not the fifth estimated from its
-  files on disk in a separate Claude Code session. The three earlier starts
-  already differed by 14,000 tokens: one measurement, not proof.
+  files on disk. The three earlier starts already differed by 14,000 tokens:
+  one measurement, not proof.
 - **24 September: the account's connectors switched off** for the factory's
   sessions: ten, none of them used. After the plugin was off, the hosting
-  platform's tools still reached every session through the account's own
-  connector for that platform; both are now gone. Estimated from characters,
-  the saving is 5,000 to 6,000 tokens per session. Not measured yet.
+  platform's tools had still reached every session, through the account's own
+  connector for that platform. Measured once, on two sessions of the
+  implementation worker that took the same first step: the connectors cost
+  about 9,700 tokens a session, most of it just after the first call, about 8%
+  of the mean context per call. One measurement, not proof.
 
 ## Open questions and ideas
 

@@ -17,8 +17,8 @@ utifrån underlagen från dess sessioner 20–24 september 2026. Mellan den 20 o
 22 september kom ungefär hälften av en sessions tillväxt före dess första
 utåtriktade handling, medan den orienterade sig på nytt efter en överlämning.
 Anteckningarna mellan sessionerna, överlämningspunkterna, promptkrokarna och
-startinnehållet har ändrats sedan dess. En av ändringarna har mätts en gång;
-om omorienteringen nu kostar mindre är öppet.
+startinnehållet har ändrats sedan dess. Två av ändringarna har mätts, en gång
+vardera; om omorienteringen nu kostar mindre är öppet.
 
 ## Konfiguration
 
@@ -60,14 +60,14 @@ Källorna, inga av dem offentliga: borgmästarens sessionstranskript med deras
 uppgifter om tokenanvändning, dess startloggar, dess direktmeddelanden med
 grundaren på Discord och dess minnesfiler. Borgmästarens rapport från den 22
 september täcker dess 38 sessioner från den 20 september klockan 12:33 UTC
-till kvällen den 22 september; den 24 september gjorde borgmästaren samma
-räkning för tiden från den 22 september klockan 21:09 UTC till den 23
-september klockan 18:54 UTC. Tokens räknades per anrop till modellen, varje
-sessions första anrop inräknat. Ett skript sorterade verktygens utdata i
-kategorier, med några procentenheters felmarginal.
+till kvällen den 22 september; en andra räkning täcker tiden från den 22
+september klockan 21:09 UTC till den 23 september klockan 18:54 UTC. Tokens
+räknades per anrop till modellen, varje sessions första anrop inräknat. Ett
+skript sorterade verktygens utdata i kategorier, med några procentenheters
+felmarginal.
 
-Begränsningar: ett enda projekt; effekten av tilläggen bygger på en mätning;
-ingen annan ändring är mätt än.
+Begränsningar: ett enda projekt; effekterna av tilläggen och kopplingarna
+bygger på en mätning vardera; ingen annan ändring är mätt än.
 
 ## Resultat
 
@@ -84,7 +84,7 @@ Rapporten från den 22 september:
   utåtriktade handling (ett svar, ett utskickat uppdrag, en skriven bead, en
   commit): ungefär hälften
 
-Räkningen från den 24 september:
+Räkningen för 22–23 september:
 
 - 51 sessioner och 2 315 anrop till modellen, 45 per session
 - En genomsnittlig kontext på 124 000 tokens per anrop
@@ -132,8 +132,7 @@ en logg som bara fylldes på: 769 rader och 138 kB.
    innehöll listan med färdigheter 91 färdigheter på 32 572 tecken; 12 128 av
    tecknen var de 40 raderna från ett tillägg för en hostingplattform som
    fabriken inte använder. Inte heller kontots kopplingar användes av någon
-   session; en av dem lade till ungefär 210 verktygsnamn strax efter varje
-   start.
+   session.
 3. **Långsamma svar på enkla frågor.** En separat Claude Code-session som
    grundaren körde fann den 23 september att maskinen inte var flaskhalsen (en
    systembelastning på 2,2; verktyget för beads svarade på 0,07 sekunder).
@@ -141,18 +140,18 @@ en logg som bara fylldes på: 769 rader och 138 kB.
    borgmästaren hämtade färskt läge innan den svarade även på det den redan
    visste, två promptkrokar med 15 sekunders tidsgräns före varje meddelande
    samt kontextens storlek.
-4. **Fakta som blir inaktuella under en lång session.** En session litar på
-   sin kontext och sina anteckningar, hur gamla de än är, om den inte
-   kontrollerar dem. Den 22 september bad grundaren om att fabrikens
-   uppgiftsdatabas skulle synkas till ett privat kodförråd; fram till dess
-   hade den synkats till det publika kodförråd som den här sajten byggs från.
-   Den 32:a borgmästarsessionen skapade det privata kodförrådet, pekade
-   synkinställningen dit och rapporterade att synken var flyttad. Databasens
-   egen fjärradress pekade fortfarande på det publika kodförrådet, som ett
-   schemalagt jobb pushar till var 15:e minut; klockan 16:58 UTC misslyckades
-   jobbets push av hela databasen bara för att anslutningen var stängd. Den
-   34:e sessionen kontrollerade läget i stället för att lita på sina
-   anteckningar och pekade om fjärradressen klockan 17:13 UTC.
+4. **Gamla fakta som tas för aktuella.** En session litar på sin kontext och
+   sina anteckningar, hur gamla de än är, om den inte kontrollerar dem. Den 22
+   september bad grundaren om att fabrikens uppgiftsdatabas skulle synkas till
+   ett privat kodförråd; fram till dess hade den synkats till det publika
+   kodförråd som den här sajten byggs från. Den 32:a borgmästarsessionen
+   skapade det privata kodförrådet, pekade synkinställningen dit och
+   rapporterade att synken var flyttad. Databasens egen fjärradress pekade
+   fortfarande på det publika kodförrådet, som ett schemalagt jobb pushar till
+   var 15:e minut; klockan 16:58 UTC misslyckades jobbets push av hela
+   databasen bara för att anslutningen var stängd. Den 34:e sessionen
+   kontrollerade läget i stället för att lita på sina anteckningar och pekade
+   om fjärradressen klockan 17:13 UTC.
 5. **En överlämningspunkt satt av en felaktig fönsterstorlek.** Gas City kände
    inte till modellen, uppfattade fram till den 23 september fönstret som
    200 000 tokens och bad om överlämningar vid ungefär 160 000, 16 % av det
@@ -184,15 +183,16 @@ en logg som bara fylldes på: 769 rader och 138 kB.
   borgmästarsession startade på 46 290 tokens, mot 51 020, 59 091 och 65 150
   för de tre före. Mellan 51 020 och 46 290 ändrades bara listorna med
   färdigheter och agenter, ungefär 12 000 tecken kortare, så hostingtillägget
-  kostade ungefär 4 700 tokens per start: en tiondel, inte den femtedel som en
-  separat Claude Code-session hade uppskattat utifrån tilläggets filer på
-  disken. De tre tidigare starterna skilde sig redan med 14 000 tokens: en
-  mätning, inte ett bevis.
+  kostade ungefär 4 700 tokens per start: en tiondel, inte den femtedel som
+  hade uppskattats utifrån tilläggets filer på disken. De tre tidigare
+  starterna skilde sig redan med 14 000 tokens: en mätning, inte ett bevis.
 - **24 september: kontots kopplingar avstängda** för fabrikens sessioner: tio,
-  ingen av dem använd. Efter att tillägget stängts av nådde
-  hostingplattformens verktyg ändå varje session genom kontots egen koppling
-  till samma plattform; nu är båda borta. Uppskattad utifrån tecken är
-  besparingen 5 000 till 6 000 tokens per session. Inte mätt än.
+  ingen av dem använd. Efter att tillägget stängts av hade hostingplattformens
+  verktyg ändå nått varje session, genom kontots egen koppling till samma
+  plattform. Mätt en gång, på två sessioner hos genomförandeagenten som tog
+  samma första steg: kopplingarna kostade ungefär 9 700 tokens per session,
+  det mesta strax efter det första anropet, ungefär 8 % av den genomsnittliga
+  kontexten per anrop. En mätning, inte ett bevis.
 
 ## Öppna frågor och idéer
 
