@@ -47,7 +47,7 @@ import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { PUBLIC_REPOS, PUBLIC_URL_PREFIX, githubRepos, publicRepo } from "../lib/apps.mjs";
 import { attr, loadPage, text } from "../lib/html.mjs";
-import { exists, internalPath, loadSite, loadStrings, readArticleSources, reporter, resolveDirs, walk } from "../lib/site.mjs";
+import { exists, internalPath, langPrefix, loadSite, loadStrings, readArticleSources, reporter, resolveDirs, walk } from "../lib/site.mjs";
 
 const { out, src } = resolveDirs();
 const site = await loadSite(src);
@@ -56,7 +56,6 @@ const strings = await loadStrings(src, site);
 // reads the same entries the templates render.
 const apps = JSON.parse(await readFile(path.join(src, "_data", "portfolio.json"), "utf8"));
 const report = reporter("content");
-const prefixOf = (lang) => (lang === site.languages.default ? "" : `/${lang}`);
 const FOUNDER = "Péter Blénessy";
 const MONTH = { en: "September 2026", sv: "september 2026" };
 const FACTORY_PHRASE = { en: "agent-run software factory", sv: "agentdriven mjukvarufabrik" };
@@ -96,10 +95,10 @@ function mailtoSubject(href) {
 
 // Landing pages
 for (const lang of site.languages.codes) {
-  const rel = `${prefixOf(lang).replace(/^\//, "")}${prefixOf(lang) ? "/" : ""}index.html`;
+  const prefix = langPrefix(lang, site);
+  const rel = `${prefix.replace(/^\//, "")}${prefix ? "/" : ""}index.html`;
   const landing = await page(rel);
   if (!landing) continue;
-  const prefix = prefixOf(lang);
   const doc = landing.doc;
   const hero = doc.querySelector(".hero");
 
@@ -216,7 +215,8 @@ for (const lang of site.languages.codes) {
 
 // About pages
 for (const lang of site.languages.codes) {
-  const rel = `${prefixOf(lang).replace(/^\//, "")}${prefixOf(lang) ? "/" : ""}about/index.html`;
+  const prefix = langPrefix(lang, site);
+  const rel = `${prefix.replace(/^\//, "")}${prefix ? "/" : ""}about/index.html`;
   const about = await page(rel);
   if (!about) continue;
   const main = text(about.doc.querySelector("main"));
@@ -279,7 +279,7 @@ for (const p of pages) {
     report.fail(`${p.relPath}: no button[data-theme-toggle]`);
   }
   // REQ-014 (AC-15): a visible link to the page language's feed.
-  const feedPath = `${prefixOf(p.lang)}/feed.xml`;
+  const feedPath = `${langPrefix(p.lang, site)}/feed.xml`;
   if (p.doc.querySelectorAll(`a[href="${feedPath}"]`).length === 0) {
     controlProblems += 1;
     report.fail(`${p.relPath}: no link to ${feedPath}`);
@@ -328,8 +328,9 @@ function because(article) {
 for (const lang of site.languages.codes) {
   const articles = await readArticleSources(src, site, lang);
   report.check(articles.length >= 2, `${lang}: at least two articles in the source tree (${articles.length})`);
-  const listing = await page(`${prefixOf(lang).replace(/^\//, "")}${prefixOf(lang) ? "/" : ""}blog/index.html`);
-  const feedFile = path.join(out, prefixOf(lang).replace(/^\//, ""), "feed.xml");
+  const prefix = langPrefix(lang, site);
+  const listing = await page(`${prefix.replace(/^\//, "")}${prefix ? "/" : ""}blog/index.html`);
+  const feedFile = path.join(out, prefix.replace(/^\//, ""), "feed.xml");
   const feed = (await exists(feedFile)) ? await readFile(feedFile, "utf8") : "";
   // The article each feed item is for: the <link> that follows its <item>.
   const feedItems = [...feed.matchAll(/<item>[\s\S]*?<link>([^<]*)<\/link>/g)].map(([, url]) => url);
@@ -366,7 +367,7 @@ for (const lang of site.languages.codes) {
     const moreLinks = (more?.querySelectorAll(".post .post-title a") ?? []).map((a) => attr(a, "href"));
     const others = articles.filter((other) => other.path !== article.path).map((other) => other.path);
     report.check(more !== null && moreLinks.length >= 1 && moreLinks.every((href) => others.includes(href)), `${rel}: "more from the blog" lists other ${lang} articles (${moreLinks.length ? moreLinks.join(", ") : "none"})`);
-    report.check(more !== null && (more.querySelectorAll("a[href]") ?? []).some((a) => attr(a, "href") === `${prefixOf(lang)}/blog/`), `${rel}: "more from the blog" links the ${lang} blog index`);
+    report.check(more !== null && (more.querySelectorAll("a[href]") ?? []).some((a) => attr(a, "href") === `${prefix}/blog/`), `${rel}: "more from the blog" links the ${lang} blog index`);
     if (listing) {
       // REQ-013, REQ-016: the listings are .post cards whose title link is the
       // article and whose draft label is the .chip-draft chip. An article

@@ -30,7 +30,7 @@ import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { COMPRESSED_BUDGET, compressedSize, fontFaceSources, formatBytes } from "../lib/budget.mjs";
 import { attr, focusables, headings, loadPage, text } from "../lib/html.mjs";
-import { candidatesForPath, exists, internalPath, loadSite, loadStrings, reporter, resolveDirs, walk } from "../lib/site.mjs";
+import { candidatesForPath, exists, internalPath, langPrefix, loadSite, loadStrings, reporter, resolveDirs, walk } from "../lib/site.mjs";
 
 const { out, src } = resolveDirs();
 const site = await loadSite(src);
@@ -41,12 +41,11 @@ const SIZE_BUDGET = 150 * 1024;
 const NOT_FOUND = "404.html";
 
 const other = (lang) => site.languages.codes.find((code) => code !== lang);
-const prefixOf = (lang) => (lang === site.languages.default ? "" : `/${lang}`);
 function counterpartPath(urlPath, lang) {
   const target = other(lang);
-  const own = prefixOf(lang);
+  const own = langPrefix(lang, site);
   const bare = own && urlPath.startsWith(`${own}/`) ? urlPath.slice(own.length) : urlPath;
-  return `${prefixOf(target)}${bare}`;
+  return `${langPrefix(target, site)}${bare}`;
 }
 
 const titles = new Map();
@@ -148,7 +147,7 @@ for (const file of files) {
   } else {
     expect(alternates.size === 0, "404.html should carry no hreflang alternates");
   }
-  const feedPath = `${prefixOf(page.lang)}/feed.xml`;
+  const feedPath = `${langPrefix(page.lang, site)}/feed.xml`;
   const feedLinks = doc.querySelectorAll('link[rel="alternate"][type="application/rss+xml"]').map((el) => attr(el, "href"));
   expect(feedLinks.includes(`${origin}${feedPath}`), `no feed link to ${origin}${feedPath} (found: ${feedLinks.join(", ") || "none"})`);
 
@@ -202,7 +201,7 @@ for (const file of files) {
   // page over budget fails naming the total. Fonts and images are budgeted
   // separately (REQ-005; tests/fonts.test.mjs). Measured by
   // scripts/lib/budget.mjs, which tests/pages.test.mjs shares.
-  if (page.url === `${prefixOf(page.lang)}/`) {
+  if (page.url === `${langPrefix(page.lang, site)}/`) {
     const scripts = new Map();
     for (const el of doc.querySelectorAll("script[src]")) {
       const asset = await readAsset(attr(el, "src") ?? "");

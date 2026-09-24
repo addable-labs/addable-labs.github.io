@@ -20,7 +20,7 @@ import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { XMLParser, XMLValidator } from "fast-xml-parser";
 import { attr, loadPage } from "../lib/html.mjs";
-import { loadSite, loadStrings, readArticleSources, reporter, resolveDirs, walk } from "../lib/site.mjs";
+import { langPrefix, loadSite, loadStrings, readArticleSources, reporter, resolveDirs, walk } from "../lib/site.mjs";
 
 const { out, src } = resolveDirs();
 const site = await loadSite(src);
@@ -29,8 +29,8 @@ const report = reporter("feeds");
 
 const FEEDS = site.languages.codes.map((lang) => ({
   lang,
-  prefix: lang === site.languages.default ? "" : `/${lang}`,
-  file: lang === site.languages.default ? "feed.xml" : `${lang}/feed.xml`,
+  prefix: langPrefix(lang, site),
+  file: `${langPrefix(lang, site)}/feed.xml`.replace(/^\//, ""),
 }));
 
 function asArray(value) {

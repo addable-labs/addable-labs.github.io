@@ -65,6 +65,15 @@ export function langFromPath(relPath, site) {
   return site.languages.codes.includes(first) && first !== site.languages.default ? first : site.languages.default;
 }
 
+/**
+ * What a language's URLs start with: "" for the default language, at the
+ * root; "/sv" for "sv". The templates get the same value from `langPrefix`
+ * in src/src.11tydata.js.
+ */
+export function langPrefix(lang, site) {
+  return lang === site.languages.default ? "" : `/${lang}`;
+}
+
 /** Output file → site URL ("/about/index.html" → "/about/", "/feed.xml" → "/feed.xml"). */
 export function fileToUrl(relPath) {
   const posix = relPath.split(path.sep).join("/");
@@ -139,7 +148,7 @@ export async function readArticleSources(srcDir, site, lang) {
   } catch {
     return [];
   }
-  const prefix = lang === site.languages.default ? "" : `/${lang}`;
+  const prefix = langPrefix(lang, site);
   const articles = [];
   for (const name of files) {
     const text = await readFile(path.join(dir, name), "utf8");
