@@ -18,10 +18,14 @@
 //     the column's right edge but what scrolls inside a box of its own.
 // Reduced motion is emulated so .reveal elements render in place and fonts
 // are awaited before measuring. One line per page × width; exit 1 on any
-// failure; the same SKIP (exit 3) as the Lighthouse gate when no Chrome is
-// found. Optional arguments: <built-site dir> [<source dir>] (the source dir
-// lists the articles). LAYOUT_DUMP=<file> writes the raw measurements as
-// JSON (to regenerate tests/fixtures/layout/article.json and tables.json).
+// failure. A page × width whose measure fails, as when its Chrome is lost, is
+// measured again, once, in a new Chrome; one that fails twice is not
+// measured: one FAIL line names it and the cause, and the gate stops there
+// (si-828d; withChrome in scripts/lib/chrome.mjs). The same SKIP (exit 3) as
+// the Lighthouse gate when no Chrome is found. Optional arguments:
+// <built-site dir> [<source dir>] (the source dir lists the articles).
+// LAYOUT_DUMP=<file> writes the raw measurements as JSON (to regenerate
+// tests/fixtures/layout/article.json and tables.json).
 
 import { writeFile } from "node:fs/promises";
 import puppeteer from "puppeteer-core";
@@ -133,30 +137,38 @@ for (const lang of site.languages.codes) {
   }
 }
 
-const exitCode = await withChrome("layout", out, async ({ baseUrl, port }) => {
-  const browser = await puppeteer.connect({ browserURL: `http://127.0.0.1:${port}` });
-  const measurements = [];
-  try {
+const exitCode = await withChrome("layout", out, async ({ baseUrl, measure }) => {
+  // The tab every page is measured in, opened in the first Chrome and again
+  // in the new one when a Chrome is lost; `width` is its viewport's.
+  let tab = null;
+  const openTab = async (chrome) => {
+    const browser = await puppeteer.connect({ browserURL: `http://127.0.0.1:${chrome.port}` });
     const page = await browser.newPage();
     await page.emulateMediaFeatures([{ name: "prefers-reduced-motion", value: "reduce" }]);
+    return { chrome, browser, page, width: null };
+  };
+  /** Load `path` at `width` and run `measureIn` in the page. */
+  const measurePage = (path, width, measureIn) =>
+    measure(`${path} ${width}`, async (chrome) => {
+      if (tab?.chrome !== chrome) tab = await openTab(chrome);
+      if (tab.width !== width) {
+        await tab.page.setViewport({ width, height: HEIGHT, deviceScaleFactor: 1 });
+        tab.width = width;
+      }
+      await tab.page.goto(`${baseUrl}${path}`, { waitUntil: "load" });
+      await tab.page.evaluate(() => document.fonts.ready.then(() => true));
+      return tab.page.evaluate(measureIn);
+    });
+  const measurements = [];
+  try {
     for (const width of WIDTHS) {
-      await page.setViewport({ width, height: HEIGHT, deviceScaleFactor: 1 });
-      for (const path of PAGES) {
-        await page.goto(`${baseUrl}${path}`, { waitUntil: "load" });
-        await page.evaluate(() => document.fonts.ready.then(() => true));
-        const grids = await page.evaluate(measureGrids);
-        measurements.push({ page: path, width, grids });
-      }
-      for (const path of ARTICLES) {
-        await page.goto(`${baseUrl}${path}`, { waitUntil: "load" });
-        await page.evaluate(() => document.fonts.ready.then(() => true));
-        const article = await page.evaluate(measureArticle);
-        measurements.push({ page: path, width, article });
-      }
+      for (const path of PAGES) measurements.push({ page: path, width, grids: await measurePage(path, width, measureGrids) });
+      for (const path of ARTICLES) measurements.push({ page: path, width, article: await measurePage(path, width, measureArticle) });
     }
-    await page.close();
   } finally {
-    await browser.disconnect();
+    // Disconnect only: withChrome kills Chrome, and the tab's Chrome may be
+    // gone already.
+    await tab?.browser.disconnect().catch(() => {});
   }
   if (process.env.LAYOUT_DUMP) await writeFile(process.env.LAYOUT_DUMP, `${JSON.stringify(measurements, null, 2)}\n`);
   const result = evaluate(measurements);

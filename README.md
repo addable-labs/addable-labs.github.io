@@ -81,8 +81,9 @@ afresh, so this only ever bites locally.
 `_site/` and `node_modules/` are git-ignored. The build takes well under a
 second; `pnpm check` takes about 10 s without Chrome and about 45 s with it
 (Lighthouse measures seven pages; it also fetches the external links unless
-`CHECK_OFFLINE=1` is set); `pnpm test` takes about 10 s and needs neither
-network nor browser.
+`CHECK_OFFLINE=1` is set); `pnpm test` needs no network and takes about 20 s
+without Chrome, and about 35 s with it, when it also runs the two Chrome
+gates and kills their Chrome mid-measure (see *Quality gates*).
 
 ## Appearance toggle
 
@@ -434,8 +435,8 @@ after a `pnpm build`:
 | parity | `pnpm check:parity` | Every English page has its Swedish twin and vice versa, the feeds pair up, the strings files have identical keys with no empty values, pages pair one-to-one. |
 | feeds | `pnpm check:feeds` | Both feeds are well-formed RSS 2.0 with absolute links, exactly the language's listed articles — never one dated after today, and never a draft unless this is a development build — draft labels, items that carry the prose only (no `<figure>`), and every page links its feed. |
 | content | `pnpm check:content` | The facts the site must state: one `h1` in the hero, the primary call to action linking the apps section (`#apps`), the nivå button honouring `site.nivaUrl`, the three service headings, the apps in data order, each with exactly the links it calls for in its action row — "Repository" to a public repository or "Website" to the public page of a product whose repository is private, then "Article" to the article about the app where it names one the build lists — and an entry with neither unlinked, the trust section's phrase, founder, article link and proof link, the latest-writing cards, the founding month on the about page and the founder's name in its lead and nowhere else in its main content; on every page the footer's address, the company line with the organisation number and the registered seat, the language switches, the toggle and the feed link; every GitHub repository named in a page, a feed, the sitemap or a text file one of the public repositories the site may link (`PUBLIC_REPOS` in `scripts/lib/apps.mjs`, an allow-list); article lengths and draft labels; that an article dated after today is built but listed in neither its language's blog index nor its feed; and that a draft is listed and built in a development build but has no page at all in the published one. The pinned facts are the constants at the top of `scripts/check/content.mjs`. |
-| lighthouse | `pnpm check:lighthouse` | Serves `_site/` locally, runs Lighthouse 13 (mobile configuration) in headless Chrome on `/`, `/sv/`, `/about/`, `/blog/`, a category page, an article and `/404.html`: Performance, Accessibility, Best Practices and SEO each ≥ 95 and cumulative layout shift ≤ 0.1, one line per page. A page whose only problem is Performance < 95 is measured twice more and the median of its three Performance scores decides (its line shows the median, then the three: `performance 96 (85, 97, 96)`); in CI the lines also go to the run's summary page. |
-| layout | `pnpm check:layout` | Renders `/` and `/sv/` at 360, 768, 1024, 1280 and 1920 px in headless Chrome and measures the balanced cards: every service and app title one line, cards in a row equal in height with their "What you get" heading / summary tops and action rows aligned (± 1 px), every chip row one line. Renders every article page at the same widths and measures the article layout: no horizontal scroll, every text block at most 44 rem wide, centred in the body and on one shared left edge, every wide figure across the body, every inline figure on the measure and centred with its panel 20–24.5 rem wide and its caption beside the panel from 768 px (top-aligned, after the gap) and under it below, every panel rendered so a 13-unit label is at least 12 px, every table starting on the text column's left edge and nothing of it past the column's right edge but what scrolls inside its own box. `LAYOUT_DUMP=<file>` writes the raw measurements (the source of `tests/fixtures/layout/article.json` and `tables.json`). |
+| lighthouse | `pnpm check:lighthouse` | Serves `_site/` locally, runs Lighthouse 13 (mobile configuration) in headless Chrome on `/`, `/sv/`, `/about/`, `/blog/`, a category page, an article and `/404.html`: Performance, Accessibility, Best Practices and SEO each ≥ 95 and cumulative layout shift ≤ 0.1, one line per page. A page whose only problem is Performance < 95 is measured twice more and the median of its three Performance scores decides (its line shows the median, then the three: `performance 96 (85, 97, 96)`); in CI the lines also go to the run's summary page. A page whose Chrome is lost is measured again, once, in a new Chrome, and a second failure is one `FAIL` line naming the page and the cause; these lines go to the summary page too. |
+| layout | `pnpm check:layout` | Renders `/` and `/sv/` at 360, 768, 1024, 1280 and 1920 px in headless Chrome and measures the balanced cards: every service and app title one line, cards in a row equal in height with their "What you get" heading / summary tops and action rows aligned (± 1 px), every chip row one line. Renders every article page at the same widths and measures the article layout: no horizontal scroll, every text block at most 44 rem wide, centred in the body and on one shared left edge, every wide figure across the body, every inline figure on the measure and centred with its panel 20–24.5 rem wide and its caption beside the panel from 768 px (top-aligned, after the gap) and under it below, every panel rendered so a 13-unit label is at least 12 px, every table starting on the text column's left edge and nothing of it past the column's right edge but what scrolls inside its own box. A page whose Chrome is lost at one width is measured again, once, at that width in a new Chrome, and a second failure is one `FAIL` line naming the page, the width and the cause. `LAYOUT_DUMP=<file>` writes the raw measurements (the source of `tests/fixtures/layout/article.json` and `tables.json`). |
 
 **Chrome.** The last two gates need Google Chrome (or Chromium). They find
 it through `chrome-launcher`, or through `CHROME_PATH` if set (the
@@ -448,11 +449,15 @@ it, so the gates always run there (Chrome is preinstalled on GitHub's
 runners). Nothing downloads a browser: `chrome-launcher`, `lighthouse` and
 `puppeteer-core` are the only dev dependencies the two gates add;
 `chrome-launcher` finds and launches the installed Chrome, and the other two
-attach to it. A single slow Lighthouse run does not fail CI (see the
-lighthouse row); a page still below 95 on the median of three fails, and
-thresholds are never lowered. Only if CI ever loses Chrome would a
-manually produced Lighthouse report be committed as evidence — nothing of
-the kind exists today.
+attach to it. A Chrome that dies or never starts under a gate (killed,
+crashed, or never opening its DevTools port, as once on CI) does not crash
+the gate: it measures that page again, once, in a new Chrome, and if that
+fails too it prints one `FAIL` line naming the page and the cause and
+measures nothing more, so a page it did not measure never passes or skips.
+A single slow Lighthouse run does not fail CI (see the lighthouse row); a
+page still below 95 on the median of three fails, and thresholds are never
+lowered. Only if CI ever loses Chrome would a manually produced Lighthouse
+report be committed as evidence — nothing of the kind exists today.
 
 `pnpm test` runs `node --test` over `tests/`: every gate has a positive case
 against a fresh build and negative cases on fixtures or modified copies (a
@@ -461,8 +466,12 @@ strings key, a relative feed link, an unknown category, an off-origin font, a
 70 KB script, a linked private app, a 17-character app name, a Lighthouse
 report at 94, a wrapped card title, …), so a gate cannot pass by failing
 early. The Lighthouse and layout rules are tested on fixture reports and
-measurements; the suite needs no network and no browser (it exercises the
-gates' `SKIP` path with `CHROME_PATH=/nonexistent`).
+measurements, and the two gates' `SKIP` path with `CHROME_PATH=/nonexistent`.
+The suite needs no network, and a browser only in `tests/chrome.test.mjs`,
+whose gate cases run both gates on the installed Chrome and kill the Chrome a
+gate launched, by its pid, mid-measure (once: the page is measured again;
+twice: one `FAIL` line); they skip when no Chrome is found unless
+`CHECK_REQUIRE_CHROME=1`, as in CI.
 
 ## Deployment
 

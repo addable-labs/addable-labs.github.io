@@ -1,4 +1,5 @@
-// Shared helpers for the gate tests (node:test, no network, no browser).
+// Shared helpers for the gate tests (node:test, no network; no browser except
+// in tests/chrome.test.mjs, which kills a real Chrome under the Chrome gates).
 //
 // Positive cases run each gate against a fresh build of the real site written
 // to a temporary output directory. Negative cases use the committed fixtures
@@ -86,12 +87,18 @@ export function buildSite(outDir, env = {}, cwd = ROOT) {
 }
 
 /**
- * Run one gate script against `out` and `src`; returns { status, output }.
+ * Run one gate script against `out` and `src`; returns { status, output,
+ * stdout, stderr }, where `output` is stdout followed by stderr.
  * SITE_ENV is cleared for the same reason as in `buildSite`: a gate must be
  * told what kind of build it is looking at, and these cases build development
  * sites unless they say otherwise. CHECK_REQUIRE_CHROME is cleared too, because
  * CI sets it to 1 for the whole job: a case for a Chrome-backed gate states
  * whether Chrome is required, so the suite behaves in CI as it does locally.
+ * GITHUB_STEP_SUMMARY is cleared as well, because GitHub sets it for the step
+ * that runs the tests and the Lighthouse gate appends its page lines to the
+ * file it names: a case's staged lines (a page killed twice) would show on
+ * the summary page of every green run, the one place a real relaunch in CI
+ * shows.
  * SITE_NOW is this file's `NOW`, as in `buildSite`, unless the case passes
  * its own.
  */
@@ -99,10 +106,10 @@ export function runGate(gate, out, src = SRC, env = {}) {
   const result = spawnSync(process.execPath, [path.join(ROOT, "scripts", "check", `${gate}.mjs`), out, src], {
     cwd: ROOT,
     encoding: "utf8",
-    env: { ...process.env, SITE_ENV: "", CHECK_REQUIRE_CHROME: "", CHECK_OFFLINE: "1", ...env },
+    env: { ...process.env, SITE_ENV: "", CHECK_REQUIRE_CHROME: "", GITHUB_STEP_SUMMARY: "", CHECK_OFFLINE: "1", ...env },
     maxBuffer: 64 * 1024 * 1024,
   });
-  return { status: result.status, output: `${result.stdout}${result.stderr}` };
+  return { status: result.status, output: `${result.stdout}${result.stderr}`, stdout: result.stdout, stderr: result.stderr };
 }
 
 /** Run html-validate on a directory of built pages. */
