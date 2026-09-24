@@ -759,6 +759,111 @@
       "footer": "what seven at once cost the laptop",
       "footerNote": "load average 37 on 8 cores",
       "caption": "Two counts of the same run. Over three days it started 242 sub-agents — 236 inside 34 workflow launches, 6 called directly — but at any one moment at most seven were alive, and ten was never reached. Agents are short-lived, a median of forty minutes each, so a large total and a small crowd are the same picture: five or more ran together for seventeen of the seventy-two hours, and that crowd, each agent driving its own browser and GPU, is the collision the report records as a load average of 37 on eight cores."
+    },
+    "session": {
+      "panels": {
+        "life": {
+          "title": "One session's life: the start-up content, re-orientation until the first outward action, work, a hand-off advised and then called, and a new session that continues from there",
+          "head": "a session · start to hand-off"
+        },
+        "steps": {
+          "title": "Every step sends the whole context: its unchanged beginning is read from the cache, and only what is new since the step before is processed",
+          "head": "every step · the whole context"
+        }
+      },
+      "rows": {
+        "start": {
+          "label": "start-up content",
+          "note": "in the context before the first step"
+        },
+        "reorient": {
+          "label": "re-orientation",
+          "note": "until the first outward action",
+          "finding": "20–22 Sep: about half the growth"
+        },
+        "outward": {
+          "label": "first outward action",
+          "note": "a reply, a dispatch, a bead, a commit"
+        },
+        "work": {
+          "label": "work",
+          "note": "every step adds to the context"
+        },
+        "advised": {
+          "label": "hand-off advised",
+          "note": "past the first set size"
+        },
+        "called": {
+          "label": "hand-off called",
+          "note": "it writes down the state of its work"
+        }
+      },
+      "next": "a new session continues from there",
+      "nextNote": "and re-orients itself",
+      "startup": "start-up content",
+      "legendNew": "new since the step before: processed",
+      "legendCached": "unchanged: read from the cache, cheaper",
+      "cost": "a long context still costs in latency,",
+      "costNote": "answer quality and consumption",
+      "caption": "One session and the next, not to scale. A session starts with the start-up content in its context and re-orients until its first outward action; from 20 to 22 September about half of a session's growth came before that action. It works until Gas City advises a hand-off and then calls it, writes down the state of its work, and a new session continues from there. Every step sends the whole context; its unchanged beginning is read from the cache."
+    },
+    "sync": {
+      "title": "Problem 4: the sync setting pointed at the new private repository while the database's own remote still named the public repository, which a timed job pushes to every 15 minutes; that push failed at 16:58 UTC, and the 34th session re-checked the state and repointed the remote at 17:13 UTC",
+      "head": "problem 4 · the sync and the remote",
+      "database": "the task database",
+      "setting": "sync setting",
+      "remote": "its own remote",
+      "private": "private repository",
+      "public": "public repository",
+      "unchanged": "unchanged: a push every 15 minutes",
+      "rows": {
+        "set": {
+          "label": "32nd session",
+          "note": "reported the sync as moved"
+        },
+        "failed": {
+          "label": "16:58 UTC",
+          "note": "the push of the whole database failed",
+          "note2": "only because the connection was closed"
+        },
+        "recheck": {
+          "label": "34th session",
+          "note": "re-checked the state instead of",
+          "note2": "relying on its notes"
+        },
+        "repointed": {
+          "label": "17:13 UTC",
+          "note": "repointed the remote"
+        }
+      },
+      "trust": "a session trusts its context and notes,",
+      "trustNote": "however old, unless it checks them",
+      "caption": "Problem 4 as a sequence. After the founder's request of 22 September the 32nd session set the sync setting to the new private repository and reported the sync as moved, but the database's own remote still named the public repository, which a timed job pushes to every 15 minutes. At 16:58 UTC that push of the whole database failed only because the connection was closed; the 34th session re-checked the state instead of relying on its notes and repointed the remote at 17:13 UTC."
+    },
+    "handoffs": {
+      "title": "The hand-off points against the model's window of 1,000,000 tokens: until 23 September hand-offs were called at about 16%, from a window taken to be 200,000 tokens; on 23 September advised at 20% and called at 25%; since 24 September advised at 25% and called at 30%",
+      "head": "the window · 1,000,000 tokens",
+      "rows": {
+        "before": {
+          "label": "until 23 September",
+          "window": "Gas City took it to be 200,000 tokens",
+          "called": "hand-offs called at about 160,000: 16%"
+        },
+        "first": {
+          "label": "23 September",
+          "points": "advised at 20%, called at 25%"
+        },
+        "since": {
+          "label": "since 24 September",
+          "points": "advised at 25%, called at 30%"
+        }
+      },
+      "legendAdvised": "hand-off advised",
+      "legendCalled": "hand-off called",
+      "legendStartup": "start-up content at a 24 September start",
+      "later": "later hand-offs: fewer re-orientations,",
+      "laterNote": "but a longer context on every step",
+      "caption": "The hand-off points against the model's window of 1,000,000 tokens, to scale. Until 23 September Gas City took the window to be 200,000 tokens and called hand-offs at about 160,000, 16% of the real window; on 23 September a hand-off was advised at 20% and called at 25%, and since 24 September at 25% and 30%. The sliver at the left is the start-up content of a 24 September start. Which hand-off point is cheaper is to be decided on measurements."
     }
   },
   "contact": {

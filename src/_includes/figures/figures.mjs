@@ -861,7 +861,176 @@ function fleet(t, id, figureId) {
   };
 }
 
-export const FIGURES = { stages, gates, loop, assessment, team, harness, ledger, timeline, setup, build, words, bilingual, gauntlet, agents, critic, fleet };
+// The three figures of the context study (founder feedback 2026-09-24,
+// si-t64i): one session and the next, the task database's sync in problem
+// 4, and the hand-off points against the model's window. The article's
+// tables hold its numbers, so these draw the mechanisms and the proportions
+// the text describes; every label is the article's own wording, and what
+// happened in a run is told in the past tense or dated.
+
+/** A dot on the timeline at x = 24, with the accent glow behind it when `glow`. */
+function dot(y, glow = false) {
+  return `${glow ? `<circle cx="24" cy="${y}" r="9" class="fig-glow"/>` : ""}<circle cx="24" cy="${y}" r="4" class="fig-dot"/>`;
+}
+
+// (17) One session and the next — wide, two panels, not to scale. Panel 1:
+// a session's life down a line — the start-up content, re-orientation until
+// the first outward action (with the finding of 20–22 September in orange),
+// the first outward action in the accent glow, work, the hand-off advised
+// and called in orange — and the new session that continues from there.
+// Panel 2: what every step sends, as bars that grow step by step: the
+// unchanged beginning, read from the cache (muted; the start-up content is
+// its first part in every bar, cut off by a notch), and what is new since
+// the step before, processed (the accent).
+function session(t, id, figureId) {
+  const height = 308;
+  const rows = [
+    { key: "start", y: 64 },
+    { key: "reorient", y: 98, finding: true },
+    { key: "outward", y: 144, glow: true },
+    { key: "work", y: 178 },
+    { key: "advised", y: 212, wait: true },
+    { key: "called", y: 246, wait: true },
+  ];
+  const life = [`<line x1="24" y1="60" x2="24" y2="242" class="fig-hair"/>`];
+  for (const row of rows) {
+    const r = t.rows[row.key];
+    life.push(dot(row.y - 4, row.glow));
+    life.push(text(40, row.y, fit(`${id}.rows.${row.key}.label`, r.label, 220, "label"), `fig-label${row.wait ? " fig-wait" : row.glow ? " fig-ok" : ""}`));
+    life.push(text(40, row.y + 13, fit(`${id}.rows.${row.key}.note`, r.note, 250), "fig-note"));
+    if (row.finding) life.push(text(40, row.y + 26, fit(`${id}.rows.${row.key}.finding`, r.finding, 250), "fig-note fig-wait"));
+  }
+  life.push(`<line x1="16" y1="266" x2="${WIDTH - 16}" y2="266" class="fig-hair"/>`);
+  life.push(footer(id, `${id}.next`, t.next, 286));
+  life.push(text(40, 299, fit(`${id}.nextNote`, t.nextNote, 250), "fig-note"));
+
+  // Each bar: [the end of the step before, the end of this one]; the first
+  // bar's step before is off the drawing.
+  const steps = [[92, 116], [116, 146], [146, 180], [180, 218], [218, 262]];
+  const STARTUP = 60; // where the start-up content ends in every bar
+  const bars = [
+    `<path d="M16 64V60H${STARTUP}V64" class="fig-hair"/>`,
+    text(16, 55, fit(`${id}.startup`, t.startup, 288), "fig-note"),
+  ];
+  steps.forEach(([before, end], i) => {
+    const y = 70 + i * 28;
+    bars.push(`<rect x="16" y="${y}" width="${STARTUP - 17}" height="12" rx="2" class="fig-bar-muted"/>`);
+    bars.push(`<rect x="${STARTUP + 1}" y="${y}" width="${before - STARTUP - 1}" height="12" rx="2" class="fig-bar-muted"/>`);
+    bars.push(`<rect x="${before}" y="${y}" width="${end - before}" height="12" rx="2" class="fig-cell"/>`);
+  });
+  const legendY = 226;
+  bars.push(`<rect x="16" y="${legendY - 9}" width="10" height="10" rx="2" class="fig-cell"/>`);
+  bars.push(text(32, legendY, fit(`${id}.legendNew`, t.legendNew, 272), "fig-note"));
+  bars.push(`<rect x="16" y="${legendY + 7}" width="10" height="10" rx="2" class="fig-bar-muted"/>`);
+  bars.push(text(32, legendY + 16, fit(`${id}.legendCached`, t.legendCached, 272), "fig-note"));
+  bars.push(`<line x1="16" y1="266" x2="${WIDTH - 16}" y2="266" class="fig-hair"/>`);
+  bars.push(footer(id, `${id}.cost`, t.cost, 286));
+  bars.push(text(40, 299, fit(`${id}.costNote`, t.costNote, 250), "fig-note"));
+
+  return {
+    caption: t.caption,
+    panels: [
+      { title: t.panels.life.title, head: t.panels.life.head, height, body: life.join("") },
+      { title: t.panels.steps.title, head: t.panels.steps.head, height, body: bars.join("") },
+    ],
+  };
+}
+
+// (18) Problem 4 as a sequence — one panel. Above: the task database and the
+// two places that name where it goes, the sync setting (to the private
+// repository, green) and the database's own remote (still the public one,
+// orange, with the timed push). Below: what happened, down a line, the
+// failed push in orange and the repointed remote with the check; beneath,
+// the article's rule for old facts.
+function sync(t, id, figureId) {
+  const pid = `${figureId}-p1`;
+  const parts = [text(16, 60, fit(`${id}.database`, t.database, 288, "label"), "fig-label")];
+  parts.push(`<path d="M24 66V108M24 84H32M24 108H32" class="fig-hair"/>`);
+  const branch = (y, key, target, cls) =>
+    [
+      text(40, y + 4, fit(`${id}.${key}`, t[key], 108), "fig-note"),
+      arrow(pid, 152, y, 168, y),
+      text(174, y + 4, fit(`${id}.${target}`, t[target], 130, "small"), `fig-label fig-small ${cls}`),
+    ].join("");
+  parts.push(branch(84, "setting", "private", "fig-ok"));
+  parts.push(branch(108, "remote", "public", "fig-wait"));
+  parts.push(text(40, 126, fit(`${id}.unchanged`, t.unchanged, 264), "fig-note"));
+  parts.push(`<line x1="16" y1="140" x2="${WIDTH - 16}" y2="140" class="fig-hair"/>`);
+  const rows = [
+    { key: "set", y: 162 },
+    { key: "failed", y: 196, wait: true },
+    { key: "recheck", y: 242 },
+    { key: "repointed", y: 288, done: true },
+  ];
+  parts.push(`<line x1="24" y1="158" x2="24" y2="284" class="fig-hair"/>`);
+  for (const row of rows) {
+    const r = t.rows[row.key];
+    parts.push(dot(row.y - 4));
+    parts.push(text(40, row.y, fit(`${id}.rows.${row.key}.label`, r.label, 220, "label"), `fig-label${row.wait ? " fig-wait" : ""}`));
+    parts.push(text(40, row.y + 13, fit(`${id}.rows.${row.key}.note`, r.note, 250), "fig-note"));
+    if (r.note2) parts.push(text(40, row.y + 25, fit(`${id}.rows.${row.key}.note2`, r.note2, 250), "fig-note"));
+    if (row.done) parts.push(check(WIDTH - 22, row.y - 4));
+  }
+  parts.push(`<line x1="16" y1="316" x2="${WIDTH - 16}" y2="316" class="fig-hair"/>`);
+  parts.push(text(16, 334, fit(`${id}.trust`, t.trust, 288), "fig-note"));
+  parts.push(text(16, 347, fit(`${id}.trustNote`, t.trustNote, 288), "fig-note"));
+  return { caption: t.caption, panels: [{ title: t.title, head: t.head, height: 360, body: parts.join("") }] };
+}
+
+// (19) The hand-off points against the window — one panel, to scale: a
+// track per period is the model's window of 1,000,000 tokens (Configuration).
+// Until 23 September Gas City took the window to be 200,000 tokens (the
+// muted part) and called hand-offs at about 160,000, 16% (problem 5); on 23
+// September a hand-off was advised at 20% and called at 25%, and since 24
+// September at 25% and 30% (Changes). The accent sliver is the start-up
+// content of a 24 September start, 46,290 tokens (the configuration
+// table); the ticks are orange for advised, the text colour for called.
+// Beneath, the trade-off the open questions name.
+function handoffs(t, id, figureId) {
+  const WINDOW = 1_000_000;
+  const STARTUP = 46_290;
+  const x = (share) => round(16 + 288 * share);
+  const track = (y) => `<rect x="16" y="${y}" width="288" height="12" rx="2" class="fig-node"/>`;
+  const tick = (share, y, cls) => `<rect x="${round(x(share) - 1)}" y="${y - 4}" width="2" height="20" class="${cls}"/>`;
+  const label = (key, y) => text(16, y, fit(`${id}.rows.${key}.label`, t.rows[key].label, 288, "label"), "fig-label");
+  const note = (key, field, y) => text(16, y, fit(`${id}.rows.${key}.${field}`, t.rows[key][field], 288), "fig-note");
+  const parts = [
+    label("before", 60),
+    track(68),
+    `<rect x="16" y="68" width="${round(x(200_000 / WINDOW) - 16)}" height="12" rx="2" class="fig-bar-muted"/>`,
+    tick(0.16, 68, "fig-tick"),
+    note("before", "window", 96),
+    note("before", "called", 109),
+    label("first", 134),
+    track(142),
+    tick(0.2, 142, "fig-gate"),
+    tick(0.25, 142, "fig-tick"),
+    note("first", "points", 170),
+    label("since", 194),
+    track(202),
+    `<rect x="16" y="202" width="${round(x(STARTUP / WINDOW) - 16)}" height="12" rx="2" class="fig-cell"/>`,
+    tick(0.25, 202, "fig-gate"),
+    tick(0.3, 202, "fig-tick"),
+    note("since", "points", 230),
+  ];
+  const legend = [
+    ["fig-gate", "legendAdvised"],
+    ["fig-tick", "legendCalled"],
+  ];
+  legend.forEach(([cls, key], i) => {
+    const y = 254 + i * 16;
+    parts.push(`<rect x="20" y="${y - 9}" width="2" height="12" class="${cls}"/>`);
+    parts.push(text(32, y, fit(`${id}.${key}`, t[key], 272), "fig-note"));
+  });
+  parts.push(`<rect x="16" y="277" width="10" height="10" rx="2" class="fig-cell"/>`);
+  parts.push(text(32, 286, fit(`${id}.legendStartup`, t.legendStartup, 272), "fig-note"));
+  parts.push(`<line x1="16" y1="300" x2="${WIDTH - 16}" y2="300" class="fig-hair"/>`);
+  parts.push(text(16, 318, fit(`${id}.later`, t.later, 288), "fig-note"));
+  parts.push(text(16, 331, fit(`${id}.laterNote`, t.laterNote, 288), "fig-note"));
+  return { caption: t.caption, panels: [{ title: t.title, head: t.head, height: 344, body: parts.join("") }] };
+}
+
+export const FIGURES = { stages, gates, loop, assessment, team, harness, ledger, timeline, setup, build, words, bilingual, gauntlet, agents, critic, fleet, session, sync, handoffs };
 
 /**
  * Render one figure as HTML: `<figure class="figure figure-inline|figure-wide">`

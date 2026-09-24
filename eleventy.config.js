@@ -59,6 +59,26 @@ export default function (eleventyConfig) {
   // adding a direct dependency.
   eleventyConfig.amendLibrary("md", (md) => {
     md.set({ html: true, typographer: false });
+    // Tables (founder feedback 2026-09-24, si-t64i): each table comes
+    // wrapped in div.table-scroll, which base.css makes a text block like a
+    // paragraph, so the table starts on the text column's left edge and one
+    // too wide for the column scrolls inside that box instead of the page.
+    // A column's alignment in the Markdown (`---:` for numbers) becomes a
+    // class: markdown-it writes it as style="text-align:right", and the
+    // html gate forbids inline styles.
+    md.renderer.rules.table_open = (tokens, idx, options, env, self) => `<div class="table-scroll">\n${self.renderToken(tokens, idx, options)}`;
+    md.renderer.rules.table_close = (tokens, idx, options, env, self) => `${self.renderToken(tokens, idx, options)}</div>\n`;
+    for (const cell of ["th_open", "td_open"]) {
+      md.renderer.rules[cell] = (tokens, idx, options, env, self) => {
+        const token = tokens[idx];
+        const align = /^text-align:(left|center|right)$/.exec(token.attrGet("style") ?? "");
+        if (align) {
+          token.attrs = token.attrs.filter(([name]) => name !== "style");
+          token.attrJoin("class", `align-${align[1]}`);
+        }
+        return self.renderToken(tokens, idx, options);
+      };
+    }
   });
 
   // id="" on headings so articles can link to sections.

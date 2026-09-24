@@ -1462,10 +1462,26 @@ html:not(.js) .theme-toggle {
   color: var(--color-text-muted);
 }
 
+/* Tables (founder feedback 2026-09-24, si-t64i). Every table comes wrapped
+   in div.table-scroll (eleventy.config.js), a text block of the body like a
+   paragraph, so the table starts on the text column's left edge at every
+   width however narrow it is (a table of its own would be centred), and one
+   too wide for the column scrolls inside that box while the page never
+   does. Hairline rows in --text-sm; the header in the mono of the headings
+   over a border; the first column's text on the column's edge like the
+   paragraphs'; a column the Markdown aligns right (`---:`, the numbers)
+   right-aligned in tabular figures. The layout gate holds every table to
+   the column's left edge, and inside its right edge unless the table
+   scrolls in its box, at five widths. */
+.table-scroll {
+  overflow-x: auto;
+  margin-bottom: var(--space-3);
+}
+
 .article-body table {
-  max-width: 100%;
   border-collapse: collapse;
   font-size: var(--text-sm);
+  line-height: 1.5;
 }
 
 .article-body th,
@@ -1473,6 +1489,39 @@ html:not(.js) .theme-toggle {
   padding: var(--space-1) var(--space-2);
   border-bottom: 1px solid var(--color-hairline);
   text-align: left;
+  vertical-align: baseline;
+}
+
+.article-body th {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  color: var(--color-text-muted);
+  border-bottom-color: var(--color-border);
+  text-wrap: balance;
+}
+
+.article-body :is(th, td):first-child {
+  padding-inline-start: 0;
+}
+
+.article-body :is(th, td):last-child {
+  padding-inline-end: 0;
+}
+
+.article-body .align-right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* A number keeps to one line: the Swedish digit groups are spaced and a
+   range breaks after its dash, and a value split over two lines misreads. */
+.article-body td.align-right {
+  white-space: nowrap;
+}
+
+.article-body .align-center {
+  text-align: center;
 }
 
 .article-footer {

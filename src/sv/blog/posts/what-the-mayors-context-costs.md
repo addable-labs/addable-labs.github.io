@@ -34,20 +34,22 @@ mindre, beroende på modell, men den räknas fortfarande in i förbrukningen. En
 lång kontext kostar ändå i svarstid, svarskvalitet och förbrukning. Dessutom
 ligger gammal information kvar i fönstret.
 
+{% figure "session", "wide" %}
+
 Innan en session gör något innehåller dess kontext följande (startloggar, 24
 september):
 
-- Claude Codes systemprompt och verktygsdefinitioner: ungefär 33 000 tokens,
-  räknat som skillnad; går inte att ställa in
-- Listan med färdigheter (skills): 18 893 tecken
-- Kontots kopplingar (MCP-servrar som når en session via Claude-kontot, inte
-  via Gas City): ungefär 10 000 tecken
-- Gas Citys prompt för borgmästaren med fabrikens regler: 6 505 tecken plus 8
-  rader för färdigheter (798 tecken), ungefär 2 000 tokens
-- Maskinens regelfil med minnesindexet: 3 787 tecken
+| Startinnehåll | Tecken | Tokens |
+| --- | ---: | ---: |
+| Claude Codes systemprompt och verktygsdefinitioner (räknat som skillnad; går inte att ställa in) | – | ~33 000 |
+| Listan med färdigheter (skills) | 18 893 | – |
+| Kontots kopplingar (MCP-servrar som når en session via Claude-kontot, inte via Gas City) | ~10 000 | – |
+| Gas Citys prompt för borgmästaren med fabrikens regler, plus 8 rader för färdigheter | 6 505 + 798 | ~2 000 |
+| Maskinens regelfil med minnesindexet | 3 787 | – |
+| Totalt | – | 46 290 |
 
-Totalt 46 290 tokens. En färdighet når en session bara som en rad, sitt namn
-och sin beskrivning; hela texten laddas först när färdigheten används.
+En färdighet når en session bara som en rad, sitt namn och sin beskrivning;
+hela texten laddas först när färdigheten används.
 
 Modellens fönster är 1 000 000 tokens. Två promptkrokar körs före varje
 meddelande till borgmästaren och lägger till en klockrad med meddelandena i kö
@@ -59,12 +61,11 @@ för resonemang.
 Källorna, inga av dem offentliga: borgmästarens sessionstranskript med deras
 uppgifter om tokenanvändning, dess startloggar, dess direktmeddelanden med
 grundaren på Discord och dess minnesfiler. Borgmästarens rapport från den 22
-september täcker dess 38 sessioner från den 20 september klockan 12:33 UTC
-till kvällen den 22 september; en andra räkning täcker tiden från den 22
-september klockan 21:09 UTC till den 23 september klockan 18:54 UTC. Tokens
-räknades per anrop till modellen, varje sessions första anrop inräknat. Ett
-skript sorterade verktygens utdata i kategorier, med några procentenheters
-felmarginal.
+september täcker tiden från den 20 september klockan 12:33 UTC till kvällen
+den 22 september; en andra räkning täcker tiden från den 22 september klockan
+21:09 UTC till den 23 september klockan 18:54 UTC. Tokens räknades per anrop
+till modellen, varje sessions första anrop inräknat. Ett skript sorterade
+verktygens utdata i kategorier, med några procentenheters felmarginal.
 
 Begränsningar: ett enda projekt; effekterna av tilläggen och kopplingarna
 bygger på en mätning vardera; ingen annan ändring är mätt än.
@@ -73,61 +74,62 @@ bygger på en mätning vardera; ingen annan ändring är mätt än.
 
 ### Kontextanvändning
 
-Rapporten från den 22 september:
+| Mått | Rapporten från den 22 september |
+| --- | ---: |
+| Sessioner på 55 timmar | 38 |
+| Varav under en dag | 21 |
+| Överlämningar | 31 |
+| Varje sessions start, före dess första verktygsanrop (tokens) | 55 000–66 000 |
+| Kontext vid en överlämning (tokens) | 106 000–251 000 |
+| Mediansessionens tillväxt (tokens) | 87 000 |
+| Varav före dess första utåtriktade handling (ett svar, ett utskickat uppdrag, en skriven bead, en commit) | 49 000 |
 
-- 38 sessioner på 55 timmar, 21 av dem under en dag, ett projekt, 31
-  överlämningar
-- Varje session började på 55 000 till 66 000 tokens före sitt första
-  verktygsanrop
-- Överlämningarna kom vid 106 000 till 251 000 tokens
-- Mediansessionen växte med 87 000 tokens, varav 49 000 före dess första
-  utåtriktade handling (ett svar, ett utskickat uppdrag, en skriven bead, en
-  commit): ungefär hälften
-
-Räkningen för 22–23 september:
-
-- 51 sessioner och 2 315 anrop till modellen, 45 per session
-- En genomsnittlig kontext på 124 000 tokens per anrop
-- Medianer: start på 64 000 tokens, slut på 154 000, tillväxt på 2 200 tokens
-  per anrop
-- 281 miljoner tokens lästa från cachen, ungefär 98 % av alla kontexttokens
+| Mått | Räkningen för 22–23 september |
+| --- | ---: |
+| Sessioner | 51 |
+| Anrop till modellen | 2 315 |
+| Anrop per session | 45 |
+| Genomsnittlig kontext per anrop (tokens) | 124 000 |
+| Start, median (tokens) | 64 000 |
+| Slut, median (tokens) | 154 000 |
+| Tillväxt per anrop, median (tokens) | 2 200 |
+| Lästa från cachen (tokens) | 281 miljoner |
+| Av alla kontexttokens | ~98 % |
 
 ### Sessionernas aktivitet
 
 Andelar av borgmästarens verktygsutdata efter volym (rapporten från den 22
-september), inte av hela kontexten; andra kategorier står för resten.
+september), inte av hela kontexten. Andra kategorier står för resten; ett
+streck betyder att kategorin inte finns med för den perioden.
 
-Under omdesignbygget av sajten (9 sessioner):
+| Kategori | Under omdesignbygget av sajten (9 sessioner) | Efter bygget (29 sessioner) |
+| --- | ---: | ---: |
+| Läsning av beads (69 anrop) | 19 % | – |
+| Felsökning av själva fabriken | ~10 % | – |
+| Minne | 9 % | 13 % |
+| Skärmbilder | 9 % | 6 % |
+| Mejl | 8 % | 9 % |
+| Körningens krav, plan och plangranskning | 7 % | – |
+| Omläsning av egna utkast och skript | 7 % | – |
+| Discord | 4 % | 6 % |
+| Artiklar och planer | – | 18 % |
+| Sajtens källkod | – | 9 % |
+| Läsningar i git | – | 5 % |
+| Byggen, förhandsvisningar och kontroller av den publicerade sajten | – | 4 % |
 
-- Läsning av beads: 19 % (69 anrop)
-- Felsökning av själva fabriken: ungefär 10 %
-- Minne: 9 %
-- Skärmbilder: 9 %
-- Mejl: 8 %
-- Körningens krav, plan och plangranskning: 7 %
-- Omläsning av egna utkast och skript: 7 %
-- Discord: 4 %
+| Direktmeddelanden på Discord | Meddelanden | Tecken |
+| --- | ---: | ---: |
+| Från borgmästaren till grundaren | 116 | 135 000 |
+| Från grundaren | 84 | 16 000 |
 
-Efter bygget (29 sessioner):
-
-- Artiklar och planer: 18 %
-- Minne: 13 %
-- Mejl: 9 %
-- Sajtens källkod: 9 %
-- Discord: 6 %
-- Skärmbilder: 6 %
-- Läsningar i git: 5 %
-- Byggen, förhandsvisningar och kontroller av den publicerade sajten: 4 %
-
-Direktmeddelanden på Discord: 116 från borgmästaren till grundaren (135 000
-tecken), 84 från grundaren (16 000). Den 22 september var borgmästarens minne
-en logg som bara fylldes på: 769 rader och 138 kB.
+Den 22 september var borgmästarens minne en logg som bara fylldes på: 769
+rader och 138 kB.
 
 ## Problem
 
 1. **Omorientering efter varje överlämning.** I mediansessionen gick 49 000
    tokens åt före den första utåtriktade handlingen och det upprepades vid
-   varje överlämning: 31 gånger på 55 timmar.
+   varje överlämning.
 2. **Startinnehåll som ingen session använde.** Fram till den 24 september
    innehöll listan med färdigheter 91 färdigheter på 32 572 tecken; 12 128 av
    tecknen var de 40 raderna från ett tillägg för en hostingplattform som
@@ -158,6 +160,8 @@ en logg som bara fylldes på: 769 rader och 138 kB.
    verkliga fönstret.
 6. **En minneslogg för stor för en läsning.** Ingen session kunde läsa loggen
    i sin helhet.
+
+{% figure "sync" %}
 
 ## Ändringar
 
@@ -193,6 +197,8 @@ en logg som bara fylldes på: 769 rader och 138 kB.
   samma första steg: kopplingarna kostade ungefär 9 700 tokens per session,
   det mesta strax efter det första anropet, ungefär 8 % av den genomsnittliga
   kontexten per anrop. En mätning, inte ett bevis.
+
+{% figure "handoffs" %}
 
 ## Öppna frågor och idéer
 

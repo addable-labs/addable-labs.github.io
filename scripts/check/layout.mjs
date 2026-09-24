@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Gate: layout (redesign A-02, AC-30; plan D-14; article layout si-55iu and
-// founder feedback 2026-09-22).
+// founder feedback 2026-09-22; article tables si-t64i).
 // Measures, in headless Chrome at 360, 768, 1024, 1280 and 1920 CSS px:
 //   - the balanced cards of both landing pages: in the services grid and the
 //     apps grid every title is one line, cards sharing a grid row have equal
@@ -13,13 +13,15 @@
 //     an inline figure at most the measure wide and centred like a text
 //     block, its panel 20–24.5rem wide with the caption beside it from
 //     768 px (48rem) and under it below — with every panel rendered at a
-//     scale that keeps a 13-unit label at 12 px or more.
+//     scale that keeps a 13-unit label at 12 px or more; and every table
+//     starts on the text column's left edge, and nothing of it reaches past
+//     the column's right edge but what scrolls inside a box of its own.
 // Reduced motion is emulated so .reveal elements render in place and fonts
 // are awaited before measuring. One line per page × width; exit 1 on any
 // failure; the same SKIP (exit 3) as the Lighthouse gate when no Chrome is
 // found. Optional arguments: <built-site dir> [<source dir>] (the source dir
 // lists the articles). LAYOUT_DUMP=<file> writes the raw measurements as
-// JSON (to regenerate tests/fixtures/layout/article.json).
+// JSON (to regenerate tests/fixtures/layout/article.json and tables.json).
 
 import { writeFile } from "node:fs/promises";
 import puppeteer from "puppeteer-core";
@@ -70,7 +72,9 @@ function measureGrids() {
 // Runs inside an article page: the shape scripts/lib/layout-report.mjs
 // documents under `article`. Selectors follow layouts/article.njk and the
 // figure shortcode (`.figure`, `.figure-inline` / `.figure-wide`, its
-// `.figure-panels` row and `figcaption`).
+// `.figure-panels` row and `figcaption`); a table is any `table` in the body,
+// with the box it scrolls in: itself or its nearest ancestor below the body
+// whose overflow-x is auto or scroll (div.table-scroll, eleventy.config.js).
 function measureArticle() {
   const box = (el) => el.getBoundingClientRect();
   const round = (value) => Math.round(value * 100) / 100;
@@ -100,6 +104,13 @@ function measureArticle() {
         scale: scales.length > 0 ? round(Math.min(...scales)) : null,
       };
     });
+  const scrollBox = (el) => {
+    for (let node = el; node && node !== body; node = node.parentElement) {
+      if (["auto", "scroll"].includes(getComputedStyle(node).overflowX)) return rect(node);
+    }
+    return null;
+  };
+  const tables = body ? [...body.querySelectorAll("table")].map((el) => ({ ...rect(el), scrollBox: scrollBox(el) })) : [];
   return {
     rem,
     scrollWidth: document.documentElement.scrollWidth,
@@ -107,6 +118,7 @@ function measureArticle() {
     body: bodyBox ? { left: round(bodyBox.left), right: round(bodyBox.right) } : null,
     blocks,
     figures,
+    tables,
   };
 }
 

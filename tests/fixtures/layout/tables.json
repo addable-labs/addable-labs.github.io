@@ -1,0 +1,610 @@
+[
+  {
+    "page": "/blog/what-the-mayors-context-costs/",
+    "width": 360,
+    "article": {
+      "rem": 16,
+      "scrollWidth": 360,
+      "innerWidth": 360,
+      "body": {
+        "left": 16,
+        "right": 344
+      },
+      "blocks": [
+        {
+          "tag": "h2",
+          "left": 16,
+          "right": 344,
+          "top": 524.97
+        },
+        {
+          "tag": "p",
+          "left": 16,
+          "right": 344,
+          "top": 591.16
+        },
+        {
+          "tag": "h2",
+          "left": 16,
+          "right": 344,
+          "top": 1030.73
+        },
+        {
+          "tag": "p",
+          "left": 16,
+          "right": 344,
+          "top": 1096.92
+        },
+        {
+          "tag": "p",
+          "left": 16,
+          "right": 344,
+          "top": 1344.05
+        },
+        {
+          "tag": "p",
+          "left": 16,
+          "right": 344,
+          "top": 2529.77
+        },
+        {
+          "tag": "div",
+          "left": 16,
+          "right": 344,
+          "top": 2603.55
+        },
+        {
+          "tag": "p",
+          "left": 16,
+          "right": 344,
+          "top": 3099.55
+        },
+        {
+          "tag": "p",
+          "left": 16,
+          "right": 344,
+          "top": 3202.22
+        },
+        {
+          "tag": "h2",
+          "left": 16,
+          "right": 344,
+          "top": 3439.56
+        },
+        {
+          "tag": "p",
+          "left": 16,
+          "right": 344,
+          "top": 3505.75
+        },
+        {
+          "tag": "p",
+          "left": 16,
+          "right": 344,
+          "top": 3926.22
+        },
+        {
+          "tag": "h2",
+          "left": 16,
+          "right": 344,
+          "top": 4076.89
+        },
+        {
+          "tag": "h3",
+          "left": 16,
+          "right": 344,
+          "top": 4167.08
+        },
+        {
+          "tag": "div",
+          "left": 16,
+          "right": 344,
+          "top": 4224.08
+        },
+        {
+          "tag": "div",
+          "left": 16,
+          "right": 344,
+          "top": 4621.08
+        },
+        {
+          "tag": "h3",
+          "left": 16,
+          "right": 344,
+          "top": 5039.08
+        },
+        {
+          "tag": "p",
+          "left": 16,
+          "right": 344,
+          "top": 5096.08
+        },
+        {
+          "tag": "div",
+          "left": 16,
+          "right": 344,
+          "top": 5256.53
+        },
+        {
+          "tag": "div",
+          "left": 16,
+          "right": 344,
+          "top": 5920.53
+        },
+        {
+          "tag": "p",
+          "left": 16,
+          "right": 344,
+          "top": 6062.53
+        },
+        {
+          "tag": "h2",
+          "left": 16,
+          "right": 344,
+          "top": 6213.2
+        },
+        {
+          "tag": "ol",
+          "left": 16,
+          "right": 344,
+          "top": 6279.39
+        },
+        {
+          "tag": "h2",
+          "left": 16,
+          "right": 344,
+          "top": 8568.19
+        },
+        {
+          "tag": "ul",
+          "left": 16,
+          "right": 344,
+          "top": 8634.38
+        },
+        {
+          "tag": "h2",
+          "left": 16,
+          "right": 344,
+          "top": 11166.88
+        },
+        {
+          "tag": "ul",
+          "left": 16,
+          "right": 344,
+          "top": 11265.25
+        }
+      ],
+      "figures": [
+        {
+          "id": "fig-session",
+          "placement": "wide",
+          "left": 16,
+          "right": 344,
+          "top": 1615.17,
+          "bottom": 2489.77,
+          "panel": {
+            "left": 16,
+            "right": 344,
+            "top": 1615.17,
+            "bottom": 2262.7
+          },
+          "caption": {
+            "left": 16,
+            "right": 344,
+            "top": 2278.7,
+            "bottom": 2489.77
+          },
+          "scale": 1.02
+        },
+        {
+          "id": "fig-sync",
+          "placement": "inline",
+          "left": 16,
+          "right": 344,
+          "top": 7908.38,
+          "bottom": 8504.19,
+          "panel": {
+            "left": 16,
+            "right": 344,
+            "top": 7908.38,
+            "bottom": 8277.13
+          },
+          "caption": {
+            "left": 16,
+            "right": 344,
+            "top": 8293.13,
+            "bottom": 8504.19
+          },
+          "scale": 1.02
+        },
+        {
+          "id": "fig-handoffs",
+          "placement": "inline",
+          "left": 16,
+          "right": 344,
+          "top": 10523.38,
+          "bottom": 11102.88,
+          "panel": {
+            "left": 16,
+            "right": 344,
+            "top": 10523.38,
+            "bottom": 10875.81
+          },
+          "caption": {
+            "left": 16,
+            "right": 344,
+            "top": 10891.81,
+            "bottom": 11102.88
+          },
+          "scale": 1.02
+        }
+      ],
+      "tables": [
+        {
+          "left": 16,
+          "right": 344,
+          "top": 2603.55,
+          "bottom": 3083.55,
+          "scrollBox": {
+            "left": 16,
+            "right": 344,
+            "top": 2603.55,
+            "bottom": 3083.55
+          }
+        },
+        {
+          "left": 16,
+          "right": 344,
+          "top": 4224.08,
+          "bottom": 4605.08,
+          "scrollBox": {
+            "left": 16,
+            "right": 344,
+            "top": 4224.08,
+            "bottom": 4605.08
+          }
+        },
+        {
+          "left": 16,
+          "right": 344,
+          "top": 4621.08,
+          "bottom": 4999.08,
+          "scrollBox": {
+            "left": 16,
+            "right": 344,
+            "top": 4621.08,
+            "bottom": 4999.08
+          }
+        },
+        {
+          "left": 16,
+          "right": 344,
+          "top": 5256.53,
+          "bottom": 5904.53,
+          "scrollBox": {
+            "left": 16,
+            "right": 344,
+            "top": 5256.53,
+            "bottom": 5904.53
+          }
+        },
+        {
+          "left": 16,
+          "right": 344,
+          "top": 5920.53,
+          "bottom": 6046.53,
+          "scrollBox": {
+            "left": 16,
+            "right": 344,
+            "top": 5920.53,
+            "bottom": 6046.53
+          }
+        }
+      ]
+    }
+  },
+  {
+    "page": "/sv/blog/what-the-mayors-context-costs/",
+    "width": 1280,
+    "article": {
+      "rem": 16,
+      "scrollWidth": 1280,
+      "innerWidth": 1280,
+      "body": {
+        "left": 72,
+        "right": 1208
+      },
+      "blocks": [
+        {
+          "tag": "h2",
+          "left": 288,
+          "right": 992,
+          "top": 439.55
+        },
+        {
+          "tag": "p",
+          "left": 288,
+          "right": 992,
+          "top": 505.73
+        },
+        {
+          "tag": "h2",
+          "left": 288,
+          "right": 992,
+          "top": 771.97
+        },
+        {
+          "tag": "p",
+          "left": 288,
+          "right": 992,
+          "top": 838.16
+        },
+        {
+          "tag": "p",
+          "left": 288,
+          "right": 992,
+          "top": 969.72
+        },
+        {
+          "tag": "p",
+          "left": 288,
+          "right": 992,
+          "top": 1673.78
+        },
+        {
+          "tag": "div",
+          "left": 288,
+          "right": 992,
+          "top": 1718.67
+        },
+        {
+          "tag": "p",
+          "left": 288,
+          "right": 992,
+          "top": 2004.67
+        },
+        {
+          "tag": "p",
+          "left": 288,
+          "right": 992,
+          "top": 2078.45
+        },
+        {
+          "tag": "h2",
+          "left": 288,
+          "right": 992,
+          "top": 2229.13
+        },
+        {
+          "tag": "p",
+          "left": 288,
+          "right": 992,
+          "top": 2295.31
+        },
+        {
+          "tag": "p",
+          "left": 288,
+          "right": 992,
+          "top": 2513.55
+        },
+        {
+          "tag": "h2",
+          "left": 288,
+          "right": 992,
+          "top": 2635.33
+        },
+        {
+          "tag": "h3",
+          "left": 288,
+          "right": 992,
+          "top": 2725.52
+        },
+        {
+          "tag": "div",
+          "left": 288,
+          "right": 992,
+          "top": 2782.52
+        },
+        {
+          "tag": "div",
+          "left": 288,
+          "right": 992,
+          "top": 3074.52
+        },
+        {
+          "tag": "h3",
+          "left": 288,
+          "right": 992,
+          "top": 3411.52
+        },
+        {
+          "tag": "p",
+          "left": 288,
+          "right": 992,
+          "top": 3468.52
+        },
+        {
+          "tag": "div",
+          "left": 288,
+          "right": 992,
+          "top": 3571.19
+        },
+        {
+          "tag": "div",
+          "left": 288,
+          "right": 992,
+          "top": 4013.19
+        },
+        {
+          "tag": "p",
+          "left": 288,
+          "right": 992,
+          "top": 4116.19
+        },
+        {
+          "tag": "h2",
+          "left": 288,
+          "right": 992,
+          "top": 4237.97
+        },
+        {
+          "tag": "ol",
+          "left": 288,
+          "right": 992,
+          "top": 4304.16
+        },
+        {
+          "tag": "h2",
+          "left": 288,
+          "right": 992,
+          "top": 5600.06
+        },
+        {
+          "tag": "ul",
+          "left": 288,
+          "right": 992,
+          "top": 5666.25
+        },
+        {
+          "tag": "h2",
+          "left": 288,
+          "right": 992,
+          "top": 7029.33
+        },
+        {
+          "tag": "ul",
+          "left": 288,
+          "right": 992,
+          "top": 7095.52
+        }
+      ],
+      "figures": [
+        {
+          "id": "fig-session",
+          "placement": "wide",
+          "left": 72,
+          "right": 1208,
+          "top": 1125.28,
+          "bottom": 1633.78,
+          "panel": {
+            "left": 72,
+            "right": 1208,
+            "top": 1125.28,
+            "bottom": 1502.66
+          },
+          "caption": {
+            "left": 288,
+            "right": 992,
+            "top": 1518.66,
+            "bottom": 1633.78
+          },
+          "scale": 1.23
+        },
+        {
+          "id": "fig-sync",
+          "placement": "inline",
+          "left": 288,
+          "right": 992,
+          "top": 5095.31,
+          "bottom": 5536.06,
+          "panel": {
+            "left": 288,
+            "right": 680,
+            "top": 5095.31,
+            "bottom": 5536.06
+          },
+          "caption": {
+            "left": 704,
+            "right": 992,
+            "top": 5095.31,
+            "bottom": 5399.13
+          },
+          "scale": 1.23
+        },
+        {
+          "id": "fig-handoffs",
+          "placement": "inline",
+          "left": 288,
+          "right": 992,
+          "top": 6544.08,
+          "bottom": 6965.33,
+          "panel": {
+            "left": 288,
+            "right": 680,
+            "top": 6544.08,
+            "bottom": 6965.33
+          },
+          "caption": {
+            "left": 704,
+            "right": 992,
+            "top": 6544.08,
+            "bottom": 6809.52
+          },
+          "scale": 1.23
+        }
+      ],
+      "tables": [
+        {
+          "left": 288,
+          "right": 992,
+          "top": 1718.67,
+          "bottom": 1988.67,
+          "scrollBox": {
+            "left": 288,
+            "right": 992,
+            "top": 1718.67,
+            "bottom": 1988.67
+          }
+        },
+        {
+          "left": 288,
+          "right": 992,
+          "top": 2782.52,
+          "bottom": 3058.52,
+          "scrollBox": {
+            "left": 288,
+            "right": 992,
+            "top": 2782.52,
+            "bottom": 3058.52
+          }
+        },
+        {
+          "left": 288,
+          "right": 777.53,
+          "top": 3074.52,
+          "bottom": 3371.52,
+          "scrollBox": {
+            "left": 288,
+            "right": 992,
+            "top": 3074.52,
+            "bottom": 3371.52
+          }
+        },
+        {
+          "left": 288,
+          "right": 992,
+          "top": 3571.19,
+          "bottom": 3997.19,
+          "scrollBox": {
+            "left": 288,
+            "right": 992,
+            "top": 3571.19,
+            "bottom": 3997.19
+          }
+        },
+        {
+          "left": 288,
+          "right": 666.48,
+          "top": 4013.19,
+          "bottom": 4100.19,
+          "scrollBox": {
+            "left": 288,
+            "right": 992,
+            "top": 4013.19,
+            "bottom": 4100.19
+          }
+        }
+      ]
+    }
+  }
+]

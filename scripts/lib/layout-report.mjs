@@ -1,7 +1,8 @@
 // The rules of the layout gate — the card balance of the landing pages
-// (redesign A-02, AC-30; plan D-14) and the article measure and figure
+// (redesign A-02, AC-30; plan D-14), the article measure and figure
 // placement (founder feedback 2026-09-21, si-55iu; centred composition,
-// founder feedback 2026-09-22) — judged on plain measurements so
+// founder feedback 2026-09-22) and the article tables (founder feedback
+// 2026-09-24, si-t64i) — judged on plain measurements so
 // tests/layout.test.mjs runs on fixtures without Chrome.
 // scripts/check/layout.mjs collects one measurement per page × viewport
 // width, of one of two kinds. A landing page:
@@ -30,14 +31,19 @@
 //       figures: [{ id, placement, left, right, top, bottom,   // each .figure's box
 //                   panel: { left, right, top, bottom },        // its .figure-panels row
 //                   caption: { left, right, top, bottom },      // its figcaption
-//                   scale }, …]
+//                   scale }, …],
+//       tables:  [{ left, right, top, bottom,                  // each table's box
+//                   scrollBox: { left, right, top, bottom } }, …] // the box it scrolls in
 //     }
 //   }
 //
 // where `blocks` are the body's children other than figures, `placement` is
 // "inline" or "wide", `panel` and `caption` are null when the element was
-// not found, and `scale` is the smallest render scale of the figure's SVG
-// panels (box width over viewBox width).
+// not found, `scale` is the smallest render scale of the figure's SVG
+// panels (box width over viewBox width), and a table's `scrollBox` is the
+// box of the table itself or of its nearest ancestor in the body whose
+// overflow-x is auto or scroll, null when there is none. A measurement
+// without `tables` (one taken before si-t64i) has none to judge.
 
 /** Pixel tolerance for "equal" (AC-30: ± 1 px). */
 export const TOLERANCE = 1;
@@ -73,6 +79,8 @@ export function rowsOf(cards, tolerance = TOLERANCE) {
 }
 
 const spread = (values) => Math.max(...values) - Math.min(...values);
+
+const round = (value) => Math.round(value * 100) / 100;
 
 /**
  * The elements of a card that were not measured: a selector that matches
@@ -129,6 +137,29 @@ function evaluateArticle(run, where, tolerance) {
     if (leftEdge === null) leftEdge = block.left;
     else if (Math.abs(block.left - leftEdge) > tolerance) {
       problems.push(`${where}: ${name} starts at ${block.left} px, off the shared left edge (${leftEdge} px)`);
+    }
+  }
+  // Tables (founder feedback 2026-09-24, si-t64i). The text column is the
+  // measure, or the body where the body is narrower, centred in the body:
+  // where every text block above starts. A table starts on its left edge
+  // however narrow the table is, and what is visible of a table (its box,
+  // cut to the box it scrolls in) ends by the column's right edge — a table
+  // too wide for the column scrolls inside a box of its own.
+  const columnWidth = Math.min(measure, body.right - body.left);
+  const column = { left: round(bodyCentre - columnWidth / 2), right: round(bodyCentre + columnWidth / 2) };
+  for (const [index, table] of (article.tables ?? []).entries()) {
+    const name = `table ${index + 1}`;
+    if (![table.left, table.right].every(Number.isFinite)) {
+      problems.push(`${where}: ${name} has no measurable box`);
+      continue;
+    }
+    if (Math.abs(table.left - column.left) > tolerance) {
+      problems.push(`${where}: ${name} starts at ${table.left} px, off the text column's left edge (${column.left} px)`);
+    }
+    const scrolls = Number.isFinite(table.scrollBox?.right);
+    const visibleRight = scrolls ? Math.min(table.right, table.scrollBox.right) : table.right;
+    if (visibleRight > column.right + tolerance) {
+      problems.push(`${where}: ${name} reaches ${visibleRight} px, past the text column's right edge (${column.right} px)${scrolls ? "" : ", and no box around it scrolls"}`);
     }
   }
   const beside = run.width >= BESIDE_FROM_PX;
@@ -189,7 +220,8 @@ function evaluateArticle(run, where, tolerance) {
  * @param {number} [tolerance]
  * @returns {{ ok: boolean, problems: string[], lines: string[] }} — `lines` are the
  *   documented per-run lines (`layout /sv/ 1024: ok (3 service cards, 6 app cards)`,
- *   `layout /blog/<slug>/ 1024: ok (12 blocks on the measure, 3 figures)`)
+ *   `layout /blog/<slug>/ 1024: ok (12 blocks on the measure, 3 figures)`, with
+ *   `, 2 tables` after the figures on a page that has tables)
  */
 export function evaluate(measurements, tolerance = TOLERANCE) {
   const problems = [];
@@ -200,7 +232,8 @@ export function evaluate(measurements, tolerance = TOLERANCE) {
     if (run.article !== undefined) {
       problems.push(...evaluateArticle(run, where, tolerance));
       const runProblems = problems.slice(before);
-      const counts = `${run.article?.blocks?.length ?? 0} blocks on the measure, ${run.article?.figures?.length ?? 0} figures`;
+      const tables = run.article?.tables?.length ?? 0;
+      const counts = `${run.article?.blocks?.length ?? 0} blocks on the measure, ${run.article?.figures?.length ?? 0} figures${tables > 0 ? `, ${tables} table${tables === 1 ? "" : "s"}` : ""}`;
       lines.push(runProblems.length === 0 ? `layout ${run.page} ${run.width}: ok (${counts})` : `layout ${run.page} ${run.width}: FAIL — ${runProblems.map((problem) => problem.slice(where.length + 2)).join("; ")}`);
       continue;
     }

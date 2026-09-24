@@ -8,9 +8,10 @@ import { fixture, runGate, SRC, tempDir } from "./helpers.mjs";
 // The card-balance rules of the layout gate on fixture measurements (A-02,
 // AC-30, REQ-025; plan D-14), the article rules on fixture measurements of
 // the illustrated articles (si-55iu; centred composition, founder feedback
-// 2026-09-22) — no Chrome needed — and the gate's explicit SKIP when no
-// Chrome is found. Regenerate the article fixture from a real run with
-// `LAYOUT_DUMP=<file> pnpm check:layout` and keep its three runs.
+// 2026-09-22) and of the article with tables (si-t64i) — no Chrome needed —
+// and the gate's explicit SKIP when no Chrome is found. Regenerate the
+// article fixture from a real run with `LAYOUT_DUMP=<file> pnpm
+// check:layout` and keep its three runs.
 
 describe("layout report evaluation (A-02, AC-30)", () => {
   let aligned;
@@ -202,6 +203,71 @@ describe("layout report evaluation — article measure and figures (si-55iu, cen
     missing[1].article.body = null;
     assert.deepEqual(evaluate(missing).problems, ["/blog/how-this-site-was-built-by-agents/ 360: no measurable article body (element not found)"]);
     assert.match(evaluate(missing).lines[1], /^layout \/blog\/how-this-site-was-built-by-agents\/ 360: FAIL — no measurable article body/);
+  });
+});
+
+describe("layout report evaluation — article tables (founder feedback 2026-09-24, si-t64i)", () => {
+  // Real measurements of the context study, the first article with tables:
+  // the English page at 360 (the body narrower than the measure, every table
+  // as wide as the column) and the Swedish page at 1280 (the column 288–992
+  // px, two tables narrower than it on its left edge). Every table scrolls in
+  // its div.table-scroll. Regenerate from a real run with
+  // `LAYOUT_DUMP=<file> pnpm check:layout` and keep these two runs.
+  let tables;
+  before(async () => {
+    tables = JSON.parse(await readFile(fixture("layout", "tables.json"), "utf8"));
+  });
+
+  it("passes the fixture and counts the tables after the figures", () => {
+    const result = evaluate(tables);
+    assert.deepEqual(result.problems, []);
+    assert.deepEqual(result.lines, [
+      "layout /blog/what-the-mayors-context-costs/ 360: ok (27 blocks on the measure, 3 figures, 5 tables)",
+      "layout /sv/blog/what-the-mayors-context-costs/ 1280: ok (27 blocks on the measure, 3 figures, 5 tables)",
+    ]);
+  });
+
+  it("fails a narrow table centred in the text column, where base.css put one before si-t64i", () => {
+    const centred = structuredClone(tables);
+    Object.assign(centred[1].article.tables[2], { left: 395.24, right: 884.77 }); // 490 px of the 704 px column
+    assert.deepEqual(evaluate(centred).problems, ["/sv/blog/what-the-mayors-context-costs/ 1280: table 3 starts at 395.24 px, off the text column's left edge (288 px)"]);
+  });
+
+  it("fails a table past the column's right edge with no box around it that scrolls, where the page itself does not scroll", () => {
+    const loose = structuredClone(tables);
+    Object.assign(loose[1].article.tables[3], { right: 1100, scrollBox: null });
+    assert.deepEqual(evaluate(loose).problems, ["/sv/blog/what-the-mayors-context-costs/ 1280: table 4 reaches 1100 px, past the text column's right edge (992 px), and no box around it scrolls"]);
+  });
+
+  it("passes a table wider than the column that scrolls inside a box on the column, and fails one whose box reaches past it", () => {
+    const scrolling = structuredClone(tables);
+    scrolling[1].article.tables[3].right = 1100;
+    assert.deepEqual(evaluate(scrolling).problems, []);
+    const wideBox = structuredClone(scrolling);
+    wideBox[1].article.tables[3].scrollBox.right = 1010;
+    assert.deepEqual(evaluate(wideBox).problems, ["/sv/blog/what-the-mayors-context-costs/ 1280: table 4 reaches 1010 px, past the text column's right edge (992 px)"]);
+  });
+
+  it("takes the body as the column where the body is narrower than the measure, tolerates one pixel and names a table that was not measured", () => {
+    const nudged = structuredClone(tables);
+    nudged[0].article.tables[1].left += 1;
+    nudged[1].article.tables[4].left -= 1;
+    assert.deepEqual(evaluate(nudged).problems, []);
+    const off = structuredClone(tables);
+    off[0].article.tables[1].left += 2;
+    off[0].article.tables[0].left = null; // an unmeasured box arrives as null over the protocol
+    assert.deepEqual(evaluate(off).problems, [
+      "/blog/what-the-mayors-context-costs/ 360: table 1 has no measurable box",
+      "/blog/what-the-mayors-context-costs/ 360: table 2 starts at 18 px, off the text column's left edge (16 px)",
+    ]);
+  });
+
+  it("judges a measurement without tables, as the gate took them before si-t64i, as a page without tables", () => {
+    const older = structuredClone(tables);
+    delete older[0].article.tables;
+    const result = evaluate(older);
+    assert.deepEqual(result.problems, []);
+    assert.equal(result.lines[0], "layout /blog/what-the-mayors-context-costs/ 360: ok (27 blocks on the measure, 3 figures)");
   });
 });
 

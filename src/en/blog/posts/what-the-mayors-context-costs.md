@@ -33,20 +33,22 @@ depending on the model, though it still counts toward consumption. A long
 context still costs in latency, answer quality and consumption, and it keeps
 old information in the window.
 
+{% figure "session", "wide" %}
+
 Before a session does anything, its context holds (start-up records, 24
 September):
 
-- Claude Code's system prompt and tool definitions: roughly 33,000 tokens, by
-  subtraction; not configurable
-- The list of skills: 18,893 characters
-- The account's connectors (MCP servers that reach a session through the
-  Claude account, not Gas City): about 10,000 characters
-- Gas City's prompt for the mayor with the factory's rules: 6,505 characters
-  plus 8 skill lines (798 characters), about 2,000 tokens
-- The machine's rules file with the memory index: 3,787 characters
+| Start-up content | Characters | Tokens |
+| --- | ---: | ---: |
+| Claude Code's system prompt and tool definitions (by subtraction; not configurable) | – | ~33,000 |
+| The list of skills | 18,893 | – |
+| The account's connectors (MCP servers that reach a session through the Claude account, not Gas City) | ~10,000 | – |
+| Gas City's prompt for the mayor with the factory's rules, plus 8 skill lines | 6,505 + 798 | ~2,000 |
+| The machine's rules file with the memory index | 3,787 | – |
+| In total | – | 46,290 |
 
-In total 46,290 tokens. A skill enters a session only as one line, its name
-and description; its full text loads only when the skill is used.
+A skill enters a session only as one line, its name and description; its
+full text loads only when the skill is used.
 
 The model's window is 1,000,000 tokens. Two prompt hooks run before every
 message to the mayor, adding a clock line with the queued messages and an
@@ -57,11 +59,10 @@ unread-mail reminder. Every answer uses the highest reasoning-effort setting.
 The sources, none of them public: the mayor's session transcripts with their
 token-usage records, its start-up records, its direct messages with the
 founder on Discord and its memory files. The mayor's report of 22 September
-covers its 38 sessions from 20 September, 12:33 UTC, to the evening of 22
-September; a second count covers 22 September, 21:09 UTC, to 23 September,
-18:54 UTC. Tokens were counted per call to the model, each session's first
-call included. A script sorted the tool output into categories, accurate to a
-few percentage points.
+covers 20 September, 12:33 UTC, to the evening of 22 September; a second count
+covers 22 September, 21:09 UTC, to 23 September, 18:54 UTC. Tokens were
+counted per call to the model, each session's first call included. A script
+sorted the tool output into categories, accurate to a few percentage points.
 
 Limits: one project; the plugin and connector effects are one measurement
 each; no other change is measured yet.
@@ -70,58 +71,62 @@ each; no other change is measured yet.
 
 ### Context use
 
-The report of 22 September:
+| Measure | Report of 22 September |
+| --- | ---: |
+| Sessions in 55 hours | 38 |
+| Of them on one day | 21 |
+| Hand-offs | 31 |
+| Start of every session, before its first tool call (tokens) | 55,000–66,000 |
+| Context at a hand-off (tokens) | 106,000–251,000 |
+| Growth of the median session (tokens) | 87,000 |
+| Of it before its first outward action (a reply, a dispatch, a bead written, a commit) | 49,000 |
 
-- 38 sessions in 55 hours, 21 of them on one day, one project, 31 hand-offs
-- Every session started at 55,000 to 66,000 tokens before its first tool call
-- Hand-offs came at 106,000 to 251,000 tokens
-- The median session grew by 87,000 tokens, 49,000 of them before its first
-  outward action (a reply, a dispatch, a bead written, a commit): about half
-
-The count for 22–23 September:
-
-- 51 sessions and 2,315 calls to the model, 45 per session
-- A mean context of 124,000 tokens per call
-- A median start of 64,000 tokens, a median end of 154,000 and a median growth
-  of 2,200 tokens per call
-- 281 million tokens read from the cache, about 98% of all context tokens
+| Measure | Count of 22–23 September |
+| --- | ---: |
+| Sessions | 51 |
+| Calls to the model | 2,315 |
+| Calls per session | 45 |
+| Mean context per call (tokens) | 124,000 |
+| Median start (tokens) | 64,000 |
+| Median end (tokens) | 154,000 |
+| Median growth per call (tokens) | 2,200 |
+| Read from the cache (tokens) | 281 million |
+| Of all context tokens | ~98% |
 
 ### Session activity
 
 Shares of the mayor's tool output by volume (report of 22 September), not of
-the whole context; other categories make up the rest.
+the whole context. Other categories make up the rest; a dash means not listed
+for that period.
 
-During the site's redesign build (9 sessions):
+| Category | During the site's redesign build (9 sessions) | After the build (29 sessions) |
+| --- | ---: | ---: |
+| Reading beads (69 calls) | 19% | – |
+| Debugging the factory itself | ~10% | – |
+| Memory | 9% | 13% |
+| Screenshots | 9% | 6% |
+| Mail | 8% | 9% |
+| The run's requirements, plan and plan review | 7% | – |
+| Re-reading its own drafts and scripts | 7% | – |
+| Discord | 4% | 6% |
+| Articles and plans | – | 18% |
+| The site's source | – | 9% |
+| Git reads | – | 5% |
+| Builds, previews and live checks | – | 4% |
 
-- Reading beads: 19% (69 calls)
-- Debugging the factory itself: about 10%
-- Memory: 9%
-- Screenshots: 9%
-- Mail: 8%
-- The run's requirements, plan and plan review: 7%
-- Re-reading its own drafts and scripts: 7%
-- Discord: 4%
+| Direct messages on Discord | Messages | Characters |
+| --- | ---: | ---: |
+| From the mayor to the founder | 116 | 135,000 |
+| From the founder | 84 | 16,000 |
 
-After the build (29 sessions):
-
-- Articles and plans: 18%
-- Memory: 13%
-- Mail: 9%
-- The site's source: 9%
-- Discord: 6%
-- Screenshots: 6%
-- Git reads: 5%
-- Builds, previews and live checks: 4%
-
-Direct messages on Discord: 116 from the mayor to the founder (135,000
-characters), 84 from the founder (16,000). On 22 September the mayor's memory
-was an append-only log of 769 lines and 138 KB.
+On 22 September the mayor's memory was an append-only log of 769 lines and
+138 KB.
 
 ## Problems
 
 1. **Re-orientation after every hand-off.** In the median session 49,000
    tokens went by before the first outward action, and this recurred at every
-   hand-off: 31 times in 55 hours.
+   hand-off.
 2. **Start-up content that no session used.** Until 24 September the list of
    skills held 91 skills in 32,572 characters; 12,128 of those were the 40
    lines of a plugin for a hosting platform the factory does not use. Nor did
@@ -147,6 +152,8 @@ was an append-only log of 769 lines and 138 KB.
    model and, until 23 September, took its window to be 200,000 tokens and
    called hand-offs at about 160,000, 16% of the real window.
 6. **A memory log grown past one read.** No session could read the log whole.
+
+{% figure "sync" %}
 
 ## Changes
 
@@ -181,6 +188,8 @@ was an append-only log of 769 lines and 138 KB.
   implementation worker that took the same first step: the connectors cost
   about 9,700 tokens a session, most of it just after the first call, about 8%
   of the mean context per call. One measurement, not proof.
+
+{% figure "handoffs" %}
 
 ## Open questions and ideas
 

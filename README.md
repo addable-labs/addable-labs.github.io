@@ -255,16 +255,18 @@ Brödtext i Markdown.
 - **Length.** The content gate (`pnpm check:content`) counts the words of the
   built English article body: 300–600 for the two seed articles (REQ-006) and
   300–1,500 for every later article. The Swedish twin is not counted, and
-  neither are the figures (captions and diagram labels are not prose).
+  neither are the figures (captions and diagram labels are not prose); a
+  table's cells are text of the body and count like the prose.
 - **Figures.** An article can carry custom SVG illustrations (REQ-008): put
   `{% figure "<id>" %}` on its own line between two paragraphs — the same
   line in both language files — for an inline figure (one panel on the
   reading measure with its caption beside it from 48 rem, under it below),
   or `{% figure "<id>", "wide" %}` for one that spans the whole container
   with its caption centred underneath. A figure is drawn by `src/_includes/figures/figures.mjs`
-  (`FIGURES` names the sixteen: `stages`, `gates`, `loop`, `assessment`,
+  (`FIGURES` names the nineteen: `stages`, `gates`, `loop`, `assessment`,
   `team`, `harness`, `ledger`, `timeline`, `setup`, `build`, `words`,
-  `bilingual`, `gauntlet`, `agents`, `critic`, `fleet`) and every word it shows — panel titles, labels, notes,
+  `bilingual`, `gauntlet`, `agents`, `critic`, `fleet`, `session`, `sync`,
+  `handoffs`) and every word it shows — panel titles, labels, notes,
   the caption — comes from `figures.<id>` in the two strings files, so one
   drawing serves both languages; a label too long for its slot fails the
   build naming the key. Adding a figure means one drawing function, its
@@ -274,6 +276,15 @@ Brödtext i Markdown.
   centred 44 rem measure, no horizontal scroll, wide figures across the
   body and inline figures on the measure with the caption beside the
   panel, labels at least 12 px.
+- **Tables.** Write a table in Markdown, the same table in both language
+  files, and mark a column of numbers `---:` in its separator row: the
+  column is right-aligned in tabular figures, and a number in it never
+  breaks over two lines. Every table comes wrapped in a `div.table-scroll`
+  (`eleventy.config.js`), a block of the text column like a paragraph, so
+  the table starts on the column's left edge at every width, and a table too
+  wide for the column scrolls inside that box instead of the page; the
+  layout gate measures both. A short cell keeps a table narrow on a phone:
+  the unit can go in the row label, as in `Median start (tokens)`.
 
 Pages other than articles (landing, about, blog index, category pages) are
 Nunjucks templates under `src/en/` and `src/sv/` whose copy lives in
@@ -421,7 +432,7 @@ after a `pnpm build`:
 | feeds | `pnpm check:feeds` | Both feeds are well-formed RSS 2.0 with absolute links, exactly the language's listed articles — never one dated after today, and never a draft unless this is a development build — draft labels, items that carry the prose only (no `<figure>`), and every page links its feed. |
 | content | `pnpm check:content` | The facts the site must state: one `h1` in the hero, the primary call to action linking the apps section (`#apps`), the nivå button honouring `site.nivaUrl`, the three service headings, the apps in data order, each with exactly the links it calls for in its action row — "Repository" to a public repository or "Website" to the public page of a product whose repository is private, then "Article" to the article about the app where it names one the build lists — and an entry with neither unlinked, the trust section's phrase, founder, article link and proof link, the latest-writing cards, the founding month on the about page and the founder's name in its lead and nowhere else in its main content; on every page the footer's address, the company line with the organisation number and the registered seat, the language switches, the toggle and the feed link; every GitHub repository named in a page, a feed, the sitemap or a text file one of the public repositories the site may link (`PUBLIC_REPOS` in `scripts/lib/apps.mjs`, an allow-list); article lengths and draft labels; that an article dated after today is built but listed in neither its language's blog index nor its feed; and that a draft is listed and built in a development build but has no page at all in the published one. The pinned facts are the constants at the top of `scripts/check/content.mjs`. |
 | lighthouse | `pnpm check:lighthouse` | Serves `_site/` locally, runs Lighthouse 13 (mobile configuration) in headless Chrome on `/`, `/sv/`, `/about/`, `/blog/`, a category page, an article and `/404.html`: Performance, Accessibility, Best Practices and SEO each ≥ 95 and cumulative layout shift ≤ 0.1, one line per page. A page whose only problem is Performance < 95 is measured twice more and the median of its three Performance scores decides (its line shows the median, then the three: `performance 96 (85, 97, 96)`); in CI the lines also go to the run's summary page. |
-| layout | `pnpm check:layout` | Renders `/` and `/sv/` at 360, 768, 1024, 1280 and 1920 px in headless Chrome and measures the balanced cards: every service and app title one line, cards in a row equal in height with their "What you get" heading / summary tops and action rows aligned (± 1 px), every chip row one line. Renders every article page at the same widths and measures the article layout: no horizontal scroll, every text block at most 44 rem wide, centred in the body and on one shared left edge, every wide figure across the body, every inline figure on the measure and centred with its panel 20–24.5 rem wide and its caption beside the panel from 768 px (top-aligned, after the gap) and under it below, every panel rendered so a 13-unit label is at least 12 px. `LAYOUT_DUMP=<file>` writes the raw measurements (the source of `tests/fixtures/layout/article.json`). |
+| layout | `pnpm check:layout` | Renders `/` and `/sv/` at 360, 768, 1024, 1280 and 1920 px in headless Chrome and measures the balanced cards: every service and app title one line, cards in a row equal in height with their "What you get" heading / summary tops and action rows aligned (± 1 px), every chip row one line. Renders every article page at the same widths and measures the article layout: no horizontal scroll, every text block at most 44 rem wide, centred in the body and on one shared left edge, every wide figure across the body, every inline figure on the measure and centred with its panel 20–24.5 rem wide and its caption beside the panel from 768 px (top-aligned, after the gap) and under it below, every panel rendered so a 13-unit label is at least 12 px, every table starting on the text column's left edge and nothing of it past the column's right edge but what scrolls inside its own box. `LAYOUT_DUMP=<file>` writes the raw measurements (the source of `tests/fixtures/layout/article.json` and `tables.json`). |
 
 **Chrome.** The last two gates need Google Chrome (or Chromium). They find
 it through `chrome-launcher`, or through `CHROME_PATH` if set (the
