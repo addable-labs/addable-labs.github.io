@@ -23,6 +23,12 @@
 // built the site at 23:59:59 UTC on the eve of an article's date used to run
 // its gates after midnight, expecting the article listed in a build that did
 // not list it.
+//
+// The line of a Chrome-backed gate that passes after measuring a page again in
+// a new Chrome names the page (si-acma), as the gate's own lines are hidden:
+// `PASS layout (measured again in a new Chrome: /sv/ 768)`. Before, such a
+// relaunch in a green run showed in CI only in the Lighthouse step summary,
+// and never for the layout gate.
 
 import { spawnSync } from "node:child_process";
 import path from "node:path";
@@ -36,6 +42,17 @@ const verbose = process.env.CHECK_VERBOSE === "1";
 const requireChrome = process.env.CHECK_REQUIRE_CHROME === "1";
 // Passed on as given: a malformed one fails the build, in the build's words.
 const SITE_NOW = process.env.SITE_NOW || new Date().toISOString();
+
+/**
+ * The pages a gate's output says it measured again in a new Chrome, in the
+ * order it did: the label of each line scripts/lib/chrome.mjs prints for one
+ * (measuredAgainLine). tests/check.test.mjs writes its lines with that
+ * function, so a new wording there fails the test until this pattern follows.
+ */
+function measuredAgain(gate, output) {
+  const line = new RegExp(`^${gate} (.+?): not measured \\(.*\\), measuring it again in a new Chrome$`);
+  return output.split("\n").map((text) => line.exec(text)?.[1]).filter(Boolean);
+}
 
 /** Run one gate; returns "pass", "fail" or "skip". */
 function run(gate) {
@@ -51,8 +68,12 @@ function run(gate) {
   if (outcome !== "pass" || verbose) {
     for (const line of output.split("\n")) console.log(`  ${line}`);
   }
+  // A passing gate's lines are hidden, so the line for it names each page it
+  // measured again in a new Chrome: a lost Chrome shows in a green run too.
+  const again = outcome === "pass" ? measuredAgain(gate, output) : [];
+  const note = again.length > 0 ? ` (measured again in a new Chrome: ${again.join(", ")})` : "";
   if (outcome === "skip") console.log(`SKIP ${gate} (run pnpm check:${gate})`);
-  else console.log(`${outcome === "pass" ? "PASS" : "FAIL"} ${gate}`);
+  else console.log(`${outcome === "pass" ? "PASS" : "FAIL"} ${gate}${note}`);
   return outcome;
 }
 

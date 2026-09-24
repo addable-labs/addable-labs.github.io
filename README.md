@@ -454,6 +454,9 @@ crashed, or never opening its DevTools port, as once on CI) does not crash
 the gate: it measures that page again, once, in a new Chrome, and if that
 fails too it prints one `FAIL` line naming the page and the cause and
 measures nothing more, so a page it did not measure never passes or skips.
+A gate that passes after measuring a page again says so on its `pnpm check`
+line, where its own lines are hidden: `PASS layout (measured again in a new
+Chrome: /sv/ 768)`.
 A single slow Lighthouse run does not fail CI (see the lighthouse row); a
 page still below 95 on the median of three fails, and thresholds are never
 lowered. Only if CI ever loses Chrome would a manually produced Lighthouse

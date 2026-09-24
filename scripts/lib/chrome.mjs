@@ -142,6 +142,16 @@ export async function launchChrome({ chromePath, maxConnectionRetries, connectio
 }
 
 /**
+ * The line `measure` prints for a page whose try failed, before it measures
+ * the page again in a new Chrome. The runner (scripts/check/run.mjs) hides a
+ * passing gate's lines, so it looks for this one in the gate's output and
+ * names the page on the gate's PASS line (si-acma).
+ */
+export function measuredAgainLine(gate, label, cause) {
+  return `${gate} ${label}: not measured (${cause}), measuring it again in a new Chrome`;
+}
+
+/**
  * A page whose measure failed in two Chromes: `measure` throws it, and
  * withChrome reports it as the gate's failure.
  */
@@ -247,7 +257,7 @@ export async function withChrome(gate, outDir, fn, { log = console.log } = {}) {
     try {
       return await attempt(label, 1, run);
     } catch (error) {
-      log(`${gate} ${label}: not measured (${await giveUp(error)}), measuring it again in a new Chrome`);
+      log(measuredAgainLine(gate, label, await giveUp(error)));
     }
     try {
       return await attempt(label, 2, run);

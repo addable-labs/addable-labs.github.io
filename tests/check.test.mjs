@@ -3,6 +3,7 @@ import { spawnSync } from "node:child_process";
 import { chmod, readFile, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { after, before, describe, it } from "node:test";
+import { measuredAgainLine } from "../scripts/lib/chrome.mjs";
 import { ROOT, tempDir } from "./helpers.mjs";
 
 // The runner (REQ-021, AC-02; redesign REQ-024, AC-25): ten gate lines, the
@@ -118,5 +119,48 @@ describe("pnpm check aggregator", () => {
     assert.match(output, /SITE_NOW must be YYYY-MM-DD or YYYY-MM-DDTHH:MM\(:SS\)\(Z\), got "tomorrow"/);
     const statusLines = lines.filter((line) => /^(PASS|FAIL|SKIP) /.test(line));
     assert.deepEqual(statusLines, GATES.map((gate) => (gate === "build" ? "FAIL build" : `FAIL ${gate} (not run: build failed)`)));
+  });
+
+  // A Chrome gate that passes after measuring a page again in a new Chrome
+  // (si-828d): the runner hides a passing gate's lines, so its PASS line for
+  // the gate names the page (si-acma); in CI the relaunch would otherwise show
+  // only in the Lighthouse step summary, and never for the layout gate. A pnpm
+  // stand-in first on PATH plays both Chrome gates passing after the lines
+  // withChrome prints for such a page (measuredAgainLine), and passes the
+  // build and every other gate silently.
+  describe("a Chrome gate that passes after measuring a page again in a new Chrome", () => {
+    let tmp;
+    before(async () => {
+      tmp = await tempDir("check-again-");
+      const outputs = {
+        lighthouse: [
+          measuredAgainLine("lighthouse", "/", "Chrome exited on SIGKILL"),
+          "lighthouse /: performance 99 · accessibility 100 · best-practices 100 · seo 100 · CLS 0.000 ok",
+          "PASS lighthouse",
+        ],
+        layout: [
+          measuredAgainLine("layout", "/sv/ 768", "Chrome exited on SIGKILL"),
+          "layout /sv/ 768: ok (3 service cards, 6 app cards)",
+          measuredAgainLine("layout", "/blog/how-this-site-was-built-by-agents/ 1280", "Protocol error (Page.navigate): Target closed"),
+          "layout /blog/how-this-site-was-built-by-agents/ 1280: ok (12 blocks on the measure, 3 figures)",
+          "PASS layout",
+        ],
+      };
+      for (const [gate, lines] of Object.entries(outputs)) await writeFile(path.join(tmp.dir, `${gate}.out`), `${lines.join("\n")}\n`);
+      const stub = path.join(tmp.dir, "pnpm");
+      await writeFile(stub, `#!/bin/sh\ncase "$*" in *check:lighthouse) cat "${tmp.dir}/lighthouse.out";; *check:layout) cat "${tmp.dir}/layout.out";; esac\n`);
+      await chmod(stub, 0o755);
+    });
+    after(() => tmp.cleanup());
+
+    it("names each such page on the gate's PASS line, in order, and prints none of the gate's own lines", () => {
+      const { status, lines, output } = runCheck({ PATH: `${tmp.dir}${path.delimiter}${process.env.PATH}`, CHECK_VERBOSE: "" });
+      assert.equal(status, 0, output);
+      assert.deepEqual(lines, [
+        ...GATES.filter((gate) => gate !== "lighthouse" && gate !== "layout").map((gate) => `PASS ${gate}`),
+        "PASS lighthouse (measured again in a new Chrome: /)",
+        "PASS layout (measured again in a new Chrome: /sv/ 768, /blog/how-this-site-was-built-by-agents/ 1280)",
+      ]);
+    });
   });
 });
