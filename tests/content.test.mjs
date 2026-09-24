@@ -44,7 +44,7 @@ describe("content gate", () => {
     return copy;
   }
 
-  it("passes on the real build, stating the company line on every page (si-98hh)", () => {
+  it("passes on the real build, stating the company line on every page (si-98hh)", async () => {
     // CHECK_QUIET=0 so the passing run prints its ok lines and the rule can be
     // read back from them.
     const { status, output } = runGate("content", built, undefined, { CHECK_QUIET: "0" });
@@ -56,10 +56,14 @@ describe("content gate", () => {
     // licence file (si-vwu8).
     assert.match(output, /ok {4}every GitHub repository the site names is one of the public repositories it may link: [^\n]*\baddable-labs\/ashlands\b[^\n]*\bJetBrains\/JetBrainsMono\b/);
     // Ashlands and nivå link their articles beside their own links, in the
-    // page's language (si-3hpa).
-    assert.match(output, /ok {4}index\.html: Ashlands entry links its article \(\/blog\/ashlands-what-one-prompt-built\/\) through a\.app-action labelled "Article →", second in its action row/);
-    assert.match(output, /ok {4}sv\/index\.html: nivå entry links its article \(\/sv\/blog\/lessons-from-building-niva\/\) through a\.app-action labelled "Artikel →", second in its action row/);
-    assert.match(output, /ok {4}index\.html: Gaimer entry has one link, its repository, and no other/);
+    // page's language (si-3hpa), each from the day it is dated (si-x0js).
+    assert.match(output, cardArticleLine("index.html", "Ashlands", "/blog/ashlands-what-one-prompt-built/", "Article"));
+    assert.match(output, cardArticleLine("sv/index.html", "nivå", "/sv/blog/lessons-from-building-niva/", "Artikel"));
+    // Gaimer's entry names no article, so its card links its repository
+    // alone; an article the entry names later joins it on its day.
+    const { article } = JSON.parse(await readFile(path.join(SRC, "_data", "portfolio.json"), "utf8")).find((entry) => entry.key === "gaimer");
+    const gaimer = article !== undefined && listedToday(`/blog/${article}/`) ? "two links, its repository and its article" : "one link, its repository";
+    assert.match(output, new RegExp(`ok {4}index\\.html: Gaimer entry has ${gaimer}, and no other`));
   });
 
   it("fails when the founder's name disappears from the trust section (REQ-012)", async () => {
@@ -155,11 +159,13 @@ describe("content gate", () => {
 
   it("fails when the nivå card links more than its public page and its article, or calls the page \"Repository\" (REQ-011; si-gyc4, si-3hpa)", async () => {
     // The repository is private and the product is not: the page, labelled
-    // as a website, then the article about nivå, and nothing else.
+    // as a website, then the article about nivå from the day it is dated
+    // (si-x0js), and nothing else.
     const twice = await withLandingEdit("niva-linked", (html) => html.replace(/(<h3 class="app-name portfolio-name"[^>]*>)nivå(<\/h3>)/, '$1<a href="https://example.com/niva">nivå</a>$2'));
     const linked = runGate("content", twice);
     assert.equal(linked.status, 1);
-    assert.match(linked.output, /FAIL {2}index\.html: nivå entry has two links, its public page and its article, and no other/);
+    const links = listedToday("/blog/lessons-from-building-niva/") ? "two links, its public page and its article" : "one link, its public page";
+    assert.match(linked.output, new RegExp(`FAIL {2}index\\.html: nivå entry has ${links}, and no other`));
     const repository = await withLandingEdit("niva-repository", (html) => html.replace('href="https://erniva.se/">Website<span', 'href="https://erniva.se/">Repository<span'));
     const labelled = runGate("content", repository);
     assert.equal(labelled.status, 1);
@@ -167,20 +173,38 @@ describe("content gate", () => {
   });
 
   it("fails when an app card's article link is missing, wears the arrow of a link that leaves the site or links the other language's article (si-3hpa)", async () => {
-    const broken = await withLandingEdit("article-links", (html) => html
-      .replace(/\n\s*<a class="app-action" href="\/blog\/lessons-from-building-niva\/">Article<span class="arrow" aria-hidden="true">→<\/span><\/a>/, "")
-      .replace('href="/blog/ashlands-what-one-prompt-built/">Article<span class="arrow" aria-hidden="true">→', 'href="/blog/ashlands-what-one-prompt-built/">Article<span class="arrow" aria-hidden="true">↗'));
-    const sv = path.join(broken, "sv", "index.html");
-    const svHtml = await readFile(sv, "utf8");
-    const english = svHtml.replace('<a class="app-action" href="/sv/blog/ashlands-what-one-prompt-built/">', '<a class="app-action" href="/blog/ashlands-what-one-prompt-built/">');
-    assert.notEqual(english, svHtml, "the Swedish Ashlands card's article link must be found");
-    await writeFile(sv, english);
+    // Each edit needs a card's link to its article, which the card carries
+    // only while the build lists the article (si-x0js). The edits of a card
+    // whose article is dated after today are left out, and the gate is
+    // expected to say that card links its article nowhere.
+    const niva = listedToday("/blog/lessons-from-building-niva/");
+    const ashlands = listedToday("/blog/ashlands-what-one-prompt-built/");
+    const edits = {};
+    if (niva || ashlands) {
+      edits["index.html"] = (html) => {
+        let edited = html;
+        if (niva) edited = edited.replace(/\n\s*<a class="app-action" href="\/blog\/lessons-from-building-niva\/">Article<span class="arrow" aria-hidden="true">→<\/span><\/a>/, "");
+        if (ashlands) edited = edited.replace('href="/blog/ashlands-what-one-prompt-built/">Article<span class="arrow" aria-hidden="true">→', 'href="/blog/ashlands-what-one-prompt-built/">Article<span class="arrow" aria-hidden="true">↗');
+        return edited;
+      };
+    }
+    if (ashlands) edits["sv/index.html"] = (html) => html.replace('<a class="app-action" href="/sv/blog/ashlands-what-one-prompt-built/">', '<a class="app-action" href="/blog/ashlands-what-one-prompt-built/">');
+    const broken = await withPageEdits("article-links", edits);
     const { status, output } = runGate("content", broken);
-    assert.equal(status, 1);
-    assert.match(output, /FAIL {2}index\.html: nivå entry links its article \(\/blog\/lessons-from-building-niva\/\) through a\.app-action labelled "Article →", second in its action row/);
-    assert.match(output, /FAIL {2}index\.html: nivå entry has two links, its public page and its article, and no other/);
-    assert.match(output, /FAIL {2}index\.html: Ashlands entry links its article \(\/blog\/ashlands-what-one-prompt-built\/\) through a\.app-action labelled "Article →", second in its action row/);
-    assert.match(output, /FAIL {2}sv\/index\.html: Ashlands entry links its article \(\/sv\/blog\/ashlands-what-one-prompt-built\/\) through a\.app-action labelled "Artikel →", second in its action row/);
+    assert.equal(status, niva || ashlands ? 1 : 0, output);
+    if (niva) {
+      assert.match(output, /FAIL {2}index\.html: nivå entry links its article \(\/blog\/lessons-from-building-niva\/\) through a\.app-action labelled "Article →", second in its action row/);
+      assert.match(output, /FAIL {2}index\.html: nivå entry has two links, its public page and its article, and no other/);
+    } else {
+      assert.match(output, cardArticleLine("index.html", "nivå", "/blog/lessons-from-building-niva/", "Article"));
+    }
+    if (ashlands) {
+      assert.match(output, /FAIL {2}index\.html: Ashlands entry links its article \(\/blog\/ashlands-what-one-prompt-built\/\) through a\.app-action labelled "Article →", second in its action row/);
+      assert.match(output, /FAIL {2}sv\/index\.html: Ashlands entry links its article \(\/sv\/blog\/ashlands-what-one-prompt-built\/\) through a\.app-action labelled "Artikel →", second in its action row/);
+    } else {
+      assert.match(output, cardArticleLine("index.html", "Ashlands", "/blog/ashlands-what-one-prompt-built/", "Article"));
+      assert.match(output, cardArticleLine("sv/index.html", "Ashlands", "/sv/blog/ashlands-what-one-prompt-built/", "Artikel"));
+    }
     // The link beside each of them is untouched and still passes.
     assert.match(output, /ok {4}index\.html: Ashlands entry links its repository \(https:\/\/github\.com\/addable-labs\/ashlands\) through a\.app-action labelled "Repository ↗", first in its action row/);
   });
@@ -480,6 +504,45 @@ const SV_ORDER = EN_ORDER.map((url) => `/sv${url}`);
 const DRAFTS = new Set((await readArticleSources(SRC, await loadSite(SRC), "en")).filter((article) => article.draft).map((article) => article.path));
 const EN_PUBLISHED = EN_ORDER.filter((url) => !DRAFTS.has(url));
 const SV_PUBLISHED = EN_PUBLISHED.map((url) => `/sv${url}`);
+
+// An app card links the article its entry names only while the build lists
+// it (si-3hpa). Each case that expects a card of the real tree to link its
+// article, or to link none, asks first whether the build lists the article
+// today, as EN_ORDER does: by the date ARTICLES gives it, against this file's
+// NOW (si-x0js). The card of an article dated after today, perhaps the next
+// article a card links, then fails no case before its day, and every case
+// expects the link from that day on.
+
+/**
+ * Does a build list the real article at `url` today? `url` is its English
+ * or its Swedish URL, and `production` asks about the published build, which
+ * leaves the drafts out as well.
+ */
+function listedToday(url, { production = false } = {}) {
+  return (production ? EN_PUBLISHED : EN_ORDER).includes(url.replace(/^\/sv\//, "/"));
+}
+
+/** The date ARTICLES gives the real article at `url`, its English or its Swedish URL. */
+function articleDate(url) {
+  const row = ARTICLES.find(([path]) => path === url.replace(/^\/sv\//, "/"));
+  assert.ok(row, `${url} has no row in ARTICLES`);
+  return row[1];
+}
+
+/**
+ * The content gate's ok line for the article link of the app card `name` on
+ * the landing page `page` of a development build, whose entry names the
+ * article at `url` (si-3hpa): its `label →` action, second in the card's
+ * action row, or, while the article is dated after today, no link to it at
+ * all. `date` is the one ARTICLES gives the article unless the case names one.
+ */
+function cardArticleLine(page, name, url, label, date = articleDate(url)) {
+  const escape = (text) => text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const line = isScheduled(date, NOW)
+    ? `${page}: ${name} entry does not link its article ${url} before ${date}`
+    : `${page}: ${name} entry links its article (${url}) through a.app-action labelled "${label} →", second in its action row`;
+  return new RegExp(`^ok {4}${escape(line)}`, "m");
+}
 
 /** Write one article, both languages, into a copy of the project; `linkTo` links another article's slug from the body. */
 async function writeArticlePair(project, slug, date, enTitle, svTitle, { draft = false, linkTo, category = "app-development" } = {}) {
@@ -1011,20 +1074,40 @@ describe("app card articles", () => {
   const LANDINGS = [[["index.html"], ""], [["sv", "index.html"], "/sv"]];
 
   it("links an article from its card in a local build while it is listed, a draft included, and never one dated after today", async () => {
+    // The real tree's Ashlands article, from the day it is dated (si-x0js).
+    const ashlands = listedToday("/blog/ashlands-what-one-prompt-built/") ? ["/blog/ashlands-what-one-prompt-built/"] : [];
     for (const [page, prefix] of LANDINGS) {
       const links = await cardLinks(dev, ...page);
       assert.deepEqual(links.Gaimer, ["https://github.com/addable-labs/gaimer", `${prefix}/blog/app-draft/`], page.join("/"));
       assert.deepEqual(links.Notesage, ["https://github.com/PeterBlenessy/notesage"], page.join("/"));
-      assert.deepEqual(links.Ashlands, ["https://github.com/addable-labs/ashlands", `${prefix}/blog/ashlands-what-one-prompt-built/`], page.join("/"));
+      assert.deepEqual(links.Ashlands, ["https://github.com/addable-labs/ashlands", ...ashlands.map((url) => `${prefix}${url}`)], page.join("/"));
     }
   });
 
   it("links no draft from a card in the production build", async () => {
+    // The real tree's nivå article, from the day it is dated and while it is
+    // no draft (si-x0js).
+    const niva = listedToday("/blog/lessons-from-building-niva/", { production: true }) ? ["/blog/lessons-from-building-niva/"] : [];
     for (const [page, prefix] of LANDINGS) {
       const links = await cardLinks(prod, ...page);
       assert.deepEqual(links.Gaimer, ["https://github.com/addable-labs/gaimer"], page.join("/"));
       assert.deepEqual(links.Notesage, ["https://github.com/PeterBlenessy/notesage"], page.join("/"));
-      assert.deepEqual(links.nivå, ["https://erniva.se/", `${prefix}/blog/lessons-from-building-niva/`], page.join("/"));
+      assert.deepEqual(links.nivå, ["https://erniva.se/", ...niva.map((url) => `${prefix}${url}`)], page.join("/"));
+    }
+  });
+
+  it("expects the card of an article dated tomorrow to link it nowhere, as the cases on the real tree expect of theirs (si-x0js)", () => {
+    // `cardArticleLine` is what those cases expect of a card whose article the
+    // real tree dates; here it is handed the fixtures' dates, and the gate on
+    // this build, where a card links an article of each, must say the same.
+    const { status, output } = runGate("content", dev, builtSrc, { SITE_ENV: "", CHECK_QUIET: "0" });
+    assert.equal(status, 0, output);
+    for (const [page, prefix, label] of [["index.html", "", "Article"], ["sv/index.html", "/sv", "Artikel"]]) {
+      const tomorrow = cardArticleLine(page, "Notesage", `${prefix}/blog/app-tomorrow/`, label, utcDate(1));
+      assert.match(tomorrow.source, /does not link its article/, `${page}: an article dated tomorrow is expected unlinked`);
+      assert.match(output, tomorrow);
+      // Dated today, and a draft this development build lists: linked.
+      assert.match(output, cardArticleLine(page, "Gaimer", `${prefix}/blog/app-draft/`, label, utcDate(0)));
     }
   });
 
