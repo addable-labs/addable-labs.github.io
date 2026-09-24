@@ -68,14 +68,25 @@ const GITHUB_FILE_URL = /^https:\/\/github\.com\/([A-Za-z0-9-]+)\/([A-Za-z0-9_.-
  * plain prose alike — where the host is github.com or one of its subdomains
  * (www., gist.), raw.githubusercontent.com, which serves the repository's
  * files, or github.dev, its editor (si-gnca), but no subdomain of these two:
- * a codespace's address on github.dev names no repository. The host is read
- * in any case, with or without a closing dot and a port, an empty port too.
- * A sentence's full stop and a ".git" suffix are not part of the name.
+ * a codespace's address on github.dev names no repository. Three more
+ * spellings name one (si-3iuk): git's SSH address,
+ * git@github.com:<owner>/<name>, with or without the user; the editor
+ * github.dev sends a visitor to, vscode.dev/github/<owner>/<name>, on
+ * vscode.dev or any of its subdomains (insiders., www.) but no other host
+ * whose name ends in vscode.dev; and the REST API,
+ * api.github.com/repos/<owner>/<name>. A colon after github.com starts the
+ * path, as in the SSH address, except where digits and a slash follow it and
+ * either a scheme comes before the host, as git reads it too, or
+ * <owner>/<name> follows them: there it starts a port. So
+ * https://github.com:443/<owner> names no repository, but
+ * git@github.com:42/<name> names the owner 42's. The host is read in any
+ * case, with or without a closing dot and a port, an empty port too. A
+ * sentence's full stop and a ".git" suffix are not part of the name.
  * @param {string} text
  * @returns {string[]}
  */
 export function githubRepos(text) {
-  return [...String(text).matchAll(/(?:\bgithub\.com|(?<![\w.-])(?:raw\.githubusercontent\.com|github\.dev))\.?(?::\d*)?\/([A-Za-z0-9-]+)\/([A-Za-z0-9_.-]+)/gi)].map(([, owner, name]) => `${owner}/${name.replace(/\.+$/, "").replace(/\.git$/i, "")}`);
+  return [...String(text).matchAll(/(?:(?:\bgithub\.com|(?<![\w.-])(?:raw\.githubusercontent\.com|github\.dev))\.?(?::\d*)?\/|\bgithub\.com\.?:(?:(?!\d*\/)|(?<!\/\/[\w.%+~:@-]*))|(?<![\w-])vscode\.dev\.?(?::\d*)?\/github\/|api\.github\.com\.?(?::\d*)?\/repos\/)([A-Za-z0-9-]+)\/([A-Za-z0-9_.-]+)/gi)].map(([, owner, name]) => `${owner}/${name.replace(/\.+$/, "").replace(/\.git$/i, "")}`);
 }
 
 /** The entry of `repos` that is this owner/name, or undefined. GitHub matches
@@ -197,8 +208,9 @@ export function validateApps({
       // The url is null or an https:// page off https://github.com/, a URL a
       // browser can open. It names no GitHub repository in any spelling
       // githubRepos() reads — www.github.com, GitHub.com, a subdomain, a
-      // port, raw.githubusercontent.com, github.dev — as the content gate
-      // reads the built site (si-i5uk, si-gnca), and, whatever it names, it
+      // port, raw.githubusercontent.com, github.dev, vscode.dev/github/,
+      // api.github.com/repos/ — as the content gate reads the built site
+      // (si-i5uk, si-gnca, si-3iuk), and, whatever it names, it
       // is on none of GITHUB_HOSTS, so a url in which githubRepos() reads no
       // repository — an owner's page, a gist's file on
       // gist.githubusercontent.com — is refused too (si-qtwy). A url gets

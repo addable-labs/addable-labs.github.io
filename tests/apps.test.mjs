@@ -160,26 +160,76 @@ describe("apps data and copy (REQ-011, REQ-025; AC-11, AC-12, AC-30)", () => {
   });
 
   // A repository written with a port, as a file on raw.githubusercontent.com
-  // or in the editor, github.dev (si-gnca): githubRepos() reads it, so the
-  // content gate refuses a private one linked so from any page, and a private
-  // entry's url written so gets the message that names the repository, not
-  // the host's. The host in capitals with a closing dot, and an empty port,
-  // lead to the repository all the same.
-  for (const [how, url] of [
+  // or in the editor, github.dev (si-gnca), and one after the path that the
+  // editor on vscode.dev, where github.dev sends a visitor, or the REST API
+  // puts before it (si-3iuk): githubRepos() reads it, so the content gate
+  // refuses a private one linked so from any page, and a private entry's url
+  // written so gets the message that names the repository, not the host's.
+  // (Before si-3iuk the API's named "repos/<owner>", and vscode.dev's
+  // passed: it is none of GitHub's hosts.) The host in capitals with a
+  // closing dot, and an empty port, lead to the repository all the same.
+  for (const [how, url, bead = "si-gnca"] of [
     ["with a port", "https://github.com:443/example-org/private-app"],
     ["with an empty port", "https://github.com:/example-org/private-app"],
     ["in capitals with a closing dot", "https://GITHUB.COM./example-org/private-app"],
     ["as a file on raw.githubusercontent.com", "https://raw.githubusercontent.com/example-org/private-app/main/README.md"],
     ["as a file on raw.githubusercontent.com with a port", "https://raw.githubusercontent.com:443/example-org/private-app/refs/heads/main/README.md"],
     ["in the editor, github.dev", "https://github.dev/example-org/private-app"],
+    ["in the editor on vscode.dev", "https://vscode.dev/github/example-org/private-app", "si-3iuk"],
+    ["at a file in the editor on insiders.vscode.dev", "https://insiders.vscode.dev/github/example-org/private-app/blob/main/README.md", "si-3iuk"],
+    ["in the REST API", "https://api.github.com/repos/example-org/private-app", "si-3iuk"],
+    ["at a file's contents in the REST API", "https://api.github.com/repos/example-org/private-app/contents/README.md", "si-3iuk"],
   ]) {
-    it(`reads the repository in a url ${how}, ${url}, and refuses it as a private entry's url, naming the repository (si-gnca)`, () => {
+    it(`reads the repository in a url ${how}, ${url}, and refuses it as a private entry's url, naming the repository (${bead})`, () => {
       assert.deepEqual(githubRepos(url), ["example-org/private-app"]);
       const input = copy();
       input.data.find((entry) => entry.key === "niva").url = url;
       assert.deepEqual(problemsOf(input), [`niva: private repository must not be linked — url is null or the product's public https:// page, never one that names a GitHub repository (got ${JSON.stringify(url)}, which names github.com/example-org/private-app)`]);
     });
   }
+
+  // Git's SSH address, git@github.com:<owner>/<name> (si-3iuk), is what a
+  // "git clone" line in an article holds, in prose or in a code block, which
+  // the article's page carries as markup and its feed as escaped markup, as
+  // the build writes them. githubRepos() reads it in each, so the content
+  // gate refuses a private one written so and names it. Like git, it reads
+  // digits after the colon as the owner, not as a port. Unlike git, it also
+  // reads the path after the colon of an address written with a scheme, where
+  // no port can follow the colon: a reader sees the repository there too. (As
+  // a private entry's url the address is no https:// page, which the first
+  // rule refuses.)
+  for (const [how, text, repo = "example-org/private-app"] of [
+    ["git's SSH address, git@github.com:<owner>/<name>.git", "git@github.com:example-org/private-app.git"],
+    ["git's SSH address without .git", "git@github.com:example-org/private-app"],
+    ["git's SSH address without the user, github.com:<owner>/<name>.git", "github.com:example-org/private-app.git"],
+    ["git's SSH address of an owner whose name is digits, git@github.com:42/<name>.git", "git@github.com:42/private-app.git", "42/private-app"],
+    ["an SSH address written with a scheme, ssh://git@github.com:<owner>/<name>.git", "ssh://git@github.com:example-org/private-app.git"],
+    ["a git clone line in prose", "<p>To build it, run git clone git@github.com:example-org/private-app.git first.</p>"],
+    ["a git clone line in a code block", '<pre><code class="language-sh">git clone git@github.com:example-org/private-app.git\n</code></pre>'],
+    ["a git clone line in a code block's escaped markup, as a feed carries it", "&lt;pre&gt;&lt;code class=&quot;language-sh&quot;&gt;git clone git@github.com:example-org/private-app.git\n&lt;/code&gt;&lt;/pre&gt;"],
+  ]) {
+    it(`reads the repository in ${how} (si-3iuk)`, () => {
+      assert.deepEqual(githubRepos(text), [repo]);
+    });
+  }
+
+  it("reads no repository where these spellings name only an owner or another host, and reads a port wherever one can be read (si-3iuk)", () => {
+    // An owner alone names no repository, as before, and a host whose name
+    // only ends in vscode.dev is another site.
+    for (const text of ["git@github.com:example-org", "https://vscode.dev/github/example-org", "https://my-vscode.dev/github/example-org/private-app"]) {
+      assert.deepEqual(githubRepos(text), [], text);
+    }
+    // Digits and a slash after the colon are a port after a scheme, as git
+    // reads them — GitHub's SSH address over port 443, an owner's page — and
+    // wherever <owner>/<name> follows them.
+    for (const [text, repos] of [
+      ["ssh://git@ssh.github.com:443/example-org/private-app.git", ["example-org/private-app"]],
+      ["https://github.com:443/example-org", []],
+      ["github.com:443/example-org/private-app", ["example-org/private-app"]],
+    ]) {
+      assert.deepEqual(githubRepos(text), repos, text);
+    }
+  });
 
   it("fails an unknown status key and a status without a label in either language (AC-12)", () => {
     const unknown = copy();
