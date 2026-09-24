@@ -195,7 +195,7 @@ export default function (eleventyConfig) {
   );
   eleventyConfig.addFilter("isoDate", (date) => date.toISOString().slice(0, 10));
 
-  // Contact CTA (redesign REQ-009, plan D-10): `"Reach out" | mailtoSubject`
+  // Contact CTA (redesign REQ-009): `"Reach out" | mailtoSubject`
   // gives mailto:hello@addablelabs.se?subject=Reach%20out — the subject is
   // the strings value, percent-encoded here and never by hand, so the contact
   // band, the header button and the hero's nivå early-access CTA share one

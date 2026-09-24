@@ -1,6 +1,6 @@
-// Headless Chrome for the two Chrome-backed gates (redesign REQ-021, REQ-024;
-// plan D-08, D-14): discovery, launch, the shared skip behaviour and the
-// measure that survives a lost Chrome (si-828d).
+// Headless Chrome for the two Chrome-backed gates (redesign REQ-021,
+// REQ-024): discovery, launch, the shared skip behaviour and the measure that
+// survives a lost Chrome (si-828d).
 //
 // Discovery: an explicit CHROME_PATH wins and must exist (a wrong path is
 // "no Chrome", never a fallback to a search), otherwise chrome-launcher's

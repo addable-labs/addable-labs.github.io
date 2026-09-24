@@ -1,5 +1,5 @@
-// A zero-dependency static file server for the built site (redesign REQ-021,
-// plan D-08): the Chrome-backed gates (lighthouse, layout) serve _site/ over
+// A zero-dependency static file server for the built site (redesign
+// REQ-021): the Chrome-backed gates (lighthouse, layout) serve _site/ over
 // http on an ephemeral loopback port, as GitHub Pages would — correct MIME
 // types, 404.html with status 404 for misses, directory URLs resolved to
 // their index.html, text responses gzip-compressed when the client accepts

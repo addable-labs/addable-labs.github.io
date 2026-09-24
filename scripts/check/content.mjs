@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Gate: content (AC-06 … AC-13 of the first build; re-targeted to the Signal
-// landing model by the redesign, REQ-024 as amended by A-01, AC-09 … AC-15).
+// landing model by the redesign, REQ-024 and AC-09 … AC-15).
 // The load-bearing facts of the acceptance criteria, checked as queries over
 // the built output:
 //   - both landing pages: exactly one h1, inside the hero; the primary CTA
@@ -74,7 +74,7 @@ const FACTORY_PHRASE = { en: "agent-run software factory", sv: "agentdriven mjuk
 const COMPANY = { en: "Addable Labs AB · Org.nr 559602-2615 · Registered office: Eslöv", sv: "Addable Labs AB · Org.nr 559602-2615 · Säte: Eslöv" };
 // REQ-012 (AC-13): "AI-native" or its Swedish rendering ("AI-nativt").
 const AI_NATIVE = { en: "AI-native", sv: "AI-nativ" };
-// REQ-009 (AC-09; plan D-11): while site.nivaUrl is null the secondary CTA is
+// REQ-009 (AC-09): while site.nivaUrl is null the secondary CTA is
 // an early-access mailto: whose subject says so in the page's language.
 const EARLY_ACCESS_SUBJECT = { en: /access/i, sv: /tillgång/i };
 const ARTICLE_SLUG = "how-this-site-was-built-by-agents";
@@ -130,7 +130,7 @@ for (const lang of site.languages.codes) {
 
   // REQ-009 (AC-09): the hero contains the page's only h1.
   report.check(doc.querySelectorAll("h1").length === 1 && hero?.querySelectorAll("h1").length === 1, `${rel}: exactly one h1, inside .hero`);
-  // REQ-009 (AC-09; plan D-10) as amended by founder feedback round 1
+  // REQ-009 (AC-09) as amended by founder feedback round 1
   // (si-yp2x): the primary CTA promotes what exists — it is the hero's
   // a.button-primary, labelled hero.ctaPrimary, and links the apps section
   // (#apps, an id on the same page). Email stays the secondary CTA's and the
@@ -140,7 +140,7 @@ for (const lang of site.languages.codes) {
   // The button's text is the label plus the decorative, aria-hidden arrow.
   const primaryLabel = text(primary).replace(/→$/, "").trim();
   report.check(primary !== null && primary !== undefined && primaryHref === "#apps" && doc.querySelector("#apps") !== null && primaryLabel === strings[lang].hero.ctaPrimary, `${rel}: primary CTA is "${strings[lang].hero.ctaPrimary}" linking #apps`);
-  // REQ-009 (AC-09; plan D-11): the secondary CTA honours site.nivaUrl.
+  // REQ-009 (AC-09): the secondary CTA honours site.nivaUrl.
   const secondary = hero?.querySelector("a.button-secondary");
   const secondaryHref = attr(secondary, "href") ?? "";
   if (site.nivaUrl) {
@@ -158,8 +158,8 @@ for (const lang of site.languages.codes) {
     report.check(serviceHeadings.includes(title), `${rel}: service heading "${title}"`);
   }
 
-  // REQ-011 as amended by A-01 (AC-11): one card per data entry, in data
-  // order, with the strings name and status label, and exactly the links
+  // REQ-011 (AC-11): one card per data entry, in data order, with the
+  // strings name and status label, and exactly the links
   // its entry calls for, each an a.app-action in the card's action row
   // (.app-actions): first its url — labelled "Repository" when it is the
   // repository on github.com and "Website" when it is the public page of a
@@ -272,7 +272,7 @@ for (const lang of site.languages.codes) {
   report.check(h2s.includes(strings[lang].about.missionHeading), `${rel}: mission section present`);
   report.check(opening.includes(FOUNDER), `${rel}: lead's first sentence names ${FOUNDER}${opening.includes(FOUNDER) ? "" : ` — it reads "${opening}"`}`);
   report.check(!folded(main.replace(lead, "")).includes(folded(FOUNDER)), `${rel}: no founder section (outside the lead, the main content does not name ${FOUNDER}, ignoring accents and case)`);
-  // REQ-012 (plan D-12): the founding month moved from the landing page to the about page.
+  // REQ-012: the founding month moved from the landing page to the about page.
   report.check(main.includes(MONTH[lang]), `${rel}: contains "${MONTH[lang]}"`);
   report.check(h2s.includes(strings[lang].about.approachHeading), `${rel}: approach section present`);
   report.check(about.doc.querySelectorAll('main a[href^="mailto:hello@addablelabs.se"]').length >= 1, `${rel}: mailto:hello@addablelabs.se in the page body`);

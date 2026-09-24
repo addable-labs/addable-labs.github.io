@@ -1,5 +1,4 @@
-// Swedish articles: /sv/blog/<slug>/ with the same slug as the English file
-// (plan Decision 5).
+// Swedish articles: /sv/blog/<slug>/ with the same slug as the English file.
 export default {
   layout: "layouts/article.njk",
   permalink(data) {

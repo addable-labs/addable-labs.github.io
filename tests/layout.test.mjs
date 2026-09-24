@@ -5,15 +5,15 @@ import { BESIDE_FROM_PX, evaluate, INLINE_GAP_REM, LABEL_MIN_PX, LABEL_UNITS, LI
 import { skipMessage, SKIP_EXIT_CODE } from "../scripts/lib/chrome.mjs";
 import { fixture, runGate, SRC, tempDir } from "./helpers.mjs";
 
-// The card-balance rules of the layout gate on fixture measurements (A-02,
-// AC-30, REQ-025; plan D-14), the article rules on fixture measurements of
+// The card-balance rules of the layout gate on fixture measurements (AC-30,
+// REQ-025), the article rules on fixture measurements of
 // the illustrated articles (si-55iu; centred composition, founder feedback
 // 2026-09-22) and of the article with tables (si-t64i) — no Chrome needed —
 // and the gate's explicit SKIP when no Chrome is found. Regenerate the
 // article fixture from a real run with `LAYOUT_DUMP=<file> pnpm
 // check:layout` and keep its three runs.
 
-describe("layout report evaluation (A-02, AC-30)", () => {
+describe("layout report evaluation (AC-30)", () => {
   let aligned;
   let misaligned;
   before(async () => {

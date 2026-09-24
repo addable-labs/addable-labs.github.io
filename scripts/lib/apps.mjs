@@ -1,5 +1,4 @@
-// Apps and services copy rules (redesign REQ-011, REQ-025; plan D-14, D-15;
-// amendments A-01, A-02, A-04; decomposition decision 4; founder feedback
+// Apps and services copy rules (redesign REQ-011, REQ-025; founder feedback
 // round 1, si-yp2x), as one pure check over src/_data/portfolio.json and the
 // two strings files: the founder's four entries in order (marketdata-api and
 // Compound left the grid in feedback round 1, and PRIVATE_STATUS_LABEL keeps
@@ -13,11 +12,11 @@
 // tests/apps.test.mjs and by the content gate, which holds every GitHub
 // repository the built site names to the same PUBLIC_REPOS.
 
-/** The entries of A-01 (plan D-15) minus the two investing tools removed in
+/** The founder's list of entries minus the two investing tools removed in
     feedback round 1 (si-yp2x), in grid order. */
 export const APP_KEYS = ["niva", "notesage", "ashlands", "gaimer"];
 
-/** Private repositories: never linked (REQ-011 honesty rule, A-01). Their url
+/** Private repositories: never linked (REQ-011 honesty rule). Their url
     is null, or the public page of the product when there is one — nivå's
     since si-gyc4 — and never on github.com, so the card says "Website", not
     "Repository". */
@@ -30,8 +29,8 @@ export const THEME_KEYS = ["ai-apps", "ai-adoption", "experiments"];
 /** Status keys the site labels (strings.portfolioStatus) and styles (chip-<key>). */
 export const STATUS_KEYS = ["in-development", "open-source-mit", "experiment", "private"];
 
-/** The founder-confirmed wording of the `private` label (A-04), asserted verbatim
-    because it is longer than the status-label band (decomposition decision 4).
+/** The founder-confirmed wording of the `private` label, asserted verbatim
+    because it is longer than the status-label band.
     No entry carries the status since feedback round 1, so the strings files
     hold no `private` label today; the rule applies the day one returns. */
 export const PRIVATE_STATUS_LABEL = {
@@ -39,7 +38,7 @@ export const PRIVATE_STATUS_LABEL = {
   sv: "privat · API-nycklar på förfrågan",
 };
 
-/** Copy bands (plan D-14): characters, and the ratio between the longest and
+/** Copy bands: characters, and the ratio between the longest and
     the shortest description of a language. */
 export const BANDS = { name: 16, serviceTitle: 20, statusLabel: 22, ratio: 1.25, getsMin: 2, getsMax: 4 };
 
@@ -54,7 +53,7 @@ export const BANDS = { name: 16, serviceTitle: 20, statusLabel: 22, ratio: 1.25,
     prints 200. */
 export const PUBLIC_REPOS = ["addable-labs/ashlands", "addable-labs/gaimer", "PeterBlenessy/notesage", "JetBrains/JetBrainsMono", "gastownhall/beads", "gastownhall/gascity", "gastownhall/gascity-packs"];
 
-/** Public entries link the repository where it lives today (A-01); a url with
+/** Public entries link the repository where it lives today; a url with
     this prefix is a repository, and the card labels it so. */
 export const PUBLIC_URL_PREFIX = "https://github.com/";
 
@@ -122,7 +121,7 @@ export function validateApps({
     return { ok: false, problems: ["no strings languages given"] };
   }
 
-  // 1. Exactly the expected keys, in order (A-01, D-15).
+  // 1. Exactly the expected keys, in order.
   const actual = data.map((entry) => entry?.key);
   if (actual.join("\n") !== keys.join("\n")) {
     for (const key of keys) if (!actual.includes(key)) problems.push(`portfolio.json lacks the entry ${quote(key)}`);
@@ -239,7 +238,7 @@ export function validateApps({
       else if (!used.has(status)) problems.push(`${lang}: portfolioStatus.${status} is not used by any entry`);
     }
 
-    // Copy bands (D-14, A-02): one-line names and titles, one-line chip rows.
+    // Copy bands: one-line names and titles, one-line chip rows.
     for (const entry of data) {
       const copy = portfolio[entry?.key];
       if (isMap(copy) && isText(copy.name) && length(copy.name) > bands.name) {
@@ -249,7 +248,7 @@ export function validateApps({
     for (const [status, label] of Object.entries(labels)) {
       if (!isText(label)) continue;
       if (status === "private" && isText(privateLabels?.[lang])) {
-        if (label !== privateLabels[lang]) problems.push(`${lang}: portfolioStatus.private must read ${quote(privateLabels[lang])} (founder-confirmed wording, A-04), got ${quote(label)}`);
+        if (label !== privateLabels[lang]) problems.push(`${lang}: portfolioStatus.private must read ${quote(privateLabels[lang])} (founder-confirmed wording), got ${quote(label)}`);
       } else if (length(label) > bands.statusLabel) {
         problems.push(`${lang}: portfolioStatus.${status} ${quote(label)} is ${length(label)} characters (band: ≤ ${bands.statusLabel})`);
       }

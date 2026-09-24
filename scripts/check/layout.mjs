@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-// Gate: layout (redesign A-02, AC-30; plan D-14; article layout si-55iu and
-// founder feedback 2026-09-22; article tables si-t64i).
+// Gate: layout (redesign AC-30; article layout si-55iu and founder feedback
+// 2026-09-22; article tables si-t64i).
 // Measures, in headless Chrome at 360, 768, 1024, 1280 and 1920 CSS px:
 //   - the balanced cards of both landing pages: in the services grid and the
 //     apps grid every title is one line, cards sharing a grid row have equal

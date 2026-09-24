@@ -1,5 +1,5 @@
 /*
- * Base styles for the Addable Labs website — Direction A, Signal (plan D-01).
+ * Base styles for the Addable Labs website — Direction A, Signal.
  *
  * Ported from the Signal preview (previews/assets/signal.css): a product-led,
  * crisp layout, mono headings with a readable system-sans body, elevated
@@ -9,7 +9,7 @@
  * components and their states are documented in docs/identity.md.
  *
  * Sections: base · type helpers · buttons, links, chips · header and toggle ·
- * hero and console · sections and cards (the D-14 balance rule) · trust,
+ * hero and console · sections and cards (the balance rule) · trust,
  * writing, contact · footer · page hero, about, article, blog, 404 ·
  * motion, reduced motion and print.
  */
@@ -17,7 +17,7 @@
 /* Base ------------------------------------------------------------------ */
 
 /* color-scheme is owned by tokens.css (dark on :root, light only under the
-   toggle's data-theme switch, D-13); nothing here may re-enable the OS scheme. */
+   toggle's data-theme switch); nothing here may re-enable the OS scheme. */
 html {
   box-sizing: border-box;
   -webkit-text-size-adjust: 100%;
@@ -106,9 +106,9 @@ img {
 }
 
 /* Focus (REQ-022): one visible ring on every focusable element, drawn 3 px
-   outside the element so it stays visible on the green button too (plan
-   Risks: on dark the ring colour equals the button surface). No rule in this
-   file removes the outline. */
+   outside the element so it stays visible on the green button too (on dark
+   the ring colour equals the button surface). No rule in this file removes
+   the outline. */
 :focus-visible {
   outline: 2px solid var(--color-focus);
   outline-offset: 3px;
@@ -186,7 +186,7 @@ img {
   font-size: var(--text-lg);
 }
 
-/* Wordmark (D-05): `addable` + dimmed `labs` in Mono Medium, live text. */
+/* Wordmark: `addable` + dimmed `labs` in Mono Medium, live text. */
 .wordmark {
   font-family: var(--font-mono);
   font-weight: 500;
@@ -236,8 +236,8 @@ a:hover .arrow,
 }
 
 /* Primary: accent surface, dark text, a 1 px accent-strong edge that gives
-   the button its boundary on light (plan Risks: 1.32:1 against the page
-   otherwise) and equals the surface on dark. */
+   the button its boundary on light (1.32:1 against the page otherwise) and
+   equals the surface on dark. */
 .button-primary {
   background: var(--color-accent);
   color: var(--color-on-accent);
@@ -514,8 +514,8 @@ a.chip:active {
   color: var(--color-text);
 }
 
-/* Appearance toggle (REQ-007 as amended by A-03/A-04): a 44 px button; the
-   moon shows on dark (the default), the sun on light. */
+/* Appearance toggle (REQ-007): a 44 px button; the moon shows on dark (the
+   default), the sun on light. */
 .theme-toggle {
   display: inline-flex;
   align-items: center;
@@ -543,7 +543,7 @@ a.chip:active {
   background: var(--color-surface-2);
 }
 
-/* Without JavaScript the site is dark and no inert control is shown (D-13). */
+/* Without JavaScript the site is dark and no inert control is shown. */
 html:not(.js) .theme-toggle {
   display: none;
 }
@@ -738,7 +738,7 @@ html:not(.js) .theme-toggle {
   animation: blink 1.1s steps(2, start) infinite;
 }
 
-/* Sections and cards (REQ-010, REQ-011, REQ-017 as amended by A-02) -------- */
+/* Sections and cards (REQ-010, REQ-011, REQ-017) -------------------------- */
 
 .section {
   padding-block: var(--space-7);
@@ -766,7 +766,7 @@ html:not(.js) .theme-toggle {
   transition: transform var(--dur) var(--ease), border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
 }
 
-/* The balance rule (D-14, A-02, AC-30). The grids declare only their column
+/* The balance rule (AC-30). The grids declare only their column
    tracks and leave rows implicit; every card is a grid that spans N rows and
    takes its row tracks from the parent (subgrid), so the cards in one row
    share each track: equal heights, aligned titles, texts and headings, and
@@ -774,8 +774,7 @@ html:not(.js) .theme-toggle {
    gains its columns at 40 and 64 rem, where a mono title fits on one line in
    both languages; the apps grid at 46 and 70 rem, where a card is 20.5 rem
    wide — room for the longest status chip, the founder-confirmed
-   "privat · API-nycklar på förfrågan" (33 characters, 275 px), on one line
-   (decomposition decision 4). */
+   "privat · API-nycklar på förfrågan" (33 characters, 275 px), on one line. */
 .service-grid {
   display: grid;
   gap: var(--space-4);
@@ -1318,7 +1317,7 @@ html:not(.js) .theme-toggle {
   }
 }
 
-/* Labelled note card (the about page's article card; A-04's GRC-fork note
+/* Labelled note card (the about page's article card; the GRC-fork note
    until the founder replaced it): eyebrow label, a mono title, the text and
    the link as the cards' action row. */
 .note {

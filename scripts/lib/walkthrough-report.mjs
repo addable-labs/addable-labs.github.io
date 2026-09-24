@@ -1,7 +1,7 @@
 // The rules of the browser walkthrough (scripts/walkthrough.mjs; si-yszh,
 // review finding O-02/E-02 of run si-d2h): six criteria of the redesign that
 // only a browser shows and no gate measures — AC-07 as amended by AC-31
-// (A-03/A-04: dark for everyone, the OS preference is never an input), AC-18,
+// (dark for everyone, the OS preference is never an input), AC-18,
 // AC-19, AC-20 and AC-23 — judged on plain measurements, so
 // tests/walkthrough.test.mjs proves every rule can fail without Chrome.
 //

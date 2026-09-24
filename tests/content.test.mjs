@@ -8,8 +8,8 @@ import { isScheduled } from "../scripts/lib/frontmatter.mjs";
 import { loadSite, readArticleSources, walk } from "../scripts/lib/site.mjs";
 import { buildSite, clockAt, copyDir, copyProject, NOW, runGate, SRC, tempDir, utcDate } from "./helpers.mjs";
 
-// The content gate re-targeted to the Signal landing model (REQ-024 as
-// amended by A-01; AC-09 … AC-15): the real build passes, and every
+// The content gate re-targeted to the Signal landing model (REQ-024;
+// AC-09 … AC-15): the real build passes, and every
 // re-targeted rule fails on a modified copy naming the page and the rule.
 describe("content gate", () => {
   let tmp;
@@ -69,7 +69,7 @@ describe("content gate", () => {
     assert.match(output, /FAIL {2}index\.html: trust section names Péter Blénessy/);
   });
 
-  it("fails when the about page lacks the founding month (REQ-012, D-12)", async () => {
+  it("fails when the about page lacks the founding month (REQ-012)", async () => {
     const broken = await copyDir(built, path.join(tmp.dir, "no-month"));
     const about = path.join(broken, "about", "index.html");
     await writeFile(about, (await readFile(about, "utf8")).replace("September 2026", "some time ago"));
@@ -153,7 +153,7 @@ describe("content gate", () => {
     assert.match(output, /ok {4}sv\/about\/index\.html: lead's first sentence names Péter Blénessy/);
   });
 
-  it("fails when the nivå card links more than its public page and its article, or calls the page \"Repository\" (REQ-011, A-01; si-gyc4, si-3hpa)", async () => {
+  it("fails when the nivå card links more than its public page and its article, or calls the page \"Repository\" (REQ-011; si-gyc4, si-3hpa)", async () => {
     // The repository is private and the product is not: the page, labelled
     // as a website, then the article about nivå, and nothing else.
     const twice = await withLandingEdit("niva-linked", (html) => html.replace(/(<h3 class="app-name portfolio-name"[^>]*>)nivå(<\/h3>)/, '$1<a href="https://example.com/niva">nivå</a>$2'));
@@ -192,7 +192,7 @@ describe("content gate", () => {
     assert.match(output, /FAIL {2}index\.html: primary CTA is "See what we have built" linking #apps/);
   });
 
-  it("fails when the secondary CTA still asks for early access while site.nivaUrl is set (REQ-009, D-11; si-gyc4)", async () => {
+  it("fails when the secondary CTA still asks for early access while site.nivaUrl is set (REQ-009; si-gyc4)", async () => {
     const broken = await withLandingEdit("niva-early", (html) => html.replace('href="https://erniva.se/">nivå</a>', 'href="mailto:hello@addablelabs.se?subject=Early%20access%20to%20niv%C3%A5">Get early access to nivå</a>'));
     const { status, output } = runGate("content", broken);
     assert.equal(status, 1);

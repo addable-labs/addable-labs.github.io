@@ -1,5 +1,5 @@
 // The rules of the layout gate — the card balance of the landing pages
-// (redesign A-02, AC-30; plan D-14), the article measure and figure
+// (redesign AC-30), the article measure and figure
 // placement (founder feedback 2026-09-21, si-55iu; centred composition,
 // founder feedback 2026-09-22) and the article tables (founder feedback
 // 2026-09-24, si-t64i) — judged on plain measurements so
@@ -256,7 +256,7 @@ export function evaluate(measurements, tolerance = TOLERANCE) {
         if (!(card.title.height <= LINE_RATIO * card.title.lineHeight)) {
           problems.push(`${where}: ${name} title wraps (${card.title.height} px for a ${card.title.lineHeight} px line)`);
         }
-        // D-14 (decomposition decision 4): the chip row is one line.
+        // The chip row is one line.
         if (card.chip && !(card.chip.height <= LINE_RATIO * card.chip.lineHeight)) {
           problems.push(`${where}: ${name} chip row wraps (${card.chip.height} px for a ${card.chip.lineHeight} px line)`);
         }

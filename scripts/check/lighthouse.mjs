@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-// Gate: lighthouse (redesign REQ-021, REQ-024; AC-19, AC-22, AC-23; plan
-// D-08). Serves the production build over http, launches headless Chrome
+// Gate: lighthouse (redesign REQ-021, REQ-024; AC-19, AC-22, AC-23).
+// Serves the production build over http, launches headless Chrome
 // and runs Lighthouse 13 (default mobile configuration, the four scored
 // categories) against seven pages; every category must score ≥ 95 and the
 // page's cumulative layout shift must stay ≤ 0.1. A page whose only problem

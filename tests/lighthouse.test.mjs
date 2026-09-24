@@ -9,7 +9,7 @@ import { skipMessage, SKIP_EXIT_CODE } from "../scripts/lib/chrome.mjs";
 import { fixture, ROOT, runGate, SRC, tempDir } from "./helpers.mjs";
 
 // The Lighthouse gate's threshold logic on fixture reports (REQ-021, REQ-025;
-// AC-19, AC-22; plan D-08), the re-measure of a page that is only slow and
+// AC-19, AC-22), the re-measure of a page that is only slow and
 // the step summary (si-0rxb) — no Chrome needed — and the gate's explicit
 // SKIP when no Chrome is found (REQ-024: a skip is never a PASS).
 

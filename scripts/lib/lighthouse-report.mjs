@@ -1,5 +1,5 @@
 // Threshold logic of the Lighthouse gate (redesign REQ-021, AC-19, AC-22,
-// AC-23; plan D-08), kept apart from the browser run so tests/lighthouse.test.mjs
+// AC-23), kept apart from the browser run so tests/lighthouse.test.mjs
 // exercises it on fixture reports without Chrome: how one report is judged,
 // when a page is measured again (si-0rxb), and what the gate prints.
 

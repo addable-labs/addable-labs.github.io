@@ -1,5 +1,5 @@
 // What a built page loads, measured for the pages gate and its tests
-// (REQ-020, REQ-004; AC-21, AC-04; plan "Quality gates" → pages.mjs (c), (d)):
+// (REQ-020, REQ-004; AC-21, AC-04):
 //   - compressedSize(): the gzip (default level) byte count of every referenced
 //     same-origin stylesheet and script plus the page's inline <style> and
 //     <script> content — the 60 KB landing-page budget of REQ-020

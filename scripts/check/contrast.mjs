@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-// Gate: contrast (REQ-006, REQ-024 as amended by A-03; AC-06, AC-25; plan
-// D-03, D-13; first build: REQ-014, AC-05, AC-17, plan review PR-03).
+// Gate: contrast (REQ-006, REQ-024; AC-06, AC-25; first build: REQ-014,
+// AC-05, AC-17).
 //
 // 1. Audits the structure of src/assets/css/tokens.css (scripts/lib/contrast.mjs
 //    auditTokens): dark on :root and light only through the toggle's switch
@@ -32,7 +32,7 @@ const TOKENS_FILE = path.join(CSS_DIR, "assets", "css", "tokens.css");
 const THRESHOLDS = { text: 4.5, ui: 3 };
 const SCHEMES = ["light", "dark"];
 
-// Foreground on background: the plan's pair table (Design system: tokens).
+// Foreground on background: the token pairs the design puts together.
 // `text` pairs carry body, link, label or button text (SC 1.4.3, ≥ 4.5:1);
 // `ui` pairs are borders, chip outlines and the focus ring (SC 1.4.11, ≥ 3:1).
 // `schemes` restricts a pair to one theme. REQ-006 / AC-06.
@@ -67,7 +67,7 @@ const PAIRS = [
   { fg: "--color-focus", bg: "--color-surface", kind: "ui" },
   // Primary button edge: on light the green surface has no 3:1 edge against
   // the page, so a 1 px accent-strong border gives the button its boundary;
-  // on dark the edge is deliberately the surface colour (plan D-03, Risks).
+  // on dark the edge is deliberately the surface colour.
   { fg: "--color-accent-strong", bg: "--color-accent", kind: "ui", schemes: ["light"] },
 ];
 
@@ -95,7 +95,7 @@ async function main() {
   let failures = 0;
   const tokensPath = rel(TOKENS_FILE);
 
-  // 1. Structure (D-03, D-13, A-03): one violation per line, then the pairs.
+  // 1. Structure: one violation per line, then the pairs.
   const tokens = auditTokens(await readFile(TOKENS_FILE, "utf8"));
   for (const problem of tokens.problems) {
     console.log(`${tokensPath}  structure  ${problem}  FAIL`);

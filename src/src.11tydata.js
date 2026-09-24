@@ -6,9 +6,9 @@
 // page. Templates without a translationKey (404, sitemap, robots, the feeds)
 // get `alternate: null`. Eleventy runs computed data that reads `collections`
 // in a second pass after collections are populated, so this function reads
-// `data.collections` through its argument and never touches it elsewhere
-// (plan review PR-02); `translationKey` itself must be first-pass data (front
-// matter or a templated eleventyComputed string).
+// `data.collections` through its argument and never touches it elsewhere;
+// `translationKey` itself must be first-pass data (front matter or a
+// templated eleventyComputed string).
 //
 // `langPrefix` is what a template puts before a path to a page in the page's
 // own language (`{{ langPrefix }}/blog/`): "" for the default language

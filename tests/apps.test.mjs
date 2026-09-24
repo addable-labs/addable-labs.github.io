@@ -6,9 +6,9 @@ import { APP_KEYS, BANDS, PRIVATE_APP_KEYS, PRIVATE_STATUS_LABEL, PUBLIC_REPOS, 
 import { loadSite, loadStrings, readArticleSources } from "../scripts/lib/site.mjs";
 import { SRC } from "./helpers.mjs";
 
-// Apps data and copy (REQ-011, REQ-025; AC-11, AC-12, AC-30; plan D-14, D-15;
-// A-01, A-02, A-04; founder feedback round 1, si-yp2x: four entries, the
-// experiments service in place of investing): the real files validate, and
+// Apps data and copy (REQ-011, REQ-025; AC-11, AC-12, AC-30; founder feedback
+// round 1, si-yp2x: four entries, the experiments service in place of
+// investing): the real files validate, and
 // every rule fails on a modified in-memory copy naming the key, the language
 // or the band.
 
@@ -35,7 +35,7 @@ describe("apps data and copy (REQ-011, REQ-025; AC-11, AC-12, AC-30)", () => {
     assert.equal(result.ok, true);
   });
 
-  it("holds exactly the curated entries of APP_KEYS in the founder's order (A-01)", () => {
+  it("holds exactly the curated entries of APP_KEYS in the founder's order", () => {
     assert.deepEqual(data.map((entry) => entry.key), APP_KEYS);
     const reordered = copy();
     reordered.data.reverse();
@@ -67,7 +67,7 @@ describe("apps data and copy (REQ-011, REQ-025; AC-11, AC-12, AC-30)", () => {
     assert.ok(!problems.some((p) => p.startsWith("en: portfolio.newapp")), problems.join("\n"));
   });
 
-  it("never links a private repository — nivå links its public page instead — and links the public ones to github.com (A-01, si-gyc4)", () => {
+  it("never links a private repository — nivå links its public page instead — and links the public ones to github.com (si-gyc4)", () => {
     for (const entry of data) {
       if (PRIVATE_APP_KEYS.includes(entry.key)) assert.ok(entry.url === null || !entry.url.startsWith("https://github.com/"), `${entry.key} is private`);
       else assert.match(entry.url, /^https:\/\/github\.com\//, `${entry.key} links its repository`);
@@ -297,7 +297,7 @@ describe("apps data and copy (REQ-011, REQ-025; AC-11, AC-12, AC-30)", () => {
     assert.equal(publicRepo("example-org/private-app"), undefined);
   });
 
-  it("keeps names within 16 characters and fails a 17-character name naming the band (D-14)", () => {
+  it("keeps names within 16 characters and fails a 17-character name naming the band", () => {
     for (const lang of site.languages.codes) {
       for (const key of APP_KEYS) assert.ok([...strings[lang].portfolio[key].name].length <= BANDS.name, `${lang}: ${key}`);
     }
@@ -307,7 +307,7 @@ describe("apps data and copy (REQ-011, REQ-025; AC-11, AC-12, AC-30)", () => {
     assert.ok(problemsOf(long).includes('en: portfolio.gaimer.name "Gaimer Studio Pro" is 17 characters (band: ≤ 16)'), problemsOf(long).join("\n"));
   });
 
-  it("keeps status labels within 22 characters except the founder-confirmed private label, asserted verbatim (A-04)", () => {
+  it("keeps status labels within 22 characters except the founder-confirmed private label, asserted verbatim", () => {
     // No entry carries the private status since feedback round 1 (si-yp2x),
     // so the strings hold no private label; the verbatim rule still applies
     // to any private label that is present (the reworded case below).
@@ -327,7 +327,7 @@ describe("apps data and copy (REQ-011, REQ-025; AC-11, AC-12, AC-30)", () => {
     assert.ok(problemsOf(reworded).some((p) => /^sv: portfolioStatus\.private must read "privat · API-nycklar på förfrågan"/.test(p)), problemsOf(reworded).join("\n"));
   });
 
-  it("keeps the four summaries within a 25 % length band per language (D-14, AC-30)", () => {
+  it("keeps the four summaries within a 25 % length band per language (AC-30)", () => {
     for (const lang of site.languages.codes) {
       const lengths = APP_KEYS.map((key) => [...strings[lang].portfolio[key].summary].length);
       assert.ok(Math.max(...lengths) <= Math.min(...lengths) * BANDS.ratio, `${lang}: ${lengths.join(", ")}`);
@@ -337,7 +337,7 @@ describe("apps data and copy (REQ-011, REQ-025; AC-11, AC-12, AC-30)", () => {
     assert.ok(problemsOf(uneven).some((p) => /^sv: app summaries are outside the 25 % band: .* portfolio\.niva\.summary is \d+$/.test(p)), problemsOf(uneven).join("\n"));
   });
 
-  it("keeps service titles within 20 characters, texts within a 25 % band and 2–4 gets items per service (D-14)", () => {
+  it("keeps service titles within 20 characters, texts within a 25 % band and 2–4 gets items per service", () => {
     for (const lang of site.languages.codes) {
       const lengths = THEME_KEYS.map((key) => [...strings[lang].themes[key].text].length);
       assert.ok(Math.max(...lengths) <= Math.min(...lengths) * BANDS.ratio, `${lang}: ${lengths.join(", ")}`);

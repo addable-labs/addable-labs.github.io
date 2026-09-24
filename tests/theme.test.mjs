@@ -37,7 +37,7 @@ const COPIES = {
 // hex digits. "&#8212;" is a character reference, not a colour.
 const HEX_COLOUR = /(?<!&)#[0-9a-f]{3,8}\b/gi;
 
-describe("theme logic (REQ-007 as amended by A-03/A-04, D-13)", () => {
+describe("theme logic (REQ-007)", () => {
   it("returns light only for a stored \"light\" choice", () => {
     assert.equal(resolve("light"), "light");
     assert.equal(resolve("dark"), "dark");

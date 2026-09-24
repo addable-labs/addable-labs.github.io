@@ -10,7 +10,7 @@
 .beads/*
 !.beads/identity.toml
 
-# Site build output and local agent tooling (plan Decision 10)
+# Site build output and local agent tooling
 node_modules/
 _site/
 _preview/

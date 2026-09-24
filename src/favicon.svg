@@ -1,9 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
   <style>
-    /* The filled Signal tile (plan D-05): the page's dark background with the
+    /* The filled Signal tile: the page's dark background with the
        accent plus. On a light browser chrome the tile keeps a 1 px edge in the
        light-theme accent text colour so it stays visible; this media query is
-       about the tab bar, not the page (the page is dark by default, D-13). */
+       about the tab bar, not the page (the page is dark by default). */
     .tile { fill: #0B0E10; stroke: #0B0E10; stroke-width: 1; }
     @media (prefers-color-scheme: light) {
       .tile { stroke: #256B15; }

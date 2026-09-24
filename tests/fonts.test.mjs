@@ -9,9 +9,8 @@ import { candidatesForPath, internalPath, loadSite, walk } from "../scripts/lib/
 import { buildSite, SRC, tempDir } from "./helpers.mjs";
 
 // REQ-004 (AC-04): the three JetBrains Mono weights, copied unmodified from the
-// founder's source and pinned by SHA-256 in the requirements' trace.upstream,
-// ship with the OFL licence. If WI-08 subsets the fonts (plan D-06 fallback),
-// it updates these digests and documents the derivation in its summary.
+// founder's source and pinned here by SHA-256, ship with the OFL licence.
+// Subsetting a font changes its digest: update the digest with the font.
 const FONT_DIGESTS = {
   "JetBrainsMono-Light.woff2": "43eb798d59b557c3d87c1402ce684b3fda1ad66bf7ec8021b0a43dc31ad9c572",
   "JetBrainsMono-Regular.woff2": "a9cb1cd82332b23a47e3a1239d25d13c86d16c4220695e34b243effa999f45f2",

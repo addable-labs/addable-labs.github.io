@@ -6,13 +6,13 @@
 // 0.2126 R + 0.7152 G + 0.0722 B, and the ratio is (L1 + 0.05) / (L2 + 0.05)
 // with L1 the lighter of the two colours.
 //
-// tokens.css structure (redesign plan D-03, D-13; REQ-006, REQ-024 as amended
-// by A-03): every colour token lives on `:root` as a plain declaration equal
-// to its dark value immediately followed by a `light-dark(<light>, <dark>)`
-// declaration; `color-scheme` is the only switch (dark on `:root`, light only
-// under `:root[data-theme="light"]`); there is no `prefers-color-scheme`
-// media query and no `--color-*` outside `:root`. The parser below reads that
-// structure and reports every structural violation for the gate to print.
+// tokens.css structure (redesign REQ-006, REQ-024): every colour token lives
+// on `:root` as a plain declaration equal to its dark value immediately
+// followed by a `light-dark(<light>, <dark>)` declaration; `color-scheme` is
+// the only switch (dark on `:root`, light only under
+// `:root[data-theme="light"]`); there is no `prefers-color-scheme` media query
+// and no `--color-*` outside `:root`. The parser below reads that structure
+// and reports every structural violation for the gate to print.
 
 /** Parse a #rgb, #rgba, #rrggbb or #rrggbbaa literal into [r, g, b] (0–255). */
 export function parseHexColor(hex) {
@@ -151,8 +151,8 @@ function sameValue(a, b) {
  * Returns { light, dark, problems }. For every `--color-*` on `:root` the last
  * declaration wins: a `light-dark(L, D)` value yields light[name] = L and
  * dark[name] = D, a plain value yields both. `problems` lists, in source
- * order, every structural violation the parser can see (REQ-006 and REQ-024
- * as amended by A-03; plan D-03):
+ * order, every structural violation the parser can see (REQ-006 and
+ * REQ-024):
  *
  *   - a plain declaration that precedes a `light-dark()` one for the same
  *     token must equal its dark value (the fallback set for browsers without
@@ -179,22 +179,22 @@ export function parseTokens(css) {
       const value = rawValue.trim();
       if (!onRoot) {
         const where = [...ancestors, selector].join(" > ");
-        problems.push(`${name} is declared outside :root (in "${where}"); colour tokens live only on :root (REQ-024, A-03)`);
+        problems.push(`${name} is declared outside :root (in "${where}"); colour tokens live only on :root (REQ-024)`);
         continue;
       }
       const pair = parseLightDark(value);
       if (pair) {
         if (!(name in fallbacks)) {
-          problems.push(`${name}: light-dark() declaration has no plain fallback before it; browsers without light-dark() would lose the token (D-03)`);
+          problems.push(`${name}: light-dark() declaration has no plain fallback before it; browsers without light-dark() would lose the token`);
         } else if (!sameValue(fallbacks[name], pair.dark)) {
-          problems.push(`${name}: plain fallback ${fallbacks[name]} does not equal its dark value ${pair.dark} (REQ-006, A-03)`);
+          problems.push(`${name}: plain fallback ${fallbacks[name]} does not equal its dark value ${pair.dark} (REQ-006)`);
         }
         light[name] = pair.light;
         dark[name] = pair.dark;
         pairs.add(name);
       } else {
         if (pairs.has(name)) {
-          problems.push(`${name}: plain declaration ${value} follows the light-dark() pair and overrides both themes; the fallback must precede the pair (D-03)`);
+          problems.push(`${name}: plain declaration ${value} follows the light-dark() pair and overrides both themes; the fallback must precede the pair`);
           pairs.delete(name);
         }
         light[name] = value;
@@ -208,7 +208,7 @@ export function parseTokens(css) {
 }
 
 /**
- * The two switch rules the structure relies on (plan D-03, D-13):
+ * The two switch rules the structure relies on:
  * `:root { color-scheme: dark }` (dark is the default for every first visit)
  * and `:root[data-theme="light"] { color-scheme: light }` (the toggle's only
  * entry point to the light set). Returns one problem per missing rule.
@@ -231,17 +231,17 @@ export function checkSwitchRules(css) {
   });
   const problems = [];
   if (rootScheme !== "dark") {
-    problems.push(`missing switch rule :root { color-scheme: dark } (found ${rootScheme === null ? "none" : `color-scheme: ${rootScheme}`}); dark must be the default for every first visit (D-13, REQ-006)`);
+    problems.push(`missing switch rule :root { color-scheme: dark } (found ${rootScheme === null ? "none" : `color-scheme: ${rootScheme}`}); dark must be the default for every first visit (REQ-006)`);
   }
   if (lightScheme !== "light") {
-    problems.push(`missing switch rule :root[data-theme="light"] { color-scheme: light } (found ${lightScheme === null ? "none" : `color-scheme: ${lightScheme}`}); the toggle is the only entry point to the light set (A-03, REQ-006)`);
+    problems.push(`missing switch rule :root[data-theme="light"] { color-scheme: light } (found ${lightScheme === null ? "none" : `color-scheme: ${lightScheme}`}); the toggle is the only entry point to the light set (REQ-006)`);
   }
   return problems;
 }
 
 /**
  * Every `@media` query mentioning `prefers-color-scheme`, with its line
- * number. tokens.css may contain none (plan D-13, A-03): the light set has
+ * number. tokens.css may contain none: the light set has
  * one entry point, the toggle, so the stylesheet and the script cannot
  * disagree.
  */
@@ -265,7 +265,7 @@ export function auditTokens(css) {
     ...parsed.problems,
     ...checkSwitchRules(css),
     ...findSchemeMediaQueries(css).map(
-      ({ line, query }) => `line ${line}: "${query}" — tokens.css may not contain a prefers-color-scheme media query; dark is the default and light is reached only through the toggle (D-13, A-03)`,
+      ({ line, query }) => `line ${line}: "${query}" — tokens.css may not contain a prefers-color-scheme media query; dark is the default and light is reached only through the toggle`,
     ),
   ];
   return { light: parsed.light, dark: parsed.dark, problems };

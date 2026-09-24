@@ -368,9 +368,9 @@ one-liner in both strings files and its key in the curated list `APP_KEYS`
   article that is not a post in both languages, or breaks a band. A new
   status also needs an entry in `STATUS_KEYS` there and a
   `chip-<status>` colour rule in `src/assets/css/base.css`.
-- **The list is curated.** The entries are the founder's list (amendment
-  A-01, without the two investing tools founder feedback round 1 took out),
-  pinned as `APP_KEYS` in `scripts/lib/apps.mjs`: append the new key
+- **The list is curated.** The entries are the founder's list, without the
+  two investing tools founder feedback round 1 took out, pinned as
+  `APP_KEYS` in `scripts/lib/apps.mjs`: append the new key
   there in grid order — and to `PRIVATE_APP_KEYS` if the repository is
   private — so the data file and the list agree; `pnpm test` fails naming
   the entry when they differ. A public repository also goes on
@@ -487,6 +487,11 @@ gate launched, by its pid, mid-measure (once: the page is measured again;
 twice: one `FAIL` line); they skip when no Chrome is found unless
 `CHECK_REQUIRE_CHROME=1`, as in CI.
 
+The REQ- and AC- ids in this README and in comments, test names and gate
+messages label requirements and acceptance criteria of the two factory runs
+that built the site, the first build and the redesign, which numbered theirs
+separately; the rule each id stands for is stated where it is used.
+
 ### Browser walkthrough
 
 `pnpm walkthrough` checks, in headless Chrome on every page of a built site,
@@ -567,10 +572,9 @@ saved there.
 
 **Custom domain and HTTPS.** The site is served at `https://addablelabs.se`
 and `addable-labs.github.io` redirects there. The domain is set up in four
-steps, in this order (plan Decision 1; GitHub warns that "configuring your
-custom domain with your DNS provider without adding your custom domain to
-GitHub could result in someone else being able to host a site on one of your
-subdomains"):
+steps, in this order (GitHub warns that "configuring your custom domain with
+your DNS provider without adding your custom domain to GitHub could result in
+someone else being able to host a site on one of your subdomains"):
 
 1. **Verify the domain for the organisation** first: it stops other GitHub
    users from taking the domain over for a Pages site of their own.

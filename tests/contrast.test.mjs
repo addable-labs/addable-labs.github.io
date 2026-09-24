@@ -18,7 +18,7 @@ const TOKENS_FILE = path.join(SRC, "assets", "css", "tokens.css");
 const LIGHT_SWITCH = ':root[data-theme="light"] { color-scheme: light; }';
 const PAIR_LINE = /^(light|dark) +--color-/;
 
-// The redesign's tokens.css structure in miniature (plan D-03): fallback,
+// The redesign's tokens.css structure in miniature: fallback,
 // then the light-dark() pair, per token; invariant tokens plain.
 const SIGNAL_LIKE = `
   :root {
@@ -42,7 +42,7 @@ describe("contrast library", () => {
     assert.equal(Number(contrastRatio("#83F35D", "#0B0E10").toFixed(2)), 13.78);
   });
 
-  it("parses the light-dark() structure into light and dark sets (REQ-006, D-03)", () => {
+  it("parses the light-dark() structure into light and dark sets (REQ-006)", () => {
     const tokens = parseTokens(SIGNAL_LIKE);
     assert.deepEqual(tokens.light, {
       "--color-bg": "#F7F8F6",
@@ -63,13 +63,13 @@ describe("contrast library", () => {
     assert.throws(() => parseLightDark("light-dark(#fff)"), /exactly two colours/);
   });
 
-  it("fails the equality check when a fallback differs from the dark value, naming the token (A-03)", () => {
+  it("fails the equality check when a fallback differs from the dark value, naming the token", () => {
     const { problems } = parseTokens(`:root { --color-bg: #000000; --color-bg: light-dark(#F7F8F6, #0B0E10); }`);
     assert.equal(problems.length, 1);
     assert.match(problems[0], /^--color-bg: plain fallback #000000 does not equal its dark value #0B0E10/);
   });
 
-  it("requires the plain fallback to precede the pair (D-03)", () => {
+  it("requires the plain fallback to precede the pair", () => {
     const missing = parseTokens(`:root { --color-bg: light-dark(#fff, #000); }`).problems;
     assert.equal(missing.length, 1);
     assert.match(missing[0], /^--color-bg: light-dark\(\) declaration has no plain fallback before it/);
@@ -80,7 +80,7 @@ describe("contrast library", () => {
     assert.equal(overridden.dark["--color-bg"], "#111");
   });
 
-  it("rejects colour tokens declared outside :root, naming where (REQ-024, A-03)", () => {
+  it("rejects colour tokens declared outside :root, naming where (REQ-024)", () => {
     const { problems, light } = parseTokens(`
       :root { --color-bg: #000; }
       :root[data-theme="light"] { color-scheme: light; --color-bg: #fff; }
@@ -98,7 +98,7 @@ describe("contrast library", () => {
     assert.deepEqual(light, { "--color-bg": "#000" });
   });
 
-  it("checks the two switch rules (D-13, A-03)", () => {
+  it("checks the two switch rules", () => {
     assert.deepEqual(checkSwitchRules(SIGNAL_LIKE), []);
     const noLight = checkSwitchRules(SIGNAL_LIKE.replace(LIGHT_SWITCH, ""));
     assert.equal(noLight.length, 1);
@@ -108,13 +108,13 @@ describe("contrast library", () => {
     assert.match(lightFirst[0], /^missing switch rule :root \{ color-scheme: dark \} \(found color-scheme: light\)/);
   });
 
-  it("finds prefers-color-scheme media queries with their line (D-13)", () => {
+  it("finds prefers-color-scheme media queries with their line", () => {
     assert.deepEqual(findSchemeMediaQueries(SIGNAL_LIKE), []);
     const found = findSchemeMediaQueries(`:root { color-scheme: dark; }\n@media screen and (prefers-color-scheme: light) {\n  :root:not([data-theme]) { color-scheme: light; }\n}`);
     assert.deepEqual(found, [{ line: 2, query: "@media screen and (prefers-color-scheme: light)" }]);
   });
 
-  it("rejects the first build's structure: a token outside :root and a media query (REQ-024, D-13)", () => {
+  it("rejects the first build's structure: a token outside :root and a media query (REQ-024)", () => {
     // The first build's tokens: the light set on :root, the dark set
     // re-declared under the OS media query. The switch rules are in place, so
     // the problems left are the two that structure causes.
@@ -127,8 +127,8 @@ describe("contrast library", () => {
       }
     `;
     assert.deepEqual(auditTokens(firstBuild).problems, [
-      '--color-bg is declared outside :root (in "@media (prefers-color-scheme: dark) > :root"); colour tokens live only on :root (REQ-024, A-03)',
-      'line 5: "@media (prefers-color-scheme: dark)" — tokens.css may not contain a prefers-color-scheme media query; dark is the default and light is reached only through the toggle (D-13, A-03)',
+      '--color-bg is declared outside :root (in "@media (prefers-color-scheme: dark) > :root"); colour tokens live only on :root (REQ-024)',
+      'line 5: "@media (prefers-color-scheme: dark)" — tokens.css may not contain a prefers-color-scheme media query; dark is the default and light is reached only through the toggle',
     ]);
   });
 
@@ -219,7 +219,7 @@ describe("contrast gate", () => {
     assert.match(output, /FAIL contrast \(1 problem\)/);
   });
 
-  it("fails when a fallback does not equal its dark value, naming the token (A-03)", async () => {
+  it("fails when a fallback does not equal its dark value, naming the token", async () => {
     // The plain --color-bg declaration (the fallback before its light-dark()
     // pair) takes the light value, whatever the two values are.
     const { light, dark } = parseTokens(tokens);
@@ -230,7 +230,7 @@ describe("contrast gate", () => {
     assert.match(output, /FAIL contrast \(1 problem\)/);
   });
 
-  it("fails when the light switch rule is missing (A-03)", async () => {
+  it("fails when the light switch rule is missing", async () => {
     const src = await variant((css) => css.replace(LIGHT_SWITCH, ""));
     const { status, output } = runGate("contrast", "", src);
     assert.equal(status, 1);
@@ -238,7 +238,7 @@ describe("contrast gate", () => {
     assert.match(output, /FAIL contrast \(1 problem\)/);
   });
 
-  it("fails when tokens.css contains a prefers-color-scheme media query (D-13)", async () => {
+  it("fails when tokens.css contains a prefers-color-scheme media query", async () => {
     const src = await variant((css) => `${css}\n@media (prefers-color-scheme: light) {\n  :root { color-scheme: light; }\n}\n`);
     const { status, output } = runGate("contrast", "", src);
     assert.equal(status, 1);
@@ -246,7 +246,7 @@ describe("contrast gate", () => {
     assert.match(output, /FAIL contrast \(1 problem\)/);
   });
 
-  it("fails when a colour token is declared outside :root (A-03)", async () => {
+  it("fails when a colour token is declared outside :root", async () => {
     const src = await variant((css) => css.replace(LIGHT_SWITCH, ':root[data-theme="light"] { color-scheme: light; --color-bg: #FFFFFF; }'));
     const { status, output } = runGate("contrast", "", src);
     assert.equal(status, 1);

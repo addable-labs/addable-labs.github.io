@@ -7,7 +7,7 @@
 //   pnpm build && pnpm walkthrough [<built-site dir>] [<source dir>]
 //
 //   first-frame     every page is dark at its first frame under a light OS
-//                   with empty storage (AC-31; AC-07 as amended by A-03/A-04)
+//                   with empty storage (AC-31, which amends AC-07)
 //   theme-switch    on /, the toggle turns the page light; the language
 //                   switch leads to /sv/, light from its first frame, and
 //                   back to /, light; with storage cleared / is dark again
