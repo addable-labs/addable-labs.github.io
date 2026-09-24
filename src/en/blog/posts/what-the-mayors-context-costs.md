@@ -17,8 +17,12 @@ session records of 20 to 24 September 2026. From 20 to 22 September about half
 of a session's growth came before its first outward action, while it
 re-oriented itself after a hand-off. The notes kept between sessions, the
 hand-off points, the prompt hooks and the start-up content have since been
-changed; three changes have been measured, once each. The new notes made
-re-orientation dearer, not cheaper, in exchange for a correct start.
+changed. In the first eight hours with the later hand-off point, the share of
+all tokens processed before a session's first outward action fell from 45% to
+7%, while the context per call grew by half; counted per call after the first
+outward action, all tokens processed fell by a tenth. The first new notes made
+re-orientation dearer in exchange for a correct start; since they were trimmed,
+it has been cheaper in the two sessions measured.
 
 ## Configuration
 
@@ -59,11 +63,15 @@ The sources, none of them public: the mayor's session transcripts with their
 token-usage records, its start-up records, its direct messages with the
 founder on Discord and its memory files. The mayor's report of 22 September
 covers 20 September, 12:33 UTC, to the evening of 22 September; a second count
-covers 22 September, 21:09 UTC, to 23 September, 18:54 UTC. Tokens were
-counted per call to the model, each session's first call included. A script
-sorted the tool output into categories, accurate to a few percentage points.
+covers 22 September, 21:09 UTC, to 23 September, 18:54 UTC; a third, 24
+September, 04:07 to 12:00 UTC, the first eight hours with hand-offs at 30%.
+Tokens were counted per call to the model, each session's first call included.
+The tokens per call after the first outward action divide all tokens processed
+by the calls after each session's first outward action. A script sorted the
+tool output into categories, accurate to a few percentage points.
 
-Limits: one project; each measured effect rests on one measurement.
+Limits: one project; most effects rest on one measurement, the third count on
+five sessions whose work differed from the second's.
 
 ## Findings
 
@@ -79,17 +87,21 @@ Limits: one project; each measured effect rests on one measurement.
 | Growth of the median session (tokens) | 87,000 |
 | Of it before its first outward action (a reply, a dispatch, a bead written, a commit) | 49,500 |
 
-| Measure | Count of 22–23 September |
-| --- | ---: |
-| Sessions | 51 |
-| Calls to the model | 2,315 |
-| Calls per session | 45 |
-| Mean context per call (tokens) | 124,000 |
-| Median start (tokens) | 64,000 |
-| Median end (tokens) | 154,000 |
-| Median growth per call (tokens) | 2,200 |
-| Read from the cache (tokens) | 281 million |
-| Of all context tokens | ~98% |
+| Measure | Count of 22–23 September | Count of 24 September |
+| --- | ---: | ---: |
+| Hours | 22 | 8 |
+| Sessions | 51 | 5 |
+| Minutes per session | 26 | 95 |
+| Calls to the model | 2,315 | 626 |
+| Calls per session | 45 | 125 |
+| Mean context per call (tokens) | 124,000 | 194,000 |
+| Median start (tokens) | 64,000 | 46,000 |
+| Median end (tokens) | 154,000 | 306,000 |
+| Median growth per call (tokens) | 2,200 | 2,500 |
+| Read from the cache (tokens) | 281 million | 120 million |
+| Of all context tokens | ~98% | ~99% |
+| Share of tokens processed before the first outward action | 45% | 7% |
+| Tokens per call after the first outward action | 257,000 | 231,000 |
 
 ### Session activity
 
@@ -164,24 +176,34 @@ On 22 September the mayor's memory was an append-only log of 769 lines and
   in 56 sessions with the card, against 49,500 and 2,200 in 33 before it. The
   earlier sessions had skipped most of the log, which is how old facts survived
   (problem 4): a correct start bought at a higher price, not the saving
-  intended. On 24 September both were cut by two fifths and capped in size;
-  not measured yet.
+  intended. On 24 September both were cut by two fifths and capped in size.
+  The first two sessions after that read 26,000 and 28,000 characters of notes before
+  their first outward action and reached it after 34,000 and 38,000 tokens; the
+  three sessions before them that day read 42,000 to 47,000 characters and
+  needed 63,000 to 105,000.
 - **23 September: quick questions and hooks.** A message from the founder that
   starts with "?" is answered at once from what the mayor already knows, with
   no tool call but the reply. The hooks' timeouts went from 15 seconds to 5.
-  Not measured yet.
+  The three quick questions since were answered in 24 to 58 seconds; the hooks
+  were not measured on their own.
 - **23–24 September: window and hand-off points.** The window was set to
   1,000,000 tokens on 23 September, with a hand-off advised at 20% and called
-  at 25%; since 24 September at 25% and 30% (250,000 and 300,000 tokens). Not
-  measured yet.
+  at 25%; since 24 September at 25% and 30% (250,000 and 300,000 tokens). The third
+  count covers the first eight hours at 30%: sessions made almost three times
+  as many calls, and the share of tokens processed before the first outward
+  action fell from 45% to 7%, but the mean context per call rose by half, which
+  took most of the gain: per call after the first outward action, a tenth fewer
+  tokens. The three sessions before the notes were trimmed saved nothing
+  (257,000); the two after saved a fifth (209,000).
 - **24 September: four plugins switched off** for the factory's sessions: the
   hosting platform's, a front-end design plugin with one skill and two
   language-server plugins without skill lines. Measured once: the next mayor
-  session started at 46,290 tokens, against 51,020, 59,091 and 65,150 for the
-  three before. Between 51,020 and 46,290 only the lists of skills and agents
-  changed, about 12,000 characters shorter, so the hosting-platform plugin
-  cost about 4,700 tokens a start: a tenth, not the fifth estimated from its
-  files on disk. The three earlier starts already differed by 14,000 tokens.
+  session started at 46,290 tokens, against 51,020 for the one before; only
+  the lists of skills and agents had changed, about 12,000 characters shorter,
+  so the hosting-platform plugin cost about 4,700 tokens a start: a tenth, not
+  the fifth estimated from its files on disk. All five sessions of the third
+  count started between 42,000 and 55,000 tokens; the three starts before the
+  change had differed by 14,000.
 - **24 September: the account's connectors switched off** for the factory's
   sessions: ten, none of them used. After the plugin was off, the hosting
   platform's tools had still reached every session, through the account's own
@@ -194,13 +216,11 @@ On 22 September the mayor's memory was an append-only log of 769 lines and
 
 ## Open questions and ideas
 
-- Tokens per session, hand-offs per day and tokens before the first outward
-  action, measured again after a day of normal work since the changes of 24
-  September.
-- Whether the lower start holds over more sessions.
+- The third count over a full day of normal work, with more sessions.
 - A lower reasoning-effort setting for quick answers; not decided.
 - The hand-off point: later hand-offs mean fewer re-orientations but a longer
-  context on every step and older facts in the window. Which is cheaper
-  depends on what re-orientation costs; to be decided on the measurements.
+  context on every step and older facts in the window. In the first eight
+  hours the later point saved a tenth, all of it after the notes were trimmed;
+  a full day decides.
 - A project-manager role, to be decided on measured data; a second project,
   not for now.
