@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
 import { existsSync } from "node:fs";
-import { writeFile } from "node:fs/promises";
+import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { after, before, describe, it } from "node:test";
 import { pathToFileURL } from "node:url";
@@ -12,7 +12,9 @@ import { buildSite, copyProject, ROOT, tempDir } from "./helpers.mjs";
 // the build holds every URL it forms to one rule — each part a slug, and a
 // URL that does not end in "/" may end in one extension — and refuses a file
 // name Eleventy would change on the way to the URL (si-ok07): a date in it,
-// or an article named index.md.
+// or an article named index.md. It refuses a file in a subdirectory of
+// posts/ too (si-73wj), which it would otherwise publish as an article that
+// no check reads, a draft included.
 
 // Every kind of URL the site gives a page (2026-09-23).
 const ACCEPTED = [
@@ -83,6 +85,17 @@ const ARTICLE_INDEXES = [
   ["./src/sv/blog/posts/index.md", "/sv/blog/posts/"],
 ];
 
+// Files in a subdirectory of posts/, each with the URL the build gives it —
+// posts.11tydata.js makes it an article all the same — and the subdirectory
+// the refusal names.
+const NESTED = [
+  ["./src/en/blog/posts/sub/nested-draft.md", "/blog/nested-draft/", "sub"],
+  ["./src/sv/blog/posts/sub/nested-draft.md", "/sv/blog/nested-draft/", "sub"],
+  ["./src/en/blog/posts/2026/09/name.md", "/blog/name/", "2026/09"], // two levels down
+  ["./src/en/blog/posts/sub/index.md", "/blog/sub/", "sub"],
+  ["./src/sv/blog/posts/sub/page.njk", "/sv/blog/page/", "sub"], // a template that is not Markdown
+];
+
 // Names Eleventy makes the URL they spell, each with that URL.
 const KEPT = [
   ["./src/en/blog/posts/name-2026-09-24.md", "/blog/name-2026-09-24/"], // a date at the end
@@ -123,6 +136,17 @@ describe("file names", () => {
     }
   });
 
+  it("refuses a file in a subdirectory of posts/, naming the file and the subdirectory", () => {
+    // [] as well: the rule is about where the file is, whatever its URL.
+    for (const [inputPath, url, dir] of NESTED) {
+      for (const urls of [[url], []]) {
+        const message = refusal({ [inputPath]: urls });
+        assert.ok(message?.startsWith("These files are in a subdirectory of posts/:\n"), `${inputPath} ${JSON.stringify(urls)}: ${message}`);
+        assert.ok(message.includes(`\n  ${inputPath}: in the subdirectory ${JSON.stringify(dir)}\n`), message);
+      }
+    }
+  });
+
   it("keeps a date at the end of a name, and an index page that is not an article", () => {
     assert.equal(refusal(Object.fromEntries(KEPT.map(([inputPath, url]) => [inputPath, [url]]))), null);
   });
@@ -133,6 +157,7 @@ describe("file names", () => {
       "./src/sv/blog/posts/notes-2026-09-24-name.md": ["/sv/blog/name/"],
       "./src/en/blog/posts/2026-09-24-About.md": ["/blog/About/"],
       "./src/en/blog/posts/index.md": ["/blog/posts/"],
+      "./src/en/blog/posts/drafts/name.md": ["/blog/name/"],
     });
     assert.equal(
       message,
@@ -150,16 +175,26 @@ describe("file names", () => {
         "These articles are named index.md:",
         '  ./src/en/blog/posts/index.md: Eleventy would name it after its directory, "posts"',
         "An article's file name becomes its URL, and Eleventy names an index.md after its directory instead, so rename the file.",
+        "These files are in a subdirectory of posts/:",
+        '  ./src/en/blog/posts/drafts/name.md: in the subdirectory "drafts"',
+        "Eleventy gives a file in a subdirectory of posts/ an article's layout and URL, but the checks and the draft rule see only the files directly in posts/, so it would be published unchecked, even with draft: true.",
+        "Articles live directly in src/<lang>/blog/posts/, so move the file there.",
       ].join("\n"),
     );
   });
 });
 
-/** Write one article, both languages, into a copy of the project, front matter valid. */
+/**
+ * Write one article, both languages, into a copy of the project, front matter
+ * valid. `name` is the file's path under posts/, without .md: "name", or
+ * "sub/name" for a file in a subdirectory.
+ */
 async function writeArticlePair(project, name, translationKey, { draft = false } = {}) {
   for (const lang of ["en", "sv"]) {
+    const file = path.join(project, "src", lang, "blog", "posts", `${name}.md`);
     const frontMatter = ["---", `title: ${translationKey} (${lang})`, "description: One sentence.", "date: 2026-09-01", "category: app-development", `translationKey: ${translationKey}`, `draft: ${draft}`, "aiGenerated: true", "humanReviewed: true", "---"];
-    await writeFile(path.join(project, "src", lang, "blog", "posts", `${name}.md`), `${frontMatter.join("\n")}\n\nThe body.\n`);
+    await mkdir(path.dirname(file), { recursive: true });
+    await writeFile(file, `${frontMatter.join("\n")}\n\nThe body.\n`);
   }
 }
 
@@ -218,6 +253,21 @@ describe("file names in the build", () => {
     assert.notEqual(message, "", "the build passed");
     for (const lang of ["en", "sv"]) {
       assert.ok(message.includes(`./src/${lang}/blog/posts/2026-09-24-draft.md: Eleventy would drop "2026-09-24-" from the URL`), message);
+    }
+  });
+
+  it("fails on a draft in a subdirectory of posts/, which the production build would publish", async () => {
+    const project = await copyProject(path.join(tmp.dir, "nested"));
+    await writeArticlePair(project, "sub/nested-draft", "nested-draft", { draft: true });
+    for (const [mode, env] of [
+      ["production", { SITE_ENV: "production" }],
+      ["development", {}],
+    ]) {
+      const message = buildFailure(project, path.join(tmp.dir, `nested-site-${mode}`), env);
+      assert.notEqual(message, "", `the ${mode} build passed`);
+      for (const lang of ["en", "sv"]) {
+        assert.ok(message.includes(`./src/${lang}/blog/posts/sub/nested-draft.md: in the subdirectory "sub"`), `${mode}: ${message}`);
+      }
     }
   });
 

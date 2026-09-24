@@ -159,9 +159,13 @@ export default function (eleventyConfig) {
   // the way to the URL (si-ok07): a date in it, which Eleventy drops with
   // everything before it, and an article named index.md, which it names
   // after its directory. The gates read an article's URL off its file name,
-  // so the build keeps the two the same. Unlike a URL, a name is there to
-  // check in every build, so a left-out draft with such a name fails the
-  // production build too.
+  // so the build keeps the two the same. It refuses a file in a subdirectory
+  // of posts/ as well (si-73wj): posts.11tydata.js makes such a file an
+  // article, but the front-matter checks and the draft rule above, the
+  // collections below and the gates take only the files directly in posts/,
+  // so it was published unchecked, even as a draft. Unlike a URL, a file's
+  // name and place are there to check in every build, so a left-out draft
+  // with such a name fails the production build too.
   eleventyConfig.on("eleventy.contentMap", ({ inputPathToUrl }) => checkPageUrls(inputPathToUrl));
 
   // One moment for the whole build (si-vv7h). The collections below ask
