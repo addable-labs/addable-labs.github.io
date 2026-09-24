@@ -64,14 +64,18 @@ const GITHUB_FILE_URL = /^https:\/\/github\.com\/([A-Za-z0-9-]+)\/([A-Za-z0-9_.-
 
 /**
  * Every GitHub repository a text names, as owner/name the way it is written:
- * each github.com/<owner>/<name> in it — a link, a feed's escaped markup and
- * plain prose alike. A sentence's full stop and a ".git" suffix are not part
- * of the name.
+ * each <host>/<owner>/<name> in it — a link, a feed's escaped markup and
+ * plain prose alike — where the host is github.com or one of its subdomains
+ * (www., gist.), raw.githubusercontent.com, which serves the repository's
+ * files, or github.dev, its editor (si-gnca), but no subdomain of these two:
+ * a codespace's address on github.dev names no repository. The host is read
+ * in any case, with or without a closing dot and a port, an empty port too.
+ * A sentence's full stop and a ".git" suffix are not part of the name.
  * @param {string} text
  * @returns {string[]}
  */
 export function githubRepos(text) {
-  return [...String(text).matchAll(/\bgithub\.com\/([A-Za-z0-9-]+)\/([A-Za-z0-9_.-]+)/gi)].map(([, owner, name]) => `${owner}/${name.replace(/\.+$/, "").replace(/\.git$/i, "")}`);
+  return [...String(text).matchAll(/(?:\bgithub\.com|(?<![\w.-])(?:raw\.githubusercontent\.com|github\.dev))\.?(?::\d*)?\/([A-Za-z0-9-]+)\/([A-Za-z0-9_.-]+)/gi)].map(([, owner, name]) => `${owner}/${name.replace(/\.+$/, "").replace(/\.git$/i, "")}`);
 }
 
 /** The entry of `repos` that is this owner/name, or undefined. GitHub matches
@@ -191,13 +195,14 @@ export function validateApps({
     }
     if (privateKeys.includes(key)) {
       // The url is null or an https:// page off https://github.com/, a URL a
-      // browser can open. It names no GitHub repository in any spelling of
-      // github.com that githubRepos() reads — www.github.com, GitHub.com, a
-      // subdomain — as the content gate reads the built site (si-i5uk), and,
-      // whatever it names, it is on none of GITHUB_HOSTS: not with a port,
-      // not on raw.githubusercontent.com, not as an owner's page, spellings
-      // githubRepos() does not read (si-qtwy). A url gets the message of the
-      // first of these rules it breaks, only.
+      // browser can open. It names no GitHub repository in any spelling
+      // githubRepos() reads — www.github.com, GitHub.com, a subdomain, a
+      // port, raw.githubusercontent.com, github.dev — as the content gate
+      // reads the built site (si-i5uk, si-gnca), and, whatever it names, it
+      // is on none of GITHUB_HOSTS, so a url in which githubRepos() reads no
+      // repository — an owner's page, a gist's file on
+      // gist.githubusercontent.com — is refused too (si-qtwy). A url gets
+      // the message of the first of these rules it breaks, only.
       const host = isText(entry.url) ? hostOf(entry.url) : undefined;
       const repos = isText(entry.url) ? [...new Set(githubRepos(entry.url))] : [];
       if (entry.url !== null && !(isText(entry.url) && entry.url.startsWith("https://") && host !== undefined && !entry.url.startsWith(PUBLIC_URL_PREFIX))) {

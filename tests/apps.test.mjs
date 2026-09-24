@@ -123,21 +123,26 @@ describe("apps data and copy (REQ-011, REQ-025; AC-11, AC-12, AC-30)", () => {
       return problemsOf(input);
     };
     const refused = (url, host) => `niva: private repository must not be linked — url is null or the product's public https:// page, never one on a GitHub host (got ${JSON.stringify(url)}, which is on ${host})`;
-    // githubRepos() reads no repository in any of these, so the content gate
-    // does not see one in the built site either: only the host refuses them.
-    // A port, a raw file, an owner's page on www.; then the host in another
-    // case with another port or with a closing dot, behind a user name, on
-    // gist., on another subdomain of githubusercontent.com and in the editor.
+    // githubRepos() reads no repository in any of these — each names an
+    // owner, a gist or a codespace — so the content gate does not see one in
+    // the built site either: only the host refuses them. A port, the raw
+    // host, an owner's page on www.; then the host in another case with
+    // another port or with a closing dot, behind a user name, on gist., on
+    // another subdomain of githubusercontent.com, in the editor and in a
+    // codespace. A repository after the owner is read with a port or a
+    // closing dot, on the raw host and in the editor (si-gnca, the tests
+    // below).
     for (const [url, host] of [
-      ["https://github.com:443/example-org/private-app", "github.com"],
-      ["https://raw.githubusercontent.com/example-org/private-app/main/README.md", "raw.githubusercontent.com"],
+      ["https://github.com:443/example-org", "github.com"],
+      ["https://raw.githubusercontent.com/example-org", "raw.githubusercontent.com"],
       ["https://www.github.com/example-org", "www.github.com"],
       ["https://GitHub.com:8443/example-org", "github.com"],
-      ["https://GITHUB.COM./example-org/private-app", "github.com"],
+      ["https://GITHUB.COM./example-org", "github.com"],
       ["https://erniva.se@github.com/example-org", "github.com"],
       ["https://gist.github.com/example-org", "gist.github.com"],
       ["https://gist.githubusercontent.com/example-org/0123456789abcdef/raw/notes.md", "gist.githubusercontent.com"],
-      ["https://github.dev/example-org/private-app", "github.dev"],
+      ["https://github.dev/example-org", "github.dev"],
+      ["https://example-app-8080.app.github.dev/api/items", "example-app-8080.app.github.dev"],
     ]) {
       assert.deepEqual(githubRepos(url), [], url);
       assert.deepEqual(withUrl(url), [refused(url, host)], url);
@@ -153,6 +158,28 @@ describe("apps data and copy (REQ-011, REQ-025; AC-11, AC-12, AC-30)", () => {
       assert.deepEqual(withUrl(url), [], url);
     }
   });
+
+  // A repository written with a port, as a file on raw.githubusercontent.com
+  // or in the editor, github.dev (si-gnca): githubRepos() reads it, so the
+  // content gate refuses a private one linked so from any page, and a private
+  // entry's url written so gets the message that names the repository, not
+  // the host's. The host in capitals with a closing dot, and an empty port,
+  // lead to the repository all the same.
+  for (const [how, url] of [
+    ["with a port", "https://github.com:443/example-org/private-app"],
+    ["with an empty port", "https://github.com:/example-org/private-app"],
+    ["in capitals with a closing dot", "https://GITHUB.COM./example-org/private-app"],
+    ["as a file on raw.githubusercontent.com", "https://raw.githubusercontent.com/example-org/private-app/main/README.md"],
+    ["as a file on raw.githubusercontent.com with a port", "https://raw.githubusercontent.com:443/example-org/private-app/refs/heads/main/README.md"],
+    ["in the editor, github.dev", "https://github.dev/example-org/private-app"],
+  ]) {
+    it(`reads the repository in a url ${how}, ${url}, and refuses it as a private entry's url, naming the repository (si-gnca)`, () => {
+      assert.deepEqual(githubRepos(url), ["example-org/private-app"]);
+      const input = copy();
+      input.data.find((entry) => entry.key === "niva").url = url;
+      assert.deepEqual(problemsOf(input), [`niva: private repository must not be linked — url is null or the product's public https:// page, never one that names a GitHub repository (got ${JSON.stringify(url)}, which names github.com/example-org/private-app)`]);
+    });
+  }
 
   it("fails an unknown status key and a status without a label in either language (AC-12)", () => {
     const unknown = copy();
