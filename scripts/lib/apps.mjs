@@ -18,8 +18,8 @@ export const APP_KEYS = ["niva", "notesage", "ashlands", "gaimer"];
 
 /** Private repositories: never linked (REQ-011 honesty rule). Their url
     is null, or the public page of the product when there is one — nivå's
-    since si-gyc4 — and never on github.com, so the card says "Website", not
-    "Repository". */
+    since si-gyc4 — and never a page on GitHub, so the card says "Website",
+    not "Repository". */
 export const PRIVATE_APP_KEYS = ["niva"];
 
 /** The three services (REQ-010; the third card is the experiments card since
@@ -78,6 +78,21 @@ export function githubRepos(text) {
     names without regard to case, and so does this. */
 export function publicRepo(repo, repos = PUBLIC_REPOS) {
   return repos.find((allowed) => allowed.toLowerCase() === repo.toLowerCase());
+}
+
+/** The hosts GitHub serves repositories and their files from, each with
+    every subdomain: github.com (www., gist., api.), githubusercontent.com
+    (raw., gist.) and github.dev, its editor. */
+const GITHUB_HOSTS = ["github.com", "githubusercontent.com", "github.dev"];
+
+/** The host of a URL as a browser reads it — in lower case, without a port,
+    a user name or closing dots — or undefined for a string that is no URL. */
+function hostOf(url) {
+  try {
+    return new URL(url).hostname.replace(/\.+$/, "");
+  } catch {
+    return undefined;
+  }
 }
 
 const length = (value) => [...String(value)].length;
@@ -175,16 +190,22 @@ export function validateApps({
       problems.push(`${name}: unknown status ${quote(entry?.status)} (known: ${statuses.join(", ")})`);
     }
     if (privateKeys.includes(key)) {
-      // The url is null or an https:// page off https://github.com/, and it
-      // names no GitHub repository in any spelling of github.com that
-      // githubRepos() reads — www.github.com, GitHub.com, a subdomain — as
-      // the content gate reads the built site (si-i5uk). A url the first
-      // rule refuses gets its message only.
+      // The url is null or an https:// page off https://github.com/, a URL a
+      // browser can open. It names no GitHub repository in any spelling of
+      // github.com that githubRepos() reads — www.github.com, GitHub.com, a
+      // subdomain — as the content gate reads the built site (si-i5uk), and,
+      // whatever it names, it is on none of GITHUB_HOSTS: not with a port,
+      // not on raw.githubusercontent.com, not as an owner's page, spellings
+      // githubRepos() does not read (si-qtwy). A url gets the message of the
+      // first of these rules it breaks, only.
+      const host = isText(entry.url) ? hostOf(entry.url) : undefined;
       const repos = isText(entry.url) ? [...new Set(githubRepos(entry.url))] : [];
-      if (entry.url !== null && !(isText(entry.url) && entry.url.startsWith("https://") && !entry.url.startsWith(PUBLIC_URL_PREFIX))) {
+      if (entry.url !== null && !(isText(entry.url) && entry.url.startsWith("https://") && host !== undefined && !entry.url.startsWith(PUBLIC_URL_PREFIX))) {
         problems.push(`${name}: private repository must not be linked — url is null or the product's public https:// page, never ${PUBLIC_URL_PREFIX} (got ${quote(entry.url)})`);
       } else if (repos.length > 0) {
         problems.push(`${name}: private repository must not be linked — url is null or the product's public https:// page, never one that names a GitHub repository (got ${quote(entry.url)}, which names ${repos.map((repo) => `github.com/${repo}`).join(" and ")})`);
+      } else if (host !== undefined && GITHUB_HOSTS.some((github) => host === github || host.endsWith(`.${github}`))) {
+        problems.push(`${name}: private repository must not be linked — url is null or the product's public https:// page, never one on a GitHub host (got ${quote(entry.url)}, which is on ${host})`);
       }
     } else if (keys.includes(key)) {
       // A public entry links its repository: one the site may link

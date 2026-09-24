@@ -116,6 +116,44 @@ describe("apps data and copy (REQ-011, REQ-025; AC-11, AC-12, AC-30)", () => {
     assert.deepEqual(withUrl("https://erniva.se/"), []);
   });
 
+  it("refuses a private entry's url on any of GitHub's hosts, whether or not it names a repository — with a port, on raw.githubusercontent.com, an owner's page — and a string that is no URL (si-qtwy)", () => {
+    const withUrl = (url) => {
+      const input = copy();
+      input.data.find((entry) => entry.key === "niva").url = url;
+      return problemsOf(input);
+    };
+    const refused = (url, host) => `niva: private repository must not be linked — url is null or the product's public https:// page, never one on a GitHub host (got ${JSON.stringify(url)}, which is on ${host})`;
+    // githubRepos() reads no repository in any of these, so the content gate
+    // does not see one in the built site either: only the host refuses them.
+    // A port, a raw file, an owner's page on www.; then the host in another
+    // case with another port or with a closing dot, behind a user name, on
+    // gist., on another subdomain of githubusercontent.com and in the editor.
+    for (const [url, host] of [
+      ["https://github.com:443/example-org/private-app", "github.com"],
+      ["https://raw.githubusercontent.com/example-org/private-app/main/README.md", "raw.githubusercontent.com"],
+      ["https://www.github.com/example-org", "www.github.com"],
+      ["https://GitHub.com:8443/example-org", "github.com"],
+      ["https://GITHUB.COM./example-org/private-app", "github.com"],
+      ["https://erniva.se@github.com/example-org", "github.com"],
+      ["https://gist.github.com/example-org", "gist.github.com"],
+      ["https://gist.githubusercontent.com/example-org/0123456789abcdef/raw/notes.md", "gist.githubusercontent.com"],
+      ["https://github.dev/example-org/private-app", "github.dev"],
+    ]) {
+      assert.deepEqual(githubRepos(url), [], url);
+      assert.deepEqual(withUrl(url), [refused(url, host)], url);
+    }
+    // A string no browser opens is no page, so the first rule refuses it: a
+    // port out of range, a host with escaped slashes in it.
+    for (const url of ["https://github.com:99999/example-org/private-app", "https://github.com%2Fexample-org%2Fprivate-app"]) {
+      assert.deepEqual(withUrl(url), [`niva: private repository must not be linked — url is null or the product's public https:// page, never https://github.com/ (got ${JSON.stringify(url)})`], url);
+    }
+    // A host that only looks like one of GitHub's is another site, and its
+    // page passes.
+    for (const url of ["https://notgithub.com/example-org", "https://github.com.example/example-org"]) {
+      assert.deepEqual(withUrl(url), [], url);
+    }
+  });
+
   it("fails an unknown status key and a status without a label in either language (AC-12)", () => {
     const unknown = copy();
     unknown.data.find((entry) => entry.key === "gaimer").status = "beta";
