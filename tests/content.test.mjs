@@ -31,6 +31,19 @@ describe("content gate", () => {
     return copy;
   }
 
+  /** A copy of the build with one edit applied to each page named (its path in the build). */
+  async function withPageEdits(name, edits) {
+    const copy = await copyDir(built, path.join(tmp.dir, name));
+    for (const [rel, edit] of Object.entries(edits)) {
+      const file = path.join(copy, rel);
+      const html = await readFile(file, "utf8");
+      const edited = edit(html);
+      assert.notEqual(edited, html, `${name}: the edit must change ${rel}`);
+      await writeFile(file, edited);
+    }
+    return copy;
+  }
+
   it("passes on the real build, stating the company line on every page (si-98hh)", () => {
     // CHECK_QUIET=0 so the passing run prints its ok lines and the rule can be
     // read back from them.
@@ -65,13 +78,13 @@ describe("content gate", () => {
     assert.match(output, /FAIL {2}about\/index\.html: contains "September 2026"/);
   });
 
-  it("passes on the real build, whose about pages name the founder in the lead and nowhere else in their main content (founder call 2026-09-22, founder request 2026-09-23)", () => {
+  it("passes on the real build, whose about pages name the founder in the lead's first sentence and nowhere else in their main content (founder call 2026-09-22, founder request 2026-09-23)", () => {
     const { status, output } = runGate("content", built, undefined, { CHECK_QUIET: "0" });
     assert.equal(status, 0, output);
-    assert.match(output, /ok {4}about\/index\.html: lead names Péter Blénessy/);
-    assert.match(output, /ok {4}about\/index\.html: no founder section \(outside the lead, the main content does not name Péter Blénessy\)/);
-    assert.match(output, /ok {4}sv\/about\/index\.html: lead names Péter Blénessy/);
-    assert.match(output, /ok {4}sv\/about\/index\.html: no founder section \(outside the lead, the main content does not name Péter Blénessy\)/);
+    assert.match(output, /ok {4}about\/index\.html: lead's first sentence names Péter Blénessy/);
+    assert.match(output, /ok {4}about\/index\.html: no founder section \(outside the lead, the main content does not name Péter Blénessy, ignoring accents and case\)/);
+    assert.match(output, /ok {4}sv\/about\/index\.html: lead's first sentence names Péter Blénessy/);
+    assert.match(output, /ok {4}sv\/about\/index\.html: no founder section \(outside the lead, the main content does not name Péter Blénessy, ignoring accents and case\)/);
   });
 
   it("fails when the about page names the founder outside the lead, as a founder section would (founder call 2026-09-22)", async () => {
@@ -85,8 +98,8 @@ describe("content gate", () => {
     await writeFile(about, edited);
     const { status, output } = runGate("content", broken);
     assert.equal(status, 1);
-    assert.match(output, /FAIL {2}about\/index\.html: no founder section \(outside the lead, the main content does not name Péter Blénessy\)/);
-    assert.match(output, /ok {4}about\/index\.html: lead names Péter Blénessy/);
+    assert.match(output, /FAIL {2}about\/index\.html: no founder section \(outside the lead, the main content does not name Péter Blénessy, ignoring accents and case\)/);
+    assert.match(output, /ok {4}about\/index\.html: lead's first sentence names Péter Blénessy/);
   });
 
   it("fails when the about page's lead no longer names the founder (founder request 2026-09-23)", async () => {
@@ -101,8 +114,43 @@ describe("content gate", () => {
     await writeFile(about, edited);
     const { status, output } = runGate("content", broken);
     assert.equal(status, 1);
-    assert.match(output, /FAIL {2}about\/index\.html: lead names Péter Blénessy/);
-    assert.match(output, /ok {4}about\/index\.html: no founder section \(outside the lead, the main content does not name Péter Blénessy\)/);
+    assert.match(output, /FAIL {2}about\/index\.html: lead's first sentence names Péter Blénessy/);
+    assert.match(output, /ok {4}about\/index\.html: no founder section \(outside the lead, the main content does not name Péter Blénessy, ignoring accents and case\)/);
+  });
+
+  it("fails when an about page's lead names the founder only after its first sentence, which ends at a full stop or a question mark (founder request 2026-09-23)", async () => {
+    // English: the founder clause becomes a sentence of its own at the lead's
+    // end ("… as we are. Founded by Péter Blénessy."). Swedish: a question
+    // opens the lead, so the sentence that names the founder is its second.
+    // The name stays in the lead and nowhere else in the main content, so
+    // only the first-sentence rule can fail.
+    const broken = await withPageEdits("founder-after-first-sentence", {
+      "about/index.html": (html) => html.replace(/(<p class="lead[^"]*">)([^<]*)<\/p>/, (_, open, lead) => `${open}${lead.replace(", founded by Péter Blénessy", "")} Founded by Péter Blénessy.</p>`),
+      "sv/about/index.html": (html) => html.replace('<p class="lead reveal">', '<p class="lead reveal">Vem står bakom? '),
+    });
+    const { status, output } = runGate("content", broken);
+    assert.equal(status, 1);
+    assert.match(output, /FAIL {2}about\/index\.html: lead's first sentence names Péter Blénessy — it reads "[^"]*\."/);
+    assert.match(output, /FAIL {2}sv\/about\/index\.html: lead's first sentence names Péter Blénessy — it reads "Vem står bakom\?"/);
+    assert.match(output, /ok {4}about\/index\.html: no founder section/);
+    assert.match(output, /ok {4}sv\/about\/index\.html: no founder section/);
+  });
+
+  it("fails when an about page names the founder outside the lead without the accents or in capitals (founder call 2026-09-22)", async () => {
+    // The facts line names the founder as "Peter Blenessy" in English and as
+    // "PÉTER BLÉNESSY" in Swedish: the same name, so a founder section all
+    // the same. The leads are untouched, so only the rule against a founder
+    // section can fail.
+    const broken = await withPageEdits("founder-other-spelling", {
+      "about/index.html": (html) => html.replace('<p class="facts-line">', '<p class="facts-line">Peter Blenessy · '),
+      "sv/about/index.html": (html) => html.replace('<p class="facts-line">', '<p class="facts-line">PÉTER BLÉNESSY · '),
+    });
+    const { status, output } = runGate("content", broken);
+    assert.equal(status, 1);
+    assert.match(output, /FAIL {2}about\/index\.html: no founder section \(outside the lead, the main content does not name Péter Blénessy, ignoring accents and case\)/);
+    assert.match(output, /FAIL {2}sv\/about\/index\.html: no founder section \(outside the lead, the main content does not name Péter Blénessy, ignoring accents and case\)/);
+    assert.match(output, /ok {4}about\/index\.html: lead's first sentence names Péter Blénessy/);
+    assert.match(output, /ok {4}sv\/about\/index\.html: lead's first sentence names Péter Blénessy/);
   });
 
   it("fails when the nivå card links more than its public page and its article, or calls the page \"Repository\" (REQ-011, A-01; si-gyc4, si-3hpa)", async () => {

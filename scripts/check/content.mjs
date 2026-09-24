@@ -22,10 +22,11 @@
 //     category chips and the draft chip where due, and the link to the blog
 //     index
 //   - the about pages have the mission and approach sections and the
-//     founding month ("September 2026" / "september 2026"), their lead names
-//     the founder (its first sentence does, at the founder's request of
+//     founding month ("September 2026" / "september 2026"), the first
+//     sentence of their lead names the founder (the founder's request of
 //     2026-09-23) and outside the lead the founder's name appears nowhere in
-//     their main content (founder call 2026-09-22: no founder section)
+//     their main content, not even without its accents or in capitals
+//     (founder call 2026-09-22: no founder section)
 //   - every page's footer: mailto:hello@addablelabs.se with the address as
 //     text, the company line the law asks for — name, organisation number and
 //     registered seat (si-98hh) — the language switch to the counterpart path
@@ -99,6 +100,23 @@ function mailtoSubject(href) {
   } catch {
     return "";
   }
+}
+
+/**
+ * The first sentence of a text: up to and including the first ".", "!" or
+ * "?" that whitespace follows, or the whole text when none does.
+ */
+function firstSentence(value) {
+  return value.split(/(?<=[.!?])\s/, 1)[0];
+}
+
+/**
+ * A text with its accents and case folded away (NFD, combining marks dropped,
+ * lower case), so "Peter Blenessy" and "PÉTER BLÉNESSY" read as the founder's
+ * name.
+ */
+function folded(value) {
+  return value.normalize("NFD").replace(/\p{M}/gu, "").toLowerCase();
 }
 
 // Landing pages
@@ -243,15 +261,17 @@ for (const lang of site.languages.codes) {
   if (!about) continue;
   const main = text(about.doc.querySelector("main"));
   const lead = text(about.doc.querySelector("main .page-hero .lead"));
+  const opening = firstSentence(lead);
   const h2s = about.doc.querySelectorAll("main h2").map(text);
   // Founder call 2026-09-22: a mission section and no founder section. The
-  // lead's first sentence names the founder (the founder's request of
-  // 2026-09-23), and the lead must carry the name, as the landing page's
-  // trust section must (REQ-012); outside the lead the name appears nowhere
-  // in the page's main content.
+  // lead's first sentence must name the founder (the founder's request of
+  // 2026-09-23), as the landing page's trust section must (REQ-012): the name
+  // only in a later sentence of the lead fails. Outside the lead the name
+  // appears nowhere in the page's main content, with or without its accents
+  // and in any case: "Peter Blenessy" names the founder too.
   report.check(h2s.includes(strings[lang].about.missionHeading), `${rel}: mission section present`);
-  report.check(lead.includes(FOUNDER), `${rel}: lead names ${FOUNDER}`);
-  report.check(!main.replace(lead, "").includes(FOUNDER), `${rel}: no founder section (outside the lead, the main content does not name ${FOUNDER})`);
+  report.check(opening.includes(FOUNDER), `${rel}: lead's first sentence names ${FOUNDER}${opening.includes(FOUNDER) ? "" : ` — it reads "${opening}"`}`);
+  report.check(!folded(main.replace(lead, "")).includes(folded(FOUNDER)), `${rel}: no founder section (outside the lead, the main content does not name ${FOUNDER}, ignoring accents and case)`);
   // REQ-012 (plan D-12): the founding month moved from the landing page to the about page.
   report.check(main.includes(MONTH[lang]), `${rel}: contains "${MONTH[lang]}"`);
   report.check(h2s.includes(strings[lang].about.approachHeading), `${rel}: approach section present`);
