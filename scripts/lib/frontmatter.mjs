@@ -132,7 +132,8 @@ export function frontMatterBlock(text, { file = "this file" } = {}) {
  * from eleventy.config.js and the gates from scripts/lib/site.mjs, so the two
  * can never drift apart: the build asks with the date Eleventy mapped, the
  * gates with the text that was typed, which is read here as Eleventy reads it.
- * Today is the day of `siteNow` below unless the caller names a moment.
+ * Today is the day of `siteNow` below unless the caller names a moment, as
+ * the build does: the one it started at (eleventy.config.js, si-vv7h).
  */
 export function isScheduled(date, now = siteNow()) {
   return utcDay(eleventyDate(date)) > utcDay(now);
@@ -148,8 +149,12 @@ export function isScheduled(date, now = siteNow()) {
  * that built the site at 23:59:59 and ran its gates after midnight failed a
  * good build — so whatever runs several of them fixes one instant and hands
  * it to each: scripts/check/run.mjs once per `pnpm check`, tests/helpers.mjs
- * once per test file. CI sets none, so there every run takes the real moment
- * it starts, and the daily rebuild lists an article from its date.
+ * once per test file. A build asks once itself, as it starts, and hands the
+ * moment to every listing it makes (eleventy.config.js, si-vv7h): each
+ * listing used to ask at its own time, so one build that ran across midnight
+ * could list an article on one page and not on another. CI sets none, so
+ * there every run takes the real moment it starts, and the daily rebuild
+ * lists an article from its date.
  *
  * SITE_NOW is typed like an article's `date` and read the same way, in UTC
  * unless it names a zone: `2026-09-24`, `2026-09-24T04:17` or

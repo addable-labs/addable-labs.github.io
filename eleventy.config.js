@@ -1,7 +1,7 @@
 import { readFileSync, statSync } from "node:fs";
 import { IdAttributePlugin } from "@11ty/eleventy";
 import rssPlugin from "@11ty/eleventy-plugin-rss";
-import { isOmitted, isScheduled, parseFrontMatter, validateArticle, validateArticleDate } from "./scripts/lib/frontmatter.mjs";
+import { isOmitted, isScheduled, parseFrontMatter, siteNow, validateArticle, validateArticleDate } from "./scripts/lib/frontmatter.mjs";
 import { byDateDescThenSlug, checkPageUrls } from "./scripts/lib/urls.mjs";
 import site from "./src/_data/site.js";
 
@@ -48,9 +48,12 @@ const FIGURE_HTML = /<figure class="figure[^"]*"[^>]*>[\s\S]*?<\/figure>\n?/g;
 // is a draft in a local build, where it belongs in the listing, and a draft
 // in production never reaches it because the template no longer exists.
 // Anything that is not an article is always listed, which matters for
-// collections.all, the collection the sitemap walks.
+// collections.all, the collection the sitemap walks. Today is the day of the
+// moment the build started (`buildNow`, set by the `eleventy.before` handler
+// below).
+let buildNow;
 function isListed(item) {
-  return !ARTICLE_PATH.test(item.inputPath) || !isScheduled(item.date);
+  return !ARTICLE_PATH.test(item.inputPath) || !isScheduled(item.date, buildNow);
 }
 
 export default function (eleventyConfig) {
@@ -157,6 +160,18 @@ export default function (eleventyConfig) {
   // URL there, so a bad draft name fails the local build, where drafts are
   // written.
   eleventyConfig.on("eleventy.contentMap", ({ inputPathToUrl }) => checkPageUrls(inputPathToUrl));
+
+  // One moment for the whole build (si-vv7h). The collections below ask
+  // `isListed` about each article as the build gathers them, and the sitemap
+  // asks again as it renders; each question used to read the clock, so a
+  // build that ran across 00:00 UTC on the eve of an article's date could
+  // list it on one page and not on another. The build now reads the clock
+  // once, as it starts, or takes the moment SITE_NOW names (`siteNow`), and
+  // every listing takes that moment. `pnpm dev` starts every rebuild this
+  // way too, so a rebuild after midnight takes the new day.
+  eleventyConfig.on("eleventy.before", () => {
+    buildNow = siteNow();
+  });
 
   // posts_<lang>: every listed article of a language, newest first;
   // posts_<lang>_<category>: the same filtered to one category. Both drop the

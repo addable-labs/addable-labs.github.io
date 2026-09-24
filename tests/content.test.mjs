@@ -795,6 +795,58 @@ describe("builds and gates a second apart across 00:00 UTC", () => {
   });
 });
 
+// One build across 00:00 UTC (si-vv7h). A build asks whether an article is
+// scheduled once for every listing that can show it — each collection as the
+// build gathers it, the sitemap as it renders — and each question used to
+// read the clock, so one `pnpm build`, or one rebuild of `pnpm dev`, that ran
+// across the midnight that begins an article's date could list the article
+// on one page and not on another. A build now reads the clock once, as it
+// starts, and every listing takes that moment (eleventy.config.js). The case
+// builds a copy of the project that carries an article dated tomorrow, with
+// SITE_NOW empty as in a build nobody pins, on a clock that passes that
+// midnight halfway through the reads the build makes of it
+// (tests/fixtures/clock.mjs). A first build of the same copy, on a clock that
+// stands still, counts those reads.
+describe("one build across 00:00 UTC", () => {
+  const midnight = Date.parse(`${utcDate(1)}T00:00:00Z`);
+  const BEFORE = new Date(midnight - 500).toISOString();
+  const AFTER = new Date(midnight + 500).toISOString();
+  let tmp;
+  let built;
+  let reads; // the instants the build read, in the order it read them
+  before(async () => {
+    tmp = await tempDir("one-build-");
+    const project = await copyProject(path.join(tmp.dir, "project"));
+    await writeArticlePair(project, "after-midnight", utcDate(1), "Dated after midnight", "Daterad efter midnatt");
+    /** Build the copy on a clock that starts at BEFORE; returns the build and the instants it read. */
+    async function buildOnClock(name, clock) {
+      const log = path.join(tmp.dir, `${name}.log`);
+      const out = buildSite(path.join(tmp.dir, name), { ...clockAt(BEFORE), ...clock, TEST_CLOCK_LOG: log, SITE_NOW: "" }, project);
+      return [out, (await readFile(log, "utf8")).split("\n").filter(Boolean)];
+    }
+    const [, counted] = await buildOnClock("counted", {});
+    [built, reads] = await buildOnClock("site", { TEST_CLOCK_THEN: AFTER, TEST_CLOCK_READS: String(Math.floor(counted.length / 2)) });
+  });
+  after(() => tmp.cleanup());
+
+  it("lists an article dated tomorrow on no page, feed or sitemap when the build's clock passes midnight halfway through the build: every listing takes the moment the build started", async () => {
+    assert.deepEqual([reads[0], reads.at(-1)], [BEFORE, AFTER], "the build reads its clock before midnight first and after it last");
+    // Each listing, and whether it lists the article in its language.
+    const where = {};
+    for (const page of [["blog", "index.html"], ["blog", "app-development", "index.html"], ["index.html"], ["sv", "blog", "index.html"], ["sv", "blog", "app-development", "index.html"], ["sv", "index.html"]]) {
+      where[page.join("/")] = (await listed(built, ...page)).some((url) => url.endsWith("/blog/after-midnight/"));
+    }
+    for (const feed of [["feed.xml"], ["sv", "feed.xml"]]) {
+      where[feed.join("/")] = /<link>[^<]*\/blog\/after-midnight\/<\/link>/.test(await readFile(path.join(built, ...feed), "utf8"));
+    }
+    const sitemap = await readFile(path.join(built, "sitemap.xml"), "utf8");
+    for (const prefix of ["", "/sv"]) {
+      where[`sitemap.xml ${prefix}/blog/after-midnight/`] = new RegExp(`<loc>https?://[^/<]+${prefix}/blog/after-midnight/</loc>`).test(sitemap);
+    }
+    assert.deepEqual(where, Object.fromEntries(Object.keys(where).map((listing) => [listing, false])));
+  });
+});
+
 // Drafts (founder ask 2026-09-22, si-mzf1): `draft: true` means the article is
 // there to read in a local build — listed, reachable, labelled — and is not in
 // the production build at all: no listing, no feed item, no sitemap entry and
