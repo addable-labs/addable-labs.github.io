@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { existsSync } from "node:fs";
-import { readFile, writeFile } from "node:fs/promises";
+import { mkdir, readdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { after, before, describe, it } from "node:test";
 import { setTimeout as delay } from "node:timers/promises";
@@ -19,7 +19,10 @@ import { buildSite, fixture, runGate, SRC, tempDir } from "./helpers.mjs";
 // was lost before it: then it is the lost Chrome's run's, and dropped. The
 // Lighthouse lines of such a run go to the step summary a case names, and to
 // none it does not: a gate run by a test writes nothing to the summary of the
-// CI step that runs the tests. The gate cases skip when no Chrome is found,
+// CI step that runs the tests. A gate stopped by SIGINT or SIGTERM mid-measure
+// (si-shkd) exits 130 or 143 at once, with no page measured again and no line
+// after the signal, and leaves no Chrome and no profile; SIGINT comes twice,
+// as it does under pnpm. The gate cases skip when no Chrome is found,
 // except under CHECK_REQUIRE_CHROME=1 (CI), where they run.
 
 /** Whether a process in the group `pid` leads is alive (Chrome's helpers share its group). */
@@ -287,5 +290,44 @@ describe("a Chrome gate whose measure fails: Chrome killed, or an error nobody h
     );
     assertAtOnce(run);
     await assertClean(run);
+  });
+
+  describe("stopped by a signal mid-measure (si-shkd)", () => {
+    /** The fixture's lines for the signals it sent while Chrome loaded `label`. */
+    function signalLines(label, signals) {
+      const escaped = label.replace(/[.*+?^${}()|[\]\\/]/g, "\\$&");
+      return signals.map((signal, index) =>
+        index === 0 ? new RegExp(`^kill-chrome: sent ${signal} to the gate while Chrome \\d+ loaded ${escaped} \\(try 1\\)$`) : `kill-chrome: sent ${signal} to the gate again, once it had taken ${signals[index - 1]}`,
+      );
+    }
+
+    for (const { gate, label, signals, code } of [
+      // Ctrl-C under pnpm, which passes it on to the script it runs: SIGINT twice.
+      { gate: "lighthouse", label: "/", signals: ["SIGINT", "SIGINT"], code: 130 },
+      { gate: "layout", label: "/sv/ 360", signals: ["SIGTERM"], code: 143 },
+    ]) {
+      it(`${gate}, ${signals.join(" and ")} as it loads ${label}: exits ${code} at once, measures nothing again, prints no FAIL or "not measured" line and leaves no Chrome or profile`, async () => {
+        // Chrome's profiles go to a temp dir of the case's own, so whatever is
+        // left in it is this run's.
+        const tmpdir = path.join(tmp.dir, `tmpdir-${gate}`);
+        await mkdir(tmpdir);
+        const run = await killedRun(`signal-${gate}`, gate, {}, { KILL_CHROME_SIGNAL: JSON.stringify({ [label]: signals }), TMPDIR: tmpdir });
+        assert.equal(run.status, code, run.output);
+        // The fixture's lines are all the gate printed: nothing after the signal.
+        assertLines(run.lines, signalLines(label, signals), run.output);
+        assert.doesNotMatch(run.output, /FAIL|not measured/, run.output);
+        // The page's first try was the last one.
+        const last = run.tries.at(-1);
+        assert.deepEqual([last.label, last.attempt], [label, 1], JSON.stringify(run.tries));
+        const signalled = run.logged.find((entry) => "signal" in entry);
+        const exited = run.logged.find((entry) => "exit" in entry);
+        assert.ok(exited.at - signalled.at < 10_000, `the gate exited ${exited.at - signalled.at} ms after ${signals[0]}`);
+        await assertClean(run);
+        assert.deepEqual(
+          (await readdir(tmpdir)).filter((name) => name.startsWith("addable-chrome-")),
+          [],
+        );
+      });
+    }
   });
 });

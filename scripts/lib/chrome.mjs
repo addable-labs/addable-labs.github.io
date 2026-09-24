@@ -21,6 +21,13 @@
 // chrome-launcher gave up after 50 polls (25 s) with a bare "connect
 // ECONNREFUSED 127.0.0.1:42401", which passed through withChrome's
 // try/finally and the gate's top-level await, and Node printed it as a crash.
+//
+// Stopped by a signal: SIGINT or SIGTERM stops the run where it is, with
+// nothing measured again and nothing more printed, kills Chrome, removes its
+// profile and exits 130 or 143 (si-shkd). Before, chrome-launcher's own SIGINT
+// handler exited at once and left the profile in the temp dir, and on SIGTERM
+// the measure-again that failed on the killed Chrome printed a FAIL line and
+// the gate exited 1 before the profile was removed.
 
 import diagnosticsChannel from "node:diagnostics_channel";
 import { accessSync, constants } from "node:fs";
@@ -102,18 +109,22 @@ export function skip(gate, env = process.env) {
  * Launch headless Chrome with a temporary profile. Resolves to
  * { port, pid, profile, exited, kill() }: `exited` resolves to how Chrome's
  * process ended ("on SIGKILL", "with code 1") once it has, and kill() stops
- * Chrome and removes the profile. A Chrome that never opens its DevTools
- * port is killed, its profile removed, and the launch rejects with "Chrome
- * did not start: <cause>". The two polling options are chrome-launcher's
- * (50 polls, 500 ms apart, by default).
+ * Chrome and removes the profile, every call resolving once that is done. A
+ * Chrome that never opens its DevTools port is killed, its profile removed,
+ * and the launch rejects with "Chrome did not start: <cause>". The two
+ * polling options are chrome-launcher's (50 polls, 500 ms apart, by default).
  * @param {{ chromePath: string, maxConnectionRetries?: number, connectionPollInterval?: number }} options
  */
 export async function launchChrome({ chromePath, maxConnectionRetries, connectionPollInterval }) {
   const profile = await mkdtemp(path.join(os.tmpdir(), "addable-chrome-"));
-  const removeProfile = () => rm(profile, { recursive: true, force: true }).catch(() => {});
+  // Retried, as chrome-launcher removes the profiles it makes: a file that
+  // appears during the removal, as from a Chrome still ending, fails it once.
+  const removeProfile = () => rm(profile, { recursive: true, force: true, maxRetries: 5 }).catch(() => {});
   let chrome;
   try {
-    chrome = await launch({ chromePath, chromeFlags: CHROME_FLAGS, userDataDir: profile, logLevel: "silent", maxConnectionRetries, connectionPollInterval });
+    // chrome-launcher's own SIGINT handler kills Chrome and exits at once,
+    // leaving the profile behind: withChrome stops the run on SIGINT itself.
+    chrome = await launch({ chromePath, chromeFlags: CHROME_FLAGS, userDataDir: profile, logLevel: "silent", handleSIGINT: false, maxConnectionRetries, connectionPollInterval });
   } catch (error) {
     // chrome-launcher leaves the Chrome it spawned running when the port never
     // opens. killAll() stops it: it is the only Chrome this process launched
@@ -128,16 +139,17 @@ export async function launchChrome({ chromePath, maxConnectionRetries, connectio
     if (child.exitCode !== null || child.signalCode !== null) resolve(how(child.exitCode, child.signalCode));
     else child.once("exit", (code, signal) => resolve(how(code, signal)));
   });
-  let killed = false;
-  const kill = async () => {
-    if (killed) return;
-    killed = true;
-    try {
-      await chrome.kill();
-    } finally {
-      await removeProfile();
-    }
-  };
+  // One kill, however often it is asked for: a second call waits for the
+  // profile's removal the first began.
+  let killing = null;
+  const kill = () =>
+    (killing ??= (async () => {
+      try {
+        chrome.kill();
+      } finally {
+        await removeProfile();
+      }
+    })());
   return { port: chrome.port, pid: chrome.pid, profile, exited, kill };
 }
 
@@ -178,6 +190,11 @@ class NotMeasured extends Error {
  * well, withChrome prints one FAIL line naming the page and the cause, then
  * `FAIL <gate> (<label> not measured)`, and resolves to 1 without measuring
  * anything more, so a page that was not measured never passes or skips.
+ *
+ * A SIGINT or SIGTERM stops the run where it is: no measure settles after it
+ * and withChrome never resolves, so the gate measures and prints nothing
+ * more. Every Chrome launched is killed and its profile removed, the server
+ * is closed, and the process exits 130 (SIGINT) or 143 (SIGTERM).
  * @param {string} gate — for the skip and failure lines
  * @param {string} outDir — the built site to serve
  * @param {(context: { baseUrl: string, measure: (label: string, run: (chrome: { port: number, pid: number }) => Promise<any>) => Promise<any> }) => Promise<number>} fn — resolves to the exit code
@@ -191,9 +208,14 @@ export async function withChrome(gate, outDir, fn, { log = console.log } = {}) {
   const server = await start(outDir);
   const tries = diagnosticsChannel.channel(MEASURE_CHANNEL);
   // The Chrome in use, as a promise, so that dropping it while it is still
-  // launching waits for the launch and kills what it launched.
+  // launching waits for the launch and kills what it launched. `launches`
+  // holds every Chrome launched, so that the cleanup also waits for a kill a
+  // failed try has begun.
   let chrome = null;
+  const launches = [];
   let closing = false;
+  // The signal that stops the run, once one has come.
+  let stopping = null;
   // failTry rejects the try in flight; abandoned is set once a try has failed
   // and its Chrome was killed, which may leave the try's run going on.
   let failTry = null;
@@ -203,12 +225,33 @@ export async function withChrome(gate, outDir, fn, { log = console.log } = {}) {
     chrome = null;
     await (await dropped?.catch(() => null))?.kill();
   };
-  const cleanup = async () => {
-    closing = true;
-    await dropChrome();
-    await server.close();
-  };
+  // One cleanup, however often it is asked for: every Chrome killed and its
+  // profile removed, then the server closed.
+  let cleaned = null;
+  const cleanup = () =>
+    (cleaned ??= (async () => {
+      closing = true;
+      chrome = null;
+      await Promise.all(launches.map(async (launch) => (await launch.catch(() => null))?.kill()));
+      await server.close();
+    })());
+  // Once a signal has come, what a measure and withChrome itself come to: a
+  // promise that never settles, so the gate goes no further and the signal's
+  // handler exits when the cleanup is done.
+  const halt = new Promise(() => {});
+  const unlessStopped = (promise) =>
+    promise.then(
+      (value) => (stopping ? halt : value),
+      (error) => {
+        if (stopping) return halt;
+        throw error;
+      },
+    );
+  // A signal after the first changes nothing: pnpm passes Ctrl-C on to the
+  // script it runs, which so gets SIGINT twice.
   const onSignal = (signal) => {
+    if (stopping) return;
+    stopping = signal;
     cleanup().finally(() => process.exit(signal === "SIGINT" ? 130 : 143));
   };
   // Node crashes the gate on an error nobody handles. When Chrome dies under a
@@ -230,7 +273,10 @@ export async function withChrome(gate, outDir, fn, { log = console.log } = {}) {
       failTry = reject;
       (async () => {
         if (closing) throw new Error(`the ${gate} gate is stopping`);
-        chrome ??= launchChrome({ chromePath });
+        if (chrome === null) {
+          chrome = launchChrome({ chromePath });
+          launches.push(chrome);
+        }
         const launched = await chrome;
         launched.exited.then((how) => reject(new Error(`Chrome exited ${how}`)));
         tries.publish({ gate, label, attempt: number, pid: launched.pid, profile: launched.profile });
@@ -253,36 +299,42 @@ export async function withChrome(gate, outDir, fn, { log = console.log } = {}) {
     return how ? `Chrome exited ${how}` : firstLine(error);
   };
 
+  // Each step goes on only while no signal has come: a try that fails because
+  // the signal's cleanup killed its Chrome is not measured again or reported.
   const measure = async (label, run) => {
     try {
-      return await attempt(label, 1, run);
+      return await unlessStopped(attempt(label, 1, run));
     } catch (error) {
-      log(measuredAgainLine(gate, label, await giveUp(error)));
+      log(measuredAgainLine(gate, label, await unlessStopped(giveUp(error))));
     }
     try {
-      return await attempt(label, 2, run);
+      return await unlessStopped(attempt(label, 2, run));
     } catch (error) {
-      throw new NotMeasured(label, await giveUp(error));
+      throw new NotMeasured(label, await unlessStopped(giveUp(error)));
     }
   };
 
-  process.once("SIGINT", onSignal);
-  process.once("SIGTERM", onSignal);
+  process.on("SIGINT", onSignal);
+  process.on("SIGTERM", onSignal);
   process.on("uncaughtException", onStray);
   process.on("unhandledRejection", onStray);
   try {
-    return await fn({ baseUrl: server.url, measure });
+    return await unlessStopped(fn({ baseUrl: server.url, measure }));
   } catch (error) {
     if (!(error instanceof NotMeasured)) throw error;
     log(`${gate} ${error.label}: FAIL — not measured in a new Chrome either (${error.reason})`);
     console.log(`FAIL ${gate} (${error.label} not measured)`);
     return 1;
   } finally {
-    process.off("SIGINT", onSignal);
-    process.off("SIGTERM", onSignal);
     try {
       await cleanup();
+      // A signal during the cleanup: its handler exits once the cleanup is done.
+      if (stopping) await halt;
     } finally {
+      // Not before: Chrome runs in a process group of its own, so a signal
+      // with no handler would end the gate and leave Chrome running.
+      process.off("SIGINT", onSignal);
+      process.off("SIGTERM", onSignal);
       process.off("uncaughtException", onStray);
       process.off("unhandledRejection", onStray);
     }
