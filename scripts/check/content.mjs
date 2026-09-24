@@ -35,7 +35,7 @@
 //   - both seed articles exist in both languages, the seed articles are
 //     300–600 English words of prose and every later article 300–1,500 (the
 //     figures' captions and diagram labels are not prose and do not count,
-//     si-55iu), a draft shows "Draft"/"Utkast" on its page, in the listings
+//     si-55iu, and neither do tables' cells), a draft shows "Draft"/"Utkast" on its page, in the listings
 //     and in the feeds of a local build and has no page at all in the
 //     production build (si-mzf1), an article dated after today is built but
 //     listed nowhere (si-gxyg), and every article page ends with the "More
@@ -377,8 +377,10 @@ for (const lang of site.languages.codes) {
       // The prose only: a figure's caption and the labels inside its SVG
       // panels are removed before counting (founder feedback 2026-09-21,
       // si-55iu), so an illustrated article is measured like a plain one.
+      // A table goes too: its cells are data, not prose, and the context
+      // study's tables (2026-09-24) would otherwise spend its words.
       const body = built.doc.querySelector(".article-body");
-      for (const figure of body?.querySelectorAll("figure") ?? []) figure.remove();
+      for (const element of body?.querySelectorAll("figure, table") ?? []) element.remove();
       const words = text(body).split(/\s+/).filter(Boolean).length;
       const [min, max] = SEED_ARTICLES.has(article.slug) ? WORD_RANGE.seed : WORD_RANGE.other;
       report.check(words >= min && words <= max, `${rel}: ${words} words (${min}–${max})`);

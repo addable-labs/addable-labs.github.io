@@ -218,6 +218,20 @@ describe("content gate", () => {
     assert.match(output, /ok {4}blog\/how-this-site-was-built-by-agents\/index\.html: \d+ words \(300–600\)/);
   });
 
+  it("counts the prose only: table cells do not count either", async () => {
+    // 400 words in a table's cells would push the seed article past 600 if
+    // they counted, as the same words in a <p> do.
+    const copy = await copyDir(built, path.join(tmp.dir, "seed-table"));
+    const page = path.join(copy, "blog", "how-this-site-was-built-by-agents", "index.html");
+    const html = await readFile(page, "utf8");
+    const padded = html.replace('<div class="article-body">', `<div class="article-body"><div class="table-scroll"><table><thead><tr><th>${"heading ".repeat(100).trim()}</th></tr></thead><tbody><tr><td>${"cell ".repeat(300).trim()}</td></tr></tbody></table></div>`);
+    assert.notEqual(padded, html, "the article body must be found");
+    await writeFile(page, padded);
+    const { status, output } = runGate("content", copy);
+    assert.equal(status, 0, output);
+    assert.match(output, /ok {4}blog\/how-this-site-was-built-by-agents\/index\.html: \d+ words \(300–600\)/);
+  });
+
   it("fails an article page whose \"more from the blog\" band lists the page itself or is missing (founder feedback 2026-09-22)", async () => {
     const copy = await copyDir(built, path.join(tmp.dir, "more-band"));
     const first = path.join(copy, "blog", "how-this-site-was-built-by-agents", "index.html");

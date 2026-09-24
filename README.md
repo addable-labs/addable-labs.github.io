@@ -256,8 +256,8 @@ Brödtext i Markdown.
 - **Length.** The content gate (`pnpm check:content`) counts the words of the
   built English article body: 300–600 for the two seed articles (REQ-006) and
   300–1,500 for every later article. The Swedish twin is not counted, and
-  neither are the figures (captions and diagram labels are not prose); a
-  table's cells are text of the body and count like the prose.
+  neither are the figures (captions and diagram labels) or the tables' cells:
+  they are not prose.
 - **Figures.** An article can carry custom SVG illustrations (REQ-008): put
   `{% figure "<id>" %}` on its own line between two paragraphs — the same
   line in both language files — for an inline figure (one panel on the
