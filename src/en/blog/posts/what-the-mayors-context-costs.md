@@ -1,6 +1,6 @@
 ---
-title: What the mayor's context costs, and what we changed
-description: About half of a typical session of the mayor, the agent we talk to, went to finding its bearings again. What we measured, where its own explanation of the cost went wrong, what we changed and what is not measured yet.
+title: A study of the mayor's context
+description: How the context of the mayor, the agent that coordinates the factory behind this site, was configured and used from 20 to 24 September 2026, which problems the session records show, what was changed and what is still open.
 date: 2026-09-24
 category: ai-journey             # app-development | ai-journey
 translationKey: what-the-mayors-context-costs
@@ -9,150 +9,188 @@ aiGenerated: true                # AI produced this text
 humanReviewed: false             # true once a person has read it
 ---
 
-The mayor is the agent at the centre of [our
-factory](/blog/why-we-run-an-agent-run-factory/): the one we talk to over
-Discord, which hands our requests to the other agents and follows them up. It
-works in sessions. When a session's context — everything the model is given at
-each step — grows past a set size, Gas City asks it to hand off: it writes
-down where things stand, and a new session picks up from there. Most numbers
-here come from records that are not public — the mayor's session logs, its
-reports and its messages to us — and we say which.
+## Summary
 
-## Why we looked
+This study examines the context of the mayor, the agent that coordinates [the
+factory](/blog/why-we-run-an-agent-run-factory/) behind this site, using its
+session records of 20 to 24 September 2026. From 20 to 22 September about half
+of a session's growth came before its first outward action, while it
+re-oriented itself after a hand-off. The notes kept between sessions, the
+hand-off points, the prompt hooks and the start-up content have since been
+changed; one change has been measured, once, and whether re-orientation now
+costs less is open.
 
-Simple questions on Discord took too long to answer; a status question could
-take minutes. On 23 September, when we wanted sessions to run much longer
-before handing off, the mayor advised against it for a reason we could not
-follow. And its own report of 22 September, on whether to add a
-project-manager role, showed that about half of each session went to finding
-its bearings again.
+## Configuration
 
-## Right fact, wrong unit
+The mayor is a Gas City agent that runs as a series of Claude Code sessions.
+Each step sends the model the whole conversation so far, the session's
+context. Past a set size, Gas City asks the session to hand off: it writes
+down the state of its work and a new session continues from there.
 
-The mayor's reason, in its Discord messages to us that evening, was that
-"every step re-reads the whole conversation, so a later handoff makes each
-step dearer". It added a table in which a handoff at 500,000 tokens cost 1.45
-times the tokens of one at 250,000, and one at 750,000 twice as many. It also
-wrote that caching "makes the repeated part cheaper, not free".
+The conversation's unchanged beginning is read from a cache, not processed
+again: at API list prices a cached token costs a tenth of a new one or less,
+depending on the model, though it still counts toward consumption. A long
+context still costs in latency, answer quality and consumption, and it keeps
+old information in the window.
 
-The fact underneath is right: every step sends the whole conversation so far
-to the model again. But its unchanged beginning comes from a cache while the
-cache holds it. It is not processed again, and at the API's list prices a
-token read from the cache costs a tenth of a new one or less, depending on the
-model. So "re-reads" is the wrong picture, and a count of tokens is the wrong
-unit for cost: the table counted a token read from the cache like a new one.
-The mayor had the right fact and still used the wrong unit.
+Before a session does anything, its context holds (start-up records, 24
+September):
 
-A long context is still expensive, for other reasons. Answers come more slowly
-and can get worse as the context grows. A cached token is cheaper, not free;
-how our subscription's usage limit weighs it is not published, and we do not
-know. And old information stays in the window after it has stopped being true.
+- Claude Code's system prompt and tool definitions: roughly 33,000 tokens, by
+  subtraction; not configurable
+- The list of skills: 18,893 characters
+- The account's connectors (MCP servers that reach a session through the
+  Claude account, not Gas City): about 10,000 characters
+- Gas City's prompt for the mayor with the factory's rules: 6,505 characters
+  plus 8 skill lines (798 characters), about 2,000 tokens
+- The machine's rules file with the memory index: 3,787 characters
 
-## What fills a session
+In total 46,290 tokens. A skill enters a session only as one line, its name
+and description; its full text loads only when the skill is used.
 
-The report covers the mayor's sessions from 20 September at 12:33 UTC to the
-evening of the 22nd: 38 sessions in 55 hours, 21 of them on one day, all for
-one project, this site, and 31 handoffs. It was built from the sessions'
-transcripts and token-usage records, the Discord history and the mayor's
-memory files, none of them public.
+The model's window is 1,000,000 tokens. Two prompt hooks run before every
+message to the mayor, adding a clock line with the queued messages and an
+unread-mail reminder. Every answer uses the highest reasoning-effort setting.
 
-Every session started at 55,000 to 66,000 tokens before its first tool call,
-and the handoffs came at 106,000 to 251,000. The median session grew by 87,000
-tokens, and 49,000 of those went by before its first outward action: a reply,
-a dispatch, a bead written, a commit. About half.
+## Data and method
 
-A script sorted what the mayor's tool calls returned into categories. The
-shares are of that output by volume, give or take a few points, not of the
-whole window. In the nine sessions of the site's redesign build, reading
-beads, the factory's units of work, took 19 per cent, in 69 calls, and
-debugging the factory itself about 10; in the 29 sessions after it, articles
-and plans took 18 and memory 13. Discord took 4 per cent, then 6.
+The sources, none of them public: the mayor's session transcripts with their
+token-usage records, its start-up records, its direct messages with the
+founder on Discord and its memory files. The mayor's report of 22 September
+covers its 38 sessions from 20 September, 12:33 UTC, to the evening of 22
+September; on 24 September the mayor repeated the count for 22 September,
+21:09 UTC, to 23 September, 18:54 UTC. Tokens were counted per call to the
+model, each session's first call included. A script sorted the tool output
+into categories, accurate to a few percentage points.
 
-In that Discord history, the mayor sent us 116 messages, 135,000 characters,
-and we sent it 84, 16,000 characters. Our side of the conversation is a
-rounding error; the agent's own work fills the window. Its memory had become a
-log that was only ever added to: 769 lines and 138 KB on 22 September, more
-than any session could read whole.
+Limits: one project; the plugin effect is one measurement; no other change is
+measured yet.
 
-## What a session starts with
+## Findings
 
-By the mayor's start-up records, also not public, the first session after the
-change below had 46,290 tokens at its first call to the model. Roughly 33,000
-of them, by subtraction, are the coding tool's own system prompt and tool
-definitions, which we cannot reach. The rest, about 13,000, is ours to shape:
-the list of skills, 18,893 characters; our account's connectors to other
-services, MCP servers that reach every session through the account, not Gas
-City, about 10,000 characters; Gas City's prompt for the mayor, 6,505; and the
-machine's rules file with the memory index, 3,787.
+### Context use
 
-## What we changed
+The report of 22 September:
 
-When we measured the delays on 23 September, the machine was not the problem:
-a load average of 2.2, and the bead tool answered in 0.07 seconds. The causes
-were the highest reasoning setting on every answer, the mayor fetching fresh
-state before answering even what it already knew, two hooks with a 15-second
-timeout before every message, and the size of the context.
+- 38 sessions in 55 hours, 21 of them on one day, one project, 31 hand-offs
+- Every session started at 55,000 to 66,000 tokens before its first tool call
+- Hand-offs came at 106,000 to 251,000 tokens
+- The median session grew by 87,000 tokens, 49,000 of them before its first
+  outward action (a reply, a dispatch, a bead written, a commit): about half
 
-The mayor now keeps a state card of fixed shape, overwritten at each handoff,
-and a separate reference file it reads in one call. The card records the id of
-the last message from us it handled, since messages had been lost at handoffs;
-what is in flight; what was promised and not delivered; open questions, each
-with the id of the message it was asked in; running processes with their ids;
-and, for every "done", the command that proves it.
+The count of 24 September:
 
-A message from us that starts with "?" is now a quick question: the mayor
-answers at once from what it knows, with no tool call but the reply, and says
-so if unsure. The hooks' timeouts went from 15 seconds to 5.
+- 51 sessions and 2,315 calls to the model, 45 per session
+- A mean context of 124,000 tokens per call
+- A median start of 64,000 tokens, a median end of 154,000 and a median growth
+  of 2,200 tokens per call
+- 281 million tokens read from the cache, about 98% of all context tokens
 
-On 24 September we switched off four plugins the factory's sessions do not
-use: one for a hosting platform we do not use, a front-end design plugin with
-a single skill, and two language-server plugins for languages the site does
-not use, which add nothing to the list of skills. We had expected the
-hosting-platform plugin, counting its files on disk, to be about a fifth of a
-session's start. But a skill reaches a session only as one line, its name and
-description; its full text loads only when the skill is used. That plugin's 40
-lines came to 12,128 characters. The next mayor session started at 46,290
-tokens and the one before it at 51,020. Between them, only the lists of skills
-and agents changed size, about 12,000 characters shorter; everything else was
-the same size. So the hosting-platform plugin cost about 4,700 tokens a start:
-a tenth, not a fifth. That is one measurement, not proof: the three sessions
-before the change started at 51,020, 59,091 and 65,150 tokens, already 14,000
-apart.
+### Session activity
 
-Last, the handoff point. Gas City had taken the model's window to be 200,000
-tokens and called for a handoff at around 160,000. On 23 September the mayor
-set the real window, a million tokens, while we put the advice to hand off at
-200,000 and the call at 250,000; on the 24th we moved them to 250,000 and
-300,000.
+Shares of the mayor's tool output by volume (report of 22 September), not of
+the whole context; other categories make up the rest.
 
-## Handoff is not the enemy
+During the site's redesign build (9 sessions):
 
-The enemy is re-orientation; a handoff is where its price is paid. If handing
-over were free, we would want frequent handoffs: every new session is faster,
-cheaper per step, and works from how things are now instead of from claims
-that were true when they were read.
+- Reading beads: 19% (69 calls)
+- Debugging the factory itself: about 10%
+- Memory: 9%
+- Screenshots: 9%
+- Mail: 8%
+- The run's requirements, plan and plan review: 7%
+- Re-reading its own drafts and scripts: 7%
+- Discord: 4%
 
-The clearest example is in the mayor's run log for 22 September, which is not
-public. We asked for the factory's task database, the ledger of beads, to move
-to a private repository; until then it had been synced to the public
-repository this site is built from. The 32nd mayor session created the private
-repository, pointed the sync setting at it and told us the sync had been
-moved. It had not: the database's own remote still named the public
-repository, and a timed job pushes to that remote every 15 minutes. At 16:58
-UTC the job tried to push the whole task database there and failed only
-because the connection was closed. Two sessions later, the 34th checked again
-instead of trusting the note it had inherited, found the old remote and
-repointed it at 17:13 UTC.
+After the build (29 sessions):
 
-The claim was confident and wrong; the session that found the mistake had only
-the note, and looked. A long context makes an agent confidently wrong about
-old facts.
+- Articles and plans: 18%
+- Memory: 13%
+- Mail: 9%
+- The site's source: 9%
+- Discord: 6%
+- Screenshots: 6%
+- Git reads: 5%
+- Builds, previews and live checks: 4%
 
-## What we do not know yet
+Direct messages on Discord: 116 from the mayor to the founder (135,000
+characters), 84 from the founder (16,000). On 22 September the mayor's memory
+was an append-only log of 769 lines and 138 KB.
 
-We hope for fewer tokens spent on finding bearings, faster answers to simple
-questions and, above all, decisions about a project-manager role and a second
-project taken on measured data instead of guesses. The next measurement is the
-mayor's: how many tokens now go by before a session's first outward action,
-against 49,000. It has not been made yet. This is not solved: it is an
-analysis, a set of measures and a measurement still to come.
+## Problems
+
+1. **Re-orientation after every hand-off.** In the median session 49,000
+   tokens went by before the first outward action, and this recurred at every
+   hand-off: 31 times in 55 hours.
+2. **Start-up content that no session used.** Until 24 September the list of
+   skills held 91 skills in 32,572 characters; 12,128 of those were the 40
+   lines of a plugin for a hosting platform the factory does not use. Nor did
+   any session use the account's connectors, one of which added about 210 tool
+   names shortly after each start.
+3. **Slow answers to simple questions.** A separate Claude Code session run by
+   the founder found on 23 September that the machine was not the bottleneck
+   (a load average of 2.2; the bead tool answered in 0.07 seconds). The
+   causes: the highest reasoning-effort setting on every answer; fetching
+   fresh state before answering even what the mayor already knew; two prompt
+   hooks with 15-second timeouts before every message; and the size of the
+   context.
+4. **Facts that go stale inside a long session.** A session trusts its context
+   and notes, however old, unless it checks them. On 22 September the founder
+   asked for the factory's task database to sync to a private repository;
+   until then it had been synced to the public repository this site is built
+   from. The 32nd mayor session created the private repository, set the sync
+   setting to it and reported the sync as moved. The database's own remote
+   still named the public repository, which a timed job pushes every 15
+   minutes; at 16:58 UTC its push of the whole database failed only because
+   the connection was closed. The 34th session re-checked the state instead of
+   relying on its notes and repointed the remote at 17:13 UTC.
+5. **A hand-off point set by a wrong window size.** Gas City did not know the
+   model and, until 23 September, took its window to be 200,000 tokens and
+   called hand-offs at about 160,000, 16% of the real window.
+6. **A memory log grown past one read.** No session could read the log whole.
+
+## Changes
+
+- **22–23 September: state card and reference.** A state card of fixed shape,
+  overwritten at every hand-off, and a reference of standing facts and rules,
+  read in one call, replaced the log. The card holds the id of the last
+  handled inbound message, since messages had been lost at hand-offs; what is
+  in flight; what was promised and not delivered; open questions, each with
+  the id of the message it was asked in; running processes with their ids; and
+  for every "done", the command that proves it. Not measured yet.
+- **23 September: quick questions and hooks.** A message from the founder that
+  starts with "?" is answered at once from what the mayor already knows, with
+  no tool call but the reply. The hooks' timeouts went from 15 seconds to 5.
+  Not measured yet.
+- **23–24 September: window and hand-off points.** The window was set to
+  1,000,000 tokens on 23 September, with a hand-off advised at 20% and called
+  at 25%; since 24 September at 25% and 30% (250,000 and 300,000 tokens). Not
+  measured yet.
+- **24 September: four plugins switched off** for the factory's sessions: the
+  hosting platform's, a front-end design plugin with one skill and two
+  language-server plugins without skill lines. Measured once: the next mayor
+  session started at 46,290 tokens, against 51,020, 59,091 and 65,150 for the
+  three before. Between 51,020 and 46,290 only the lists of skills and agents
+  changed, about 12,000 characters shorter, so the hosting-platform plugin
+  cost about 4,700 tokens a start: a tenth, not the fifth estimated from its
+  files on disk in a separate Claude Code session. The three earlier starts
+  already differed by 14,000 tokens: one measurement, not proof.
+- **24 September: the account's connectors switched off** for the factory's
+  sessions: ten, none of them used. After the plugin was off, the hosting
+  platform's tools still reached every session through the account's own
+  connector for that platform; both are now gone. Estimated from characters,
+  the saving is 5,000 to 6,000 tokens per session. Not measured yet.
+
+## Open questions and ideas
+
+- The tokens spent before the first outward action, measured again against
+  49,000.
+- Tokens per session and hand-offs per day after a day of normal work, against
+  22 and 23 September.
+- Whether the lower start holds over more sessions.
+- A lower reasoning-effort setting for quick answers; not decided.
+- The hand-off point: later hand-offs mean fewer re-orientations but a longer
+  context on every step and older facts in the window. Which is cheaper
+  depends on the cost of re-orientation, which the changes aim to cut; to be
+  decided on the measurements.
+- A project-manager role and a second project, to be decided on measured data.
