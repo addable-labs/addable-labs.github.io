@@ -480,6 +480,49 @@ gate launched, by its pid, mid-measure (once: the page is measured again;
 twice: one `FAIL` line); they skip when no Chrome is found unless
 `CHECK_REQUIRE_CHROME=1`, as in CI.
 
+### Browser walkthrough
+
+`pnpm walkthrough` checks, in headless Chrome on every page of a built site,
+the six acceptance criteria that only a browser shows and no gate measures:
+
+- **Dark first frame under a light OS** (AC-31): with empty storage, dark
+  from the first frame, measured before the first paint.
+- **The theme choice survives the language switch** (AC-07, AC-31): the
+  toggle on `/` turns the page light, the language switch leads to `/sv/`
+  and back to `/`, both light from their first frame, and clearing storage
+  brings dark back.
+- **Navigation with JavaScript off** (AC-23, AC-31): every page dark, its
+  content shown and the toggle hidden, and every header link and the language
+  switch load.
+- **No horizontal scroll at 360 and 3840 px** (AC-20).
+- **Focus rings in both themes** (AC-18, AC-23): Tab reaches the skip link
+  first, then every link and button, each with a visible ring.
+- **Reduced motion** (AC-19): nothing moves or scales, on load or at the
+  bottom of the page.
+
+It is not a gate: `pnpm check` does not run it, and CI does not either. It
+reads a built site and never builds one, so build first, and clear `_site/`
+when you switch modes (see *Which build is the public one*):
+
+```bash
+pnpm build && pnpm walkthrough                        # the development build
+rm -rf _site && SITE_ENV=production pnpm build && pnpm walkthrough
+pnpm walkthrough <dir>                                # any other built site
+```
+
+It takes about 35 s. It prints one line per check and page (and width,
+theme or step), `ok (…)` or `FAIL — <what, where>`. It ends with `PASS
+walkthrough (151 checks on 21 pages, 36.7 s)` or `FAIL walkthrough (1 of 151
+checks failed, …)` and exits 1 on any failure, for example:
+
+```text
+first-frame /sv/: FAIL — data-theme is "light" at the first frame, not "dark"; the page background is rgb(247, 248, 246) at the first frame, not the dark rgb(11, 14, 16)
+```
+
+Without a built site or without Chrome it says why and exits 2, not the
+gates' `SKIP` code 3. The rules are in `scripts/lib/walkthrough-report.mjs`,
+and `tests/walkthrough.test.mjs` proves each one can fail, without Chrome.
+
 ## Deployment
 
 `.github/workflows/pages.yml` is the only workflow. On a pull request targeting

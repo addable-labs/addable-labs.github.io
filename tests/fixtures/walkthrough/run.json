@@ -1,0 +1,703 @@
+{
+  "expected": {"background": {"dark": "rgb(11, 14, 16)", "light": "rgb(247, 248, 246)"}, "toggleNames": {"en": "Dark mode", "sv": "Mörkt läge"}},
+  "measurements": [
+    {
+      "check": "first-frame",
+      "page": "/",
+      "status": 200,
+      "frame": {"theme": "dark", "background": "rgb(11, 14, 16)", "painted": 0, "storage": 0, "osLight": true}
+    },
+    {
+      "check": "theme-switch",
+      "page": "/",
+      "step": "toggle pressed",
+      "lang": "en",
+      "before": {
+        "lang": "en",
+        "theme": "dark",
+        "background": "rgb(11, 14, 16)",
+        "toggles": [
+          {"tag": "button", "role": "button", "name": "Dark mode", "pressed": "true"},
+          {"tag": "button", "role": "button", "name": "Dark mode", "pressed": "true"}
+        ]
+      },
+      "after": {
+        "lang": "en",
+        "theme": "light",
+        "background": "rgb(247, 248, 246)",
+        "toggles": [
+          {"tag": "button", "role": "button", "name": "Dark mode", "pressed": "false"},
+          {"tag": "button", "role": "button", "name": "Dark mode", "pressed": "false"}
+        ]
+      }
+    },
+    {
+      "check": "theme-switch",
+      "page": "/sv/",
+      "step": "language switch",
+      "href": "/sv/",
+      "status": 200,
+      "lang": "sv",
+      "frame": {"theme": "light", "background": "rgb(247, 248, 246)", "painted": 0, "storage": 1, "osLight": false},
+      "toggles": [
+        {"tag": "button", "role": "button", "name": "Mörkt läge", "pressed": "false"},
+        {"tag": "button", "role": "button", "name": "Mörkt läge", "pressed": "false"}
+      ]
+    },
+    {
+      "check": "theme-switch",
+      "page": "/",
+      "step": "language switch back",
+      "href": "/",
+      "status": 200,
+      "lang": "en",
+      "frame": {"theme": "light", "background": "rgb(247, 248, 246)", "painted": 0, "storage": 1, "osLight": false},
+      "toggles": [
+        {"tag": "button", "role": "button", "name": "Dark mode", "pressed": "false"},
+        {"tag": "button", "role": "button", "name": "Dark mode", "pressed": "false"}
+      ]
+    },
+    {
+      "check": "theme-switch",
+      "page": "/",
+      "step": "storage cleared",
+      "frame": {"theme": "dark", "background": "rgb(11, 14, 16)", "painted": 0, "storage": 0, "osLight": true}
+    },
+    {
+      "check": "no-js",
+      "page": "/about/",
+      "status": 200,
+      "js": false,
+      "background": "rgb(11, 14, 16)",
+      "main": {"height": 1803.421875, "text": 2284},
+      "reveal": [
+        {"element": "p.eyebrow \"Addable Labs · Sweden\"", "opacity": 1, "visibility": "visible"},
+        {"element": "h1.reveal \"About\"", "opacity": 1, "visibility": "visible"},
+        {"element": "p.lead \"An AI-native software company f…\"", "opacity": 1, "visibility": "visible"},
+        {"element": "div.trust-copy \"How we work and what we stand f…\"", "opacity": 1, "visibility": "visible"},
+        {"element": "div.trust-point \"AI-native AI is part of what Ad…\"", "opacity": 1, "visibility": "visible"},
+        {"element": "div.trust-point \"One person, a team of agents I …\"", "opacity": 1, "visibility": "visible"},
+        {"element": "div.trust-point \"Building in the open The public…\"", "opacity": 1, "visibility": "visible"},
+        {"element": "div.trust-point \"Proof, not claims This website …\"", "opacity": 1, "visibility": "visible"},
+        {"element": "aside.card \"The approach in practice How th…\"", "opacity": 1, "visibility": "visible"},
+        {"element": "div.trust-copy \"Our mission Founded in Septembe…\"", "opacity": 1, "visibility": "visible"},
+        {"element": "div.reveal \"Part of why this company exists…\"", "opacity": 1, "visibility": "visible"},
+        {"element": "div.contact-band \"Contact Have an idea? Tell us a…\"", "opacity": 1, "visibility": "visible"}
+      ],
+      "toggles": [
+        {"display": "none", "visibility": "visible", "width": 0, "height": 0, "disabled": false, "inert": false},
+        {"display": "none", "visibility": "visible", "width": 0, "height": 0, "disabled": false, "inert": false}
+      ],
+      "alternate": "https://addablelabs.se/sv/about/",
+      "links": [
+        {"kind": "nav", "text": "Home", "href": "/", "status": 200, "landed": "/"},
+        {"kind": "nav", "text": "About", "href": "/about/", "status": 200, "landed": "/about/"},
+        {"kind": "nav", "text": "Blog", "href": "/blog/", "status": 200, "landed": "/blog/"},
+        {"kind": "language switch", "text": "Svenska", "href": "/sv/about/", "status": 200, "landed": "/sv/about/"}
+      ]
+    },
+    {
+      "check": "no-js",
+      "page": "/404.html",
+      "status": 200,
+      "js": false,
+      "background": "rgb(11, 14, 16)",
+      "main": {"height": 726.421875, "text": 285},
+      "reveal": [
+        {"element": "p.eyebrow \"Error 404\"", "opacity": 1, "visibility": "visible"},
+        {"element": "h1.reveal \"Page not found\"", "opacity": 1, "visibility": "visible"},
+        {"element": "p.lead \"There is no page at this addres…\"", "opacity": 1, "visibility": "visible"},
+        {"element": "p.cta-row \"Go to the English home page→\"", "opacity": 1, "visibility": "visible"},
+        {"element": "div.not-found-sv \"Fel 404 Sidan finns inte Det fi…\"", "opacity": 1, "visibility": "visible"}
+      ],
+      "toggles": [
+        {"display": "none", "visibility": "visible", "width": 0, "height": 0, "disabled": false, "inert": false},
+        {"display": "none", "visibility": "visible", "width": 0, "height": 0, "disabled": false, "inert": false}
+      ],
+      "alternate": null,
+      "links": [
+        {"kind": "nav", "text": "Home", "href": "/", "status": 200, "landed": "/"},
+        {"kind": "nav", "text": "About", "href": "/about/", "status": 200, "landed": "/about/"},
+        {"kind": "nav", "text": "Blog", "href": "/blog/", "status": 200, "landed": "/blog/"}
+      ]
+    },
+    {"check": "no-hscroll", "page": "/", "width": 360, "status": 200, "scrollWidth": 360, "innerWidth": 360, "widest": null},
+    {"check": "no-hscroll", "page": "/", "width": 3840, "status": 200, "scrollWidth": 3840, "innerWidth": 3840, "widest": null},
+    {
+      "check": "focus",
+      "page": "/about/",
+      "theme": "dark",
+      "status": 200,
+      "measuredTheme": "dark",
+      "toggles": 2,
+      "focusables": [
+        {"index": 0, "element": "a.skip-link \"Skip to content\"", "toggle": false},
+        {"index": 1, "element": "a.brand \"addablelabs\"", "toggle": false},
+        {"index": 2, "element": "a \"Home\"", "toggle": false},
+        {"index": 3, "element": "a \"About\"", "toggle": false},
+        {"index": 4, "element": "a \"Blog\"", "toggle": false},
+        {"index": 5, "element": "a.lang-switch \"Svenska\"", "toggle": false},
+        {"index": 6, "element": "button.theme-toggle \"Dark mode\"", "toggle": true},
+        {"index": 7, "element": "a.button \"Reach out\"", "toggle": false},
+        {"index": 8, "element": "a.app-action \"Read the article→\"", "toggle": false},
+        {"index": 9, "element": "a.button \"Reach out→\"", "toggle": false},
+        {"index": 10, "element": "a.text-link \"hello@addablelabs.se\"", "toggle": false},
+        {"index": 11, "element": "a.brand \"addablelabs\"", "toggle": false},
+        {"index": 12, "element": "a \"hello@addablelabs.se\"", "toggle": false},
+        {"index": 13, "element": "a.lang-switch-footer \"Svenska\"", "toggle": false},
+        {"index": 14, "element": "a \"RSS\"", "toggle": false},
+        {"index": 15, "element": "button.theme-toggle \"Dark mode\"", "toggle": true}
+      ],
+      "steps": [
+        {
+          "index": 0,
+          "element": "a.skip-link \"Skip to content\"",
+          "skipLink": true,
+          "outline": {"style": "solid", "width": 2, "color": "rgb(131, 243, 93)"},
+          "boxShadow": "none",
+          "unfocusedBoxShadow": "none",
+          "box": {"width": 176, "height": 41.59375},
+          "clipPath": "none"
+        },
+        {
+          "index": 1,
+          "element": "a.brand \"addablelabs\"",
+          "skipLink": false,
+          "outline": {"style": "solid", "width": 2, "color": "rgb(131, 243, 93)"},
+          "boxShadow": "none",
+          "unfocusedBoxShadow": "none",
+          "box": {"width": 148.3125, "height": 44},
+          "clipPath": "none"
+        },
+        {
+          "index": 2,
+          "element": "a \"Home\"",
+          "skipLink": false,
+          "outline": {"style": "solid", "width": 2, "color": "rgb(131, 243, 93)"},
+          "boxShadow": "none",
+          "unfocusedBoxShadow": "none",
+          "box": {"width": 65.609375, "height": 44},
+          "clipPath": "none"
+        },
+        {
+          "index": 3,
+          "element": "a \"About\"",
+          "skipLink": false,
+          "outline": {"style": "solid", "width": 2, "color": "rgb(131, 243, 93)"},
+          "boxShadow": "rgb(131, 243, 93) 0px -2px 0px 0px inset",
+          "unfocusedBoxShadow": "rgb(131, 243, 93) 0px -2px 0px 0px inset",
+          "box": {"width": 74, "height": 44},
+          "clipPath": "none"
+        },
+        {
+          "index": 4,
+          "element": "a \"Blog\"",
+          "skipLink": false,
+          "outline": {"style": "solid", "width": 2, "color": "rgb(131, 243, 93)"},
+          "boxShadow": "none",
+          "unfocusedBoxShadow": "none",
+          "box": {"width": 65.609375, "height": 44},
+          "clipPath": "none"
+        },
+        {
+          "index": 5,
+          "element": "a.lang-switch \"Svenska\"",
+          "skipLink": false,
+          "outline": {"style": "solid", "width": 2, "color": "rgb(131, 243, 93)"},
+          "boxShadow": "none",
+          "unfocusedBoxShadow": "none",
+          "box": {"width": 74.8125, "height": 44},
+          "clipPath": "none"
+        },
+        {
+          "index": 6,
+          "element": "button.theme-toggle \"Dark mode\"",
+          "skipLink": false,
+          "outline": {"style": "solid", "width": 2, "color": "rgb(131, 243, 93)"},
+          "boxShadow": "none",
+          "unfocusedBoxShadow": "none",
+          "box": {"width": 44, "height": 44},
+          "clipPath": "none"
+        },
+        {
+          "index": 7,
+          "element": "a.button \"Reach out\"",
+          "skipLink": false,
+          "outline": {"style": "solid", "width": 2, "color": "rgb(131, 243, 93)"},
+          "boxShadow": "rgba(131, 243, 93, 0.16) 0px 0px 0px 0px",
+          "unfocusedBoxShadow": "rgba(131, 243, 93, 0.16) 0px 0px 0px 0px",
+          "box": {"width": 108.34375, "height": 44},
+          "clipPath": "none"
+        },
+        {
+          "index": 8,
+          "element": "a.app-action \"Read the article→\"",
+          "skipLink": false,
+          "outline": {"style": "solid", "width": 2, "color": "rgb(131, 243, 93)"},
+          "boxShadow": "none",
+          "unfocusedBoxShadow": "none",
+          "box": {"width": 383.328125, "height": 44},
+          "clipPath": "none"
+        },
+        {
+          "index": 9,
+          "element": "a.button \"Reach out→\"",
+          "skipLink": false,
+          "outline": {"style": "solid", "width": 2, "color": "rgb(131, 243, 93)"},
+          "boxShadow": "rgba(131, 243, 93, 0.16) 0px 0px 0px 0px",
+          "unfocusedBoxShadow": "rgba(131, 243, 93, 0.16) 0px 0px 0px 0px",
+          "box": {"width": 138.203125, "height": 44},
+          "clipPath": "none"
+        },
+        {
+          "index": 10,
+          "element": "a.text-link \"hello@addablelabs.se\"",
+          "skipLink": false,
+          "outline": {"style": "solid", "width": 2, "color": "rgb(131, 243, 93)"},
+          "boxShadow": "none",
+          "unfocusedBoxShadow": "none",
+          "box": {"width": 168, "height": 44},
+          "clipPath": "none"
+        },
+        {
+          "index": 11,
+          "element": "a.brand \"addablelabs\"",
+          "skipLink": false,
+          "outline": {"style": "solid", "width": 2, "color": "rgb(131, 243, 93)"},
+          "boxShadow": "none",
+          "unfocusedBoxShadow": "none",
+          "box": {"width": 144.3125, "height": 44},
+          "clipPath": "none"
+        },
+        {
+          "index": 12,
+          "element": "a \"hello@addablelabs.se\"",
+          "skipLink": false,
+          "outline": {"style": "solid", "width": 2, "color": "rgb(131, 243, 93)"},
+          "boxShadow": "none",
+          "unfocusedBoxShadow": "none",
+          "box": {"width": 140.90625, "height": 44},
+          "clipPath": "none"
+        },
+        {
+          "index": 13,
+          "element": "a.lang-switch-footer \"Svenska\"",
+          "skipLink": false,
+          "outline": {"style": "solid", "width": 2, "color": "rgb(131, 243, 93)"},
+          "boxShadow": "none",
+          "unfocusedBoxShadow": "none",
+          "box": {"width": 58.8125, "height": 44},
+          "clipPath": "none"
+        },
+        {
+          "index": 14,
+          "element": "a \"RSS\"",
+          "skipLink": false,
+          "outline": {"style": "solid", "width": 2, "color": "rgb(131, 243, 93)"},
+          "boxShadow": "none",
+          "unfocusedBoxShadow": "none",
+          "box": {"width": 44, "height": 44},
+          "clipPath": "none"
+        },
+        {
+          "index": 15,
+          "element": "button.theme-toggle \"Dark mode\"",
+          "skipLink": false,
+          "outline": {"style": "solid", "width": 2, "color": "rgb(131, 243, 93)"},
+          "boxShadow": "none",
+          "unfocusedBoxShadow": "none",
+          "box": {"width": 44, "height": 44},
+          "clipPath": "none"
+        }
+      ],
+      "ended": "left"
+    },
+    {
+      "check": "focus",
+      "page": "/about/",
+      "theme": "light",
+      "status": 200,
+      "measuredTheme": "light",
+      "toggles": 2,
+      "focusables": [
+        {"index": 0, "element": "a.skip-link \"Skip to content\"", "toggle": false},
+        {"index": 1, "element": "a.brand \"addablelabs\"", "toggle": false},
+        {"index": 2, "element": "a \"Home\"", "toggle": false},
+        {"index": 3, "element": "a \"About\"", "toggle": false},
+        {"index": 4, "element": "a \"Blog\"", "toggle": false},
+        {"index": 5, "element": "a.lang-switch \"Svenska\"", "toggle": false},
+        {"index": 6, "element": "button.theme-toggle \"Dark mode\"", "toggle": true},
+        {"index": 7, "element": "a.button \"Reach out\"", "toggle": false},
+        {"index": 8, "element": "a.app-action \"Read the article→\"", "toggle": false},
+        {"index": 9, "element": "a.button \"Reach out→\"", "toggle": false},
+        {"index": 10, "element": "a.text-link \"hello@addablelabs.se\"", "toggle": false},
+        {"index": 11, "element": "a.brand \"addablelabs\"", "toggle": false},
+        {"index": 12, "element": "a \"hello@addablelabs.se\"", "toggle": false},
+        {"index": 13, "element": "a.lang-switch-footer \"Svenska\"", "toggle": false},
+        {"index": 14, "element": "a \"RSS\"", "toggle": false},
+        {"index": 15, "element": "button.theme-toggle \"Dark mode\"", "toggle": true}
+      ],
+      "steps": [
+        {
+          "index": 0,
+          "element": "a.skip-link \"Skip to content\"",
+          "skipLink": true,
+          "outline": {"style": "solid", "width": 2, "color": "rgb(168, 70, 0)"},
+          "boxShadow": "none",
+          "unfocusedBoxShadow": "none",
+          "box": {"width": 176, "height": 41.59375},
+          "clipPath": "none"
+        },
+        {
+          "index": 1,
+          "element": "a.brand \"addablelabs\"",
+          "skipLink": false,
+          "outline": {"style": "solid", "width": 2, "color": "rgb(168, 70, 0)"},
+          "boxShadow": "none",
+          "unfocusedBoxShadow": "none",
+          "box": {"width": 148.3125, "height": 44},
+          "clipPath": "none"
+        },
+        {
+          "index": 2,
+          "element": "a \"Home\"",
+          "skipLink": false,
+          "outline": {"style": "solid", "width": 2, "color": "rgb(168, 70, 0)"},
+          "boxShadow": "none",
+          "unfocusedBoxShadow": "none",
+          "box": {"width": 65.609375, "height": 44},
+          "clipPath": "none"
+        },
+        {
+          "index": 3,
+          "element": "a \"About\"",
+          "skipLink": false,
+          "outline": {"style": "solid", "width": 2, "color": "rgb(168, 70, 0)"},
+          "boxShadow": "rgb(131, 243, 93) 0px -2px 0px 0px inset",
+          "unfocusedBoxShadow": "rgb(131, 243, 93) 0px -2px 0px 0px inset",
+          "box": {"width": 74, "height": 44},
+          "clipPath": "none"
+        },
+        {
+          "index": 4,
+          "element": "a \"Blog\"",
+          "skipLink": false,
+          "outline": {"style": "solid", "width": 2, "color": "rgb(168, 70, 0)"},
+          "boxShadow": "none",
+          "unfocusedBoxShadow": "none",
+          "box": {"width": 65.609375, "height": 44},
+          "clipPath": "none"
+        },
+        {
+          "index": 5,
+          "element": "a.lang-switch \"Svenska\"",
+          "skipLink": false,
+          "outline": {"style": "solid", "width": 2, "color": "rgb(168, 70, 0)"},
+          "boxShadow": "none",
+          "unfocusedBoxShadow": "none",
+          "box": {"width": 74.8125, "height": 44},
+          "clipPath": "none"
+        },
+        {
+          "index": 6,
+          "element": "button.theme-toggle \"Dark mode\"",
+          "skipLink": false,
+          "outline": {"style": "solid", "width": 2, "color": "rgb(168, 70, 0)"},
+          "boxShadow": "none",
+          "unfocusedBoxShadow": "none",
+          "box": {"width": 44, "height": 44},
+          "clipPath": "none"
+        },
+        {
+          "index": 7,
+          "element": "a.button \"Reach out\"",
+          "skipLink": false,
+          "outline": {"style": "solid", "width": 2, "color": "rgb(168, 70, 0)"},
+          "boxShadow": "rgba(131, 243, 93, 0.22) 0px 0px 0px 0px",
+          "unfocusedBoxShadow": "rgba(131, 243, 93, 0.22) 0px 0px 0px 0px",
+          "box": {"width": 108.34375, "height": 44},
+          "clipPath": "none"
+        },
+        {
+          "index": 8,
+          "element": "a.app-action \"Read the article→\"",
+          "skipLink": false,
+          "outline": {"style": "solid", "width": 2, "color": "rgb(168, 70, 0)"},
+          "boxShadow": "none",
+          "unfocusedBoxShadow": "none",
+          "box": {"width": 383.328125, "height": 44},
+          "clipPath": "none"
+        },
+        {
+          "index": 9,
+          "element": "a.button \"Reach out→\"",
+          "skipLink": false,
+          "outline": {"style": "solid", "width": 2, "color": "rgb(168, 70, 0)"},
+          "boxShadow": "rgba(131, 243, 93, 0.22) 0px 0px 0px 0px",
+          "unfocusedBoxShadow": "rgba(131, 243, 93, 0.22) 0px 0px 0px 0px",
+          "box": {"width": 138.203125, "height": 44},
+          "clipPath": "none"
+        },
+        {
+          "index": 10,
+          "element": "a.text-link \"hello@addablelabs.se\"",
+          "skipLink": false,
+          "outline": {"style": "solid", "width": 2, "color": "rgb(168, 70, 0)"},
+          "boxShadow": "none",
+          "unfocusedBoxShadow": "none",
+          "box": {"width": 168, "height": 44},
+          "clipPath": "none"
+        },
+        {
+          "index": 11,
+          "element": "a.brand \"addablelabs\"",
+          "skipLink": false,
+          "outline": {"style": "solid", "width": 2, "color": "rgb(168, 70, 0)"},
+          "boxShadow": "none",
+          "unfocusedBoxShadow": "none",
+          "box": {"width": 144.3125, "height": 44},
+          "clipPath": "none"
+        },
+        {
+          "index": 12,
+          "element": "a \"hello@addablelabs.se\"",
+          "skipLink": false,
+          "outline": {"style": "solid", "width": 2, "color": "rgb(168, 70, 0)"},
+          "boxShadow": "none",
+          "unfocusedBoxShadow": "none",
+          "box": {"width": 140.90625, "height": 44},
+          "clipPath": "none"
+        },
+        {
+          "index": 13,
+          "element": "a.lang-switch-footer \"Svenska\"",
+          "skipLink": false,
+          "outline": {"style": "solid", "width": 2, "color": "rgb(168, 70, 0)"},
+          "boxShadow": "none",
+          "unfocusedBoxShadow": "none",
+          "box": {"width": 58.8125, "height": 44},
+          "clipPath": "none"
+        },
+        {
+          "index": 14,
+          "element": "a \"RSS\"",
+          "skipLink": false,
+          "outline": {"style": "solid", "width": 2, "color": "rgb(168, 70, 0)"},
+          "boxShadow": "none",
+          "unfocusedBoxShadow": "none",
+          "box": {"width": 44, "height": 44},
+          "clipPath": "none"
+        },
+        {
+          "index": 15,
+          "element": "button.theme-toggle \"Dark mode\"",
+          "skipLink": false,
+          "outline": {"style": "solid", "width": 2, "color": "rgb(168, 70, 0)"},
+          "boxShadow": "none",
+          "unfocusedBoxShadow": "none",
+          "box": {"width": 44, "height": 44},
+          "clipPath": "none"
+        }
+      ],
+      "ended": "left"
+    },
+    {
+      "check": "reduced-motion",
+      "page": "/about/",
+      "status": 200,
+      "reduce": true,
+      "load": {
+        "animations": [],
+        "reveal": [
+          {
+            "element": "p.eyebrow \"Addable Labs · Sweden\"",
+            "transform": "none",
+            "translate": "none",
+            "rotate": "none",
+            "scale": "none",
+            "opacity": 1
+          },
+          {"element": "h1.reveal \"About\"", "transform": "none", "translate": "none", "rotate": "none", "scale": "none", "opacity": 1},
+          {
+            "element": "p.lead \"An AI-native software company f…\"",
+            "transform": "none",
+            "translate": "none",
+            "rotate": "none",
+            "scale": "none",
+            "opacity": 1
+          },
+          {
+            "element": "div.trust-copy \"How we work and what we stand f…\"",
+            "transform": "none",
+            "translate": "none",
+            "rotate": "none",
+            "scale": "none",
+            "opacity": 1
+          },
+          {
+            "element": "div.trust-point \"AI-native AI is part of what Ad…\"",
+            "transform": "none",
+            "translate": "none",
+            "rotate": "none",
+            "scale": "none",
+            "opacity": 1
+          },
+          {
+            "element": "div.trust-point \"One person, a team of agents I …\"",
+            "transform": "none",
+            "translate": "none",
+            "rotate": "none",
+            "scale": "none",
+            "opacity": 1
+          },
+          {
+            "element": "div.trust-point \"Building in the open The public…\"",
+            "transform": "none",
+            "translate": "none",
+            "rotate": "none",
+            "scale": "none",
+            "opacity": 1
+          },
+          {
+            "element": "div.trust-point \"Proof, not claims This website …\"",
+            "transform": "none",
+            "translate": "none",
+            "rotate": "none",
+            "scale": "none",
+            "opacity": 1
+          },
+          {
+            "element": "aside.card \"The approach in practice How th…\"",
+            "transform": "none",
+            "translate": "none",
+            "rotate": "none",
+            "scale": "none",
+            "opacity": 1
+          },
+          {
+            "element": "div.trust-copy \"Our mission Founded in Septembe…\"",
+            "transform": "none",
+            "translate": "none",
+            "rotate": "none",
+            "scale": "none",
+            "opacity": 1
+          },
+          {
+            "element": "div.reveal \"Part of why this company exists…\"",
+            "transform": "none",
+            "translate": "none",
+            "rotate": "none",
+            "scale": "none",
+            "opacity": 1
+          },
+          {
+            "element": "div.contact-band \"Contact Have an idea? Tell us a…\"",
+            "transform": "none",
+            "translate": "none",
+            "rotate": "none",
+            "scale": "none",
+            "opacity": 1
+          }
+        ],
+        "scrollY": 0,
+        "maxScrollY": 1359
+      },
+      "bottom": {
+        "animations": [],
+        "reveal": [
+          {
+            "element": "p.eyebrow \"Addable Labs · Sweden\"",
+            "transform": "none",
+            "translate": "none",
+            "rotate": "none",
+            "scale": "none",
+            "opacity": 1
+          },
+          {"element": "h1.reveal \"About\"", "transform": "none", "translate": "none", "rotate": "none", "scale": "none", "opacity": 1},
+          {
+            "element": "p.lead \"An AI-native software company f…\"",
+            "transform": "none",
+            "translate": "none",
+            "rotate": "none",
+            "scale": "none",
+            "opacity": 1
+          },
+          {
+            "element": "div.trust-copy \"How we work and what we stand f…\"",
+            "transform": "none",
+            "translate": "none",
+            "rotate": "none",
+            "scale": "none",
+            "opacity": 1
+          },
+          {
+            "element": "div.trust-point \"AI-native AI is part of what Ad…\"",
+            "transform": "none",
+            "translate": "none",
+            "rotate": "none",
+            "scale": "none",
+            "opacity": 1
+          },
+          {
+            "element": "div.trust-point \"One person, a team of agents I …\"",
+            "transform": "none",
+            "translate": "none",
+            "rotate": "none",
+            "scale": "none",
+            "opacity": 1
+          },
+          {
+            "element": "div.trust-point \"Building in the open The public…\"",
+            "transform": "none",
+            "translate": "none",
+            "rotate": "none",
+            "scale": "none",
+            "opacity": 1
+          },
+          {
+            "element": "div.trust-point \"Proof, not claims This website …\"",
+            "transform": "none",
+            "translate": "none",
+            "rotate": "none",
+            "scale": "none",
+            "opacity": 1
+          },
+          {
+            "element": "aside.card \"The approach in practice How th…\"",
+            "transform": "none",
+            "translate": "none",
+            "rotate": "none",
+            "scale": "none",
+            "opacity": 1
+          },
+          {
+            "element": "div.trust-copy \"Our mission Founded in Septembe…\"",
+            "transform": "none",
+            "translate": "none",
+            "rotate": "none",
+            "scale": "none",
+            "opacity": 1
+          },
+          {
+            "element": "div.reveal \"Part of why this company exists…\"",
+            "transform": "none",
+            "translate": "none",
+            "rotate": "none",
+            "scale": "none",
+            "opacity": 1
+          },
+          {
+            "element": "div.contact-band \"Contact Have an idea? Tell us a…\"",
+            "transform": "none",
+            "translate": "none",
+            "rotate": "none",
+            "scale": "none",
+            "opacity": 1
+          }
+        ],
+        "scrollY": 1359,
+        "maxScrollY": 1359
+      }
+    }
+  ]
+}
