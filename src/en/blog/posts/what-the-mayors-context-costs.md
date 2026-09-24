@@ -17,8 +17,8 @@ session records of 20 to 24 September 2026. From 20 to 22 September about half
 of a session's growth came before its first outward action, while it
 re-oriented itself after a hand-off. The notes kept between sessions, the
 hand-off points, the prompt hooks and the start-up content have since been
-changed; two changes have been measured, once each, and whether re-orientation
-now costs less is open.
+changed; three changes have been measured, once each. The new notes made
+re-orientation dearer, not cheaper, in exchange for a correct start.
 
 ## Configuration
 
@@ -27,11 +27,10 @@ Each step sends the model the whole conversation so far, the session's
 context. Past a set size, Gas City asks the session to hand off: it writes
 down the state of its work and a new session continues from there.
 
-The conversation's unchanged beginning is read from a cache, not processed
-again: at API list prices a cached token costs a tenth of a new one or less,
-depending on the model, though it still counts toward consumption. A long
-context still costs in latency, answer quality and consumption, and it keeps
-old information in the window.
+The conversation's unchanged beginning is read from a cache: at API list
+prices a cached token costs a tenth of a new one or less, but still counts
+toward consumption. A long context still costs latency, answer quality and
+consumption, and keeps old information in the window.
 
 {% figure "session", "wide" %}
 
@@ -42,7 +41,7 @@ September):
 | --- | ---: | ---: |
 | Claude Code's system prompt and tool definitions (by subtraction; not configurable) | – | ~33,000 |
 | The list of skills | 18,893 | – |
-| The account's connectors (MCP servers that reach a session through the Claude account, not Gas City) | ~10,000 | – |
+| The account's connectors (MCP servers that reach a session through the Claude account) | ~10,000 | – |
 | Gas City's prompt for the mayor with the factory's rules, plus 8 skill lines | 6,505 + 798 | ~2,000 |
 | The machine's rules file with the memory index | 3,787 | – |
 | In total | – | 46,290 |
@@ -64,8 +63,7 @@ covers 22 September, 21:09 UTC, to 23 September, 18:54 UTC. Tokens were
 counted per call to the model, each session's first call included. A script
 sorted the tool output into categories, accurate to a few percentage points.
 
-Limits: one project; the plugin and connector effects are one measurement
-each; no other change is measured yet.
+Limits: one project; each measured effect rests on one measurement.
 
 ## Findings
 
@@ -79,7 +77,7 @@ each; no other change is measured yet.
 | Start of every session, before its first tool call (tokens) | 55,000–66,000 |
 | Context at a hand-off (tokens) | 106,000–251,000 |
 | Growth of the median session (tokens) | 87,000 |
-| Of it before its first outward action (a reply, a dispatch, a bead written, a commit) | 49,000 |
+| Of it before its first outward action (a reply, a dispatch, a bead written, a commit) | 49,500 |
 
 | Measure | Count of 22–23 September |
 | --- | ---: |
@@ -124,9 +122,8 @@ On 22 September the mayor's memory was an append-only log of 769 lines and
 
 ## Problems
 
-1. **Re-orientation after every hand-off.** In the median session 49,000
-   tokens went by before the first outward action, and this recurred at every
-   hand-off.
+1. **Re-orientation after every hand-off.** In the median session 49,500
+   tokens went by before the first outward action.
 2. **Start-up content that no session used.** Until 24 September the list of
    skills held 91 skills in 32,572 characters; 12,128 of those were the 40
    lines of a plugin for a hosting platform the factory does not use. Nor did
@@ -157,13 +154,18 @@ On 22 September the mayor's memory was an append-only log of 769 lines and
 
 ## Changes
 
-- **22–23 September: state card and reference.** A state card of fixed shape,
+- **22–24 September: state card and reference.** A state card of fixed shape,
   overwritten at every hand-off, and a reference of standing facts and rules,
   read in one call, replaced the log. The card holds the id of the last
   handled inbound message, since messages had been lost at hand-offs; what is
-  in flight; what was promised and not delivered; open questions, each with
-  the id of the message it was asked in; running processes with their ids; and
-  for every "done", the command that proves it. Not measured yet.
+  in flight; what was promised and not delivered; open questions; and for
+  every "done", the command that proves it. Measured once, as medians before
+  the first outward action: 54,700 tokens and 32,100 characters of notes read
+  in 56 sessions with the card, against 49,500 and 2,200 in 33 before it. The
+  earlier sessions had skipped most of the log, which is how old facts survived
+  (problem 4): a correct start bought at a higher price, not the saving
+  intended. On 24 September both were cut by two fifths and capped in size;
+  not measured yet.
 - **23 September: quick questions and hooks.** A message from the founder that
   starts with "?" is answered at once from what the mayor already knows, with
   no tool call but the reply. The hooks' timeouts went from 15 seconds to 5.
@@ -179,28 +181,26 @@ On 22 September the mayor's memory was an append-only log of 769 lines and
   three before. Between 51,020 and 46,290 only the lists of skills and agents
   changed, about 12,000 characters shorter, so the hosting-platform plugin
   cost about 4,700 tokens a start: a tenth, not the fifth estimated from its
-  files on disk. The three earlier starts already differed by 14,000 tokens:
-  one measurement, not proof.
+  files on disk. The three earlier starts already differed by 14,000 tokens.
 - **24 September: the account's connectors switched off** for the factory's
   sessions: ten, none of them used. After the plugin was off, the hosting
   platform's tools had still reached every session, through the account's own
   connector for that platform. Measured once, on two sessions of the
   implementation worker that took the same first step: the connectors cost
   about 9,700 tokens a session, most of it just after the first call, about 8%
-  of the mean context per call. One measurement, not proof.
+  of the mean context per call.
 
 {% figure "handoffs" %}
 
 ## Open questions and ideas
 
-- The tokens spent before the first outward action, measured again against
-  49,000.
-- Tokens per session and hand-offs per day after a day of normal work, against
-  22 and 23 September.
+- Tokens per session, hand-offs per day and tokens before the first outward
+  action, measured again after a day of normal work since the changes of 24
+  September.
 - Whether the lower start holds over more sessions.
 - A lower reasoning-effort setting for quick answers; not decided.
 - The hand-off point: later hand-offs mean fewer re-orientations but a longer
   context on every step and older facts in the window. Which is cheaper
-  depends on the cost of re-orientation, which the changes aim to cut; to be
-  decided on the measurements.
-- A project-manager role and a second project, to be decided on measured data.
+  depends on what re-orientation costs; to be decided on the measurements.
+- A project-manager role, to be decided on measured data; a second project,
+  not for now.

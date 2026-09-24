@@ -17,8 +17,9 @@ utifrån underlagen från dess sessioner 20–24 september 2026. Mellan den 20 o
 22 september kom ungefär hälften av en sessions tillväxt före dess första
 utåtriktade handling, medan den orienterade sig på nytt efter en överlämning.
 Anteckningarna mellan sessionerna, överlämningspunkterna, promptkrokarna och
-startinnehållet har ändrats sedan dess. Två av ändringarna har mätts, en gång
-vardera; om omorienteringen nu kostar mindre är öppet.
+startinnehållet har ändrats sedan dess. Tre av ändringarna har mätts, en gång
+vardera. De nya anteckningarna gjorde omorienteringen dyrare, inte billigare,
+i utbyte mot en korrekt start.
 
 ## Konfiguration
 
@@ -28,11 +29,11 @@ sessionens kontext. När kontexten passerar en bestämd storlek ber Gas City
 sessionen att lämna över. Den skriver ner läget i sitt arbete och en ny
 session fortsätter därifrån.
 
-Konversationens oförändrade början läses från en cache och bearbetas inte
-igen: till API:ets listpriser kostar en cachad token en tiondel av en ny eller
-mindre, beroende på modell, men den räknas fortfarande in i förbrukningen. En
-lång kontext kostar ändå i svarstid, svarskvalitet och förbrukning. Dessutom
-ligger gammal information kvar i fönstret.
+Konversationens oförändrade början läses från en cache: till API:ets
+listpriser kostar en cachad token en tiondel av en ny eller mindre, men den
+räknas fortfarande in i förbrukningen. En lång kontext kostar ändå i svarstid,
+svarskvalitet och förbrukning. Dessutom ligger gammal information kvar i
+fönstret.
 
 {% figure "session", "wide" %}
 
@@ -43,7 +44,7 @@ september):
 | --- | ---: | ---: |
 | Claude Codes systemprompt och verktygsdefinitioner (räknat som skillnad; går inte att ställa in) | – | ~33 000 |
 | Listan med färdigheter (skills) | 18 893 | – |
-| Kontots kopplingar (MCP-servrar som når en session via Claude-kontot, inte via Gas City) | ~10 000 | – |
+| Kontots kopplingar (MCP-servrar som når en session via Claude-kontot) | ~10 000 | – |
 | Gas Citys prompt för borgmästaren med fabrikens regler, plus 8 rader för färdigheter | 6 505 + 798 | ~2 000 |
 | Maskinens regelfil med minnesindexet | 3 787 | – |
 | Totalt | – | 46 290 |
@@ -67,8 +68,8 @@ den 22 september; en andra räkning täcker tiden från den 22 september klockan
 till modellen, varje sessions första anrop inräknat. Ett skript sorterade
 verktygens utdata i kategorier, med några procentenheters felmarginal.
 
-Begränsningar: ett enda projekt; effekterna av tilläggen och kopplingarna
-bygger på en mätning vardera; ingen annan ändring är mätt än.
+Begränsningar: ett enda projekt; varje uppmätt effekt bygger på en enda
+mätning.
 
 ## Resultat
 
@@ -82,7 +83,7 @@ bygger på en mätning vardera; ingen annan ändring är mätt än.
 | Varje sessions start, före dess första verktygsanrop (tokens) | 55 000–66 000 |
 | Kontext vid en överlämning (tokens) | 106 000–251 000 |
 | Mediansessionens tillväxt (tokens) | 87 000 |
-| Varav före dess första utåtriktade handling (ett svar, ett utskickat uppdrag, en skriven bead, en commit) | 49 000 |
+| Varav före dess första utåtriktade handling (ett svar, ett utskickat uppdrag, en skriven bead, en commit) | 49 500 |
 
 | Mått | Räkningen för 22–23 september |
 | --- | ---: |
@@ -127,9 +128,8 @@ rader och 138 kB.
 
 ## Problem
 
-1. **Omorientering efter varje överlämning.** I mediansessionen gick 49 000
-   tokens åt före den första utåtriktade handlingen och det upprepades vid
-   varje överlämning.
+1. **Omorientering efter varje överlämning.** I mediansessionen gick 49 500
+   tokens åt före den första utåtriktade handlingen.
 2. **Startinnehåll som ingen session använde.** Fram till den 24 september
    innehöll listan med färdigheter 91 färdigheter på 32 572 tecken; 12 128 av
    tecknen var de 40 raderna från ett tillägg för en hostingplattform som
@@ -165,14 +165,19 @@ rader och 138 kB.
 
 ## Ändringar
 
-- **22–23 september: lägeskort och referens.** Ett lägeskort med fast form och
+- **22–24 september: lägeskort och referens.** Ett lägeskort med fast form och
   en referens med beständiga fakta och regler ersatte loggen. Kortet skrivs
   över vid varje överlämning och referensen läses i ett anrop. Kortet anger
   id:t för det senast hanterade inkommande meddelandet, eftersom meddelanden
   hade gått förlorade vid överlämningar; vad som pågår; vad som har lovats men
-  inte levererats; öppna frågor, var och en med id:t för meddelandet den
-  ställdes i; processer som körs, med sina id:n; och för varje "klart" det
-  kommando som bevisar det. Inte mätt än.
+  inte levererats; öppna frågor; och för varje "klart" det kommando som
+  bevisar det. Mätt en gång, som medianer före den första utåtriktade
+  handlingen: 54 700 tokens och 32 100 tecken lästa ur anteckningarna i 56
+  sessioner med kortet, mot 49 500 och 2 200 i 33 sessioner före det. De
+  tidigare sessionerna hade hoppat över det mesta av loggen och det var så
+  gamla fakta överlevde (problem 4): en korrekt start till ett högre pris, inte
+  den besparing som var avsikten. Den 24 september kortades båda med två
+  femtedelar och fick ett tak för sin storlek; inte mätt än.
 - **23 september: snabba frågor och krokar.** Ett meddelande från grundaren
   som börjar med "?" besvaras direkt utifrån det borgmästaren redan vet, utan
   något annat verktygsanrop än själva svaret. Krokarnas tidsgräns gick från 15
@@ -189,27 +194,27 @@ rader och 138 kB.
   färdigheter och agenter, ungefär 12 000 tecken kortare, så hostingtillägget
   kostade ungefär 4 700 tokens per start: en tiondel, inte den femtedel som
   hade uppskattats utifrån tilläggets filer på disken. De tre tidigare
-  starterna skilde sig redan med 14 000 tokens: en mätning, inte ett bevis.
+  starterna skilde sig redan med 14 000 tokens.
 - **24 september: kontots kopplingar avstängda** för fabrikens sessioner: tio,
   ingen av dem använd. Efter att tillägget stängts av hade hostingplattformens
   verktyg ändå nått varje session, genom kontots egen koppling till samma
   plattform. Mätt en gång, på två sessioner hos genomförandeagenten som tog
   samma första steg: kopplingarna kostade ungefär 9 700 tokens per session,
   det mesta strax efter det första anropet, ungefär 8 % av den genomsnittliga
-  kontexten per anrop. En mätning, inte ett bevis.
+  kontexten per anrop.
 
 {% figure "handoffs" %}
 
 ## Öppna frågor och idéer
 
-- Antalet tokens före den första utåtriktade handlingen, mätt igen mot 49 000.
-- Tokens per session och överlämningar per dag efter en dag med normalt
-  arbete, jämfört med den 22 och 23 september.
+- Tokens per session, överlämningar per dag och tokens före den första
+  utåtriktade handlingen, mätt igen efter en dag med normalt arbete sedan
+  ändringarna den 24 september.
 - Om den lägre starten håller över fler sessioner.
 - En lägre inställning för resonemang vid snabba svar; inte beslutat.
 - Överlämningspunkten: senare överlämningar ger färre omorienteringar men en
   längre kontext i varje steg och äldre fakta i fönstret. Vilket som är
-  billigare beror på vad omorienteringen kostar, något som ändringarna ska
-  minska; det avgörs utifrån mätningarna.
-- En projektledarroll och ett andra projekt, att besluta om utifrån uppmätta
-  data.
+  billigare beror på vad omorienteringen kostar; det avgörs utifrån
+  mätningarna.
+- En projektledarroll, att besluta om utifrån uppmätta data; ett andra
+  projekt, inte tills vidare.
