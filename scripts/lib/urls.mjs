@@ -3,10 +3,21 @@
 // (src/<lang>/blog/posts/<slug>.md → /blog/<slug>/, posts.11tydata.js) and a
 // page's is its path under src/ (en.11tydata.js, sv.11tydata.js), so a file's
 // name is part of an address the site publishes. The build holds every URL it
-// forms to the rule below, and the articles of one date are ordered by those
-// names the same way on every machine.
+// forms to the rule below, refuses the file names Eleventy would change on
+// the way to the URL (si-ok07), and the articles of one date are ordered by
+// those names the same way on every machine.
 
 import { isSlug } from "./frontmatter.mjs";
+
+// Articles live in src/<lang>/blog/posts/<slug>.md; the same slug in both languages.
+export const ARTICLE_PATH = /^\.?\/?src\/([^/]+)\/blog\/posts\/[^/]+\.md$/;
+
+// A date and the hyphen after it, Eleventy's own pattern for a date in a file
+// name (TemplateFileSlug.js, Eleventy 3.1.6). It is not anchored: Eleventy
+// drops the first date it finds anywhere in the name, and everything before
+// it, when it makes the URL. A date at the end of a name has no hyphen after
+// it and stays.
+const DATE_IN_NAME = /\d{4}-\d{2}-\d{2}-/;
 
 // The one exception to "every part is a slug": the last part of a URL that
 // does not end in "/" names a file, as in /feed.xml or /404.html, and may
@@ -43,29 +54,75 @@ export function urlProblem(url) {
 }
 
 /**
- * Hold every page's URL to `urlProblem`. Throws one Error that lists each
- * file at fault with its URL and the parts that break the rule, then states
- * the rule; returns nothing when every URL passes.
+ * The part of a file's name Eleventy would drop from the URL — everything up
+ * to the first date and the hyphen after it, as "notes-2026-09-24-" of
+ * notes-2026-09-24-name.md — or null when the name holds no such date.
+ *
+ * @param {string} inputPath  a file's path as Eleventy gives it, ./src/…
+ */
+function droppedPart(inputPath) {
+  const name = inputPath.slice(inputPath.lastIndexOf("/") + 1);
+  const date = DATE_IN_NAME.exec(name);
+  return date === null ? null : name.slice(0, date.index + date[0].length);
+}
+
+/**
+ * Hold every page's URL to `urlProblem`, and every file's name to the two
+ * rules that keep a name the URL it spells (si-ok07). Eleventy changes two
+ * kinds of name on the way to the URL: it drops a date and everything before
+ * it (2026-09-24-name.md and notes-2026-09-24-name.md both become
+ * /blog/name/), and it names an index.md after its directory (an article
+ * src/en/blog/posts/index.md becomes /blog/posts/). Either URL is made of
+ * slugs, but the gates read an article's URL off its whole file name
+ * (readArticleSources, site.mjs), so they would look for the page where the
+ * build did not put it. A file's name is its URL on this site and a date
+ * belongs in the front matter, so the build refuses such a name rather than
+ * the gates learning Eleventy's rule. The names are checked whether or not a
+ * file has a URL: a draft the production build leaves out has none there,
+ * and its name is refused all the same.
+ *
+ * Throws one Error that lists each file at fault under the rule it breaks —
+ * a URL part that is not a slug, a date in the name, an article named
+ * index.md — and states each rule; returns nothing when every file passes.
  *
  * @param {Record<string, (string|false)[]>} inputPathToUrl  each input path
  *   with the URLs of its pages, as Eleventy's `eleventy.contentMap` event
  *   hands them over (a paginated template has several)
  */
 export function checkPageUrls(inputPathToUrl) {
-  const problems = Object.entries(inputPathToUrl)
-    .flatMap(([inputPath, urls]) => urls.map((url) => [inputPath, urlProblem(url)]))
-    .filter(([, problem]) => problem !== null)
-    .map(([inputPath, problem]) => `  ${inputPath}: ${problem}`)
-    .sort();
-  if (problems.length === 0) return;
-  throw new Error(
-    [
-      "These files give their pages URLs that are not made of slugs:",
-      ...problems,
-      'Each part of a URL must be lowercase letters, digits and single hyphens, as in /blog/ai-journey/; only a URL that does not end in "/" may end in one extension, as in /feed.xml.',
-      "A file's name becomes its URL, so rename the file, or fix its permalink if it sets one.",
-    ].join("\n"),
-  );
+  const inputPaths = Object.keys(inputPathToUrl);
+  const groups = [
+    {
+      heading: "These files give their pages URLs that are not made of slugs:",
+      problems: Object.entries(inputPathToUrl)
+        .flatMap(([inputPath, urls]) => urls.map((url) => [inputPath, urlProblem(url)]))
+        .filter(([, problem]) => problem !== null)
+        .map(([inputPath, problem]) => `${inputPath}: ${problem}`),
+      rule: [
+        'Each part of a URL must be lowercase letters, digits and single hyphens, as in /blog/ai-journey/; only a URL that does not end in "/" may end in one extension, as in /feed.xml.',
+        "A file's name becomes its URL, so rename the file, or fix its permalink if it sets one.",
+      ],
+    },
+    {
+      heading: "These files have a date in their names:",
+      problems: inputPaths
+        .filter((inputPath) => droppedPart(inputPath) !== null)
+        .map((inputPath) => `${inputPath}: Eleventy would drop ${JSON.stringify(droppedPart(inputPath))} from the URL`),
+      rule: [
+        "Eleventy drops a date and the hyphen after it (YYYY-MM-DD-) from a file name when it makes the URL, and everything before the date too.",
+        "A file's name becomes its URL and an article's date goes in its front matter, so rename the file.",
+      ],
+    },
+    {
+      heading: "These articles are named index.md:",
+      problems: inputPaths
+        .filter((inputPath) => ARTICLE_PATH.test(inputPath) && inputPath.endsWith("/index.md"))
+        .map((inputPath) => `${inputPath}: Eleventy would name it after its directory, ${JSON.stringify(inputPath.split("/").at(-2))}`),
+      rule: ["An article's file name becomes its URL, and Eleventy names an index.md after its directory instead, so rename the file."],
+    },
+  ].filter(({ problems }) => problems.length > 0);
+  if (groups.length === 0) return;
+  throw new Error(groups.flatMap(({ heading, problems, rule }) => [heading, ...problems.sort().map((problem) => `  ${problem}`), ...rule]).join("\n"));
 }
 
 /**

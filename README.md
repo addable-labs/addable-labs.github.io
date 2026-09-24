@@ -131,15 +131,16 @@ The file name becomes the URL, so it must be a slug (lowercase letters,
 digits and single hyphens); otherwise `pnpm build` fails and names each file
 at fault, for example `./src/en/blog/posts/About.md: URL /blog/About/ has
 "About"`. Every other page is checked the same way: a page's URL comes from
-its path under `src/`. Eleventy drops a date from a file name, and anything
-before it, so `2026-09-24-name.md` and `notes-2026-09-24-name.md` both become
-`/blog/name/`; a date at the end stays (`name-2026-09-24.md` becomes
-`/blog/name-2026-09-24/`). An article cannot be named after a category key:
+its path under `src/`. `pnpm build` also refuses a date in a file name,
+because Eleventy would drop the date, and anything before it, from the URL;
+an article's date belongs in its front matter. A date at the very end, as in
+`name-2026-09-24.md`, stays in the URL and passes. An article named
+`index.md` is refused too, since Eleventy would put it at `/blog/posts/`,
+named after its directory. An article cannot be named after a category key:
 `ai-journey.md` would take the category page's URL, `/blog/ai-journey/`, and
-`pnpm build` fails whenever two files have one URL (`twin.md` beside
-`2026-09-24-twin.md` too), for example with `` Output conflict: multiple
-input files are writing to `./_site/blog/ai-journey/index.html` `` followed
-by the two files.
+`pnpm build` fails whenever two files have one URL, for example with
+`` Output conflict: multiple input files are writing to
+`./_site/blog/ai-journey/index.html` `` followed by the two files.
 
 Both files are required — a missing counterpart fails the build (see below).
 The English file:
@@ -441,7 +442,7 @@ after a `pnpm build`:
 
 | Gate | Command | What it checks |
 | --- | --- | --- |
-| build | `pnpm build` | Eleventy builds the site; article front matter validated; every page has its counterpart; every page's URL is made of slugs, like `/blog/ai-journey/` or `/feed.xml`; every `{% figure %}` names a known figure, `inline` or `wide`, with `figures.<id>` in the page's strings file; every figure label fits its character budget and every count label, such as `242 agents`, has its number in digits. |
+| build | `pnpm build` | Eleventy builds the site; article front matter validated; every page has its counterpart; every page's URL is made of slugs, like `/blog/ai-journey/` or `/feed.xml`, no file name holds a date Eleventy would drop and no article is named `index.md`; every `{% figure %}` names a known figure, `inline` or `wide`, with `figures.<id>` in the page's strings file; every figure label fits its character budget and every count label, such as `242 agents`, has its number in digits. |
 | links | `pnpm check:links` | Every internal `href`/`src` in pages, feeds and the sitemap resolves to a built file (`/x/` → `x/index.html`), fragments point at an id. External links are fetched with a 10 s timeout and reported as warnings only; `CHECK_OFFLINE=1` skips them. |
 | html | `pnpm check:html` | `html-validate` with the `recommended` and `a11y` presets (`.htmlvalidate.json`, inline styles forbidden), zero errors. |
 | pages | `pnpm check:pages` | Per page: `header`/`nav`/`main`/`footer` once, one `h1`, no skipped heading levels, the skip link is the first focusable element, `html[lang]` matches the path, every `img` has `alt`/`width`/`height`, unique title, description, canonical, Open Graph tags, three `hreflang` alternates, the feed link, the language switch, scripts only from the site's origin, no cross-origin resource (font preloads and `@font-face` sources included), HTML + CSS ≤ 150 KB, and on both landing pages CSS + JavaScript ≤ 60 KB compressed. |

@@ -1,15 +1,18 @@
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
+import { existsSync } from "node:fs";
 import { writeFile } from "node:fs/promises";
 import path from "node:path";
 import { after, before, describe, it } from "node:test";
 import { pathToFileURL } from "node:url";
-import { urlProblem } from "../scripts/lib/urls.mjs";
+import { checkPageUrls, urlProblem } from "../scripts/lib/urls.mjs";
 import { buildSite, copyProject, ROOT, tempDir } from "./helpers.mjs";
 
 // The names that become URLs (si-2a7h): a file's name becomes its URL, and
 // the build holds every URL it forms to one rule — each part a slug, and a
-// URL that does not end in "/" may end in one extension.
+// URL that does not end in "/" may end in one extension — and refuses a file
+// name Eleventy would change on the way to the URL (si-ok07): a date in it,
+// or an article named index.md.
 
 // Every kind of URL the site gives a page (2026-09-23).
 const ACCEPTED = [
@@ -65,11 +68,108 @@ describe("page URLs", () => {
   });
 });
 
+// The file names the build refuses whatever their URLs (si-ok07), each with
+// the URL Eleventy gives it and the part of the name Eleventy drops from it.
+const DATED = [
+  ["./src/en/blog/posts/2026-09-24-name.md", "/blog/name/", "2026-09-24-"],
+  ["./src/sv/blog/posts/notes-2026-09-24-name.md", "/sv/blog/name/", "notes-2026-09-24-"],
+  ["./src/en/blog/posts/2026-09-24-2026-09-25-name.md", "/blog/2026-09-25-name/", "2026-09-24-"], // the first date only
+  ["./src/en/2026-09-24-page.njk", "/page/", "2026-09-24-"], // a page, not an article
+];
+
+// Articles named index.md, each with the URL Eleventy gives it: its directory's name.
+const ARTICLE_INDEXES = [
+  ["./src/en/blog/posts/index.md", "/blog/posts/"],
+  ["./src/sv/blog/posts/index.md", "/sv/blog/posts/"],
+];
+
+// Names Eleventy makes the URL they spell, each with that URL.
+const KEPT = [
+  ["./src/en/blog/posts/name-2026-09-24.md", "/blog/name-2026-09-24/"], // a date at the end
+  ["./src/en/index.njk", "/"], // index pages that are not articles
+  ["./src/en/blog/index.njk", "/blog/"],
+  ["./src/sv/blog/index.njk", "/sv/blog/"],
+];
+
+/** The message `checkPageUrls` throws for these files and their URLs, or null when it throws none. */
+function refusal(inputPathToUrl) {
+  try {
+    checkPageUrls(inputPathToUrl);
+    return null;
+  } catch (error) {
+    return error.message;
+  }
+}
+
+describe("file names", () => {
+  it("refuses a date anywhere in a file name, naming the file and what Eleventy would drop", () => {
+    // [] as well: a draft the production build leaves out comes with no URL.
+    for (const [inputPath, url, dropped] of DATED) {
+      for (const urls of [[url], []]) {
+        const message = refusal({ [inputPath]: urls });
+        assert.ok(message?.startsWith("These files have a date in their names:\n"), `${inputPath} ${JSON.stringify(urls)}: ${message}`);
+        assert.ok(message.includes(`\n  ${inputPath}: Eleventy would drop ${JSON.stringify(dropped)} from the URL\n`), message);
+      }
+    }
+  });
+
+  it("refuses an article named index.md, naming the file", () => {
+    for (const [inputPath, url] of ARTICLE_INDEXES) {
+      for (const urls of [[url], []]) {
+        const message = refusal({ [inputPath]: urls });
+        assert.ok(message?.startsWith("These articles are named index.md:\n"), `${inputPath} ${JSON.stringify(urls)}: ${message}`);
+        assert.ok(message.includes(`\n  ${inputPath}: Eleventy would name it after its directory, "posts"\n`), message);
+      }
+    }
+  });
+
+  it("keeps a date at the end of a name, and an index page that is not an article", () => {
+    assert.equal(refusal(Object.fromEntries(KEPT.map(([inputPath, url]) => [inputPath, [url]]))), null);
+  });
+
+  it("lists the files under each rule they break, and states each rule once", () => {
+    const message = refusal({
+      "./src/en/blog/posts/notes-2026-09-24-name.md": ["/blog/name/"],
+      "./src/sv/blog/posts/notes-2026-09-24-name.md": ["/sv/blog/name/"],
+      "./src/en/blog/posts/2026-09-24-About.md": ["/blog/About/"],
+      "./src/en/blog/posts/index.md": ["/blog/posts/"],
+    });
+    assert.equal(
+      message,
+      [
+        "These files give their pages URLs that are not made of slugs:",
+        '  ./src/en/blog/posts/2026-09-24-About.md: URL /blog/About/ has "About"',
+        'Each part of a URL must be lowercase letters, digits and single hyphens, as in /blog/ai-journey/; only a URL that does not end in "/" may end in one extension, as in /feed.xml.',
+        "A file's name becomes its URL, so rename the file, or fix its permalink if it sets one.",
+        "These files have a date in their names:",
+        '  ./src/en/blog/posts/2026-09-24-About.md: Eleventy would drop "2026-09-24-" from the URL',
+        '  ./src/en/blog/posts/notes-2026-09-24-name.md: Eleventy would drop "notes-2026-09-24-" from the URL',
+        '  ./src/sv/blog/posts/notes-2026-09-24-name.md: Eleventy would drop "notes-2026-09-24-" from the URL',
+        "Eleventy drops a date and the hyphen after it (YYYY-MM-DD-) from a file name when it makes the URL, and everything before the date too.",
+        "A file's name becomes its URL and an article's date goes in its front matter, so rename the file.",
+        "These articles are named index.md:",
+        '  ./src/en/blog/posts/index.md: Eleventy would name it after its directory, "posts"',
+        "An article's file name becomes its URL, and Eleventy names an index.md after its directory instead, so rename the file.",
+      ].join("\n"),
+    );
+  });
+});
+
 /** Write one article, both languages, into a copy of the project, front matter valid. */
-async function writeArticlePair(project, name, translationKey) {
+async function writeArticlePair(project, name, translationKey, { draft = false } = {}) {
   for (const lang of ["en", "sv"]) {
-    const frontMatter = ["---", `title: ${translationKey} (${lang})`, "description: One sentence.", "date: 2026-09-01", "category: app-development", `translationKey: ${translationKey}`, "draft: false", "aiGenerated: true", "humanReviewed: true", "---"];
+    const frontMatter = ["---", `title: ${translationKey} (${lang})`, "description: One sentence.", "date: 2026-09-01", "category: app-development", `translationKey: ${translationKey}`, `draft: ${draft}`, "aiGenerated: true", "humanReviewed: true", "---"];
     await writeFile(path.join(project, "src", lang, "blog", "posts", `${name}.md`), `${frontMatter.join("\n")}\n\nThe body.\n`);
+  }
+}
+
+/** The message of the build of `project` that must fail, or "" when it builds. */
+function buildFailure(project, out, env = {}) {
+  try {
+    buildSite(out, env, project);
+    return "";
+  } catch (error) {
+    return error.message;
   }
 }
 
@@ -95,6 +195,38 @@ describe("file names in the build", () => {
       assert.ok(message.includes(`./src/${lang}/blog/posts/a#b.md: URL ${prefix}/blog/a#b/ has "a#b"`), message);
       assert.ok(message.includes(`./src/${lang}/blog/posts/åtta.md: URL ${prefix}/blog/åtta/ has "åtta"`), message);
     }
+  });
+
+  it("fails naming every file whose name holds a date, and every article named index.md", async () => {
+    const project = await copyProject(path.join(tmp.dir, "refused"));
+    await writeArticlePair(project, "2026-09-24-first", "first");
+    await writeArticlePair(project, "notes-2026-09-24-second", "second");
+    await writeArticlePair(project, "index", "index-probe");
+    const message = buildFailure(project, path.join(tmp.dir, "refused-site"));
+    assert.notEqual(message, "", "the build passed");
+    for (const lang of ["en", "sv"]) {
+      assert.ok(message.includes(`./src/${lang}/blog/posts/2026-09-24-first.md: Eleventy would drop "2026-09-24-" from the URL`), message);
+      assert.ok(message.includes(`./src/${lang}/blog/posts/notes-2026-09-24-second.md: Eleventy would drop "notes-2026-09-24-" from the URL`), message);
+      assert.ok(message.includes(`./src/${lang}/blog/posts/index.md: Eleventy would name it after its directory, "posts"`), message);
+    }
+  });
+
+  it("fails on a dated name in a draft the production build leaves out", async () => {
+    const project = await copyProject(path.join(tmp.dir, "draft"));
+    await writeArticlePair(project, "2026-09-24-draft", "draft-probe", { draft: true });
+    const message = buildFailure(project, path.join(tmp.dir, "draft-site"), { SITE_ENV: "production" });
+    assert.notEqual(message, "", "the build passed");
+    for (const lang of ["en", "sv"]) {
+      assert.ok(message.includes(`./src/${lang}/blog/posts/2026-09-24-draft.md: Eleventy would drop "2026-09-24-" from the URL`), message);
+    }
+  });
+
+  it("passes a date at the end of a name, beside every file of the site", async () => {
+    const project = await copyProject(path.join(tmp.dir, "kept"));
+    await writeArticlePair(project, "name-2026-09-24", "name-dated");
+    const out = path.join(tmp.dir, "kept-site");
+    assert.equal(buildFailure(project, out), "");
+    for (const prefix of ["", "sv"]) assert.ok(existsSync(path.join(out, prefix, "blog", "name-2026-09-24", "index.html")), `${prefix}/blog/name-2026-09-24/`);
   });
 });
 

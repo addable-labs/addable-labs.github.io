@@ -157,6 +157,8 @@ export async function readArticleSources(srcDir, site, lang) {
   for (const name of files) {
     const file = path.join(dir, name);
     const data = parseFrontMatter(frontMatterBlock(await readFile(file, "utf8"), { file }) ?? "") ?? {};
+    // The whole file name: the build refuses a name Eleventy would make
+    // another URL of (checkPageUrls, urls.mjs), so it is the build's slug too.
     const slug = name.replace(/\.md$/, "");
     const draft = data.draft === true;
     const scheduled = isScheduled(data.date);

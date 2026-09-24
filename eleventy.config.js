@@ -2,7 +2,7 @@ import { readFileSync, statSync } from "node:fs";
 import { IdAttributePlugin } from "@11ty/eleventy";
 import rssPlugin from "@11ty/eleventy-plugin-rss";
 import { isOmitted, isScheduled, parseFrontMatter, siteNow, validateArticle, validateArticleDate } from "./scripts/lib/frontmatter.mjs";
-import { byDateDescThenSlug, checkPageUrls } from "./scripts/lib/urls.mjs";
+import { ARTICLE_PATH, byDateDescThenSlug, checkPageUrls } from "./scripts/lib/urls.mjs";
 import site from "./src/_data/site.js";
 
 // Paths copied verbatim into _site/: the stylesheets and mark, the SVG favicon
@@ -12,9 +12,6 @@ const PASSTHROUGH = ["src/assets", "src/favicon.svg", "src/CNAME"];
 const LANGUAGES = ["en", "sv"];
 const CATEGORIES = JSON.parse(readFileSync(new URL("./src/_data/categories.json", import.meta.url), "utf8"));
 const CATEGORY_KEYS = CATEGORIES.map((category) => category.key);
-
-// Articles live in src/<lang>/blog/posts/<slug>.md; the same slug in both languages.
-const ARTICLE_PATH = /^\.?\/?src\/([^/]+)\/blog\/posts\/[^/]+\.md$/;
 
 // The article illustrations (founder feedback 2026-09-21, si-55iu) are drawn
 // by src/_includes/figures/figures.mjs. The module is imported per build with
@@ -158,7 +155,13 @@ export default function (eleventyConfig) {
   // (from categories.json) and any permalink included — and one error names
   // every file at fault. A draft the production build leaves out forms no
   // URL there, so a bad draft name fails the local build, where drafts are
-  // written.
+  // written. The same check refuses a file name that Eleventy would change on
+  // the way to the URL (si-ok07): a date in it, which Eleventy drops with
+  // everything before it, and an article named index.md, which it names
+  // after its directory. The gates read an article's URL off its file name,
+  // so the build keeps the two the same. Unlike a URL, a name is there to
+  // check in every build, so a left-out draft with such a name fails the
+  // production build too.
   eleventyConfig.on("eleventy.contentMap", ({ inputPathToUrl }) => checkPageUrls(inputPathToUrl));
 
   // One moment for the whole build (si-vv7h). The collections below ask
