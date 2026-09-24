@@ -121,8 +121,9 @@ export function siteNow(env = process.env) {
  * goes through Luxon in UTC — the same call, from the same copy of Luxon — so
  * a time typed without a zone is UTC here as it is in the build. `new Date()`
  * would read that time in the machine's own zone, a day off near midnight.
+ * The gates order articles by it (`newestFirst`, scripts/lib/site.mjs).
  */
-function eleventyDate(date) {
+export function eleventyDate(date) {
   return date instanceof Date ? date : DateTime.fromISO(date, { zone: "utc" }).toJSDate();
 }
 

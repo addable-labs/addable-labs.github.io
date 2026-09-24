@@ -41,13 +41,16 @@
 //     listed nowhere (si-gxyg), and every article page ends with the "More
 //     from the blog" band listing other articles of its language, never
 //     itself (founder feedback 2026-09-22)
+//   - each category page, in both languages, lists exactly the listed
+//     articles of its category, newest first: none of another category and
+//     none of its own missing (si-thf3)
 // Optional arguments: <built-site dir> [<source dir>].
 
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { PUBLIC_REPOS, PUBLIC_URL_PREFIX, githubRepos, publicRepo } from "../lib/apps.mjs";
 import { attr, loadPage, text } from "../lib/html.mjs";
-import { exists, internalPath, langPrefix, loadSite, loadStrings, readArticleSources, reporter, resolveDirs, walk } from "../lib/site.mjs";
+import { exists, internalPath, langPrefix, loadSite, loadStrings, newestFirst, readArticleSources, reporter, resolveDirs, walk } from "../lib/site.mjs";
 
 const { out, src } = resolveDirs();
 const site = await loadSite(src);
@@ -55,6 +58,8 @@ const strings = await loadStrings(src, site);
 // REQ-011 (AC-11): the apps grid is driven by the data file, so the gate
 // reads the same entries the templates render.
 const apps = JSON.parse(await readFile(path.join(src, "_data", "portfolio.json"), "utf8"));
+// REQ-016: one category page per entry of the data file the build paginates.
+const categories = JSON.parse(await readFile(path.join(src, "_data", "categories.json"), "utf8"));
 const report = reporter("content");
 const FOUNDER = "Péter Blénessy";
 const MONTH = { en: "September 2026", sv: "september 2026" };
@@ -323,6 +328,24 @@ function because(article) {
   return article.omitted ? "(a draft, and this is the production build)" : `before ${article.date}`;
 }
 
+/**
+ * What a listing gets wrong when it must show the article paths `want`, in
+ * that order, and shows `got`: each path it shows but should not (worded by
+ * `describe`), each it misses, each it shows twice and, when it shows exactly
+ * the right ones, the order it shows them in. Empty when `got` is `want`.
+ */
+function listingProblems(got, want, describe) {
+  const extra = [...new Set(got.filter((href) => !want.includes(href)))];
+  const missing = want.filter((href) => !got.includes(href));
+  const twice = [...new Set(got.filter((href, index) => got.indexOf(href) !== index))];
+  const problems = [];
+  if (extra.length > 0) problems.push(`extra: ${extra.map(describe).join(", ")}`);
+  if (missing.length > 0) problems.push(`missing: ${missing.join(", ")}`);
+  if (twice.length > 0) problems.push(`listed twice: ${twice.join(", ")}`);
+  if (problems.length === 0 && got.some((href, index) => href !== want[index])) problems.push(`in another order: ${got.join(", ")}`);
+  return problems;
+}
+
 // Articles: existence, word count, the draft label, and the two ways an
 // article stays off the listings
 for (const lang of site.languages.codes) {
@@ -391,6 +414,29 @@ for (const lang of site.languages.codes) {
     }
     const itemTitle = new RegExp(`<title>${article.draft ? `${draftLabel}: ` : ""}[^<]*</title>[\\s\\S]*?<link>${article.url.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}</link>`);
     report.check(itemTitle.test(feed), `${lang} feed item for ${article.slug} ${article.draft ? `carries "${draftLabel}"` : "present"}`);
+  }
+
+  // Category pages (REQ-013, REQ-016; si-thf3): each lists exactly the listed
+  // articles of its category, newest first in the order of every listing —
+  // not one of another category, not one of its own that is dated after
+  // today or is a draft in the production build, and none of the others
+  // missing. The build fills the page from a collection filtered on the
+  // article's `category` (eleventy.config.js); this works the list out from
+  // the source tree, and one line per page names what the page gets wrong.
+  for (const { key } of categories) {
+    const rel = `${prefix.replace(/^\//, "")}${prefix ? "/" : ""}blog/${key}/index.html`;
+    const categoryPage = await page(rel);
+    if (!categoryPage) continue;
+    const own = articles.filter((article) => article.category === key);
+    const want = newestFirst(own.filter((article) => article.listed)).map((article) => article.path);
+    const got = categoryPage.doc.querySelectorAll(".post .post-title a").map((a) => attr(a, "href"));
+    const problems = listingProblems(got, want, (href) => {
+      const article = articles.find((item) => item.path === href);
+      if (!article) return `${href} (not a ${lang} article)`;
+      return article.category === key ? `${href} ${because(article)}` : `${href} (category ${article.category})`;
+    });
+    const unlisted = own.filter((article) => !article.listed).map((article) => `${article.path} ${because(article)}`);
+    report.check(problems.length === 0, `${rel}: lists exactly the listed ${lang} articles of ${key}, newest first (${want.join(", ") || "none"})${unlisted.length > 0 ? `, not ${unlisted.join(", ")}` : ""}${problems.length > 0 ? ` — ${problems.join("; ")}` : ""}`);
   }
 }
 

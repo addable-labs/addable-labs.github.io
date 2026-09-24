@@ -11,7 +11,8 @@ import { readdir, readFile, stat } from "node:fs/promises";
 import path from "node:path";
 import process from "node:process";
 import { pathToFileURL } from "node:url";
-import { isOmitted, isScheduled, parseFrontMatter } from "./frontmatter.mjs";
+import { eleventyDate, isOmitted, isScheduled, parseFrontMatter } from "./frontmatter.mjs";
+import { byDateDescThenSlug } from "./urls.mjs";
 
 export const ROOT = path.resolve(new URL("../..", import.meta.url).pathname);
 
@@ -118,11 +119,11 @@ export async function exists(file) {
 }
 
 /**
- * Articles of a language from the source tree: slug, draft flag, title, url
- * path, date, and what this build owes each one. The gates read the source
- * tree, so they see every article; these three flags say what the built site
- * must therefore show, and they read the same rules the build does
- * (frontmatter.mjs), so the two cannot drift:
+ * Articles of a language from the source tree: slug, draft flag, title,
+ * category, url path, date, and what this build owes each one. The gates
+ * read the source tree, so they see every article; these three flags say
+ * what the built site must therefore show, and they read the same rules the
+ * build does (frontmatter.mjs), so the two cannot drift:
  *
  *   scheduled — dated after today (si-gxyg): built at its URL, listed nowhere
  *   omitted   — a draft in the production build (si-mzf1): no page at all
@@ -162,6 +163,7 @@ export async function readArticleSources(srcDir, site, lang) {
       lang,
       draft,
       title: data.title,
+      category: data.category,
       date: data.date,
       scheduled,
       omitted,
@@ -171,6 +173,21 @@ export async function readArticleSources(srcDir, site, lang) {
     });
   }
   return articles;
+}
+
+/**
+ * Articles from `readArticleSources` in the order every listing shows them:
+ * newest first, and the articles of one date by slug. The comparison is the
+ * build's own (`byDateDescThenSlug`, scripts/lib/urls.mjs), handed each
+ * article as the collections hold it — the date as Eleventy maps it and the
+ * file's slug — so a gate cannot order the articles one way and the build
+ * another (si-thf3).
+ */
+export function newestFirst(articles) {
+  return articles
+    .map((article) => ({ article, date: eleventyDate(article.date), fileSlug: article.slug }))
+    .sort(byDateDescThenSlug)
+    .map(({ article }) => article);
 }
 
 /** A tiny result collector shared by the gates: ok()/fail() lines and a summary. */

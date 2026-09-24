@@ -243,6 +243,63 @@ describe("content gate", () => {
     assert.match(output, /ok {4}blog\/ashlands-what-one-prompt-built\/index\.html: "more from the blog" lists other en articles/);
   });
 
+  it("passes on the real build, every category page listing exactly the listed articles of its category, newest first, in both languages (si-thf3)", async () => {
+    const { status, output } = runGate("content", built, undefined, { CHECK_QUIET: "0" });
+    assert.equal(status, 0, output);
+    // One line for each category of the data file, so a new category is
+    // checked without a change here.
+    const categories = JSON.parse(await readFile(path.join(SRC, "_data", "categories.json"), "utf8"));
+    for (const [prefix, lang] of [["", "en"], ["sv/", "sv"]]) {
+      for (const { key } of categories) {
+        assert.match(output, new RegExp(`^ok {4}${prefix}blog/${key}/index\\.html: lists exactly the listed ${lang} articles of ${key}, newest first \\(`, "m"));
+      }
+    }
+  });
+
+  it("fails both category pages when an article is listed under the other category, in both languages (si-thf3)", async () => {
+    const copy = await copyDir(built, path.join(tmp.dir, "category-moved"));
+    // The first card of one category page moves to the other, whatever it
+    // links, as if the build had filed that article under the wrong
+    // category: an English ai-journey article and a Swedish app-development
+    // one. Each page then fails, naming the article extra on the one and
+    // missing from the other.
+    const moved = {};
+    for (const [lang, dir, from, to] of [["en", ["blog"], "ai-journey", "app-development"], ["sv", ["sv", "blog"], "app-development", "ai-journey"]]) {
+      const [href] = await listed(copy, ...dir, from, "index.html");
+      const fromFile = path.join(copy, ...dir, from, "index.html");
+      const fromHtml = await readFile(fromFile, "utf8");
+      const [card] = cards(fromHtml);
+      assert.ok(card?.includes(`href="${href}"`), `${lang} ${from}: the first card must be found`);
+      await writeFile(fromFile, fromHtml.replace(card, ""));
+      const toFile = path.join(copy, ...dir, to, "index.html");
+      const toHtml = await readFile(toFile, "utf8");
+      const edited = toHtml.replace('<ol class="post-list">', (list) => `${list}\n    ${card}`);
+      assert.notEqual(edited, toHtml, `${lang} ${to}: the list must be found`);
+      await writeFile(toFile, edited);
+      moved[lang] = href;
+    }
+    const { status, output } = runGate("content", copy);
+    assert.equal(status, 1);
+    assert.match(output, new RegExp(`^FAIL {2}blog/app-development/index\\.html: lists exactly the listed en articles of app-development, newest first \\(.*\\) — extra: ${moved.en} \\(category ai-journey\\)$`, "m"));
+    assert.match(output, new RegExp(`^FAIL {2}blog/ai-journey/index\\.html: lists exactly the listed en articles of ai-journey, newest first \\(.*\\) — missing: ${moved.en}$`, "m"));
+    assert.match(output, new RegExp(`^FAIL {2}sv/blog/ai-journey/index\\.html: lists exactly the listed sv articles of ai-journey, newest first \\(.*\\) — extra: ${moved.sv} \\(category app-development\\)$`, "m"));
+    assert.match(output, new RegExp(`^FAIL {2}sv/blog/app-development/index\\.html: lists exactly the listed sv articles of app-development, newest first \\(.*\\) — missing: ${moved.sv}$`, "m"));
+  });
+
+  it("fails a category page that lists its own articles in another order than newest first (si-thf3)", async () => {
+    const copy = await copyDir(built, path.join(tmp.dir, "category-order"));
+    const file = path.join(copy, "sv", "blog", "ai-journey", "index.html");
+    const [newest, next] = await listed(copy, "sv", "blog", "ai-journey", "index.html");
+    // The first two cards trade places, whatever they link.
+    const html = await readFile(file, "utf8");
+    const [first, second] = cards(html);
+    assert.ok(second !== undefined, "the page must list two articles");
+    await writeFile(file, html.replace(first, () => "\u0000").replace(second, () => first).replace("\u0000", () => second));
+    const { status, output } = runGate("content", copy);
+    assert.equal(status, 1);
+    assert.match(output, new RegExp(`^FAIL {2}sv/blog/ai-journey/index\\.html: lists exactly the listed sv articles of ai-journey, newest first \\(${newest}, ${next}[,)].* — in another order: ${next}, ${newest}(, |$)`, "m"));
+  });
+
   it("fails when a later article grows past 1,500 English words (the series ceiling, si-xcpc)", async () => {
     const broken = await withPaddedArticle("series-long", "why-we-run-an-agent-run-factory", 600);
     const { status, output } = runGate("content", broken);
@@ -313,6 +370,11 @@ async function listed(out, ...parts) {
   const html = await readFile(path.join(out, ...parts), "utf8");
   // The heading carries an id from the IdAttributePlugin.
   return [...html.matchAll(/class="post-title"[^>]*><a href="([^"]+)"/g)].map(([, url]) => url);
+}
+
+/** The .post cards of a listing page's HTML, in the order it lists them, each its <li> element. */
+function cards(html) {
+  return html.match(/<li class="post[^"]*">[\s\S]*?<\/li>/g) ?? [];
 }
 
 describe("scheduled posts", () => {
@@ -396,6 +458,23 @@ describe("scheduled posts", () => {
     assert.match(content.output, /ok {4}en blog index does not list \/blog\/scheduled-tomorrow\/ before \d{4}-\d{2}-\d{2}/);
     assert.match(content.output, /ok {4}sv feed has no item for scheduled-tomorrow before \d{4}-\d{2}-\d{2}/);
     assert.match(content.output, /ok {4}en blog index lists \/blog\/published-today\//);
+    // The category page of the two lists the one dated today and names the
+    // one dated tomorrow as not listed yet (si-thf3).
+    assert.match(content.output, /ok {4}sv\/blog\/app-development\/index\.html: lists exactly the listed sv articles of app-development, newest first \([^)]*\/sv\/blog\/published-today\/[^)]*\), not [^\n]*\/sv\/blog\/scheduled-tomorrow\/ before \d{4}-\d{2}-\d{2}/);
+  });
+
+  it("fails a category page that lists an article dated after today (si-thf3)", async () => {
+    const copy = await copyDir(built, path.join(tmp.dir, "category-scheduled"));
+    const file = path.join(copy, "blog", "app-development", "index.html");
+    const html = await readFile(file, "utf8");
+    // A card for the article dated tomorrow, after the card of the one dated
+    // today.
+    const [card] = cards(html).filter((item) => item.includes('href="/blog/published-today/"'));
+    assert.ok(card, "the card of the article dated today must be found");
+    await writeFile(file, html.replace(card, () => `${card}\n    ${card.replace('href="/blog/published-today/"', 'href="/blog/scheduled-tomorrow/"')}`));
+    const { status, output } = runGate("content", copy, builtSrc);
+    assert.equal(status, 1);
+    assert.match(output, new RegExp(`^FAIL {2}blog/app-development/index\\.html: lists exactly the listed en articles of app-development, newest first \\(.*\\), not .*/blog/scheduled-tomorrow/ before ${utcDate(1)} — extra: /blog/scheduled-tomorrow/ before ${utcDate(1)}$`, "m"));
   });
 
   it("leaves the order of the articles that are listed unchanged", async () => {
@@ -601,6 +680,10 @@ describe("draft posts", () => {
     assert.match(prodContent.output, /ok {4}blog\/a-draft\/index\.html is not built \(a draft, and this is the production build\)/);
     assert.match(prodContent.output, /ok {4}en blog index does not list \/blog\/a-draft\/ \(a draft, and this is the production build\)/);
     assert.match(prodContent.output, /ok {4}sv feed has no item for a-draft \(a draft, and this is the production build\)/);
+    // The category page of the draft lists it in the local build and names it
+    // as left out of the production one (si-thf3).
+    assert.match(devContent.output, /ok {4}blog\/app-development\/index\.html: lists exactly the listed en articles of app-development, newest first \([^)]*\/blog\/a-draft\/[^)]*\)/);
+    assert.match(prodContent.output, /ok {4}sv\/blog\/app-development\/index\.html: lists exactly the listed sv articles of app-development, newest first \([^)]*\/sv\/blog\/not-a-draft\/[^)]*\), not [^\n]*\/sv\/blog\/a-draft\/ \(a draft, and this is the production build\)/);
     const prodFeeds = runGate("feeds", prod, builtSrc, { SITE_ENV: "production" });
     // The message names every article it expects to be absent — the fixture
     // draft and the repository's own.
