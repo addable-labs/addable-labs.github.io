@@ -131,8 +131,15 @@ The file name becomes the URL, so it must be a slug (lowercase letters,
 digits and single hyphens); otherwise `pnpm build` fails and names each file
 at fault, for example `./src/en/blog/posts/About.md: URL /blog/About/ has
 "About"`. Every other page is checked the same way: a page's URL comes from
-its path under `src/`. Eleventy drops a leading date from a file name, so
-`2026-09-24-name.md` becomes `/blog/name/`.
+its path under `src/`. Eleventy drops a date from a file name, and anything
+before it, so `2026-09-24-name.md` and `notes-2026-09-24-name.md` both become
+`/blog/name/`; a date at the end stays (`name-2026-09-24.md` becomes
+`/blog/name-2026-09-24/`). An article cannot be named after a category key:
+`ai-journey.md` would take the category page's URL, `/blog/ai-journey/`, and
+`pnpm build` fails whenever two files have one URL (`twin.md` beside
+`2026-09-24-twin.md` too), for example with `` Output conflict: multiple
+input files are writing to `./_site/blog/ai-journey/index.html` `` followed
+by the two files.
 
 Both files are required — a missing counterpart fails the build (see below).
 The English file:
@@ -205,8 +212,8 @@ Brödtext i Markdown.
   is refused by the front-matter check, because Eleventy cannot parse it
   either. A time with no zone is read as UTC, like the date itself. Articles
   with the same date and time, or the same date and no time, are listed by
-  file name in alphabetical order, the same on every machine (code-unit order,
-  not the build machine's locale). A static
+  the last part of their URL in alphabetical order, the same on every machine
+  (code-unit order, not the build machine's locale). A static
   site has no clock, so a scheduled article appears only on the next build:
   the deployment workflow rebuilds and redeploys `main` once a day for exactly
   that reason (see *Deployment*). `SITE_NOW` makes a build take the moment
