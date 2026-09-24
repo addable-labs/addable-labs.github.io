@@ -154,6 +154,71 @@ describe("apps data and copy (REQ-011, REQ-025; AC-11, AC-12, AC-30)", () => {
     }
   });
 
+  it("links every public entry to its own repository, the one its repo names, and fails a url of another repository (si-nepq)", () => {
+    for (const entry of data.filter((item) => !PRIVATE_APP_KEYS.includes(item.key))) {
+      assert.equal(githubRepos(entry.url)[0].toLowerCase(), entry.repo.toLowerCase(), `${entry.key}: ${entry.url}`);
+    }
+    // A url of another repository fails, even one the site may link.
+    const other = copy();
+    other.data.find((entry) => entry.key === "notesage").url = "https://github.com/addable-labs/gaimer";
+    assert.deepEqual(problemsOf(other), ['notesage: url "https://github.com/addable-labs/gaimer" links addable-labs/gaimer, not the entry\'s own repository "PeterBlenessy/notesage"']);
+    // One the site may not link breaks both rules, and both are named, so
+    // putting it on the list does not look like the fix.
+    const unlisted = copy();
+    unlisted.data.find((entry) => entry.key === "notesage").url = "https://github.com/example-org/private-app";
+    assert.deepEqual(problemsOf(unlisted), [
+      'notesage: url "https://github.com/example-org/private-app" is not a repository the site may link — the public ones are PUBLIC_REPOS in scripts/lib/apps.mjs',
+      'notesage: url "https://github.com/example-org/private-app" links example-org/private-app, not the entry\'s own repository "PeterBlenessy/notesage"',
+    ]);
+    // A repo that is not the one the url links fails too, though the
+    // sources, which are held to repo, agree with it.
+    const moved = copy();
+    Object.assign(moved.data.find((entry) => entry.key === "ashlands"), {
+      repo: "example-org/other-app",
+      source: { readme: "https://github.com/example-org/other-app/blob/main/README.md", report: "https://github.com/example-org/other-app/blob/main/EVALUATION.md", retrieved: "2026-09-23" },
+    });
+    assert.deepEqual(problemsOf(moved), ['ashlands: url "https://github.com/addable-labs/ashlands" links addable-labs/ashlands, not the entry\'s own repository "example-org/other-app"']);
+    // Its own repository written in another case passes: like publicRepo(),
+    // the rule ignores case.
+    const cased = copy();
+    cased.data.find((entry) => entry.key === "notesage").url = "https://github.com/peterblenessy/NoteSage";
+    assert.deepEqual(problemsOf(cased), []);
+  });
+
+  it("holds source.readme to a file in the entry's own repository, a private entry's too, and fails a README in another repository (si-nepq)", () => {
+    const withReadme = (key, readme) => {
+      const input = copy();
+      input.data.find((entry) => entry.key === key).source.readme = readme;
+      return problemsOf(input);
+    };
+    // nivå's README is in its own repository though the repository is private:
+    // the site links no source.
+    const niva = data.find((entry) => entry.key === "niva");
+    assert.ok(niva.source.readme.startsWith(`https://github.com/${niva.repo}/blob/`), niva.source.readme);
+    // Its own repository written in another case passes.
+    assert.deepEqual(withReadme("notesage", "https://github.com/peterblenessy/NoteSage/blob/main/README.md"), []);
+    // A README in another repository fails, even one the site may link, and
+    // a private entry's too.
+    for (const [key, readme, repo] of [
+      ["notesage", "https://github.com/addable-labs/gaimer/blob/main/README.md", "addable-labs/gaimer"],
+      ["niva", "https://github.com/example-org/private-app/blob/main/README.md", "example-org/private-app"],
+    ]) {
+      const own = data.find((entry) => entry.key === key).repo;
+      assert.deepEqual(withReadme(key, readme), [`${key}: source.readme ${JSON.stringify(readme)} is in ${repo}, not in the entry's own repository ${JSON.stringify(own)}`]);
+    }
+  });
+
+  it("fails a source.readme that is no URL of a file on github.com, naming the URL it needs (si-nepq)", () => {
+    // A path, the repository's page, the raw file, nothing and no README at all.
+    for (const readme of ["README.md", "https://github.com/PeterBlenessy/notesage#readme", "https://raw.githubusercontent.com/PeterBlenessy/notesage/main/README.md", "", undefined]) {
+      const input = copy();
+      const { source } = input.data.find((entry) => entry.key === "notesage");
+      if (readme === undefined) delete source.readme;
+      else source.readme = readme;
+      assert.deepEqual(problemsOf(input), [`notesage: source.readme must be the URL of a file in the entry's own repository, https://github.com/PeterBlenessy/notesage/blob/<branch>/<path>, got ${JSON.stringify(readme)}`], String(readme));
+    }
+  });
+
   it("names the article about the app where there is one — Ashlands and nivå — and fails an article that is not a post in both languages (si-3hpa)", () => {
     // The founder's request of 2026-09-23: the two apps with an article link
     // it, by the post's file name; the others name none.

@@ -5,7 +5,8 @@
 // Compound left the grid in feedback round 1, and PRIVATE_STATUS_LABEL keeps
 // the wording of the `private` label marketdata-api carried), strings in
 // every language, known statuses with labels,
-// the private/public URL rule (a public entry links one of PUBLIC_REPOS), an
+// the private/public URL rule (a public entry links its own repository, one
+// of PUBLIC_REPOS), sources that are files in the entry's own repository, an
 // article the card links only when it is a post in every language (si-3hpa),
 // and the copy bands that keep the balanced cards balanced (one-line names
 // and titles, one-line chip rows, descriptions within a length band). Used by
@@ -139,22 +140,24 @@ export function validateApps({
     if (!themes.includes(entry?.theme)) problems.push(`${name}: theme ${quote(entry?.theme)} is not one of ${themes.join(", ")}`);
     if (!isText(entry?.repo)) problems.push(`${name}: repo must be "owner/name"`);
     if (!(entry?.url === null || isText(entry?.url))) problems.push(`${name}: url must be null or a string`);
-    if (!isText(entry?.source?.readme)) problems.push(`${name}: source.readme must point at the repository README`);
     if (!/^\d{4}-\d{2}-\d{2}$/.test(entry?.source?.retrieved ?? "")) problems.push(`${name}: source.retrieved must be a YYYY-MM-DD date`);
-    // An optional second source, for a fact the README does not state (the
-    // Ashlands evaluation report, si-9qlz): a file in the entry's own
-    // repository, so it names no repository the entry does not already name.
-    // Like publicRepo(), the match ignores case.
-    const report = entry?.source?.report;
-    if (report !== undefined) {
-      const own = isText(entry?.repo) ? entry.repo : "<owner>/<name>";
-      const [, owner, repoName] = (isText(report) && report.match(GITHUB_FILE_URL)) || [];
+    // The sources the entry's facts come from: its README and, for a fact the
+    // README does not state, an optional second file (the Ashlands evaluation
+    // report, si-9qlz). Each is a file in the entry's own repository, a
+    // private entry's too (si-nepq): the site links neither, and a source
+    // names no repository the entry does not already name. Like publicRepo(),
+    // the match ignores case.
+    const own = isText(entry?.repo) ? entry.repo : "<owner>/<name>";
+    const sourceFile = (field, value) => {
+      const [, owner, repoName] = (isText(value) && value.match(GITHUB_FILE_URL)) || [];
       if (!owner) {
-        problems.push(`${name}: source.report must be the URL of a file in the entry's own repository, ${PUBLIC_URL_PREFIX}${own}/blob/<branch>/<path>, got ${quote(report)}`);
+        problems.push(`${name}: source.${field} must be the URL of a file in the entry's own repository, ${PUBLIC_URL_PREFIX}${own}/blob/<branch>/<path>, got ${quote(value)}`);
       } else if (`${owner}/${repoName}`.toLowerCase() !== own.toLowerCase()) {
-        problems.push(`${name}: source.report ${quote(report)} is in ${owner}/${repoName}, not in the entry's own repository ${quote(own)}`);
+        problems.push(`${name}: source.${field} ${quote(value)} is in ${owner}/${repoName}, not in the entry's own repository ${quote(own)}`);
       }
-    }
+    };
+    sourceFile("readme", entry?.source?.readme);
+    if (entry?.source?.report !== undefined) sourceFile("report", entry.source.report);
     // An optional article about the app (founder request 2026-09-23,
     // si-3hpa): the file name of a post, without .md, which the card links
     // in the page's language — so it must be a post in every language, or
@@ -177,13 +180,20 @@ export function validateApps({
         problems.push(`${name}: private repository must not be linked — url is null or the product's public https:// page, never ${PUBLIC_URL_PREFIX} (got ${quote(entry.url)})`);
       }
     } else if (keys.includes(key)) {
-      // A public entry links its repository, and the repository is one the
-      // site may link (si-vwu8).
+      // A public entry links its repository: one the site may link
+      // (si-vwu8), and the one its "repo" names, which the sources are held
+      // to (si-nepq). A url that breaks both rules is reported for both, so
+      // a wrong url is not mended by listing its repository.
       const [repo] = isText(entry?.url) ? githubRepos(entry.url) : [];
       if (!(isText(entry?.url) && entry.url.startsWith(PUBLIC_URL_PREFIX))) {
         problems.push(`${name}: public entry needs a ${PUBLIC_URL_PREFIX} URL, got ${quote(entry?.url)}`);
-      } else if (!repo || !publicRepo(repo, publicRepos)) {
-        problems.push(`${name}: url ${quote(entry.url)} is not a repository the site may link — the public ones are PUBLIC_REPOS in scripts/lib/apps.mjs`);
+      } else {
+        if (!repo || !publicRepo(repo, publicRepos)) {
+          problems.push(`${name}: url ${quote(entry.url)} is not a repository the site may link — the public ones are PUBLIC_REPOS in scripts/lib/apps.mjs`);
+        }
+        if (repo && repo.toLowerCase() !== own.toLowerCase()) {
+          problems.push(`${name}: url ${quote(entry.url)} links ${repo}, not the entry's own repository ${quote(own)}`);
+        }
       }
     }
   }
