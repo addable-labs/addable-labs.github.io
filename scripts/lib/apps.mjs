@@ -176,8 +176,16 @@ export function validateApps({
       problems.push(`${name}: unknown status ${quote(entry?.status)} (known: ${statuses.join(", ")})`);
     }
     if (privateKeys.includes(key)) {
+      // The url is null or an https:// page off https://github.com/, and it
+      // names no GitHub repository in any spelling of github.com that
+      // githubRepos() reads — www.github.com, GitHub.com, a subdomain — as
+      // the content gate reads the built site (si-i5uk). A url the first
+      // rule refuses gets its message only.
+      const repos = isText(entry.url) ? [...new Set(githubRepos(entry.url))] : [];
       if (entry.url !== null && !(isText(entry.url) && entry.url.startsWith("https://") && !entry.url.startsWith(PUBLIC_URL_PREFIX))) {
         problems.push(`${name}: private repository must not be linked — url is null or the product's public https:// page, never ${PUBLIC_URL_PREFIX} (got ${quote(entry.url)})`);
+      } else if (repos.length > 0) {
+        problems.push(`${name}: private repository must not be linked — url is null or the product's public https:// page, never one that names a GitHub repository (got ${quote(entry.url)}, which names ${repos.map((repo) => `github.com/${repo}`).join(" and ")})`);
       }
     } else if (keys.includes(key)) {
       // A public entry links its repository: one the site may link

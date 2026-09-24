@@ -85,6 +85,37 @@ describe("apps data and copy (REQ-011, REQ-025; AC-11, AC-12, AC-30)", () => {
     assert.ok(problemsOf(unlinked).some((p) => /^notesage: public entry needs a https:\/\/github\.com\/ URL/.test(p)), problemsOf(unlinked).join("\n"));
   });
 
+  it("refuses a private entry's url that names a GitHub repository in any spelling of github.com, not only on https://github.com/ (si-i5uk)", () => {
+    const withUrl = (url) => {
+      const input = copy();
+      input.data.find((entry) => entry.key === "niva").url = url;
+      return problemsOf(input);
+    };
+    const refused = (url, repo) => `niva: private repository must not be linked — url is null or the product's public https:// page, never one that names a GitHub repository (got ${JSON.stringify(url)}, which names github.com/${repo})`;
+    // nivå's own repository on www.github.com, read from the data so that no
+    // test spells it: an https:// page off https://github.com/, so only
+    // githubRepos() sees the repository.
+    const own = data.find((entry) => entry.key === "niva").repo;
+    assert.deepEqual(withUrl(`https://www.github.com/${own}`), [refused(`https://www.github.com/${own}`, own)]);
+    // The other spellings githubRepos() reads, as the content gate does: the
+    // host in another case, a subdomain, a ".git" suffix, a repository in the
+    // query, and a repository the site may link, which is no private entry's
+    // page either.
+    for (const [url, repo] of [
+      ["https://GitHub.com/example-org/private-app", "example-org/private-app"],
+      ["https://gist.github.com/example-org/private-app", "example-org/private-app"],
+      ["https://www.github.com/example-org/private-app.git", "example-org/private-app"],
+      ["https://erniva.se/?from=github.com/example-org/private-app", "example-org/private-app"],
+      ["https://www.github.com/addable-labs/gaimer", "addable-labs/gaimer"],
+    ]) {
+      assert.deepEqual(withUrl(url), [refused(url, repo)], url);
+    }
+    // A url on https://github.com/ gets the message it had, and only that one.
+    assert.deepEqual(withUrl("https://github.com/example-org/private-app"), ['niva: private repository must not be linked — url is null or the product\'s public https:// page, never https://github.com/ (got "https://github.com/example-org/private-app")']);
+    // nivå's own page still passes.
+    assert.deepEqual(withUrl("https://erniva.se/"), []);
+  });
+
   it("fails an unknown status key and a status without a label in either language (AC-12)", () => {
     const unknown = copy();
     unknown.data.find((entry) => entry.key === "gaimer").status = "beta";
