@@ -314,6 +314,102 @@ describe("content gate", () => {
     assert.match(output, new RegExp(`^FAIL {2}sv/blog/ai-journey/index\\.html: lists exactly the listed sv articles of ai-journey, newest first \\(${newest}, ${next}[,)].* — in another order: ${next}, ${newest}(, |$)`, "m"));
   });
 
+  // The blog index and the landing page of each language, with the rule the
+  // gate's one line for the page states (si-absd): the index lists every
+  // listed article of its language, newest first, and the landing page's
+  // latest-writing section the first three of them.
+  const LIST_LINES = [
+    { page: ["blog", "index.html"], rule: "lists exactly the listed en articles, newest first" },
+    { page: ["sv", "blog", "index.html"], rule: "lists exactly the listed sv articles, newest first" },
+    { page: ["index.html"], rule: "latest-writing section lists the newest three listed en articles, newest first" },
+    { page: ["sv", "index.html"], rule: "latest-writing section lists the newest three listed sv articles, newest first" },
+  ];
+
+  /**
+   * The gate's whole FAIL line for one of LIST_LINES' pages: its rule, the
+   * list it must show and what it gets wrong. An article of the real tree
+   * dated after today is named between the two (", not /blog/x/ before …").
+   */
+  function failLine({ page, rule }, want, problem) {
+    const escape = (text) => text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    return new RegExp(`^${escape(`FAIL  ${page.join("/")}: ${rule} (${want.join(", ")})`)}(, not .*)? — ${escape(problem)}$`, "m");
+  }
+
+  it("passes on the real build, each blog index listing exactly the listed articles of its language, newest first, and each landing page the first three of them (si-absd)", () => {
+    const { status, output } = runGate("content", built, undefined, { CHECK_QUIET: "0" });
+    assert.equal(status, 0, output);
+    for (const [prefix, lang] of [["", "en"], ["sv/", "sv"]]) {
+      const index = new RegExp(`^ok {4}${prefix}blog/index\\.html: lists exactly the listed ${lang} articles, newest first \\(([^)]+)\\)`, "m").exec(output);
+      assert.ok(index, `${prefix}blog/index.html: the line must be printed`);
+      const three = index[1].split(", ").slice(0, 3).join(", ");
+      assert.match(output, new RegExp(`^ok {4}${prefix}index\\.html: latest-writing section lists the newest three listed ${lang} articles, newest first \\(${three}\\)`, "m"));
+    }
+  });
+
+  it("fails a blog index or a landing page whose first two cards trade places, in both languages (si-absd)", async () => {
+    const copy = await copyDir(built, path.join(tmp.dir, "listing-order"));
+    const expected = [];
+    for (const listing of LIST_LINES) {
+      const [newest, next, ...rest] = await listed(copy, ...listing.page);
+      // The first two cards trade places, whatever they link.
+      const file = path.join(copy, ...listing.page);
+      const html = await readFile(file, "utf8");
+      const [first, second] = cards(html);
+      assert.ok(second !== undefined, `${listing.page.join("/")}: the page must list two articles`);
+      await writeFile(file, html.replace(first, () => "\u0000").replace(second, () => first).replace("\u0000", () => second));
+      expected.push(failLine(listing, [newest, next, ...rest], `in another order: ${[next, newest, ...rest].join(", ")}`));
+    }
+    const { status, output } = runGate("content", copy);
+    assert.equal(status, 1);
+    for (const line of expected) assert.match(output, line);
+  });
+
+  it("fails a blog index or a landing page that lists a card too many, in both languages (si-absd)", async () => {
+    const copy = await copyDir(built, path.join(tmp.dir, "listing-extra"));
+    // After its last card, each blog index gets the first card of the other
+    // language's index, and each landing page the fourth card of its own
+    // language's index: the next article, one too many. Whatever they link.
+    const extras = {
+      "blog/index.html": [["sv", "blog", "index.html"], 0, "(not a en article)"],
+      "sv/blog/index.html": [["blog", "index.html"], 0, "(not a sv article)"],
+      "index.html": [["blog", "index.html"], 3, "(not one of the newest three)"],
+      "sv/index.html": [["sv", "blog", "index.html"], 3, "(not one of the newest three)"],
+    };
+    const expected = [];
+    for (const listing of LIST_LINES) {
+      const [from, position, why] = extras[listing.page.join("/")];
+      const href = (await listed(built, ...from))[position];
+      const card = cards(await readFile(path.join(built, ...from), "utf8"))[position];
+      assert.ok(card?.includes(`href="${href}"`), `${from.join("/")}: card ${position + 1} must be found`);
+      const want = await listed(copy, ...listing.page);
+      const file = path.join(copy, ...listing.page);
+      const html = await readFile(file, "utf8");
+      const last = cards(html).at(-1);
+      await writeFile(file, html.replace(last, () => `${last}\n    ${card}`));
+      expected.push(failLine(listing, want, `extra: ${href} ${why}`));
+    }
+    const { status, output } = runGate("content", copy);
+    assert.equal(status, 1);
+    for (const line of expected) assert.match(output, line);
+  });
+
+  it("fails a blog index or a landing page that misses a card, in both languages (si-absd)", async () => {
+    const copy = await copyDir(built, path.join(tmp.dir, "listing-missing"));
+    const expected = [];
+    for (const listing of LIST_LINES) {
+      const want = await listed(copy, ...listing.page);
+      // The first card goes, whatever it links: the newest article.
+      const file = path.join(copy, ...listing.page);
+      const html = await readFile(file, "utf8");
+      const [first] = cards(html);
+      await writeFile(file, html.replace(first, ""));
+      expected.push(failLine(listing, want, `missing: ${want[0]}`));
+    }
+    const { status, output } = runGate("content", copy);
+    assert.equal(status, 1);
+    for (const line of expected) assert.match(output, line);
+  });
+
   it("fails when a later article grows past 1,500 English words (the series ceiling, si-xcpc)", async () => {
     const broken = await withPaddedArticle("series-long", "why-we-run-an-agent-run-factory", 600);
     const { status, output } = runGate("content", broken);
@@ -351,6 +447,9 @@ describe("content gate", () => {
 // a line when an article is added, with its date: an article of the real tree
 // can be scheduled too (nivå until 2026-09-23, si-gyc4), and it joins the
 // index on its day — the daily rebuild runs this suite on every one of them.
+// The content gate holds each blog index to the order it works out from the
+// same front matter the build reads (si-absd), so an article whose date
+// changes moves in both alike: only this table, written by hand, notices.
 const ARTICLES = [
   ["/blog/what-the-mayors-context-costs/", "2026-09-24"],
   ["/blog/lessons-from-building-niva/", "2026-09-23"],
@@ -475,6 +574,28 @@ describe("scheduled posts", () => {
     // The category page of the two lists the one dated today and names the
     // one dated tomorrow as not listed yet (si-thf3).
     assert.match(content.output, /ok {4}sv\/blog\/app-development\/index\.html: lists exactly the listed sv articles of app-development, newest first \([^)]*\/sv\/blog\/published-today\/[^)]*\), not [^\n]*\/sv\/blog\/scheduled-tomorrow\/ before \d{4}-\d{2}-\d{2}/);
+    // So do the blog index and the landing page's newest three (si-absd).
+    assert.match(content.output, /ok {4}blog\/index\.html: lists exactly the listed en articles, newest first \([^)]*\/blog\/published-today\/[^)]*\), not [^\n]*\/blog\/scheduled-tomorrow\/ before \d{4}-\d{2}-\d{2}/);
+    assert.match(content.output, /ok {4}sv\/index\.html: latest-writing section lists the newest three listed sv articles, newest first \([^)]*\/sv\/blog\/published-today\/[^)]*\), not [^\n]*\/sv\/blog\/scheduled-tomorrow\/ before \d{4}-\d{2}-\d{2}/);
+  });
+
+  it("fails a blog index and a landing page that list an article dated after today (si-absd)", async () => {
+    const copy = await copyDir(built, path.join(tmp.dir, "listing-scheduled"));
+    // A card for the article dated tomorrow before the first card of the
+    // English blog index and of the Swedish landing page, where the newest
+    // article goes: the card of the one dated today, pointed at it.
+    for (const [page, prefix] of [[["blog", "index.html"], ""], [["sv", "index.html"], "/sv"]]) {
+      const file = path.join(copy, ...page);
+      const html = await readFile(file, "utf8");
+      const [card] = cards(html).filter((item) => item.includes(`href="${prefix}/blog/published-today/"`));
+      assert.ok(card, `${page.join("/")}: the card of the article dated today must be found`);
+      const [first] = cards(html);
+      await writeFile(file, html.replace(first, () => `${card.replace(`href="${prefix}/blog/published-today/"`, `href="${prefix}/blog/scheduled-tomorrow/"`)}\n    ${first}`));
+    }
+    const { status, output } = runGate("content", copy, builtSrc);
+    assert.equal(status, 1);
+    assert.match(output, new RegExp(`^FAIL {2}blog/index\\.html: lists exactly the listed en articles, newest first \\(.*\\), not .*/blog/scheduled-tomorrow/ before ${utcDate(1)} — extra: /blog/scheduled-tomorrow/ before ${utcDate(1)}$`, "m"));
+    assert.match(output, new RegExp(`^FAIL {2}sv/index\\.html: latest-writing section lists the newest three listed sv articles, newest first \\(.*\\), not .*/sv/blog/scheduled-tomorrow/ before ${utcDate(1)} — extra: /sv/blog/scheduled-tomorrow/ before ${utcDate(1)}$`, "m"));
   });
 
   it("fails a category page that lists an article dated after today (si-thf3)", async () => {
@@ -698,6 +819,10 @@ describe("draft posts", () => {
     // as left out of the production one (si-thf3).
     assert.match(devContent.output, /ok {4}blog\/app-development\/index\.html: lists exactly the listed en articles of app-development, newest first \([^)]*\/blog\/a-draft\/[^)]*\)/);
     assert.match(prodContent.output, /ok {4}sv\/blog\/app-development\/index\.html: lists exactly the listed sv articles of app-development, newest first \([^)]*\/sv\/blog\/not-a-draft\/[^)]*\), not [^\n]*\/sv\/blog\/a-draft\/ \(a draft, and this is the production build\)/);
+    // So do the blog index and the landing page's newest three (si-absd).
+    assert.match(devContent.output, /ok {4}index\.html: latest-writing section lists the newest three listed en articles, newest first \([^)]*\/blog\/a-draft\/[^)]*\)/);
+    assert.match(prodContent.output, /ok {4}blog\/index\.html: lists exactly the listed en articles, newest first \([^)]*\/blog\/not-a-draft\/[^)]*\), not [^\n]*\/blog\/a-draft\/ \(a draft, and this is the production build\)/);
+    assert.match(prodContent.output, /ok {4}sv\/index\.html: latest-writing section lists the newest three listed sv articles, newest first \([^)]*\/sv\/blog\/not-a-draft\/[^)]*\), not [^\n]*\/sv\/blog\/a-draft\/ \(a draft, and this is the production build\)/);
     const prodFeeds = runGate("feeds", prod, builtSrc, { SITE_ENV: "production" });
     // The message names every article it expects to be absent — the fixture
     // draft and the repository's own.

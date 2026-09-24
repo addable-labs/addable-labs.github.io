@@ -17,8 +17,10 @@
 //     and the build lists it (si-3hpa) — an entry with neither unlinked;
 //     the trust section carries the factory phrase, the founder's name,
 //     "AI-native", the article link and the proof link and links nothing else
-//     named "factory"; at least two latest-writing cards with category chips
-//     and the draft chip where due, and the link to the blog index
+//     named "factory"; at least two latest-writing cards — the newest three
+//     listed articles of the language, newest first (si-absd) — with
+//     category chips and the draft chip where due, and the link to the blog
+//     index
 //   - the about pages have the mission and approach sections and the
 //     founding month ("September 2026" / "september 2026"), their lead names
 //     the founder (its first sentence does, at the founder's request of
@@ -41,9 +43,10 @@
 //     listed nowhere (si-gxyg), and every article page ends with the "More
 //     from the blog" band listing other articles of its language, never
 //     itself (founder feedback 2026-09-22)
-//   - each category page, in both languages, lists exactly the listed
-//     articles of its category, newest first: none of another category and
-//     none of its own missing (si-thf3)
+//   - each blog index lists exactly the listed articles of its language,
+//     newest first (si-absd), and each category page, in both languages,
+//     those of its category: none of another category and none of its own
+//     missing (si-thf3)
 // Optional arguments: <built-site dir> [<source dir>].
 
 import { readFile } from "node:fs/promises";
@@ -214,6 +217,20 @@ for (const lang of site.languages.codes) {
     const hasDraftChip = post.querySelector(".chip-draft") !== null;
     report.check(article !== undefined && hasDraftChip === article.draft, `${rel}: post ${href} ${article?.draft ? "carries" : "omits"} the draft chip`);
   }
+  // REQ-013 (si-absd): the cards are the newest three listed articles of the
+  // language, newest first: the first three of the list the blog index is
+  // held to below. So the newest article takes the first card, and no
+  // article of another language, none dated after today and no draft of the
+  // production build takes one. One line names what the section gets wrong.
+  const newest = listedNewestFirst(articles).slice(0, 3);
+  const shown = doc.querySelectorAll("main .post .post-title a").map((a) => attr(a, "href"));
+  const writingProblems = listingProblems(shown, newest, (href) => {
+    const article = articles.find((item) => item.path === href);
+    if (!article) return `${href} (not a ${lang} article)`;
+    return article.listed ? `${href} (not one of the newest three)` : `${href} ${because(article)}`;
+  });
+  const unlisted = articles.filter((article) => !article.listed).map((article) => `${article.path} ${because(article)}`);
+  report.check(writingProblems.length === 0, `${rel}: latest-writing section lists the newest three listed ${lang} articles, newest first (${newest.join(", ") || "none"})${unlisted.length > 0 ? `, not ${unlisted.join(", ")}` : ""}${writingProblems.length > 0 ? ` — ${writingProblems.join("; ")}` : ""}`);
   report.check(doc.querySelectorAll(`main a[href="${prefix}/blog/"]`).length >= 1, `${rel}: links the blog index ${prefix}/blog/`);
   report.check(doc.querySelectorAll('main a[href^="mailto:hello@addablelabs.se"]').length >= 1, `${rel}: mailto:hello@addablelabs.se in the page body`);
 }
@@ -346,6 +363,14 @@ function listingProblems(got, want, describe) {
   return problems;
 }
 
+/**
+ * The paths of the listed ones of `articles`, newest first: what a listing of
+ * them must show, in its order (`newestFirst`, the build's own comparison).
+ */
+function listedNewestFirst(articles) {
+  return newestFirst(articles.filter((article) => article.listed)).map((article) => article.path);
+}
+
 // Articles: existence, word count, the draft label, and the two ways an
 // article stays off the listings
 for (const lang of site.languages.codes) {
@@ -418,6 +443,23 @@ for (const lang of site.languages.codes) {
     report.check(itemTitle.test(feed), `${lang} feed item for ${article.slug} ${article.draft ? `carries "${draftLabel}"` : "present"}`);
   }
 
+  // The blog index (REQ-013, REQ-016; si-absd): exactly the listed articles
+  // of the language, newest first — the list each category page shows its
+  // share of and the landing page its first three. The loop above finds each
+  // listed article on it; this line also refuses any other card and any
+  // other order. The build fills the index from posts_<lang>
+  // (eleventy.config.js); this works the list out from the source tree.
+  if (listing) {
+    const want = listedNewestFirst(articles);
+    const got = listing.doc.querySelectorAll(".post .post-title a").map((a) => attr(a, "href"));
+    const problems = listingProblems(got, want, (href) => {
+      const article = articles.find((item) => item.path === href);
+      return article ? `${href} ${because(article)}` : `${href} (not a ${lang} article)`;
+    });
+    const unlisted = articles.filter((article) => !article.listed).map((article) => `${article.path} ${because(article)}`);
+    report.check(problems.length === 0, `${listing.relPath}: lists exactly the listed ${lang} articles, newest first (${want.join(", ") || "none"})${unlisted.length > 0 ? `, not ${unlisted.join(", ")}` : ""}${problems.length > 0 ? ` — ${problems.join("; ")}` : ""}`);
+  }
+
   // Category pages (REQ-013, REQ-016; si-thf3): each lists exactly the listed
   // articles of its category, newest first in the order of every listing —
   // not one of another category, not one of its own that is dated after
@@ -430,7 +472,7 @@ for (const lang of site.languages.codes) {
     const categoryPage = await page(rel);
     if (!categoryPage) continue;
     const own = articles.filter((article) => article.category === key);
-    const want = newestFirst(own.filter((article) => article.listed)).map((article) => article.path);
+    const want = listedNewestFirst(own);
     const got = categoryPage.doc.querySelectorAll(".post .post-title a").map((a) => attr(a, "href"));
     const problems = listingProblems(got, want, (href) => {
       const article = articles.find((item) => item.path === href);
