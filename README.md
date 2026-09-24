@@ -136,8 +136,9 @@ because Eleventy would drop the date, and anything before it, from the URL;
 an article's date belongs in its front matter. A date at the very end, as in
 `name-2026-09-24.md`, stays in the URL and passes. An article named
 `index.md` is refused too, since Eleventy would put it at `/blog/posts/`,
-named after its directory. Articles sit directly in `posts/`: `pnpm build`
-refuses a file in a subdirectory, which would otherwise be published
+named after its directory. Articles sit directly in `posts/` and are `.md`
+files: `pnpm build` refuses a file in a subdirectory, or a template of
+another type such as a `.njk`, which would otherwise be published
 unchecked, even as a draft. An article cannot be named after a category key:
 `ai-journey.md` would take the category page's URL, `/blog/ai-journey/`, and
 `pnpm build` fails whenever two files have one URL, for example with
@@ -444,7 +445,7 @@ after a `pnpm build`:
 
 | Gate | Command | What it checks |
 | --- | --- | --- |
-| build | `pnpm build` | Eleventy builds the site; article front matter validated; every page has its counterpart; every page's URL is made of slugs, like `/blog/ai-journey/` or `/feed.xml`, no file name holds a date Eleventy would drop, no article is named `index.md` and no file sits in a subdirectory of `posts/`; every `{% figure %}` names a known figure, `inline` or `wide`, with `figures.<id>` in the page's strings file; every figure label fits its character budget and every count label, such as `242 agents`, has its number in digits. |
+| build | `pnpm build` | Eleventy builds the site; article front matter validated; every page has its counterpart; every page's URL is made of slugs, like `/blog/ai-journey/` or `/feed.xml`, no file name holds a date Eleventy would drop, no article is named `index.md`, no file sits in a subdirectory of `posts/` and every template in `posts/` is a `.md` file; every `{% figure %}` names a known figure, `inline` or `wide`, with `figures.<id>` in the page's strings file; every figure label fits its character budget and every count label, such as `242 agents`, has its number in digits. |
 | links | `pnpm check:links` | Every internal `href`/`src` in pages, feeds and the sitemap resolves to a built file (`/x/` → `x/index.html`), fragments point at an id. External links are fetched with a 10 s timeout and reported as warnings only; `CHECK_OFFLINE=1` skips them. |
 | html | `pnpm check:html` | `html-validate` with the `recommended` and `a11y` presets (`.htmlvalidate.json`, inline styles forbidden), zero errors. |
 | pages | `pnpm check:pages` | Per page: `header`/`nav`/`main`/`footer` once, one `h1`, no skipped heading levels, the skip link is the first focusable element, `html[lang]` matches the path, every `img` has `alt`/`width`/`height`, unique title, description, canonical, Open Graph tags, three `hreflang` alternates, the feed link, the language switch, scripts only from the site's origin, no cross-origin resource (font preloads and `@font-face` sources included), HTML + CSS ≤ 150 KB, and on both landing pages CSS + JavaScript ≤ 60 KB compressed. |

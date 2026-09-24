@@ -146,8 +146,9 @@ export async function exists(file) {
  */
 export async function readArticleSources(srcDir, site, lang) {
   const dir = path.join(srcDir, lang, "blog", "posts");
-  // The files directly in posts/: the build refuses one in a subdirectory
-  // (checkPageUrls, urls.mjs), so these are all of the language's articles.
+  // The .md files directly in posts/: the build refuses a template in a
+  // subdirectory or of another type (checkPageUrls, urls.mjs), so these are
+  // all of the language's articles.
   let files = [];
   try {
     files = (await readdir(dir)).filter((name) => name.endsWith(".md")).sort();

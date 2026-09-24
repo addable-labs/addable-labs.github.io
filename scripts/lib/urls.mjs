@@ -4,9 +4,9 @@
 // page's is its path under src/ (en.11tydata.js, sv.11tydata.js), so a file's
 // name is part of an address the site publishes. The build holds every URL it
 // forms to the rule below, refuses the file names Eleventy would change on
-// the way to the URL (si-ok07) and a file in a subdirectory of posts/
-// (si-73wj), and the articles of one date are ordered by those names the same
-// way on every machine.
+// the way to the URL (si-ok07) and any template in posts/ that is not a .md
+// file directly in it (si-73wj, si-9kbs), and the articles of one date are
+// ordered by those names the same way on every machine.
 
 import { isSlug } from "./frontmatter.mjs";
 
@@ -21,6 +21,13 @@ export const ARTICLE_PATH = /^\.?\/?src\/([^/]+)\/blog\/posts\/[^/]+\.md$/;
 // while ARTICLE_PATH, the collections and the gates take only the files
 // directly in posts/.
 const IN_POSTS_SUBDIRECTORY = /^\.?\/?src\/[^/]+\/blog\/posts\/(?<dir>.+)\/[^/]+$/;
+
+// A template in posts/, directly or in a subdirectory, with the extension of
+// its name, ".njk" of src/en/blog/posts/top.njk. posts.11tydata.js gives
+// every one an article's layout and URL, while the front-matter check, the
+// draft rule, the collections and the gates take only .md files (si-9kbs). A
+// name without an extension is no template of Eleventy's and does not match.
+const POSTS_TEMPLATE = /^\.?\/?src\/[^/]+\/blog\/posts\/(?:.+\/)?[^/]+(?<extension>\.[^/.]+)$/;
 
 // A date and the hyphen after it, Eleventy's own pattern for a date in a file
 // name (TemplateFileSlug.js, Eleventy 3.1.6). It is not anchored: Eleventy
@@ -88,30 +95,45 @@ function postsSubdirectory(inputPath) {
 }
 
 /**
+ * The extension of a template in posts/ that is not Markdown — ".njk" of
+ * src/en/blog/posts/top.njk and of src/en/blog/posts/sub/top.njk — or null
+ * when the file is a .md file or is not in posts/.
+ *
+ * @param {string} inputPath  a file's path as Eleventy gives it, ./src/…
+ */
+function nonMarkdownExtension(inputPath) {
+  const extension = POSTS_TEMPLATE.exec(inputPath)?.groups.extension ?? null;
+  return extension === ".md" ? null : extension;
+}
+
+/**
  * Hold every page's URL to `urlProblem`, every file's name to the two rules
- * that keep a name the URL it spells (si-ok07), and every file under posts/
- * to the rule that articles live directly there (si-73wj). Eleventy changes
- * two kinds of name on the way to the URL: it drops a date and everything
- * before it (2026-09-24-name.md and notes-2026-09-24-name.md both become
- * /blog/name/), and it names an index.md after its directory (an article
- * src/en/blog/posts/index.md becomes /blog/posts/). Either URL is made of
- * slugs, but the gates read an article's URL off its whole file name
- * (readArticleSources, site.mjs), so they would look for the page where the
- * build did not put it. A file's name is its URL on this site and a date
- * belongs in the front matter, so the build refuses such a name rather than
- * the gates learning Eleventy's rule. A file in a subdirectory of posts/,
- * such as src/en/blog/posts/sub/name.md, gets an article's layout and URL
- * from posts.11tydata.js, but the front-matter check, the draft rule and the
- * gates take only the files directly in posts/, so it was published
+ * that keep a name the URL it spells (si-ok07), and every template under
+ * posts/ to the rule that articles are .md files directly there (si-73wj,
+ * si-9kbs). Eleventy changes two kinds of name on the way to the URL: it
+ * drops a date and everything before it (2026-09-24-name.md and
+ * notes-2026-09-24-name.md both become /blog/name/), and it names an index.md
+ * after its directory (an article src/en/blog/posts/index.md becomes
+ * /blog/posts/). Either URL is made of slugs, but the gates read an article's
+ * URL off its whole file name (readArticleSources, site.mjs), so they would
+ * look for the page where the build did not put it. A file's name is its URL
+ * on this site and a date belongs in the front matter, so the build refuses
+ * such a name rather than the gates learning Eleventy's rule. A file in a
+ * subdirectory of posts/, such as src/en/blog/posts/sub/name.md, and a
+ * template of another type anywhere in posts/, such as
+ * src/en/blog/posts/top.njk, get an article's layout and URL from
+ * posts.11tydata.js, but the front-matter check, the draft rule and the gates
+ * take only the .md files directly in posts/, so such a file was published
  * unchecked, even with draft: true; the build refuses it too. The names, and
  * where the files are, are checked whether or not a file has a URL: a draft
- * the production build leaves out has none there, and its name is refused
- * all the same.
+ * the production build leaves out has none there, and its name is refused all
+ * the same.
  *
  * Throws one Error that lists each file at fault under the rule it breaks —
  * a URL part that is not a slug, a date in the name, an article named
- * index.md, a file in a subdirectory of posts/ — and states each rule;
- * returns nothing when every file passes.
+ * index.md, a file in a subdirectory of posts/, a template in posts/ that
+ * is not a .md file — and states each rule; returns nothing when every file
+ * passes.
  *
  * @param {Record<string, (string|false)[]>} inputPathToUrl  each input path
  *   with the URLs of its pages, as Eleventy's `eleventy.contentMap` event
@@ -155,7 +177,17 @@ export function checkPageUrls(inputPathToUrl) {
         .map((inputPath) => `${inputPath}: in the subdirectory ${JSON.stringify(postsSubdirectory(inputPath))}`),
       rule: [
         "Eleventy gives a file in a subdirectory of posts/ an article's layout and URL, but the checks and the draft rule see only the files directly in posts/, so it would be published unchecked, even with draft: true.",
-        "Articles live directly in src/<lang>/blog/posts/, so move the file there.",
+        "Articles live directly in src/<lang>/blog/posts/, so move the file there as <slug>.md.",
+      ],
+    },
+    {
+      heading: "These files in posts/ are not Markdown:",
+      problems: inputPaths
+        .filter((inputPath) => nonMarkdownExtension(inputPath) !== null)
+        .map((inputPath) => `${inputPath}: ends in ${JSON.stringify(nonMarkdownExtension(inputPath))}, not ".md"`),
+      rule: [
+        "Eleventy gives any template in posts/ an article's layout and URL, but the checks and the draft rule see only the .md files, so it would be published unchecked, even with draft: true.",
+        "Articles are Markdown files, so make the file <slug>.md, directly in src/<lang>/blog/posts/.",
       ],
     },
   ].filter(({ problems }) => problems.length > 0);

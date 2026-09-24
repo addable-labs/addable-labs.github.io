@@ -13,7 +13,8 @@ import { buildSite, copyProject, ROOT, tempDir } from "./helpers.mjs";
 // URL that does not end in "/" may end in one extension — and refuses a file
 // name Eleventy would change on the way to the URL (si-ok07): a date in it,
 // or an article named index.md. It refuses a file in a subdirectory of
-// posts/ too (si-73wj), which it would otherwise publish as an article that
+// posts/ too (si-73wj), and a template in posts/ that is not a .md file
+// (si-9kbs), either of which it would otherwise publish as an article that
 // no check reads, a draft included.
 
 // Every kind of URL the site gives a page (2026-09-23).
@@ -96,6 +97,17 @@ const NESTED = [
   ["./src/sv/blog/posts/sub/page.njk", "/sv/blog/page/", "sub"], // a template that is not Markdown
 ];
 
+// Templates in posts/ that are not Markdown, each with the URL the build
+// gives it — posts.11tydata.js makes any template there an article — and the
+// extension the refusal names.
+const NOT_MARKDOWN = [
+  ["./src/en/blog/posts/top.njk", "/blog/top/", ".njk"],
+  ["./src/sv/blog/posts/top.njk", "/sv/blog/top/", ".njk"],
+  ["./src/en/blog/posts/top.liquid", "/blog/top/", ".liquid"], // any other type, should the build ever read one
+  ["./src/en/blog/posts/top.md.njk", "/blog/top.md/", ".njk"], // the last extension counts
+  ["./src/en/blog/posts/sub/page.njk", "/blog/page/", ".njk"], // in a subdirectory as well
+];
+
 // Names Eleventy makes the URL they spell, each with that URL.
 const KEPT = [
   ["./src/en/blog/posts/name-2026-09-24.md", "/blog/name-2026-09-24/"], // a date at the end
@@ -147,6 +159,18 @@ describe("file names", () => {
     }
   });
 
+  it("refuses a template in posts/ that is not a .md file, naming the file and its extension", () => {
+    // [] as well: the rule is about what the file is, whatever its URL.
+    for (const [inputPath, url, extension] of NOT_MARKDOWN) {
+      for (const urls of [[url], []]) {
+        const message = refusal({ [inputPath]: urls });
+        // A group of its own, after any other rule the file breaks.
+        assert.ok(`\n${message}`.includes("\nThese files in posts/ are not Markdown:\n"), `${inputPath} ${JSON.stringify(urls)}: ${message}`);
+        assert.ok(message.includes(`\n  ${inputPath}: ends in ${JSON.stringify(extension)}, not ".md"\n`), message);
+      }
+    }
+  });
+
   it("keeps a date at the end of a name, and an index page that is not an article", () => {
     assert.equal(refusal(Object.fromEntries(KEPT.map(([inputPath, url]) => [inputPath, [url]]))), null);
   });
@@ -158,6 +182,8 @@ describe("file names", () => {
       "./src/en/blog/posts/2026-09-24-About.md": ["/blog/About/"],
       "./src/en/blog/posts/index.md": ["/blog/posts/"],
       "./src/en/blog/posts/drafts/name.md": ["/blog/name/"],
+      "./src/en/blog/posts/drafts/page.njk": ["/blog/page/"],
+      "./src/sv/blog/posts/top.njk": ["/sv/blog/top/"],
     });
     assert.equal(
       message,
@@ -177,8 +203,14 @@ describe("file names", () => {
         "An article's file name becomes its URL, and Eleventy names an index.md after its directory instead, so rename the file.",
         "These files are in a subdirectory of posts/:",
         '  ./src/en/blog/posts/drafts/name.md: in the subdirectory "drafts"',
+        '  ./src/en/blog/posts/drafts/page.njk: in the subdirectory "drafts"',
         "Eleventy gives a file in a subdirectory of posts/ an article's layout and URL, but the checks and the draft rule see only the files directly in posts/, so it would be published unchecked, even with draft: true.",
-        "Articles live directly in src/<lang>/blog/posts/, so move the file there.",
+        "Articles live directly in src/<lang>/blog/posts/, so move the file there as <slug>.md.",
+        "These files in posts/ are not Markdown:",
+        '  ./src/en/blog/posts/drafts/page.njk: ends in ".njk", not ".md"',
+        '  ./src/sv/blog/posts/top.njk: ends in ".njk", not ".md"',
+        "Eleventy gives any template in posts/ an article's layout and URL, but the checks and the draft rule see only the .md files, so it would be published unchecked, even with draft: true.",
+        "Articles are Markdown files, so make the file <slug>.md, directly in src/<lang>/blog/posts/.",
       ].join("\n"),
     );
   });
@@ -186,12 +218,13 @@ describe("file names", () => {
 
 /**
  * Write one article, both languages, into a copy of the project, front matter
- * valid. `name` is the file's path under posts/, without .md: "name", or
- * "sub/name" for a file in a subdirectory.
+ * valid. `name` is the file's path under posts/, without its extension:
+ * "name", or "sub/name" for a file in a subdirectory. `extension` is "md"
+ * unless the case writes another type of template.
  */
-async function writeArticlePair(project, name, translationKey, { draft = false } = {}) {
+async function writeArticlePair(project, name, translationKey, { draft = false, extension = "md" } = {}) {
   for (const lang of ["en", "sv"]) {
-    const file = path.join(project, "src", lang, "blog", "posts", `${name}.md`);
+    const file = path.join(project, "src", lang, "blog", "posts", `${name}.${extension}`);
     const frontMatter = ["---", `title: ${translationKey} (${lang})`, "description: One sentence.", "date: 2026-09-01", "category: app-development", `translationKey: ${translationKey}`, `draft: ${draft}`, "aiGenerated: true", "humanReviewed: true", "---"];
     await mkdir(path.dirname(file), { recursive: true });
     await writeFile(file, `${frontMatter.join("\n")}\n\nThe body.\n`);
@@ -267,6 +300,21 @@ describe("file names in the build", () => {
       assert.notEqual(message, "", `the ${mode} build passed`);
       for (const lang of ["en", "sv"]) {
         assert.ok(message.includes(`./src/${lang}/blog/posts/sub/nested-draft.md: in the subdirectory "sub"`), `${mode}: ${message}`);
+      }
+    }
+  });
+
+  it("fails on a draft in posts/ that is not Markdown, which the production build would publish", async () => {
+    const project = await copyProject(path.join(tmp.dir, "njk"));
+    await writeArticlePair(project, "top", "top-njk", { draft: true, extension: "njk" });
+    for (const [mode, env] of [
+      ["production", { SITE_ENV: "production" }],
+      ["development", {}],
+    ]) {
+      const message = buildFailure(project, path.join(tmp.dir, `njk-site-${mode}`), env);
+      assert.notEqual(message, "", `the ${mode} build passed`);
+      for (const lang of ["en", "sv"]) {
+        assert.ok(message.includes(`./src/${lang}/blog/posts/top.njk: ends in ".njk", not ".md"`), `${mode}: ${message}`);
       }
     }
   });
