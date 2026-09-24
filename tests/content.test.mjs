@@ -5,8 +5,8 @@ import path from "node:path";
 import { after, before, describe, it } from "node:test";
 import { promisify } from "node:util";
 import { isScheduled } from "../scripts/lib/frontmatter.mjs";
-import { walk } from "../scripts/lib/site.mjs";
-import { buildSite, clockAt, copyDir, copyProject, NOW, runGate, tempDir, utcDate } from "./helpers.mjs";
+import { loadSite, readArticleSources, walk } from "../scripts/lib/site.mjs";
+import { buildSite, clockAt, copyDir, copyProject, NOW, runGate, SRC, tempDir, utcDate } from "./helpers.mjs";
 
 // The content gate re-targeted to the Signal landing model (REQ-024 as
 // amended by A-01; AC-09 … AC-15): the real build passes, and every
@@ -222,8 +222,10 @@ describe("content gate", () => {
     const copy = await copyDir(built, path.join(tmp.dir, "more-band"));
     const first = path.join(copy, "blog", "how-this-site-was-built-by-agents", "index.html");
     const firstHtml = await readFile(first, "utf8");
-    // The band's first card points back at the page itself.
-    const self = firstHtml.replace(/(class="post-title"[^>]*><a href=")\/blog\/why-we-run-an-agent-run-factory\/"/, "$1/blog/how-this-site-was-built-by-agents/\"");
+    // The band's first card points back at the page itself. The band lists
+    // the newest other articles, so which one comes first changes whenever
+    // an article is added: the edit takes the first card, whatever it links.
+    const self = firstHtml.replace(/(class="post-title"[^>]*><a href=")[^"]+"/, "$1/blog/how-this-site-was-built-by-agents/\"");
     assert.notEqual(self, firstHtml, "the band's first card must be found");
     await writeFile(first, self);
     const second = path.join(copy, "sv", "blog", "ashlands-what-one-prompt-built", "index.html");
@@ -272,12 +274,14 @@ describe("content gate", () => {
 // tree.
 // The blog index of the real tree, newest first, as it stands today, in a
 // development build — where every article is present, drafts included: an
-// exclusion must neither reorder nor drop anything else. The tree carries no
-// draft of its own, so the cases below write the drafts they need. Add a line
-// when an article is added, with its date: an article of the real tree can be
-// scheduled too (nivå until 2026-09-23, si-gyc4), and it joins the index on
-// its day — the daily rebuild runs this suite on every one of them.
+// exclusion must neither reorder nor drop anything else. A draft of the tree's
+// own is listed here like any other article; the production order below
+// leaves it out, and the cases below write the fixture drafts they need. Add
+// a line when an article is added, with its date: an article of the real tree
+// can be scheduled too (nivå until 2026-09-23, si-gyc4), and it joins the
+// index on its day — the daily rebuild runs this suite on every one of them.
 const ARTICLES = [
+  ["/blog/what-the-mayors-context-costs/", "2026-09-24"],
   ["/blog/lessons-from-building-niva/", "2026-09-23"],
   ["/blog/ashlands-what-one-prompt-built/", "2026-09-22"],
   ["/blog/why-we-run-an-agent-run-factory/", "2026-09-21"],
@@ -285,6 +289,12 @@ const ARTICLES = [
 ];
 const EN_ORDER = ARTICLES.filter(([, date]) => !isScheduled(date, NOW)).map(([url]) => url);
 const SV_ORDER = EN_ORDER.map((url) => `/sv${url}`);
+// The production build leaves the tree's own drafts out as well (si-mzf1).
+// Which articles are drafts is read from their front matter, so publishing
+// one — draft: false in both files — needs no change here.
+const DRAFTS = new Set((await readArticleSources(SRC, await loadSite(SRC), "en")).filter((article) => article.draft).map((article) => article.path));
+const EN_PUBLISHED = EN_ORDER.filter((url) => !DRAFTS.has(url));
+const SV_PUBLISHED = EN_PUBLISHED.map((url) => `/sv${url}`);
 
 /** Write one article, both languages, into a copy of the project; `linkTo` links another article's slug from the body. */
 async function writeArticlePair(project, slug, date, enTitle, svTitle, { draft = false, linkTo } = {}) {
@@ -598,13 +608,13 @@ describe("draft posts", () => {
   });
 
   it("leaves the order of the published articles unchanged in both builds", async () => {
-    // Nothing else moves: the repository's own articles carry no draft of
-    // their own, so they keep their order in both builds and only the
-    // fixture draft is missing from the production one.
+    // Nothing else moves: the repository's own articles keep their order in
+    // both builds, and the production one lacks only drafts — the fixture's
+    // and any of the repository's own.
     const withoutFixtures = (urls) => urls.filter((url) => !url.endsWith("/a-draft/") && !url.endsWith("/not-a-draft/"));
     assert.deepEqual(withoutFixtures(await listed(dev, "blog", "index.html")), EN_ORDER);
-    assert.deepEqual(withoutFixtures(await listed(prod, "blog", "index.html")), EN_ORDER);
-    assert.deepEqual(withoutFixtures(await listed(prod, "sv", "blog", "index.html")), SV_ORDER);
+    assert.deepEqual(withoutFixtures(await listed(prod, "blog", "index.html")), EN_PUBLISHED);
+    assert.deepEqual(withoutFixtures(await listed(prod, "sv", "blog", "index.html")), SV_PUBLISHED);
   });
 });
 
