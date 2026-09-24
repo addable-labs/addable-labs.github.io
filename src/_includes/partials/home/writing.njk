@@ -4,7 +4,6 @@
     "All articles" link to the blog index of the page's language. A new
     article appears here without a template change. -#}
 {%- set writing = strings[lang].writing -%}
-{%- set langPrefix = "" if lang == site.languages.default else "/" + lang -%}
 <section id="writing" class="section section-alt writing" aria-labelledby="writing-title">
   <div class="container">
     <div class="section-head reveal">

@@ -9,6 +9,10 @@
 // `data.collections` through its argument and never touches it elsewhere
 // (plan review PR-02); `translationKey` itself must be first-pass data (front
 // matter or a templated eleventyComputed string).
+//
+// `langPrefix` is what a template puts before a path to a page in the page's
+// own language (`{{ langPrefix }}/blog/`): "" for the default language
+// (English, at the root) and "/" + lang otherwise ("/sv").
 import { absoluteUrl } from "@11ty/eleventy-plugin-rss";
 
 const OTHER = { en: "sv", sv: "en" };
@@ -44,6 +48,9 @@ export default {
     },
     feedUrl(data) {
       return data.lang === "sv" ? "/sv/feed.xml" : "/feed.xml";
+    },
+    langPrefix(data) {
+      return data.lang === data.site.languages.default ? "" : `/${data.lang}`;
     },
   },
 };

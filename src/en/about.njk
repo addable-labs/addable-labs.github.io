@@ -22,7 +22,6 @@ eleventyComputed:
     strings[lang].about, so the Swedish twin is the same template under
     /sv/. -#}
 {%- set about = strings[lang].about -%}
-{%- set langPrefix = "" if lang == site.languages.default else "/" + lang -%}
 {%- set heroEyebrow = about.eyebrow -%}
 {%- set heroTitle = about.title -%}
 {%- set heroLead = about.lead -%}

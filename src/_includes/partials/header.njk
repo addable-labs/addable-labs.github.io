@@ -8,7 +8,6 @@
     "Reach out" mailto: instead). The row wraps below 40 rem so the
     navigation is never hidden.
     Nav hrefs follow the URL contract: English at the root, Swedish under /sv/. -#}
-{%- set langPrefix = "" if lang == site.languages.default else "/" + lang -%}
 {%- set navItems = [
   { href: langPrefix + "/", label: strings[lang].nav.home },
   { href: langPrefix + "/about/", label: strings[lang].nav.about },

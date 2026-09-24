@@ -9,7 +9,6 @@
     "factory". Same .trust-grid / .trust-copy / .trust-points components as
     the about page. -#}
 {%- set trust = strings[lang].trust -%}
-{%- set langPrefix = "" if lang == site.languages.default else "/" + lang -%}
 <section id="how" class="section trust" aria-labelledby="trust-title">
   <div class="container trust-grid">
     <div class="trust-copy reveal">

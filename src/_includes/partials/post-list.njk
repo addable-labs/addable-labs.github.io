@@ -3,7 +3,6 @@
     draft chip when the article is a draft, the title link and the
     description. Set `posts` before including; set `listHeading` to "h3" when
     the list sits under an h2 (default "h2"). The empty state is blog.empty. -#}
-{%- set langPrefix = "" if lang == site.languages.default else "/" + lang -%}
 {%- set headingTag = listHeading or "h2" -%}
 {%- if posts | length %}
   <ol class="post-list">

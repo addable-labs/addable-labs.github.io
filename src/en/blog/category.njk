@@ -18,7 +18,6 @@ eleventyComputed:
     hero-style title with the RSS chip, the .post grid of this category's
     articles, the category chips (this one current) and the link back to the
     index. The Swedish twin differs only in its permalink prefix. -#}
-{%- set langPrefix = "" if lang == site.languages.default else "/" + lang -%}
 {%- set heroEyebrow = strings[lang].blog.categoryEyebrow -%}
 {%- set heroTitle = strings[lang].categories[category.key] -%}
 {%- set heroLead = strings[lang].blog.categoryLead | replace("{category}", strings[lang].categories[category.key]) -%}

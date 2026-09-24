@@ -18,7 +18,6 @@ ogType: article
     The header/footer inside the article are divs so each page keeps exactly
     one header and footer landmark. Conditional tags sit at column 0 so a
     false branch leaves an empty line rather than trailing whitespace. -#}
-{%- set langPrefix = "" if lang == site.languages.default else "/" + lang -%}
 <article class="container article">
   <div class="article-header">
     <p class="article-meta">
