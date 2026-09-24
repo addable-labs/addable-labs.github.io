@@ -1,0 +1,19 @@
+{#- Blog index (REQ-013, REQ-016): the hero-style title with the RSS chip to
+    this language's feed (feedUrl from src.11tydata.js), the .post grid of
+    every article of the language, newest first, and the category chips. Both
+    languages render this one body: src/en/blog/index.njk and
+    src/sv/blog/index.njk hold only their front matter and the line that
+    includes it. -#}
+{%- set heroEyebrow = strings[lang].blog.eyebrow -%}
+{%- set heroTitle = strings[lang].blog.title -%}
+{%- set heroLead = strings[lang].blog.lead -%}
+{%- set heroActions -%}
+    <p class="blog-rss reveal"><a class="chip chip-rss" href="{{ feedUrl }}" type="application/rss+xml"><span class="chip-dot" aria-hidden="true"></span>{{ strings[lang].blog.rss }}</a></p>
+{%- endset -%}
+{% include "partials/page-hero.njk" %}
+<div class="container page-body">
+{%- set posts = collections["posts_" + lang] %}
+{%- include "partials/post-list.njk" %}
+  <h2 class="categories-heading">{{ strings[lang].blog.categoriesHeading }}</h2>
+{%- include "partials/category-chips.njk" %}
+</div>

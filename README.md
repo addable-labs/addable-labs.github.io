@@ -290,8 +290,12 @@ Brödtext i Markdown.
 Pages other than articles (landing, about, blog index, category pages) are
 Nunjucks templates under `src/en/` and `src/sv/` whose copy lives in
 `src/_data/strings/en.json` and `sv.json`; the two files must keep identical
-key sets, which the parity gate enforces. The landing page is assembled from
-the partials under `src/_includes/partials/home/`.
+key sets, which the parity gate enforces. Each page's body, and the feed's,
+is written once, in `src/_includes/pages/`, and both languages render it: a
+file under `src/en/` or `src/sv/` holds only the page's front matter and the
+line that includes the body, so a change to a page's structure is made in
+one file. The landing page is assembled from the partials under
+`src/_includes/partials/home/`.
 
 ## Add an app
 

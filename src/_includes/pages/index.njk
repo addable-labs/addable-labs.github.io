@@ -1,0 +1,17 @@
+{#- Landing page (REQ-009 … REQ-015; plan "Landing page content model"): the
+    six sections as full-width bands in this order — hero, services, apps and
+    products, how we work, latest writing, contact — each partial supplies
+    its own .container. Both languages render this one body, so the Swedish
+    page (REQ-015) has the same partials in the same order, with every string
+    from strings.sv: src/en/index.njk and src/sv/index.njk hold only their
+    front matter and the line that includes it. -#}
+{% include "partials/home/hero.njk" %}
+{% include "partials/home/services.njk" %}
+{% include "partials/home/apps.njk" %}
+{% include "partials/home/trust.njk" %}
+{% include "partials/home/writing.njk" %}
+<section class="section contact" aria-labelledby="contact-title">
+  <div class="container">
+    {% include "partials/home/contact.njk" %}
+  </div>
+</section>

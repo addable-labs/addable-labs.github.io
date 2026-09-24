@@ -8,15 +8,4 @@ eleventyComputed:
   title: "{{ strings[lang].home.title | safe }}"
   description: "{{ strings[lang].home.description | safe }}"
 ---
-{#- Swedish landing page (REQ-015): the same partials in the same order as
-    src/en/index.njk; every string comes from strings.sv. -#}
-{% include "partials/home/hero.njk" %}
-{% include "partials/home/services.njk" %}
-{% include "partials/home/apps.njk" %}
-{% include "partials/home/trust.njk" %}
-{% include "partials/home/writing.njk" %}
-<section class="section contact" aria-labelledby="contact-title">
-  <div class="container">
-    {% include "partials/home/contact.njk" %}
-  </div>
-</section>
+{%- include "pages/index.njk" -%}

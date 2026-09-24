@@ -14,21 +14,4 @@ eleventyComputed:
   description: "{{ strings[lang].blog.categoryLead | replace('{category}', strings[lang].categories[category.key]) | safe }}"
   translationKey: "blog-{{ category.key }}"
 ---
-{#- Category page (REQ-013, REQ-016), one per entry of categories.json: the
-    hero-style title with the RSS chip, the .post grid of this category's
-    articles, the category chips (this one current) and the link back to the
-    index. The Swedish twin differs only in its permalink prefix. -#}
-{%- set heroEyebrow = strings[lang].blog.categoryEyebrow -%}
-{%- set heroTitle = strings[lang].categories[category.key] -%}
-{%- set heroLead = strings[lang].blog.categoryLead | replace("{category}", strings[lang].categories[category.key]) -%}
-{%- set heroActions -%}
-    <p class="blog-rss reveal"><a class="chip chip-rss" href="{{ feedUrl }}" type="application/rss+xml"><span class="chip-dot" aria-hidden="true"></span>{{ strings[lang].blog.rss }}</a></p>
-{%- endset -%}
-{% include "partials/page-hero.njk" %}
-<div class="container page-body">
-{%- set posts = collections["posts_" + lang + "_" + category.key] %}
-{%- include "partials/post-list.njk" %}
-  <h2 class="categories-heading">{{ strings[lang].blog.categoriesHeading }}</h2>
-{%- include "partials/category-chips.njk" %}
-  <p class="back-link"><a class="text-link" href="{{ langPrefix }}/blog/">{{ strings[lang].blog.allArticles }}<span class="arrow" aria-hidden="true">→</span></a></p>
-</div>
+{%- include "pages/blog/category.njk" -%}

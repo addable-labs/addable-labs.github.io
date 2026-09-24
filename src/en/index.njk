@@ -8,18 +8,4 @@ eleventyComputed:
   title: "{{ strings[lang].home.title | safe }}"
   description: "{{ strings[lang].home.description | safe }}"
 ---
-{#- Landing page (REQ-009 … REQ-015; plan "Landing page content model"): the
-    six sections as full-width bands in this order — hero, services, apps and
-    products, how we work, latest writing, contact — each partial supplies
-    its own .container. The Swedish twin renders the same partials in the
-    same order; every string comes from strings.sv. -#}
-{% include "partials/home/hero.njk" %}
-{% include "partials/home/services.njk" %}
-{% include "partials/home/apps.njk" %}
-{% include "partials/home/trust.njk" %}
-{% include "partials/home/writing.njk" %}
-<section class="section contact" aria-labelledby="contact-title">
-  <div class="container">
-    {% include "partials/home/contact.njk" %}
-  </div>
-</section>
+{%- include "pages/index.njk" -%}
