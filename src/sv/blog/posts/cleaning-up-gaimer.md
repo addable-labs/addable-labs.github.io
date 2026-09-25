@@ -24,6 +24,8 @@ en säger varför den gjordes och vad som kontrollerades. Tetris och Pong,
 gjorda med den gamla och den nya systemprompten, visar sedan vad den nya
 prompten gör. Alla fyra spelen går att spela här.
 
+{% figure "merges", "wide" %}
+
 ## Vad som ändrades
 
 ### Att öppna och spara spel
@@ -50,15 +52,13 @@ Kod som klipptes av mitt i ett uttryck ger nu ett syntaxfel.
 ### Kopplingen till Claude
 
 Gaimer når Claude genom användarens kommandorad för Claude Code. Varje spel
-var förut en hel Claude Code-session, med Claude Codes egen systemprompt,
-Gaimers inklistrad i användarens meddelande och en sessionslogg sparad
-varje gång. Nu är det ett enkelt anrop till modellen: Gaimers prompt i en
-egen fil, de inbyggda verktygen avstängda och ingen session sparad. Två
-flaggor till håller användarens egna CLAUDE.md-filer, hooks, plugins,
-skills och MCP-servrar utanför. Ett anrop som går över appens tidsgräns
-stoppas nu i stället för att fortsätta på användarens abonnemang, ett
-misslyckat anrop säger varför i stället för "Exit code 1" och inloggningen
-kontrolleras en gång där upp till fyra inloggningsskal startade förut.
+var förut en hel Claude Code-session och är nu ett enkelt anrop till
+modellen, där användarens egen konfiguration hålls utanför. Ett anrop som
+går över appens tidsgräns stoppas nu i stället för att fortsätta på
+användarens abonnemang och ett misslyckat anrop säger varför i stället för
+"Exit code 1".
+
+{% figure "connection" %}
 
 ### Säkerhet
 
@@ -119,9 +119,9 @@ första tryck, klick eller tangenttryckning.
 
 När ett spel är öppet ändrar beskrivningsrutan nu det spelet. Modellen
 svarar med ändringsblock, var och ett en bit av koden och det som ersätter
-den, eller med hela spelet ändrat, som appen då tar som det är. Går blocken
-inte att använda ber appen en gång om hela spelet. Knappen Undo change går
-tillbaka en version och New game stänger spelet.
+den, eller med hela spelet ändrat, som appen då tar som det är.
+
+{% figure "lifecycle", "wide" %}
 
 ## Så gjordes spelen
 
@@ -134,19 +134,13 @@ med appens egen kod och varje spel körs på en spelsida byggd som appens i
 dess version, utan det som bara appen har, till exempel dess sparfiler. Det
 är ett spel per prompt och beskrivning, inte ett prestandatest.
 
-| Spel | Systemprompt | Tid | Utdata-tokens | Rader kod |
-|---|---|---:|---:|---:|
-| Tetris | före | 245 s | 29 720 | 478 |
-| Tetris | efter | 476 s | 58 031 | 545 |
-| Pong | före | 68 s | 9 093 | 219 |
-| Pong | efter | 204 s | 22 030 | 370 |
+{% figure "price", "wide" %}
 
-Utdata-tokens räknar in modellens tänkande. Det första anropet för Tetris
-med den nya prompten gick över appens dåvarande gräns på 300 sekunder och
-stoppades där, så som appen skulle ha gjort: i Gaimer betydde det felet
-"Command timed out" och inget spel. Det Tetris som visas kommer från ett
-andra anrop, gjort på samma sätt utan gränsen, som tog 476 sekunder.
-Fabriken har sedan dess höjt gränsen till
+Det första anropet för Tetris med den nya prompten gick över appens
+dåvarande gräns på 300 sekunder och stoppades där, så som appen skulle ha
+gjort: i Gaimer betydde det felet "Command timed out" och inget spel. Det
+Tetris som visas kommer från ett andra anrop, gjort på samma sätt utan
+gränsen, som tog 476 sekunder. Fabriken har sedan dess höjt gränsen till
 [15 minuter](https://github.com/addable-labs/gaimer/pull/51). Alla fyra
 startade utan fel, så inget av spelen från efter städningen behövde
 rättningsrundan.

@@ -23,6 +23,8 @@ made and what was checked. Tetris and Pong, made with the old and the new
 system prompt, then show what the new prompt does. All four games can be
 played here.
 
+{% figure "merges", "wide" %}
+
 ## What changed
 
 ### Opening and saving games
@@ -48,14 +50,12 @@ and code cut off mid-expression now fails as a syntax error.
 ### The Claude connection
 
 Gaimer reaches Claude through the user's Claude Code command line. Each
-game used to be a full Claude Code session, with its own system prompt,
-Gaimer's pasted into the user message and a transcript saved each time. Now
-it is one plain completion: Gaimer's prompt in a file of its own, the
-built-in tools off and no session saved. Two more flags keep out the user's
-own CLAUDE.md files, hooks, plugins, skills and MCP servers. A call past
-the app's limit is now stopped instead of running on the user's
-subscription, a failed call says why instead of "Exit code 1", and the
-sign-in is checked once where up to four login shells used to start.
+game used to be a full Claude Code session and is now one plain
+completion, with the user's own setup kept out. A call past the app's
+limit is now stopped instead of running on the user's subscription, and a
+failed call says why instead of "Exit code 1".
+
+{% figure "connection" %}
 
 ### Security
 
@@ -112,9 +112,9 @@ five seconds after the player's first tap, click or key press.
 
 With a game open, the description box now changes that game. The model
 answers with change blocks, each a piece of the code and its replacement,
-or with the whole game, changed, which the app takes as it is. When the
-blocks cannot be used, the app asks once for the whole game. Undo change
-goes back one version, and New game closes the game.
+or with the whole game, changed, which the app takes as it is.
+
+{% figure "lifecycle", "wide" %}
 
 ## How the games were made
 
@@ -127,19 +127,13 @@ with the app's own code, and each game runs in a game page built like the
 app's of its version, less what only the app holds, such as its save files.
 It is one game per prompt and request, not a benchmark.
 
-| Game | System prompt | Time | Output tokens | Lines of code |
-|---|---|---:|---:|---:|
-| Tetris | before | 245 s | 29,720 | 478 |
-| Tetris | after | 476 s | 58,031 | 545 |
-| Pong | before | 68 s | 9,093 | 219 |
-| Pong | after | 204 s | 22,030 | 370 |
+{% figure "price", "wide" %}
 
-The output counts include the model's thinking. The first call for Tetris
-with the new prompt ran past the app's limit at the time, 300 seconds, and
-was stopped there, as the app would have done: in Gaimer that meant the
-error "Command timed out" and no game. The Tetris shown comes from a second
-call, made the same way without the limit, which took 476 seconds. The
-factory has since raised the limit to
+The first call for Tetris with the new prompt ran past the app's limit at
+the time, 300 seconds, and was stopped there, as the app would have done:
+in Gaimer that meant the error "Command timed out" and no game. The Tetris
+shown comes from a second call, made the same way without the limit, which
+took 476 seconds. The factory has since raised the limit to
 [15 minutes](https://github.com/addable-labs/gaimer/pull/51). All four
 started with no error, so neither game from after the cleanup needed the
 fix round.

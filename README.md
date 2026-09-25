@@ -281,12 +281,13 @@ Brödtext i Markdown.
   reading measure with its caption beside it from 48 rem, under it below),
   or `{% figure "<id>", "wide" %}` for one that spans the whole container
   with its caption centred underneath. A figure is drawn by `src/_includes/figures/figures.mjs`
-  (`FIGURES` names the nineteen: `stages`, `gates`, `loop`, `assessment`,
+  (`FIGURES` names the twenty-four: `stages`, `gates`, `loop`, `assessment`,
   `team`, `harness`, `ledger`, `timeline`, `setup`, `build`, `words`,
   `bilingual`, `gauntlet`, `agents`, `critic`, `fleet`, `session`, `sync`,
-  `handoffs`) and every word it shows — panel titles, labels, notes,
-  the caption — comes from `figures.<id>` in the two strings files, so one
-  drawing serves both languages; a label too long for its slot fails the
+  `handoffs`, `counts`, `merges`, `connection`, `lifecycle`, `price`) and
+  every word it shows — panel titles, labels, notes, the caption — comes
+  from `figures.<id>` in the two strings files, so one drawing serves both
+  languages; a label too long for its slot fails the
   build naming the key. Adding a figure means one drawing function, its
   strings under `figures.<id>` in `en.json` and `sv.json`, and the two
   shortcode lines. Figures never reach the feeds (`withoutFigures` in the

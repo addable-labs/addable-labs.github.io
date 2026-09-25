@@ -923,6 +923,228 @@
         "b": "there were 10 sessions instead of 51"
       },
       "caption": "The counts of 22–23 and 24–25 September, 22 hours each (Findings, Context use), measure by measure; each measure is drawn to its own scale. Several things changed at once between the counts: the hand-off point, from about 16% to 30% of the window; the notes, trimmed and capped; the start-up content, with plugins and the account's connectors switched off; and the work, partly for Gaimer."
+    },
+    "merges": {
+      "title": "The 41 pull requests merged into Gaimer on 24 and 25 September 2026, each a mark at its merge time (UTC), in a row per part of this article, with each row's count",
+      "head": "41 pull requests",
+      "window": "24–25 Sep · UTC",
+      "areas": {
+        "saving": "opening and saving games",
+        "errors": "errors a game throws",
+        "claude": "the Claude connection",
+        "security": "security",
+        "cleanup": "cleanup",
+        "tests": "tests and CI",
+        "prompt": "the new system prompt",
+        "fix": "the automatic fix round",
+        "change": "changing the open game",
+        "other": "other: models, window size, focus"
+      },
+      "days": {
+        "first": "24 September",
+        "second": "25 September"
+      },
+      "caption": "The 41 pull requests the factory merged into Gaimer on 24 and 25 September 2026, a mark each at its merge time (UTC), in a row per part of this article, with each row's count. The last row holds the six the article does not tell: four on choosing a model, one that keeps a game running when the window changes size and one that takes the focus off the description field after sending."
+    },
+    "connection": {
+      "title": "The Claude call for a game, before and after the cleanup. Before: a whole Claude Code session, with Claude Code's own system prompt, Gaimer's prompt pasted into the user message ahead of the request, the built-in tools on, the user's CLAUDE.md files, hooks, plugins, skills and MCP servers taking part and a transcript saved. After: one plain completion, with Gaimer's prompt as the system prompt, in a file of its own, the request alone as the user message, the built-in tools off, the user's own setup kept out and no session saved. Picking Claude started up to four login shells; now the sign-in is checked once. The time limit was 5 minutes, but the call ran on; now it is 15 minutes, and then the call is stopped",
+      "head": "the Claude call for a game",
+      "before": "before the cleanup",
+      "after": "after the cleanup",
+      "calls": {
+        "before": "a Claude Code session",
+        "after": "one plain completion"
+      },
+      "rows": {
+        "system": {
+          "label": "system prompt",
+          "before": "Claude Code's own",
+          "after": "Gaimer's, in a file"
+        },
+        "message": {
+          "label": "the user message",
+          "before": "Gaimer's + the request",
+          "after": "the request alone"
+        },
+        "tools": {
+          "label": "built-in tools",
+          "before": "on",
+          "after": "off"
+        },
+        "setup": {
+          "label": "the user's CLAUDE.md files, hooks,",
+          "label2": "plugins, skills and MCP servers",
+          "before": "took part",
+          "after": "kept out"
+        },
+        "session": {
+          "label": "the session",
+          "before": "a transcript saved",
+          "after": "not saved"
+        },
+        "signin": {
+          "label": "when the user picks Claude",
+          "before": "up to four",
+          "before2": "login shells",
+          "after": "the sign-in",
+          "after2": "checked once"
+        },
+        "limit": {
+          "label": "the time limit",
+          "before": "5 minutes, but",
+          "before2": "the call ran on",
+          "after": "15 minutes,",
+          "after2": "then it is stopped"
+        }
+      },
+      "caption": "How Gaimer called Claude for a game before the cleanup and how it calls it now. The whole Claude Code session became one plain completion: Gaimer's prompt is the system prompt, the request is the whole user message, and nothing of the user's own Claude Code setup takes part."
+    },
+    "lifecycle": {
+      "panels": {
+        "made": {
+          "title": "A new game: a description typed in the box goes in one call to the provider, with Gaimer's system prompt; the answer is read as a game, saved and run in the sandboxed page. A game that fails as it starts, with an error before it is ready or in the 5 seconds after that or after the player's first input, goes back once to the provider that wrote it, with its code and its error, and the fixed game takes its place; then the game is played",
+          "head": "a new game"
+        },
+        "changed": {
+          "title": "The open game: a change typed in the box goes in one call with the game and the requests it was made from; the answer is change blocks, made to the game's code, or the whole game, changed, taken as it is, and when the blocks cannot be used, the whole game is asked for once. The changed game is a new version, which runs and can go back once too; Undo change goes back one version and New game closes the game",
+          "head": "the open game"
+        }
+      },
+      "made": {
+        "describe": {
+          "label": "a description",
+          "note": "typed in the box, with no game open"
+        },
+        "call": {
+          "label": "one call to the provider",
+          "note": "with Gaimer's system prompt"
+        },
+        "answer": {
+          "label": "the answer, read as a game",
+          "note": "and saved as a new game"
+        },
+        "runs": {
+          "label": "it runs in the sandboxed page",
+          "note": "in a frame of its own"
+        },
+        "fails": {
+          "label": "fails as it starts?",
+          "note": "an error before it is ready, or in the",
+          "note2": "5 s after that or after the first input"
+        },
+        "back": {
+          "label": "back once",
+          "note": "to the provider that wrote it,",
+          "note2": "with its code and its error"
+        },
+        "fixed": {
+          "label": "the fixed game takes its place",
+          "note": "a fixed game is not sent back again"
+        },
+        "play": {
+          "label": "play"
+        }
+      },
+      "yes": "yes",
+      "no": "no",
+      "changed": {
+        "change": {
+          "label": "a change, typed in the box",
+          "note": "with a game open, the box changes it"
+        },
+        "call": {
+          "label": "one call, with the game",
+          "note": "and the requests it was made from"
+        },
+        "answer": {
+          "label": "the answer is one of two"
+        },
+        "unusable": {
+          "label": "blocks that cannot be used?",
+          "note": "the whole game is asked for, once"
+        },
+        "version": {
+          "label": "a new version",
+          "note": "it runs, and can go back once too"
+        }
+      },
+      "answers": {
+        "blocks": {
+          "label": "change blocks",
+          "note": "made to its code"
+        },
+        "whole": {
+          "label": "the whole game",
+          "note": "taken as it is"
+        }
+      },
+      "buttons": {
+        "undo": {
+          "label": "Undo change",
+          "note": "back one version"
+        },
+        "newGame": {
+          "label": "New game",
+          "note": "closes the game"
+        }
+      },
+      "caption": "A game's life in Gaimer after the cleanup, as the code on its main branch runs it: a new game gets one chance to be fixed if it fails as it starts, and the box changes the open game one version at a time."
+    },
+    "price": {
+      "panels": {
+        "calls": {
+          "title": "The call that made each game, with the system prompt from before the cleanup and from after it",
+          "head": "the call for each game"
+        },
+        "games": {
+          "title": "What each of the four games has: the two from after the cleanup have a start screen, a best score, sound, and mouse and touch; the two from before have none of these and take touch but not the mouse",
+          "head": "what each game has"
+        }
+      },
+      "games": {
+        "tetris": "Tetris",
+        "pong": "Pong"
+      },
+      "before": "before",
+      "after": "after",
+      "rows": {
+        "tetris": {
+          "before": {
+            "time": "245 s",
+            "tokens": "29,720 output tokens",
+            "lines": "478 lines"
+          },
+          "after": {
+            "time": "476 s",
+            "tokens": "58,031 output tokens",
+            "lines": "545 lines"
+          }
+        },
+        "pong": {
+          "before": {
+            "time": "68 s",
+            "tokens": "9,093 output tokens",
+            "lines": "219 lines"
+          },
+          "after": {
+            "time": "204 s",
+            "tokens": "22,030 output tokens",
+            "lines": "370 lines"
+          }
+        }
+      },
+      "limit": "the limit then: 300 s",
+      "thinking": "output tokens include the model's thinking",
+      "scope": "one game per prompt and request",
+      "features": {
+        "start": "start screen",
+        "best": "best score",
+        "sound": "sound",
+        "pointer": "mouse and touch"
+      },
+      "touch": "touch",
+      "asked": "the new prompt asks for all four",
+      "caption": "What the new system prompt cost in the run that made the four games: one call per game and prompt, with each call's time to scale, its output tokens and the game's lines of code, and what each game has. The dashed marks are the app's limit at the time, 300 seconds, which the first call for the Tetris from after the cleanup ran past. One game per prompt and request, not a benchmark."
     }
   },
   "games": {

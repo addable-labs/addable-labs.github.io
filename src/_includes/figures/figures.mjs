@@ -1127,7 +1127,345 @@ function counts(t, id, figureId) {
   };
 }
 
-export const FIGURES = { stages, gates, loop, assessment, team, harness, ledger, timeline, setup, build, words, bilingual, gauntlet, agents, critic, fleet, session, sync, handoffs, counts };
+// The four figures of the Gaimer article (founder feedback 2026-09-25,
+// si-syhr: the draft read as a wall of text): its pull requests on one time
+// scale, the Claude call before and after the cleanup, a game's life in the
+// app and what the new system prompt cost. Each element is traceable to the
+// pull requests or to the code on Gaimer's main branch; times are UTC, as
+// GitHub gives them, and what the run of the four games recorded is told in
+// the past tense.
+
+// The 41 pull requests the factory merged into Gaimer (gh pr list --repo
+// addable-labs/gaimer --state merged: #11–#46 and #48–#52), each with its
+// merge time and the part of the article that tells what it changed. #32,
+// which let the game page's style and Tauri's IPC through the window's
+// Content Security Policy, is under security, the part about that policy;
+// "other" holds the six the article does not tell: the choice of a model
+// (#14, #25, #38, #41), a game kept running when the window changes size
+// (#26) and the focus after sending (#48).
+const GAIMER_MERGES = [
+  [11, "2026-09-24T17:56:58Z", "saving"],
+  [12, "2026-09-24T18:13:29Z", "cleanup"],
+  [13, "2026-09-24T18:39:28Z", "cleanup"],
+  [14, "2026-09-24T19:07:37Z", "other"],
+  [15, "2026-09-24T19:28:02Z", "errors"],
+  [16, "2026-09-24T20:09:51Z", "claude"],
+  [17, "2026-09-24T20:35:50Z", "tests"],
+  [18, "2026-09-24T20:56:07Z", "claude"],
+  [19, "2026-09-24T21:15:34Z", "claude"],
+  [20, "2026-09-24T22:02:15Z", "security"],
+  [21, "2026-09-24T22:46:55Z", "security"],
+  [22, "2026-09-24T23:07:05Z", "claude"],
+  [23, "2026-09-24T23:27:09Z", "security"],
+  [24, "2026-09-24T23:55:27Z", "cleanup"],
+  [25, "2026-09-25T00:29:02Z", "other"],
+  [26, "2026-09-25T00:51:45Z", "other"],
+  [27, "2026-09-25T01:15:17Z", "saving"],
+  [28, "2026-09-25T01:33:43Z", "saving"],
+  [29, "2026-09-25T01:59:31Z", "saving"],
+  [30, "2026-09-25T02:16:54Z", "cleanup"],
+  [31, "2026-09-25T02:48:56Z", "errors"],
+  [32, "2026-09-25T03:08:47Z", "security"],
+  [33, "2026-09-25T03:41:53Z", "errors"],
+  [34, "2026-09-25T04:05:59Z", "cleanup"],
+  [35, "2026-09-25T04:39:48Z", "claude"],
+  [36, "2026-09-25T05:02:04Z", "saving"],
+  [37, "2026-09-25T05:26:42Z", "claude"],
+  [38, "2026-09-25T06:04:59Z", "other"],
+  [39, "2026-09-25T06:43:42Z", "fix"],
+  [40, "2026-09-25T11:59:29Z", "prompt"],
+  [41, "2026-09-25T07:38:04Z", "other"],
+  [42, "2026-09-25T07:52:30Z", "cleanup"],
+  [43, "2026-09-25T08:20:04Z", "errors"],
+  [44, "2026-09-25T08:55:03Z", "errors"],
+  [45, "2026-09-25T09:19:22Z", "errors"],
+  [46, "2026-09-25T09:48:09Z", "tests"],
+  [48, "2026-09-25T10:32:38Z", "other"],
+  [49, "2026-09-25T12:57:25Z", "fix"],
+  [50, "2026-09-25T14:08:16Z", "change"],
+  [51, "2026-09-25T14:32:39Z", "claude"],
+  [52, "2026-09-25T15:12:27Z", "change"],
+];
+
+/** The parts of the Gaimer article that tell what its pull requests changed, in its order, and "other". */
+const GAIMER_AREAS = ["saving", "errors", "claude", "security", "cleanup", "tests", "prompt", "fix", "change", "other"];
+
+// (21) The work at a glance — wide, one panel on one time scale from 17:00
+// UTC on 24 September to 16:00 on 25 September: a row per part of the
+// article, each pull request a mark at its merge time, each row's count at
+// its end and midnight marked in every row; a mark is line art, so it takes
+// the accent's text colour, which holds its contrast in both themes. The
+// counts, the total in the head and the list in the panel's accessible name
+// all come from the list above, so a pull request moved to another part
+// moves everywhere at once; the six the article does not tell are the muted
+// row.
+function merges(t, id, figureId) {
+  const unknown = GAIMER_MERGES.find(([, , area]) => !GAIMER_AREAS.includes(area));
+  if (unknown) throw new Error(`Figure "${id}": pull request #${unknown[0]} is in no part of the article ("${unknown[2]}")`);
+  const total = count(`${id}.head`, t.head);
+  if (total !== GAIMER_MERGES.length) throw new Error(`Figure label "${id}.head" counts ${total} pull requests, the list ${GAIMER_MERGES.length} ("${t.head}")`);
+  const START = Date.parse("2026-09-24T17:00:00Z");
+  const x = (at) => 16 + (288 * (Date.parse(at) - START)) / (23 * 3_600_000);
+  const midnight = x("2026-09-25T00:00:00Z");
+  const TOP = 60;
+  const PITCH = 30;
+  const listed = [];
+  const parts = [];
+  GAIMER_AREAS.forEach((area, i) => {
+    const y = TOP + i * PITCH;
+    const merged = GAIMER_MERGES.filter((pr) => pr[2] === area);
+    const muted = area === "other" ? " fig-muted" : "";
+    listed.push(`${t.areas[area]} (${merged.length})`);
+    // The label runs up to 8 units short of the count at the row's end.
+    const slot = WIDTH - 32 - String(merged.length).length * ADVANCE.small - 8;
+    parts.push(text(16, y, fit(`${id}.areas.${area}`, t.areas[area], slot, "small"), `fig-label fig-small${muted}`));
+    parts.push(text(WIDTH - 16, y, String(merged.length), `fig-label fig-small fig-strong${muted}`, "end"));
+    parts.push(`<line x1="16" y1="${y + 9}" x2="${WIDTH - 16}" y2="${y + 9}" class="fig-hair"/>`);
+    parts.push(`<line x1="${round(midnight)}" y1="${y + 2}" x2="${round(midnight)}" y2="${y + 16}" class="fig-line fig-dashed"/>`);
+    for (const [, at] of merged) {
+      parts.push(`<rect x="${round(x(at) - 1)}" y="${y + 4}" width="2" height="10" rx="1" class="${muted ? "fig-bar-muted" : "fig-ok"}"/>`);
+    }
+  });
+  // The scale: an hour mark every six hours, and the two days under it.
+  const axis = TOP + (GAIMER_AREAS.length - 1) * PITCH + 22;
+  parts.push(`<line x1="16" y1="${axis}" x2="${WIDTH - 16}" y2="${axis}" class="fig-hair"/>`);
+  for (const at of ["2026-09-24T18:00:00Z", "2026-09-25T00:00:00Z", "2026-09-25T06:00:00Z", "2026-09-25T12:00:00Z"]) {
+    parts.push(`<line x1="${round(x(at))}" y1="${axis}" x2="${round(x(at))}" y2="${axis + 4}" class="fig-hair"/>`);
+    parts.push(text(x(at), axis + 16, at.slice(11, 16), "fig-note", "middle"));
+  }
+  parts.push(text(16, axis + 31, fit(`${id}.days.first`, t.days.first, midnight - 24), "fig-note"));
+  parts.push(text(midnight + 4, axis + 31, fit(`${id}.days.second`, t.days.second, WIDTH - 20 - midnight), "fig-note"));
+  return {
+    caption: t.caption,
+    panels: [
+      {
+        title: `${t.title}: ${listed.join("; ")}`,
+        head: t.head,
+        headRight: { value: fit(`${id}.window`, t.window, 104, "head"), cls: "" },
+        height: axis + 42,
+        body: parts.join(""),
+      },
+    ],
+  };
+}
+
+// (22) The Claude call for a game, before and after the cleanup — one panel
+// in two columns, set against each other as the critic figure sets a run
+// against what you want: before (orange), Gaimer's prompt pasted into a
+// whole Claude Code session with Claude Code's own system prompt and
+// built-in tools, the user's own setup taking part and a transcript saved
+// (the provider at 7cef601; #18, #19); after (green), one plain completion
+// (src/providers/anthropic-provider.js on main). The last two rows are how
+// the app runs the call: the login shells when the user picks Claude (#35)
+// and the time limit (#22, #37, #51). A row's label spans the panel and its
+// two values sit under it, with a second line where a row needs one.
+function connection(t, id, figureId) {
+  const COLUMNS = [
+    ["before", 16, 144, "fig-wait"],
+    ["after", 172, 132, "fig-ok"],
+  ];
+  const parts = [];
+  for (const [side, x, slot, cls] of COLUMNS) {
+    parts.push(text(x, 58, fit(`${id}.${side}`, t[side], slot, "small"), `fig-label fig-small ${cls}`));
+    parts.push(text(x, 71, fit(`${id}.calls.${side}`, t.calls[side], slot), "fig-note"));
+  }
+  parts.push(`<line x1="16" y1="80" x2="${WIDTH - 16}" y2="80" class="fig-hair"/>`);
+  const keys = ["system", "message", "tools", "setup", "session", "signin", "limit"];
+  let y = 98;
+  keys.forEach((key, i) => {
+    const row = t.rows[key];
+    const labels = row.label2 === undefined ? ["label"] : ["label", "label2"];
+    const lines = row.before2 === undefined ? [""] : ["", "2"];
+    labels.forEach((field, n) => {
+      parts.push(text(16, y + n * 13, fit(`${id}.rows.${key}.${field}`, row[field], 288, "small"), "fig-label fig-small"));
+    });
+    const first = y + (labels.length - 1) * 13 + 14;
+    lines.forEach((suffix, n) => {
+      for (const [side, x, slot, cls] of COLUMNS) {
+        parts.push(text(x, first + n * 12, fit(`${id}.rows.${key}.${side}${suffix}`, row[`${side}${suffix}`], slot), `fig-note ${cls}`));
+      }
+    });
+    const last = first + (lines.length - 1) * 12;
+    parts.push(`<line x1="164" y1="${first - 9}" x2="164" y2="${last + 3}" class="fig-hair"/>`);
+    if (i < keys.length - 1) parts.push(`<line x1="16" y1="${last + 9}" x2="${WIDTH - 16}" y2="${last + 9}" class="fig-hair"/>`);
+    y = last + 27;
+  });
+  return { caption: t.caption, panels: [{ title: t.title, head: t.head, height: y - 11, body: parts.join("") }] };
+}
+
+// (23) A game's life in the app — wide, two panels, each down a line of
+// steps. A new game: a description, one call with Gaimer's system prompt,
+// the answer read as a game and saved, the game running in the sandboxed
+// page; a game that fails as it starts (an error before it is ready, or in
+// the 5 s after that or after the player's first input) goes back once to
+// the provider that wrote it, with its code and its error, and the fixed
+// game takes its place (src/App.vue generateGame and fixGame,
+// src/components/GameContainer.vue). The open game: a change typed in the
+// box goes in one call with the game and the requests it was made from;
+// the answer is change blocks, made to the code, or the whole game,
+// changed, taken as it is, and blocks that cannot be used get the whole
+// game asked for once (App.vue requestChange, src/helpers/change-blocks.js);
+// the new version runs and can go back once too; Undo change goes back one
+// version and New game closes the game. A question is the orange diamond
+// of a flowchart's decision.
+function lifecycle(t, id, figureId) {
+  const height = 352;
+  const p1 = `${figureId}-p1`;
+  // One step: its mark at (x, y - 4), its label at x + 16 and its notes
+  // beneath; `ask` makes it a question, `glow` the step the line leads to
+  // and `small` sets the label a size down (the fix round's branch).
+  const step = (rows, key, x, y, { ask = false, glow = false, small = false } = {}) => {
+    const row = t[rows][key];
+    const at = `${id}.${rows}.${key}`;
+    const slot = WIDTH - 16 - (x + 16);
+    const mark = ask
+      ? diamond(x, y - 4)
+      : `${glow ? `<circle cx="${x}" cy="${y - 4}" r="9" class="fig-glow"/>` : ""}<circle cx="${x}" cy="${y - 4}" r="4" class="fig-dot"/>`;
+    const cls = `fig-label${small ? " fig-small" : ""}${ask ? " fig-wait" : glow ? " fig-ok" : ""}`;
+    const parts = [mark, text(x + 16, y, fit(`${at}.label`, row.label, slot, small ? "small" : "label"), cls)];
+    ["note", "note2"].forEach((field, n) => {
+      if (row[field] !== undefined) parts.push(text(x + 16, y + 13 + n * 12, fit(`${at}.${field}`, row[field], slot), "fig-note"));
+    });
+    return parts.join("");
+  };
+
+  // Panel 1 — a new game; the fix round branches off to the right and joins
+  // the line again at play.
+  const made = [
+    `<line x1="24" y1="58" x2="24" y2="336" class="fig-hair"/>`,
+    step("made", "describe", 24, 62),
+    step("made", "call", 24, 96),
+    step("made", "answer", 24, 130),
+    step("made", "runs", 24, 164),
+    step("made", "fails", 24, 198, { ask: true }),
+    pathArrow(p1, "M24 232H64V244"),
+    text(70, 242, fit(`${id}.yes`, t.yes, 60), "fig-note fig-wait"),
+    text(30, 262, fit(`${id}.no`, t.no, 28), "fig-note"),
+    `<line x1="64" y1="250" x2="64" y2="296" class="fig-hair"/>`,
+    step("made", "back", 64, 258, { small: true }),
+    step("made", "fixed", 64, 300, { small: true }),
+    pathArrow(p1, "M64 310V320H30"),
+    step("made", "play", 24, 340, { glow: true }),
+  ].join("");
+
+  // Panel 2 — the open game: the two answers side by side, then the new
+  // version and the two buttons, drawn as the app's buttons.
+  const answer = (key, x) =>
+    [
+      `<rect x="${x}" y="140" width="128" height="24" rx="6" class="fig-node"/>`,
+      text(x + 64, 156, fit(`${id}.answers.${key}.label`, t.answers[key].label, 116, "small"), "fig-label fig-small", "middle"),
+      text(x + 64, 178, fit(`${id}.answers.${key}.note`, t.answers[key].note, 128), "fig-note", "middle"),
+    ].join("");
+  const button = (key, y) =>
+    [
+      `<rect x="16" y="${y - 16}" width="100" height="24" rx="6" class="fig-node"/>`,
+      text(66, y, fit(`${id}.buttons.${key}.label`, t.buttons[key].label, 88, "small"), "fig-label fig-small", "middle"),
+      text(128, y, fit(`${id}.buttons.${key}.note`, t.buttons[key].note, 176), "fig-note"),
+    ].join("");
+  const open = [
+    `<line x1="24" y1="58" x2="24" y2="234" class="fig-hair"/>`,
+    step("changed", "change", 24, 62),
+    step("changed", "call", 24, 96),
+    step("changed", "answer", 24, 130),
+    answer("blocks", 40),
+    answer("whole", 176),
+    step("changed", "unusable", 24, 206, { ask: true }),
+    step("changed", "version", 24, 240, { glow: true }),
+    `<line x1="16" y1="270" x2="${WIDTH - 16}" y2="270" class="fig-hair"/>`,
+    button("undo", 296),
+    button("newGame", 330),
+  ].join("");
+
+  return {
+    caption: t.caption,
+    panels: [
+      { title: t.panels.made.title, head: t.panels.made.head, height, body: made },
+      { title: t.panels.changed.title, head: t.panels.changed.head, height, body: open },
+    ],
+  };
+}
+
+// (24) What the new system prompt cost, as the run of the four games
+// recorded it (the article's numbers, and #51's table) — wide, two panels.
+// The calls: each call's time as a bar on one scale, the prompt from before
+// muted and the one from after in the accent, with its output tokens and
+// the game's lines of code; the dashed marks are the app's limit at the
+// time, 300 seconds, which the Tetris from after ran past on its first
+// call. The games: what each of the four has, the four things the new
+// prompt asks for (#40) — a start screen, a best score, sound, and mouse
+// and touch; the two from before take touch but not the mouse. Every bar
+// and the limit come from the digits of their labels, so a rewording keeps
+// them honest; the first panel's accessible name is built from the same
+// labels.
+function price(t, id, figureId) {
+  const height = 284;
+  const games = ["tetris", "pong"];
+  const sides = ["before", "after"];
+  const TRACK = { x: 64, w: 180 };
+  const seconds = (game, side) => count(`${id}.rows.${game}.${side}.time`, t.rows[game][side].time);
+  const longest = Math.max(...games.flatMap((game) => sides.map((side) => seconds(game, side))));
+  const limit = count(`${id}.limit`, t.limit);
+  const x = (s) => TRACK.x + (TRACK.w * s) / longest;
+  const calls = [text(x(limit), 58, fit(`${id}.limit`, t.limit, 170), "fig-note", "middle")];
+  const named = [];
+  games.forEach((game, g) => {
+    const top = 58 + g * 88;
+    calls.push(text(16, top, fit(`${id}.games.${game}`, t.games[game], 48, "label"), "fig-label"));
+    const runs = sides.map((side, s) => {
+      const row = t.rows[game][side];
+      const y = top + 18 + s * 32;
+      const width = x(seconds(game, side)) - TRACK.x;
+      calls.push(text(16, y, fit(`${id}.${side}`, t[side], 44), "fig-note"));
+      calls.push(bar(TRACK.x, y - 9, width, 10, side === "before" ? "fig-bar-muted" : "fig-cell"));
+      calls.push(`<line x1="${round(x(limit))}" y1="${y - 12}" x2="${round(x(limit))}" y2="${y + 4}" class="fig-line fig-dashed"/>`);
+      calls.push(text(WIDTH - 16, y, fit(`${id}.rows.${game}.${side}.time`, row.time, WIDTH - 16 - (TRACK.x + TRACK.w + 8), "small"), "fig-label fig-small fig-strong", "end"));
+      const note = `${row.tokens} · ${row.lines}`;
+      calls.push(text(TRACK.x, y + 13, fit(`${id}.rows.${game}.${side}.tokens`, note, WIDTH - 16 - TRACK.x), "fig-note"));
+      return `${t[side]} ${row.time} (${row.tokens}, ${row.lines})`;
+    });
+    named.push(`${t.games[game]}: ${runs.join(", ")}`);
+  });
+  calls.push(`<line x1="16" y1="236" x2="${WIDTH - 16}" y2="236" class="fig-hair"/>`);
+  calls.push(text(16, 254, fit(`${id}.thinking`, t.thinking, 288), "fig-note"));
+  calls.push(text(16, 267, fit(`${id}.scope`, t.scope, 288), "fig-note"));
+
+  // Panel 2 — a column per game and prompt, a row per thing asked for.
+  const COLUMNS = [
+    ["tetris", "before", 164],
+    ["tetris", "after", 204],
+    ["pong", "before", 248],
+    ["pong", "after", 288],
+  ];
+  const has = [];
+  for (const game of games) {
+    const [first, second] = COLUMNS.filter(([g]) => g === game).map(([, , cx]) => cx);
+    has.push(text((first + second) / 2, 60, fit(`${id}.games.${game}`, t.games[game], second - first + 40, "small"), "fig-label fig-small", "middle"));
+  }
+  for (const [, side, cx] of COLUMNS) has.push(text(cx, 76, fit(`${id}.${side}`, t[side], 40), "fig-note", "middle"));
+  has.push(`<line x1="16" y1="86" x2="${WIDTH - 16}" y2="86" class="fig-hair"/>`);
+  ["start", "best", "sound", "pointer"].forEach((key, i) => {
+    const y = 112 + i * 30;
+    has.push(text(16, y, fit(`${id}.features.${key}`, t.features[key], 128, "small"), "fig-label fig-small"));
+    for (const [, side, cx] of COLUMNS) {
+      if (side === "after") has.push(check(cx, y - 4));
+      else if (key === "pointer") has.push(text(cx, y, fit(`${id}.touch`, t.touch, 40), "fig-note", "middle"));
+      else has.push(`<rect x="${cx - 5}" y="${y - 5}" width="10" height="2" rx="1" class="fig-bar-muted"/>`);
+    }
+    if (i < 3) has.push(`<line x1="16" y1="${y + 9}" x2="${WIDTH - 16}" y2="${y + 9}" class="fig-hair"/>`);
+  });
+  has.push(`<line x1="16" y1="236" x2="${WIDTH - 16}" y2="236" class="fig-hair"/>`);
+  has.push(footer(id, `${id}.asked`, t.asked, 258));
+
+  return {
+    caption: t.caption,
+    panels: [
+      { title: `${t.panels.calls.title}: ${named.join("; ")}`, head: t.panels.calls.head, height, body: calls.join("") },
+      { title: t.panels.games.title, head: t.panels.games.head, height, body: has.join("") },
+    ],
+  };
+}
+
+export const FIGURES = { stages, gates, loop, assessment, team, harness, ledger, timeline, setup, build, words, bilingual, gauntlet, agents, critic, fleet, session, sync, handoffs, counts, merges, connection, lifecycle, price };
 
 /**
  * Render one figure as HTML: `<figure class="figure figure-inline|figure-wide">`
