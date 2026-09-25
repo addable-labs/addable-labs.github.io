@@ -4,8 +4,11 @@ import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { after, before, describe, it } from "node:test";
 import { gzipSync } from "node:zlib";
+import { parse } from "node-html-parser";
 import { COMPRESSED_BUDGET, compressedSize, fontFaceSources, formatBytes, gzipBytes, inlineParts } from "../scripts/lib/budget.mjs";
-import { buildSite, copyDir, fixture, runGate, tempDir } from "./helpers.mjs";
+import { gamePages } from "../scripts/lib/games.mjs";
+import { fileToUrl, walk } from "../scripts/lib/site.mjs";
+import { buildSite, copyDir, fixture, runGate, SRC, tempDir } from "./helpers.mjs";
 
 // The same-origin CSS and JS both landing pages reference (head.njk); the
 // helper is fed the built files so the test computes the number the gate prints.
@@ -112,7 +115,16 @@ describe("pages gate", () => {
       assert.ok(printed <= COMPRESSED_BUDGET, `${url}: ${printed} B exceeds the budget`);
       assert.deepEqual(measured.parts.map((part) => part.name), [...STYLESHEETS, ...SCRIPTS, "inline <script> #1"], `${url}: three stylesheets, reveal.js and the inline theme script`);
     }
-    assert.equal(output.match(/compressed css\+js/g).length, 2, "the compressed budget is measured on the two landing pages only");
+    // The game pages and the pages that play a game (si-y6pp) are held to
+    // the same budget, and no other page is.
+    const measuredPages = [...output.matchAll(/^ok {4}pages: (\S+) compressed css\+js/gm)].map(([, url]) => url).sort();
+    const playing = [];
+    for (const file of await walk(tmp.dir, ".html")) {
+      if (parse(await readFile(file, "utf8")).querySelector(".games")) playing.push(fileToUrl(path.relative(tmp.dir, file)));
+    }
+    const games = gamePages(SRC, false).map((game) => game.url);
+    assert.ok(games.length > 0 && playing.length > 0, "this development build has game pages and pages that play them");
+    assert.deepEqual(measuredPages, ["/", "/sv/", ...games, ...playing].sort(), "the compressed budget is measured on the two landing pages, the game pages and the pages that play a game only");
   });
 
   it("fails a landing page whose compressed CSS + JS exceeds the budget, naming the total (REQ-020)", async () => {

@@ -7,12 +7,17 @@
 //   - every page pairs with exactly one counterpart: the hreflang alternates
 //     in the built pages form a one-to-one mapping between the two languages
 //     (each translationKey occurs once per language)
+// A game page (si-y6pp) — one of the paths src/_data/games.json names
+// (gamePagePaths in scripts/lib/games.mjs), and no other — is in English like
+// its game and has no counterpart: it is left out of the mirror and the
+// pairing, and a line names each one left out.
 // Failures name the offending path or key. Optional arguments: <built-site
 // dir> [<source dir>].
 
 import path from "node:path";
 import { attr, loadPage } from "../lib/html.mjs";
-import { exists, flattenKeys, loadSite, loadStrings, reporter, resolveDirs, walk } from "../lib/site.mjs";
+import { gamePagePaths } from "../lib/games.mjs";
+import { exists, fileToUrl, flattenKeys, loadSite, loadStrings, reporter, resolveDirs, walk } from "../lib/site.mjs";
 
 const { out, src } = resolveDirs();
 const site = await loadSite(src);
@@ -20,9 +25,13 @@ const report = reporter("parity");
 const origin = site.url.replace(/\/$/, "");
 const defaultLang = site.languages.default;
 const others = site.languages.codes.filter((code) => code !== defaultLang);
+const GAME_PAGES = gamePagePaths(src);
 
-// 1. Page-set mirror
-const htmlFiles = (await walk(out, ".html")).map((file) => path.relative(out, file).split(path.sep).join("/"));
+// 1. Page-set mirror (game pages aside)
+const allHtml = (await walk(out, ".html")).map((file) => path.relative(out, file).split(path.sep).join("/"));
+const gameFiles = allHtml.filter((file) => GAME_PAGES.has(fileToUrl(file)));
+for (const file of gameFiles) report.ok(`${file} is a game page: in English like its game, with no counterpart`);
+const htmlFiles = allHtml.filter((file) => !gameFiles.includes(file));
 for (const lang of others) {
   const prefix = `${lang}/`;
   const base = htmlFiles.filter((file) => !file.startsWith(prefix) && file !== "404.html" && !others.some((o) => file.startsWith(`${o}/`)));
@@ -65,7 +74,7 @@ for (const lang of site.languages.codes) {
 const pages = [];
 for (const file of await walk(out, ".html")) {
   const page = await loadPage(file, out, site);
-  if (page.relPath === "404.html") continue;
+  if (page.relPath === "404.html" || GAME_PAGES.has(page.url)) continue;
   const alternates = new Map(page.doc.querySelectorAll('link[rel="alternate"][hreflang]').map((el) => [attr(el, "hreflang"), attr(el, "href")]));
   pages.push({ ...page, alternates });
 }

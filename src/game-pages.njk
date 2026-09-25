@@ -1,0 +1,59 @@
+---
+pagination:
+  data: gamePages
+  size: 1
+  alias: game
+permalink: "{{ game.url }}"
+eleventyExcludeFromCollections: true
+lang: en
+aiGenerated: true
+humanReviewed: false
+---
+{#- A game page (si-y6pp): one page per game in src/_data/games.json whose
+    article this build builds (`gamePages`, scripts/lib/games.mjs), at
+    /blog/<article>/<game>-<version>/. It is built like the game page of the
+    Gaimer version that made the game: the container's style of that
+    version's GameContainer.vue, then the game's code as JSON, then the
+    version's page script (sandbox.js and a stand-in for GameContainer.vue,
+    game-page-<version>.js in the article's media), which loads the game into
+    a sandboxed frame the size of the window. The page is the game and
+    nothing else, and it is in English like the games, so it has no header,
+    navigation or footer, no skip link, no language switch and no
+    counterpart; the gates hold it to the rules that fit it (gamePagePaths
+    in scripts/lib/games.mjs). Like every page it links the English feed in
+    its head. The h1 names the game for a screen reader and is not shown. -#}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ game.title }} — {{ strings.en.site.name }}</title>
+  <meta name="description" content="{{ game.description }}">
+  <link rel="canonical" href="{{ canonical }}">
+  <meta property="og:title" content="{{ game.title }}">
+  <meta property="og:description" content="{{ game.description }}">
+  <meta property="og:url" content="{{ canonical }}">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="en_GB">
+  <meta property="og:site_name" content="{{ strings.en.site.name }}">
+  <link rel="alternate" type="application/rss+xml" title="{{ strings.en.feed.title }}" href="{{ feedUrl | absoluteUrl(site.url) }}">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <style>
+    html, body { height: 100%; margin: 0; background: #1a1a1a; }
+    .game-title { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+{%- if game.version == "before" %}
+    .game-canvas-wrapper { width: 100%; height: 100%; overflow: hidden; background: #1a1a1a; display: flex; justify-content: center; align-items: center; }
+    .game-canvas-wrapper iframe { max-width: 100%; max-height: 100%; }
+{%- else %}
+    .game-canvas-wrapper { position: relative; width: 100%; height: 100%; overflow: hidden; background: #1a1a1a; }
+{%- endif %}
+  </style>
+</head>
+<body>
+  <main id="game" class="game-canvas-wrapper">
+    <h1 class="game-title">{{ game.title }}</h1>
+  </main>
+  <script type="application/json" id="game-code">{{ game.code | jsonScript | safe }}</script>
+  <script src="{{ game.script }}"></script>
+</body>
+</html>

@@ -92,7 +92,9 @@ system prefers** — the founder's decision. The toggle in the header and in
 the footer (a real button, keyboard operable, with a visually hidden label)
 switches to light; the choice is stored in `localStorage` under the key
 `addable-theme` and applied by a ~1 KB inline script before the first paint
-on every page, including after the language switch, so nothing flashes.
+on every page, including after the language switch, so nothing flashes. A
+game page (see *Add an article*) is the one exception: it is the game alone,
+on the game's own background, with no theme and no toggle.
 Storing a display preference needs no consent. Clearing the site's storage
 returns the site to dark; with JavaScript disabled the site is dark and the
 toggle is hidden. The mechanics — `light-dark()` tokens with dark fallbacks,
@@ -300,6 +302,42 @@ Brödtext i Markdown.
   wide for the column scrolls inside that box instead of the page; the
   layout gate measures both. A short cell keeps a table narrow on a phone:
   the unit can go in the row label, as in `Median start (tokens)`.
+- **Games.** An article can play small games in its page, as the Gaimer
+  article plays a Tetris and a Pong from before and after the cleanup. Each
+  game is an entry in `src/_data/games.json`: its `article` (the slug),
+  `game` and `version` (`before` or `after`), the `name` it gave itself, the
+  `title` and `description` of its page (in English, like the game), the
+  screenshots' `width` and `height`, and `touch`, whether its code handles
+  touch; a game with `touch: false` is marked "Needs a keyboard". Its files
+  sit in the article's media directory, `src/media/<slug>/`, which the build
+  copies to the article's URL, `/blog/<slug>/`: a directory per game,
+  `<game>-<version>/`, with the game's code as it was generated (`game.js`)
+  and two screenshots (`start.webp`, the start screen, and `play.webp`, a
+  moment of play), the script of each version's game page
+  (`game-page-<version>.js`) and the article's player (`play.js`). Put
+  `{% games "<game>" %}` on its own line, the same line in both language
+  files: it shows the game's versions side by side from 48 rem and stacked
+  below, each with its start screen, a Play button, a link to its page and
+  one to its code, and a moment of play; the alt texts of the two
+  screenshots come from `games.<game>-<version>` in the two strings files.
+  Play runs the game where its start screen was, in a frame of the site's
+  own origin that may run scripts and nothing else, and gives it the keys;
+  one game runs at a time, and a game's page loads only when its button is
+  clicked. Without JavaScript the screenshots and the links still work.
+  Each game also has a page of its own, `/blog/<slug>/<game>-<version>/`
+  (`src/game-pages.njk`): the game and nothing else, as in the app, so it
+  has no header, navigation, footer, skip link, theme toggle, language
+  switch or Swedish counterpart. The pages, parity and content gates find
+  these pages by their paths in `games.json`, hold them to the rules that
+  fit such a page, and hold every other page to all of them. An article's
+  media and game pages follow its draft rule: a draft's games, their code
+  and their screenshots are as absent from the published build as the draft
+  itself. `pnpm build` fails on a media directory whose article is missing in
+  either language, a game entry without its fields, one game listed twice, or
+  a file a game or its page needs that is missing. Games never reach the
+  feeds (`withoutGames`), and the layout gate measures each block: across
+  the body, the versions side by side from 768 px and stacked below, every
+  screen at 4:3.
 
 Pages other than articles (landing, about, blog index, category pages) are
 Nunjucks templates under `src/en/` and `src/sv/` whose copy lives in
@@ -448,13 +486,13 @@ after a `pnpm build`:
 | build | `pnpm build` | Eleventy builds the site; article front matter validated; every page has its counterpart; every page's URL is made of slugs, like `/blog/ai-journey/` or `/feed.xml`, no file name holds a date Eleventy would drop, no article is named `index.md`, no file sits in a subdirectory of `posts/` and every template in `posts/` is a `.md` file; every `{% figure %}` names a known figure, `inline` or `wide`, with `figures.<id>` in the page's strings file; every figure label fits its character budget and every count label, such as `242 agents`, has its number in digits. |
 | links | `pnpm check:links` | Every internal `href`/`src` in pages, feeds and the sitemap resolves to a built file (`/x/` → `x/index.html`), fragments point at an id. External links are fetched with a 10 s timeout and reported as warnings only; `CHECK_OFFLINE=1` skips them. |
 | html | `pnpm check:html` | `html-validate` with the `recommended` and `a11y` presets (`.htmlvalidate.json`, inline styles forbidden), zero errors. |
-| pages | `pnpm check:pages` | Per page: `header`/`nav`/`main`/`footer` once, one `h1`, no skipped heading levels, the skip link is the first focusable element, `html[lang]` matches the path, every `img` has `alt`/`width`/`height`, unique title, description, canonical, Open Graph tags, three `hreflang` alternates, the feed link, the language switch, scripts only from the site's origin, no cross-origin resource (font preloads and `@font-face` sources included), HTML + CSS ≤ 150 KB, and on both landing pages CSS + JavaScript ≤ 60 KB compressed. |
+| pages | `pnpm check:pages` | Per page: `header`/`nav`/`main`/`footer` once, one `h1`, no skipped heading levels, the skip link is the first focusable element, `html[lang]` matches the path, every `img` has `alt`/`width`/`height`, unique title, description, canonical, Open Graph tags, three `hreflang` alternates, the feed link, the language switch, scripts only from the site's origin, no cross-origin resource (font preloads and `@font-face` sources included), HTML + CSS ≤ 150 KB, and on both landing pages, every game page and every page that plays a game CSS + JavaScript ≤ 60 KB compressed. A game page, found by its path in `src/_data/games.json`, has `main` and no `header`, `nav` or `footer`, no skip link, no `hreflang` alternates and no language switch; every other rule holds for it. |
 | contrast | `pnpm check:contrast` | `src/assets/css/tokens.css` keeps its structure (dark by default, light only under the toggle's `[data-theme="light"]`, every fallback equal to its dark value, no OS media query, no token outside `:root`); every colour pair meets WCAG AA in both themes (4.5:1 text, 3:1 UI); no colour literal outside `tokens.css`. |
-| parity | `pnpm check:parity` | Every English page has its Swedish twin and vice versa, the feeds pair up, the strings files have identical keys with no empty values, pages pair one-to-one. |
+| parity | `pnpm check:parity` | Every English page has its Swedish twin and vice versa, the feeds pair up, the strings files have identical keys with no empty values, pages pair one-to-one. A game page, in English like its game, has no twin and is named as left out. |
 | feeds | `pnpm check:feeds` | Both feeds are well-formed RSS 2.0 with absolute links, exactly the language's listed articles — never one dated after today, and never a draft unless this is a development build — draft labels, items that carry the prose only (no `<figure>`), and every page links its feed. |
-| content | `pnpm check:content` | The facts the site must state: one `h1` in the hero, the primary call to action linking the apps section (`#apps`), the nivå button honouring `site.nivaUrl`, the three service headings, the apps in data order, each with exactly the links it calls for in its action row — "Repository" to a public repository or "Website" to the public page of a product whose repository is private, then "Article" to the article about the app where it names one the build lists — and an entry with neither unlinked, the trust section's phrase, founder, article link and proof link, the latest-writing cards — the newest three, in the blog index's order — the founding month on the about page and the founder's name in its lead's first sentence and nowhere else in its main content, not even without its accents or in capitals; on every page the footer's address, the company line with the organisation number and the registered seat, the language switches, the toggle and the feed link; every GitHub repository named in a page, a feed, the sitemap or a text file one of the public repositories the site may link (`PUBLIC_REPOS` in `scripts/lib/apps.mjs`, an allow-list); article lengths and draft labels; that each blog index lists exactly the listed articles of its language and each category page those of its category, newest first, and none of another category; that an article dated after today is built but listed in neither its language's blog index nor its feed; and that a draft is listed and built in a development build but has no page at all in the published one. The pinned facts are the constants at the top of `scripts/check/content.mjs`. |
+| content | `pnpm check:content` | The facts the site must state: one `h1` in the hero, the primary call to action linking the apps section (`#apps`), the nivå button honouring `site.nivaUrl`, the three service headings, the apps in data order, each with exactly the links it calls for in its action row — "Repository" to a public repository or "Website" to the public page of a product whose repository is private, then "Article" to the article about the app where it names one the build lists — and an entry with neither unlinked, the trust section's phrase, founder, article link and proof link, the latest-writing cards — the newest three, in the blog index's order — the founding month on the about page and the founder's name in its lead's first sentence and nowhere else in its main content, not even without its accents or in capitals; on every page the footer's address, the company line with the organisation number and the registered seat, the language switches, the toggle and the feed link (a game page, the game alone, is named as left out); every GitHub repository named in a page, a feed, the sitemap or a text file one of the public repositories the site may link (`PUBLIC_REPOS` in `scripts/lib/apps.mjs`, an allow-list); article lengths and draft labels; that each blog index lists exactly the listed articles of its language and each category page those of its category, newest first, and none of another category; that an article dated after today is built but listed in neither its language's blog index nor its feed; and that a draft is listed and built in a development build but has no page at all in the published one. The pinned facts are the constants at the top of `scripts/check/content.mjs`. |
 | lighthouse | `pnpm check:lighthouse` | Serves `_site/` locally, runs Lighthouse 13 (mobile configuration) in headless Chrome on `/`, `/sv/`, `/about/`, `/blog/`, a category page, an article and `/404.html`: Performance, Accessibility, Best Practices and SEO each ≥ 95 and cumulative layout shift ≤ 0.1, one line per page. A page whose only problem is Performance < 95 is measured twice more and the median of its three Performance scores decides (its line shows the median, then the three: `performance 96 (85, 97, 96)`); in CI the lines also go to the run's summary page. A page whose Chrome is lost is measured again, once, in a new Chrome, and a second failure is one `FAIL` line naming the page and the cause; these lines go to the summary page too. |
-| layout | `pnpm check:layout` | Renders `/` and `/sv/` at 360, 768, 1024, 1280 and 1920 px in headless Chrome and measures the balanced cards: every service and app title one line, cards in a row equal in height with their "What you get" heading / summary tops and action rows aligned (± 1 px), every chip row one line. Renders every article page at the same widths and measures the article layout: no horizontal scroll, every text block at most 44 rem wide, centred in the body and on one shared left edge, every wide figure across the body, every inline figure on the measure and centred with its panel 20–24.5 rem wide and its caption beside the panel from 768 px (top-aligned, after the gap) and under it below, every panel rendered so a 13-unit label is at least 12 px, every table starting on the text column's left edge and nothing of it past the column's right edge but what scrolls inside its own box. A page whose Chrome is lost at one width is measured again, once, at that width in a new Chrome, and a second failure is one `FAIL` line naming the page, the width and the cause. `LAYOUT_DUMP=<file>` writes the raw measurements (the source of `tests/fixtures/layout/article.json` and `tables.json`). |
+| layout | `pnpm check:layout` | Renders `/` and `/sv/` at 360, 768, 1024, 1280 and 1920 px in headless Chrome and measures the balanced cards: every service and app title one line, cards in a row equal in height with their "What you get" heading / summary tops and action rows aligned (± 1 px), every chip row one line. Renders every article page at the same widths and measures the article layout: no horizontal scroll, every text block at most 44 rem wide, centred in the body and on one shared left edge, every wide figure across the body, every inline figure on the measure and centred with its panel 20–24.5 rem wide and its caption beside the panel from 768 px (top-aligned, after the gap) and under it below, every panel rendered so a 13-unit label is at least 12 px, every table starting on the text column's left edge and nothing of it past the column's right edge but what scrolls inside its own box, every block of games across the body with its versions side by side from 768 px and stacked below and every screen of a game at 4:3. A page whose Chrome is lost at one width is measured again, once, at that width in a new Chrome, and a second failure is one `FAIL` line naming the page, the width and the cause. `LAYOUT_DUMP=<file>` writes the raw measurements (the source of `tests/fixtures/layout/article.json`, `tables.json` and `games.json`). |
 
 **Chrome.** The last two gates need Google Chrome (or Chromium). They find
 it through `chrome-launcher`, or through `CHROME_PATH` if set (the
@@ -518,6 +556,10 @@ the six acceptance criteria that only a browser shows and no gate measures:
   first, then every link and button, each with a visible ring.
 - **Reduced motion** (AC-19): nothing moves or scales, on load or at the
   bottom of the page.
+
+A game page (see *Add an article*) is the game alone, as in the app, with
+no theme, header, skip link or toggle, and its game moves as it plays: it is
+measured for horizontal scroll only, and a line names each one.
 
 It is not a gate: `pnpm check` does not run it, and CI does not either. It
 reads a built site and never builds one, so build first, and clear `_site/`

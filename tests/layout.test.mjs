@@ -1,15 +1,15 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { after, before, describe, it } from "node:test";
-import { BESIDE_FROM_PX, evaluate, INLINE_GAP_REM, LABEL_MIN_PX, LABEL_UNITS, LINE_RATIO, MEASURE_REM, PANEL_REM, rowsOf, TOLERANCE } from "../scripts/lib/layout-report.mjs";
+import { BESIDE_FROM_PX, evaluate, GAME_RATIO, INLINE_GAP_REM, LABEL_MIN_PX, LABEL_UNITS, LINE_RATIO, MEASURE_REM, PANEL_REM, rowsOf, TOLERANCE } from "../scripts/lib/layout-report.mjs";
 import { skipMessage, SKIP_EXIT_CODE } from "../scripts/lib/chrome.mjs";
 import { fixture, runGate, SRC, tempDir } from "./helpers.mjs";
 
 // The card-balance rules of the layout gate on fixture measurements (AC-30,
 // REQ-025), the article rules on fixture measurements of
 // the illustrated articles (si-55iu; centred composition, founder feedback
-// 2026-09-22) and of the article with tables (si-t64i) — no Chrome needed —
-// and the gate's explicit SKIP when no Chrome is found. Regenerate the
+// 2026-09-22), of the article with tables (si-t64i) and of the article that
+// plays games (si-y6pp) — no Chrome needed — and the gate's explicit SKIP when no Chrome is found. Regenerate the
 // article fixture from a real run with `LAYOUT_DUMP=<file> pnpm
 // check:layout` and keep its three runs.
 
@@ -268,6 +268,94 @@ describe("layout report evaluation — article tables (founder feedback 2026-09-
     const result = evaluate(older);
     assert.deepEqual(result.problems, []);
     assert.equal(result.lines[0], "layout /blog/what-the-mayors-context-costs/ 360: ok (27 blocks on the measure, 3 figures)");
+  });
+});
+
+describe("layout report evaluation — games in the page (si-y6pp)", () => {
+  // Real measurements of the Gaimer article, the first that plays games: the
+  // English page at 360, where each block's two versions are stacked across
+  // the body (16–344 px), and at 1280, where they sit side by side in the
+  // body (72–1208 px, versions 72–628 and 652–1208 px). Each version holds
+  // two screens, its start screen and a moment of play, at 4:3.
+  // Regenerate from a real run with `LAYOUT_DUMP=<file> pnpm check:layout`
+  // and keep these two runs.
+  let games;
+  before(async () => {
+    games = JSON.parse(await readFile(fixture("layout", "games.json"), "utf8"));
+  });
+
+  it("passes the fixture and counts the blocks of games after the tables", () => {
+    const result = evaluate(games);
+    assert.deepEqual(result.problems, []);
+    assert.deepEqual(result.lines, [
+      "layout /blog/cleaning-up-gaimer/ 360: ok (29 blocks on the measure, 0 figures, 1 table, 2 blocks of games)",
+      "layout /blog/cleaning-up-gaimer/ 1280: ok (29 blocks on the measure, 0 figures, 1 table, 2 blocks of games)",
+    ]);
+    assert.equal(games[0].width < BESIDE_FROM_PX && games[1].width >= BESIDE_FROM_PX, true, "one run stacked, one side by side");
+    assert.equal(GAME_RATIO, 4 / 3);
+  });
+
+  it("fails a block of games that does not span the body", () => {
+    const narrow = structuredClone(games);
+    narrow[1].article.games[0].right = 1000;
+    assert.deepEqual(evaluate(narrow).problems, ["/blog/cleaning-up-gaimer/ 1280: games-tetris spans 72–1000 px, not the body (72–1208 px)"]);
+  });
+
+  it("fails, from 48rem, a version under the one before it or over it", () => {
+    const stacked = structuredClone(games);
+    Object.assign(stacked[1].article.games[0].versions[1], { left: 72, right: 628, top: 5000, bottom: 5921.19 });
+    const over = structuredClone(games);
+    Object.assign(over[1].article.games[1].versions[1], { left: 600 });
+    assert.deepEqual(evaluate(stacked).problems.filter((problem) => !problem.includes("screen")), ["/blog/cleaning-up-gaimer/ 1280: games-tetris version 2 starts at 5000 px, not beside version 1 (4062.48 px)"]);
+    assert.deepEqual(evaluate(over).problems.filter((problem) => !problem.includes("screen")), ["/blog/cleaning-up-gaimer/ 1280: games-pong version 2 starts at 600 px, over version 1 (which ends at 628 px)"]);
+  });
+
+  it("fails, below 48rem, a version that does not span the block and one that is not under the one before it", () => {
+    const beside = structuredClone(games);
+    Object.assign(beside[0].article.games[0].versions[1], { left: 180 });
+    Object.assign(beside[0].article.games[1].versions[1], { top: 8900 });
+    assert.deepEqual(evaluate(beside).problems.filter((problem) => !problem.includes("screen")), [
+      "/blog/cleaning-up-gaimer/ 360: games-tetris version 2 spans 180–344 px, not the block (16–344 px)",
+      "/blog/cleaning-up-gaimer/ 360: games-pong version 2 starts at 8900 px, not under version 1 (which ends at 8952.05 px)",
+    ]);
+  });
+
+  it("fails a screen that is not 4:3 and one that reaches outside its version", () => {
+    const off = structuredClone(games);
+    const [start, play] = off[1].article.games[0].versions[0].screens;
+    start.bottom = start.top + 300;
+    Object.assign(play, { left: 144, right: 700 });
+    assert.deepEqual(evaluate(off).problems, [
+      "/blog/cleaning-up-gaimer/ 1280: games-tetris version 1 screen 1 is 556 × 300 px, not 4:3",
+      "/blog/cleaning-up-gaimer/ 1280: games-tetris version 1 screen 2 spans 144–700 px, outside its version (72–628 px)",
+    ]);
+  });
+
+  it("tolerates one pixel and names what was not measured or not found", () => {
+    const nudged = structuredClone(games);
+    nudged[1].article.games[0].left += 1;
+    nudged[1].article.games[1].versions[1].top -= 1;
+    nudged[0].article.games[0].versions[0].screens[0].bottom += 1;
+    assert.deepEqual(evaluate(nudged).problems, []);
+    const missing = structuredClone(games);
+    missing[0].article.games[0].versions[1].screens[1].left = null; // an unmeasured box arrives as null over the protocol
+    missing[0].article.games[1].versions[0].screens = [];
+    missing[1].article.games[0].versions = [];
+    missing[1].article.games[1].left = null;
+    assert.deepEqual(evaluate(missing).problems, [
+      "/blog/cleaning-up-gaimer/ 360: games-tetris version 2 screen 2 has no measurable box",
+      "/blog/cleaning-up-gaimer/ 360: games-pong version 1 has no screens (element not found)",
+      "/blog/cleaning-up-gaimer/ 1280: games-tetris has no versions (element not found)",
+      "/blog/cleaning-up-gaimer/ 1280: games-pong has no measurable box",
+    ]);
+  });
+
+  it("judges a measurement without games, as the gate took them before si-y6pp, as a page without games", () => {
+    const older = structuredClone(games);
+    delete older[0].article.games;
+    const result = evaluate(older);
+    assert.deepEqual(result.problems, []);
+    assert.equal(result.lines[0], "layout /blog/cleaning-up-gaimer/ 360: ok (29 blocks on the measure, 0 figures, 1 table)");
   });
 });
 

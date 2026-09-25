@@ -1,8 +1,9 @@
 {#- RSS feed of one language: the articles of posts_<lang>, newest first,
-    each with its full text less the figures. Both languages render this
-    one body: src/en/feed.njk (/feed.xml) and src/sv/feed.njk (/sv/feed.xml)
-    hold only their front matter and the line that includes it. They differ
-    only in the permalink, written out as on the category pages. -#}
+    each with its full text less the figures and the games. Both languages
+    render this one body: src/en/feed.njk (/feed.xml) and src/sv/feed.njk
+    (/sv/feed.xml) hold only their front matter and the line that includes
+    it. They differ only in the permalink, written out as on the category
+    pages. -#}
 <?xml version="1.0" encoding="utf-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
@@ -21,7 +22,7 @@
       <pubDate>{{ post.date | dateToRfc822("UTC") }}</pubDate>
       <description>{{ post.data.description }}</description>
       <category>{{ strings[lang].categories[post.data.category] }}</category>
-      <content:encoded>{{ post.templateContent | withoutFigures | htmlToAbsoluteUrls(absolutePostUrl) }}</content:encoded>
+      <content:encoded>{{ post.templateContent | withoutFigures | withoutGames | htmlToAbsoluteUrls(absolutePostUrl) }}</content:encoded>
     </item>
 {%- endfor %}
   </channel>

@@ -20,7 +20,13 @@
 //     src URLs of every same-origin stylesheet (REQ-004, REQ-020)
 //   - HTML + same-origin CSS ≤ 150 KB; on the two landing pages the gzip size
 //     of the same-origin CSS + JS plus inline <style>/<script> content is
-//     ≤ 61,440 B and is printed per page (REQ-020, AC-21)
+//     ≤ 61,440 B and is printed per page (REQ-020, AC-21), and so it is on
+//     every game page and every page that plays a game (si-y6pp)
+// A game page (si-y6pp) — one of the paths src/_data/games.json names
+// (gamePagePaths in scripts/lib/games.mjs), and no other — is the game and
+// nothing else, as in the app: it has main and no header, nav or footer, no
+// skip link, and, in English like its game, no hreflang alternates and no
+// language switch. Every other rule above holds for it as for any page.
 // Redesign re-targetings (REQ-024 pages bullet; REQ-004, REQ-020; AC-04,
 // AC-21) are marked with the requirement they enforce (AC-25); every other
 // assertion is the first release's, unchanged.
@@ -29,6 +35,7 @@
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { COMPRESSED_BUDGET, compressedSize, fontFaceSources, formatBytes } from "../lib/budget.mjs";
+import { gamePagePaths } from "../lib/games.mjs";
 import { attr, focusables, headings, loadPage, text } from "../lib/html.mjs";
 import { candidatesForPath, exists, internalPath, langPrefix, loadSite, loadStrings, reporter, resolveDirs, walk } from "../lib/site.mjs";
 
@@ -39,6 +46,7 @@ const report = reporter("pages");
 const origin = site.url.replace(/\/$/, "");
 const SIZE_BUDGET = 150 * 1024;
 const NOT_FOUND = "404.html";
+const GAME_PAGES = gamePagePaths(src);
 
 const other = (lang) => site.languages.codes.find((code) => code !== lang);
 function counterpartPath(urlPath, lang) {
@@ -77,15 +85,17 @@ for (const file of files) {
   const page = await loadPage(file, out, site);
   const { doc, relPath } = page;
   const isNotFound = relPath === NOT_FOUND;
+  const isGamePage = GAME_PAGES.has(page.url);
   const problems = [];
   const expect = (condition, message) => {
     if (!condition) problems.push(message);
   };
 
-  // Landmarks and headings
+  // Landmarks and headings: a game page has main and nothing around it
   for (const landmark of ["header", "nav", "main", "footer"]) {
     const count = doc.querySelectorAll(landmark).length;
-    expect(count === 1, `${landmark} appears ${count} time(s), expected 1`);
+    const expected = isGamePage && landmark !== "main" ? 0 : 1;
+    expect(count === expected, `${landmark} appears ${count} time(s), expected ${expected}${isGamePage ? " on a game page" : ""}`);
   }
   const h1s = doc.querySelectorAll("h1");
   expect(h1s.length === 1, `${h1s.length} h1 element(s), expected 1`);
@@ -95,11 +105,13 @@ for (const file of files) {
     previous = heading.level;
   }
 
-  // Skip link
-  const first = focusables(doc)[0];
-  expect(first && first.tagName === "A" && first.classList.contains("skip-link"), "first focusable element is not the skip link");
-  const skipHref = attr(first, "href") ?? "";
-  expect(skipHref.startsWith("#") && doc.querySelector(`[id="${skipHref.slice(1)}"]`), `skip link target ${skipHref || "(none)"} not found`);
+  // Skip link (a game page has nothing to skip)
+  if (!isGamePage) {
+    const first = focusables(doc)[0];
+    expect(first && first.tagName === "A" && first.classList.contains("skip-link"), "first focusable element is not the skip link");
+    const skipHref = attr(first, "href") ?? "";
+    expect(skipHref.startsWith("#") && doc.querySelector(`[id="${skipHref.slice(1)}"]`), `skip link target ${skipHref || "(none)"} not found`);
+  }
 
   // Language
   const htmlLang = attr(doc.querySelector("html"), "lang");
@@ -125,9 +137,13 @@ for (const file of files) {
     expect((attr(doc.querySelector(`meta[property="${property}"]`), "content") ?? "").trim().length > 0, `missing ${property}`);
   }
 
-  // hreflang alternates and the switch (not for the 404 page)
+  // hreflang alternates and the switch (not for the 404 page or a game page,
+  // which have no counterpart)
   const alternates = new Map(doc.querySelectorAll('link[rel="alternate"][hreflang]').map((el) => [attr(el, "hreflang"), attr(el, "href")]));
-  if (!isNotFound) {
+  if (isGamePage) {
+    expect(alternates.size === 0, "a game page should carry no hreflang alternates");
+    expect(doc.querySelectorAll("a.lang-switch").length === 0, "a game page should carry no language switch");
+  } else if (!isNotFound) {
     const counterpart = counterpartPath(page.url, page.lang);
     const english = page.lang === site.languages.default ? page.url : counterpart;
     expect(alternates.size === 3, `${alternates.size} hreflang alternate(s), expected 3`);
@@ -200,8 +216,10 @@ for (const file of files) {
   // <style> and <script> content is at most 61,440 B, printed per page; a
   // page over budget fails naming the total. Fonts and images are budgeted
   // separately (REQ-005; tests/fonts.test.mjs). Measured by
-  // scripts/lib/budget.mjs, which tests/pages.test.mjs shares.
-  if (page.url === `${langPrefix(page.lang, site)}/`) {
+  // scripts/lib/budget.mjs, which tests/pages.test.mjs shares. The same
+  // budget holds for a game page, whose game's code is inline, and for a page
+  // that plays a game (si-y6pp): what it loads before a game is chosen.
+  if (page.url === `${langPrefix(page.lang, site)}/` || isGamePage || doc.querySelector(".games")) {
     const scripts = new Map();
     for (const el of doc.querySelectorAll("script[src]")) {
       const asset = await readAsset(attr(el, "src") ?? "");

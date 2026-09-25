@@ -1,0 +1,610 @@
+[
+  {
+    "page": "/blog/cleaning-up-gaimer/",
+    "width": 360,
+    "article": {
+      "rem": 16,
+      "scrollWidth": 360,
+      "innerWidth": 360,
+      "body": {
+        "left": 16,
+        "right": 344
+      },
+      "blocks": [
+        {
+          "tag": "p",
+          "left": 16,
+          "right": 344,
+          "top": 648.95
+        },
+        {
+          "tag": "p",
+          "left": 16,
+          "right": 344,
+          "top": 953.86
+        },
+        {
+          "tag": "h2",
+          "left": 16,
+          "right": 344,
+          "top": 1277.88
+        },
+        {
+          "tag": "h3",
+          "left": 16,
+          "right": 344,
+          "top": 1368.06
+        },
+        {
+          "tag": "p",
+          "left": 16,
+          "right": 344,
+          "top": 1425.06
+        },
+        {
+          "tag": "h3",
+          "left": 16,
+          "right": 344,
+          "top": 1811.75
+        },
+        {
+          "tag": "p",
+          "left": 16,
+          "right": 344,
+          "top": 1868.75
+        },
+        {
+          "tag": "h3",
+          "left": 16,
+          "right": 344,
+          "top": 2313.22
+        },
+        {
+          "tag": "p",
+          "left": 16,
+          "right": 344,
+          "top": 2370.22
+        },
+        {
+          "tag": "h3",
+          "left": 16,
+          "right": 344,
+          "top": 2872.47
+        },
+        {
+          "tag": "p",
+          "left": 16,
+          "right": 344,
+          "top": 2929.47
+        },
+        {
+          "tag": "h3",
+          "left": 16,
+          "right": 344,
+          "top": 3258.38
+        },
+        {
+          "tag": "p",
+          "left": 16,
+          "right": 344,
+          "top": 3315.38
+        },
+        {
+          "tag": "h3",
+          "left": 16,
+          "right": 344,
+          "top": 3615.39
+        },
+        {
+          "tag": "p",
+          "left": 16,
+          "right": 344,
+          "top": 3672.39
+        },
+        {
+          "tag": "h3",
+          "left": 16,
+          "right": 344,
+          "top": 4116.86
+        },
+        {
+          "tag": "p",
+          "left": 16,
+          "right": 344,
+          "top": 4173.86
+        },
+        {
+          "tag": "h3",
+          "left": 16,
+          "right": 344,
+          "top": 4762.78
+        },
+        {
+          "tag": "p",
+          "left": 16,
+          "right": 344,
+          "top": 4819.78
+        },
+        {
+          "tag": "h3",
+          "left": 16,
+          "right": 344,
+          "top": 5119.8
+        },
+        {
+          "tag": "p",
+          "left": 16,
+          "right": 344,
+          "top": 5176.8
+        },
+        {
+          "tag": "h2",
+          "left": 16,
+          "right": 344,
+          "top": 5471.92
+        },
+        {
+          "tag": "p",
+          "left": 16,
+          "right": 344,
+          "top": 5570.3
+        },
+        {
+          "tag": "div",
+          "left": 16,
+          "right": 344,
+          "top": 6019.66
+        },
+        {
+          "tag": "p",
+          "left": 16,
+          "right": 344,
+          "top": 6200.66
+        },
+        {
+          "tag": "p",
+          "left": 16,
+          "right": 344,
+          "top": 6534.45
+        },
+        {
+          "tag": "p",
+          "left": 16,
+          "right": 344,
+          "top": 7899.5
+        },
+        {
+          "tag": "p",
+          "left": 16,
+          "right": 344,
+          "top": 9611.23
+        },
+        {
+          "tag": "p",
+          "left": 16,
+          "right": 344,
+          "top": 10002.81
+        }
+      ],
+      "figures": [],
+      "tables": [
+        {
+          "left": 16,
+          "right": 344,
+          "top": 6019.66,
+          "bottom": 6184.66,
+          "scrollBox": {
+            "left": 16,
+            "right": 344,
+            "top": 6019.66,
+            "bottom": 6184.66
+          }
+        }
+      ],
+      "games": [
+        {
+          "id": "games-tetris",
+          "left": 16,
+          "right": 344,
+          "top": 6661.13,
+          "bottom": 7859.5,
+          "versions": [
+            {
+              "left": 16,
+              "right": 344,
+              "top": 6661.13,
+              "bottom": 7240.31,
+              "screens": [
+                {
+                  "left": 16,
+                  "right": 344,
+                  "top": 6688.31,
+                  "bottom": 6934.31
+                },
+                {
+                  "left": 16,
+                  "right": 344,
+                  "top": 6994.31,
+                  "bottom": 7240.31
+                }
+              ]
+            },
+            {
+              "left": 16,
+              "right": 344,
+              "top": 7280.31,
+              "bottom": 7859.5,
+              "screens": [
+                {
+                  "left": 16,
+                  "right": 344,
+                  "top": 7307.5,
+                  "bottom": 7553.5
+                },
+                {
+                  "left": 16,
+                  "right": 344,
+                  "top": 7613.5,
+                  "bottom": 7859.5
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "games-pong",
+          "left": 16,
+          "right": 344,
+          "top": 8372.86,
+          "bottom": 9571.23,
+          "versions": [
+            {
+              "left": 16,
+              "right": 344,
+              "top": 8372.86,
+              "bottom": 8952.05,
+              "screens": [
+                {
+                  "left": 16,
+                  "right": 344,
+                  "top": 8400.05,
+                  "bottom": 8646.05
+                },
+                {
+                  "left": 16,
+                  "right": 344,
+                  "top": 8706.05,
+                  "bottom": 8952.05
+                }
+              ]
+            },
+            {
+              "left": 16,
+              "right": 344,
+              "top": 8992.05,
+              "bottom": 9571.23,
+              "screens": [
+                {
+                  "left": 16,
+                  "right": 344,
+                  "top": 9019.23,
+                  "bottom": 9265.23
+                },
+                {
+                  "left": 16,
+                  "right": 344,
+                  "top": 9325.23,
+                  "bottom": 9571.23
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "page": "/blog/cleaning-up-gaimer/",
+    "width": 1280,
+    "article": {
+      "rem": 16,
+      "scrollWidth": 1280,
+      "innerWidth": 1280,
+      "body": {
+        "left": 72,
+        "right": 1208
+      },
+      "blocks": [
+        {
+          "tag": "p",
+          "left": 288,
+          "right": 992,
+          "top": 498.42
+        },
+        {
+          "tag": "p",
+          "left": 288,
+          "right": 992,
+          "top": 658.88
+        },
+        {
+          "tag": "h2",
+          "left": 288,
+          "right": 992,
+          "top": 838.44
+        },
+        {
+          "tag": "h3",
+          "left": 288,
+          "right": 992,
+          "top": 928.63
+        },
+        {
+          "tag": "p",
+          "left": 288,
+          "right": 992,
+          "top": 985.63
+        },
+        {
+          "tag": "h3",
+          "left": 288,
+          "right": 992,
+          "top": 1170.08
+        },
+        {
+          "tag": "p",
+          "left": 288,
+          "right": 992,
+          "top": 1227.08
+        },
+        {
+          "tag": "h3",
+          "left": 288,
+          "right": 992,
+          "top": 1469.31
+        },
+        {
+          "tag": "p",
+          "left": 288,
+          "right": 992,
+          "top": 1526.31
+        },
+        {
+          "tag": "h3",
+          "left": 288,
+          "right": 992,
+          "top": 1797.44
+        },
+        {
+          "tag": "p",
+          "left": 288,
+          "right": 992,
+          "top": 1854.44
+        },
+        {
+          "tag": "h3",
+          "left": 288,
+          "right": 992,
+          "top": 2038.89
+        },
+        {
+          "tag": "p",
+          "left": 288,
+          "right": 992,
+          "top": 2095.89
+        },
+        {
+          "tag": "h3",
+          "left": 288,
+          "right": 992,
+          "top": 2280.34
+        },
+        {
+          "tag": "p",
+          "left": 288,
+          "right": 992,
+          "top": 2337.34
+        },
+        {
+          "tag": "h3",
+          "left": 288,
+          "right": 992,
+          "top": 2550.69
+        },
+        {
+          "tag": "p",
+          "left": 288,
+          "right": 992,
+          "top": 2607.69
+        },
+        {
+          "tag": "h3",
+          "left": 288,
+          "right": 992,
+          "top": 2907.7
+        },
+        {
+          "tag": "p",
+          "left": 288,
+          "right": 992,
+          "top": 2964.7
+        },
+        {
+          "tag": "h3",
+          "left": 288,
+          "right": 992,
+          "top": 3120.27
+        },
+        {
+          "tag": "p",
+          "left": 288,
+          "right": 992,
+          "top": 3177.27
+        },
+        {
+          "tag": "h2",
+          "left": 288,
+          "right": 992,
+          "top": 3356.83
+        },
+        {
+          "tag": "p",
+          "left": 288,
+          "right": 992,
+          "top": 3423.02
+        },
+        {
+          "tag": "div",
+          "left": 288,
+          "right": 992,
+          "top": 3641.25
+        },
+        {
+          "tag": "p",
+          "left": 288,
+          "right": 992,
+          "top": 3804.25
+        },
+        {
+          "tag": "p",
+          "left": 288,
+          "right": 992,
+          "top": 3964.7
+        },
+        {
+          "tag": "p",
+          "left": 288,
+          "right": 992,
+          "top": 5023.67
+        },
+        {
+          "tag": "p",
+          "left": 288,
+          "right": 992,
+          "top": 6227.09
+        },
+        {
+          "tag": "p",
+          "left": 288,
+          "right": 992,
+          "top": 6416.44
+        }
+      ],
+      "figures": [],
+      "tables": [
+        {
+          "left": 288,
+          "right": 705.61,
+          "top": 3641.25,
+          "bottom": 3788.25,
+          "scrollBox": {
+            "left": 288,
+            "right": 992,
+            "top": 3641.25,
+            "bottom": 3788.25
+          }
+        }
+      ],
+      "games": [
+        {
+          "id": "games-tetris",
+          "left": 72,
+          "right": 1208,
+          "top": 4062.48,
+          "bottom": 4983.67,
+          "versions": [
+            {
+              "left": 72,
+              "right": 628,
+              "top": 4062.48,
+              "bottom": 4983.67,
+              "screens": [
+                {
+                  "left": 72,
+                  "right": 628,
+                  "top": 4089.67,
+                  "bottom": 4506.67
+                },
+                {
+                  "left": 72,
+                  "right": 628,
+                  "top": 4566.67,
+                  "bottom": 4983.67
+                }
+              ]
+            },
+            {
+              "left": 652,
+              "right": 1208,
+              "top": 4062.48,
+              "bottom": 4983.67,
+              "screens": [
+                {
+                  "left": 652,
+                  "right": 1208,
+                  "top": 4089.67,
+                  "bottom": 4506.67
+                },
+                {
+                  "left": 652,
+                  "right": 1208,
+                  "top": 4566.67,
+                  "bottom": 4983.67
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "games-pong",
+          "left": 72,
+          "right": 1208,
+          "top": 5265.91,
+          "bottom": 6187.09,
+          "versions": [
+            {
+              "left": 72,
+              "right": 628,
+              "top": 5265.91,
+              "bottom": 6187.09,
+              "screens": [
+                {
+                  "left": 72,
+                  "right": 628,
+                  "top": 5293.09,
+                  "bottom": 5710.09
+                },
+                {
+                  "left": 72,
+                  "right": 628,
+                  "top": 5770.09,
+                  "bottom": 6187.09
+                }
+              ]
+            },
+            {
+              "left": 652,
+              "right": 1208,
+              "top": 5265.91,
+              "bottom": 6187.09,
+              "screens": [
+                {
+                  "left": 652,
+                  "right": 1208,
+                  "top": 5293.09,
+                  "bottom": 5710.09
+                },
+                {
+                  "left": 652,
+                  "right": 1208,
+                  "top": 5770.09,
+                  "bottom": 6187.09
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+]

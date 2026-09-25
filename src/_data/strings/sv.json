@@ -925,6 +925,31 @@
       "caption": "Räkningarna för 22–23 och 24–25 september, 22 timmar vardera (Resultat, Kontextanvändning), mått för mått; varje mått är ritat i sin egen skala. Flera saker ändrades samtidigt mellan räkningarna: överlämningspunkten, från ungefär 16 % till 30 % av fönstret; anteckningarna, som kortades och fick ett tak; startinnehållet, där tillägg och kontots kopplingar stängdes av; och arbetet, som delvis gällde Gaimer."
     }
   },
+  "games": {
+    "before": "Före städningen",
+    "after": "Efter städningen",
+    "play": "Spela",
+    "stop": "Stoppa",
+    "fullScreen": "Spela i helskärm",
+    "code": "Kod",
+    "needsKeyboard": "Kräver ett tangentbord",
+    "tetris-before": {
+      "start": "Tetris före städningen när det öppnas: ingen startskärm, den första biten faller redan ner i den tomma spelplanen, poäng, nivå, rader och nästa bit till höger och fem pekknappar längs nederkanten.",
+      "play": "Tetris före städningen efter några drag: fyra bitar längst ner på spelplanen, en femte som faller med platsen där den landar markerad och 102 poäng."
+    },
+    "tetris-after": {
+      "start": "Tetris efter städningen på startskärmen: rubriken TETRIS över en svag spelplan, tangenterna och pekkontrollerna på två rader och \"Tap or click to start\" i gult.",
+      "play": "Tetris efter städningen efter några drag: rundade bitar längst ner på en inramad spelplan, en fallande bit med platsen där den landar markerad, 108 poäng uppe till vänster och nästa bit uppe till höger."
+    },
+    "pong-before": {
+      "start": "Pong före städningen när det öppnas: ingen startskärm, bollen redan i spel mellan en blå racket till vänster och en röd till höger och ställningen 0–0.",
+      "play": "Pong före städningen en stund senare: datorns röda racket har tagit första poängen så att ställningen är 0–1 och bollen är i spel igen."
+    },
+    "pong-after": {
+      "start": "Pong efter städningen på startskärmen: en ruta med NEON PONG, \"Arrows/WASD or drag to move\", \"First to 7 wins\" och \"Tap or click to start\" mellan en lysande cyan racket och en lysande rosa.",
+      "play": "Pong efter städningen mitt i en duell: den lysande bollen har just lämnat den rosa racketen med ett spår av partiklar och raden överst visar ställningen 0 - 0."
+    }
+  },
   "contact": {
     "eyebrow": "Kontakt",
     "heading": "Har du en idé?",

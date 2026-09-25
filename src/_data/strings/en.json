@@ -925,6 +925,31 @@
       "caption": "The counts of 22–23 and 24–25 September, 22 hours each (Findings, Context use), measure by measure; each measure is drawn to its own scale. Several things changed at once between the counts: the hand-off point, from about 16% to 30% of the window; the notes, trimmed and capped; the start-up content, with plugins and the account's connectors switched off; and the work, partly for Gaimer."
     }
   },
+  "games": {
+    "before": "Before the cleanup",
+    "after": "After the cleanup",
+    "play": "Play",
+    "stop": "Stop",
+    "fullScreen": "Play full screen",
+    "code": "Code",
+    "needsKeyboard": "Needs a keyboard",
+    "tetris-before": {
+      "start": "Tetris before the cleanup as it opens: no start screen, the first piece already falling into the empty well, the score, level, lines and next piece to the right, and five touch buttons along the bottom.",
+      "play": "Tetris before the cleanup after a few moves: four pieces at the bottom of the well, a fifth falling with the place it will land outlined, and a score of 102."
+    },
+    "tetris-after": {
+      "start": "Tetris after the cleanup on its start screen: the title TETRIS over a faint well, the keys and the touch controls in two lines, and \"Tap or click to start\" in yellow.",
+      "play": "Tetris after the cleanup after a few moves: rounded pieces at the bottom of a framed well, a falling one with the place it will land outlined, a score of 108 at the top left and the next piece at the top right."
+    },
+    "pong-before": {
+      "start": "Pong before the cleanup as it opens: no start screen, the ball already in play between a blue paddle on the left and a red one on the right, and a score of 0 to 0.",
+      "play": "Pong before the cleanup a moment later: the computer's red paddle has won the first point, so the score is 0 to 1, and the ball is in play again."
+    },
+    "pong-after": {
+      "start": "Pong after the cleanup on its start screen: a panel reading NEON PONG, \"Arrows/WASD or drag to move\", \"First to 7 wins\" and \"Tap or click to start\", between a glowing cyan paddle and a glowing pink one.",
+      "play": "Pong after the cleanup in the middle of a rally: the glowing ball has just left the pink paddle with a trail of particles, and the bar at the top shows a score of 0 - 0."
+    }
+  },
   "contact": {
     "eyebrow": "Contact",
     "heading": "Have an idea?",

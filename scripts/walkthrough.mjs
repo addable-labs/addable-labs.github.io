@@ -24,7 +24,10 @@
 //   reduced-motion  under prefers-reduced-motion: reduce nothing moves or
 //                   scales on any page, on load or at its bottom (AC-19)
 //
-// Every page is the built site's .html files. One line per check × page
+// Every page is the built site's .html files, and a game page (si-y6pp), the
+// game alone, as in the app, is measured for no-hscroll only (pagesFor in
+// scripts/lib/walkthrough-report.mjs), with a line naming it. One line per
+// check × page
 // (× width, theme or step), "ok (…)" or "FAIL — …", then a summary line with
 // the run time; the rules are scripts/lib/walkthrough-report.mjs. Exit 0
 // when every line is ok, 1 when one fails, 2 when the walkthrough cannot run
@@ -42,8 +45,9 @@ import process from "node:process";
 import puppeteer, { ProtocolError } from "puppeteer-core";
 import { findChrome, withChrome } from "./lib/chrome.mjs";
 import { parseTokens } from "./lib/contrast.mjs";
+import { gamePagePaths } from "./lib/games.mjs";
 import { exists, fileToUrl, loadSite, loadStrings, resolveDirs, walk } from "./lib/site.mjs";
-import { judge, rgbOf, summaryLine, THEMES, WIDTHS } from "./lib/walkthrough-report.mjs";
+import { judge, pagesFor, rgbOf, summaryLine, THEMES, WIDTHS } from "./lib/walkthrough-report.mjs";
 
 /** The viewport of every check but no-hscroll: a desktop, where the header shows its call to action. */
 const VIEWPORT = { width: 1280, height: 800 };
@@ -90,6 +94,7 @@ try {
 }
 
 const pages = (await walk(out, ".html")).map((file) => fileToUrl(path.relative(out, file))).sort();
+const GAME_PAGES = gamePagePaths(src);
 
 // Registered with evaluateOnNewDocument, so it runs as each document is
 // created — before the page's own scripts and before its first paint. The
@@ -456,7 +461,10 @@ const exitCode = await withChrome("walkthrough", out, async ({ baseUrl, measure 
   const inContext = async (chrome, use, viewport = VIEWPORT) => {
     if (connection?.chrome !== chrome) {
       const browser = await puppeteer.connect({ browserURL: `http://127.0.0.1:${chrome.port}` });
-      if (connection === null) console.log(`walkthrough: ${pages.length} pages of ${out} in ${await browser.version()}`);
+      if (connection === null) {
+        console.log(`walkthrough: ${pages.length} pages of ${out} in ${await browser.version()}`);
+        for (const page of pages.filter((url) => GAME_PAGES.has(url))) console.log(`game page ${page}: the game alone, as in the app, measured for no-hscroll only`);
+      }
       connection = { chrome, browser };
     }
     const context = await connection.browser.createBrowserContext();
@@ -475,18 +483,18 @@ const exitCode = await withChrome("walkthrough", out, async ({ baseUrl, measure 
     console.log(result.line);
   };
   try {
-    for (const page of pages) record(await measure(`first-frame ${page}`, (chrome) => inContext(chrome, (tab) => firstFrame(tab, baseUrl, page))));
+    for (const page of pagesFor("first-frame", pages, GAME_PAGES)) record(await measure(`first-frame ${page}`, (chrome) => inContext(chrome, (tab) => firstFrame(tab, baseUrl, page))));
     for (const measurement of await measure("theme-switch /", (chrome) => inContext(chrome, (tab) => themeSwitch(tab, baseUrl)))) record(measurement);
-    for (const page of pages) record(await measure(`no-js ${page}`, (chrome) => inContext(chrome, (tab) => withoutJavaScript(tab, baseUrl, page))));
+    for (const page of pagesFor("no-js", pages, GAME_PAGES)) record(await measure(`no-js ${page}`, (chrome) => inContext(chrome, (tab) => withoutJavaScript(tab, baseUrl, page))));
     for (const width of WIDTHS) {
-      for (const page of pages) {
+      for (const page of pagesFor("no-hscroll", pages, GAME_PAGES)) {
         record(await measure(`no-hscroll ${page} ${width}`, (chrome) => inContext(chrome, (tab) => horizontalScroll(tab, baseUrl, page, width), { width, height: HSCROLL_HEIGHT })));
       }
     }
     for (const theme of THEMES) {
-      for (const page of pages) record(await measure(`focus ${page} ${theme}`, (chrome) => inContext(chrome, (tab) => focusWalk(tab, baseUrl, page, theme))));
+      for (const page of pagesFor("focus", pages, GAME_PAGES)) record(await measure(`focus ${page} ${theme}`, (chrome) => inContext(chrome, (tab) => focusWalk(tab, baseUrl, page, theme))));
     }
-    for (const page of pages) record(await measure(`reduced-motion ${page}`, (chrome) => inContext(chrome, (tab) => reducedMotion(tab, baseUrl, page))));
+    for (const page of pagesFor("reduced-motion", pages, GAME_PAGES)) record(await measure(`reduced-motion ${page}`, (chrome) => inContext(chrome, (tab) => reducedMotion(tab, baseUrl, page))));
   } finally {
     // Disconnect only: withChrome kills Chrome, which may be gone already.
     await connection?.browser.disconnect().catch(() => {});

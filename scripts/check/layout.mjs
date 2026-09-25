@@ -13,9 +13,12 @@
 //     an inline figure at most the measure wide and centred like a text
 //     block, its panel 20–24.5rem wide with the caption beside it from
 //     768 px (48rem) and under it below — with every panel rendered at a
-//     scale that keeps a 13-unit label at 12 px or more; and every table
+//     scale that keeps a 13-unit label at 12 px or more; every table
 //     starts on the text column's left edge, and nothing of it reaches past
-//     the column's right edge but what scrolls inside a box of its own.
+//     the column's right edge but what scrolls inside a box of its own; and
+//     every block of games (si-y6pp) spans the body, with the game's
+//     versions side by side from 768 px (48rem) and stacked below, and each
+//     screenshot or playing game inside its version at the game's 4:3.
 // Reduced motion is emulated so .reveal elements render in place and fonts
 // are awaited before measuring. One line per page × width; exit 1 on any
 // failure. A page × width whose measure fails, as when its Chrome is lost, is
@@ -78,7 +81,10 @@ function measureGrids() {
 // figure shortcode (`.figure`, `.figure-inline` / `.figure-wide`, its
 // `.figure-panels` row and `figcaption`); a table is any `table` in the body,
 // with the box it scrolls in: itself or its nearest ancestor below the body
-// whose overflow-x is auto or scroll (div.table-scroll, eleventy.config.js).
+// whose overflow-x is auto or scroll (div.table-scroll, eleventy.config.js);
+// a block of games is the games shortcode's `.games`, its versions the
+// `.game` figures in it and their screens the `.game-shot` images and
+// `.game-frame` frames (scripts/lib/games.mjs).
 function measureArticle() {
   const box = (el) => el.getBoundingClientRect();
   const round = (value) => Math.round(value * 100) / 100;
@@ -92,7 +98,7 @@ function measureArticle() {
   const bodyBox = body ? box(body) : null;
   const children = body ? [...body.children] : [];
   const blocks = children
-    .filter((el) => !el.classList.contains("figure"))
+    .filter((el) => !el.classList.contains("figure") && !el.classList.contains("games"))
     .map((el) => ({ tag: el.tagName.toLowerCase(), left: round(box(el).left), right: round(box(el).right), top: round(box(el).top + scrollY) }));
   const figures = children
     .filter((el) => el.classList.contains("figure"))
@@ -115,6 +121,16 @@ function measureArticle() {
     return null;
   };
   const tables = body ? [...body.querySelectorAll("table")].map((el) => ({ ...rect(el), scrollBox: scrollBox(el) })) : [];
+  const games = children
+    .filter((el) => el.classList.contains("games"))
+    .map((el) => ({
+      id: el.id,
+      ...rect(el),
+      versions: [...el.querySelectorAll(":scope > .game")].map((version) => ({
+        ...rect(version),
+        screens: [...version.querySelectorAll(".game-shot, .game-frame")].map(rect),
+      })),
+    }));
   return {
     rem,
     scrollWidth: document.documentElement.scrollWidth,
@@ -123,6 +139,7 @@ function measureArticle() {
     blocks,
     figures,
     tables,
+    games,
   };
 }
 

@@ -31,7 +31,9 @@
 //     text, the company line the law asks for — name, organisation number and
 //     registered seat (si-98hh) — the language switch to the counterpart path
 //     (footer and header), the appearance toggle and the link to the page
-//     language's feed
+//     language's feed; a game page (si-y6pp), one of the paths
+//     src/_data/games.json names (gamePagePaths in scripts/lib/games.mjs), is
+//     the game and nothing else and is left out, with a line naming it
 //   - every GitHub repository the built site names — in a page, a feed, the
 //     sitemap or a text file — is one of the public repositories it may link
 //     (PUBLIC_REPOS in scripts/lib/apps.mjs, an allow-list, si-vwu8)
@@ -53,6 +55,7 @@
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { PUBLIC_REPOS, PUBLIC_URL_PREFIX, githubRepos, publicRepo } from "../lib/apps.mjs";
+import { gamePagePaths } from "../lib/games.mjs";
 import { attr, loadPage, text } from "../lib/html.mjs";
 import { exists, internalPath, langPrefix, loadSite, loadStrings, newestFirst, readArticleSources, reporter, resolveDirs, walk } from "../lib/site.mjs";
 
@@ -279,9 +282,14 @@ for (const lang of site.languages.codes) {
 }
 
 // Every page: footer contact, the company line, language switch, toggle, feed
-// link
+// link. A game page has none of them: it is the game and nothing else.
+const GAME_PAGES = gamePagePaths(src);
 const pages = [];
-for (const file of await walk(out, ".html")) pages.push(await loadPage(file, out, site));
+for (const file of await walk(out, ".html")) {
+  const p = await loadPage(file, out, site);
+  if (GAME_PAGES.has(p.url)) report.ok(`${p.relPath}: a game page, the game and nothing else: no footer, language switch, toggle or feed link to check`);
+  else pages.push(p);
+}
 let footerProblems = 0;
 let companyProblems = 0;
 let controlProblems = 0;

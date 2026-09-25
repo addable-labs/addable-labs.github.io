@@ -1358,10 +1358,11 @@ html:not(.js) .theme-toggle {
    whole container, an inline figure sits at the measure with its caption
    beside the panel, and the "More from the blog" band closes the page.
    Figures are direct children of the body (the `figure` shortcode,
-   eleventy.config.js), so every other child is a text block. */
+   eleventy.config.js), and so are the games an article plays in the page
+   (the `games` shortcode, below), so every other child is a text block. */
 .article-header,
 .article-footer,
-.article-body > :not(.figure) {
+.article-body > :not(.figure, .games) {
   max-width: var(--measure);
   margin-inline: auto;
 }
@@ -1612,6 +1613,104 @@ html:not(.js) .theme-toggle {
     margin-top: 0;
     padding-top: var(--space-3);
   }
+}
+
+/* Games played in the page (si-y6pp): the `games` shortcode's div.games, a
+   child of the body like a figure, spans the whole container with a game's
+   versions side by side from 48rem (before | after) and stacked below. Each
+   version is a figure: its caption on top, then its start screen, a row with
+   the Play button and the links to its page and its code, and a moment of
+   play. play.js puts the game's page in a frame where the start screen was,
+   the same size (4:3), and the button then reads Stop. Without JavaScript
+   there is no Play button (html.js is set by the theme script), and the
+   screenshots and links stay. The layout gate measures the block on every
+   article page that has one. */
+.games {
+  display: grid;
+  gap: var(--space-5) var(--space-4);
+  margin-block: var(--space-5);
+}
+
+@media (min-width: 48rem) {
+  .games {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.game {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-width: 0;
+  margin: 0;
+}
+
+.game figcaption {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 var(--space-2);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  line-height: 1.6;
+  color: var(--color-text-muted);
+}
+
+.game-version {
+  color: var(--color-accent-text);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.game-screen {
+  display: block;
+}
+
+.game-shot,
+.game-frame {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+}
+
+.game-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 var(--space-4);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+}
+
+.game-actions a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+
+html:not(.js) .game-play {
+  display: none;
+}
+
+/* The game and its version, for a screen reader: every figure has the same
+   button and links. */
+.game-for {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.game-note {
+  color: var(--color-text-muted);
+  font-size: var(--text-xs);
 }
 
 /* The ending band (founder feedback 2026-09-22): the other articles of the

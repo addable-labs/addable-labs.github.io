@@ -4,7 +4,8 @@ import path from "node:path";
 import { after, before, describe, it } from "node:test";
 import { parse } from "node-html-parser";
 import { parseTokens } from "../scripts/lib/contrast.mjs";
-import { walk } from "../scripts/lib/site.mjs";
+import { gameId, gamePagePaths, MEDIA_DIR, readGames } from "../scripts/lib/games.mjs";
+import { fileToUrl, walk } from "../scripts/lib/site.mjs";
 import { resolve } from "../scripts/lib/theme-logic.mjs";
 import { buildSite, ROOT, SRC, tempDir } from "./helpers.mjs";
 
@@ -36,6 +37,19 @@ const COPIES = {
 // A hex colour literal, as both tests below find one: "#" and three to eight
 // hex digits. "&#8212;" is a character reference, not a colour.
 const HEX_COLOUR = /(?<!&)#[0-9a-f]{3,8}\b/gi;
+
+// The games an article plays (si-y6pp; scripts/lib/games.mjs) keep the
+// colours they came with, which copy no token of the site: each game's code
+// as the model wrote it, and the game page, whose background is Gaimer's
+// #1a1a1a (GameContainer.vue and src/engine/sandbox.js): the page's template
+// and the script of each version's page. These files, and no others, are left
+// out of the rule that every other hex literal is a copy in COPIES.
+const GAME_BACKGROUND = "#1a1a1a";
+const GAME_CODE = readGames(SRC).map((entry) => path.join(SRC, MEDIA_DIR, entry.article, gameId(entry), "game.js"));
+const GAME_PAGE_FILES = [
+  path.join(SRC, "game-pages.njk"),
+  ...new Set(readGames(SRC).map((entry) => path.join(SRC, MEDIA_DIR, entry.article, `game-page-${entry.version}.js`))),
+];
 
 describe("theme logic (REQ-007)", () => {
   it("returns light only for a stored \"light\" choice", () => {
@@ -79,7 +93,8 @@ describe("colours copied by hand from tokens.css", () => {
     // tokens.css holds the colours and COPIES names every file that repeats
     // one; a literal anywhere else would be a copy that nothing checks. Binary
     // files (the fonts) are skipped: they contain a NUL byte, text never does.
-    const covered = new Set([TOKENS_FILE, ...Object.keys(COPIES).map((file) => path.join(ROOT, file))]);
+    // The games' files keep their own colours (GAME_CODE, GAME_PAGE_FILES).
+    const covered = new Set([TOKENS_FILE, ...Object.keys(COPIES).map((file) => path.join(ROOT, file)), ...GAME_CODE, ...GAME_PAGE_FILES]);
     const found = [];
     for (const file of await walk(SRC)) {
       if (covered.has(file)) continue;
@@ -93,6 +108,21 @@ describe("colours copied by hand from tokens.css", () => {
     }
     assert.deepEqual(found, []);
   });
+
+  it("leaves out only the games' code and the game page's files, whose one colour is Gaimer's game background (si-y6pp)", async () => {
+    // Every file left out is there, the game page's are named here one by
+    // one, and in those the only colour is the background of Gaimer's game
+    // page: a new colour there would be the site's, and belongs in tokens.css.
+    const relative = (file) => path.relative(ROOT, file);
+    assert.deepEqual(GAME_PAGE_FILES.map(relative).sort(), ["src/game-pages.njk", "src/media/cleaning-up-gaimer/game-page-after.js", "src/media/cleaning-up-gaimer/game-page-before.js"]);
+    assert.ok(GAME_CODE.length > 0);
+    for (const file of GAME_CODE) assert.ok(await readFile(file), relative(file));
+    for (const file of GAME_PAGE_FILES) {
+      const literals = [...(await readFile(file, "utf8")).matchAll(HEX_COLOUR)].map(([hex]) => hex.toLowerCase());
+      assert.ok(literals.length > 0, `${relative(file)} has Gaimer's background`);
+      assert.deepEqual([...new Set(literals)], [GAME_BACKGROUND], `${relative(file)}: every colour is ${GAME_BACKGROUND}`);
+    }
+  });
 });
 
 describe("theme script and toggle in the built site", () => {
@@ -100,11 +130,17 @@ describe("theme script and toggle in the built site", () => {
   let out;
   let script;
   let pages;
+  let gamePages;
   before(async () => {
     temp = await tempDir("theme-");
     out = buildSite(temp.dir);
     script = await readFile(SCRIPT_FILE, "utf8");
-    pages = await walk(out, ".html");
+    // Every page but a game page (si-y6pp), which is the game and nothing
+    // else, as in the app: no theme, no toggle (scripts/lib/games.mjs).
+    const isGamePage = (file) => gamePagePaths(SRC).has(fileToUrl(path.relative(out, file)));
+    const all = await walk(out, ".html");
+    pages = all.filter((file) => !isGamePage(file));
+    gamePages = all.filter(isGamePage);
   });
   after(() => temp.cleanup());
 
@@ -121,6 +157,15 @@ describe("theme script and toggle in the built site", () => {
     assert.doesNotMatch(script, /matchMedia|prefers-color-scheme/);
     assert.match(script, /"addable-theme"/);
     assert.match(script, /data-theme-toggle/);
+  });
+
+  it("leaves the theme out of the game pages only: no theme script, no toggle, no theme-color (si-y6pp)", async () => {
+    assert.equal(gamePages.length, gamePagePaths(SRC).size, "this development build builds every game page");
+    for (const file of gamePages) {
+      const doc = parse(await readFile(file, "utf8"));
+      assert.deepEqual(doc.querySelectorAll("script:not([src])").map((element) => element.getAttribute("type")), ["application/json"], `${file}: the game's code is the page's one inline script`);
+      assert.equal(doc.querySelectorAll("[data-theme-toggle], meta[name='theme-color']").length, 0, file);
+    }
   });
 
   it("inlines the script unchanged in every page, before the stylesheets", async () => {

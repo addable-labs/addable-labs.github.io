@@ -34,7 +34,10 @@
 //                   scale }, …],
 //       tables:  [{ left, right, top, bottom,                  // each table's box
 //                   scrollBox: { left, right, top, bottom } }, …] // the box it scrolls in
-//     }
+//       games:   [{ id, left, right, top, bottom,              // each .games block's box
+//                   versions: [{ left, right, top, bottom,     // each .game figure in it
+//                                screens: [{ left, right, top, bottom }, …] }, …] }, …]
+//     }                                                        // its screenshots and frames
 //   }
 //
 // where `blocks` are the body's children other than figures, `placement` is
@@ -43,7 +46,9 @@
 // panels (box width over viewBox width), and a table's `scrollBox` is the
 // box of the table itself or of its nearest ancestor in the body whose
 // overflow-x is auto or scroll, null when there is none. A measurement
-// without `tables` (one taken before si-t64i) has none to judge.
+// without `tables` (one taken before si-t64i) has none to judge, and one
+// without `games` (before si-y6pp) no games. The blocks leave out the games
+// blocks as well as the figures.
 
 /** Pixel tolerance for "equal" (AC-30: ± 1 px). */
 export const TOLERANCE = 1;
@@ -62,6 +67,9 @@ export const BESIDE_FROM_PX = 768;
 
 /** The gap between an inline figure's panel and the caption beside it (base.css `--space-4`), in rem. */
 export const INLINE_GAP_REM = 1.5;
+
+/** A game's screen, its screenshot or the frame it plays in: 4:3 (base.css .game-shot, .game-frame). */
+export const GAME_RATIO = 4 / 3;
 
 /** A figure label is 13 user units (base.css .fig-label) and must render at 12 px or more. */
 export const LABEL_UNITS = 13;
@@ -211,6 +219,67 @@ function evaluateArticle(run, where, tolerance) {
       problems.push(`${where}: ${name} renders a ${LABEL_UNITS}-unit label at ${Math.round(LABEL_UNITS * figure.scale * 100) / 100} px, below ${LABEL_MIN_PX} px`);
     }
   }
+  // Games played in the page (si-y6pp): a block spans the whole body like a
+  // wide figure, its versions (before | after) side by side in one row from
+  // 48rem and stacked below it, each across the block, and every screen — a
+  // screenshot, or the frame a game plays in — inside its version at the
+  // game's 4:3.
+  for (const block of article.games ?? []) {
+    const name = block.id || "games";
+    if (!measurable(block)) {
+      problems.push(`${where}: ${name} has no measurable box`);
+      continue;
+    }
+    if (Math.abs(block.left - body.left) > tolerance || Math.abs(block.right - body.right) > tolerance) {
+      problems.push(`${where}: ${name} spans ${block.left}–${block.right} px, not the body (${body.left}–${body.right} px)`);
+    }
+    const versions = block.versions ?? [];
+    if (versions.length === 0) {
+      problems.push(`${where}: ${name} has no versions (element not found)`);
+      continue;
+    }
+    for (const [index, version] of versions.entries()) {
+      const label = `${name} version ${index + 1}`;
+      if (!measurable(version)) {
+        problems.push(`${where}: ${label} has no measurable box`);
+        continue;
+      }
+      const previous = versions[index - 1];
+      if (beside) {
+        if (Math.abs(version.top - versions[0].top) > tolerance) {
+          problems.push(`${where}: ${label} starts at ${version.top} px, not beside version 1 (${versions[0].top} px)`);
+        } else if (previous && measurable(previous) && version.left < previous.right - tolerance) {
+          problems.push(`${where}: ${label} starts at ${version.left} px, over version ${index} (which ends at ${previous.right} px)`);
+        }
+      } else {
+        if (Math.abs(version.left - block.left) > tolerance || Math.abs(version.right - block.right) > tolerance) {
+          problems.push(`${where}: ${label} spans ${version.left}–${version.right} px, not the block (${block.left}–${block.right} px)`);
+        }
+        if (previous && measurable(previous) && version.top < previous.bottom - tolerance) {
+          problems.push(`${where}: ${label} starts at ${version.top} px, not under version ${index} (which ends at ${previous.bottom} px)`);
+        }
+      }
+      if (!Array.isArray(version.screens) || version.screens.length === 0) {
+        problems.push(`${where}: ${label} has no screens (element not found)`);
+        continue;
+      }
+      for (const [at, screen] of version.screens.entries()) {
+        const what = `${label} screen ${at + 1}`;
+        if (!measurable(screen)) {
+          problems.push(`${where}: ${what} has no measurable box`);
+          continue;
+        }
+        if (screen.left < version.left - tolerance || screen.right > version.right + tolerance) {
+          problems.push(`${where}: ${what} spans ${screen.left}–${screen.right} px, outside its version (${version.left}–${version.right} px)`);
+        }
+        const width = screen.right - screen.left;
+        const height = screen.bottom - screen.top;
+        if (Math.abs(height - width / GAME_RATIO) > tolerance) {
+          problems.push(`${where}: ${what} is ${round(width)} × ${round(height)} px, not 4:3`);
+        }
+      }
+    }
+  }
   return problems;
 }
 
@@ -233,7 +302,8 @@ export function evaluate(measurements, tolerance = TOLERANCE) {
       problems.push(...evaluateArticle(run, where, tolerance));
       const runProblems = problems.slice(before);
       const tables = run.article?.tables?.length ?? 0;
-      const counts = `${run.article?.blocks?.length ?? 0} blocks on the measure, ${run.article?.figures?.length ?? 0} figures${tables > 0 ? `, ${tables} table${tables === 1 ? "" : "s"}` : ""}`;
+      const games = run.article?.games?.length ?? 0;
+      const counts = `${run.article?.blocks?.length ?? 0} blocks on the measure, ${run.article?.figures?.length ?? 0} figures${tables > 0 ? `, ${tables} table${tables === 1 ? "" : "s"}` : ""}${games > 0 ? `, ${games} block${games === 1 ? "" : "s"} of games` : ""}`;
       lines.push(runProblems.length === 0 ? `layout ${run.page} ${run.width}: ok (${counts})` : `layout ${run.page} ${run.width}: FAIL — ${runProblems.map((problem) => problem.slice(where.length + 2)).join("; ")}`);
       continue;
     }

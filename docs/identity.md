@@ -448,7 +448,8 @@ appearance toggle, and the choice persists.
   the fallbacks and renders the dark theme — the site's default look — never
   an unstyled page.
 - **The script** (`src/assets/js/theme.js`, ~1 KB, inlined into `<head>` on
-  every page before the stylesheets, so the theme is set before first paint
+  every page but a game page, which is the game alone on the game's own
+  background, before the stylesheets, so the theme is set before first paint
   and the language switch never flashes): it reads
   `localStorage["addable-theme"]` inside a `try`, resolves `"light"` only
   when the stored value is `"light"` and `"dark"` otherwise — the OS
@@ -530,7 +531,12 @@ it copies. The test fails when a copy differs from `tokens.css`, naming the
 file and line, and when one of the three files holds a literal the table
 does not list, naming the file. A hex colour literal in any other file under
 `src/` fails its test "no other file under src/ has a hex colour literal": a
-new copy goes in `COPIES`.
+new copy goes in `COPIES`. The games an article plays are left out of that
+rule, and only they: each game's code (`src/media/<slug>/<game>-<version>/game.js`)
+keeps the colours it was generated with, and the game page's files
+(`src/game-pages.njk` and `src/media/<slug>/game-page-<version>.js`) hold
+Gaimer's game background, `#1a1a1a`, and no other colour, which a test of
+their own checks.
 
 ## Adding an app without breaking the balance
 

@@ -4,8 +4,9 @@ import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { after, before, describe, it } from "node:test";
 import { SKIP_EXIT_CODE } from "../scripts/lib/chrome.mjs";
-import { alphaOf, CHECKS, evaluate, focusIndicator, judge, MOVING, rgbOf, ringsOf, summaryLine, SWITCH_STEPS, THEMES, where, WIDTHS } from "../scripts/lib/walkthrough-report.mjs";
-import { fixture, ROOT, tempDir } from "./helpers.mjs";
+import { gamePagePaths } from "../scripts/lib/games.mjs";
+import { alphaOf, CHECKS, evaluate, focusIndicator, judge, MOVING, pagesFor, rgbOf, ringsOf, summaryLine, SWITCH_STEPS, THEMES, where, WIDTHS } from "../scripts/lib/walkthrough-report.mjs";
+import { fixture, ROOT, SRC, tempDir } from "./helpers.mjs";
 
 // The rules of the browser walkthrough (scripts/walkthrough.mjs, si-yszh) on
 // a recorded run, without Chrome: the run passes with the documented lines,
@@ -370,6 +371,29 @@ describe("walkthrough report: colours and rings", () => {
     assert.equal(rgbOf("#102030"), "rgb(16, 32, 48)");
     assert.equal(rgbOf("#abc"), "rgb(170, 187, 204)");
     assert.throws(() => rgbOf("light-dark(#fff, #000)"), /not a hex colour/);
+  });
+});
+
+describe("the pages each check measures: a game page for no-hscroll only (si-y6pp)", () => {
+  // The checks that take a list of pages; theme-switch measures / and /sv/.
+  const PAGE_CHECKS = CHECKS.filter((check) => check !== "theme-switch");
+  const pages = ["/", "/blog/an-article/", "/blog/an-article/chess-before/", "/blog/an-article/not-a-game/"];
+  const games = new Set(["/blog/an-article/chess-before/"]);
+
+  it("measures a game page for horizontal scroll and leaves it out of every other check", () => {
+    for (const check of PAGE_CHECKS) {
+      const expected = check === "no-hscroll" ? pages : ["/", "/blog/an-article/", "/blog/an-article/not-a-game/"];
+      assert.deepEqual(pagesFor(check, pages, games), expected, check);
+    }
+  });
+
+  it("finds a game page by its path alone: a page elsewhere, or with no games data, gets every check", () => {
+    for (const check of PAGE_CHECKS) assert.deepEqual(pagesFor(check, pages), pages, check);
+    const real = [...gamePagePaths(SRC)];
+    assert.equal(real.length, 4, "the Gaimer article's four game pages");
+    for (const check of PAGE_CHECKS.filter((check) => check !== "no-hscroll")) {
+      assert.deepEqual(pagesFor(check, ["/", ...real, "/blog/cleaning-up-gaimer/"], gamePagePaths(SRC)), ["/", "/blog/cleaning-up-gaimer/"], check);
+    }
   });
 });
 

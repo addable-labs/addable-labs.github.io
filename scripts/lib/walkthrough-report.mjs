@@ -67,6 +67,19 @@ export const CHECKS = ["first-frame", "theme-switch", "no-js", "no-hscroll", "fo
 /** The widths at which no page may scroll horizontally (AC-20), in CSS px. */
 export const WIDTHS = [360, 3840];
 
+/**
+ * The pages a check measures, of the built site's `pages`: every page for
+ * no-hscroll, and for the other checks every page but a game page (si-y6pp),
+ * one of `gamePages`, the paths src/_data/games.json names (gamePagePaths in
+ * scripts/lib/games.mjs), and no other. A game page is the game alone, as in
+ * the app: it has no theme, header, skip link or toggle, and a game moves as
+ * it plays, so of the six criteria it can meet only "no horizontal scroll".
+ * theme-switch measures / and /sv/ and takes no list.
+ */
+export function pagesFor(check, pages, gamePages = new Set()) {
+  return check === "no-hscroll" ? [...pages] : pages.filter((page) => !gamePages.has(page));
+}
+
 /** The themes of the keyboard walk (AC-18: a visible ring in both). */
 export const THEMES = ["dark", "light"];
 

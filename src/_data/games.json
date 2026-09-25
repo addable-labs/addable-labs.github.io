@@ -1,0 +1,46 @@
+[
+  {
+    "article": "cleaning-up-gaimer",
+    "game": "tetris",
+    "version": "before",
+    "name": "Classic Tetris",
+    "title": "Classic Tetris (Gaimer, before the cleanup)",
+    "description": "The Tetris that Gaimer's Claude provider made from the request \"Tetris\" with the system prompt Gaimer had before the factory's cleanup, running in a game page built like the one in the app at the time.",
+    "width": 640,
+    "height": 480,
+    "touch": true
+  },
+  {
+    "article": "cleaning-up-gaimer",
+    "game": "tetris",
+    "version": "after",
+    "name": "Neon Block Drop",
+    "title": "Neon Block Drop (Gaimer, after the cleanup)",
+    "description": "The Tetris that Gaimer's Claude provider made from the request \"Tetris\" with the system prompt the factory's cleanup wrote, running in a game page built like the one in the app after the cleanup.",
+    "width": 640,
+    "height": 480,
+    "touch": true
+  },
+  {
+    "article": "cleaning-up-gaimer",
+    "game": "pong",
+    "version": "before",
+    "name": "Neon Pong",
+    "title": "Neon Pong (Gaimer, before the cleanup)",
+    "description": "The Pong that Gaimer's Claude provider made from the request \"Pong\" with the system prompt Gaimer had before the factory's cleanup, running in a game page built like the one in the app at the time.",
+    "width": 640,
+    "height": 480,
+    "touch": true
+  },
+  {
+    "article": "cleaning-up-gaimer",
+    "game": "pong",
+    "version": "after",
+    "name": "Neon Pong",
+    "title": "Neon Pong (Gaimer, after the cleanup)",
+    "description": "The Pong that Gaimer's Claude provider made from the request \"Pong\" with the system prompt the factory's cleanup wrote, running in a game page built like the one in the app after the cleanup.",
+    "width": 640,
+    "height": 480,
+    "touch": true
+  }
+]

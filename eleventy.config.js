@@ -2,6 +2,7 @@ import { readFileSync, statSync } from "node:fs";
 import { IdAttributePlugin } from "@11ty/eleventy";
 import rssPlugin from "@11ty/eleventy-plugin-rss";
 import { isOmitted, isScheduled, parseFrontMatter, siteNow, validateArticle, validateArticleDate } from "./scripts/lib/frontmatter.mjs";
+import { articleIsBuilt, gamePages, gameProblems, MEDIA_DIR, mediaSlugs, readGames, renderGames } from "./scripts/lib/games.mjs";
 import { ARTICLE_PATH, byDateDescThenSlug, checkPageUrls } from "./scripts/lib/urls.mjs";
 import site from "./src/_data/site.js";
 
@@ -27,6 +28,13 @@ function loadFigures() {
 // A figure rendered into an article body, as the shortcode emits it:
 // <figure class="figure …">…</figure>, never nested.
 const FIGURE_HTML = /<figure class="figure[^"]*"[^>]*>[\s\S]*?<\/figure>\n?/g;
+
+// The games block of an article, as the `games` shortcode emits it:
+// <div class="games" …>…</div>, the only div in it.
+const GAMES_HTML = /<div class="games"[^>]*>[\s\S]*?<\/div>\n?/g;
+
+// The source tree, where the article media and the games data are read.
+const SRC = new URL("./src", import.meta.url).pathname;
 
 // Two rules keep an article off the blog, and they are deliberately not the
 // same rule (frontmatter.mjs holds both):
@@ -91,6 +99,23 @@ export default function (eleventyConfig) {
   for (const path of PASSTHROUGH) {
     eleventyConfig.addPassthroughCopy(path);
   }
+
+  // An article's media and game pages (si-y6pp; scripts/lib/games.mjs): its
+  // media directory, src/media/<slug>/, is copied to the article's URL,
+  // /blog/<slug>/, and each of its games in src/_data/games.json gets a page
+  // of its own (src/game-pages.njk, from `gamePages`), only in a build that
+  // builds the article. So a draft's games, their code and their screenshots
+  // are absent from the production build, like the draft itself. A media
+  // directory without its article, and a game without its fields, its files
+  // or its page's script, fail the build.
+  for (const slug of mediaSlugs(SRC)) {
+    if (articleIsBuilt(SRC, slug)) eleventyConfig.addPassthroughCopy({ [`src/${MEDIA_DIR}/${slug}`]: `blog/${slug}` });
+  }
+  eleventyConfig.on("eleventy.before", () => {
+    const problems = gameProblems(SRC);
+    if (problems.length > 0) throw new Error(["The article media or src/_data/games.json:", ...problems.map((problem) => `  ${problem}`)].join("\n"));
+  });
+  eleventyConfig.addGlobalData("gamePages", () => gamePages(SRC));
 
   // Front matter is read with our YAML engine instead of Eleventy's own
   // (si-8zyg): the same js-yaml without YAML's timestamp type, so a date
@@ -249,6 +274,28 @@ export default function (eleventyConfig) {
   // custom properties do not travel) and bloat every item, so the feed
   // output stays what it was before the figures (REQ-016).
   eleventyConfig.addFilter("withoutFigures", (html) => String(html).replace(FIGURE_HTML, ""));
+
+  // Games played in the page (si-y6pp): an article calls `{% games "tetris" %}`
+  // on a line of its own, the same line in both language files, and gets the
+  // block of that game's versions from src/_data/games.json (renderGames in
+  // scripts/lib/games.mjs), in the page's language. The feeds leave the block
+  // out, as they leave out the figures: a feed reader runs no game.
+  eleventyConfig.addShortcode("games", function (game) {
+    const lang = this.ctx?.lang;
+    const strings = this.ctx?.strings?.[lang];
+    const article = this.page?.fileSlug;
+    const entries = readGames(SRC).filter((entry) => entry.article === article && entry.game === game);
+    if (!strings || entries.length === 0) throw new Error(`${this.page?.inputPath ?? "games"}: no games of "${game}" for the article ${article} in src/_data/games.json`);
+    return renderGames(entries, { strings });
+  });
+  eleventyConfig.addFilter("withoutGames", (html) => String(html).replace(GAMES_HTML, ""));
+
+  // A value as JSON inside a <script type="application/json"> element, for
+  // the game pages (src/game-pages.njk): every "<" is written as its JSON
+  // escape, so no "</script" or "<!--" in a game's code ends or bends the
+  // element. JSON.parse reads the same string back.
+  const LESS_THAN_ESCAPE = `${String.fromCharCode(92)}u003c`;
+  eleventyConfig.addFilter("jsonScript", (value) => JSON.stringify(value).replace(/</g, LESS_THAN_ESCAPE));
 
   // The article page's "More from the blog" band lists the other articles of
   // its language: the posts collection without the page itself, by URL
