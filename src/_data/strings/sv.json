@@ -760,169 +760,53 @@
       "footerNote": "systembelastning 37 på 8 kärnor",
       "caption": "Två sätt att räkna samma körning. Under tre dygn startade den 242 subagenter – 236 inuti 34 arbetsflöden, 6 startade direkt – men vid varje enskilt tillfälle levde som mest sju och tio nåddes aldrig. Agenterna är kortlivade, i median fyrtio minuter, så en stor total och en liten samtidig skara är samma bild: fem eller fler kördes tillsammans under sjutton av de sjuttiotvå timmarna och den trängseln, där varje agent drev sin egen webbläsare och grafikkrets, är den kollision rapporten noterar som en systembelastning på 37 på åtta kärnor."
     },
-    "session": {
-      "panels": {
-        "life": {
-          "title": "En sessions liv: startinnehållet, omorientering fram till den första utåtriktade handlingen, arbete, råd om överlämning, uppmaning att lämna över och en ny session som fortsätter därifrån",
-          "head": "en session · start till överlämning"
-        },
-        "steps": {
-          "title": "Varje steg skickar hela kontexten, skalenligt från det första steget till slutet: den första stapeln är startinnehållet på 46 290 tokens och 1 500 nya tokens, varje stapel därefter 1 500 längre, den sista vid slutet i median på 289 000 tokens; bara det som är nytt sedan förra steget bearbetas och resten läses från cachen",
-          "head": "varje steg · hela kontexten",
-          "scale": "skalenligt"
-        }
+    "sources": {
+      "title": "Vad som fyllde borgmästarens kontext, som andelar av alla bearbetade tokens under varje period",
+      "head": "alla bearbetade tokens · efter källa",
+      "periods": {
+        "first": "22–23 sep",
+        "second": "24–25 sep"
       },
       "rows": {
-        "start": {
+        "startup": {
           "label": "startinnehåll",
-          "note": "i kontexten före första steget"
+          "note": "skickas med varje anrop",
+          "first": "50 %",
+          "second": "25 %"
         },
-        "reorient": {
-          "label": "omorientering",
-          "note": "fram till första utåtriktade handling",
-          "finding": "20–22 sep: ungefär halva tillväxten"
+        "output": {
+          "label": "borgmästarens egna utdata",
+          "part": "varav resonemang",
+          "partFirst": "10 %",
+          "partSecond": "17 %",
+          "first": "17 %",
+          "second": "30 %"
         },
-        "outward": {
-          "label": "första utåtriktade handling",
-          "note": "svar, uppdrag, bead eller commit"
+        "notes": {
+          "label": "anteckningar",
+          "note": "främst lägeskortet och referensen",
+          "first": "11 %",
+          "second": "8 %"
         },
-        "work": {
-          "label": "arbete",
-          "note": "varje steg lägger till i kontexten"
+        "git": {
+          "label": "utdata från git och GitHub",
+          "part": "varav diffar",
+          "partFirst": "3 %",
+          "partSecond": "9 %",
+          "first": "5 %",
+          "second": "11 %"
         },
-        "advised": {
-          "label": "råd om överlämning",
-          "note": "över den första bestämda storleken"
-        },
-        "called": {
-          "label": "uppmaning att lämna över",
-          "note": "den skriver ner läget i sitt arbete"
+        "mail": {
+          "label": "lästa mejl",
+          "part": "varav agenternas rapporter",
+          "partFirst": "1 %",
+          "partSecond": "4 %",
+          "first": "2 %",
+          "second": "5 %"
         }
       },
-      "next": "en ny session fortsätter därifrån",
-      "nextNote": "och orienterar sig på nytt",
-      "startup": "startinnehåll: 46 290",
-      "first": "första steget: 1 500 nya",
-      "second": "andra steget: 1 500 nya",
-      "between": "… varje steg däremellan",
-      "end": "slut, median: 289 000",
-      "axisStart": "0",
-      "axisEnd": "300 000 tokens",
-      "legendNew": "nytt sedan förra steget",
-      "legendCached": "oförändrat: läses från cachen, billigare",
-      "cost": "en lång kontext kostar ändå i svarstid,",
-      "costNote": "svarskvalitet och förbrukning",
-      "caption": "En session och nästa. En session, inte skalenligt: den börjar med startinnehållet i sin kontext och orienterar sig på nytt fram till sin första utåtriktade handling; mellan den 20 och 22 september kom ungefär hälften av en sessions tillväxt före den handlingen. Den arbetar tills Gas City ger råd om överlämning och sedan uppmanar till den, skriver ner läget i sitt arbete och en ny session fortsätter därifrån. Varje steg, skalenligt, från det första steget till slutet: vart och ett skickar hela kontexten; allt utom det som är nytt sedan förra steget läses från cachen. Hela bredden är 300 000 tokens, punkten där Gas City har uppmanat till överlämning sedan den 24 september; startinnehållet på 46 290 tokens är det vid en start den 24 september (Konfiguration); slutet i median på 289 000 tokens och tillväxten per anrop i median på 1 500 tokens kommer från räkningen för 24–25 september. Den nya delen är ritad något bredare än skalenligt så att den syns."
-    },
-    "sync": {
-      "title": "Problem 4: synkinställningen pekade på det nya privata kodförrådet medan databasens egen fjärradress fortfarande pekade på det publika kodförrådet, som ett schemalagt jobb pushar till var 15:e minut; den pushen misslyckades klockan 16:58 UTC och den 34:e sessionen kontrollerade läget och pekade om fjärradressen klockan 17:13 UTC",
-      "head": "problem 4 · synken och fjärradressen",
-      "database": "uppgiftsdatabasen",
-      "setting": "synkinställningen",
-      "remote": "egen fjärradress",
-      "private": "privat kodförråd",
-      "public": "publikt kodförråd",
-      "unchanged": "oförändrad: en push var 15:e minut",
-      "rows": {
-        "set": {
-          "label": "32:a sessionen",
-          "note": "rapporterade att synken var flyttad"
-        },
-        "failed": {
-          "label": "16:58 UTC",
-          "note": "pushen av hela databasen misslyckades",
-          "note2": "bara för att anslutningen var stängd"
-        },
-        "recheck": {
-          "label": "34:e sessionen",
-          "note": "kontrollerade läget i stället för",
-          "note2": "att lita på sina anteckningar"
-        },
-        "repointed": {
-          "label": "17:13 UTC",
-          "note": "pekade om fjärradressen"
-        }
-      },
-      "trust": "en session litar på kontext och anteckningar,",
-      "trustNote": "hur gamla de än är, utan att kontrollera dem",
-      "caption": "Problem 4 som ett förlopp. Efter grundarens begäran den 22 september pekade den 32:a sessionen synkinställningen mot det nya privata kodförrådet och rapporterade att synken var flyttad, men databasens egen fjärradress pekade fortfarande på det publika kodförrådet, som ett schemalagt jobb pushar till var 15:e minut. Klockan 16:58 UTC misslyckades jobbets push av hela databasen bara för att anslutningen var stängd; den 34:e sessionen kontrollerade läget i stället för att lita på sina anteckningar och pekade om fjärradressen klockan 17:13 UTC."
-    },
-    "handoffs": {
-      "title": "Överlämningspunkterna mot modellens fönster på 1 000 000 tokens: fram till den 23 september uppmaning vid ungefär 16 %, utifrån ett fönster som uppfattades som 200 000 tokens; den 23 september råd vid 20 % och uppmaning vid 25 %; sedan den 24 september råd vid 25 % och uppmaning vid 30 %",
-      "head": "fönstret · 1 000 000 tokens",
-      "rows": {
-        "before": {
-          "label": "fram till 23 september",
-          "window": "Gas City uppfattade det som 200 000 tokens",
-          "called": "överlämningar vid ungefär 160 000: 16 %"
-        },
-        "first": {
-          "label": "23 september",
-          "points": "råd vid 20 %, uppmaning vid 25 %"
-        },
-        "since": {
-          "label": "sedan 24 september",
-          "points": "råd vid 25 %, uppmaning vid 30 %"
-        }
-      },
-      "legendAdvised": "råd om överlämning",
-      "legendCalled": "uppmaning att lämna över",
-      "legendStartup": "startinnehållet vid en start 24 september",
-      "later": "senare överlämningar: färre omorienteringar",
-      "laterNote": "men en längre kontext i varje steg",
-      "caption": "Överlämningspunkterna mot modellens fönster på 1 000 000 tokens, skalenligt. Fram till den 23 september uppfattade Gas City fönstret som 200 000 tokens och bad om överlämningar vid ungefär 160 000, 16 % av det verkliga fönstret; den 23 september gavs råd om överlämning vid 20 % och uppmaning vid 25 % och sedan den 24 september vid 25 % och 30 %. Den smala biten längst till vänster är startinnehållet vid en start den 24 september. En hel dag vid 30 % har mätts (Ändringar); om resultatet håller är en öppen fråga."
-    },
-    "counts": {
-      "panels": {
-        "tokens": {
-          "title": "Alla bearbetade tokens (290 miljoner den 22–23 september och 293 miljoner den 24–25 september) och tokens per anrop efter den första utåtriktade handlingen (257 000 och 192 000): samma mängd tokens totalt med en tredjedel fler anrop efter den första utåtriktade handlingen",
-          "head": "alla tokens · två räkningar"
-        },
-        "reorientation": {
-          "title": "Andelen bearbetade tokens före den första utåtriktade handlingen (45 % den 22–23 september och 3 % den 24–25 september) och sessionerna (51 och 10): andelen sjönk främst för att det var 10 sessioner i stället för 51",
-          "head": "omorientering · två räkningar"
-        }
-      },
-      "counts": {
-        "second": "22–23 sep",
-        "third": "24–25 sep"
-      },
-      "measures": {
-        "all": {
-          "label": "alla bearbetade tokens",
-          "note": "på 22 timmar",
-          "second": "290 miljoner",
-          "third": "293 miljoner"
-        },
-        "perCall": {
-          "label": "tokens per anrop",
-          "note": "efter den första utåtriktade handlingen",
-          "second": "257 000",
-          "third": "192 000"
-        },
-        "share": {
-          "label": "andel bearbetade tokens",
-          "note": "före den första utåtriktade handlingen",
-          "second": "45 %",
-          "third": "3 %"
-        },
-        "sessions": {
-          "label": "sessioner",
-          "note": "på 22 timmar",
-          "second": "51",
-          "third": "10"
-        }
-      },
-      "same": {
-        "a": "samma mängd tokens totalt",
-        "b": "med en tredjedel fler anrop efter",
-        "c": "den första utåtriktade handlingen"
-      },
-      "fewer": {
-        "a": "andelen sjönk främst för att det",
-        "b": "var 10 sessioner i stället för 51"
-      },
-      "caption": "Räkningarna för 22–23 och 24–25 september, 22 timmar vardera (Resultat, Kontextanvändning), mått för mått; varje mått är ritat i sin egen skala. Flera saker ändrades samtidigt mellan räkningarna: överlämningspunkten, från ungefär 16 % till 30 % av fönstret; anteckningarna, som kortades och fick ett tak; startinnehållet, där tillägg och kontots kopplingar stängdes av; och arbetet, som delvis gällde Gaimer."
+      "partNote": "{part}: {first} och {second}",
+      "caption": "Vad som fyllde borgmästarens kontext: de fem största källorna som andelar av alla bearbetade tokens, i samma skala, var och en med en stapel för 22–23 september (nedtonad) och en för 24–25 september. Under den första perioden var hälften av alla tokens startinnehållet, som skickades med varje anrop i 51 korta sessioner; under den andra tog borgmästarens egna utdata den största andelen. Den orange delen av tre staplar är det som nästa ändringar skulle rikta in sig på: borgmästarens resonemang, diffarna och genomförandeagenternas rapporter. Resten, 16 % och 20 %, kom från källor på högst 4 % vardera."
     },
     "merges": {
       "title": "De 41 pull requests som slogs ihop i Gaimer den 24 och 25 september 2026, ett streck vid var och ens tid (UTC), i en rad per del av den här artikeln, med radens antal",

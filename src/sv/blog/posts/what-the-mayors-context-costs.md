@@ -1,6 +1,6 @@
 ---
 title: En studie av borgmästarens kontext
-description: Hur kontexten hos borgmästaren, agenten som samordnar fabriken bakom den här sajten, konfigurerades och användes 20–25 september 2026, vilka problem underlagen från sessionerna visar, vad som ändrades och vad som fortfarande är öppet.
+description: Vad en bead kostade borgmästaren, agenten som samordnar fabriken bakom den här sajten, den 22–23 och 24–25 september 2026, vad som drev den kostnaden och vad varje ändring i dess kontext gjorde.
 date: 2026-09-24
 category: ai-journey             # app-development | ai-journey
 translationKey: what-the-mayors-context-costs
@@ -11,230 +11,155 @@ humanReviewed: false             # true när en person har läst den
 
 ## Sammanfattning
 
-Den här studien undersöker kontexten hos borgmästaren, agenten som samordnar
+Borgmästaren, agenten som samordnar
 [fabriken](/sv/blog/why-we-run-an-agent-run-factory/) bakom den här sajten,
-utifrån underlagen från dess sessioner 20–25 september 2026. Borgmästarens
-sessioner bearbetade samma mängd tokens totalt under två räkningar på 22
-timmar vardera, 290 miljoner den 22–23 september och 293 miljoner den 24–25
-september, med en tredjedel fler anrop efter en sessions första utåtriktade
-handling under den senare räkningen. Flera saker ändrades samtidigt mellan
-räkningarna: överlämningspunkten, från ungefär 16 % till 30 % av fönstret;
-anteckningarna mellan sessionerna, som kortades och fick ett tak;
-startinnehållet, där tillägg och kontots kopplingar stängdes av; och arbetet,
-som delvis gällde ett andra projekt,
-[Gaimer](https://github.com/addable-labs/gaimer). Andelen bearbetade tokens
-före en sessions första utåtriktade handling sjönk från 45 % till 3 %, främst
-för att det var 10 sessioner i stället för 51. De första nya anteckningarna
-gjorde omorienteringen dyrare i utbyte mot en korrekt start; sedan de kortades
-är den billigare. Av ändringarna mättes bara startinnehållet på ett jämförbart
-steg.
+bearbetade 8,28 miljoner tokens per bead som en genomförandeagent levererade
+den 22–23 september och 5,14 miljoner den 24–25 september: 38 % färre, för 57
+beads i stället för 35. En bead är en uppgift i fabrikens ärendehanterare och
+en genomförandeagent är en agentsession som utför en.
 
-{% figure "counts", "wide" %}
+Hela besparingen kom från omorienteringen, de anrop som en ny session gör före
+sin första utåtriktade handling (ett svar, ett utskickat uppdrag, en skriven
+bead, en commit). Omorienteringen kostade 3,71 miljoner tokens per bead under
+den första perioden och 0,15 miljoner under den andra: överlämningarna sjönk
+från 1,46 till 0,18 per bead och varje ny session behövde ungefär en
+tredjedel så många tokens för att orientera sig. Priset för att lämna över
+senare var en längre kontext i varje anrop. Efter den första utåtriktade
+handlingen bearbetade ett anrop i genomsnitt 187 000 tokens i stället för
+142 000, så själva arbetet kostade 4,99 miljoner tokens per bead i stället för
+4,57 miljoner, 9 % mer, trots färre anrop per bead.
 
-## Konfiguration
+Siffrorna visar vart tokens gick, inte hur stor del av minskningen varje
+ändring orsakade. Arbetet skilde sig mellan perioderna och ändringarna kom
+samtidigt: överlämningspunkten, innehållet som varje session startar med,
+anteckningarna som borgmästaren för mellan sessionerna och hur den besvarar
+snabba frågor. Räknat per bead som borgmästaren hanterade, inklusive 33 som
+den stängde själv, blir den första perioden billigare.
 
-Borgmästaren är en agent i Gas City som körs som en följd av Claude
-Code-sessioner. Varje steg skickar hela konversationen hittills till modellen:
-sessionens kontext. När kontexten passerar en bestämd storlek ber Gas City
-sessionen att lämna över. Den skriver ner läget i sitt arbete och en ny
-session fortsätter därifrån.
+## Vad en session är
 
-Konversationens oförändrade början läses från en cache: till API:ets
-listpriser kostar en cachad token en tiondel av en ny eller mindre, men den
-räknas fortfarande in i förbrukningen. En lång kontext kostar ändå i svarstid,
-svarskvalitet och förbrukning. Dessutom ligger gammal information kvar i
-fönstret.
+Borgmästaren är en långlivad agent i Gas City som arbetar i sessioner. En
+session är en Claude Code-konversation med en kontext. Den börjar med
+startinnehållet (Claude Codes systemprompt och verktygsdefinitioner, listorna
+med färdigheter och verktyg, regelfilerna och Gas Citys prompt för
+borgmästaren), läser sina anteckningar, arbetar och slutar med en överlämning:
+den skriver ner läget i sitt arbete och en ny session fortsätter därifrån.
+Alla 61 sessioner under de två perioderna slutade med en egen överlämning;
+ingen slutade med en krasch eller en omstart.
 
-{% figure "session", "wide" %}
+En session är alltså en enhet av kontext och inte av arbete: hur många det
+blir beror på hur snabbt kontexten växer och var överlämningspunkten ligger.
+Den 22–23 september bad Gas City om en överlämning vid 160 000 tokens och
+mediansessionen gjorde 44 anrop till modellen på 19 minuter. Från den 24
+september bad den om en vid 300 000 tokens och mediansessionen gjorde 160
+anrop på 122 minuter.
 
-Innan en session gör något innehåller dess kontext följande (startloggar, 24
-september):
+Varje anrop skickar hela kontexten till modellen. Studien räknar varje
+skickad token och varje token som modellen producerade som bearbetad, oavsett
+om den lästes från cachen eller inte. Det en session kostar är alltså det som
+ligger i dess kontext gånger de anrop som skickar det igen. En token som lades
+till mitt i en session skickades igen i genomsnitt 28 gånger den 22–23
+september och 90 gånger den 24–25 september. Startinnehållet följer med varje
+anrop, så det kostar sin storlek gånger anropen, inte gånger sessionerna:
+färre sessioner gör det inte billigare, bara ett mindre startinnehåll eller
+färre anrop gör det.
 
-| Startinnehåll | Tecken | Tokens |
+## Arbetet och meddelandena
+
+Varje period är en följd av hela sessioner, från den 22 september klockan
+21:09 UTC till den 23 september klockan 18:54 UTC och från den 24 september
+klockan 08:34 UTC till den 25 september klockan 07:21 UTC. Källorna, inga av
+dem offentliga, är borgmästarens sessionstranskript med deras tokenräkning,
+ärendehanteraren, mejlen mellan agenterna, grundarens meddelanden och
+git-historiken.
+
+| I varje period | 22–23 sep | 24–25 sep |
 | --- | ---: | ---: |
-| Claude Codes systemprompt och verktygsdefinitioner (räknat som skillnad; går inte att ställa in) | – | ~33 000 |
-| Listan med färdigheter (skills) | 18 893 | – |
-| Kontots kopplingar (MCP-servrar som når en session via Claude-kontot) | ~10 000 | – |
-| Gas Citys prompt för borgmästaren med fabrikens regler, plus 8 rader för färdigheter | 6 505 + 798 | ~2 000 |
-| Maskinens regelfil med minnesindexet | 3 787 | – |
-| Totalt | – | 46 290 |
+| Beads levererade av genomförandeagenter | 35 | 57 |
+| Beads som borgmästaren stängde själv | 33 | 0 |
+| Commits som nådde main | 32 | 85 |
+| Beads skickade till en genomförandeagent | 38 | 58 |
+| Rapporter mejlade av genomförandeagenter | 37 | 58 |
+| Meddelanden på Discord från grundaren | 18 | 10 |
+| Sessioner, var och en avslutad med en överlämning | 51 | 10 |
+| Tokens bearbetade av borgmästaren (miljoner) | 290 | 293 |
+| Per bead levererad av genomförandeagenter (miljoner) | 8,28 | 5,14 |
 
-En färdighet når en session bara som en rad, sitt namn och sin beskrivning;
-hela texten laddas först när färdigheten används.
+Under den första perioden gällde alla genomförandeagenternas beads sajten:
+dess texter, dess kontroller och tester samt dess README, mycket av det i nära
+kontakt med grundaren. Borgmästaren stängde dessutom 33 beads själv, de flesta
+granskningsfynd som den avfärdade. Under den andra perioden gällde 32 av de 57
+beads ett andra projekt, [Gaimer](https://github.com/addable-labs/gaimer), de
+flesta små pull requests från en granskning av dess kod. En genomförandeagent
+fick sina instruktioner i den bead som borgmästaren skickade ut och mejlade en
+rapport när den var klar; borgmästaren följde arbetet genom sina egna
+bevakningar. Utöver uppdragen skickade den två mejl och två korta meddelanden
+till genomförandeagenter, alla under den andra perioden.
 
-Modellens fönster är 1 000 000 tokens. Två promptkrokar körs före varje
-meddelande till borgmästaren och lägger till en klockrad med meddelandena i kö
-och en påminnelse om oläst mejl. Varje svar använder den högsta inställningen
-för resonemang.
+## Vad som fyllde kontexten
 
-## Data och metod
+{% figure "sources" %}
 
-Källorna, inga av dem offentliga: borgmästarens sessionstranskript med deras
-uppgifter om tokenanvändning, dess startloggar, dess direktmeddelanden med
-grundaren på Discord och dess minnesfiler. Borgmästarens rapport från den 22
-september täcker tiden från den 20 september klockan 12:33 UTC till kvällen
-den 22 september; en andra räkning täcker tiden från den 22 september klockan
-21:09 UTC till den 23 september klockan 18:54 UTC; en tredje från den 24
-september klockan 07:56 UTC till den 25 september klockan 06:00 UTC, den första
-hela dagen vid 30 % med de kortade anteckningarna.
-Tokens räknades per anrop till modellen, varje sessions första anrop
-inräknat. Tokens per anrop efter den första utåtriktade handlingen delar alla
-bearbetade tokens med anropen efter varje sessions första utåtriktade
-handling. Ett skript sorterade verktygens utdata i kategorier, med några
-procentenheters felmarginal.
+Kontextens tillväxt från ett anrop till nästa fördelades på det som orsakade
+den: borgmästarens egna utdata exakt, utifrån tokenräkningen, samt
+verktygsresultat och meddelanden efter sin storlek, en uppskattning. Under den
+första perioden var hälften av alla bearbetade tokens startinnehållet, som
+skickades med varje anrop i 51 korta sessioner. Under den andra var det en
+fjärdedel: startinnehållet var mindre och det som arbetet lade till skickades
+igen i genomsnitt 90 gånger i stället för 28. Borgmästarens egna utdata, mest
+dess resonemang, diffarna den läste och genomförandeagenternas rapporter vägde
+tyngre.
 
-Begränsningar: en enda fabrik; de flesta effekter bygger på en enda mätning,
-den tredje räkningen på tio sessioner vars arbete, delvis för Gaimer, skilde
-sig från den andras.
+## Fynd, ändringar och utfall
 
-## Resultat
+| Fynd | Ändring | Utfall |
+| --- | --- | --- |
+| En överlämning var 19:e minut (median): Gas City uppfattade modellens fönster som 200 000 tokens | Fönstret satt till 1 000 000 tokens, uppmaning att lämna över vid 30 % av det | 0,18 överlämningar per bead i stället för 1,46, men 187 000 tokens per anrop efter den första utåtriktade handlingen i stället för 142 000 |
+| Startinnehåll som ingen session använde, i varje anrop: fyra tillägg och tio av kontots kopplingar | Avstängt | 42 500 tokens startinnehåll per anrop i stället för 64 000 (medianer); med den gamla storleken hade den andra perioden bearbetat 12 % mer |
+| En anteckningslogg för lång för att läsas i sin helhet: sessionerna hoppade över det mesta av den och tog gamla fakta för aktuella | Ett lägeskort som skrivs om vid varje överlämning och en referens som läses i ett anrop, båda kortade och med tak sedan den 24 september | En ny session agerade efter 12 anrop i stället för 21, med en kontext som hade vuxit med 31 000 tokens i stället för 58 000 (medianer); går inte att skilja från de två ändringarna ovan |
+| Långsamma svar på enkla frågor | En fråga från grundaren som börjar med "?" besvaras direkt; kortare tidsgränser för två promptkrokar | Oprövad: inga svarstider från tidigare |
 
-### Kontextanvändning
+Lägeskortet och referensen fanns redan under den första perioden, så
+jämförelsen visar bara att de kortades, tillsammans med de andra ändringarna.
+Fyndet bakom dem hade ett enkelt exempel: en session rapporterade att
+uppgiftsdatabasens synk var flyttad till ett privat kodförråd medan
+databasens egen fjärradress fortfarande pekade på det publika, tills en senare
+session kontrollerade läget i stället för att lita på sina anteckningar.
 
-| Mått | Rapporten från den 22 september |
-| --- | ---: |
-| Sessioner på 55 timmar | 38 |
-| Varav under en dag | 21 |
-| Överlämningar | 31 |
-| Varje sessions start, före dess första verktygsanrop (tokens) | 55 000–66 000 |
-| Kontext vid en överlämning (tokens) | 106 000–251 000 |
-| Mediansessionens tillväxt (tokens) | 87 000 |
-| Varav före dess första utåtriktade handling (ett svar, ett utskickat uppdrag, en skriven bead, en commit) | 49 500 |
+## Vad siffrorna inte visar
 
-| Mått | Räkningen för 22–23 september | Räkningen för 24–25 september |
-| --- | ---: | ---: |
-| Timmar | 22 | 22 |
-| Sessioner | 51 | 10 |
-| Minuter per session | 26 | 132 |
-| Anrop till modellen | 2 315 | 1 645 |
-| Anrop per session | 45 | 164 |
-| Genomsnittlig kontext per anrop (tokens) | 124 000 | 178 000 |
-| Start, median (tokens) | 64 000 | 42 000 |
-| Slut, median (tokens) | 154 000 | 289 000 |
-| Tillväxt per anrop, median (tokens) | 2 200 | 1 500 |
-| Lästa från cachen (tokens) | 281 miljoner | 289 miljoner |
-| Av alla kontexttokens | ~98 % | ~99 % |
-| Alla bearbetade tokens (kontext och utdata) | 290 miljoner | 293 miljoner |
-| Andel av bearbetade tokens före den första utåtriktade handlingen | 45 % | 3 % |
-| Tokens per anrop efter den första utåtriktade handlingen | 257 000 | 192 000 |
+- Arbetet skilde sig. Räknat per bead som borgmästaren hanterade, inklusive de
+  33 som den stängde själv, använde den första perioden 4,26 miljoner tokens
+  per bead och den andra 5,14 miljoner: ordningen vänds. Siffrorna visar
+  mekanismen, färre omorienteringar i utbyte mot en längre kontext per anrop,
+  inte att ändringarna orsakade hela minskningen per bead.
+- Anteckningarna och överlämningspunkten ändrades samtidigt och
+  startinnehållet krympte också mellan perioderna; två perioder kan inte
+  skilja dem åt.
+- Borgmästarens subagenter, tre under varje period, använde 62,9 miljoner
+  egna tokens under den första perioden och 15,2 miljoner under den andra. De
+  ingår inte i summorna och det gör inte heller genomförandeagenternas tokens.
+- En token som lästes från cachen räknas som vilken annan som helst: 97 % av
+  den första periodens tokens och 99 % av den andras var cacheläsningar.
 
-### Sessionernas aktivitet
+Två tester skulle kunna avgöra mer. I en omkörning startar nya sessioner som
+inte kan agera från ett och samma sparade läge med ett väntande meddelande, en
+gång vardera med den gamla loggen, det första kortet och det kortade kortet;
+mätvärdena är tokens fram till den första utåtriktade handlingen och om den
+handlingen är den rätta. Överlämningspunkter som växlar dag för dag, 15 % och
+30 % av fönstret, med liknande arbete skulle mäta överlämningspunkten per
+levererad bead.
 
-Läsning av minnet stod för 9 % av borgmästarens verktygsutdata efter volym
-under omdesignbygget av sajten och 13 % efter bygget (rapporten från den 22
-september). Den 22 september var minnet en logg som bara fylldes på: 769 rader
-och 138 kB (problem 6).
+## Vad nästa ändringar skulle rikta in sig på
 
-## Problem
+Den andra periodens andelar pekar på tre mål:
 
-1. **Omorientering efter varje överlämning.** I mediansessionen gick 49 500
-   tokens åt före den första utåtriktade handlingen.
-2. **Startinnehåll som ingen session använde.** Fram till den 24 september
-   innehöll listan med färdigheter 91 färdigheter på 32 572 tecken, varav
-   12 128 var de 40 raderna från ett tillägg för en hostingplattform som
-   fabriken inte använder; inte heller kontots kopplingar användes av någon
-   session.
-3. **Långsamma svar på enkla frågor.** En separat Claude Code-session som
-   grundaren körde fann den 23 september att maskinen inte var flaskhalsen (en
-   systembelastning på 2,2; verktyget för beads svarade på 0,07 sekunder).
-   Orsakerna: den högsta inställningen för resonemang på varje svar, att
-   borgmästaren hämtade färskt läge innan den svarade även på det den redan
-   visste, två promptkrokar med 15 sekunders tidsgräns före varje meddelande
-   samt kontextens storlek.
-4. **Gamla fakta som tas för aktuella.** En session litar på sin kontext och
-   sina anteckningar, hur gamla de än är, om den inte kontrollerar dem. Den 22
-   september bad grundaren om att fabrikens uppgiftsdatabas skulle synkas till
-   ett privat kodförråd; fram till dess hade den synkats till det publika
-   kodförråd som den här sajten byggs från. Den 32:a borgmästarsessionen
-   skapade det privata kodförrådet, pekade synkinställningen dit och
-   rapporterade att synken var flyttad. Databasens egen fjärradress pekade
-   fortfarande på det publika kodförrådet, som ett schemalagt jobb pushar till
-   var 15:e minut; klockan 16:58 UTC misslyckades jobbets push av hela
-   databasen bara för att anslutningen var stängd. Den 34:e sessionen
-   kontrollerade läget i stället för att lita på sina anteckningar och pekade
-   om fjärradressen klockan 17:13 UTC.
-5. **En överlämningspunkt satt av en felaktig fönsterstorlek.** Gas City kände
-   inte till modellen, uppfattade fram till den 23 september fönstret som
-   200 000 tokens och bad om överlämningar vid ungefär 160 000, 16 % av det
-   verkliga fönstret.
-6. **En minneslogg för stor för en läsning.** Ingen session kunde läsa loggen
-   i sin helhet.
-
-{% figure "sync" %}
-
-## Ändringar
-
-- **22–24 september: lägeskort och referens.** Ett lägeskort med fast form och
-  en referens med beständiga fakta och regler ersatte loggen. Kortet skrivs
-  över vid varje överlämning och referensen läses i ett anrop. Kortet anger
-  id:t för det senast hanterade inkommande meddelandet (meddelanden hade gått
-  förlorade vid överlämningar), vad som pågår, vad som har lovats men inte
-  levererats, öppna frågor och för varje "klart" det kommando som bevisar det.
-  De tidigare sessionerna hade hoppat över det mesta av loggen och det var så
-  gamla fakta överlevde (problem 4). Den 24 september kortades båda med två
-  femtedelar och fick ett tak för sin storlek.
-- **23 september: snabba frågor och krokar.** Ett meddelande från grundaren
-  som börjar med "?" besvaras direkt utifrån det borgmästaren redan vet, utan
-  något annat verktygsanrop än själva svaret. Krokarnas tidsgräns gick från 15
-  sekunder till 5.
-- **23–24 september: fönster och överlämningspunkter.** Fönstret sattes till
-  1 000 000 tokens den 23 september, med råd om överlämning vid 20 % och
-  uppmaning vid 25 %; sedan den 24 september vid 25 % och 30 % (250 000 och
-  300 000 tokens). Den tredje räkningen täcker den första hela dagen vid 30 %
-  med de kortade anteckningarna.
-- **24 september: fyra tillägg avstängda** för fabrikens sessioner:
-  hostingplattformens, ett tillägg för frontenddesign med en färdighet och två
-  tillägg med språkservrar utan rader för färdigheter. Mellan de två
-  borgmästarstarter som jämfördes hade bara listorna med färdigheter och
-  agenter ändrats, ungefär 12 000 tecken kortare; hostingtillägget kostade en
-  tiondel av en start, inte den femtedel som hade uppskattats utifrån
-  tilläggets filer på disken. Inom den tredje räkningen skilde sig starterna
-  med 9 000 tokens, eftersom en längre beskrivning av ett av Claude Codes
-  verktyg växlade mellan sessionerna utan någon ändring i fabriken; de tre
-  sessionerna med den kostade 213 000 tokens per anrop efter den första
-  utåtriktade handlingen, de övriga sju 185 000.
-- **24 september: kontots kopplingar avstängda** för fabrikens sessioner: tio,
-  ingen av dem använd. Efter att tillägget stängts av hade hostingplattformens
-  verktyg ändå nått varje session, genom kontots egen koppling till samma
-  plattform. Kopplingarnas kostnad, ungefär 8 % av den genomsnittliga
-  kontexten per anrop, kom mest strax efter en sessions första anrop.
-
-{% figure "handoffs" %}
-
-## Belägg per ändring
-
-| Ändring | Test | Resultat | Slutsats |
-| --- | --- | --- | --- |
-| Oanvänt startinnehåll avstängt: tillägg och kontots kopplingar, 24 september | Samma första steg före och efter | Från 51 020 till 46 290 tokens vid starten (tillägget, ungefär 4 700); ungefär 9 700 tokens per session (kopplingarna, två sessioner hos genomförandeagenten) | Visad, en mätning vardera |
-| Lägeskort och referens, 22–24 september | Medianer före den första utåtriktade handlingen, 33 sessioner före, 56 med | Från 49 500 till 54 700 tokens och från 2 200 till 32 100 tecken lästa ur anteckningarna; en korrekt start (problem 4) | Delvis: den korrekta starten, inte besparingen |
-| Kortade anteckningar med tak, 24 september | De 22 timmarna efteråt mot de tre sessionerna före, samma dag | 31 000 mot 63 000–105 000 tokens före den första utåtriktade handlingen; 28 000 mot 42 000–47 000 tecken lästa ur anteckningarna | Antydd, på tre sessioner före |
-| Senare överlämningspunkt, uppmaning vid 30 % sedan den 24 september | Den tredje räkningen mot den andra | Samma mängd tokens totalt med en tredjedel fler anrop efter den första utåtriktade handlingen och en genomsnittlig kontext per anrop som är 43 % större, men ändrad samtidigt med anteckningarna, startinnehållet och arbetet; de tre sessionerna vid 30 % innan anteckningarna kortades sparade inget (257 000) | Inte isolerad |
-| Snabba frågor och krokar med 5 sekunders tidsgräns, 23 september | Inga tider från tidigare; krokarna inte mätta för sig | Tre snabba svar på 24–58 sekunder | Oprövad |
-
-Bara startinnehållet mättes på ett jämförbart steg.
-
-## Öppna frågor och idéer
-
-- Om den tredje räkningens resultat håller över fler dagar och annat arbete.
-- En omkörning för att pröva anteckningarna, ännu inte genomförd: nya
-  sessioner som inte kan agera startar från ett och samma sparade läge med ett
-  väntande meddelande, en gång vardera med den gamla loggen, det första kortet
-  och det kortade kortet; mätvärdena är tokens fram till den första
-  utåtriktade handlingen och om den handlingen är den rätta.
-- Överlämningspunkten: senare överlämningar ger färre omorienteringar men en
-  längre kontext i varje steg och äldre fakta i fönstret; en punkt senare än
-  30 % är oprövad. Två idéer, ännu inte genomförda: överlämningspunkter som
-  växlar dag för dag, 15 % och 30 %, med allt annat oförändrat, mätta per
-  landad ändring och per besvarat meddelande; och en enkel modell, förenlig
-  med båda räkningarna, där varje anrop skickar om hela kontexten och varje
-  överlämning kostar en omorientering. Med omorienteringen den 24–25 september
-  (ungefär 880 000 bearbetade tokens per session: 3 % av 293 miljoner på 10
-  sessioner), en tillväxt på 1 500 tokens per anrop och 73 000 tokens vid den
-  första utåtriktade handlingen (42 000 vid starten plus 31 000) ger modellen
-  minst tokens nära 12–16 % av fönstret, ungefär en tredjedel färre än vid
-  30 %. Den bortser från svarskvalitet och från det arbete som en överlämning
-  avbryter; den är oprövad.
-- En lägre inställning för resonemang vid snabba svar; inte beslutat.
-- En projektledarroll, att besluta om utifrån uppmätta data, nu när
-  borgmästaren också samordnar Gaimer: att städa upp dess kod så att den blir
-  robust och aktuell samt att lägga till nya funktioner för användarna.
+- Borgmästarens eget resonemang, 17 % av alla tokens, med den högsta
+  inställningen för resonemang på varje svar: en lägre inställning för
+  rutinsteg.
+- Diffarna och genomförandeagenternas rapporter som den läser i sin egen
+  kontext, 13 %: att läsa dem i en subagent som bara lämnar tillbaka sitt
+  utlåtande.
+- Startinnehållet, 25 %: ungefär 33 000 tokens av varje start är Claude Codes
+  egen systemprompt och verktygsdefinitioner, som fabriken inte kan ställa in,
+  så bara resten kan krympa.

@@ -760,169 +760,53 @@
       "footerNote": "load average 37 on 8 cores",
       "caption": "Two counts of the same run. Over three days it started 242 sub-agents — 236 inside 34 workflow launches, 6 called directly — but at any one moment at most seven were alive, and ten was never reached. Agents are short-lived, a median of forty minutes each, so a large total and a small crowd are the same picture: five or more ran together for seventeen of the seventy-two hours, and that crowd, each agent driving its own browser and GPU, is the collision the report records as a load average of 37 on eight cores."
     },
-    "session": {
-      "panels": {
-        "life": {
-          "title": "One session's life: the start-up content, re-orientation until the first outward action, work, a hand-off advised and then called, and a new session that continues from there",
-          "head": "a session · start to hand-off"
-        },
-        "steps": {
-          "title": "Every step sends the whole context, to scale from the first step to the end: the first bar is the start-up content of 46,290 tokens and 1,500 new tokens, each bar after it 1,500 longer, the last at the median end of 289,000 tokens; only what is new since the step before is processed, and the rest is read from the cache",
-          "head": "every step · the whole context",
-          "scale": "to scale"
-        }
+    "sources": {
+      "title": "What filled the mayor's context, as shares of all tokens processed in each period",
+      "head": "all tokens processed · by source",
+      "periods": {
+        "first": "22–23 Sep",
+        "second": "24–25 Sep"
       },
       "rows": {
-        "start": {
+        "startup": {
           "label": "start-up content",
-          "note": "in the context before the first step"
+          "note": "sent with every call",
+          "first": "50%",
+          "second": "25%"
         },
-        "reorient": {
-          "label": "re-orientation",
-          "note": "until the first outward action",
-          "finding": "20–22 Sep: about half the growth"
+        "output": {
+          "label": "the mayor's own output",
+          "part": "of it reasoning",
+          "partFirst": "10%",
+          "partSecond": "17%",
+          "first": "17%",
+          "second": "30%"
         },
-        "outward": {
-          "label": "first outward action",
-          "note": "a reply, a dispatch, a bead, a commit"
+        "notes": {
+          "label": "notes",
+          "note": "mostly the state card and the reference",
+          "first": "11%",
+          "second": "8%"
         },
-        "work": {
-          "label": "work",
-          "note": "every step adds to the context"
+        "git": {
+          "label": "git and GitHub output",
+          "part": "of it diffs",
+          "partFirst": "3%",
+          "partSecond": "9%",
+          "first": "5%",
+          "second": "11%"
         },
-        "advised": {
-          "label": "hand-off advised",
-          "note": "past the first set size"
-        },
-        "called": {
-          "label": "hand-off called",
-          "note": "it writes down the state of its work"
+        "mail": {
+          "label": "mail read",
+          "part": "of it the workers' reports",
+          "partFirst": "1%",
+          "partSecond": "4%",
+          "first": "2%",
+          "second": "5%"
         }
       },
-      "next": "a new session continues from there",
-      "nextNote": "and re-orients itself",
-      "startup": "start-up content: 46,290",
-      "first": "first step: 1,500 new",
-      "second": "second step: 1,500 new",
-      "between": "… every step in between",
-      "end": "median end: 289,000",
-      "axisStart": "0",
-      "axisEnd": "300,000 tokens",
-      "legendNew": "new since the step before",
-      "legendCached": "unchanged: read from the cache, cheaper",
-      "cost": "a long context still costs in latency,",
-      "costNote": "answer quality and consumption",
-      "caption": "One session and the next. A session, not to scale: it starts with the start-up content in its context and re-orients until its first outward action; from 20 to 22 September about half of a session's growth came before that action. It works until Gas City advises a hand-off and then calls it, writes down the state of its work, and a new session continues from there. Every step, to scale, from the first step to the end: each sends the whole context; all but what is new since the step before is read from the cache. The full width is 300,000 tokens, the point at which Gas City has called a hand-off since 24 September; the start-up content of 46,290 tokens is that of a 24 September start (Configuration); the median end of 289,000 tokens and the median growth per call of 1,500 tokens are from the count of 24–25 September. The new part is drawn slightly wider than to scale so that it shows."
-    },
-    "sync": {
-      "title": "Problem 4: the sync setting pointed at the new private repository while the database's own remote still named the public repository, which a timed job pushes to every 15 minutes; that push failed at 16:58 UTC, and the 34th session re-checked the state and repointed the remote at 17:13 UTC",
-      "head": "problem 4 · the sync and the remote",
-      "database": "the task database",
-      "setting": "sync setting",
-      "remote": "its own remote",
-      "private": "private repository",
-      "public": "public repository",
-      "unchanged": "unchanged: a push every 15 minutes",
-      "rows": {
-        "set": {
-          "label": "32nd session",
-          "note": "reported the sync as moved"
-        },
-        "failed": {
-          "label": "16:58 UTC",
-          "note": "the push of the whole database failed",
-          "note2": "only because the connection was closed"
-        },
-        "recheck": {
-          "label": "34th session",
-          "note": "re-checked the state instead of",
-          "note2": "relying on its notes"
-        },
-        "repointed": {
-          "label": "17:13 UTC",
-          "note": "repointed the remote"
-        }
-      },
-      "trust": "a session trusts its context and notes,",
-      "trustNote": "however old, unless it checks them",
-      "caption": "Problem 4 as a sequence. After the founder's request of 22 September the 32nd session set the sync setting to the new private repository and reported the sync as moved, but the database's own remote still named the public repository, which a timed job pushes to every 15 minutes. At 16:58 UTC that push of the whole database failed only because the connection was closed; the 34th session re-checked the state instead of relying on its notes and repointed the remote at 17:13 UTC."
-    },
-    "handoffs": {
-      "title": "The hand-off points against the model's window of 1,000,000 tokens: until 23 September hand-offs were called at about 16%, from a window taken to be 200,000 tokens; on 23 September advised at 20% and called at 25%; since 24 September advised at 25% and called at 30%",
-      "head": "the window · 1,000,000 tokens",
-      "rows": {
-        "before": {
-          "label": "until 23 September",
-          "window": "Gas City took it to be 200,000 tokens",
-          "called": "hand-offs called at about 160,000: 16%"
-        },
-        "first": {
-          "label": "23 September",
-          "points": "advised at 20%, called at 25%"
-        },
-        "since": {
-          "label": "since 24 September",
-          "points": "advised at 25%, called at 30%"
-        }
-      },
-      "legendAdvised": "hand-off advised",
-      "legendCalled": "hand-off called",
-      "legendStartup": "start-up content at a 24 September start",
-      "later": "later hand-offs: fewer re-orientations,",
-      "laterNote": "but a longer context on every step",
-      "caption": "The hand-off points against the model's window of 1,000,000 tokens, to scale. Until 23 September Gas City took the window to be 200,000 tokens and called hand-offs at about 160,000, 16% of the real window; on 23 September a hand-off was advised at 20% and called at 25%, and since 24 September at 25% and 30%. The sliver at the left is the start-up content of a 24 September start. One full day at 30% has been measured (Changes); whether its result holds is open."
-    },
-    "counts": {
-      "panels": {
-        "tokens": {
-          "title": "All tokens processed (290 million on 22–23 September and 293 million on 24–25 September) and the tokens per call after the first outward action (257,000 and 192,000): the same tokens overall with a third more calls after the first outward action",
-          "head": "all tokens · two counts"
-        },
-        "reorientation": {
-          "title": "The share of tokens processed before the first outward action (45% on 22–23 September and 3% on 24–25 September) and the sessions (51 and 10): the share fell mostly because there were 10 sessions instead of 51",
-          "head": "re-orientation · two counts"
-        }
-      },
-      "counts": {
-        "second": "22–23 Sep",
-        "third": "24–25 Sep"
-      },
-      "measures": {
-        "all": {
-          "label": "all tokens processed",
-          "note": "in 22 hours",
-          "second": "290 million",
-          "third": "293 million"
-        },
-        "perCall": {
-          "label": "tokens per call",
-          "note": "after the first outward action",
-          "second": "257,000",
-          "third": "192,000"
-        },
-        "share": {
-          "label": "share of tokens processed",
-          "note": "before the first outward action",
-          "second": "45%",
-          "third": "3%"
-        },
-        "sessions": {
-          "label": "sessions",
-          "note": "in 22 hours",
-          "second": "51",
-          "third": "10"
-        }
-      },
-      "same": {
-        "a": "the same tokens overall",
-        "b": "with a third more calls after",
-        "c": "the first outward action"
-      },
-      "fewer": {
-        "a": "the share fell mostly because",
-        "b": "there were 10 sessions instead of 51"
-      },
-      "caption": "The counts of 22–23 and 24–25 September, 22 hours each (Findings, Context use), measure by measure; each measure is drawn to its own scale. Several things changed at once between the counts: the hand-off point, from about 16% to 30% of the window; the notes, trimmed and capped; the start-up content, with plugins and the account's connectors switched off; and the work, partly for Gaimer."
+      "partNote": "{part}: {first} and {second}",
+      "caption": "What filled the mayor's context: the five largest sources as shares of all tokens processed, to one scale, each with a bar for 22–23 September (muted) and one for 24–25 September. In the first period half of all tokens were the start-up content, sent with every call of 51 short sessions; in the second, the mayor's own output took the largest share. The orange part of three bars is what the next changes would target: the mayor's reasoning, the diffs and the workers' reports. The rest, 16% and 20%, came from sources of 4% or less each."
     },
     "merges": {
       "title": "The 41 pull requests merged into Gaimer on 24 and 25 September 2026, each a mark at its merge time (UTC), in a row per part of this article, with each row's count",

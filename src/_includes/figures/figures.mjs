@@ -861,269 +861,69 @@ function fleet(t, id, figureId) {
   };
 }
 
-// The four figures of the context study (founder feedback 2026-09-24,
-// si-t64i; 2026-09-25, si-pvns): one session and the next, the task
-// database's sync in problem 4, the hand-off points against the model's
-// window and the two counts side by side (drawn after the hand-off figure,
-// though the article shows it first). The article's tables hold its numbers,
-// so these draw the mechanisms and the proportions the text describes; every
-// label is the article's own wording, and what happened in a run is told in
-// the past tense or dated.
+// The figure of the context study (founder feedback 2026-09-25, si-dj3c: one
+// point, what a unit of work cost the mayor; it replaced the four figures of
+// si-t64i and si-pvns). Its shares are the study's own: the growth of the
+// context from one call to the next split over what caused it (the mayor's
+// output exactly, from the token counts; tool results and messages by their
+// size) and weighted by the calls that sent it again. What the two periods
+// recorded is told in the past tense.
 
-/** A dot on the timeline at x = 24, with the accent glow behind it when `glow`. */
-function dot(y, glow = false) {
-  return `${glow ? `<circle cx="24" cy="${y}" r="9" class="fig-glow"/>` : ""}<circle cx="24" cy="${y}" r="4" class="fig-dot"/>`;
-}
-
-// (17) One session and the next — wide, two panels. Panel 1, not to scale:
-// a session's life down a line — the start-up content, re-orientation until
-// the first outward action (with the finding of 20–22 September in orange),
-// the first outward action in the accent glow, work, the hand-off advised
-// and called in orange — and the new session that continues from there.
-// Panel 2, to scale (founder's go 2026-09-25, si-pvns): what every step
-// sends, from a session's first step to its end, on one scale — the track's
-// 288 units are 300,000 tokens, the point at which Gas City has called a
-// hand-off since 24 September. The first two bars are the first two steps, the last two the
-// last two steps, ending at the median end of the count of 24–25 September;
-// each bar is the unchanged beginning, read from the cache (muted; the
-// start-up content of a 24 September start is its first part in every bar,
-// cut off by a notch), and what is new since the step before, processed (the
-// accent): that count's median growth per call. Every number is taken from
-// the digits of its label, so a rewording keeps the bars honest; the new
-// part is drawn at least 2 units wide so that it shows (1,500 tokens are
-// 1.44 units).
-function session(t, id, figureId) {
-  const height = 308;
-  const rows = [
-    { key: "start", y: 64 },
-    { key: "reorient", y: 98, finding: true },
-    { key: "outward", y: 144, glow: true },
-    { key: "work", y: 178 },
-    { key: "advised", y: 212, wait: true },
-    { key: "called", y: 246, wait: true },
+// (17) What filled the mayor's context — one panel, to one scale: the five
+// largest sources of the tokens processed, each with a bar per period
+// (22–23 September muted, 24–25 September in the text colour) whose length
+// comes from the digits of its share label, so a rewording keeps the bars
+// honest. In three bars the part the next changes would target — the
+// mayor's reasoning, the diffs, the workers' reports — is orange from the
+// baseline, keyed by the orange square before its row's note, which names
+// the part and its two shares. The panel's accessible name is built from
+// the same labels.
+function sources(t, id, figureId) {
+  const ROWS = ["startup", "output", "notes", "git", "mail"];
+  const PERIODS = [
+    ["first", "partFirst", "fig-bar-muted"],
+    ["second", "partSecond", "fig-bar"],
   ];
-  const life = [`<line x1="24" y1="60" x2="24" y2="242" class="fig-hair"/>`];
-  for (const row of rows) {
-    const r = t.rows[row.key];
-    life.push(dot(row.y - 4, row.glow));
-    life.push(text(40, row.y, fit(`${id}.rows.${row.key}.label`, r.label, 220, "label"), `fig-label${row.wait ? " fig-wait" : row.glow ? " fig-ok" : ""}`));
-    life.push(text(40, row.y + 13, fit(`${id}.rows.${row.key}.note`, r.note, 250), "fig-note"));
-    if (row.finding) life.push(text(40, row.y + 26, fit(`${id}.rows.${row.key}.finding`, r.finding, 250), "fig-note fig-wait"));
-  }
-  life.push(`<line x1="16" y1="266" x2="${WIDTH - 16}" y2="266" class="fig-hair"/>`);
-  life.push(footer(id, `${id}.next`, t.next, 286));
-  life.push(text(40, 299, fit(`${id}.nextNote`, t.nextNote, 250), "fig-note"));
-
-  const scale = count(`${id}.axisEnd`, t.axisEnd);
-  const startup = count(`${id}.startup`, t.startup);
-  const growth = count(`${id}.first`, t.first);
-  const end = count(`${id}.end`, t.end);
-  if (count(`${id}.second`, t.second) !== growth || !(startup + 2 * growth < end - growth && end <= scale)) {
-    throw new Error(`Figure "${id}": the start-up content, the growth per step and the end must fit the scale in that order ("${t.startup}", "${t.first}", "${t.end}", "${t.axisEnd}")`);
-  }
-  const x = (tokens) => 16 + (288 * tokens) / scale;
-  const notch = x(startup);
-  const SLIVER = 2; // the new part's least width
-  const bars = [
-    `<path d="M16 64V60H${round(notch)}V64" class="fig-hair"/>`,
-    text(16, 55, fit(`${id}.startup`, t.startup, 288), "fig-note"),
-  ];
-  // One bar per step shown: the start-up content up to the notch, the rest of
-  // the unchanged beginning, and the new part at the end.
-  const step = (y, tokens) => {
-    const tip = x(tokens);
-    const fresh = Math.min(x(tokens - growth), tip - SLIVER);
-    bars.push(`<rect x="16" y="${y}" width="${round(notch - 16.5)}" height="12" rx="2" class="fig-bar-muted"/>`);
-    if (fresh > notch + 0.5) bars.push(`<rect x="${round(notch + 0.5)}" y="${y}" width="${round(fresh - notch - 0.5)}" height="12" rx="2" class="fig-bar-muted"/>`);
-    bars.push(`<rect x="${round(fresh)}" y="${y}" width="${round(tip - fresh)}" height="12" rx="1" class="fig-cell"/>`);
-    return tip;
-  };
-  const labelAt = x(startup + 2 * growth) + 8;
-  step(68, startup + growth);
-  bars.push(text(labelAt, 78, fit(`${id}.first`, t.first, WIDTH - 16 - labelAt), "fig-note"));
-  step(86, startup + 2 * growth);
-  bars.push(text(labelAt, 96, fit(`${id}.second`, t.second, WIDTH - 16 - labelAt), "fig-note"));
-  bars.push(text(16, 116, fit(`${id}.between`, t.between, 288), "fig-note"));
-  step(142, end - growth);
-  const tip = step(160, end);
-  bars.push(text(tip, 134, fit(`${id}.end`, t.end, tip - 16), "fig-note", "end"));
-  // The scale: the track from 0 to the panel's width in tokens.
-  bars.push(`<path d="M16 180V186H${WIDTH - 16}V180" class="fig-hair"/>`);
-  bars.push(text(16, 199, fit(`${id}.axisStart`, t.axisStart, 60), "fig-note"));
-  bars.push(text(WIDTH - 16, 199, fit(`${id}.axisEnd`, t.axisEnd, 220), "fig-note", "end"));
-  const legendY = 226;
-  bars.push(`<rect x="16" y="${legendY - 9}" width="10" height="10" rx="2" class="fig-cell"/>`);
-  bars.push(text(32, legendY, fit(`${id}.legendNew`, t.legendNew, 272), "fig-note"));
-  bars.push(`<rect x="16" y="${legendY + 7}" width="10" height="10" rx="2" class="fig-bar-muted"/>`);
-  bars.push(text(32, legendY + 16, fit(`${id}.legendCached`, t.legendCached, 272), "fig-note"));
-  bars.push(`<line x1="16" y1="266" x2="${WIDTH - 16}" y2="266" class="fig-hair"/>`);
-  bars.push(footer(id, `${id}.cost`, t.cost, 286));
-  bars.push(text(40, 299, fit(`${id}.costNote`, t.costNote, 250), "fig-note"));
-
-  return {
-    caption: t.caption,
-    panels: [
-      { title: t.panels.life.title, head: t.panels.life.head, height, body: life.join("") },
-      {
-        title: t.panels.steps.title,
-        head: t.panels.steps.head,
-        headRight: { value: fit(`${id}.panels.steps.scale`, t.panels.steps.scale, 84, "head"), cls: "" },
-        height,
-        body: bars.join(""),
-      },
-    ],
-  };
-}
-
-// (18) Problem 4 as a sequence — one panel. Above: the task database and the
-// two places that name where it goes, the sync setting (to the private
-// repository, green) and the database's own remote (still the public one,
-// orange, with the timed push). Below: what happened, down a line, the
-// failed push in orange and the repointed remote with the check; beneath,
-// the article's rule for old facts.
-function sync(t, id, figureId) {
-  const pid = `${figureId}-p1`;
-  const parts = [text(16, 60, fit(`${id}.database`, t.database, 288, "label"), "fig-label")];
-  parts.push(`<path d="M24 66V108M24 84H32M24 108H32" class="fig-hair"/>`);
-  const branch = (y, key, target, cls) =>
-    [
-      text(40, y + 4, fit(`${id}.${key}`, t[key], 108), "fig-note"),
-      arrow(pid, 152, y, 168, y),
-      text(174, y + 4, fit(`${id}.${target}`, t[target], 130, "small"), `fig-label fig-small ${cls}`),
-    ].join("");
-  parts.push(branch(84, "setting", "private", "fig-ok"));
-  parts.push(branch(108, "remote", "public", "fig-wait"));
-  parts.push(text(40, 126, fit(`${id}.unchanged`, t.unchanged, 264), "fig-note"));
-  parts.push(`<line x1="16" y1="140" x2="${WIDTH - 16}" y2="140" class="fig-hair"/>`);
-  const rows = [
-    { key: "set", y: 162 },
-    { key: "failed", y: 196, wait: true },
-    { key: "recheck", y: 242 },
-    { key: "repointed", y: 288, done: true },
-  ];
-  parts.push(`<line x1="24" y1="158" x2="24" y2="284" class="fig-hair"/>`);
-  for (const row of rows) {
-    const r = t.rows[row.key];
-    parts.push(dot(row.y - 4));
-    parts.push(text(40, row.y, fit(`${id}.rows.${row.key}.label`, r.label, 220, "label"), `fig-label${row.wait ? " fig-wait" : ""}`));
-    parts.push(text(40, row.y + 13, fit(`${id}.rows.${row.key}.note`, r.note, 250), "fig-note"));
-    if (r.note2) parts.push(text(40, row.y + 25, fit(`${id}.rows.${row.key}.note2`, r.note2, 250), "fig-note"));
-    if (row.done) parts.push(check(WIDTH - 22, row.y - 4));
-  }
-  parts.push(`<line x1="16" y1="316" x2="${WIDTH - 16}" y2="316" class="fig-hair"/>`);
-  parts.push(text(16, 334, fit(`${id}.trust`, t.trust, 288), "fig-note"));
-  parts.push(text(16, 347, fit(`${id}.trustNote`, t.trustNote, 288), "fig-note"));
-  return { caption: t.caption, panels: [{ title: t.title, head: t.head, height: 360, body: parts.join("") }] };
-}
-
-// (19) The hand-off points against the window — one panel, to scale: a
-// track per period is the model's window of 1,000,000 tokens (Configuration).
-// Until 23 September Gas City took the window to be 200,000 tokens (the
-// muted part) and called hand-offs at about 160,000, 16% (problem 5); on 23
-// September a hand-off was advised at 20% and called at 25%, and since 24
-// September at 25% and 30% (Changes). The accent sliver is the start-up
-// content of a 24 September start, 46,290 tokens (the configuration
-// table); the ticks are orange for advised, the text colour for called.
-// Beneath, the trade-off the open questions name.
-function handoffs(t, id, figureId) {
-  const WINDOW = 1_000_000;
-  const STARTUP = 46_290;
-  const x = (share) => round(16 + 288 * share);
-  const track = (y) => `<rect x="16" y="${y}" width="288" height="12" rx="2" class="fig-node"/>`;
-  const tick = (share, y, cls) => `<rect x="${round(x(share) - 1)}" y="${y - 4}" width="2" height="20" class="${cls}"/>`;
-  const label = (key, y) => text(16, y, fit(`${id}.rows.${key}.label`, t.rows[key].label, 288, "label"), "fig-label");
-  const note = (key, field, y) => text(16, y, fit(`${id}.rows.${key}.${field}`, t.rows[key][field], 288), "fig-note");
-  const parts = [
-    label("before", 60),
-    track(68),
-    `<rect x="16" y="68" width="${round(x(200_000 / WINDOW) - 16)}" height="12" rx="2" class="fig-bar-muted"/>`,
-    tick(0.16, 68, "fig-tick"),
-    note("before", "window", 96),
-    note("before", "called", 109),
-    label("first", 134),
-    track(142),
-    tick(0.2, 142, "fig-gate"),
-    tick(0.25, 142, "fig-tick"),
-    note("first", "points", 170),
-    label("since", 194),
-    track(202),
-    `<rect x="16" y="202" width="${round(x(STARTUP / WINDOW) - 16)}" height="12" rx="2" class="fig-cell"/>`,
-    tick(0.25, 202, "fig-gate"),
-    tick(0.3, 202, "fig-tick"),
-    note("since", "points", 230),
-  ];
-  const legend = [
-    ["fig-gate", "legendAdvised"],
-    ["fig-tick", "legendCalled"],
-  ];
-  legend.forEach(([cls, key], i) => {
-    const y = 254 + i * 16;
-    parts.push(`<rect x="20" y="${y - 9}" width="2" height="12" class="${cls}"/>`);
-    parts.push(text(32, y, fit(`${id}.${key}`, t[key], 272), "fig-note"));
-  });
-  parts.push(`<rect x="16" y="277" width="10" height="10" rx="2" class="fig-cell"/>`);
-  parts.push(text(32, 286, fit(`${id}.legendStartup`, t.legendStartup, 272), "fig-note"));
-  parts.push(`<line x1="16" y1="300" x2="${WIDTH - 16}" y2="300" class="fig-hair"/>`);
-  parts.push(text(16, 318, fit(`${id}.later`, t.later, 288), "fig-note"));
-  parts.push(text(16, 331, fit(`${id}.laterNote`, t.laterNote, 288), "fig-note"));
-  return { caption: t.caption, panels: [{ title: t.title, head: t.head, height: 344, body: parts.join("") }] };
-}
-
-// (20) The two counts side by side (founder's go 2026-09-25, si-pvns) — wide,
-// two panels of two measures each; every measure has a bar per count, the
-// count of 22–23 September muted, the count of 24–25 September in the text
-// colour, each measure drawn to its own scale (its larger value fills the
-// track) and every length taken from the digits of its value label. Panel 1:
-// all tokens processed and the tokens per call after the first outward
-// action, marked in the accent: the same tokens overall with a third more
-// calls after the first outward action. Panel 2: the share of tokens
-// processed before the first outward action and the sessions, with why the
-// share fell. The caption names what changed at once between the counts.
-function counts(t, id, figureId) {
-  const height = 258;
-  const TRACK = { x: 80, w: 130 };
-  const measure = (key, top) => {
-    const m = t.measures[key];
-    const values = ["second", "third"].map((c) => count(`${id}.measures.${key}.${c}`, m[c]));
-    const max = Math.max(...values);
-    const parts = [
-      text(16, top, fit(`${id}.measures.${key}.label`, m.label, 288, "small"), "fig-label fig-small"),
-      text(16, top + 13, fit(`${id}.measures.${key}.note`, m.note, 288), "fig-note"),
-    ];
-    ["second", "third"].forEach((c, i) => {
-      const y = top + 22 + i * 16;
-      const width = (TRACK.w * values[i]) / max;
-      parts.push(text(16, y + 8.5, fit(`${id}.counts.${c}`, t.counts[c], TRACK.x - 20), "fig-note"));
-      parts.push(`<rect x="${TRACK.x}" y="${y}" width="${round(width)}" height="10" rx="2" class="${c === "second" ? "fig-bar-muted" : "fig-bar"}"/>`);
-      const at = TRACK.x + width + 6;
-      parts.push(text(at, y + 8.5, fit(`${id}.measures.${key}.${c}`, m[c], WIDTH - 16 - (TRACK.x + TRACK.w + 6), "small"), "fig-label fig-small fig-strong"));
+  const TRACK = { x: 80, w: 170 };
+  const TOP = 58;
+  const PITCH = 70;
+  const share = (key, field) => count(`${id}.rows.${key}.${field}`, t.rows[key][field]);
+  const most = Math.max(...ROWS.flatMap((key) => PERIODS.map(([field]) => share(key, field))));
+  const length = (value) => (TRACK.w * value) / most;
+  const parts = [];
+  const named = [];
+  ROWS.forEach((key, i) => {
+    const row = t.rows[key];
+    const y = TOP + i * PITCH;
+    const shares = (fields) => PERIODS.map(([field, part]) => `${t.periods[field]} ${row[fields === "part" ? part : field]}`).join(", ");
+    parts.push(text(16, y, fit(`${id}.rows.${key}.label`, row.label, 288, "small"), "fig-label fig-small"));
+    if (row.part === undefined) {
+      parts.push(text(16, y + 13, fit(`${id}.rows.${key}.note`, row.note, 288), "fig-note"));
+      named.push(`${row.label}: ${shares("share")}`);
+    } else {
+      const note = t.partNote.replace("{part}", row.part).replace("{first}", row.partFirst).replace("{second}", row.partSecond);
+      parts.push(`<rect x="16" y="${y + 5}" width="8" height="8" rx="1.5" class="fig-gate"/>`);
+      parts.push(text(30, y + 13, fit(`${id}.rows.${key}.part`, note, WIDTH - 46), "fig-note"));
+      named.push(`${row.label}: ${shares("share")} (${row.part}: ${shares("part")})`);
+    }
+    PERIODS.forEach(([field, part, cls], n) => {
+      const top = y + 22 + n * 16;
+      const value = share(key, field);
+      parts.push(text(16, top + 8.5, fit(`${id}.periods.${field}`, t.periods[field], TRACK.x - 20), "fig-note"));
+      parts.push(bar(TRACK.x, top, length(value), 10, cls));
+      if (row.part !== undefined) {
+        const of = share(key, part);
+        if (of >= value) throw new Error(`Figure "${id}": the part "${row[part]}" must be less than its row's share "${row[field]}" (${key}, ${field})`);
+        parts.push(bar(TRACK.x, top, length(of), 10, "fig-gate"));
+      }
+      parts.push(text(TRACK.x + length(value) + 6, top + 8.5, fit(`${id}.rows.${key}.${field}`, row[field], WIDTH - 16 - (TRACK.x + TRACK.w + 6), "small"), "fig-label fig-small fig-strong"));
     });
-    return parts.join("");
-  };
-  const lines = (key, rows, cls) =>
-    rows.map((row, i) => text(40, 218 + i * 13, fit(`${id}.${key}.${row}`, t[key][row], 264), cls)).join("");
-  const tokens = [
-    measure("all", 58),
-    `<line x1="16" y1="118" x2="${WIDTH - 16}" y2="118" class="fig-hair"/>`,
-    measure("perCall", 138),
-    `<line x1="16" y1="198" x2="${WIDTH - 16}" y2="198" class="fig-hair"/>`,
-    dot(214, true),
-    lines("same", ["a", "b", "c"], "fig-note fig-ok"),
-  ];
-  const reorientation = [
-    measure("share", 58),
-    `<line x1="16" y1="118" x2="${WIDTH - 16}" y2="118" class="fig-hair"/>`,
-    measure("sessions", 138),
-    `<line x1="16" y1="198" x2="${WIDTH - 16}" y2="198" class="fig-hair"/>`,
-    dot(214),
-    lines("fewer", ["a", "b"], "fig-note"),
-  ];
+    if (i < ROWS.length - 1) parts.push(`<line x1="16" y1="${y + 54}" x2="${WIDTH - 16}" y2="${y + 54}" class="fig-hair"/>`);
+  });
+  const height = TOP + (ROWS.length - 1) * PITCH + 22 + 16 + 10 + 14;
   return {
     caption: t.caption,
-    panels: [
-      { title: t.panels.tokens.title, head: t.panels.tokens.head, height, body: tokens.join("") },
-      { title: t.panels.reorientation.title, head: t.panels.reorientation.head, height, body: reorientation.join("") },
-    ],
+    panels: [{ title: `${t.title}: ${named.join("; ")}`, head: t.head, height, body: parts.join("") }],
   };
 }
 
@@ -1190,7 +990,7 @@ const GAIMER_MERGES = [
 /** The parts of the Gaimer article that tell what its pull requests changed, in its order, and "other". */
 const GAIMER_AREAS = ["saving", "errors", "claude", "security", "cleanup", "tests", "prompt", "fix", "change", "other"];
 
-// (21) The work at a glance — wide, one panel on one time scale from 17:00
+// (18) The work at a glance — wide, one panel on one time scale from 17:00
 // UTC on 24 September to 16:00 on 25 September: a row per part of the
 // article, each pull request a mark at its merge time, each row's count at
 // its end and midnight marked in every row; a mark is line art, so it takes
@@ -1249,7 +1049,7 @@ function merges(t, id, figureId) {
   };
 }
 
-// (22) The Claude call for a game, before and after the cleanup — one panel
+// (19) The Claude call for a game, before and after the cleanup — one panel
 // in two columns, set against each other as the critic figure sets a run
 // against what you want: before (orange), Gaimer's prompt pasted into a
 // whole Claude Code session with Claude Code's own system prompt and
@@ -1293,7 +1093,7 @@ function connection(t, id, figureId) {
   return { caption: t.caption, panels: [{ title: t.title, head: t.head, height: y - 11, body: parts.join("") }] };
 }
 
-// (23) A game's life in the app — wide, two panels, each down a line of
+// (20) A game's life in the app — wide, two panels, each down a line of
 // steps. A new game: a description, one call with Gaimer's system prompt,
 // the answer read as a game and saved, the game running in the sandboxed
 // page; a game that fails as it starts (an error before it is ready, or in
@@ -1385,7 +1185,7 @@ function lifecycle(t, id, figureId) {
   };
 }
 
-// (24) What the new system prompt cost, as the run of the four games
+// (21) What the new system prompt cost, as the run of the four games
 // recorded it (the article's numbers, and #51's table) — wide, two panels.
 // The calls: each call's time as a bar on one scale, the prompt from before
 // muted and the one from after in the accent, with its output tokens and
@@ -1465,7 +1265,7 @@ function price(t, id, figureId) {
   };
 }
 
-export const FIGURES = { stages, gates, loop, assessment, team, harness, ledger, timeline, setup, build, words, bilingual, gauntlet, agents, critic, fleet, session, sync, handoffs, counts, merges, connection, lifecycle, price };
+export const FIGURES = { stages, gates, loop, assessment, team, harness, ledger, timeline, setup, build, words, bilingual, gauntlet, agents, critic, fleet, sources, merges, connection, lifecycle, price };
 
 /**
  * Render one figure as HTML: `<figure class="figure figure-inline|figure-wide">`
