@@ -1,6 +1,6 @@
 ---
 title: "Storstädning i Gaimer: Tetris och Pong före och efter"
-description: Den 24 och 25 september 2026 slog fabriken ihop 41 pull requests i Gaimer, skrivbordsappen som gör ett litet spel utifrån en beskrivning. Här är vad de ändrade. Du kan också spela Tetris och Pong, gjorda med appens systemprompt före och efter städningen, direkt på sidan.
+description: Den 24 och 25 september 2026 slog fabriken ihop 45 pull requests i Gaimer, skrivbordsappen som gör ett litet spel utifrån en beskrivning. Här är vad de ändrade. Du kan också spela Tetris och Pong, gjorda med appens systemprompt före och efter städningen, direkt på sidan.
 date: 2026-09-25
 category: app-development        # app-development | ai-journey
 translationKey: cleaning-up-gaimer
@@ -19,8 +19,8 @@ macOS, Windows, Linux och iOS.
 
 Fabriken, alltså den [agentdrivna
 mjukvarufabriken](/sv/blog/why-we-run-an-agent-run-factory/) bakom den här
-sajten, slog ihop 41 pull requests i Gaimer den 24 och 25 september 2026.
-Det blev 68 commits sammanlagt och varje pull request förklarar varför den
+sajten, slog ihop 45 pull requests i Gaimer den 24 och 25 september 2026.
+Det blev 72 commits sammanlagt och varje pull request förklarar varför den
 gjordes och vad som kontrollerades. Längre ner visar Tetris och Pong vad den
 nya systemprompten gör: båda spelen gjordes en gång med varje prompt och
 alla fyra går att spela här.
@@ -52,12 +52,11 @@ kodens slut. Kod som har klippts av mitt i ett uttryck ger nu ett syntaxfel.
 
 ### Kopplingen till Claude
 
-Gaimer når Claude via användarens eget Claude Code på kommandoraden. Förut
-kördes en hel Claude Code-session för varje spel. Nu blir det ett enkelt
-anrop, utan användarens egna inställningar. Ett anrop som drar över appens
-tidsgräns stoppas nu i stället för att fortsätta och belasta användarens
-abonnemang. Misslyckas ett anrop visar appen varför i stället för "Exit code
-1".
+Förut kördes en hel Claude Code-session för varje spel. Nu blir det ett
+enkelt anrop där det mesta av användarens egen konfiguration hålls utanför.
+Ett anrop som drar över appens tidsgräns stoppas nu i stället för att
+fortsätta och belasta användarens abonnemang. Misslyckas ett anrop visar
+appen varför i stället för "Exit code 1".
 
 {% figure "connection" %}
 
@@ -86,7 +85,7 @@ Tester som inte kunde misslyckas byttes ut och nya tester skrevs där en
 regression skulle märkas av användaren. Testtäckningen får nu inte sjunka
 under de nivåer som hade nåtts, avrundade nedåt: 94 % av satserna, 89 % av
 grenarna, 90 % av funktionerna och 96 % av raderna. Antalet enhetstester
-ökade från 101 till 358. CI gick över från Node 20, som saknar stöd sedan
+ökade från 101 till 399. CI gick över från Node 20, som saknar stöd sedan
 den 30 april, till Node 24 och aktuella versioner av sina actions. Den har
 nu en token som bara kan läsa. Dessutom kontrollerar den formatering och
 lints i Rust-koden och bygger appen för Linux, macOS, Windows och iOS på
@@ -113,11 +112,11 @@ anropades och utan att något spel gjordes med den.
 ### Automatisk rättning
 
 Om ett nytt spel får ett fel redan när det startar skickas det nu tillbaka
-en gång till leverantören som skrev det, tillsammans med koden och felet.
-Det rättade spelet ersätter sedan det trasiga. Det gäller fel som uppstår
-innan spelet är redo eller inom fem sekunder därefter. Eftersom den nya
-prompten ber om en startskärm i varje spel räknas också de fem sekunderna
-efter spelarens första tryck, klick eller tangenttryckning.
+en gång till leverantören som skrev det. Det rättade spelet ersätter sedan
+det trasiga. Det gäller fel som uppstår innan spelet är redo eller inom fem
+sekunder därefter. Eftersom den nya prompten ber om en startskärm i varje
+spel räknas också de fem sekunderna efter spelarens första tryck, klick
+eller tangenttryckning.
 
 ### Ändra det öppna spelet
 
@@ -130,15 +129,13 @@ använder som det är.
 
 ## Så gjordes spelen
 
-Varje spel gjordes precis som Gaimer gör ett spel med Claude efter
-städningen: samma kommandorad, körd på samma sätt, med ordet "Tetris" eller
-"Pong" som enda beskrivning och med den modell som Gaimer använder för
-Claude när ingen är vald. Bara systemprompten skiljer sig: den gamla,
-oförändrad sedan den 1 april, eller den som städningen skrev. Svaren
-tolkades med appens egen kod. Varje spel körs på en spelsida byggd som den i
-motsvarande version av appen, men utan sådant som bara appen har, till
-exempel sparfilerna. Det är ett spel per prompt och beskrivning, ingen
-systematisk jämförelse.
+Varje spel gjordes precis som Gaimer gjorde spel med Claude vid den tiden:
+samma kommandorad, körd på samma sätt, med ordet "Tetris" eller "Pong" som
+enda beskrivning och med den modell som Gaimer använder för Claude när ingen
+är vald. Bara systemprompten skiljer sig: den gamla, oförändrad sedan den 1
+april, eller den som städningen skrev. Svaren tolkades med appens egen kod.
+Varje spel körs på en spelsida byggd som den i motsvarande version av appen,
+men utan sådant som bara appen har, till exempel sparfilerna.
 
 {% figure "price", "wide" %}
 
@@ -146,10 +143,10 @@ Det första anropet för Tetris med den nya prompten drog över appens
 dåvarande gräns på 300 sekunder och stoppades där, precis som appen skulle
 ha gjort. I Gaimer betydde det felet "Command timed out" och inget spel.
 Tetrisspelet här kommer från ett andra anrop som gjordes på samma sätt men
-utan gräns och tog 476 sekunder. Fabriken har sedan dess höjt gränsen till
-[15 minuter](https://github.com/addable-labs/gaimer/pull/51). Alla fyra
-spelen startade utan fel, så inget av de två nya behövde skickas tillbaka
-för rättning.
+utan gräns. Fabriken har sedan dess höjt gränsen till [15
+minuter](https://github.com/addable-labs/gaimer/pull/51). Alla fyra spelen
+startade utan fel, så inget av de två nya behövde skickas tillbaka för
+rättning.
 
 Knappen Spela startar spelet i stället för bilden av startskärmen. Sedan går
 tangenterna till spelet och inte till sidan. Ett spel i taget kan vara
@@ -178,7 +175,20 @@ att styra genom att dra med ett finger eller med musen och visar två
 pilknappar när någon har rört vid skärmen. Är skärmen högre än den är bred
 hamnar racketarna nertill och upptill.
 
-De två nya spelen är längre och deras anrop gav ungefär två till två och en
-halv gånger så många utdata-tokens. Spelparen visar att promptens nya
-avsnitt får genomslag i spelen: startskärm, rekord, ljud och styrning med
-både mus och finger finns i båda de nya spelen och i inget av de gamla.
+Spelparen visar att promptens nya avsnitt får genomslag i spelen. De två nya
+spelen är längre och deras anrop gav ungefär två till två och en halv gånger
+så många utdata-tokens.
+
+Anropen tog också längre tid. När fabriken senare tog tid på appens eget
+anrop med Claude Codes förvalda effort-nivå, tog ett Pongspel 194 sekunder
+och ett Tetrisspel 488. Det mesta av varje svar var tänkande: 63 respektive
+79 % av utdata-tokens. På den lägsta nivån tog ett Pongspel 53 sekunder och
+två Tetrisspel 70 respektive 60, nästan helt utan tänkande. Ändå hade alla
+tre startskärm, rekord, ljud, pekstyrning, sparande och återställning av
+läget samt hastigheter som räknas per sekund. Det ena Tetrisspelet gick
+däremot inte att spela med mus. Det var ett spel per mätning, ingen
+systematisk jämförelse. Med
+[PR #53](https://github.com/addable-labs/gaimer/pull/53) började Gaimer be
+om varje spel på den lägsta nivån. Nu kan användaren välja nivå i
+inställningarna. Med standardmodellen heter valen "Low · about a minute",
+"Medium · 1–5 minutes" och "High · 3–8 minutes".

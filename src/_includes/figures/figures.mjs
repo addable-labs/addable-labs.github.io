@@ -935,14 +935,19 @@ function sources(t, id, figureId) {
 // GitHub gives them, and what the run of the four games recorded is told in
 // the past tense.
 
-// The 41 pull requests the factory merged into Gaimer (gh pr list --repo
-// addable-labs/gaimer --state merged: #11–#46 and #48–#52), each with its
-// merge time and the part of the article that tells what it changed. #32,
-// which let the game page's style and Tauri's IPC through the window's
-// Content Security Policy, is under security, the part about that policy;
-// "other" holds the six the article does not tell: the choice of a model
-// (#14, #25, #38, #41), a game kept running when the window changes size
-// (#26) and the focus after sending (#48).
+// The 45 pull requests the factory merged into Gaimer on 24 and 25
+// September, Swedish time (gh pr list --repo addable-labs/gaimer --state
+// merged: #11–#46 and #48–#56), each with its merge time and the part of the
+// article that tells what it changed. #32, which let the game page's style
+// and Tauri's IPC through the window's Content Security Policy, is under
+// security, the part about that policy; #53 (every call for a game at effort
+// low) and #55 (the effort level chosen in Settings) change the Claude call,
+// so they are under the Claude connection, though the part on how the games
+// were made tells them; "other" holds the eight the article does not tell:
+// the choice of a model (#14, #25, #38, #41), a game kept running when the
+// window changes size (#26), the focus after sending (#48), a game's
+// keyboard focus when it is ready (#54) and a game's controls and rules in a
+// dialog clear of an iPhone's status bar (#56).
 const GAIMER_MERGES = [
   [11, "2026-09-24T17:56:58Z", "saving"],
   [12, "2026-09-24T18:13:29Z", "cleanup"],
@@ -985,27 +990,36 @@ const GAIMER_MERGES = [
   [50, "2026-09-25T14:08:16Z", "change"],
   [51, "2026-09-25T14:32:39Z", "claude"],
   [52, "2026-09-25T15:12:27Z", "change"],
+  [53, "2026-09-25T16:52:17Z", "claude"],
+  [54, "2026-09-25T17:26:26Z", "other"],
+  [55, "2026-09-25T18:00:03Z", "claude"],
+  [56, "2026-09-25T18:48:58Z", "other"],
 ];
 
 /** The parts of the Gaimer article that tell what its pull requests changed, in its order, and "other". */
 const GAIMER_AREAS = ["saving", "errors", "claude", "security", "cleanup", "tests", "prompt", "fix", "change", "other"];
 
-// (18) The work at a glance — wide, one panel on one time scale from 17:00
-// UTC on 24 September to 16:00 on 25 September: a row per part of the
+// (18) The work at a glance — wide, one panel on one time scale from 16:00
+// UTC on 24 September to 19:00 on 25 September: a row per part of the
 // article, each pull request a mark at its merge time, each row's count at
 // its end and midnight marked in every row; a mark is line art, so it takes
 // the accent's text colour, which holds its contrast in both themes. The
-// counts, the total in the head and the list in the panel's accessible name
-// all come from the list above, so a pull request moved to another part
-// moves everywhere at once; the six the article does not tell are the muted
-// row.
+// scale starts an hour before the first merge's hour so that the first
+// day's name fits before midnight, and a merge outside it fails the build.
+// The counts, the total in the head and the list in the panel's accessible
+// name all come from the list above, so a pull request moved to another
+// part moves everywhere at once; the eight the article does not tell are
+// the muted row.
 function merges(t, id, figureId) {
   const unknown = GAIMER_MERGES.find(([, , area]) => !GAIMER_AREAS.includes(area));
   if (unknown) throw new Error(`Figure "${id}": pull request #${unknown[0]} is in no part of the article ("${unknown[2]}")`);
   const total = count(`${id}.head`, t.head);
   if (total !== GAIMER_MERGES.length) throw new Error(`Figure label "${id}.head" counts ${total} pull requests, the list ${GAIMER_MERGES.length} ("${t.head}")`);
-  const START = Date.parse("2026-09-24T17:00:00Z");
-  const x = (at) => 16 + (288 * (Date.parse(at) - START)) / (23 * 3_600_000);
+  const START = Date.parse("2026-09-24T16:00:00Z");
+  const END = Date.parse("2026-09-25T19:00:00Z");
+  const outside = GAIMER_MERGES.find(([, at]) => !(Date.parse(at) >= START && Date.parse(at) <= END));
+  if (outside) throw new Error(`Figure "${id}": pull request #${outside[0]} was merged at ${outside[1]}, outside the time scale`);
+  const x = (at) => 16 + (288 * (Date.parse(at) - START)) / (END - START);
   const midnight = x("2026-09-25T00:00:00Z");
   const TOP = 60;
   const PITCH = 30;
@@ -1055,10 +1069,13 @@ function merges(t, id, figureId) {
 // whole Claude Code session with Claude Code's own system prompt and
 // built-in tools, the user's own setup taking part and a transcript saved
 // (the provider at 7cef601; #18, #19); after (green), one plain completion
-// (src/providers/anthropic-provider.js on main). The last two rows are how
-// the app runs the call: the login shells when the user picks Claude (#35)
-// and the time limit (#22, #37, #51). A row's label spans the panel and its
-// two values sit under it, with a second line where a row needs one.
+// (src/providers/anthropic-provider.js on main), which keeps the user's
+// CLAUDE.md files, hooks, plugins, skills and MCP servers out but still reads
+// their settings.json, so the caption names those five, not all of the
+// user's setup. The last two rows are how the app runs the call: the login
+// shells when the user picks Claude (#35) and the time limit (#22, #37,
+// #51). A row's label spans the panel and its two values sit under it, with
+// a second line where a row needs one.
 function connection(t, id, figureId) {
   const COLUMNS = [
     ["before", 16, 144, "fig-wait"],
@@ -1105,8 +1122,9 @@ function connection(t, id, figureId) {
 // the answer is change blocks, made to the code, or the whole game,
 // changed, taken as it is, and blocks that cannot be used get the whole
 // game asked for once (App.vue requestChange, src/helpers/change-blocks.js);
-// the new version runs and can go back once too; Undo change goes back one
-// version and New game closes the game. A question is the orange diamond
+// the new version runs and, if it fails as it starts, gets one fix too
+// (App.vue fixGame); Undo change goes back one version and New game closes
+// the game. A question is the orange diamond
 // of a flowchart's decision.
 function lifecycle(t, id, figureId) {
   const height = 352;
