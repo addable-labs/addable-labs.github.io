@@ -72,8 +72,8 @@ by the calls after each session's first outward action. A script sorted the
 tool output into categories, accurate to a few percentage points.
 
 Limits: one factory; most effects rest on one measurement, the third count on
-ten sessions whose work, partly for a second project, differed from the
-second's.
+ten sessions whose work, partly for a second project,
+[Gaimer](https://github.com/addable-labs/gaimer), differed from the second's.
 
 ## Findings
 
@@ -226,5 +226,6 @@ On 22 September the mayor's memory was an append-only log of 769 lines and
 - The hand-off point: later hand-offs mean fewer re-orientations but a longer
   context on every step and older facts in the window; a point later than
   30% is untested.
-- A project-manager role, now that the mayor also coordinates a second
-  project, to be decided on measured data.
+- A project-manager role, to be decided on measured data, now that the mayor
+  also coordinates Gaimer: cleaning up its code to make it robust and up to
+  date, and adding new features for its users.

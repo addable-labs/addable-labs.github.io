@@ -79,7 +79,8 @@ procentenheters felmarginal.
 
 Begränsningar: en enda fabrik; de flesta effekter bygger på en enda mätning,
 den tredje räkningen på tio sessioner vars arbete, delvis för ett andra
-projekt, skilde sig från den andras.
+projekt, [Gaimer](https://github.com/addable-labs/gaimer), skilde sig från den
+andras.
 
 ## Resultat
 
@@ -241,5 +242,6 @@ rader och 138 kB.
 - Överlämningspunkten: senare överlämningar ger färre omorienteringar men en
   längre kontext i varje steg och äldre fakta i fönstret; en punkt senare än
   30 % är oprövad.
-- En projektledarroll, nu när borgmästaren också samordnar ett andra projekt,
-  att besluta om utifrån uppmätta data.
+- En projektledarroll, att besluta om utifrån uppmätta data, nu när
+  borgmästaren också samordnar Gaimer: att städa upp dess kod så att den blir
+  robust och aktuell samt att lägga till nya funktioner för användarna.
