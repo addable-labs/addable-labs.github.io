@@ -1,6 +1,6 @@
 ---
 title: En studie av borgmästarens kontext
-description: Hur kontexten hos borgmästaren, agenten som samordnar fabriken bakom den här sajten, konfigurerades och användes 20–24 september 2026, vilka problem underlagen från sessionerna visar, vad som ändrades och vad som fortfarande är öppet.
+description: Hur kontexten hos borgmästaren, agenten som samordnar fabriken bakom den här sajten, konfigurerades och användes 20–25 september 2026, vilka problem underlagen från sessionerna visar, vad som ändrades och vad som fortfarande är öppet.
 date: 2026-09-24
 category: ai-journey             # app-development | ai-journey
 translationKey: what-the-mayors-context-costs
@@ -13,17 +13,17 @@ humanReviewed: false             # true när en person har läst den
 
 Den här studien undersöker kontexten hos borgmästaren, agenten som samordnar
 [fabriken](/sv/blog/why-we-run-an-agent-run-factory/) bakom den här sajten,
-utifrån underlagen från dess sessioner 20–24 september 2026. Mellan den 20 och
+utifrån underlagen från dess sessioner 20–25 september 2026. Mellan den 20 och
 22 september kom ungefär hälften av en sessions tillväxt före dess första
 utåtriktade handling, medan den orienterade sig på nytt efter en överlämning.
 Anteckningarna mellan sessionerna, överlämningspunkterna, promptkrokarna och
-startinnehållet har ändrats sedan dess. Under de första åtta timmarna med den
-senare överlämningspunkten sjönk andelen av alla bearbetade tokens före en
-sessions första utåtriktade handling från 45 % till 7 %, medan kontexten per
-anrop växte med hälften; räknat per anrop efter den första utåtriktade
-handlingen sjönk alla bearbetade tokens med en tiondel. De första nya
-anteckningarna gjorde omorienteringen dyrare i utbyte mot en korrekt start;
-sedan de kortades har den blivit billigare i de två sessioner som har mätts.
+startinnehållet har ändrats sedan dess. Under den första hela dagen med den
+senare överlämningspunkten och de kortade anteckningarna sjönk andelen av alla
+bearbetade tokens före en sessions första utåtriktade handling från 45 % till
+3 %, medan kontexten per anrop växte med 43 %; räknat per anrop efter den
+första utåtriktade handlingen sjönk alla bearbetade tokens med en fjärdedel. De
+första nya anteckningarna gjorde omorienteringen dyrare i utbyte mot en korrekt
+start; sedan de kortades är den billigare.
 
 ## Konfiguration
 
@@ -68,17 +68,18 @@ uppgifter om tokenanvändning, dess startloggar, dess direktmeddelanden med
 grundaren på Discord och dess minnesfiler. Borgmästarens rapport från den 22
 september täcker tiden från den 20 september klockan 12:33 UTC till kvällen
 den 22 september; en andra räkning täcker tiden från den 22 september klockan
-21:09 UTC till den 23 september klockan 18:54 UTC; en tredje den 24 september
-klockan 04:07–12:00 UTC, de första åtta timmarna med överlämningar vid 30 %.
+21:09 UTC till den 23 september klockan 18:54 UTC; en tredje från den 24
+september klockan 07:56 UTC till den 25 september klockan 06:00 UTC, den första
+hela dagen vid 30 % med de kortade anteckningarna.
 Tokens räknades per anrop till modellen, varje sessions första anrop
 inräknat. Tokens per anrop efter den första utåtriktade handlingen delar alla
 bearbetade tokens med anropen efter varje sessions första utåtriktade
 handling. Ett skript sorterade verktygens utdata i kategorier, med några
 procentenheters felmarginal.
 
-Begränsningar: ett enda projekt; de flesta effekter bygger på en enda
-mätning, den tredje räkningen på fem sessioner vars arbete skilde sig från den
-andras.
+Begränsningar: en enda fabrik; de flesta effekter bygger på en enda mätning,
+den tredje räkningen på tio sessioner vars arbete, delvis för ett andra
+projekt, skilde sig från den andras.
 
 ## Resultat
 
@@ -94,21 +95,21 @@ andras.
 | Mediansessionens tillväxt (tokens) | 87 000 |
 | Varav före dess första utåtriktade handling (ett svar, ett utskickat uppdrag, en skriven bead, en commit) | 49 500 |
 
-| Mått | Räkningen för 22–23 september | Räkningen för 24 september |
+| Mått | Räkningen för 22–23 september | Räkningen för 24–25 september |
 | --- | ---: | ---: |
-| Timmar | 22 | 8 |
-| Sessioner | 51 | 5 |
-| Minuter per session | 26 | 95 |
-| Anrop till modellen | 2 315 | 626 |
-| Anrop per session | 45 | 125 |
-| Genomsnittlig kontext per anrop (tokens) | 124 000 | 194 000 |
-| Start, median (tokens) | 64 000 | 46 000 |
-| Slut, median (tokens) | 154 000 | 306 000 |
-| Tillväxt per anrop, median (tokens) | 2 200 | 2 500 |
-| Lästa från cachen (tokens) | 281 miljoner | 120 miljoner |
+| Timmar | 22 | 22 |
+| Sessioner | 51 | 10 |
+| Minuter per session | 26 | 132 |
+| Anrop till modellen | 2 315 | 1 645 |
+| Anrop per session | 45 | 164 |
+| Genomsnittlig kontext per anrop (tokens) | 124 000 | 178 000 |
+| Start, median (tokens) | 64 000 | 42 000 |
+| Slut, median (tokens) | 154 000 | 289 000 |
+| Tillväxt per anrop, median (tokens) | 2 200 | 1 500 |
+| Lästa från cachen (tokens) | 281 miljoner | 289 miljoner |
 | Av alla kontexttokens | ~98 % | ~99 % |
-| Andel av bearbetade tokens före den första utåtriktade handlingen | 45 % | 7 % |
-| Tokens per anrop efter den första utåtriktade handlingen | 257 000 | 231 000 |
+| Andel av bearbetade tokens före den första utåtriktade handlingen | 45 % | 3 % |
+| Tokens per anrop efter den första utåtriktade handlingen | 257 000 | 192 000 |
 
 ### Sessionernas aktivitet
 
@@ -190,10 +191,11 @@ rader och 138 kB.
   tidigare sessionerna hade hoppat över det mesta av loggen och det var så
   gamla fakta överlevde (problem 4): en korrekt start till ett högre pris, inte
   den besparing som var avsikten. Den 24 september kortades båda med två
-  femtedelar och fick ett tak för sin storlek. De två första sessionerna därefter
-  läste 26 000 och 28 000 tecken ur anteckningarna före sin första utåtriktade
-  handling och nådde den efter 34 000 och 38 000 tokens; de tre sessionerna
-  före dem samma dag läste 42 000–47 000 tecken och behövde 63 000–105 000.
+  femtedelar och fick ett tak för sin storlek. Under de 22 timmarna därefter
+  var medianerna 28 000 tecken lästa ur anteckningarna före den första
+  utåtriktade handlingen och 31 000 tokens fram till den; de tre sessionerna
+  före kortningen samma dag läste 42 000–47 000 tecken och behövde
+  63 000–105 000.
 - **23 september: snabba frågor och krokar.** Ett meddelande från grundaren
   som börjar med "?" besvaras direkt utifrån det borgmästaren redan vet, utan
   något annat verktygsanrop än själva svaret. Krokarnas tidsgräns gick från 15
@@ -202,13 +204,14 @@ rader och 138 kB.
 - **23–24 september: fönster och överlämningspunkter.** Fönstret sattes till
   1 000 000 tokens den 23 september, med råd om överlämning vid 20 % och
   uppmaning vid 25 %; sedan den 24 september vid 25 % och 30 % (250 000 och
-  300 000 tokens). Den tredje räkningen täcker de första åtta timmarna vid
-  30 %: sessionerna gjorde nästan tre gånger så många anrop och andelen tokens
-  som bearbetades före den första utåtriktade handlingen sjönk från 45 % till
-  7 %, men den genomsnittliga kontexten per anrop steg med hälften, vilket åt
-  upp det mesta av vinsten: per anrop efter den första utåtriktade handlingen
-  en tiondel färre tokens. De tre sessionerna innan anteckningarna kortades
-  sparade ingenting (257 000); de två efter sparade en femtedel (209 000).
+  300 000 tokens). Den tredje räkningen täcker den första hela dagen vid 30 %
+  med de kortade anteckningarna: andelen tokens som bearbetades före den första
+  utåtriktade handlingen sjönk från 45 % till 3 % och den genomsnittliga
+  kontexten per anrop steg med 43 %. Alla bearbetade tokens låg kvar på samma
+  nivå (293 miljoner mot 290 miljoner) medan anropen efter en första
+  utåtriktad handling ökade med en tredjedel: en fjärdedel färre tokens per
+  sådant anrop. De tre sessionerna vid 30 % innan anteckningarna kortades hade
+  inte sparat något (257 000).
 - **24 september: fyra tillägg avstängda** för fabrikens sessioner:
   hostingplattformens, ett tillägg för frontenddesign med en färdighet och två
   tillägg med språkservrar utan rader för färdigheter. Mätt en gång: nästa
@@ -216,9 +219,11 @@ rader och 138 kB.
   listorna med färdigheter och agenter hade ändrats, ungefär 12 000 tecken
   kortare, så hostingtillägget kostade ungefär 4 700 tokens per start: en
   tiondel, inte den femtedel som hade uppskattats utifrån tilläggets filer på
-  disken. Alla fem sessionerna i den tredje räkningen startade mellan 42 000
-  och 55 000 tokens; de tre starterna före ändringen hade skilt sig med
-  14 000.
+  disken. Starterna i den tredje räkningen skilde sig med 9 000 tokens,
+  eftersom en längre beskrivning av ett av Claude Codes verktyg växlade mellan
+  sessionerna utan någon ändring i fabriken; de tre sessionerna med den
+  kostade 213 000 tokens per anrop efter den första utåtriktade handlingen, de
+  övriga sju 185 000.
 - **24 september: kontots kopplingar avstängda** för fabrikens sessioner: tio,
   ingen av dem använd. Efter att tillägget stängts av hade hostingplattformens
   verktyg ändå nått varje session, genom kontots egen koppling till samma
@@ -231,11 +236,10 @@ rader och 138 kB.
 
 ## Öppna frågor och idéer
 
-- Den tredje räkningen över en hel dag med normalt arbete, med fler sessioner.
+- Om den tredje räkningens resultat håller över fler dagar och annat arbete.
 - En lägre inställning för resonemang vid snabba svar; inte beslutat.
 - Överlämningspunkten: senare överlämningar ger färre omorienteringar men en
-  längre kontext i varje steg och äldre fakta i fönstret. Under de första åtta
-  timmarna sparade den senare punkten en tiondel, allt efter att anteckningarna
-  kortades; en hel dag avgör.
-- En projektledarroll, att besluta om utifrån uppmätta data; ett andra
-  projekt, inte tills vidare.
+  längre kontext i varje steg och äldre fakta i fönstret; en punkt senare än
+  30 % är oprövad.
+- En projektledarroll, nu när borgmästaren också samordnar ett andra projekt,
+  att besluta om utifrån uppmätta data.
