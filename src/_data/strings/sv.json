@@ -767,8 +767,9 @@
           "head": "en session · start till överlämning"
         },
         "steps": {
-          "title": "Varje steg skickar hela kontexten: dess oförändrade början läses från cachen och bara det som är nytt sedan förra steget bearbetas",
-          "head": "varje steg · hela kontexten"
+          "title": "Varje steg skickar hela kontexten, skalenligt från det första steget till slutet: den första stapeln är startinnehållet på 46 290 tokens och 1 500 nya tokens, varje stapel därefter 1 500 längre, den sista vid slutet i median på 289 000 tokens; bara det som är nytt sedan förra steget bearbetas och resten läses från cachen",
+          "head": "varje steg · hela kontexten",
+          "scale": "skalenligt"
         }
       },
       "rows": {
@@ -800,12 +801,18 @@
       },
       "next": "en ny session fortsätter därifrån",
       "nextNote": "och orienterar sig på nytt",
-      "startup": "startinnehåll",
+      "startup": "startinnehåll: 46 290",
+      "first": "första steget: 1 500 nya",
+      "second": "andra steget: 1 500 nya",
+      "between": "… varje steg däremellan",
+      "end": "slut, median: 289 000",
+      "axisStart": "0",
+      "axisEnd": "300 000 tokens",
       "legendNew": "nytt sedan förra steget: bearbetas",
       "legendCached": "oförändrat: läses från cachen, billigare",
       "cost": "en lång kontext kostar ändå i svarstid,",
       "costNote": "svarskvalitet och förbrukning",
-      "caption": "En session och nästa, inte skalenligt. En session börjar med startinnehållet i sin kontext och orienterar sig på nytt fram till sin första utåtriktade handling; mellan den 20 och 22 september kom ungefär hälften av en sessions tillväxt före den handlingen. Den arbetar tills Gas City ger råd om överlämning och sedan uppmanar till den, skriver ner läget i sitt arbete och en ny session fortsätter därifrån. Varje steg skickar hela kontexten; dess oförändrade början läses från cachen."
+      "caption": "En session och nästa. En session, inte skalenligt: den börjar med startinnehållet i sin kontext och orienterar sig på nytt fram till sin första utåtriktade handling; mellan den 20 och 22 september kom ungefär hälften av en sessions tillväxt före den handlingen. Den arbetar tills Gas City ger råd om överlämning och sedan uppmanar till den, skriver ner läget i sitt arbete och en ny session fortsätter därifrån. Varje steg, skalenligt, från det första steget till slutet: vart och ett skickar hela kontexten, där bara det som är nytt sedan förra steget bearbetas och resten läses från cachen. Hela bredden är 300 000 tokens, punkten där Gas City har uppmanat till överlämning sedan den 24 september; startinnehållet på 46 290 tokens är det vid en start den 24 september (Konfiguration); slutet i median på 289 000 tokens och tillväxten per anrop i median på 1 500 tokens kommer från räkningen för 24–25 september. Den nya delen är ritad något bredare än skalenligt så att den syns."
     },
     "sync": {
       "title": "Problem 4: synkinställningen pekade på det nya privata kodförrådet medan databasens egen fjärradress fortfarande pekade på det publika kodförrådet, som ett schemalagt jobb pushar till var 15:e minut; den pushen misslyckades klockan 16:58 UTC och den 34:e sessionen kontrollerade läget och pekade om fjärradressen klockan 17:13 UTC",
@@ -863,7 +870,59 @@
       "legendStartup": "startinnehållet vid en start 24 september",
       "later": "senare överlämningar: färre omorienteringar",
       "laterNote": "men en längre kontext i varje steg",
-      "caption": "Överlämningspunkterna mot modellens fönster på 1 000 000 tokens, skalenligt. Fram till den 23 september uppfattade Gas City fönstret som 200 000 tokens och bad om överlämningar vid ungefär 160 000, 16 % av det verkliga fönstret; den 23 september gavs råd om överlämning vid 20 % och uppmaning vid 25 % och sedan den 24 september vid 25 % och 30 %. Den smala biten längst till vänster är startinnehållet vid en start den 24 september. Vilken överlämningspunkt som är billigast avgörs utifrån mätningar."
+      "caption": "Överlämningspunkterna mot modellens fönster på 1 000 000 tokens, skalenligt. Fram till den 23 september uppfattade Gas City fönstret som 200 000 tokens och bad om överlämningar vid ungefär 160 000, 16 % av det verkliga fönstret; den 23 september gavs råd om överlämning vid 20 % och uppmaning vid 25 % och sedan den 24 september vid 25 % och 30 %. Den smala biten längst till vänster är startinnehållet vid en start den 24 september. En hel dag vid 30 % har mätts (Ändringar); om resultatet håller är en öppen fråga."
+    },
+    "counts": {
+      "panels": {
+        "tokens": {
+          "title": "Alla bearbetade tokens (290 miljoner den 22–23 september och 293 miljoner den 24–25 september) och tokens per anrop efter den första utåtriktade handlingen (257 000 och 192 000): samma mängd tokens totalt med en tredjedel fler anrop efter den första utåtriktade handlingen",
+          "head": "alla tokens · två räkningar"
+        },
+        "reorientation": {
+          "title": "Andelen bearbetade tokens före den första utåtriktade handlingen (45 % den 22–23 september och 3 % den 24–25 september) och sessionerna (51 och 10): andelen sjönk främst för att det var 10 sessioner i stället för 51",
+          "head": "omorientering · två räkningar"
+        }
+      },
+      "counts": {
+        "second": "22–23 sep",
+        "third": "24–25 sep"
+      },
+      "measures": {
+        "all": {
+          "label": "alla bearbetade tokens",
+          "note": "på 22 timmar",
+          "second": "290 miljoner",
+          "third": "293 miljoner"
+        },
+        "perCall": {
+          "label": "tokens per anrop",
+          "note": "efter den första utåtriktade handlingen",
+          "second": "257 000",
+          "third": "192 000"
+        },
+        "share": {
+          "label": "andel bearbetade tokens",
+          "note": "före den första utåtriktade handlingen",
+          "second": "45 %",
+          "third": "3 %"
+        },
+        "sessions": {
+          "label": "sessioner",
+          "note": "på 22 timmar",
+          "second": "51",
+          "third": "10"
+        }
+      },
+      "same": {
+        "a": "samma mängd tokens totalt",
+        "b": "med en tredjedel fler anrop efter",
+        "c": "den första utåtriktade handlingen"
+      },
+      "fewer": {
+        "a": "andelen sjönk främst för att det",
+        "b": "var 10 sessioner i stället för 51"
+      },
+      "caption": "Räkningarna för 22–23 och 24–25 september, 22 timmar vardera (Resultat, Kontextanvändning), mått för mått; varje mått är ritat i sin egen skala. Flera saker ändrades samtidigt mellan räkningarna: överlämningspunkten, från ungefär 16 % till 30 % av fönstret; anteckningarna, som kortades och fick ett tak; startinnehållet, där tillägg och kontots kopplingar stängdes av; och arbetet, som delvis gällde Gaimer."
     }
   },
   "contact": {

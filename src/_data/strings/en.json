@@ -767,8 +767,9 @@
           "head": "a session · start to hand-off"
         },
         "steps": {
-          "title": "Every step sends the whole context: its unchanged beginning is read from the cache, and only what is new since the step before is processed",
-          "head": "every step · the whole context"
+          "title": "Every step sends the whole context, to scale from the first step to the end: the first bar is the start-up content of 46,290 tokens and 1,500 new tokens, each bar after it 1,500 longer, the last at the median end of 289,000 tokens; only what is new since the step before is processed, and the rest is read from the cache",
+          "head": "every step · the whole context",
+          "scale": "to scale"
         }
       },
       "rows": {
@@ -800,12 +801,18 @@
       },
       "next": "a new session continues from there",
       "nextNote": "and re-orients itself",
-      "startup": "start-up content",
+      "startup": "start-up content: 46,290",
+      "first": "first step: 1,500 new",
+      "second": "second step: 1,500 new",
+      "between": "… every step in between",
+      "end": "median end: 289,000",
+      "axisStart": "0",
+      "axisEnd": "300,000 tokens",
       "legendNew": "new since the step before: processed",
       "legendCached": "unchanged: read from the cache, cheaper",
       "cost": "a long context still costs in latency,",
       "costNote": "answer quality and consumption",
-      "caption": "One session and the next, not to scale. A session starts with the start-up content in its context and re-orients until its first outward action; from 20 to 22 September about half of a session's growth came before that action. It works until Gas City advises a hand-off and then calls it, writes down the state of its work, and a new session continues from there. Every step sends the whole context; its unchanged beginning is read from the cache."
+      "caption": "One session and the next. A session, not to scale: it starts with the start-up content in its context and re-orients until its first outward action; from 20 to 22 September about half of a session's growth came before that action. It works until Gas City advises a hand-off and then calls it, writes down the state of its work, and a new session continues from there. Every step, to scale, from the first step to the end: each sends the whole context, of which only what is new since the step before is processed and the rest is read from the cache. The full width is 300,000 tokens, the point at which Gas City has called a hand-off since 24 September; the start-up content of 46,290 tokens is that of a 24 September start (Configuration); the median end of 289,000 tokens and the median growth per call of 1,500 tokens are from the count of 24–25 September. The new part is drawn slightly wider than to scale so that it shows."
     },
     "sync": {
       "title": "Problem 4: the sync setting pointed at the new private repository while the database's own remote still named the public repository, which a timed job pushes to every 15 minutes; that push failed at 16:58 UTC, and the 34th session re-checked the state and repointed the remote at 17:13 UTC",
@@ -863,7 +870,59 @@
       "legendStartup": "start-up content at a 24 September start",
       "later": "later hand-offs: fewer re-orientations,",
       "laterNote": "but a longer context on every step",
-      "caption": "The hand-off points against the model's window of 1,000,000 tokens, to scale. Until 23 September Gas City took the window to be 200,000 tokens and called hand-offs at about 160,000, 16% of the real window; on 23 September a hand-off was advised at 20% and called at 25%, and since 24 September at 25% and 30%. The sliver at the left is the start-up content of a 24 September start. Which hand-off point is cheaper is to be decided on measurements."
+      "caption": "The hand-off points against the model's window of 1,000,000 tokens, to scale. Until 23 September Gas City took the window to be 200,000 tokens and called hand-offs at about 160,000, 16% of the real window; on 23 September a hand-off was advised at 20% and called at 25%, and since 24 September at 25% and 30%. The sliver at the left is the start-up content of a 24 September start. One full day at 30% has been measured (Changes); whether its result holds is open."
+    },
+    "counts": {
+      "panels": {
+        "tokens": {
+          "title": "All tokens processed (290 million on 22–23 September and 293 million on 24–25 September) and the tokens per call after the first outward action (257,000 and 192,000): the same tokens overall with a third more calls after the first outward action",
+          "head": "all tokens · two counts"
+        },
+        "reorientation": {
+          "title": "The share of tokens processed before the first outward action (45% on 22–23 September and 3% on 24–25 September) and the sessions (51 and 10): the share fell mostly because there were 10 sessions instead of 51",
+          "head": "re-orientation · two counts"
+        }
+      },
+      "counts": {
+        "second": "22–23 Sep",
+        "third": "24–25 Sep"
+      },
+      "measures": {
+        "all": {
+          "label": "all tokens processed",
+          "note": "in 22 hours",
+          "second": "290 million",
+          "third": "293 million"
+        },
+        "perCall": {
+          "label": "tokens per call",
+          "note": "after the first outward action",
+          "second": "257,000",
+          "third": "192,000"
+        },
+        "share": {
+          "label": "share of tokens processed",
+          "note": "before the first outward action",
+          "second": "45%",
+          "third": "3%"
+        },
+        "sessions": {
+          "label": "sessions",
+          "note": "in 22 hours",
+          "second": "51",
+          "third": "10"
+        }
+      },
+      "same": {
+        "a": "the same tokens overall",
+        "b": "with a third more calls after",
+        "c": "the first outward action"
+      },
+      "fewer": {
+        "a": "the share fell mostly because",
+        "b": "there were 10 sessions instead of 51"
+      },
+      "caption": "The counts of 22–23 and 24–25 September, 22 hours each (Findings, Context use), measure by measure; each measure is drawn to its own scale. Several things changed at once between the counts: the hand-off point, from about 16% to 30% of the window; the notes, trimmed and capped; the start-up content, with plugins and the account's connectors switched off; and the work, partly for Gaimer."
     }
   },
   "contact": {
