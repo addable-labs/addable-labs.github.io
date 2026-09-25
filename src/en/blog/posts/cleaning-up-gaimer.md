@@ -1,6 +1,6 @@
 ---
 title: "Cleaning up Gaimer: Tetris and Pong, before and after"
-description: On 24 and 25 September 2026 the factory merged 39 pull requests into Gaimer, the desktop app that makes a small game from a description. What they changed, and a Tetris and a Pong made with its system prompt from before and after, to play in the page.
+description: On 24 and 25 September 2026 the factory merged 41 pull requests into Gaimer, the desktop app that makes a small game from a description. What they changed, and a Tetris and a Pong made with its system prompt from before and after, to play in the page.
 date: 2026-09-25
 category: app-development        # app-development | ai-journey
 translationKey: cleaning-up-gaimer
@@ -18,7 +18,7 @@ licence and runs on macOS, Windows, Linux and iOS.
 
 On 24 and 25 September 2026 the factory, the [agent-run software
 factory](/blog/why-we-run-an-agent-run-factory/) behind this site, merged
-39 pull requests into Gaimer, 66 commits in all, each saying why it was
+41 pull requests into Gaimer, 68 commits in all, each saying why it was
 made and what was checked. Tetris and Pong, made with the old and the new
 system prompt, then show what the new prompt does. All four games can be
 played here.
@@ -79,7 +79,7 @@ ranges, which cleared all 22 findings of the package audit.
 Tests that could not fail were replaced, tests were added where a
 regression would reach the user, and coverage got a floor: 94 % of
 statements, 89 % of branches, 90 % of functions and 96 % of lines, the
-levels reached, rounded down. The unit tests went from 101 to 346. CI moved
+levels reached, rounded down. The unit tests went from 101 to 358. CI moved
 from Node 20, out of support since 30 April, to Node 24 and current
 actions, with a read-only token, and checks the Rust code's formatting and
 lints. It builds the app for Linux, macOS, Windows and iOS on every pull
@@ -112,8 +112,9 @@ five seconds after the player's first tap, click or key press.
 
 With a game open, the description box now changes that game. The model
 answers with change blocks, each a piece of the code and its replacement,
-and the app asks once for the whole game when they cannot be used. Undo
-change goes back one version, and New game closes the game.
+or with the whole game, changed, which the app takes as it is. When the
+blocks cannot be used, the app asks once for the whole game. Undo change
+goes back one version, and New game closes the game.
 
 ## How the games were made
 
@@ -134,11 +135,14 @@ It is one game per prompt and request, not a benchmark.
 | Pong | after | 204 s | 22,030 | 370 |
 
 The output counts include the model's thinking. The first call for Tetris
-with the new prompt ran past the app's limit of 300 seconds and was
-stopped, as the app stops it: in Gaimer that is the error "Command timed
-out", and no game. The Tetris shown comes from a second call, made the same
-way without the limit, which took 476 seconds. All four started with no
-error, so neither game from after the cleanup needed the fix round.
+with the new prompt ran past the app's limit at the time, 300 seconds, and
+was stopped there, as the app would have done: in Gaimer that meant the
+error "Command timed out" and no game. The Tetris shown comes from a second
+call, made the same way without the limit, which took 476 seconds. The
+factory has since raised the limit to
+[15 minutes](https://github.com/addable-labs/gaimer/pull/51). All four
+started with no error, so neither game from after the cleanup needed the
+fix round.
 
 Play runs a game where its start screen is, and the keys then go to the
 game, not the page. One game runs at a time.
@@ -166,7 +170,6 @@ buttons after a touch and, on a screen taller than it is wide, puts the
 paddles at the bottom and the top.
 
 Both games from the new prompt are longer, and their calls produced about
-two to two and a half times as many output tokens; with one game each, that
-is no measure for games in general. What the pairs do show is that its new
-sections reach the games: start screens, best scores, sound and pointer
+two to two and a half times as many output tokens. The pairs show that the
+prompt's new sections reach the games: start screens, best scores, sound and pointer
 input are in both games from after the cleanup and in neither from before.

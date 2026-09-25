@@ -1,6 +1,6 @@
 ---
 title: "Städningen av Gaimer: Tetris och Pong, före och efter"
-description: Den 24 och 25 september 2026 slog fabriken ihop 39 pull requests i Gaimer, skrivbordsappen som gör ett litet spel av en beskrivning. Vad de ändrade och ett Tetris och ett Pong gjorda med dess systemprompt från före och efter, att spela på sidan.
+description: Den 24 och 25 september 2026 slog fabriken ihop 41 pull requests i Gaimer, skrivbordsappen som gör ett litet spel av en beskrivning. Vad de ändrade och ett Tetris och ett Pong gjorda med dess systemprompt från före och efter, att spela på sidan.
 date: 2026-09-25
 category: app-development        # app-development | ai-journey
 translationKey: cleaning-up-gaimer
@@ -19,7 +19,7 @@ iOS.
 
 Den 24 och 25 september 2026 slog fabriken, den [agentdrivna
 mjukvarufabriken](/sv/blog/why-we-run-an-agent-run-factory/) bakom den här
-sajten, ihop 39 pull requests i Gaimer med sammanlagt 66 commits. Var och
+sajten, ihop 41 pull requests i Gaimer med sammanlagt 68 commits. Var och
 en säger varför den gjordes och vad som kontrollerades. Tetris och Pong,
 gjorda med den gamla och den nya systemprompten, visar sedan vad den nya
 prompten gör. Alla fyra spelen går att spela här.
@@ -84,7 +84,7 @@ Tester som inte kunde misslyckas byttes ut, tester lades till där en
 regression skulle nå användaren och täckningen fick ett golv: 94 % av
 satserna, 89 % av grenarna, 90 % av funktionerna och 96 % av raderna, de
 nivåer som hade nåtts, avrundade nedåt. Enhetstesterna ökade från 101
-till 346. CI gick från Node 20, utan stöd sedan 30 april, till Node 24
+till 358. CI gick från Node 20, utan stöd sedan 30 april, till Node 24
 och aktuella actions med en token som bara kan läsa. Den kontrollerar
 också Rust-kodens formatering och lints och bygger appen för Linux,
 macOS, Windows och iOS på varje pull request; efter den sista
@@ -119,8 +119,9 @@ första tryck, klick eller tangenttryckning.
 
 När ett spel är öppet ändrar beskrivningsrutan nu det spelet. Modellen
 svarar med ändringsblock, var och ett en bit av koden och det som ersätter
-den. Går blocken inte att använda ber appen en gång om hela spelet. Knappen
-Undo change går tillbaka en version och New game stänger spelet.
+den, eller med hela spelet ändrat, som appen då tar som det är. Går blocken
+inte att använda ber appen en gång om hela spelet. Knappen Undo change går
+tillbaka en version och New game stänger spelet.
 
 ## Så gjordes spelen
 
@@ -141,11 +142,14 @@ dess version, utan det som bara appen har, till exempel dess sparfiler. Det
 | Pong | efter | 204 s | 22 030 | 370 |
 
 Utdata-tokens räknar in modellens tänkande. Det första anropet för Tetris
-med den nya prompten gick över appens gräns på 300 sekunder och stoppades
-så som appen stoppar det: i Gaimer är det felet "Command timed out" och
-inget spel. Det Tetris som visas kommer från ett andra anrop, gjort på
-samma sätt utan gränsen, som tog 476 sekunder. Alla fyra startade utan fel,
-så inget av spelen från efter städningen behövde rättningsrundan.
+med den nya prompten gick över appens dåvarande gräns på 300 sekunder och
+stoppades där, så som appen skulle ha gjort: i Gaimer betydde det felet
+"Command timed out" och inget spel. Det Tetris som visas kommer från ett
+andra anrop, gjort på samma sätt utan gränsen, som tog 476 sekunder.
+Fabriken har sedan dess höjt gränsen till
+[15 minuter](https://github.com/addable-labs/gaimer/pull/51). Alla fyra
+startade utan fel, så inget av spelen från efter städningen behövde
+rättningsrundan.
 
 Spela kör ett spel där dess startskärm är och tangenterna går sedan till
 spelet, inte till sidan. Ett spel körs åt gången.
@@ -174,7 +178,6 @@ ritar två pilknappar efter en beröring och sätter racketarna nedtill och
 upptill på en skärm som är högre än den är bred.
 
 Båda spelen från den nya prompten är längre och deras anrop gav ungefär två
-till två och en halv gånger så många utdata-tokens; med ett spel var är det
-inget mått för spel i allmänhet. Vad paren visar är att promptens nya
-avsnitt når spelen: startskärmar, bästa resultat, ljud och pekarhändelser
+till två och en halv gånger så många utdata-tokens. Paren visar att
+promptens nya avsnitt når spelen: startskärmar, bästa resultat, ljud och pekarhändelser
 finns i båda spelen från efter städningen och i inget av dem från före.
