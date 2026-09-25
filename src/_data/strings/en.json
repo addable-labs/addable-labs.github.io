@@ -808,11 +808,11 @@
       "end": "median end: 289,000",
       "axisStart": "0",
       "axisEnd": "300,000 tokens",
-      "legendNew": "new since the step before: processed",
+      "legendNew": "new since the step before",
       "legendCached": "unchanged: read from the cache, cheaper",
       "cost": "a long context still costs in latency,",
       "costNote": "answer quality and consumption",
-      "caption": "One session and the next. A session, not to scale: it starts with the start-up content in its context and re-orients until its first outward action; from 20 to 22 September about half of a session's growth came before that action. It works until Gas City advises a hand-off and then calls it, writes down the state of its work, and a new session continues from there. Every step, to scale, from the first step to the end: each sends the whole context, of which only what is new since the step before is processed and the rest is read from the cache. The full width is 300,000 tokens, the point at which Gas City has called a hand-off since 24 September; the start-up content of 46,290 tokens is that of a 24 September start (Configuration); the median end of 289,000 tokens and the median growth per call of 1,500 tokens are from the count of 24–25 September. The new part is drawn slightly wider than to scale so that it shows."
+      "caption": "One session and the next. A session, not to scale: it starts with the start-up content in its context and re-orients until its first outward action; from 20 to 22 September about half of a session's growth came before that action. It works until Gas City advises a hand-off and then calls it, writes down the state of its work, and a new session continues from there. Every step, to scale, from the first step to the end: each sends the whole context; all but what is new since the step before is read from the cache. The full width is 300,000 tokens, the point at which Gas City has called a hand-off since 24 September; the start-up content of 46,290 tokens is that of a 24 September start (Configuration); the median end of 289,000 tokens and the median growth per call of 1,500 tokens are from the count of 24–25 September. The new part is drawn slightly wider than to scale so that it shows."
     },
     "sync": {
       "title": "Problem 4: the sync setting pointed at the new private repository while the database's own remote still named the public repository, which a timed job pushes to every 15 minutes; that push failed at 16:58 UTC, and the 34th session re-checked the state and repointed the remote at 17:13 UTC",

@@ -114,7 +114,7 @@ sig från den andras.
 | Tillväxt per anrop, median (tokens) | 2 200 | 1 500 |
 | Lästa från cachen (tokens) | 281 miljoner | 289 miljoner |
 | Av alla kontexttokens | ~98 % | ~99 % |
-| Alla bearbetade tokens | 290 miljoner | 293 miljoner |
+| Alla bearbetade tokens (kontext och utdata) | 290 miljoner | 293 miljoner |
 | Andel av bearbetade tokens före den första utåtriktade handlingen | 45 % | 3 % |
 | Tokens per anrop efter den första utåtriktade handlingen | 257 000 | 192 000 |
 

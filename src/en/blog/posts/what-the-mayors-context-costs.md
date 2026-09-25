@@ -106,7 +106,7 @@ ten sessions whose work, partly for Gaimer, differed from the second's.
 | Median growth per call (tokens) | 2,200 | 1,500 |
 | Read from the cache (tokens) | 281 million | 289 million |
 | Of all context tokens | ~98% | ~99% |
-| All tokens processed | 290 million | 293 million |
+| All tokens processed (context and output) | 290 million | 293 million |
 | Share of tokens processed before the first outward action | 45% | 3% |
 | Tokens per call after the first outward action | 257,000 | 192,000 |
 

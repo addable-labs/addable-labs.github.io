@@ -808,11 +808,11 @@
       "end": "slut, median: 289 000",
       "axisStart": "0",
       "axisEnd": "300 000 tokens",
-      "legendNew": "nytt sedan förra steget: bearbetas",
+      "legendNew": "nytt sedan förra steget",
       "legendCached": "oförändrat: läses från cachen, billigare",
       "cost": "en lång kontext kostar ändå i svarstid,",
       "costNote": "svarskvalitet och förbrukning",
-      "caption": "En session och nästa. En session, inte skalenligt: den börjar med startinnehållet i sin kontext och orienterar sig på nytt fram till sin första utåtriktade handling; mellan den 20 och 22 september kom ungefär hälften av en sessions tillväxt före den handlingen. Den arbetar tills Gas City ger råd om överlämning och sedan uppmanar till den, skriver ner läget i sitt arbete och en ny session fortsätter därifrån. Varje steg, skalenligt, från det första steget till slutet: vart och ett skickar hela kontexten, där bara det som är nytt sedan förra steget bearbetas och resten läses från cachen. Hela bredden är 300 000 tokens, punkten där Gas City har uppmanat till överlämning sedan den 24 september; startinnehållet på 46 290 tokens är det vid en start den 24 september (Konfiguration); slutet i median på 289 000 tokens och tillväxten per anrop i median på 1 500 tokens kommer från räkningen för 24–25 september. Den nya delen är ritad något bredare än skalenligt så att den syns."
+      "caption": "En session och nästa. En session, inte skalenligt: den börjar med startinnehållet i sin kontext och orienterar sig på nytt fram till sin första utåtriktade handling; mellan den 20 och 22 september kom ungefär hälften av en sessions tillväxt före den handlingen. Den arbetar tills Gas City ger råd om överlämning och sedan uppmanar till den, skriver ner läget i sitt arbete och en ny session fortsätter därifrån. Varje steg, skalenligt, från det första steget till slutet: vart och ett skickar hela kontexten; allt utom det som är nytt sedan förra steget läses från cachen. Hela bredden är 300 000 tokens, punkten där Gas City har uppmanat till överlämning sedan den 24 september; startinnehållet på 46 290 tokens är det vid en start den 24 september (Konfiguration); slutet i median på 289 000 tokens och tillväxten per anrop i median på 1 500 tokens kommer från räkningen för 24–25 september. Den nya delen är ritad något bredare än skalenligt så att den syns."
     },
     "sync": {
       "title": "Problem 4: synkinställningen pekade på det nya privata kodförrådet medan databasens egen fjärradress fortfarande pekade på det publika kodförrådet, som ett schemalagt jobb pushar till var 15:e minut; den pushen misslyckades klockan 16:58 UTC och den 34:e sessionen kontrollerade läget och pekade om fjärradressen klockan 17:13 UTC",
