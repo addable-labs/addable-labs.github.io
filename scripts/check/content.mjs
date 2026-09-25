@@ -37,6 +37,13 @@
 //   - every GitHub repository the built site names — in a page, a feed, the
 //     sitemap or a text file — is one of the public repositories it may link
 //     (PUBLIC_REPOS in scripts/lib/apps.mjs, an allow-list, si-vwu8)
+//   - every page's link preview shows its own image (si-awlu): an article
+//     page its article's, /blog/<slug>/<image>, described in its imageAlt,
+//     and every other page, the game pages included, the site's default
+//     image, described in the strings' site.imageAlt; every article card, in
+//     whichever listing, shows its article's image with alt="", as the title
+//     link beside it names the article, and every article page shows its
+//     image right under its summary, described in its imageAlt
 //   - both seed articles exist in both languages, the seed articles are
 //     300–600 English words of prose and every later article 300–1,500 (the
 //     figures' captions and diagram labels are not prose and do not count,
@@ -57,6 +64,7 @@ import path from "node:path";
 import { PUBLIC_REPOS, PUBLIC_URL_PREFIX, githubRepos, publicRepo } from "../lib/apps.mjs";
 import { gamePagePaths } from "../lib/games.mjs";
 import { attr, loadPage, text } from "../lib/html.mjs";
+import { DEFAULT_IMAGE } from "../lib/images.mjs";
 import { exists, internalPath, langPrefix, loadSite, loadStrings, newestFirst, readArticleSources, reporter, resolveDirs, walk } from "../lib/site.mjs";
 
 const { out, src } = resolveDirs();
@@ -285,8 +293,10 @@ for (const lang of site.languages.codes) {
 // link. A game page has none of them: it is the game and nothing else.
 const GAME_PAGES = gamePagePaths(src);
 const pages = [];
+const everyPage = [];
 for (const file of await walk(out, ".html")) {
   const p = await loadPage(file, out, site);
+  everyPage.push(p);
   if (GAME_PAGES.has(p.url)) report.ok(`${p.relPath}: a game page, the game and nothing else: no footer, language switch, toggle or feed link to check`);
   else pages.push(p);
 }
@@ -362,6 +372,47 @@ for (const extension of [".html", ".xml", ".txt"]) {
 }
 report.check(repoProblems === 0, `every GitHub repository the site names is one of the public repositories it may link: ${PUBLIC_REPOS.filter((repo) => named.has(repo)).join(", ") || "none named"}`);
 
+// The article images (si-awlu). A page's link preview shows its own image:
+// an article page its article's, from the article's media directory and
+// described in its language, and every other page — the landing, about,
+// blog and category pages, the 404 page and the game pages — the site's
+// default one. A card shows its article's image and nothing else, with
+// alt="", since the title link beside it already names the article.
+const articleByPath = new Map();
+for (const lang of site.languages.codes) {
+  for (const article of await readArticleSources(src, site, lang)) articleByPath.set(article.path, article);
+}
+const origin = site.url.replace(/\/$/, "");
+/** Every URL an img or a picture's source may show, once each: its src and each of its srcset's candidates. */
+const imageUrls = (...elements) => [...new Set(elements.flatMap((element) => [attr(element, "src"), ...(attr(element, "srcset") ?? "").split(",").map((candidate) => candidate.trim().split(/\s+/)[0])]).filter(Boolean))];
+let previewProblems = 0;
+let cardProblems = 0;
+let cards = 0;
+for (const p of everyPage) {
+  const article = articleByPath.get(p.url);
+  const want = article ? { url: `${origin}/blog/${article.slug}/${article.image}`, alt: article.imageAlt, what: "its article's image" } : { url: `${origin}${DEFAULT_IMAGE}`, alt: strings[p.lang].site.imageAlt, what: "the site's default image" };
+  const image = attr(p.doc.querySelector('meta[property="og:image"]'), "content");
+  const alt = attr(p.doc.querySelector('meta[property="og:image:alt"]'), "content");
+  if (image !== want.url || alt !== want.alt) {
+    previewProblems += 1;
+    report.fail(`${p.relPath}: its link preview shows ${image ?? "no image"}, described as ${JSON.stringify(alt ?? null)}, not ${want.what}, ${want.url}, described as ${JSON.stringify(want.alt)}`);
+  }
+  for (const card of p.doc.querySelectorAll(".post")) {
+    cards += 1;
+    const href = attr(card.querySelector(".post-title a"), "href");
+    const own = articleByPath.get(href);
+    const images = card.querySelectorAll("img");
+    const urls = images.length === 1 ? imageUrls(...card.querySelectorAll("picture source"), images[0]) : [];
+    if (!own || images.length !== 1 || attr(images[0], "alt") !== "" || urls.length === 0 || !urls.every((url) => url.startsWith(`/blog/${own.slug}/`))) {
+      cardProblems += 1;
+      const shown = images.length === 1 ? `${urls.join(", ") || "an image without a source"} with alt=${JSON.stringify(attr(images[0], "alt") ?? null)}` : `${images.length} images`;
+      report.fail(`${p.relPath}: the card for ${href} shows ${shown}, not its article's image alone with alt=""`);
+    }
+  }
+}
+report.check(previewProblems === 0, `every page's link preview shows its own image: an article page its article's, every other page ${DEFAULT_IMAGE} (${everyPage.length} pages)`);
+report.check(cardProblems === 0, `every article card shows its article's image with alt="" (${cards} cards)`);
+
 /**
  * Why the built site owes this article nothing: it is a draft and this is the
  * production build, which leaves drafts out altogether (si-mzf1), or it is
@@ -425,6 +476,13 @@ for (const lang of site.languages.codes) {
     }
     const built = await page(rel);
     if (!built) continue;
+    // Its image right under its summary (si-awlu), described in its own
+    // language, from its own media directory, and not lazy: it may be the
+    // largest thing on the first screen.
+    const hero = built.doc.querySelectorAll(".article-header img");
+    const heroUrls = hero.length === 1 ? imageUrls(hero[0]) : [];
+    const underSummary = built.doc.querySelector(".article-header .article-summary + img.article-image") === hero[0];
+    report.check(hero.length === 1 && underSummary && attr(hero[0], "alt") === article.imageAlt && attr(hero[0], "loading") !== "lazy" && heroUrls.length > 0 && heroUrls.every((url) => url.startsWith(`/blog/${article.slug}/`)), `${rel}: shows its image, /blog/${article.slug}/, under its summary, described as its imageAlt and loaded at once${hero.length === 1 ? "" : ` (${hero.length} images in its header)`}`);
     if (lang === site.languages.default) {
       // The prose only: a figure's caption and the labels inside its SVG
       // panels are removed before counting (founder feedback 2026-09-21,

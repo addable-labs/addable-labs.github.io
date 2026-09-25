@@ -1,6 +1,8 @@
 ---
 title: "Ashlands: vad en enda prompt byggde"
 description: En prompt och en flotta subagenter gav 94 000 rader av ett spel som går att spela – men klarade inte den sista biten. Vad Gauntlet Loop fick rätt, vad det kostade och vad grundaren tillförde.
+image: cover.png                 # en PNG på 1200 × 630 i artikelns mediemapp
+imageAlt: "En bild ur en genererad spelvärld, med en topp, en sol och vatten som möter terrängen i trappsteg, bredvid en tom, streckad orange ram: referensen som kritikern aldrig fick."
 date: 2026-09-22
 category: ai-journey             # app-development | ai-journey
 translationKey: ashlands-what-one-prompt-built

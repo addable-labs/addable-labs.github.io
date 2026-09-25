@@ -1,15 +1,16 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { after, before, describe, it } from "node:test";
-import { BESIDE_FROM_PX, evaluate, GAME_RATIO, INLINE_GAP_REM, LABEL_MIN_PX, LABEL_UNITS, LINE_RATIO, MEASURE_REM, PANEL_REM, rowsOf, TOLERANCE } from "../scripts/lib/layout-report.mjs";
+import { BESIDE_FROM_PX, evaluate, GAME_RATIO, IMAGE_RATIO, INLINE_GAP_REM, LABEL_MIN_PX, LABEL_UNITS, LINE_RATIO, MEASURE_REM, PANEL_REM, rowsOf, TOLERANCE } from "../scripts/lib/layout-report.mjs";
 import { skipMessage, SKIP_EXIT_CODE } from "../scripts/lib/chrome.mjs";
 import { fixture, runGate, SRC, tempDir } from "./helpers.mjs";
 
 // The card-balance rules of the layout gate on fixture measurements (AC-30,
 // REQ-025), the article rules on fixture measurements of
 // the illustrated articles (si-55iu; centred composition, founder feedback
-// 2026-09-22), of the article with tables (si-t64i) and of the article that
-// plays games (si-y6pp) — no Chrome needed — and the gate's explicit SKIP when no Chrome is found. Regenerate the
+// 2026-09-22), of the article with tables (si-t64i), of the article that
+// plays games (si-y6pp) and of the article's image (si-awlu) — no Chrome
+// needed — and the gate's explicit SKIP when no Chrome is found. Regenerate the
 // article fixture from a real run with `LAYOUT_DUMP=<file> pnpm
 // check:layout` and keep its three runs.
 
@@ -356,6 +357,79 @@ describe("layout report evaluation — games in the page (si-y6pp)", () => {
     const result = evaluate(older);
     assert.deepEqual(result.problems, []);
     assert.equal(result.lines[0], "layout /blog/cleaning-up-gaimer/ 360: ok (29 blocks on the measure, 0 figures, 1 table)");
+  });
+});
+
+describe("layout report evaluation — the article's image (si-awlu)", () => {
+  // Real measurements of two articles with their image under the summary:
+  // the English page at 360, where the body (16–344 px) is narrower than the
+  // measure and is the text column, and the Swedish page at 1280, where the
+  // column is the 704 px measure, 288–992 px, in a body of 72–1208 px.
+  // Regenerate from a real run with `LAYOUT_DUMP=<file> pnpm check:layout`
+  // and keep these two runs.
+  let image;
+  before(async () => {
+    image = JSON.parse(await readFile(fixture("layout", "image.json"), "utf8"));
+  });
+
+  it("passes the fixture, each image across the text column at 1200:630 under the summary", () => {
+    const result = evaluate(image);
+    assert.deepEqual(result.problems, []);
+    assert.deepEqual(result.lines, [
+      "layout /blog/how-this-site-was-built-by-agents/ 360: ok (11 blocks on the measure, 4 figures)",
+      "layout /sv/blog/why-we-run-an-agent-run-factory/ 1280: ok (21 blocks on the measure, 4 figures)",
+    ]);
+    assert.equal(IMAGE_RATIO, 1200 / 630);
+  });
+
+  it("fails an image across the whole body instead of the text column, and one moved off it", () => {
+    const off = structuredClone(image);
+    Object.assign(off[1].article.image, { left: 72, right: 1208, bottom: 424.83 + (1136 * 630) / 1200 }); // the body's width, still 1200:630
+    off[0].article.image.left += 2; // moved 2 px to the right
+    off[0].article.image.right += 2;
+    assert.deepEqual(evaluate(off).problems, [
+      "/blog/how-this-site-was-built-by-agents/ 360: the article image spans 18–346 px, not the text column (16–344 px)",
+      "/sv/blog/why-we-run-an-agent-run-factory/ 1280: the article image spans 72–1208 px, not the text column (288–992 px)",
+    ]);
+  });
+
+  it("fails an image that is not 1200:630, squeezed or cut", () => {
+    const squeezed = structuredClone(image);
+    squeezed[1].article.image.bottom -= 20;
+    squeezed[0].article.image.bottom += 10;
+    assert.deepEqual(evaluate(squeezed).problems, [
+      "/blog/how-this-site-was-built-by-agents/ 360: the article image is 328 × 182.19 px, not 1200:630",
+      "/sv/blog/why-we-run-an-agent-run-factory/ 1280: the article image is 704 × 349.59 px, not 1200:630",
+    ]);
+  });
+
+  it("fails an image that starts above the end of the summary", () => {
+    const above = structuredClone(image);
+    above[0].article.image.top -= 30; // 368.58 px, where the summary ends at 374.58 px
+    above[0].article.image.bottom -= 30;
+    assert.deepEqual(evaluate(above).problems, ["/blog/how-this-site-was-built-by-agents/ 360: the article image starts at 368.58 px, above the end of the summary (374.58 px)"]);
+  });
+
+  it("tolerates one pixel, and names an image that was not found and one without a summary above it", () => {
+    const nudged = structuredClone(image);
+    nudged[0].article.image.left += 1;
+    nudged[0].article.image.right += 1;
+    nudged[1].article.image.top = nudged[1].article.image.summaryBottom - 1;
+    nudged[1].article.image.bottom = nudged[1].article.image.top + (704 * 630) / 1200;
+    assert.deepEqual(evaluate(nudged).problems, []);
+    const missing = structuredClone(image);
+    missing[0].article.image = null; // no img.article-image in the header
+    missing[1].article.image.summaryBottom = null; // an unmeasured box arrives as null over the protocol
+    assert.deepEqual(evaluate(missing).problems, [
+      "/blog/how-this-site-was-built-by-agents/ 360: the article image has no measurable box (element not found)",
+      "/sv/blog/why-we-run-an-agent-run-factory/ 1280: the article image has no summary above it (element not found)",
+    ]);
+  });
+
+  it("judges a measurement without an image, as the gate took them before si-awlu, as a page without one", () => {
+    const older = structuredClone(image);
+    delete older[0].article.image;
+    assert.deepEqual(evaluate(older).problems, []);
   });
 });
 

@@ -1,6 +1,8 @@
 ---
 title: Så byggdes den här sajten av agenter
 description: Stegen, kvalitetsgrindarna och grundarens granskningar bakom den första sajt som en agentdriven mjukvarufabrik tog fram från början till slut.
+image: cover.png                 # en PNG på 1200 × 630 i artikelns mediemapp
+imageAlt: "En loop i fyra steg: en ändring klarar alla tio grindarna, grundaren läser texten, sidan går live och nästa ändring börjar."
 date: 2026-09-20
 category: app-development        # app-development | ai-journey
 translationKey: how-this-site-was-built-by-agents

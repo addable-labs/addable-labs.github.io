@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <!-- The image of "Ashlands: what one prompt built": the side-by-side the
+       brief asked for, as the gauntlet and critic figures draw it. Left, a
+       frame of the game's world, all of it generated from code: terrain
+       facets, a peak, the sky's sun and water whose edge with the terrain is
+       stair-stepped (one of the open art-direction issues). Right, the
+       reference the critic was to compare it with: drawn empty, in the
+       figures' dashed orange, because none was ever obtained. -->
+  <defs>
+    <pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse" y="15">
+      <path d="M0 .5H30M.5 0V30" fill="none" stroke="#242C33"/>
+    </pattern>
+    <radialGradient id="fade" cx="600" cy="315" r="640" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff" stop-opacity=".95"/>
+      <stop offset=".6" stop-color="#fff" stop-opacity=".55"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </radialGradient>
+    <mask id="gridmask"><rect width="1200" height="630" fill="url(#fade)"/></mask>
+    <radialGradient id="glow" cx="600" cy="315" r="340" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#83F35D" stop-opacity=".11"/>
+      <stop offset="1" stop-color="#83F35D" stop-opacity="0"/>
+    </radialGradient>
+    <clipPath id="frame"><rect x="312" y="200" width="260" height="230" rx="14"/></clipPath>
+  </defs>
+
+  <rect width="1200" height="630" fill="#0B0E10"/>
+  <rect width="1200" height="630" fill="url(#grid)" mask="url(#gridmask)"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+
+  <!-- the frame of the game's world -->
+  <g transform="translate(430 315) scale(1.04) translate(-442 -315)">
+    <rect x="312" y="200" width="260" height="230" rx="14" fill="#13181C"/>
+    <g clip-path="url(#frame)">
+      <circle cx="518" cy="252" r="17" fill="#ECEFF1"/>
+      <!-- far ridge -->
+      <path d="M312 332L352 306 390 320 428 290 466 314 504 286 540 306 572 296V430H312z" fill="#1A2126"/>
+      <path d="M312 332L352 306 390 320 428 290 466 314 504 286 540 306 572 296" fill="none" stroke="#626E79" stroke-width="2.5" stroke-linejoin="round"/>
+      <!-- near terrain with its facets, and the peak -->
+      <path d="M312 366L356 324 398 342 446 258 488 314 528 334 572 346V430H312z" fill="#13181C"/>
+      <g fill="none" stroke="#83F35D" stroke-opacity=".45" stroke-width="2" stroke-linejoin="round">
+        <path d="M446 258L426 372M446 258L470 370M356 324L378 372M488 314L506 370M398 342L426 372M528 334L540 370"/>
+      </g>
+      <path d="M312 366L356 324 398 342 446 258 488 314 528 334 572 346" fill="none" stroke="#83F35D" stroke-width="3.5" stroke-linejoin="round"/>
+      <!-- water, its edge with the terrain stair-stepped -->
+      <path d="M312 378h13v-5h13v-5h13v5h13v5h13v-5h13v-5h13v5h13v5h13v5h13v-5h13v-5h13v5h13v5h13v-5h13v-5h13v5h13v5h13v-5h13v5v52H312z" fill="#0F1A12"/>
+      <path d="M312 378h13v-5h13v-5h13v5h13v5h13v-5h13v-5h13v5h13v5h13v5h13v-5h13v-5h13v5h13v5h13v-5h13v-5h13v5h13v5h13v-5h13" fill="none" stroke="#ECEFF1" stroke-width="2.5"/>
+      <g stroke="#83F35D" stroke-opacity=".5" stroke-width="3" stroke-linecap="round">
+        <path d="M338 400h26M392 404h40M462 398h22M508 408h34M350 418h30M436 420h24"/>
+      </g>
+    </g>
+    <rect x="312" y="200" width="260" height="230" rx="14" fill="none" stroke="#ECEFF1" stroke-width="3"/>
+  </g>
+
+  <!-- compared side by side -->
+  <path d="M588 315H612" stroke="#626E79" stroke-width="3" stroke-linecap="round"/>
+  <path d="M576 315l14-8v16zM624 315l-14-8v16z" fill="#626E79"/>
+
+  <!-- the reference: never obtained -->
+  <rect x="634.8" y="195.4" width="270.4" height="239.2" rx="14.5" fill="none" stroke="#FF6F00" stroke-width="3" stroke-dasharray="14 11" stroke-linecap="round"/>
+</svg>

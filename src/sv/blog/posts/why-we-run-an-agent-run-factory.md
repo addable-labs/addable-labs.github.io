@@ -1,6 +1,8 @@
 ---
 title: Därför driver vi en agentdriven mjukvarufabrik
 description: Första artikeln i en serie om fabriken bakom den här sajten – vad Gas City och Beads är, vad vi tog från Steve Yegges arbete och vad vi ändrade, med ett bygge i verkliga siffror.
+image: cover.png                 # en PNG på 1200 × 630 i artikelns mediemapp
+imageAlt: "Ett gemensamt register ritat som ett pärlband av beads – stängda, tagna och öppna – med orange punkter där grundaren kliver in. Tre sessioner tar varsin bead medan borgmästaren skriver i registret och pratar med grundaren."
 date: 2026-09-21
 category: ai-journey             # app-development | ai-journey
 translationKey: why-we-run-an-agent-run-factory

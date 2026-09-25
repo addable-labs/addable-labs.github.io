@@ -32,10 +32,15 @@ async function relativeFiles(dir) {
   return (await walk(dir)).map((file) => path.relative(dir, file).split(path.sep).join("/"));
 }
 
-/** A copy of the source files gameProblems reads: the games data, the media and the article's two files. */
+/**
+ * A copy of the source files gameProblems reads for the article: the games
+ * data, its media and its two files. Only its own media: every article has a
+ * media directory now, for its image (si-awlu), and the copy holds no other
+ * article to publish one with.
+ */
 async function copyGameSources(dir) {
   await cp(path.join(SRC, "_data", "games.json"), path.join(dir, "_data", "games.json"));
-  await cp(path.join(SRC, MEDIA_DIR), path.join(dir, MEDIA_DIR), { recursive: true });
+  await cp(path.join(SRC, MEDIA_DIR, ARTICLE), path.join(dir, MEDIA_DIR, ARTICLE), { recursive: true });
   for (const file of ARTICLE_FILES) await cp(path.join(SRC, file), path.join(dir, file));
   return dir;
 }
@@ -214,7 +219,7 @@ describe("a draft's games are only in the development build (C14)", () => {
   after(() => tmp.cleanup());
 
   it("builds the article, its game pages, the games' code and the screenshots in a development build", async () => {
-    assert.equal(expected.length, 2 + 4 + 4 * GAME_FILES.length + 3, "two articles, four game pages, three files a game and three scripts");
+    assert.equal(expected.length, 2 + 4 + 4 * GAME_FILES.length + 3 + 3, "two articles, four game pages, three files a game, three scripts and the article's image with its two WebP copies (si-awlu)");
     const built = new Set(await relativeFiles(dev));
     assert.deepEqual(expected.filter((file) => !built.has(file)), []);
     // And the listings, the feeds and the sitemap point at it.

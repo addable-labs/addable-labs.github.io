@@ -1,6 +1,8 @@
 ---
 title: "Storstädning i Gaimer: Tetris och Pong före och efter"
 description: Den 24 och 25 september 2026 slog fabriken ihop 45 pull requests i Gaimer, skrivbordsappen som gör ett litet spel utifrån en beskrivning. Här är vad de ändrade. Du kan också spela Tetris och Pong, gjorda med appens systemprompt före och efter städningen, direkt på sidan.
+image: cover.png                 # en PNG på 1200 × 630 i artikelns mediemapp
+imageAlt: "Ett Tetrisspel och ett Pongspel före och efter städningen: till vänster platta grå block och racketar, till höger rundade, lysande block, en rad som rensas och en boll som sprutar partiklar."
 date: 2026-09-25
 category: app-development        # app-development | ai-journey
 translationKey: cleaning-up-gaimer

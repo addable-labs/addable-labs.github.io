@@ -1,6 +1,8 @@
 ---
 title: "Ashlands: what one prompt built"
 description: One prompt and a fleet of sub-agents produced 94,000 lines of a running game — and could not close the last stretch. What the Gauntlet Loop got right, what it cost, and what the founder brought to the run.
+image: cover.png                 # a 1200 × 630 PNG in the article's media directory
+imageAlt: "A frame from a generated game world, with a peak, a sun and water meeting the terrain in stair steps, beside an empty outline in dashed orange: the reference the critic never had."
 date: 2026-09-22
 category: ai-journey             # app-development | ai-journey
 translationKey: ashlands-what-one-prompt-built

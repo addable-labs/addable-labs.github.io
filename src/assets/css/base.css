@@ -1081,6 +1081,26 @@ html:not(.js) .theme-toggle {
   transform: translateY(-2px);
 }
 
+/* The article's image at the top of its card (si-awlu): edge to edge inside
+   the card's border, the card's padding taken back by negative margins, its
+   top corners following the card's and a hairline between it and the text.
+   Its width and height attributes reserve its 1200:630 box before it loads.
+   Its <picture> only picks the file, the 600 px copy on a phone, and makes
+   no box of its own. */
+.post picture {
+  display: contents;
+}
+
+.post-image {
+  display: block;
+  width: calc(100% + 2 * var(--space-4));
+  max-width: none;
+  height: auto;
+  margin: calc(-1 * var(--space-4)) calc(-1 * var(--space-4)) var(--space-3);
+  border-bottom: 1px solid var(--color-hairline);
+  border-radius: calc(var(--radius) - 1px) calc(var(--radius) - 1px) 0 0;
+}
+
 .post-meta {
   display: flex;
   flex-wrap: wrap;
@@ -1390,6 +1410,22 @@ html:not(.js) .theme-toggle {
 .article-summary {
   font-size: var(--text-lg);
   color: var(--color-text-muted);
+}
+
+/* The article's image (si-awlu), under the title and the summary and across
+   the header, so on the measure like the text; a hairline and the radius of
+   the cards frame it, since its dark ground meets the dark page. The
+   hairline is an outline drawn over the image's edge, not a border, so the
+   box stays the image's own 1200:630, which the layout gate holds it to at
+   every width, across the text column. */
+.article-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-top: var(--space-4);
+  border-radius: var(--radius);
+  outline: 1px solid var(--color-hairline);
+  outline-offset: -1px;
 }
 
 .article-body {

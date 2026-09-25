@@ -8,6 +8,10 @@
 //
 //   title: …                     non-empty string
 //   description: …               non-empty string; listings, meta description, feed
+//   image: cover.png             the article's image, a PNG in src/media/<slug>/
+//                                (scripts/lib/images.mjs): a slug and .png
+//   imageAlt: …                  non-empty string; the image described in the
+//                                article's language
 //   date: 2026-09-20             a real day: YYYY-MM-DD, or with an ISO time,
 //                                YYYY-MM-DDTHH:MM(:SS)(Z), read as UTC; quoted
 //                                or not, it is read as typed (parseFrontMatter)
@@ -27,6 +31,8 @@ import { DateTime } from "luxon";
 export const REQUIRED_KEYS = [
   "title",
   "description",
+  "image",
+  "imageAlt",
   "date",
   "category",
   "translationKey",
@@ -36,6 +42,11 @@ export const REQUIRED_KEYS = [
 ];
 
 const SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+
+// An article's image (si-awlu): the name of a PNG in the article's media
+// directory, a slug and ".png", as cover.png. A name, not a path: the file
+// is always the article's own, and the name is part of the image's URL.
+const IMAGE_NAME = /^[a-z0-9]+(?:-[a-z0-9]+)*\.png$/;
 
 /**
  * The YAML schema front matter is read with (si-8zyg): js-yaml's default
@@ -226,6 +237,11 @@ export function isSlug(value) {
   return typeof value === "string" && SLUG.test(value);
 }
 
+/** Is this the name an article's `image` may hold: a slug and ".png"? */
+export function isImageName(value) {
+  return typeof value === "string" && IMAGE_NAME.test(value);
+}
+
 function isNonEmptyString(value) {
   return typeof value === "string" && value.trim().length > 0;
 }
@@ -332,6 +348,12 @@ export function validateArticle(data, { allowedCategories, dirLang, file = "arti
   }
   if (data.description !== undefined && !isNonEmptyString(data.description)) {
     problems.push("description must be a non-empty string");
+  }
+  if (data.image !== undefined && !isImageName(data.image)) {
+    problems.push(`image must name a PNG in the article's media directory, a slug and .png as in cover.png, got ${JSON.stringify(data.image)}`);
+  }
+  if (data.imageAlt !== undefined && !isNonEmptyString(data.imageAlt)) {
+    problems.push("imageAlt must be a non-empty string");
   }
   if (data.date !== undefined && !isValidDate(data.date)) {
     problems.push(dateProblem(data.date));

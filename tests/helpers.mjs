@@ -9,11 +9,15 @@
 // first gate is `pnpm build` into the real _site/.
 
 import { spawnSync } from "node:child_process";
-import { cp, mkdtemp, rm, symlink } from "node:fs/promises";
+import { randomBytes } from "node:crypto";
+import { cp, mkdir, mkdtemp, rm, symlink } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
+import { crc32, deflateSync } from "node:zlib";
 import { siteNow } from "../scripts/lib/frontmatter.mjs";
+import { MEDIA_DIR } from "../scripts/lib/games.mjs";
+import { WEBP_WIDTHS, webpName } from "../scripts/lib/images.mjs";
 
 export const ROOT = path.resolve(new URL("..", import.meta.url).pathname);
 export const SRC = path.join(ROOT, "src");
@@ -141,4 +145,47 @@ export async function copyProject(dir) {
   }
   await symlink(path.join(ROOT, "node_modules"), path.join(dir, "node_modules"), "dir");
   return dir;
+}
+
+/**
+ * The image lines of the front matter of an article a case writes (si-awlu):
+ * every article names a PNG in its media directory and describes it. Give
+ * the article the files too, with `writeArticleImage`.
+ */
+export const IMAGE_FRONT_MATTER = ["image: cover.png", "imageAlt: A picture of the article."];
+
+/**
+ * Give the article `slug` of a project copy the files `IMAGE_FRONT_MATTER`
+ * names: a real article's PNG and its WebP copies, copied into
+ * src/media/<slug>/. The build fails on an article whose image is missing.
+ */
+export async function writeArticleImage(project, slug) {
+  const from = path.join(SRC, MEDIA_DIR, "how-this-site-was-built-by-agents");
+  const to = path.join(project, "src", MEDIA_DIR, slug);
+  await mkdir(to, { recursive: true });
+  for (const file of ["cover.png", ...WEBP_WIDTHS.map((width) => webpName("cover.png", width))]) await cp(path.join(from, file), path.join(to, file));
+}
+
+/**
+ * A real PNG of `width` × `height` px in one grey, or in noise, which does
+ * not compress: 1200 × 630 px of it is over 700 KB. The image checks read
+ * only a PNG's header and its length (scripts/lib/images.mjs), but a file a
+ * case writes for them is a real PNG.
+ */
+export function makePng(width, height, { noise = false } = {}) {
+  const chunk = (type, data) => {
+    const length = Buffer.alloc(4);
+    length.writeUInt32BE(data.length);
+    const body = Buffer.concat([Buffer.from(type, "latin1"), data]);
+    const crc = Buffer.alloc(4);
+    crc.writeUInt32BE(crc32(body));
+    return Buffer.concat([length, body, crc]);
+  };
+  const header = Buffer.alloc(13);
+  header.writeUInt32BE(width, 0);
+  header.writeUInt32BE(height, 4);
+  header[8] = 8; // 8 bits a sample, greyscale
+  // Each row: filter type 0, then the row's samples.
+  const rows = Buffer.concat(Array.from({ length: height }, () => Buffer.concat([Buffer.alloc(1), noise ? randomBytes(width) : Buffer.alloc(width)])));
+  return Buffer.concat([Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]), chunk("IHDR", header), chunk("IDAT", deflateSync(rows)), chunk("IEND", Buffer.alloc(0))]);
 }

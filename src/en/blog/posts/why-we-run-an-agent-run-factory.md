@@ -1,6 +1,8 @@
 ---
 title: Why we run an agent-run software factory
 description: The first article in a series about the factory behind this site — what Gas City and Beads are, what we took from Steve Yegge's work and what we changed, with one build in real numbers.
+image: cover.png                 # a 1200 × 630 PNG in the article's media directory
+imageAlt: "One shared ledger drawn as a string of beads — closed, claimed and open — with orange points where the founder steps in; three sessions each claim a bead while the mayor writes to the ledger and talks to the founder."
 date: 2026-09-21
 category: ai-journey             # app-development | ai-journey
 translationKey: why-we-run-an-agent-run-factory

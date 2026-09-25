@@ -8,7 +8,7 @@ import { parse } from "node-html-parser";
 import { COMPRESSED_BUDGET, compressedSize, fontFaceSources, formatBytes, gzipBytes, inlineParts } from "../scripts/lib/budget.mjs";
 import { gamePages } from "../scripts/lib/games.mjs";
 import { fileToUrl, walk } from "../scripts/lib/site.mjs";
-import { buildSite, copyDir, fixture, runGate, SRC, tempDir } from "./helpers.mjs";
+import { buildSite, copyDir, fixture, makePng, runGate, SRC, tempDir } from "./helpers.mjs";
 
 // The same-origin CSS and JS both landing pages reference (head.njk); the
 // helper is fed the built files so the test computes the number the gate prints.
@@ -150,6 +150,55 @@ describe("pages gate", () => {
       assert.match(output, /FAIL pages \(1 problem\)/);
     } finally {
       await over.cleanup();
+    }
+  });
+
+  it("fails a page without og:image, one whose og:image is relative, missing, not a PNG, not 1200 × 630 or over 300 KB, and tags that do not state the image (si-awlu)", async () => {
+    const broken = await tempDir("pages-images-");
+    try {
+      const copy = await copyDir(tmp.dir, path.join(broken.dir, "site"));
+      const heavy = makePng(1200, 630, { noise: true });
+      await writeFile(path.join(copy, "assets", "img", "small.png"), makePng(1200, 600));
+      await writeFile(path.join(copy, "assets", "img", "heavy.png"), heavy);
+      const image = (url) => (html) => html.replace(/(<meta property="og:image" content=")[^"]*"/, `$1${url}"`);
+      const edits = {
+        "about/index.html": (html) => html.replace(/\n\s*<meta property="og:image" content="[^"]*">/, ""),
+        "blog/index.html": image("/assets/img/share.png"),
+        "sv/index.html": image("https://addablelabs.se/assets/img/nowhere.png"),
+        "sv/about/index.html": image("https://addablelabs.se/assets/img/small.png"),
+        "sv/blog/index.html": image("https://addablelabs.se/assets/img/heavy.png"),
+        "blog/how-this-site-was-built-by-agents/index.html": (html) =>
+          image("https://addablelabs.se/blog/how-this-site-was-built-by-agents/cover-600.webp")(html)
+            .replace('<meta property="og:image:width" content="1200">', '<meta property="og:image:width" content="600">')
+            .replace('<meta name="twitter:card" content="summary_large_image">', '<meta name="twitter:card" content="summary">')
+            .replace(/(<meta name="twitter:image:alt" content=")[^"]*"/, '$1Another text"'),
+        "404.html": (html) => html.replace(/\n\s*<meta property="og:image:type" content="[^"]*">/, ""),
+      };
+      for (const [rel, edit] of Object.entries(edits)) {
+        const file = path.join(copy, rel);
+        const html = await readFile(file, "utf8");
+        const edited = edit(html);
+        assert.notEqual(edited, html, `the edit must change ${rel}`);
+        await writeFile(file, edited);
+      }
+      const { status, output } = runGate("pages", copy);
+      assert.equal(status, 1, output);
+      const failures = output.split("\n").filter((line) => line.startsWith("FAIL  "));
+      assert.deepEqual(failures, [
+        "FAIL  404.html: og:image:type is null, expected \"image/png\"",
+        "FAIL  about/index.html: missing og:image",
+        "FAIL  blog/how-this-site-was-built-by-agents/index.html: og:image /blog/how-this-site-was-built-by-agents/cover-600.webp is not a PNG",
+        "FAIL  blog/how-this-site-was-built-by-agents/index.html: og:image:width is \"600\", expected \"1200\"",
+        "FAIL  blog/how-this-site-was-built-by-agents/index.html: twitter:card is \"summary\", expected \"summary_large_image\"",
+        "FAIL  blog/how-this-site-was-built-by-agents/index.html: twitter:image:alt is not og:image:alt",
+        "FAIL  blog/index.html: og:image /assets/img/share.png is not an absolute URL on https://addablelabs.se",
+        "FAIL  sv/about/index.html: og:image /assets/img/small.png is 1200 × 600 px, not 1200 × 630",
+        `FAIL  sv/blog/index.html: og:image /assets/img/heavy.png is ${(heavy.length / 1024).toFixed(1)} KB, over 300.0 KB`,
+        "FAIL  sv/index.html: og:image /assets/img/nowhere.png is not a file in the build",
+      ]);
+      assert.match(output, /FAIL pages \(10 problems\)/);
+    } finally {
+      await broken.cleanup();
     }
   });
 

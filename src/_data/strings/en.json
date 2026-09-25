@@ -3,7 +3,8 @@
     "name": "Addable Labs",
     "tagline": "Apps and AI, built in the open",
     "wordmark": "addable",
-    "wordmarkDim": "labs"
+    "wordmarkDim": "labs",
+    "imageAlt": "The Addable Labs logo, a plus sign in a rounded square, glowing green on a dark grid."
   },
   "nav": {
     "home": "Home",

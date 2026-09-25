@@ -9,7 +9,7 @@ import yaml from "js-yaml";
 import { DateTime } from "luxon";
 import { frontMatterBlock, isOmitted, isProductionBuild, isScheduled, parseFrontMatter, REQUIRED_KEYS, siteNow, validateArticle, validateArticleDate } from "../scripts/lib/frontmatter.mjs";
 import { loadSite, readArticleSources, walk } from "../scripts/lib/site.mjs";
-import { buildSite, copyProject, ROOT, SRC, tempDir, utcDate } from "./helpers.mjs";
+import { buildSite, copyProject, IMAGE_FRONT_MATTER, ROOT, SRC, tempDir, utcDate, writeArticleImage } from "./helpers.mjs";
 
 // The string dates the validator accepts and the ones it refuses, shared by
 // its own cases and the checks of the date on its own and in the build.
@@ -49,6 +49,8 @@ const allowedCategories = ["app-development", "ai-journey"];
 const valid = {
   title: "A valid article",
   description: "One sentence.",
+  image: "cover.png",
+  imageAlt: "A picture of the article.",
   date: new Date("2026-09-20"),
   category: "ai-journey",
   translationKey: "a-valid-article",
@@ -71,8 +73,37 @@ describe("article front-matter validator", () => {
   });
 
   it("reports every missing required key", () => {
-    assert.equal(REQUIRED_KEYS.length, 8);
+    assert.equal(REQUIRED_KEYS.length, 10);
     assert.throws(() => validateArticle({}, { allowedCategories }), new RegExp(`missing required keys: ${REQUIRED_KEYS.join(", ")}`));
+  });
+
+  // Every article has an image for its link preview, its card and its page
+  // (si-awlu): `image` names a PNG in its media directory and `imageAlt`
+  // describes it in the article's language.
+  it("requires image and imageAlt, and names the file", () => {
+    for (const key of ["image", "imageAlt"]) {
+      const { [key]: _, ...without } = valid;
+      assert.throws(
+        () => validateArticle({ ...without, lang: "sv" }, { allowedCategories, dirLang: "sv", file: "src/sv/blog/posts/a.md" }),
+        { message: `Invalid article front matter in src/sv/blog/posts/a.md: missing required key: ${key}` },
+      );
+    }
+  });
+
+  it("takes as image only the name of a PNG, a slug and .png, and as imageAlt only a non-empty string", () => {
+    for (const image of ["cover.png", "cover-2.png", "a1.png"]) {
+      assert.deepEqual(validateArticle({ ...valid, image }, { allowedCategories }), [], `should accept ${image}`);
+    }
+    for (const image of ["cover.jpg", "cover.webp", "Cover.png", "cover png", "media/cover.png", "/blog/a/cover.png", "../cover.png", "cover--2.png", ".png", "", 42]) {
+      assert.throws(
+        () => validateArticle({ ...valid, image }, { allowedCategories }),
+        { message: `Invalid article front matter in article: image must name a PNG in the article's media directory, a slug and .png as in cover.png, got ${JSON.stringify(image)}` },
+        `should refuse ${JSON.stringify(image)}`,
+      );
+    }
+    for (const imageAlt of ["", "   ", 42, true]) {
+      assert.throws(() => validateArticle({ ...valid, imageAlt }, { allowedCategories }), { message: "Invalid article front matter in article: imageAlt must be a non-empty string" }, `should refuse ${JSON.stringify(imageAlt)}`);
+    }
   });
 
   // aiGenerated says how the text came to exist and humanReviewed whether a
@@ -686,9 +717,10 @@ describe("the gates split an article's front matter off as the build does", () =
     for (const [index, [, slug, save]] of SAVED.entries()) {
       const front = [`date: 2026-09-0${index + 1}`, `category: ${index % 2 ? "ai-journey" : "app-development"}`, `translationKey: ${slug}`, "draft: true"];
       for (const lang of ["en", "sv"]) {
-        const text = ["---", `title: Saved ${slug}`, "description: One sentence.", ...front, "aiGenerated: true", "humanReviewed: false", "---", "", "The body.", ""].join("\n");
+        const text = ["---", `title: Saved ${slug}`, "description: One sentence.", ...IMAGE_FRONT_MATTER, ...front, "aiGenerated: true", "humanReviewed: false", "---", "", "The body.", ""].join("\n");
         await writeFile(path.join(src, lang, "blog", "posts", `${slug}.md`), save(text));
       }
+      await writeArticleImage(project, slug);
     }
     out = buildSite(path.join(tmp.dir, "site"), {}, project);
   });

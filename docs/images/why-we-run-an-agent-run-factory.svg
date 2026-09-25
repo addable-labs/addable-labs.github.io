@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <!-- The image of "Why we run an agent-run software factory": the article's
+       ledger and setup figures without their words. One ledger drawn as a
+       string of beads: closed (a check), claimed (filled), open (a ring) and
+       the founder's few known points (orange diamonds: a plan to approve, a
+       text to read). Three sessions claim beads from it; the mayor writes to
+       it and talks to the founder (the orange diamond, top left). The string
+       runs on past the central square and fades out: the work persists. -->
+  <defs>
+    <pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse" y="15">
+      <path d="M0 .5H30M.5 0V30" fill="none" stroke="#242C33"/>
+    </pattern>
+    <radialGradient id="fade" cx="600" cy="315" r="640" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff" stop-opacity=".95"/>
+      <stop offset=".6" stop-color="#fff" stop-opacity=".55"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </radialGradient>
+    <mask id="gridmask"><rect width="1200" height="630" fill="url(#fade)"/></mask>
+    <radialGradient id="glow" cx="600" cy="330" r="340" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#83F35D" stop-opacity=".11"/>
+      <stop offset="1" stop-color="#83F35D" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="along" x1="0" x2="1200" y1="0" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff" stop-opacity="0"/>
+      <stop offset=".24" stop-color="#fff" stop-opacity="1"/>
+      <stop offset=".76" stop-color="#fff" stop-opacity="1"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    <mask id="alongmask"><rect width="1200" height="630" fill="url(#along)"/></mask>
+    <g id="closed">
+      <circle r="16" fill="#83F35D"/>
+      <path d="M-7 0l5 5 9-10" fill="none" stroke="#0B0E10" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+    <circle id="claimed" r="16" fill="#83F35D" stroke="#0B0E10" stroke-width="0"/>
+    <circle id="open" r="14.5" fill="#0B0E10" stroke="#ECEFF1" stroke-width="3"/>
+    <path id="known" d="M0-20L20 0 0 20-20 0z" fill="#FF6F00"/>
+    <g id="both" fill="#626E79">
+      <path d="M0 0l-8.5 15h17z"/>
+    </g>
+  </defs>
+
+  <rect width="1200" height="630" fill="#0B0E10"/>
+  <rect width="1200" height="630" fill="url(#grid)" mask="url(#gridmask)"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+
+  <!-- the ledger: one string of beads, running on beyond the square -->
+  <g mask="url(#alongmask)">
+    <path d="M0 425H1200" stroke="#626E79" stroke-width="3"/>
+    <use href="#closed" x="72" y="425"/>
+    <use href="#closed" x="138" y="425"/>
+    <use href="#closed" x="204" y="425"/>
+    <use href="#closed" x="270" y="425"/>
+    <use href="#open" x="930" y="425"/>
+    <use href="#open" x="996" y="425"/>
+    <use href="#open" x="1062" y="425"/>
+    <use href="#open" x="1128" y="425"/>
+  </g>
+  <use href="#closed" x="336" y="425"/>
+  <use href="#known" x="402" y="425"/>
+  <use href="#closed" x="468" y="425"/>
+  <use href="#closed" x="534" y="425"/>
+  <use href="#claimed" x="666" y="425"/>
+  <use href="#claimed" x="732" y="425"/>
+  <use href="#claimed" x="798" y="425"/>
+  <use href="#open" x="600" y="425"/>
+  <use href="#known" x="864" y="425"/>
+
+  <!-- three sessions, each claiming a bead -->
+  <g stroke="#626E79" stroke-width="3" stroke-linecap="round">
+    <path d="M666 314V392"/>
+    <path d="M732 314V392"/>
+    <path d="M798 314V392"/>
+    <path d="M468 238V392"/>
+  </g>
+  <g fill="#626E79">
+    <path d="M666 403l-8.5-15h17z"/>
+    <path d="M732 403l-8.5-15h17z"/>
+    <path d="M798 403l-8.5-15h17z"/>
+    <path d="M666 303l-8.5 15h17z"/>
+    <path d="M732 303l-8.5 15h17z"/>
+    <path d="M798 303l-8.5 15h17z"/>
+    <path d="M468 403l-8.5-15h17z"/>
+    <path d="M468 227l-8.5 15h17z"/>
+  </g>
+  <g fill="#83F35D">
+    <circle cx="666" cy="282" r="11"/>
+    <circle cx="732" cy="282" r="11"/>
+    <circle cx="798" cy="282" r="11"/>
+  </g>
+
+  <!-- the mayor, and the founder it talks to -->
+  <circle cx="468" cy="190" r="30" fill="#1A2126" stroke="#ECEFF1" stroke-width="3"/>
+  <circle cx="468" cy="190" r="10" fill="#ECEFF1"/>
+  <path d="M372 190H424" stroke="#626E79" stroke-width="3" stroke-linecap="round"/>
+  <path d="M364 190l14-8v16zM434 190l-14-8v16z" fill="#626E79"/>
+  <path d="M336 166L360 190 336 214 312 190z" fill="#FF6F00"/>
+</svg>

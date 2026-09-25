@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <!-- The image of "How this site was built by agents": the article's loop
+       figure without its words. A change (one local commit) goes to the
+       gates (ten checks, all passing), then to the founder, who reads the
+       text (the orange caret), then it is published (a live page); the
+       dashed arrow is the next change. The subject sits inside the central
+       630 x 630 square; nothing that matters is within 40 px of an edge. -->
+  <defs>
+    <pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse" y="15">
+      <path d="M0 .5H30M.5 0V30" fill="none" stroke="#242C33"/>
+    </pattern>
+    <radialGradient id="fade" cx="600" cy="315" r="640" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff" stop-opacity=".95"/>
+      <stop offset=".6" stop-color="#fff" stop-opacity=".55"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </radialGradient>
+    <mask id="gridmask"><rect width="1200" height="630" fill="url(#fade)"/></mask>
+    <radialGradient id="glow" cx="600" cy="315" r="340" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#83F35D" stop-opacity=".11"/>
+      <stop offset="1" stop-color="#83F35D" stop-opacity="0"/>
+    </radialGradient>
+    <path id="ck" d="M-8.5 1l6 6 11-13" fill="none" stroke="#83F35D" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  </defs>
+
+  <rect width="1200" height="630" fill="#0B0E10"/>
+  <rect width="1200" height="630" fill="url(#grid)" mask="url(#gridmask)"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+
+  <!-- the arrows of the loop -->
+  <g fill="none" stroke="#626E79" stroke-width="3" stroke-linecap="round">
+    <path d="M509 185H686"/>
+    <path d="M790 254V372"/>
+    <path d="M691 445H514"/>
+    <path d="M410 376V258" stroke-dasharray="2 9"/>
+  </g>
+  <g fill="#626E79">
+    <path d="M702 185l-17-8.5v17z"/>
+    <path d="M790 388l-8.5-17h17z"/>
+    <path d="M498 445l17-8.5v17z"/>
+    <path d="M410 242l-8.5 17h17z"/>
+  </g>
+
+  <!-- change: one local commit -->
+  <rect x="325" y="130" width="170" height="110" rx="18" fill="#1A2126" stroke="#626E79" stroke-width="3"/>
+  <path d="M352 185H468" stroke="#ECEFF1" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="410" cy="185" r="17" fill="#1A2126" stroke="#ECEFF1" stroke-width="4"/>
+
+  <!-- gates: ten checks, all passing -->
+  <rect x="705" y="130" width="170" height="110" rx="18" fill="#1A2126" stroke="#83F35D" stroke-width="3"/>
+  <use href="#ck" x="738" y="168"/>
+  <use href="#ck" x="764" y="168"/>
+  <use href="#ck" x="790" y="168"/>
+  <use href="#ck" x="816" y="168"/>
+  <use href="#ck" x="842" y="168"/>
+  <use href="#ck" x="738" y="204"/>
+  <use href="#ck" x="764" y="204"/>
+  <use href="#ck" x="790" y="204"/>
+  <use href="#ck" x="816" y="204"/>
+  <use href="#ck" x="842" y="204"/>
+
+  <!-- the founder reads the text -->
+  <rect x="705" y="390" width="170" height="110" rx="18" fill="#1A2126" stroke="#FF6F00" stroke-width="3"/>
+  <g stroke="#A6B0BA" stroke-width="6" stroke-linecap="round">
+    <path d="M733 421h114"/>
+    <path d="M733 445h94"/>
+    <path d="M733 469h58"/>
+  </g>
+  <rect x="802" y="457" width="12" height="24" fill="#FF6F00"/>
+
+  <!-- published: the page is live -->
+  <rect x="325" y="390" width="170" height="110" rx="18" fill="#1A2126" stroke="#626E79" stroke-width="3"/>
+  <rect x="364" y="414" width="92" height="64" rx="7" fill="#13181C" stroke="#ECEFF1" stroke-width="3"/>
+  <path d="M364 432h92" stroke="#ECEFF1" stroke-width="3"/>
+  <g stroke="#A6B0BA" stroke-width="5" stroke-linecap="round">
+    <path d="M378 448h54"/>
+    <path d="M378 463h34"/>
+  </g>
+  <circle cx="456" cy="414" r="9" fill="#83F35D" stroke="#1A2126" stroke-width="4"/>
+</svg>

@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <!-- The default share image, for every page that is not an article (the
+       landing pages, about, the blog index and the category pages): the
+       site's mark (src/assets/img/mark.svg, a plus in a rounded square) on
+       the dark grid and green glow of the article images, and no text. The
+       mark is drawn at 5.25 times its 32-unit size, 168 px, centred, so it
+       sits well inside the central 630 x 630 square. -->
+  <defs>
+    <pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse" y="15">
+      <path d="M0 .5H30M.5 0V30" fill="none" stroke="#242C33"/>
+    </pattern>
+    <radialGradient id="fade" cx="600" cy="315" r="640" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff" stop-opacity=".95"/>
+      <stop offset=".6" stop-color="#fff" stop-opacity=".55"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </radialGradient>
+    <mask id="gridmask"><rect width="1200" height="630" fill="url(#fade)"/></mask>
+    <radialGradient id="glow" cx="600" cy="315" r="340" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#83F35D" stop-opacity=".16"/>
+      <stop offset="1" stop-color="#83F35D" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="#0B0E10"/>
+  <rect width="1200" height="630" fill="url(#grid)" mask="url(#gridmask)"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+
+  <!-- the site's mark -->
+  <g transform="translate(516 231) scale(5.25)" stroke="#83F35D">
+    <rect x="1.5" y="1.5" width="29" height="29" rx="7" fill="#13181C" stroke-width="2"/>
+    <path d="M16 9v14M9 16h14" fill="none" stroke-width="3" stroke-linecap="round"/>
+  </g>
+</svg>

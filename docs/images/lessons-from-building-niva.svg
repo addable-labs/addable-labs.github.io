@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <!-- The image of "Lessons from building nivå": the article's assessment
+       figure without its words or digits. Five behaviourally anchored
+       statements, level one to five (the pips count the level), one chosen
+       (the third, with a check), become a radar over six areas whose five
+       rings are the five levels: the person's own polygon in green, a team
+       member's in grey behind it. Schematic: no real answers, not nivå's
+       logo or screens. -->
+  <defs>
+    <pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse" y="15">
+      <path d="M0 .5H30M.5 0V30" fill="none" stroke="#242C33"/>
+    </pattern>
+    <radialGradient id="fade" cx="600" cy="315" r="640" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff" stop-opacity=".95"/>
+      <stop offset=".6" stop-color="#fff" stop-opacity=".55"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </radialGradient>
+    <mask id="gridmask"><rect width="1200" height="630" fill="url(#fade)"/></mask>
+    <radialGradient id="glow" cx="700" cy="315" r="300" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#83F35D" stop-opacity=".12"/>
+      <stop offset="1" stop-color="#83F35D" stop-opacity="0"/>
+    </radialGradient>
+    <g id="pip-on"><rect width="11" height="11" rx="2" fill="#A6B0BA"/></g>
+    <g id="pip-off"><rect x="1" y="1" width="9" height="9" rx="2" fill="none" stroke="#626E79" stroke-width="2"/></g>
+    <g id="pip-ok"><rect width="11" height="11" rx="2" fill="#83F35D"/></g>
+  </defs>
+
+  <rect width="1200" height="630" fill="#0B0E10"/>
+  <rect width="1200" height="630" fill="url(#grid)" mask="url(#gridmask)"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+
+  <!-- five levels, one chosen -->
+  <rect x="314" y="287" width="236" height="56" rx="12" fill="#1A2126" stroke="#83F35D" stroke-width="2"/>
+  <g>
+    <use href="#pip-on" x="330" y="189"/><use href="#pip-off" x="345" y="189"/><use href="#pip-off" x="360" y="189"/><use href="#pip-off" x="375" y="189"/><use href="#pip-off" x="390" y="189"/>
+    <use href="#pip-on" x="330" y="249"/><use href="#pip-on" x="345" y="249"/><use href="#pip-off" x="360" y="249"/><use href="#pip-off" x="375" y="249"/><use href="#pip-off" x="390" y="249"/>
+    <use href="#pip-ok" x="330" y="309"/><use href="#pip-ok" x="345" y="309"/><use href="#pip-ok" x="360" y="309"/><use href="#pip-off" x="375" y="309"/><use href="#pip-off" x="390" y="309"/>
+    <use href="#pip-on" x="330" y="369"/><use href="#pip-on" x="345" y="369"/><use href="#pip-on" x="360" y="369"/><use href="#pip-on" x="375" y="369"/><use href="#pip-off" x="390" y="369"/>
+    <use href="#pip-on" x="330" y="429"/><use href="#pip-on" x="345" y="429"/><use href="#pip-on" x="360" y="429"/><use href="#pip-on" x="375" y="429"/><use href="#pip-on" x="390" y="429"/>
+  </g>
+  <g stroke-width="5" stroke-linecap="round">
+    <path d="M422 189h92M422 204h64" stroke="#626E79"/>
+    <path d="M422 249h100M422 264h56" stroke="#626E79"/>
+    <path d="M422 309h88M422 324h60" stroke="#ECEFF1"/>
+    <path d="M422 369h96M422 384h70" stroke="#626E79"/>
+    <path d="M422 429h84M422 444h62" stroke="#626E79"/>
+  </g>
+  <path d="M524 315l7 7 13-15" fill="none" stroke="#83F35D" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- to the radar -->
+  <path d="M566 315H590" stroke="#626E79" stroke-width="3" stroke-linecap="round"/>
+  <path d="M606 315l-17-8.5v17z" fill="#626E79"/>
+
+  <!-- the radar: six areas, five rings for the five levels -->
+  <g fill="none" stroke="#242C33" stroke-width="2">
+    <path d="M752 287L776.25 301 776.25 329 752 343 727.75 329 727.75 301z"/>
+    <path d="M752 259L800.5 287 800.5 343 752 371 703.5 343 703.5 287z"/>
+    <path d="M752 231L824.74 273 824.74 357 752 399 679.26 357 679.26 273z"/>
+    <path d="M752 203L848.99 259 848.99 371 752 427 655.01 371 655.01 259z"/>
+    <path d="M752 315V175M752 315L873.24 245M752 315L873.24 385M752 315V455M752 315L630.76 385M752 315L630.76 245"/>
+  </g>
+  <path d="M752 175L873.24 245 873.24 385 752 455 630.76 385 630.76 245z" fill="none" stroke="#626E79" stroke-width="2.5"/>
+  <!-- a team member's levels -->
+  <path d="M752 231L848.99 259 824.74 357 752 371 655.01 371 703.5 287z" fill="none" stroke="#A6B0BA" stroke-opacity=".7" stroke-width="2.5" stroke-linejoin="round"/>
+  <!-- the person's levels -->
+  <path d="M752 203L824.74 273 873.24 385 752 399 703.5 343 679.26 273z" fill="#83F35D" fill-opacity=".16" stroke="#83F35D" stroke-width="4" stroke-linejoin="round"/>
+  <g fill="#83F35D">
+    <circle cx="752" cy="203" r="6.5"/>
+    <circle cx="824.74" cy="273" r="6.5"/>
+    <circle cx="873.24" cy="385" r="6.5"/>
+    <circle cx="752" cy="399" r="6.5"/>
+    <circle cx="703.5" cy="343" r="6.5"/>
+    <circle cx="679.26" cy="273" r="6.5"/>
+  </g>
+</svg>

@@ -19,6 +19,28 @@
   <meta property="og:type" content="{{ ogType or "website" }}">
   <meta property="og:locale" content="{{ "sv_SE" if lang == "sv" else "en_GB" }}">
   <meta property="og:site_name" content="{{ siteName }}">
+{#- The image a link preview shows (si-awlu; scripts/lib/images.mjs): an
+    article's own, which its front matter names (`image`) and describes in
+    its language (`imageAlt`), and on every other page the site's default
+    one (`shareImage`), described in strings.<lang>.site.imageAlt. Both are
+    1200 × 630 PNGs, at an absolute URL like every URL Open Graph reads.
+    twitter:card asks X for its large card, whose image X takes from
+    og:image. The game pages (src/game-pages.njk) write the same tags with
+    the default image. #}
+{%- if image %}
+  {%- set shareUrl = (image | articleImage(page.fileSlug)).png %}
+  {%- set shareAlt = imageAlt %}
+{%- else %}
+  {%- set shareUrl = shareImage.url %}
+  {%- set shareAlt = strings[lang].site.imageAlt %}
+{%- endif %}
+  <meta property="og:image" content="{{ shareUrl | absoluteUrl(site.url) }}">
+  <meta property="og:image:type" content="{{ shareImage.type }}">
+  <meta property="og:image:width" content="{{ shareImage.width }}">
+  <meta property="og:image:height" content="{{ shareImage.height }}">
+  <meta property="og:image:alt" content="{{ shareAlt }}">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image:alt" content="{{ shareAlt }}">
 {%- if alternate %}
   <link rel="alternate" hreflang="{{ lang }}" href="{{ page.url | absoluteUrl(site.url) }}">
   <link rel="alternate" hreflang="{{ alternate.lang }}" href="{{ alternate.url | absoluteUrl(site.url) }}">

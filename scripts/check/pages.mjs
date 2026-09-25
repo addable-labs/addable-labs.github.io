@@ -8,6 +8,11 @@
 //   - every img has alt, width and height
 //   - a unique <title>, a meta description, a canonical URL, og:title and
 //     og:description
+//   - a link-preview image (si-awlu): og:image an absolute URL on the site's
+//     origin whose file in the build is a PNG of 1200 × 630 px and at most
+//     300 KB, og:image:type image/png, og:image:width 1200 and
+//     og:image:height 630, an og:image:alt, twitter:card
+//     summary_large_image and a twitter:image:alt equal to og:image:alt
 //   - three hreflang alternates (both languages + x-default → the English
 //     URL) with absolute URLs, and the language's feed link (404.html has no
 //     counterpart and is exempt from the alternates and the switch)
@@ -37,6 +42,7 @@ import path from "node:path";
 import { COMPRESSED_BUDGET, compressedSize, fontFaceSources, formatBytes } from "../lib/budget.mjs";
 import { gamePagePaths } from "../lib/games.mjs";
 import { attr, focusables, headings, loadPage, text } from "../lib/html.mjs";
+import { IMAGE_HEIGHT, IMAGE_WIDTH, pngProblems } from "../lib/images.mjs";
 import { candidatesForPath, exists, internalPath, langPrefix, loadSite, loadStrings, reporter, resolveDirs, walk } from "../lib/site.mjs";
 
 const { out, src } = resolveDirs();
@@ -78,6 +84,25 @@ async function readAsset(href) {
     assetText.set(urlPath, asset);
   }
   return assetText.get(urlPath);
+}
+
+// What is wrong with the file a page's og:image names, by URL path (si-awlu):
+// missing from the build, or not a PNG of 1200 × 630 px of at most 300 KB.
+// Read once for all the pages that name it.
+const imageFileProblems = new Map();
+async function imageProblemsAt(urlPath) {
+  if (!imageFileProblems.has(urlPath)) {
+    let problems = [`og:image ${urlPath} is not a file in the build`];
+    for (const candidate of candidatesForPath(urlPath)) {
+      const file = path.join(out, candidate);
+      if (await exists(file)) {
+        problems = pngProblems(await readFile(file), `og:image ${urlPath}`);
+        break;
+      }
+    }
+    imageFileProblems.set(urlPath, problems);
+  }
+  return imageFileProblems.get(urlPath);
 }
 
 const files = await walk(out, ".html");
@@ -136,6 +161,23 @@ for (const file of files) {
   for (const property of ["og:title", "og:description"]) {
     expect((attr(doc.querySelector(`meta[property="${property}"]`), "content") ?? "").trim().length > 0, `missing ${property}`);
   }
+
+  // The link-preview image (si-awlu): what a platform shows when the page is
+  // shared. Open Graph wants an absolute URL; the file must be there, and be
+  // the 1200 × 630 PNG of at most 300 KB the tags announce.
+  const meta = (key, name = "property") => attr(doc.querySelector(`meta[${name}="${key}"]`), "content");
+  const image = meta("og:image") ?? "";
+  const imagePath = internalPath(image, site);
+  if (!image) problems.push("missing og:image");
+  else if (!image.startsWith(`${origin}/`) || imagePath === null) problems.push(`og:image ${image} is not an absolute URL on ${origin}`);
+  else problems.push(...(await imageProblemsAt(imagePath)));
+  for (const [key, want] of [["og:image:type", "image/png"], ["og:image:width", String(IMAGE_WIDTH)], ["og:image:height", String(IMAGE_HEIGHT)]]) {
+    expect(meta(key) === want, `${key} is ${JSON.stringify(meta(key) ?? null)}, expected "${want}"`);
+  }
+  const imageAlt = (meta("og:image:alt") ?? "").trim();
+  expect(imageAlt.length > 0, "missing og:image:alt");
+  expect(meta("twitter:card", "name") === "summary_large_image", `twitter:card is ${JSON.stringify(meta("twitter:card", "name") ?? null)}, expected "summary_large_image"`);
+  expect((meta("twitter:image:alt", "name") ?? "").trim() === imageAlt, "twitter:image:alt is not og:image:alt");
 
   // hreflang alternates and the switch (not for the 404 page or a game page,
   // which have no counterpart)

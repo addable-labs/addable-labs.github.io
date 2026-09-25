@@ -1,6 +1,8 @@
 ---
 title: Lärdomar från att bygga nivå
 description: Vad en självskattning av AI-kompetens och AI-mognad för individer och team har lärt oss om angreppssätt och beslut medan den fortfarande är under utveckling.
+image: cover.png                 # en PNG på 1200 × 630 i artikelns mediemapp
+imageAlt: "Fem påståenden, nivå ett till fem, där ett är valt, blir ett radardiagram över sex områden: en persons nivåer i grönt och en teammedlems i grått."
 date: 2026-09-23
 category: ai-journey             # app-development | ai-journey
 translationKey: lessons-from-building-niva

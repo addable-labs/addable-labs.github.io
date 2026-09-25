@@ -6,7 +6,7 @@ import { after, before, describe, it } from "node:test";
 import { promisify } from "node:util";
 import { isScheduled } from "../scripts/lib/frontmatter.mjs";
 import { loadSite, readArticleSources, walk } from "../scripts/lib/site.mjs";
-import { buildSite, clockAt, copyDir, copyProject, NOW, runGate, SRC, tempDir, utcDate } from "./helpers.mjs";
+import { buildSite, clockAt, copyDir, copyProject, IMAGE_FRONT_MATTER, NOW, runGate, SRC, tempDir, utcDate, writeArticleImage } from "./helpers.mjs";
 
 // The content gate re-targeted to the Signal landing model (REQ-024;
 // AC-09 … AC-15): the real build passes, and every
@@ -456,6 +456,40 @@ describe("content gate", () => {
     assert.match(output, /FAIL {2}blog\/why-we-run-an-agent-run-factory\/index\.html: \d+ words \(300–1500\)/);
   });
 
+  it("fails a link preview that shows another page's image, a card without its article's image, and an article image that is lazy, above the title or described otherwise (si-awlu)", async () => {
+    const other = (card) => card.replace(/\/blog\/[a-z0-9-]+\/cover/g, "/blog/how-this-site-was-built-by-agents/cover");
+    const broken = await withPageEdits("images", {
+      // The landing page shares an article's image, and an article the default.
+      "index.html": (html) => html.replace('<meta property="og:image" content="https://addablelabs.se/assets/img/share.png">', '<meta property="og:image" content="https://addablelabs.se/blog/ashlands-what-one-prompt-built/cover.png">'),
+      "blog/lessons-from-building-niva/index.html": (html) => html.replace(/(<meta property="og:image" content=")[^"]*"/, "$1https://addablelabs.se/assets/img/share.png\""),
+      // The first card of the Swedish index shows another article's image,
+      // and the first card of the English index describes its image.
+      "sv/blog/index.html": (html) => html.replace(cards(html)[0], other(cards(html)[0])),
+      "blog/index.html": (html) => html.replace('alt=""', 'alt="A picture"'),
+      // One article's image loads lazily, one's is described otherwise and
+      // one's stands above the title.
+      "blog/why-we-run-an-agent-run-factory/index.html": (html) => html.replace(' fetchpriority="high">', ' loading="lazy">'),
+      "sv/blog/how-this-site-was-built-by-agents/index.html": (html) => html.replace(/(<img class="article-image"[^>]* alt=")[^"]*"/, '$1En bild"'),
+      "sv/blog/ashlands-what-one-prompt-built/index.html": (html) => {
+        const [image] = /\n\s*<img class="article-image"[^>]*>/.exec(html);
+        return html.replace(image, "").replace("<h1 ", `${image.trim()}\n    <h1 `);
+      },
+    });
+    const { status, output } = runGate("content", broken);
+    assert.equal(status, 1);
+    assert.match(output, /^FAIL {2}index\.html: its link preview shows https:\/\/addablelabs\.se\/blog\/ashlands-what-one-prompt-built\/cover\.png, described as "The Addable Labs logo[^"]*", not the site's default image, https:\/\/addablelabs\.se\/assets\/img\/share\.png, described as "The Addable Labs logo[^"]*"$/m);
+    assert.match(output, /^FAIL {2}blog\/lessons-from-building-niva\/index\.html: its link preview shows https:\/\/addablelabs\.se\/assets\/img\/share\.png, described as "Five statements[^"]*", not its article's image, https:\/\/addablelabs\.se\/blog\/lessons-from-building-niva\/cover\.png, described as "Five statements[^"]*"$/m);
+    assert.match(output, /^FAIL {2}sv\/blog\/index\.html: the card for \/sv\/blog\/[a-z0-9-]+\/ shows \/blog\/how-this-site-was-built-by-agents\/cover-600\.webp, \/blog\/how-this-site-was-built-by-agents\/cover-1200\.webp with alt="", not its article's image alone with alt=""$/m);
+    assert.match(output, /^FAIL {2}blog\/index\.html: the card for \/blog\/[a-z0-9-]+\/ shows [^\n]* with alt="A picture", not its article's image alone with alt=""$/m);
+    assert.match(output, /^FAIL {2}every page's link preview shows its own image/m);
+    assert.match(output, /^FAIL {2}every article card shows its article's image with alt="" \(\d+ cards\)$/m);
+    for (const page of ["blog/why-we-run-an-agent-run-factory", "sv/blog/how-this-site-was-built-by-agents", "sv/blog/ashlands-what-one-prompt-built"]) {
+      const slug = page.split("/").at(-1);
+      assert.match(output, new RegExp(`^FAIL {2}${page}/index\\.html: shows its image, /blog/${slug}/, under its summary, described as its imageAlt and loaded at once$`, "m"), page);
+    }
+    assert.match(output, /^ok {4}sv\/blog\/why-we-run-an-agent-run-factory\/index\.html: shows its image/m, "the untouched Swedish page passes");
+  });
+
   it("fails a GitHub repository that is not one of the public ones the site may link, in a page and in a feed (si-vwu8)", async () => {
     // A made-up repository: the rule is an allow-list, so any repository it
     // does not list is refused and the test needs no real private one.
@@ -548,13 +582,14 @@ function cardArticleLine(page, name, url, label, date = articleDate(url)) {
 /** Write one article, both languages, into a copy of the project; `linkTo` links another article's slug from the body. */
 async function writeArticlePair(project, slug, date, enTitle, svTitle, { draft = false, linkTo, category = "app-development" } = {}) {
   for (const [lang, title] of [["en", enTitle], ["sv", svTitle]]) {
-    const frontMatter = ["---", `title: ${title}`, `description: ${title}, one sentence.`, `date: ${date}`, `category: ${category}`, `translationKey: ${slug}`, `draft: ${draft}`, "aiGenerated: true", "humanReviewed: true", "---"];
+    const frontMatter = ["---", `title: ${title}`, `description: ${title}, one sentence.`, ...IMAGE_FRONT_MATTER, `date: ${date}`, `category: ${category}`, `translationKey: ${slug}`, `draft: ${draft}`, "aiGenerated: true", "humanReviewed: true", "---"];
     const link = linkTo ? `\n\nIt links [another article](${lang === "en" ? "" : `/${lang}`}/blog/${linkTo}/).` : "";
     // A body long enough to clear the content gate's 300-word floor, so the
     // gates can run against this build as they do against the real one.
     const body = `The body of ${title}.${link}\n\n${"One sentence of filler prose, written only to give this fixture article its words. ".repeat(30)}`;
     await writeFile(path.join(project, "src", lang, "blog", "posts", `${slug}.md`), `${frontMatter.join("\n")}\n\n${body}\n`);
   }
+  await writeArticleImage(project, slug);
 }
 
 /** The article URLs of a built listing page, in the order it lists them. */
@@ -709,14 +744,15 @@ describe("scheduled posts", () => {
     const copy = await copyDir(built, path.join(tmp.dir, "listing-scheduled"));
     // A card for the article dated tomorrow before the first card of the
     // English blog index and of the Swedish landing page, where the newest
-    // article goes: the card of the one dated today, pointed at it.
+    // article goes: the card of the one dated today, pointed at it, its link
+    // and its image (si-awlu).
     for (const [page, prefix] of [[["blog", "index.html"], ""], [["sv", "index.html"], "/sv"]]) {
       const file = path.join(copy, ...page);
       const html = await readFile(file, "utf8");
       const [card] = cards(html).filter((item) => item.includes(`href="${prefix}/blog/published-today/"`));
       assert.ok(card, `${page.join("/")}: the card of the article dated today must be found`);
       const [first] = cards(html);
-      await writeFile(file, html.replace(first, () => `${card.replace(`href="${prefix}/blog/published-today/"`, `href="${prefix}/blog/scheduled-tomorrow/"`)}\n    ${first}`));
+      await writeFile(file, html.replace(first, () => `${card.replaceAll("/blog/published-today/", "/blog/scheduled-tomorrow/")}\n    ${first}`));
     }
     const { status, output } = runGate("content", copy, builtSrc);
     assert.equal(status, 1);
@@ -735,10 +771,10 @@ describe("scheduled posts", () => {
     const file = path.join(copy, "blog", "app-development", "index.html");
     const html = await readFile(file, "utf8");
     // A card for the article dated tomorrow, after the card of the one dated
-    // today.
+    // today: that card, pointed at it, its link and its image (si-awlu).
     const [card] = cards(html).filter((item) => item.includes('href="/blog/published-today/"'));
     assert.ok(card, "the card of the article dated today must be found");
-    await writeFile(file, html.replace(card, () => `${card}\n    ${card.replace('href="/blog/published-today/"', 'href="/blog/scheduled-tomorrow/"')}`));
+    await writeFile(file, html.replace(card, () => `${card}\n    ${card.replaceAll("/blog/published-today/", "/blog/scheduled-tomorrow/")}`));
     const { status, output } = runGate("content", copy, builtSrc);
     assert.equal(status, 1);
     assert.match(output, new RegExp(`^FAIL {2}blog/app-development/index\\.html: lists exactly the listed en articles of app-development, newest first \\(.*\\), not (.*, )?/blog/scheduled-tomorrow/ before ${utcDate(1)}(, .*)? — extra: /blog/scheduled-tomorrow/ before ${utcDate(1)}$`, "m"));

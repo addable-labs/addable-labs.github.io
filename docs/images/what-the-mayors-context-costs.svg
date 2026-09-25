@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <!-- The image of "A study of the mayor's context": the size of the mayor's
+       context, call by call, on one scale for both periods. Each tooth is a
+       session: it starts at the start-up content (the grey floor, sent with
+       every call: 64,000 tokens, then 42,500, medians), grows and drops at
+       the hand-off (the dashed lines: 160,000 tokens, then 300,000). Tooth
+       widths are the median calls per session (44, then 160); the orange
+       start of each tooth is re-orientation, the calls before the first
+       outward action (21 of 44, then 12 of 160). The floor is about half of
+       the area on the left and a quarter on the right, as in the article's
+       sources figure. The teeth run on past the central square and fade. -->
+  <defs>
+    <pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse" y="15">
+      <path d="M0 .5H30M.5 0V30" fill="none" stroke="#242C33"/>
+    </pattern>
+    <radialGradient id="fade" cx="600" cy="315" r="640" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff" stop-opacity=".95"/>
+      <stop offset=".6" stop-color="#fff" stop-opacity=".55"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </radialGradient>
+    <mask id="gridmask"><rect width="1200" height="630" fill="url(#fade)"/></mask>
+    <radialGradient id="glow" cx="600" cy="330" r="340" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#83F35D" stop-opacity=".09"/>
+      <stop offset="1" stop-color="#83F35D" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="along" x1="0" x2="1200" y1="0" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff" stop-opacity=".08"/>
+      <stop offset=".24" stop-color="#fff" stop-opacity="1"/>
+      <stop offset=".76" stop-color="#fff" stop-opacity="1"/>
+      <stop offset="1" stop-color="#fff" stop-opacity=".08"/>
+    </linearGradient>
+    <mask id="alongmask"><rect width="1200" height="630" fill="url(#along)"/></mask>
+  </defs>
+
+  <rect width="1200" height="630" fill="#0B0E10"/>
+  <rect width="1200" height="630" fill="url(#grid)" mask="url(#gridmask)"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+
+  <g mask="url(#alongmask)">
+    <!-- the hand-off points -->
+    <g stroke="#626E79" stroke-width="2" stroke-dasharray="3 9" stroke-linecap="round">
+      <path d="M0 302H585"/>
+      <path d="M615 148H1200"/>
+    </g>
+    <!-- 22-23 September: short sessions -->
+    <path d="M-20 478V407.6L35 302V478zM35 478V407.6L90 302V478zM90 478V407.6L145 302V478zM145 478V407.6L200 302V478zM200 478V407.6L255 302V478zM255 478V407.6L310 302V478zM310 478V407.6L365 302V478zM365 478V407.6L420 302V478zM420 478V407.6L475 302V478zM475 478V407.6L530 302V478zM530 478V407.6L585 302V478z" fill="#83F35D" fill-opacity=".15"/>
+    <!-- 24-25 September: long sessions -->
+    <path d="M615 478V431.25L815 148V478zM815 478V431.25L1015 148V478zM1015 478V431.25L1215 148V478z" fill="#83F35D" fill-opacity=".15"/>
+    <!-- the start-up content, sent with every call -->
+    <rect x="0" y="407.6" width="585" height="70.4" fill="#626E79" fill-opacity=".38"/>
+    <rect x="615" y="431.25" width="585" height="46.75" fill="#626E79" fill-opacity=".38"/>
+    <path d="M0 407.6H585M615 431.25H1200" stroke="#A6B0BA" stroke-width="2.5"/>
+    <!-- hand-offs -->
+    <path d="M35 302V407.6M90 302V407.6M145 302V407.6M200 302V407.6M255 302V407.6M310 302V407.6M365 302V407.6M420 302V407.6M475 302V407.6M530 302V407.6M585 302V407.6M815 148V431.25M1015 148V431.25" stroke="#83F35D" stroke-opacity=".55" stroke-width="2"/>
+    <!-- the work -->
+    <path d="M6.25 357.2L35 302M61.25 357.2L90 302M116.25 357.2L145 302M171.25 357.2L200 302M226.25 357.2L255 302M281.25 357.2L310 302M336.25 357.2L365 302M391.25 357.2L420 302M446.25 357.2L475 302M501.25 357.2L530 302M556.25 357.2L585 302M630 410.01L815 148M830 410.01L1015 148M1030 410.01L1215 148" stroke="#83F35D" stroke-width="3.5" stroke-linecap="round"/>
+    <!-- re-orientation: the calls before the first outward action -->
+    <path d="M-20 407.6L6.25 357.2M35 407.6L61.25 357.2M90 407.6L116.25 357.2M145 407.6L171.25 357.2M200 407.6L226.25 357.2M255 407.6L281.25 357.2M310 407.6L336.25 357.2M365 407.6L391.25 357.2M420 407.6L446.25 357.2M475 407.6L501.25 357.2M530 407.6L556.25 357.2M615 431.25L630 410.01M815 431.25L830 410.01M1015 431.25L1030 410.01" stroke="#FF6F00" stroke-width="3.5" stroke-linecap="round"/>
+    <path d="M0 478H1200" stroke="#626E79" stroke-width="2"/>
+  </g>
+</svg>

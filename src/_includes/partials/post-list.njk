@@ -1,13 +1,27 @@
 {#- Article cards (REQ-013, REQ-016): the newest-first `posts` collection as
-    .post cards — date, the category chip (a link to the category page), the
-    draft chip when the article is a draft, the title link and the
-    description. Set `posts` before including; set `listHeading` to "h3" when
-    the list sits under an h2 (default "h2"). The empty state is blog.empty. -#}
+    .post cards — the article's image (si-awlu), date, the category chip (a
+    link to the category page), the draft chip when the article is a draft,
+    the title link and the description. Set `posts` before including; set
+    `listHeading` to "h3" when the list sits under an h2 (default "h2"). The
+    image is the article's WebP copies (scripts/lib/images.mjs) with alt="",
+    as the title link beside it names the article: below 48rem, on a phone,
+    the 600 px copy, and from 48rem the copy the card's width asks for. It
+    loads lazily unless its card is one of the first `eagerCards` (default
+    none): the blog index and the category pages set 2, the first row, which
+    may be on the first screen, and those load at once but after the
+    stylesheets and fonts (fetchpriority="low"), as the text of the first
+    screen comes before its pictures. The empty state is blog.empty. -#}
 {%- set headingTag = listHeading or "h2" -%}
+{%- set eager = eagerCards or 0 -%}
 {%- if posts | length %}
   <ol class="post-list">
     {%- for post in posts %}
+    {%- set img = post.data.image | articleImage(post.page.fileSlug) %}
     <li class="post reveal">
+      <picture>
+        <source media="(max-width: 47.99rem)" srcset="{{ img.small }}">
+        <img class="post-image" src="{{ img.src }}" srcset="{{ img.srcset }}" sizes="35rem" width="{{ shareImage.width }}" height="{{ shareImage.height }}" alt=""{% if loop.index > eager %} loading="lazy"{% else %} fetchpriority="low"{% endif %}>
+      </picture>
       <p class="post-meta">
         <time datetime="{{ post.date | isoDate }}">{{ post.date | localeDate(lang) }}</time>
         <a class="chip chip-cat" href="{{ langPrefix }}/blog/{{ post.data.category }}/">{{ strings[lang].categories[post.data.category] }}</a>

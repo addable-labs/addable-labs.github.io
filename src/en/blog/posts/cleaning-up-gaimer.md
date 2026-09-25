@@ -1,6 +1,8 @@
 ---
 title: "Cleaning up Gaimer: Tetris and Pong, before and after"
 description: On 24 and 25 September 2026 the factory merged 45 pull requests into Gaimer, the desktop app that makes a small game from a description. What they changed, and a Tetris and a Pong made with its system prompt from before and after, to play in the page.
+image: cover.png                 # a 1200 × 630 PNG in the article's media directory
+imageAlt: "A Tetris and a Pong, before and after the cleanup: flat grey blocks and bar paddles on the left; rounded, glowing blocks, a line clearing and a ball throwing off particles on the right."
 date: 2026-09-25
 category: app-development        # app-development | ai-journey
 translationKey: cleaning-up-gaimer

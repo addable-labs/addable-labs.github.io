@@ -3,6 +3,7 @@ import { IdAttributePlugin } from "@11ty/eleventy";
 import rssPlugin from "@11ty/eleventy-plugin-rss";
 import { isOmitted, isScheduled, parseFrontMatter, siteNow, validateArticle, validateArticleDate } from "./scripts/lib/frontmatter.mjs";
 import { articleIsBuilt, gamePages, gameProblems, MEDIA_DIR, mediaSlugs, readGames, renderGames } from "./scripts/lib/games.mjs";
+import { articleImage, DEFAULT_IMAGE, IMAGE_HEIGHT, IMAGE_WIDTH, imageProblems } from "./scripts/lib/images.mjs";
 import { ARTICLE_PATH, byDateDescThenSlug, checkPageUrls } from "./scripts/lib/urls.mjs";
 import site from "./src/_data/site.js";
 
@@ -116,6 +117,24 @@ export default function (eleventyConfig) {
     if (problems.length > 0) throw new Error(["The article media or src/_data/games.json:", ...problems.map((problem) => `  ${problem}`)].join("\n"));
   });
   eleventyConfig.addGlobalData("gamePages", () => gamePages(SRC));
+
+  // Article images (si-awlu; scripts/lib/images.mjs): every article names a
+  // PNG in its media directory, which the copy above publishes with the
+  // article, and link previews show it; the page and the listings show its
+  // two WebP copies. An image missing from the media directory, a PNG that
+  // is not 1200 × 630 or is over 300 KB, a missing or mis-sized WebP copy,
+  // and the same of the default image the other pages share, fail the build
+  // naming the file. The front-matter check below refuses an article
+  // without `image` or `imageAlt`.
+  eleventyConfig.on("eleventy.before", () => {
+    const problems = imageProblems(SRC);
+    if (problems.length > 0) throw new Error(["The article images:", ...problems.map((problem) => `  ${problem}`)].join("\n"));
+  });
+  // `image | articleImage(page.fileSlug)`: the URLs of an article's image,
+  // { png, src, srcset, small }; `shareImage` is the default image and the
+  // size of every image link previews take.
+  eleventyConfig.addFilter("articleImage", (image, slug) => articleImage(slug, image));
+  eleventyConfig.addGlobalData("shareImage", { url: DEFAULT_IMAGE, width: IMAGE_WIDTH, height: IMAGE_HEIGHT, type: "image/png" });
 
   // Front matter is read with our YAML engine instead of Eleventy's own
   // (si-8zyg): the same js-yaml without YAML's timestamp type, so a date

@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { after, before, describe, it } from "node:test";
-import { buildSite, copyProject, fixture, runHtmlValidate, tempDir } from "./helpers.mjs";
+import { buildSite, copyProject, fixture, IMAGE_FRONT_MATTER, runHtmlValidate, tempDir, writeArticleImage } from "./helpers.mjs";
 
 describe("html gate (html-validate with .htmlvalidate.json)", () => {
   let tmp;
@@ -34,9 +34,10 @@ describe("html gate (html-validate with .htmlvalidate.json)", () => {
     const project = await copyProject(path.join(tmp.dir, "project"));
     const table = "| Measure | Value |\n| --- | ---: |\n| Sessions | 38 |\n| Calls | 2,315 |";
     for (const lang of ["en", "sv"]) {
-      const frontMatter = ["---", "title: A table", "description: An article with a table.", "date: 2026-09-20", "category: ai-journey", "translationKey: a-table", "draft: false", "aiGenerated: true", "humanReviewed: true", "---"];
+      const frontMatter = ["---", "title: A table", "description: An article with a table.", ...IMAGE_FRONT_MATTER, "date: 2026-09-20", "category: ai-journey", "translationKey: a-table", "draft: false", "aiGenerated: true", "humanReviewed: true", "---"];
       await writeFile(path.join(project, "src", lang, "blog", "posts", "a-table.md"), `${frontMatter.join("\n")}\n\nA table follows.\n\n${table}\n`);
     }
+    await writeArticleImage(project, "a-table");
     const out = buildSite(path.join(tmp.dir, "table-site"), {}, project);
     const html = await readFile(path.join(out, "blog", "a-table", "index.html"), "utf8");
     const body = html.slice(html.indexOf('<div class="article-body">'));

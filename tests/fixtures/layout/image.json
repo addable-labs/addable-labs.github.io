@@ -1,0 +1,414 @@
+[
+  {
+    "page": "/blog/how-this-site-was-built-by-agents/",
+    "width": 360,
+    "article": {
+      "rem": 16,
+      "scrollWidth": 360,
+      "innerWidth": 360,
+      "body": {
+        "left": 16,
+        "right": 344
+      },
+      "blocks": [
+        {
+          "tag": "p",
+          "left": 16,
+          "right": 344,
+          "top": 610.77
+        },
+        {
+          "tag": "h2",
+          "left": 16,
+          "right": 344,
+          "top": 905.89
+        },
+        {
+          "tag": "p",
+          "left": 16,
+          "right": 344,
+          "top": 972.08
+        },
+        {
+          "tag": "h2",
+          "left": 16,
+          "right": 344,
+          "top": 2303.94
+        },
+        {
+          "tag": "p",
+          "left": 16,
+          "right": 344,
+          "top": 2764.81
+        },
+        {
+          "tag": "h2",
+          "left": 16,
+          "right": 344,
+          "top": 3291.06
+        },
+        {
+          "tag": "p",
+          "left": 16,
+          "right": 344,
+          "top": 3836.73
+        },
+        {
+          "tag": "h2",
+          "left": 16,
+          "right": 344,
+          "top": 4334.09
+        },
+        {
+          "tag": "p",
+          "left": 16,
+          "right": 344,
+          "top": 4432.47
+        },
+        {
+          "tag": "p",
+          "left": 16,
+          "right": 344,
+          "top": 5196.63
+        },
+        {
+          "tag": "p",
+          "left": 16,
+          "right": 344,
+          "top": 5559.31
+        }
+      ],
+      "figures": [
+        {
+          "id": "fig-stages",
+          "placement": "wide",
+          "left": 16,
+          "right": 344,
+          "top": 1503.22,
+          "bottom": 2239.94,
+          "panel": {
+            "left": 16,
+            "right": 344,
+            "top": 1503.22,
+            "bottom": 2128
+          },
+          "caption": {
+            "left": 16,
+            "right": 344,
+            "top": 2144,
+            "bottom": 2239.94
+          },
+          "scale": 1.02
+        },
+        {
+          "id": "fig-loop",
+          "placement": "inline",
+          "left": 16,
+          "right": 344,
+          "top": 2426.31,
+          "bottom": 2724.81,
+          "panel": {
+            "left": 16,
+            "right": 344,
+            "top": 2426.31,
+            "bottom": 2632.06
+          },
+          "caption": {
+            "left": 16,
+            "right": 344,
+            "top": 2648.06,
+            "bottom": 2724.81
+          },
+          "scale": 1.02
+        },
+        {
+          "id": "fig-gates",
+          "placement": "inline",
+          "left": 16,
+          "right": 344,
+          "top": 3381.25,
+          "bottom": 3796.73,
+          "panel": {
+            "left": 16,
+            "right": 344,
+            "top": 3381.25,
+            "bottom": 3684.8
+          },
+          "caption": {
+            "left": 16,
+            "right": 344,
+            "top": 3700.8,
+            "bottom": 3796.73
+          },
+          "scale": 1.02
+        },
+        {
+          "id": "fig-words",
+          "placement": "inline",
+          "left": 16,
+          "right": 344,
+          "top": 4732.48,
+          "bottom": 5156.63,
+          "panel": {
+            "left": 16,
+            "right": 344,
+            "top": 4732.48,
+            "bottom": 4987.13
+          },
+          "caption": {
+            "left": 16,
+            "right": 344,
+            "top": 5003.13,
+            "bottom": 5156.63
+          },
+          "scale": 1.02
+        }
+      ],
+      "tables": [],
+      "games": [],
+      "image": {
+        "left": 16,
+        "right": 344,
+        "top": 398.58,
+        "bottom": 570.77,
+        "summaryBottom": 374.58
+      }
+    }
+  },
+  {
+    "page": "/sv/blog/why-we-run-an-agent-run-factory/",
+    "width": 1280,
+    "article": {
+      "rem": 16,
+      "scrollWidth": 1280,
+      "innerWidth": 1280,
+      "body": {
+        "left": 72,
+        "right": 1208
+      },
+      "blocks": [
+        {
+          "tag": "p",
+          "left": 288,
+          "right": 992,
+          "top": 834.42
+        },
+        {
+          "tag": "h2",
+          "left": 288,
+          "right": 992,
+          "top": 1100.66
+        },
+        {
+          "tag": "p",
+          "left": 288,
+          "right": 992,
+          "top": 1166.84
+        },
+        {
+          "tag": "p",
+          "left": 288,
+          "right": 992,
+          "top": 1385.08
+        },
+        {
+          "tag": "p",
+          "left": 288,
+          "right": 992,
+          "top": 2069.06
+        },
+        {
+          "tag": "h2",
+          "left": 288,
+          "right": 992,
+          "top": 2277.52
+        },
+        {
+          "tag": "p",
+          "left": 288,
+          "right": 992,
+          "top": 2343.7
+        },
+        {
+          "tag": "p",
+          "left": 288,
+          "right": 992,
+          "top": 3123.39
+        },
+        {
+          "tag": "h2",
+          "left": 288,
+          "right": 992,
+          "top": 3331.84
+        },
+        {
+          "tag": "p",
+          "left": 288,
+          "right": 992,
+          "top": 3883.28
+        },
+        {
+          "tag": "p",
+          "left": 288,
+          "right": 992,
+          "top": 4072.63
+        },
+        {
+          "tag": "h2",
+          "left": 288,
+          "right": 992,
+          "top": 4338.86
+        },
+        {
+          "tag": "p",
+          "left": 288,
+          "right": 992,
+          "top": 4405.05
+        },
+        {
+          "tag": "p",
+          "left": 288,
+          "right": 992,
+          "top": 4565.5
+        },
+        {
+          "tag": "h2",
+          "left": 288,
+          "right": 992,
+          "top": 4918.41
+        },
+        {
+          "tag": "p",
+          "left": 288,
+          "right": 992,
+          "top": 4984.59
+        },
+        {
+          "tag": "p",
+          "left": 288,
+          "right": 992,
+          "top": 5922.09
+        },
+        {
+          "tag": "h2",
+          "left": 288,
+          "right": 992,
+          "top": 6217.22
+        },
+        {
+          "tag": "p",
+          "left": 288,
+          "right": 992,
+          "top": 6283.41
+        },
+        {
+          "tag": "h2",
+          "left": 288,
+          "right": 992,
+          "top": 6520.75
+        },
+        {
+          "tag": "p",
+          "left": 288,
+          "right": 992,
+          "top": 6586.94
+        }
+      ],
+      "figures": [
+        {
+          "id": "fig-ledger",
+          "placement": "inline",
+          "left": 288,
+          "right": 992,
+          "top": 1627.31,
+          "bottom": 2029.06,
+          "panel": {
+            "left": 288,
+            "right": 680,
+            "top": 1627.31,
+            "bottom": 2029.06
+          },
+          "caption": {
+            "left": 704,
+            "right": 992,
+            "top": 1627.31,
+            "bottom": 1873.56
+          },
+          "scale": 1.23
+        },
+        {
+          "id": "fig-timeline",
+          "placement": "inline",
+          "left": 288,
+          "right": 992,
+          "top": 2730.39,
+          "bottom": 3083.39,
+          "panel": {
+            "left": 288,
+            "right": 680,
+            "top": 2730.39,
+            "bottom": 3083.39
+          },
+          "caption": {
+            "left": 704,
+            "right": 992,
+            "top": 2730.39,
+            "bottom": 2938.27
+          },
+          "scale": 1.23
+        },
+        {
+          "id": "fig-setup",
+          "placement": "inline",
+          "left": 288,
+          "right": 992,
+          "top": 3422.03,
+          "bottom": 3843.28,
+          "panel": {
+            "left": 288,
+            "right": 680,
+            "top": 3422.03,
+            "bottom": 3843.28
+          },
+          "caption": {
+            "left": 704,
+            "right": 992,
+            "top": 3422.03,
+            "bottom": 3725.84
+          },
+          "scale": 1.23
+        },
+        {
+          "id": "fig-build",
+          "placement": "wide",
+          "left": 72,
+          "right": 1208,
+          "top": 5457.95,
+          "bottom": 5882.09,
+          "panel": {
+            "left": 72,
+            "right": 1208,
+            "top": 5457.95,
+            "bottom": 5789.34
+          },
+          "caption": {
+            "left": 288,
+            "right": 992,
+            "top": 5805.34,
+            "bottom": 5882.09
+          },
+          "scale": 1.15
+        }
+      ],
+      "tables": [],
+      "games": [],
+      "image": {
+        "left": 288,
+        "right": 992,
+        "top": 424.83,
+        "bottom": 794.42,
+        "summaryBottom": 400.83
+      }
+    }
+  }
+]

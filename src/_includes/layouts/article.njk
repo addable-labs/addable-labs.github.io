@@ -5,7 +5,10 @@ ogType: article
 ---
 {#- Article page (REQ-016): the header carries the mono metadata — date, the
     category chip (a link to the category page) and the draft chip when it
-    applies — then the title and the summary; header, body blocks and footer
+    applies — then the title, the summary and the article's image (si-awlu):
+    its WebP copies (scripts/lib/images.mjs) across the measure, described by
+    `imageAlt`, loaded at once and first, as it may be the largest thing on
+    the first screen; header, body blocks and footer
     sit on one centred 44rem measure and the figures the article calls with
     `{% figure "<id>"[, "wide"] %}` sit in the flow — an inline figure on the
     measure with its caption beside the panel, a wide one across the whole
@@ -29,6 +32,8 @@ ogType: article
     </p>
     <h1>{{ title }}</h1>
     <p class="article-summary">{{ description }}</p>
+{%- set img = image | articleImage(page.fileSlug) %}
+    <img class="article-image" src="{{ img.src }}" srcset="{{ img.srcset }}" sizes="(min-width: 48rem) 44rem, 100vw" width="{{ shareImage.width }}" height="{{ shareImage.height }}" alt="{{ imageAlt }}" fetchpriority="high">
   </div>
   <div class="article-body">
     {{ content | safe }}

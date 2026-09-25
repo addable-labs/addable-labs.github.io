@@ -1,6 +1,8 @@
 ---
 title: How this site was built by agents
 description: The stages, gates and founder reviews behind the first site an agent-run software factory produced end to end.
+image: cover.png                 # a 1200 × 630 PNG in the article's media directory
+imageAlt: "A loop in four steps: a change passes all ten gates, the founder reads the text, the page goes live and the next change begins."
 date: 2026-09-20
 category: app-development        # app-development | ai-journey
 translationKey: how-this-site-was-built-by-agents

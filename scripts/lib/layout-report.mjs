@@ -1,8 +1,9 @@
 // The rules of the layout gate — the card balance of the landing pages
 // (redesign AC-30), the article measure and figure
 // placement (founder feedback 2026-09-21, si-55iu; centred composition,
-// founder feedback 2026-09-22) and the article tables (founder feedback
-// 2026-09-24, si-t64i) — judged on plain measurements so
+// founder feedback 2026-09-22), the article tables (founder feedback
+// 2026-09-24, si-t64i), the games (si-y6pp) and the article's image
+// (si-awlu) — judged on plain measurements so
 // tests/layout.test.mjs runs on fixtures without Chrome.
 // scripts/check/layout.mjs collects one measurement per page × viewport
 // width, of one of two kinds. A landing page:
@@ -37,7 +38,9 @@
 //       games:   [{ id, left, right, top, bottom,              // each .games block's box
 //                   versions: [{ left, right, top, bottom,     // each .game figure in it
 //                                screens: [{ left, right, top, bottom }, …] }, …] }, …]
-//     }                                                        // its screenshots and frames
+//                                                              // its screenshots and frames
+//       image:   { left, right, top, bottom, summaryBottom }   // the header's image, and the
+//     }                                                        // bottom of the summary above it
 //   }
 //
 // where `blocks` are the body's children other than figures, `placement` is
@@ -48,7 +51,11 @@
 // overflow-x is auto or scroll, null when there is none. A measurement
 // without `tables` (one taken before si-t64i) has none to judge, and one
 // without `games` (before si-y6pp) no games. The blocks leave out the games
-// blocks as well as the figures.
+// blocks as well as the figures. `image` is null when the page has no
+// article image, and a measurement without it (one taken before si-awlu)
+// has none to judge.
+
+import { IMAGE_HEIGHT, IMAGE_WIDTH } from "./images.mjs";
 
 /** Pixel tolerance for "equal" (AC-30: ± 1 px). */
 export const TOLERANCE = 1;
@@ -70,6 +77,9 @@ export const INLINE_GAP_REM = 1.5;
 
 /** A game's screen, its screenshot or the frame it plays in: 4:3 (base.css .game-shot, .game-frame). */
 export const GAME_RATIO = 4 / 3;
+
+/** The article's image: 1200:630, the proportions of every share image (scripts/lib/images.mjs). */
+export const IMAGE_RATIO = IMAGE_WIDTH / IMAGE_HEIGHT;
 
 /** A figure label is 13 user units (base.css .fig-label) and must render at 12 px or more. */
 export const LABEL_UNITS = 13;
@@ -168,6 +178,28 @@ function evaluateArticle(run, where, tolerance) {
     const visibleRight = scrolls ? Math.min(table.right, table.scrollBox.right) : table.right;
     if (visibleRight > column.right + tolerance) {
       problems.push(`${where}: ${name} reaches ${visibleRight} px, past the text column's right edge (${column.right} px)${scrolls ? "" : ", and no box around it scrolls"}`);
+    }
+  }
+  // The article's image (si-awlu): under the summary, across the text column
+  // like every text block, and at its 1200:630, so neither squeezed nor cut.
+  if (article.image !== undefined) {
+    const { image } = article;
+    if (!measurable(image)) {
+      problems.push(`${where}: the article image has no measurable box (element not found)`);
+    } else {
+      if (Math.abs(image.left - column.left) > tolerance || Math.abs(image.right - column.right) > tolerance) {
+        problems.push(`${where}: the article image spans ${image.left}–${image.right} px, not the text column (${column.left}–${column.right} px)`);
+      }
+      const width = image.right - image.left;
+      const height = image.bottom - image.top;
+      if (Math.abs(height - width / IMAGE_RATIO) > tolerance) {
+        problems.push(`${where}: the article image is ${round(width)} × ${round(height)} px, not ${IMAGE_WIDTH}:${IMAGE_HEIGHT}`);
+      }
+      if (!Number.isFinite(image.summaryBottom)) {
+        problems.push(`${where}: the article image has no summary above it (element not found)`);
+      } else if (image.top < image.summaryBottom - tolerance) {
+        problems.push(`${where}: the article image starts at ${image.top} px, above the end of the summary (${image.summaryBottom} px)`);
+      }
     }
   }
   const beside = run.width >= BESIDE_FROM_PX;

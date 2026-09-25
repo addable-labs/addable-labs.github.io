@@ -1,6 +1,8 @@
 ---
 title: Lessons from building nivå
 description: What an AI fluency and adoption self-assessment for individuals and teams taught us about approach and decisions while it is still in development.
+image: cover.png                 # a 1200 × 630 PNG in the article's media directory
+imageAlt: "Five statements, level one to five, with one chosen, become a radar chart over six areas: one person's levels in green, a team member's in grey."
 date: 2026-09-23
 category: ai-journey             # app-development | ai-journey
 translationKey: lessons-from-building-niva

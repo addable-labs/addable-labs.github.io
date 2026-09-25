@@ -155,6 +155,8 @@ The English file:
 ---
 title: How this site was built by agents
 description: One sentence used in listings, the meta description and the feed.
+image: cover.png                 # a 1200 × 630 PNG in src/media/<slug>/
+imageAlt: What the image shows, in this language.
 date: 2026-09-20
 category: app-development        # app-development | ai-journey
 translationKey: how-this-site-was-built-by-agents
@@ -172,6 +174,8 @@ The Swedish counterpart, same file name, same `translationKey` and `date`:
 ---
 title: Så byggdes den här webbplatsen av agenter
 description: En mening som används i listor, i meta description och i flödet.
+image: cover.png                 # one image serves both languages
+imageAlt: Vad bilden visar, på svenska.
 date: 2026-09-20
 category: app-development
 translationKey: how-this-site-was-built-by-agents
@@ -255,12 +259,41 @@ Brödtext i Markdown.
   does not exist, `pnpm build` fails with the path of the page that lacks its
   counterpart, for example `./src/en/blog/posts/new-article.md: expected
   exactly one "sv" page with translationKey "new-article", found 0 (none)`.
+- **Image.** Every article has one image: the picture a link preview shows
+  when the article is shared (Discord, LinkedIn, WhatsApp, X), the thumbnail
+  on its card in every listing and the picture under its title and summary.
+  `image` names a PNG in the article's media directory, `src/media/<slug>/`,
+  which the build publishes at `/blog/<slug>/` with the article, and only
+  when it builds the article: a draft's image is not in the published build.
+  The PNG is 1200 × 630 px, the size of a large link preview, and at most
+  300 KB. Beside it sit two WebP copies of it, 600 and 1200 px wide and named
+  after it (`cover-600.webp`, `cover-1200.webp`), which the site's own pages
+  show, at a fraction of its size. One image serves both languages;
+  `imageAlt` describes it in the file's own language, in the article's own
+  words for what it shows (quote the text when it holds a colon and a
+  space). `pnpm build` fails, naming the file, on an article without `image`
+  or `imageAlt`, an image missing from the media directory, a PNG that is not
+  1200 × 630 px or is over 300 KB, and a WebP copy that is missing or of
+  another size. Every page that is not an article shares
+  `src/assets/img/share.png`, the site's mark on the same grid, described in
+  `site.imageAlt` in the strings files. The images are drawn as SVG in
+  `docs/images/`, in the palette of the figures and without text, with the
+  subject inside the central 630 × 630 px, so a square crop keeps it:
+  rendered to PNG in headless Chrome, reduced to 256 colours with Pillow's
+  libimagequant, and turned into the WebP copies with `cwebp -q 90 -m 6
+  -sharp_yuv` (the 600 px copy from a render at half the size). A platform
+  keeps the preview it once made of a URL, so to change a published
+  article's image, give the new file a new name, such as `cover-2.png`, and
+  name it in both files; LinkedIn's Post Inspector fetches a URL's preview
+  again.
 - **Validation.** Every article's front matter is checked at build time
-  (`scripts/lib/frontmatter.mjs`): all eight keys are required, `date` must be
+  (`scripts/lib/frontmatter.mjs`): all ten keys are required, `date` must be
   a real day (`YYYY-MM-DD`, or `YYYY-MM-DDTHH:MM(:SS)` with the ISO `T`),
   `category` must be one of the keys above (an unknown key fails the build
-  naming the file and listing the allowed keys), and `draft`, `aiGenerated`
-  and `humanReviewed` must be booleans. `lang` comes from the directory; do
+  naming the file and listing the allowed keys), `image` must name a PNG, a
+  slug and `.png` as in `cover.png`, `imageAlt` must not be empty, and
+  `draft`, `aiGenerated` and `humanReviewed` must be booleans. `lang` comes
+  from the directory; do
   not set it in the file. A bad `date` is reported first and on its own,
   because Eleventy reads the date before anything else — for example
   `Invalid article front matter in ./src/en/blog/posts/new-article.md: date
@@ -486,16 +519,16 @@ after a `pnpm build`:
 
 | Gate | Command | What it checks |
 | --- | --- | --- |
-| build | `pnpm build` | Eleventy builds the site; article front matter validated; every page has its counterpart; every page's URL is made of slugs, like `/blog/ai-journey/` or `/feed.xml`, no file name holds a date Eleventy would drop, no article is named `index.md`, no file sits in a subdirectory of `posts/` and every template in `posts/` is a `.md` file; every `{% figure %}` names a known figure, `inline` or `wide`, with `figures.<id>` in the page's strings file; every figure label fits its character budget and every count label, such as `242 agents`, has its number in digits. |
+| build | `pnpm build` | Eleventy builds the site; article front matter validated; every page has its counterpart; every page's URL is made of slugs, like `/blog/ai-journey/` or `/feed.xml`, no file name holds a date Eleventy would drop, no article is named `index.md`, no file sits in a subdirectory of `posts/` and every template in `posts/` is a `.md` file; every `{% figure %}` names a known figure, `inline` or `wide`, with `figures.<id>` in the page's strings file; every figure label fits its character budget and every count label, such as `242 agents`, has its number in digits; every article's image is in its media directory, a PNG of 1200 × 630 px of at most 300 KB with its two WebP copies, and so is the default image. |
 | links | `pnpm check:links` | Every internal `href`/`src` in pages, feeds and the sitemap resolves to a built file (`/x/` → `x/index.html`), fragments point at an id. External links are fetched with a 10 s timeout and reported as warnings only; `CHECK_OFFLINE=1` skips them. |
 | html | `pnpm check:html` | `html-validate` with the `recommended` and `a11y` presets (`.htmlvalidate.json`, inline styles forbidden), zero errors. |
-| pages | `pnpm check:pages` | Per page: `header`/`nav`/`main`/`footer` once, one `h1`, no skipped heading levels, the skip link is the first focusable element, `html[lang]` matches the path, every `img` has `alt`/`width`/`height`, unique title, description, canonical, Open Graph tags, three `hreflang` alternates, the feed link, the language switch, scripts only from the site's origin, no cross-origin resource (font preloads and `@font-face` sources included), HTML + CSS ≤ 150 KB, and on both landing pages, every game page and every page that plays a game CSS + JavaScript ≤ 60 KB compressed. A game page, found by its path in `src/_data/games.json`, has `main` and no `header`, `nav` or `footer`, no skip link, no `hreflang` alternates and no language switch; every other rule holds for it. |
+| pages | `pnpm check:pages` | Per page: `header`/`nav`/`main`/`footer` once, one `h1`, no skipped heading levels, the skip link is the first focusable element, `html[lang]` matches the path, every `img` has `alt`/`width`/`height`, unique title, description, canonical, Open Graph tags, a link-preview image (`og:image` an absolute URL whose file is a PNG of 1200 × 630 px of at most 300 KB, with its type, size and alt text, and `twitter:card` `summary_large_image`), three `hreflang` alternates, the feed link, the language switch, scripts only from the site's origin, no cross-origin resource (font preloads and `@font-face` sources included), HTML + CSS ≤ 150 KB, and on both landing pages, every game page and every page that plays a game CSS + JavaScript ≤ 60 KB compressed. A game page, found by its path in `src/_data/games.json`, has `main` and no `header`, `nav` or `footer`, no skip link, no `hreflang` alternates and no language switch; every other rule holds for it. |
 | contrast | `pnpm check:contrast` | `src/assets/css/tokens.css` keeps its structure (dark by default, light only under the toggle's `[data-theme="light"]`, every fallback equal to its dark value, no OS media query, no token outside `:root`); every colour pair meets WCAG AA in both themes (4.5:1 text, 3:1 UI); no colour literal outside `tokens.css`. |
 | parity | `pnpm check:parity` | Every English page has its Swedish twin and vice versa, the feeds pair up, the strings files have identical keys with no empty values, pages pair one-to-one. A game page, in English like its game, has no twin and is named as left out. |
 | feeds | `pnpm check:feeds` | Both feeds are well-formed RSS 2.0 with absolute links, exactly the language's listed articles — never one dated after today, and never a draft unless this is a development build — draft labels, items that carry the prose only (no `<figure>`), and every page links its feed. |
-| content | `pnpm check:content` | The facts the site must state: one `h1` in the hero, the primary call to action linking the apps section (`#apps`), the nivå button honouring `site.nivaUrl`, the three service headings, the apps in data order, each with exactly the links it calls for in its action row — "Repository" to a public repository or "Website" to the public page of a product whose repository is private, then "Article" to the article about the app where it names one the build lists — and an entry with neither unlinked, the trust section's phrase, founder, article link and proof link, the latest-writing cards — the newest three, in the blog index's order — the founding month on the about page and the founder's name in its lead's first sentence and nowhere else in its main content, not even without its accents or in capitals; on every page the footer's address, the company line with the organisation number and the registered seat, the language switches, the toggle and the feed link (a game page, the game alone, is named as left out); every GitHub repository named in a page, a feed, the sitemap or a text file one of the public repositories the site may link (`PUBLIC_REPOS` in `scripts/lib/apps.mjs`, an allow-list); article lengths and draft labels; that each blog index lists exactly the listed articles of its language and each category page those of its category, newest first, and none of another category; that an article dated after today is built but listed in neither its language's blog index nor its feed; and that a draft is listed and built in a development build but has no page at all in the published one. The pinned facts are the constants at the top of `scripts/check/content.mjs`. |
+| content | `pnpm check:content` | The facts the site must state: one `h1` in the hero, the primary call to action linking the apps section (`#apps`), the nivå button honouring `site.nivaUrl`, the three service headings, the apps in data order, each with exactly the links it calls for in its action row — "Repository" to a public repository or "Website" to the public page of a product whose repository is private, then "Article" to the article about the app where it names one the build lists — and an entry with neither unlinked, the trust section's phrase, founder, article link and proof link, the latest-writing cards — the newest three, in the blog index's order — the founding month on the about page and the founder's name in its lead's first sentence and nowhere else in its main content, not even without its accents or in capitals; on every page the footer's address, the company line with the organisation number and the registered seat, the language switches, the toggle and the feed link (a game page, the game alone, is named as left out); every GitHub repository named in a page, a feed, the sitemap or a text file one of the public repositories the site may link (`PUBLIC_REPOS` in `scripts/lib/apps.mjs`, an allow-list); every page's link preview showing its own image — an article's its own, described in its `imageAlt`, every other page the default image — every card its article's image with `alt=""`, and every article page its image under its summary, loaded at once; article lengths and draft labels; that each blog index lists exactly the listed articles of its language and each category page those of its category, newest first, and none of another category; that an article dated after today is built but listed in neither its language's blog index nor its feed; and that a draft is listed and built in a development build but has no page at all in the published one. The pinned facts are the constants at the top of `scripts/check/content.mjs`. |
 | lighthouse | `pnpm check:lighthouse` | Serves `_site/` locally, runs Lighthouse 13 (mobile configuration) in headless Chrome on `/`, `/sv/`, `/about/`, `/blog/`, a category page, an article and `/404.html`: Performance, Accessibility, Best Practices and SEO each ≥ 95 and cumulative layout shift ≤ 0.1, one line per page. A page whose only problem is Performance < 95 is measured twice more and the median of its three Performance scores decides (its line shows the median, then the three: `performance 96 (85, 97, 96)`); in CI the lines also go to the run's summary page. A page whose Chrome is lost is measured again, once, in a new Chrome, and a second failure is one `FAIL` line naming the page and the cause; these lines go to the summary page too. |
-| layout | `pnpm check:layout` | Renders `/` and `/sv/` at 360, 768, 1024, 1280 and 1920 px in headless Chrome and measures the balanced cards: every service and app title one line, cards in a row equal in height with their "What you get" heading / summary tops and action rows aligned (± 1 px), every chip row one line. Renders every article page at the same widths and measures the article layout: no horizontal scroll, every text block at most 44 rem wide, centred in the body and on one shared left edge, every wide figure across the body, every inline figure on the measure and centred with its panel 20–24.5 rem wide and its caption beside the panel from 768 px (top-aligned, after the gap) and under it below, every panel rendered so a 13-unit label is at least 12 px, every table starting on the text column's left edge and nothing of it past the column's right edge but what scrolls inside its own box, every block of games across the body with its versions side by side from 768 px and stacked below and every screen of a game at 4:3. A page whose Chrome is lost at one width is measured again, once, at that width in a new Chrome, and a second failure is one `FAIL` line naming the page, the width and the cause. `LAYOUT_DUMP=<file>` writes the raw measurements (the source of `tests/fixtures/layout/article.json`, `tables.json` and `games.json`). |
+| layout | `pnpm check:layout` | Renders `/` and `/sv/` at 360, 768, 1024, 1280 and 1920 px in headless Chrome and measures the balanced cards: every service and app title one line, cards in a row equal in height with their "What you get" heading / summary tops and action rows aligned (± 1 px), every chip row one line. Renders every article page at the same widths and measures the article layout: no horizontal scroll, every text block at most 44 rem wide, centred in the body and on one shared left edge, every wide figure across the body, every inline figure on the measure and centred with its panel 20–24.5 rem wide and its caption beside the panel from 768 px (top-aligned, after the gap) and under it below, every panel rendered so a 13-unit label is at least 12 px, every table starting on the text column's left edge and nothing of it past the column's right edge but what scrolls inside its own box, every block of games across the body with its versions side by side from 768 px and stacked below, every screen of a game at 4:3, and the article's image under its summary, across the text column, at 1200:630. A page whose Chrome is lost at one width is measured again, once, at that width in a new Chrome, and a second failure is one `FAIL` line naming the page, the width and the cause. `LAYOUT_DUMP=<file>` writes the raw measurements (the source of `tests/fixtures/layout/article.json`, `tables.json`, `games.json` and `image.json`). |
 
 **Chrome.** The last two gates need Google Chrome (or Chromium). They find
 it through `chrome-launcher`, or through `CHROME_PATH` if set (the

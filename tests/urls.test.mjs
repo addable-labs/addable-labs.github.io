@@ -6,7 +6,7 @@ import path from "node:path";
 import { after, before, describe, it } from "node:test";
 import { pathToFileURL } from "node:url";
 import { checkPageUrls, urlProblem } from "../scripts/lib/urls.mjs";
-import { buildSite, copyProject, ROOT, tempDir } from "./helpers.mjs";
+import { buildSite, copyProject, IMAGE_FRONT_MATTER, ROOT, tempDir, writeArticleImage } from "./helpers.mjs";
 
 // The names that become URLs (si-2a7h): a file's name becomes its URL, and
 // the build holds every URL it forms to one rule — each part a slug, and a
@@ -220,15 +220,18 @@ describe("file names", () => {
  * Write one article, both languages, into a copy of the project, front matter
  * valid. `name` is the file's path under posts/, without its extension:
  * "name", or "sub/name" for a file in a subdirectory. `extension` is "md"
- * unless the case writes another type of template.
+ * unless the case writes another type of template. An article, a .md file
+ * directly in posts/, gets its image's files too (si-awlu); the build takes
+ * nothing else for an article, so nothing else has a media directory.
  */
 async function writeArticlePair(project, name, translationKey, { draft = false, extension = "md" } = {}) {
   for (const lang of ["en", "sv"]) {
     const file = path.join(project, "src", lang, "blog", "posts", `${name}.${extension}`);
-    const frontMatter = ["---", `title: ${translationKey} (${lang})`, "description: One sentence.", "date: 2026-09-01", "category: app-development", `translationKey: ${translationKey}`, `draft: ${draft}`, "aiGenerated: true", "humanReviewed: true", "---"];
+    const frontMatter = ["---", `title: ${translationKey} (${lang})`, "description: One sentence.", ...IMAGE_FRONT_MATTER, "date: 2026-09-01", "category: app-development", `translationKey: ${translationKey}`, `draft: ${draft}`, "aiGenerated: true", "humanReviewed: true", "---"];
     await mkdir(path.dirname(file), { recursive: true });
     await writeFile(file, `${frontMatter.join("\n")}\n\nThe body.\n`);
   }
+  if (extension === "md" && !name.includes("/")) await writeArticleImage(project, name);
 }
 
 /** The message of the build of `project` that must fail, or "" when it builds. */

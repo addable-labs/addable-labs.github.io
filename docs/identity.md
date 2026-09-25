@@ -196,9 +196,16 @@ site's `data-theme`, so the favicon is the one place where the OS preference
 still applies. The favicon repeats three token values as literals (its
 colours cannot read the page tokens); change them by hand with the tokens.
 
-No raster imagery anywhere (REQ-008): the hero's product visual is the HTML
-and CSS console, there is no social image this run, and no product
-screenshots.
+The hero's product visual is the HTML and CSS console, not a picture
+(REQ-008). Raster images have two uses. The games an article plays show
+screenshots of themselves (si-y6pp). And every article has one image
+(si-awlu), its figure drawn flat as one emblem on the figures' faint grid,
+without words: the picture a link preview shows, the thumbnail on its card
+and the picture under its summary. Every other page shares the mark on the
+same grid (`src/assets/img/share.png`) as its link-preview image. The images
+are drawn as SVG in `docs/images/`, in the dark palette, and published as
+PNG and WebP; they stay dark in both themes, framed by a hairline on the
+light page.
 
 ## Components and states
 
@@ -498,8 +505,10 @@ appearance toggle, and the choice persists.
   corresponding gate and test assertions.
 - **Pure hues as text on light** — fail 4.5:1 (1.32:1 for the green, 2.79:1
   for the orange); the darkened brand variants exist for that reason.
-- **Product screenshots and a social image** — not this run;
-  the console is the product visual and no page carries raster imagery.
+- **Product screenshots and a social image** — not in the first build:
+  the console is the product visual. The social image came later, one per
+  article and a default one (si-awlu, founder request 2026-09-25); product
+  screenshots are still out.
 - **Subset fonts** — kept as a fallback only; the unmodified files fit the
   budget and keep the OFL notice simple.
 - **`color-mix()` for the header, section band and contact band** — used in
@@ -536,7 +545,10 @@ rule, and only they: each game's code (`src/media/<slug>/<game>-<version>/game.j
 keeps the colours it was generated with, and the game page's files
 (`src/game-pages.njk` and `src/media/<slug>/game-page-<version>.js`) hold
 Gaimer's game background, `#1a1a1a`, and no other colour, which a test of
-their own checks.
+their own checks. The article images and the default share image
+(`docs/images/*.svg`) are drawn in the palette's dark values as literals and
+published as PNG and WebP, so a changed colour reaches them only when they
+are rendered again (README, *Add an article*, **Image**).
 
 ## Adding an app without breaking the balance
 

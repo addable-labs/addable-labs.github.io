@@ -120,10 +120,11 @@ export async function exists(file) {
 
 /**
  * Articles of a language from the source tree: slug, draft flag, title,
- * category, url path, date, and what this build owes each one. The gates
- * read the source tree, so they see every article; these three flags say
- * what the built site must therefore show, and they read the same rules the
- * build does (frontmatter.mjs), so the two cannot drift:
+ * category, url path, date, image and its alt text (si-awlu), and what this
+ * build owes each one. The gates read the source tree, so they see every
+ * article; these three flags say what the built site must therefore show,
+ * and they read the same rules the build does (frontmatter.mjs), so the two
+ * cannot drift:
  *
  *   scheduled — dated after today (si-gxyg): built at its URL, listed nowhere
  *   omitted   — a draft in the production build (si-mzf1): no page at all
@@ -173,6 +174,8 @@ export async function readArticleSources(srcDir, site, lang) {
       title: data.title,
       category: data.category,
       date: data.date,
+      image: data.image,
+      imageAlt: data.imageAlt,
       scheduled,
       omitted,
       listed: !omitted && !scheduled,

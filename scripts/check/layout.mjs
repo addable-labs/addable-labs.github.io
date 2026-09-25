@@ -18,7 +18,9 @@
 //     the column's right edge but what scrolls inside a box of its own; and
 //     every block of games (si-y6pp) spans the body, with the game's
 //     versions side by side from 768 px (48rem) and stacked below, and each
-//     screenshot or playing game inside its version at the game's 4:3.
+//     screenshot or playing game inside its version at the game's 4:3; and
+//     the article's image (si-awlu) lies under its summary, across the text
+//     column, at 1200:630.
 // Reduced motion is emulated so .reveal elements render in place and fonts
 // are awaited before measuring. One line per page × width; exit 1 on any
 // failure. A page × width whose measure fails, as when its Chrome is lost, is
@@ -84,7 +86,9 @@ function measureGrids() {
 // whose overflow-x is auto or scroll (div.table-scroll, eleventy.config.js);
 // a block of games is the games shortcode's `.games`, its versions the
 // `.game` figures in it and their screens the `.game-shot` images and
-// `.game-frame` frames (scripts/lib/games.mjs).
+// `.game-frame` frames (scripts/lib/games.mjs); the article's image is the
+// header's `img.article-image`, measured with the bottom of the summary
+// above it (layouts/article.njk).
 function measureArticle() {
   const box = (el) => el.getBoundingClientRect();
   const round = (value) => Math.round(value * 100) / 100;
@@ -131,6 +135,8 @@ function measureArticle() {
         screens: [...version.querySelectorAll(".game-shot, .game-frame")].map(rect),
       })),
     }));
+  const image = document.querySelector(".article-header img.article-image");
+  const summary = rect(document.querySelector(".article-header .article-summary"));
   return {
     rem,
     scrollWidth: document.documentElement.scrollWidth,
@@ -140,6 +146,7 @@ function measureArticle() {
     figures,
     tables,
     games,
+    image: image ? { ...rect(image), summaryBottom: summary ? summary.bottom : null } : null,
   };
 }
 
