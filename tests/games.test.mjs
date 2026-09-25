@@ -291,7 +291,7 @@ describe("the game pages", () => {
       const xml = await readFile(path.join(out, feed), "utf8");
       const item = xml.split("<item>").find((part) => part.includes(`/blog/${ARTICLE}/</link>`));
       assert.ok(item, `${feed} has the draft's item in a development build`);
-      assert.match(item, /Opening and saving games|Att öppna och spara spel/, `${feed}: the article's text`);
+      assert.match(item, /Opening and saving games|Öppna och spara spel/, `${feed}: the article's text`);
       assert.doesNotMatch(item, /games-(tetris|pong)|game-shot|game-play|play\.js|\.webp/, feed);
     }
   });

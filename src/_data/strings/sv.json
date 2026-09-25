@@ -809,29 +809,29 @@
       "caption": "Vad som fyllde borgmästarens kontext: de fem största källorna som andelar av alla bearbetade tokens, i samma skala, var och en med en stapel för 22–23 september (nedtonad) och en för 24–25 september. Under den första perioden var hälften av alla tokens startinnehållet, som skickades med varje anrop i 51 korta sessioner; under den andra tog borgmästarens egna utdata den största andelen. Den orange delen av tre staplar är det som nästa ändringar skulle rikta in sig på: borgmästarens resonemang, diffarna och genomförandeagenternas rapporter. Resten, 16 % och 20 %, kom från källor på högst 4 % vardera."
     },
     "merges": {
-      "title": "De 41 pull requests som slogs ihop i Gaimer den 24 och 25 september 2026, ett streck vid var och ens tid (UTC), i en rad per del av den här artikeln, med radens antal",
+      "title": "De 41 pull requests som slogs ihop i Gaimer den 24 och 25 september 2026. Varje streck visar när en av dem slogs ihop (UTC) och varje rad hör till en del av artikeln, med antalet i slutet av raden",
       "head": "41 pull requests",
       "window": "24–25 sep · UTC",
       "areas": {
-        "saving": "att öppna och spara spel",
-        "errors": "fel som ett spel kastar",
+        "saving": "öppna och spara spel",
+        "errors": "fel i spelen",
         "claude": "kopplingen till Claude",
         "security": "säkerhet",
         "cleanup": "städning",
         "tests": "tester och CI",
         "prompt": "den nya systemprompten",
-        "fix": "den automatiska rättningsrundan",
-        "change": "att ändra det öppna spelet",
+        "fix": "automatisk rättning",
+        "change": "ändra det öppna spelet",
         "other": "övrigt: modell, fönsterstorlek, fokus"
       },
       "days": {
         "first": "24 september",
         "second": "25 september"
       },
-      "caption": "De 41 pull requests som fabriken slog ihop i Gaimer den 24 och 25 september 2026, ett streck vid var och ens tid (UTC), i en rad per del av den här artikeln, med radens antal. Den sista raden är de sex som artikeln inte tar upp: fyra om att välja modell, en som låter ett spel fortsätta när fönstret ändrar storlek och en som tar bort fokus från beskrivningsfältet när en beskrivning har skickats."
+      "caption": "De 41 pull requests som fabriken slog ihop i Gaimer den 24 och 25 september 2026. Varje streck visar när en av dem slogs ihop (UTC) och varje rad hör till en del av artikeln, med antalet i slutet av raden. Den nedersta raden samlar de sex som artikeln inte tar upp: fyra om att välja modell, en som låter ett spel fortsätta när fönstret ändrar storlek och en som tar bort fokus från beskrivningsfältet när beskrivningen har skickats."
     },
     "connection": {
-      "title": "Claude-anropet för ett spel, före och efter städningen. Före: en hel Claude Code-session, med Claude Codes egen systemprompt, Gaimers prompt inklistrad i användarens meddelande före begäran, de inbyggda verktygen påslagna, användarens CLAUDE.md-filer, hooks, plugins, skills och MCP-servrar med och en sessionslogg sparad. Efter: ett enkelt anrop, med Gaimers prompt som systemprompt i en egen fil, bara begäran som användarens meddelande, de inbyggda verktygen avstängda, användarens egen konfiguration utanför och ingen session sparad. Att välja Claude startade upp till fyra inloggningsskal; nu kontrolleras inloggningen en gång. Tidsgränsen var 5 minuter, men anropet fortsatte; nu är den 15 minuter och sedan stoppas anropet",
+      "title": "Claude-anropet för ett spel, före och efter städningen. Före: en hel Claude Code-session med Claude Codes egen systemprompt. Gaimers prompt klistrades in i användarens meddelande före beskrivningen, de inbyggda verktygen var på, användarens CLAUDE.md-filer, hooks, plugins, skills och MCP-servrar var med och sessionen sparades. Efter: ett enkelt anrop. Gaimers prompt är systemprompten och ligger i en egen fil, användarens meddelande är bara beskrivningen, de inbyggda verktygen är av, användarens egna inställningar hålls utanför och ingen session sparas. När användaren valde Claude startades upp till fyra inloggningsskal; nu kontrolleras inloggningen en gång. Tidsgränsen var 5 minuter, men anropet fortsatte ändå; nu är den 15 minuter och sedan stoppas anropet",
       "head": "Claude-anropet för ett spel",
       "before": "före städningen",
       "after": "efter städningen",
@@ -847,8 +847,8 @@
         },
         "message": {
           "label": "användarens meddelande",
-          "before": "Gaimers + begäran",
-          "after": "bara begäran"
+          "before": "Gaimers + beskrivning",
+          "after": "bara beskrivningen"
         },
         "tools": {
           "label": "inbyggda verktyg",
@@ -863,7 +863,7 @@
         },
         "session": {
           "label": "sessionen",
-          "before": "loggen sparades",
+          "before": "sparades",
           "after": "sparas inte"
         },
         "signin": {
@@ -881,45 +881,45 @@
           "after2": "sedan stoppas det"
         }
       },
-      "caption": "Hur Gaimer anropade Claude för ett spel före städningen och hur det anropar Claude nu. Hela Claude Code-sessionen blev ett enkelt anrop: Gaimers prompt är systemprompten, begäran är hela användarens meddelande och inget av användarens egen Claude Code-konfiguration är med."
+      "caption": "Så anropade Gaimer Claude för ett spel före städningen och så gör appen nu. En hel Claude Code-session blev ett enkelt anrop: Gaimers prompt är systemprompten, användarens meddelande är bara beskrivningen och inget av användarens egna inställningar i Claude Code följer med."
     },
     "lifecycle": {
       "panels": {
         "made": {
-          "title": "Ett nytt spel: en beskrivning som skrivs i rutan går i ett anrop till leverantören, med Gaimers systemprompt; svaret läses som ett spel, sparas och körs i den isolerade sidan. Ett spel som får ett fel när det startar, innan det är redo eller under de 5 sekunderna efter det eller efter spelarens första inmatning, skickas tillbaka en gång med sin kod och sitt fel till leverantören som skrev det. Det rättade spelet ersätter det och sedan spelas spelet",
+          "title": "Ett nytt spel: beskrivningen i rutan skickas i ett anrop till AI-leverantören tillsammans med Gaimers systemprompt. Svaret tolkas som ett spel, sparas och körs i den isolerade sidan. Får spelet ett fel när det startar, alltså innan det är redo eller inom 5 sekunder därefter eller efter spelarens första inmatning, skickas det tillbaka en gång, med koden och felet, till leverantören som skrev det. Det rättade spelet ersätter det och sedan kan man spela",
           "head": "ett nytt spel"
         },
         "changed": {
-          "title": "Det öppna spelet: en ändring som skrivs i rutan går i ett anrop med spelet och önskemålen det gjordes av; svaret är ändringsblock, som görs i spelets kod, eller hela spelet ändrat, som tas som det är. När blocken inte går att använda begärs hela spelet en gång. Det ändrade spelet är en ny version, som körs och också kan gå tillbaka en gång; Undo change går en version tillbaka och New game stänger spelet",
+          "title": "Det öppna spelet: en ändring som skrivs i rutan skickas i ett anrop tillsammans med spelet och önskemålen bakom det. Svaret är antingen ändringsblock, som förs in i spelets kod, eller hela det ändrade spelet, som används som det är. Går blocken inte att använda ber appen om hela spelet, en gång. Det ändrade spelet blir en ny version, som körs och som också kan rättas en gång. Undo change går en version tillbaka och New game stänger spelet",
           "head": "det öppna spelet"
         }
       },
       "made": {
         "describe": {
           "label": "en beskrivning",
-          "note": "skriven i rutan, inget spel öppet"
+          "note": "skrivs i rutan när inget spel är öppet"
         },
         "call": {
-          "label": "ett anrop till leverantören",
+          "label": "ett anrop till AI-leverantören",
           "note": "med Gaimers systemprompt"
         },
         "answer": {
-          "label": "svaret, läst som ett spel",
-          "note": "och sparat som ett nytt spel"
+          "label": "svaret tolkas som ett spel",
+          "note": "och sparas som ett nytt spel"
         },
         "runs": {
-          "label": "det körs i den isolerade sidan",
+          "label": "spelet körs i den isolerade sidan",
           "note": "i en egen ram"
         },
         "fails": {
-          "label": "fel redan när det startar?",
-          "note": "ett fel innan det är redo, eller under",
+          "label": "fel när spelet startar?",
+          "note": "ett fel innan det är redo, eller inom",
           "note2": "5 s därefter eller efter första inmatning"
         },
         "back": {
-          "label": "tillbaka en gång",
+          "label": "skickas tillbaka en gång",
           "note": "till leverantören som skrev det,",
-          "note2": "med sin kod och sitt fel"
+          "note2": "med koden och felet"
         },
         "fixed": {
           "label": "det rättade spelet ersätter det",
@@ -934,54 +934,54 @@
       "changed": {
         "change": {
           "label": "en ändring i rutan",
-          "note": "med ett spel öppet ändrar rutan det"
+          "note": "när ett spel är öppet ändrar rutan det"
         },
         "call": {
-          "label": "ett anrop, med spelet",
-          "note": "och önskemålen det gjordes av"
+          "label": "ett anrop med spelet",
+          "note": "och önskemålen bakom det"
         },
         "answer": {
-          "label": "svaret är ett av två"
+          "label": "två möjliga svar"
         },
         "unusable": {
-          "label": "block som inte går att använda?",
-          "note": "hela spelet begärs, en gång"
+          "label": "går blocken inte att använda?",
+          "note": "då ber appen om hela spelet, en gång"
         },
         "version": {
           "label": "en ny version",
-          "note": "den körs och kan gå tillbaka en gång"
+          "note": "den körs och kan också rättas en gång"
         }
       },
       "answers": {
         "blocks": {
           "label": "ändringsblock",
-          "note": "görs i dess kod"
+          "note": "förs in i koden"
         },
         "whole": {
           "label": "hela spelet",
-          "note": "tas som det är"
+          "note": "används som det är"
         }
       },
       "buttons": {
         "undo": {
           "label": "Undo change",
-          "note": "en version tillbaka"
+          "note": "går en version tillbaka"
         },
         "newGame": {
           "label": "New game",
           "note": "stänger spelet"
         }
       },
-      "caption": "Ett spels liv i Gaimer efter städningen, så som koden på dess main-gren kör det. Ett nytt spel får en chans att rättas om det får ett fel när det startar. Rutan ändrar det öppna spelet en version i taget."
+      "caption": "Så lever ett spel i Gaimer efter städningen, enligt koden på appens main-gren: ett nytt spel med fel vid starten får en chans att rättas och rutan ändrar det öppna spelet en version i taget."
     },
     "price": {
       "panels": {
         "calls": {
-          "title": "Anropet som gjorde varje spel, med systemprompten från före städningen och från efter den",
-          "head": "anropet för varje spel"
+          "title": "Anropet bakom varje spel, med den gamla och den nya systemprompten",
+          "head": "anropet bakom varje spel"
         },
         "games": {
-          "title": "Vad vart och ett av de fyra spelen har: de två från efter städningen har en startskärm, ett bästa resultat, ljud samt mus och pekskärm; de två från före har inget av detta och tar emot tryck men inte musen",
+          "title": "Vad de fyra spelen har: båda spelen efter städningen har startskärm, rekord, ljud och styrning med både mus och pekskärm. Båda spelen före städningen saknar allt detta och fungerar med pekskärm men inte med mus",
           "head": "vad varje spel har"
         }
       },
@@ -1017,18 +1017,18 @@
           }
         }
       },
-      "limit": "gränsen då: 300 s",
-      "thinking": "utdata-tokens räknar in modellens tänkande",
+      "limit": "dåvarande gräns: 300 s",
+      "thinking": "modellens tänkande ingår i utdata-tokens",
       "scope": "ett spel per prompt och beskrivning",
       "features": {
         "start": "startskärm",
-        "best": "bästa resultat",
+        "best": "rekord",
         "sound": "ljud",
         "pointer": "mus och pekskärm"
       },
       "touch": "tryck",
       "asked": "den nya prompten ber om alla fyra",
-      "caption": "Vad den nya systemprompten kostade i körningen som gjorde de fyra spelen: ett anrop per spel och prompt, med varje anrops tid i skala, dess utdata-tokens och spelets rader kod, samt vad varje spel har. De streckade markeringarna är appens dåvarande gräns på 300 sekunder, som det första anropet för Tetris från efter städningen gick över. Ett spel per prompt och beskrivning, inte ett prestandatest."
+      "caption": "Vad den nya systemprompten kostade när de fyra spelen gjordes: ett anrop per spel och prompt, med anropets tid i skala, antalet utdata-tokens och antalet kodrader i spelet, samt vad varje spel har. De streckade linjerna visar appens dåvarande gräns på 300 sekunder, som det första anropet för det nya Tetrisspelet drog över. Ett spel per prompt och beskrivning, ingen systematisk jämförelse."
     }
   },
   "games": {
@@ -1038,22 +1038,22 @@
     "stop": "Stoppa",
     "fullScreen": "Spela i helskärm",
     "code": "Kod",
-    "needsKeyboard": "Kräver ett tangentbord",
+    "needsKeyboard": "Kräver tangentbord",
     "tetris-before": {
-      "start": "Tetris före städningen när det öppnas: ingen startskärm, den första biten faller redan ner i den tomma spelplanen, poäng, nivå, rader och nästa bit till höger och fem pekknappar längs nederkanten.",
-      "play": "Tetris före städningen efter några drag: fyra bitar längst ner på spelplanen, en femte som faller med platsen där den landar markerad och 102 poäng."
+      "start": "Tetris före städningen, direkt när det har öppnats: ingen startskärm och den första biten faller redan ner i den tomma spelplanen. Till höger syns poäng, nivå, rader och nästa bit, längs nederkanten fem pekknappar.",
+      "play": "Tetris före städningen, några drag in i spelet: fyra bitar ligger längst ner i spelplanen och en femte faller, med platsen där den kommer att landa markerad. Poängen är 102."
     },
     "tetris-after": {
-      "start": "Tetris efter städningen på startskärmen: rubriken TETRIS över en svag spelplan, tangenterna och pekkontrollerna på två rader och \"Tap or click to start\" i gult.",
-      "play": "Tetris efter städningen efter några drag: rundade bitar längst ner på en inramad spelplan, en fallande bit med platsen där den landar markerad, 108 poäng uppe till vänster och nästa bit uppe till höger."
+      "start": "Tetris efter städningen, på startskärmen: rubriken TETRIS över en svagt synlig spelplan, instruktioner för tangenter och pekskärm på två rader och \"Tap or click to start\" i gult.",
+      "play": "Tetris efter städningen, några drag in i spelet: rundade bitar längst ner i en inramad spelplan, en bit som faller med landningsplatsen markerad, 108 poäng uppe till vänster och nästa bit uppe till höger."
     },
     "pong-before": {
-      "start": "Pong före städningen när det öppnas: ingen startskärm, bollen redan i spel mellan en blå racket till vänster och en röd till höger och ställningen 0–0.",
-      "play": "Pong före städningen en stund senare: datorns röda racket har tagit första poängen så att ställningen är 0–1 och bollen är i spel igen."
+      "start": "Pong före städningen, direkt när det har öppnats: ingen startskärm och bollen är redan i spel mellan en blå racket till vänster och en röd till höger. Ställningen är 0–0.",
+      "play": "Pong före städningen en stund senare: datorns röda racket har tagit första poängen och det står 0–1. Bollen är i spel igen."
     },
     "pong-after": {
-      "start": "Pong efter städningen på startskärmen: en ruta med NEON PONG, \"Arrows/WASD or drag to move\", \"First to 7 wins\" och \"Tap or click to start\" mellan en lysande cyan racket och en lysande rosa.",
-      "play": "Pong efter städningen mitt i en duell: den lysande bollen har just lämnat den rosa racketen med ett spår av partiklar och raden överst visar ställningen 0 - 0."
+      "start": "Pong efter städningen, på startskärmen: mellan en lysande cyanfärgad racket och en lysande rosa står en ruta med NEON PONG, \"Arrows/WASD or drag to move\", \"First to 7 wins\" och \"Tap or click to start\".",
+      "play": "Pong efter städningen, mitt i en bollväxling: den lysande bollen har just lämnat den rosa racketen och drar ett spår av partiklar efter sig. Raden överst visar ställningen 0 - 0."
     }
   },
   "contact": {

@@ -1,6 +1,6 @@
 ---
-title: "Städningen av Gaimer: Tetris och Pong, före och efter"
-description: Den 24 och 25 september 2026 slog fabriken ihop 41 pull requests i Gaimer, skrivbordsappen som gör ett litet spel av en beskrivning. Vad de ändrade och ett Tetris och ett Pong gjorda med dess systemprompt från före och efter, att spela på sidan.
+title: "Storstädning i Gaimer: Tetris och Pong före och efter"
+description: Den 24 och 25 september 2026 slog fabriken ihop 41 pull requests i Gaimer, skrivbordsappen som gör ett litet spel utifrån en beskrivning. Här är vad de ändrade. Du kan också spela Tetris och Pong, gjorda med appens systemprompt före och efter städningen, direkt på sidan.
 date: 2026-09-25
 category: app-development        # app-development | ai-journey
 translationKey: cleaning-up-gaimer
@@ -9,169 +9,176 @@ aiGenerated: true                # AI har skrivit texten
 humanReviewed: false             # true när en person har läst den
 ---
 
-[Gaimer](https://github.com/addable-labs/gaimer) är en skrivbordsapp som
-gör ett litet spel av en beskrivning. Du skriver vad du vill ha, till
-exempel "Pong". Appen ber då den AI-leverantör du själv kopplar in, OpenAI
-med din egen API-nyckel eller Claude genom ditt eget Claude Code, om ett
-helt spel i JavaScript som den sparar och kör i en egen isolerad sida. Den
-är öppen källkod under MIT-licensen och körs på macOS, Windows, Linux och
-iOS.
+[Gaimer](https://github.com/addable-labs/gaimer) är en skrivbordsapp som gör
+ett litet spel utifrån en beskrivning. Du skriver vad du vill ha, till
+exempel "Pong". Appen ber den AI-leverantör du har kopplat in om ett
+komplett spel i JavaScript, som den sparar och kör i en isolerad sida.
+Leverantören kan vara OpenAI med din egen API-nyckel eller Claude via ditt
+eget Claude Code. Gaimer har öppen källkod under MIT-licensen och körs på
+macOS, Windows, Linux och iOS.
 
-Den 24 och 25 september 2026 slog fabriken, den [agentdrivna
+Fabriken, alltså den [agentdrivna
 mjukvarufabriken](/sv/blog/why-we-run-an-agent-run-factory/) bakom den här
-sajten, ihop 41 pull requests i Gaimer med sammanlagt 68 commits. Var och
-en säger varför den gjordes och vad som kontrollerades. Tetris och Pong,
-gjorda med den gamla och den nya systemprompten, visar sedan vad den nya
-prompten gör. Alla fyra spelen går att spela här.
+sajten, slog ihop 41 pull requests i Gaimer den 24 och 25 september 2026.
+Det blev 68 commits sammanlagt och varje pull request förklarar varför den
+gjordes och vad som kontrollerades. Längre ner visar Tetris och Pong vad den
+nya systemprompten gör: båda spelen gjordes en gång med varje prompt och
+alla fyra går att spela här.
 
 {% figure "merges", "wide" %}
 
 ## Vad som ändrades
 
-### Att öppna och spara spel
+### Öppna och spara spel
 
-Ett sparat spel kunde vägra att öppnas ("Missing required field: title")
-när dess framsteg hade sparats: appen läste ibland de sparade framstegen
-som spelet. "Restore progress?" visades aldrig, eftersom dialogrutan som
-den behöver inte var installerad. Ett sparat spel öppnas nu direkt i
-stället för efter en sekunds väntan och ett nytt spel som blir klart medan
-ett sparat är öppet tar dess plats. Appen frågar innan den raderar ett spel
-och en sparning som inte kan fungera säger direkt varför.
+Ett sparat spel kunde vägra att öppnas ("Missing required field: title") när
+spelets framsteg väl hade sparats, eftersom appen ibland tog dem för själva
+spelet. Frågan "Restore progress?" kom aldrig upp: dialogrutan som behövs
+för den var inte installerad. Nu öppnas ett sparat spel direkt i stället för
+efter en sekund. Blir ett nytt spel klart medan ett sparat är öppet visas
+det nya i stället. Appen frågar innan den raderar ett spel. Går framstegen
+inte att spara får du veta varför direkt.
 
-### Fel som ett spel kastar
+### Fel i spelen
 
-Ett syntaxfel i ett spels kod stoppade förut sidans enda skript: spelaren
-såg en mörk canvas utan något meddelande. Spelets kod körs nu i ett eget
-skript och varje fel når appen. I WebKit, som kör appen på macOS och iOS,
-visades felen bara som "Script error." och den byggda appens policy
-stoppade skriptet som rapporterar dem; båda skripten laddas nu från
-`data:`-adresser, vilket löser båda. Ett fel kommer med sin rad och kolumn
-i spelets kod, eller med en notering om att det hittades efter kodens slut.
-Kod som klipptes av mitt i ett uttryck ger nu ett syntaxfel.
+Förut stoppade ett syntaxfel i spelkoden sidans enda skript: spelaren såg en
+mörk spelyta och inget felmeddelande. Nu körs spelets kod i ett eget skript
+och alla fel når appen. I WebKit, som appen körs i på macOS och iOS, syntes
+felen bara som "Script error." och i den byggda appen stoppade
+säkerhetspolicyn skriptet som rapporterar dem. Båda skripten laddas nu från
+`data:`-adresser och det löser båda problemen. Ett fel anges med rad och
+kolumn i spelets kod eller med en upplysning om att det hittades efter
+kodens slut. Kod som har klippts av mitt i ett uttryck ger nu ett syntaxfel.
 
 ### Kopplingen till Claude
 
-Gaimer når Claude genom användarens kommandorad för Claude Code. Varje spel
-var förut en hel Claude Code-session och är nu ett enkelt anrop till
-modellen, där användarens egen konfiguration hålls utanför. Ett anrop som
-går över appens tidsgräns stoppas nu i stället för att fortsätta på
-användarens abonnemang och ett misslyckat anrop säger varför i stället för
-"Exit code 1".
+Gaimer når Claude via användarens eget Claude Code på kommandoraden. Förut
+kördes en hel Claude Code-session för varje spel. Nu blir det ett enkelt
+anrop, utan användarens egna inställningar. Ett anrop som drar över appens
+tidsgräns stoppas nu i stället för att fortsätta och belasta användarens
+abonnemang. Misslyckas ett anrop visar appen varför i stället för "Exit code
+1".
 
 {% figure "connection" %}
 
 ### Säkerhet
 
 Huvudfönstrets Content Security Policy tillåter inte längre anrop till
-Anthropics API eller bilder från valfri https-adress, något som appen inte
-använder. Skalbehörigheten, som lät vilket skript som helst i fönstret köra
-vilket kommando som helst som användaren, tillåter bara de tre
-kommandorader som appen bygger. OpenAI-nyckeln, som låg i ett valv vars
-lösenord och salt fanns i kodförrådet, ligger nu i systemets nyckelring.
+Anthropics API eller bilder från alla https-adresser – appen använder inget
+av dem. Behörigheten att köra kommandon lät förut alla skript i fönstret
+köra alla kommandon med användarens rättigheter. Nu tillåter den bara de tre
+kommandorader som appen själv bygger. API-nyckeln till OpenAI låg i ett
+valv, men valvets lösenord och salt fanns i kodförrådet. Nu ligger nyckeln i
+systemets nyckelring.
 
 ### Städning
 
-Det som inget använde togs bort: ett HTTP-plugin som byggdes in i appen men
-aldrig anropades, vilket tog bort 31 crates ur Rust-bygget, rester från
-projektmallen, ett tillståndslager som inget läste, metoder som inget
-anropade och två engångsflyttar av gamla data som inte längre kunde hitta
-något. Beroendena uppdaterades inom sina intervall, vilket rättade alla 22
-anmärkningar i paketgranskningen.
+Det som inte användes togs bort: ett HTTP-plugin som var inbyggt i appen men
+aldrig anropades (utan det har Rust-bygget 31 crates färre), rester från
+projektmallen, anslutningsdata som skrevs men aldrig lästes, metoder som
+aldrig anropades och två engångsmigreringar som inte längre hittade några
+gamla data. Beroendena uppdaterades inom de versioner som redan var tillåtna
+och då försvann alla 22 anmärkningar i paketgranskningen.
 
 ### Tester och CI
 
-Tester som inte kunde misslyckas byttes ut, tester lades till där en
-regression skulle nå användaren och täckningen fick ett golv: 94 % av
-satserna, 89 % av grenarna, 90 % av funktionerna och 96 % av raderna, de
-nivåer som hade nåtts, avrundade nedåt. Enhetstesterna ökade från 101
-till 358. CI gick från Node 20, utan stöd sedan 30 april, till Node 24
-och aktuella actions med en token som bara kan läsa. Den kontrollerar
-också Rust-kodens formatering och lints och bygger appen för Linux,
-macOS, Windows och iOS på varje pull request; efter den sista
-sammanslagningen gick alla fyra igenom.
+Tester som inte kunde misslyckas byttes ut och nya tester skrevs där en
+regression skulle märkas av användaren. Testtäckningen får nu inte sjunka
+under de nivåer som hade nåtts, avrundade nedåt: 94 % av satserna, 89 % av
+grenarna, 90 % av funktionerna och 96 % av raderna. Antalet enhetstester
+ökade från 101 till 358. CI gick över från Node 20, som saknar stöd sedan
+den 30 april, till Node 24 och aktuella versioner av sina actions. Den har
+nu en token som bara kan läsa. Dessutom kontrollerar den formatering och
+lints i Rust-koden och bygger appen för Linux, macOS, Windows och iOS på
+varje pull request. Efter den sista sammanslagningen gick alla fyra byggena
+igenom.
 
 ### Den nya systemprompten
 
-Ett spel görs i ett enda anrop, av Gaimers systemprompt och användarens
-beskrivning. Den gamla prompten sa hur svaret skulle se ut, var spelet
-körs, att det måste ta både tangentbord och pekskärm och hur det sparar och
-återställer, men inget om hur ett spel ska se ut eller kännas.
+Varje spel görs i ett enda anrop, utifrån Gaimers systemprompt och
+användarens beskrivning. Den gamla prompten sa hur svaret skulle se ut, var
+spelet körs, att det måste gå att styra med både tangentbord och pekskärm
+och hur spelet sparar och återställer sitt läge. Om hur ett spel ska se ut
+eller kännas sa den ingenting.
 [Omskrivningen](https://github.com/addable-labs/gaimer/pull/40) behåller
-det kontraktet och lägger till avsnitt om utseende, spel och hastighet: en
-visuell stil, partiklar och en liten skakning av skärmen, en startskärm,
-ett bästa resultat, en jämnt stigande svårighet, ljud som görs i kod,
-rörelse efter bildrutornas tid och pekarhändelser (pointer events), så att
-en mus fungerar lika bra som ett finger. Den ber om "några hundra rader"
-kod och gjorde prompten 6 873 tecken lång i stället för 2 830. Dess pull
-request kallar den ett utkast att läsa, skrivet utan att anropa någon
-AI-leverantör eller köra ett spel som gjorts med den.
+allt det och lägger till avsnitt om utseende, spelkänsla och prestanda: en
+enhetlig stil, partiklar och en lätt skakning av skärmen, en startskärm, ett
+sparat rekord, en svårighetsgrad som ökar jämnt, ljud som skapas i koden,
+hastigheter som räknas per sekund och inte per bildruta samt pointer events,
+så att en mus fungerar lika bra som ett finger. Den ber om "några hundra
+rader" kod och prompten växte från 2 830 till 6 873 tecken. I pull requesten
+kallas den ett utkast att läsa, skrivet utan att någon AI-leverantör
+anropades och utan att något spel gjordes med den.
 
-### Den automatiska rättningsrundan
+### Automatisk rättning
 
-Ett nytt spel som får ett fel redan när det startar skickas nu tillbaka en
-gång, med sin kod och sitt fel, till leverantören som skrev det. Det
-rättade spelet tar sedan dess plats. Det gäller ett fel innan spelet är
-redo, under de fem sekunderna efter det eller, eftersom den nya prompten
-ber varje spel om en startskärm, under de fem sekunderna efter spelarens
-första tryck, klick eller tangenttryckning.
+Om ett nytt spel får ett fel redan när det startar skickas det nu tillbaka
+en gång till leverantören som skrev det, tillsammans med koden och felet.
+Det rättade spelet ersätter sedan det trasiga. Det gäller fel som uppstår
+innan spelet är redo eller inom fem sekunder därefter. Eftersom den nya
+prompten ber om en startskärm i varje spel räknas också de fem sekunderna
+efter spelarens första tryck, klick eller tangenttryckning.
 
-### Att ändra det öppna spelet
+### Ändra det öppna spelet
 
 När ett spel är öppet ändrar beskrivningsrutan nu det spelet. Modellen
-svarar med ändringsblock, var och ett en bit av koden och det som ersätter
-den, eller med hela spelet ändrat, som appen då tar som det är.
+svarar antingen med ändringsblock, där varje block är en bit av koden och
+det som ska ersätta den, eller med hela det ändrade spelet, som appen då
+använder som det är.
 
 {% figure "lifecycle", "wide" %}
 
 ## Så gjordes spelen
 
-Varje spel gjordes så som Gaimers Claude-leverantör gör ett efter
+Varje spel gjordes precis som Gaimer gör ett spel med Claude efter
 städningen: samma kommandorad, körd på samma sätt, med ordet "Tetris" eller
-"Pong" som beskrivning och den modell som Gaimer använder för Claude när
-ingen är vald. Bara systemprompten skiljer sig: den från före städningen,
-oförändrad sedan 1 april, eller den som städningen skrev. Varje svar lästes
-med appens egen kod och varje spel körs på en spelsida byggd som appens i
-dess version, utan det som bara appen har, till exempel dess sparfiler. Det
-är ett spel per prompt och beskrivning, inte ett prestandatest.
+"Pong" som enda beskrivning och med den modell som Gaimer använder för
+Claude när ingen är vald. Bara systemprompten skiljer sig: den gamla,
+oförändrad sedan den 1 april, eller den som städningen skrev. Svaren
+tolkades med appens egen kod. Varje spel körs på en spelsida byggd som den i
+motsvarande version av appen, men utan sådant som bara appen har, till
+exempel sparfilerna. Det är ett spel per prompt och beskrivning, ingen
+systematisk jämförelse.
 
 {% figure "price", "wide" %}
 
-Det första anropet för Tetris med den nya prompten gick över appens
-dåvarande gräns på 300 sekunder och stoppades där, så som appen skulle ha
-gjort: i Gaimer betydde det felet "Command timed out" och inget spel. Det
-Tetris som visas kommer från ett andra anrop, gjort på samma sätt utan
-gränsen, som tog 476 sekunder. Fabriken har sedan dess höjt gränsen till
+Det första anropet för Tetris med den nya prompten drog över appens
+dåvarande gräns på 300 sekunder och stoppades där, precis som appen skulle
+ha gjort. I Gaimer betydde det felet "Command timed out" och inget spel.
+Tetrisspelet här kommer från ett andra anrop som gjordes på samma sätt men
+utan gräns och tog 476 sekunder. Fabriken har sedan dess höjt gränsen till
 [15 minuter](https://github.com/addable-labs/gaimer/pull/51). Alla fyra
-startade utan fel, så inget av spelen från efter städningen behövde
-rättningsrundan.
+spelen startade utan fel, så inget av de två nya behövde skickas tillbaka
+för rättning.
 
-Spela kör ett spel där dess startskärm är och tangenterna går sedan till
-spelet, inte till sidan. Ett spel körs åt gången.
+Knappen Spela startar spelet i stället för bilden av startskärmen. Sedan går
+tangenterna till spelet och inte till sidan. Ett spel i taget kan vara
+igång.
 
 {% games "tetris" %}
 
-Tetris från före städningen startar direkt, utan startskärm. Det ritar
-alltid fem pekknappar längs nederkanten och tar emot tryck bara genom
-touch-händelser, så en mus gör ingenting i det. Det visar poäng, nivå,
-rader och nästa bit, markerar var biten kommer att landa och pausar på P.
-Det från efter kallade sig Neon Block Drop och skrev TETRIS på sin
-startskärm. Det väntar på ett tryck, ett klick eller en tangent, ritar
-rundade block i en inramad spelplan, sparar ett bästa resultat, visar
-pekknappar först när skärmen har rörts och rensar rader med ett ljud,
-partiklar och en liten skakning.
+Det gamla Tetrisspelet startar direkt, utan startskärm. Längs nederkanten
+visas alltid fem pekknappar och spelet reagerar bara på touch-händelser, så
+med en mus händer ingenting. Det visar poäng, nivå, rader och nästa bit,
+markerar var biten kommer att landa och pausar när man trycker på P. Det nya
+kallade sig Neon Block Drop och skrev TETRIS på startskärmen. Det väntar på
+ett tryck, ett klick eller en tangent, ritar rundade block i en inramad
+spelplan och sparar ditt rekord. Pekknapparna visas först när någon rör vid
+skärmen. När en rad rensas hörs ett ljud, partiklar sprutar och skärmen
+skakar lite.
 
 {% games "pong" %}
 
-Pong från före städningen startar också direkt, med bollen redan i spel.
-Racketarna är platta staplar, det tar piltangenterna, W och S eller ett
-finger som dras och det har inget ljud. Det från efter öppnar med en
-startskärm, ritar lysande racketar och en lysande boll som sprutar
-partiklar där den träffar och visar poäng, bästa resultat och en nivå längs
-överkanten. Det spelar ljud, tar ett drag med ett finger eller en mus,
-ritar två pilknappar efter en beröring och sätter racketarna nedtill och
-upptill på en skärm som är högre än den är bred.
+Det gamla Pongspelet startar också direkt, med bollen redan i spel.
+Racketarna är enkla, platta rektanglar och spelet styrs med piltangenterna,
+W och S eller genom att man drar med fingret. Det har inget ljud. Det nya
+öppnar med en startskärm. Racketarna lyser, bollen sprutar partiklar där den
+träffar och längs överkanten visas poäng, rekord och nivå. Det har ljud, går
+att styra genom att dra med ett finger eller med musen och visar två
+pilknappar när någon har rört vid skärmen. Är skärmen högre än den är bred
+hamnar racketarna nertill och upptill.
 
-Båda spelen från den nya prompten är längre och deras anrop gav ungefär två
-till två och en halv gånger så många utdata-tokens. Paren visar att
-promptens nya avsnitt når spelen: startskärmar, bästa resultat, ljud och pekarhändelser
-finns i båda spelen från efter städningen och i inget av dem från före.
+De två nya spelen är längre och deras anrop gav ungefär två till två och en
+halv gånger så många utdata-tokens. Spelparen visar att promptens nya
+avsnitt får genomslag i spelen: startskärm, rekord, ljud och styrning med
+både mus och finger finns i båda de nya spelen och i inget av de gamla.
