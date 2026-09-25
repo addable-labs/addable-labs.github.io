@@ -491,7 +491,7 @@ describe("content gate", () => {
 // changes moves in both alike: only this table, written by hand, notices.
 const ARTICLES = [
   ["/blog/cleaning-up-gaimer/", "2026-09-25"],
-  ["/blog/what-the-mayors-context-costs/", "2026-09-24"],
+  ["/blog/what-the-mayors-context-costs/", "2026-09-25"],
   ["/blog/lessons-from-building-niva/", "2026-09-23"],
   ["/blog/ashlands-what-one-prompt-built/", "2026-09-22"],
   ["/blog/why-we-run-an-agent-run-factory/", "2026-09-21"],

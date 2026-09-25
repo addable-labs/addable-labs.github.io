@@ -1,12 +1,12 @@
 ---
 title: A study of the mayor's context
 description: What a bead cost the mayor, the agent that coordinates the factory behind this site, on 22–23 and 24–25 September 2026, what drove that cost and what each change to its context did.
-date: 2026-09-24
+date: 2026-09-25
 category: ai-journey             # app-development | ai-journey
 translationKey: what-the-mayors-context-costs
-draft: true                      # built locally, left out of the public build (see README)
+draft: false                     # published — set true to keep it out of the public build (see README)
 aiGenerated: true                # AI produced this text
-humanReviewed: false             # true once a person has read it
+humanReviewed: true              # a person has read it
 ---
 
 ## Summary

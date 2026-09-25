@@ -1,12 +1,12 @@
 ---
 title: En studie av borgmästarens kontext
 description: Vad en bead kostade borgmästaren, agenten som samordnar fabriken bakom den här sajten, den 22–23 och 24–25 september 2026, vad som drev den kostnaden och vad varje ändring i dess kontext gjorde.
-date: 2026-09-24
+date: 2026-09-25
 category: ai-journey             # app-development | ai-journey
 translationKey: what-the-mayors-context-costs
-draft: true                      # byggs lokalt, lämnas utanför det publika bygget (se README)
+draft: false                     # publicerad — sätt true för att hålla den utanför publika bygget
 aiGenerated: true                # AI har skrivit texten
-humanReviewed: false             # true när en person har läst den
+humanReviewed: true              # en person har läst den
 ---
 
 ## Sammanfattning
