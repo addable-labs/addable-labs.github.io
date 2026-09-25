@@ -1,13 +1,13 @@
 // Plays a game of the article in the page (si-y6pp). A click on a game's Play
-// button puts the game's page where its start screen was, in a frame of the
-// site's own origin that may run scripts and nothing else
-// (sandbox="allow-scripts"), gives that frame the focus, so key presses reach
-// the game and the arrow keys do not scroll the page, and turns the button
-// into Stop. Only one game runs: Stop, or Play on another game, puts back the
-// start screen of the game that ran, which ends it. Nothing of a game loads
-// before its button is clicked, so no game plays a sound before that. Without
-// JavaScript the buttons are hidden (base.css), and the screenshots and the
-// links to each game's page and code still work.
+// button puts the game's page where its start screen was, in a frame served
+// from the site's own origin, sandboxed without allow-same-origin, that may
+// run scripts and nothing else (sandbox="allow-scripts"), gives that frame the
+// focus, so key presses reach the game and the arrow keys do not scroll the
+// page, and turns the button into Stop. Only one game runs: Stop, or Play on
+// another game, puts back the start screen of the game that ran, which ends
+// it. Nothing of a game loads before its button is clicked, so no game plays a
+// sound before that. Without JavaScript the buttons are hidden (base.css), and
+// the screenshots and the links to each game's page and code still work.
 let running = null;
 
 function label(button, state) {

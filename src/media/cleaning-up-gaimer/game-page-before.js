@@ -175,6 +175,10 @@ function __gaimer_sendMessage(type, data) {
 //     addition), so key presses reach a game that the article starts with a
 //     click on Play, as they reach a game in the app once the player has
 //     clicked it;
+//   - the page takes the focus back from the game's frame before the frame
+//     goes, as the game loads again at a new size, and keeps it until the
+//     new frame takes it (keepFocus, the site's addition), so the keys still
+//     reach the game after the window changes size;
 //   - the game's frame has a title, the game's name from the page's heading
 //     (the site's addition), so a screen reader names it: the app's frame has
 //     none.
@@ -211,6 +215,19 @@ function __gaimer_sendMessage(type, data) {
         if (frame && document.hasFocus()) setTimeout(() => frame.focus(), 0);
     }
 
+    // The site's addition: as the game loads again at a new size, this page
+    // takes the focus back from the game's frame before the frame goes, if
+    // this page has it, and keeps it while the game loads; the new frame
+    // then takes it once its page has loaded, as the first one did. Removed
+    // with the focus, the frame would take it out of this page and out of
+    // the article this page is in, and the arrow keys would scroll the
+    // article. A focus the reader has moved out of this page, into a text
+    // field say, stays where it is.
+    function keepFocus() {
+        const frame = container.querySelector("iframe");
+        if (frame && document.hasFocus()) frame.blur();
+    }
+
     function loadGameScript() {
         if (!container || !game.code) return;
 
@@ -218,6 +235,7 @@ function __gaimer_sendMessage(type, data) {
 
         // Destroy previous sandbox if it exists
         if (sandbox) {
+            keepFocus();
             sandbox.destroy();
             sandbox = null;
         }

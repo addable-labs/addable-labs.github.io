@@ -83,7 +83,8 @@ second; `pnpm check` takes about 10 s without Chrome and about 45 s with it
 (Lighthouse measures seven pages; it also fetches the external links unless
 `CHECK_OFFLINE=1` is set); `pnpm test` needs no network and takes about 20 s
 without Chrome, and about 35 s with it, when it also runs the two Chrome
-gates and kills their Chrome mid-measure (see *Quality gates*).
+gates and kills their Chrome mid-measure, and plays the Gaimer article's
+games (see *Quality gates*).
 
 ## Appearance toggle
 
@@ -320,10 +321,11 @@ Brödtext i Markdown.
   below, each with its start screen, a Play button, a link to its page and
   one to its code, and a moment of play; the alt texts of the two
   screenshots come from `games.<game>-<version>` in the two strings files.
-  Play runs the game where its start screen was, in a frame of the site's
-  own origin that may run scripts and nothing else, and gives it the keys;
-  one game runs at a time, and a game's page loads only when its button is
-  clicked. Without JavaScript the screenshots and the links still work.
+  Play runs the game where its start screen was, in a frame served from the
+  site's own origin, sandboxed without `allow-same-origin`, that may run
+  scripts and nothing else, and gives it the keys; one game runs at a time,
+  and a game's page loads only when its button is clicked. Without
+  JavaScript the screenshots and the links still work.
   Each game also has a page of its own, `/blog/<slug>/<game>-<version>/`
   (`src/game-pages.njk`): the game and nothing else, as in the app, so it
   has no header, navigation, footer, skip link, theme toggle, language
@@ -529,8 +531,12 @@ measurements, and the two gates' `SKIP` path with `CHROME_PATH=/nonexistent`.
 The suite needs no network, and a browser only in `tests/chrome.test.mjs`,
 whose gate cases run both gates on the installed Chrome and kill the Chrome a
 gate launched, by its pid, mid-measure (once: the page is measured again;
-twice: one `FAIL` line); they skip when no Chrome is found unless
-`CHECK_REQUIRE_CHROME=1`, as in CI.
+twice: one `FAIL` line), and in `tests/games.test.mjs`, which plays each
+game of the Gaimer article in Chrome and presses ArrowDown after Play and
+again after the window changes size: the key reaches the game and the article
+does not scroll, and a text field of the article keeps the focus while a game
+loads again. The Chrome cases of both files skip when no Chrome is found
+unless `CHECK_REQUIRE_CHROME=1`, as in CI.
 
 The REQ- and AC- ids in this README and in comments, test names and gate
 messages label requirements and acceptance criteria of the two factory runs

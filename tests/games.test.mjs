@@ -1,17 +1,22 @@
 // The games an article plays in its page (si-y6pp; scripts/lib/games.mjs):
 // the data and media checks, the block the `games` shortcode writes, the game
 // pages, the draft rule that keeps all of it out of the production build
-// (C14), and the gate rules a game page is held to by its path, and only by
-// its path.
+// (C14), the keys a game keeps in a real Chrome when the window changes size
+// (si-27c8), and the gate rules a game page is held to by its path, and only
+// by its path.
 
 import assert from "node:assert/strict";
 import { randomBytes } from "node:crypto";
 import { cp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { after, before, describe, it } from "node:test";
+import { setTimeout as delay } from "node:timers/promises";
 import { parse } from "node-html-parser";
+import puppeteer from "puppeteer-core";
+import { findChrome, launchChrome } from "../scripts/lib/chrome.mjs";
 import { GAME_FILES, gameId, gamePagePaths, gameProblems, gamePages, MEDIA_DIR, readGames, renderGames } from "../scripts/lib/games.mjs";
 import { exists, walk } from "../scripts/lib/site.mjs";
+import { start as serve } from "../scripts/lib/static-server.mjs";
 import { buildSite, copyDir, copyProject, runGate, SRC, tempDir } from "./helpers.mjs";
 
 // The one article that plays games, and its game pages.
@@ -288,6 +293,151 @@ describe("the game pages", () => {
       assert.ok(item, `${feed} has the draft's item in a development build`);
       assert.match(item, /Opening and saving games|Att öppna och spara spel/, `${feed}: the article's text`);
       assert.doesNotMatch(item, /games-(tetris|pong)|game-shot|game-play|play\.js|\.webp/, feed);
+    }
+  });
+});
+
+// A real Chrome plays each game in the article as a reader does (si-27c8):
+// Play, ArrowDown, the window changes size, ArrowDown again. Each key reaches
+// the game and the article does not scroll. A game from before the cleanup
+// loads again in a new frame at the new size, as the app did, and the new
+// frame takes the keys as the first one did; until keepFocus in
+// game-page-before.js the focus left with the old frame, and ArrowDown
+// scrolled the article 40 px. A text field of the article keeps the focus,
+// and its keys, while a game loads again. The cases skip when no Chrome is
+// found, except under CHECK_REQUIRE_CHROME=1 (CI), where they run.
+const CHROME = await findChrome();
+const noChrome = CHROME === null && process.env.CHECK_REQUIRE_CHROME !== "1" ? "no Chrome found" : false;
+
+describe("a game played in the article keeps the keys when the window changes size (si-27c8)", { skip: noChrome }, () => {
+  let tmp;
+  let server;
+  let chrome;
+  let browser;
+  // Stopped by a signal, this file never reaches `after`, and Chrome, in a
+  // process group of its own, would outlive it: kill it, and remove the
+  // build, first.
+  const onSignal = (signal) =>
+    Promise.resolve(chrome?.kill())
+      .then(() => tmp?.cleanup())
+      .finally(() => process.exit(signal === "SIGINT" ? 130 : 143));
+  before(async () => {
+    assert.ok(CHROME, "CHECK_REQUIRE_CHROME=1 and no Chrome was found");
+    tmp = await tempDir("games-keys-");
+    server = await serve(buildSite(path.join(tmp.dir, "site")));
+    process.on("SIGINT", onSignal);
+    process.on("SIGTERM", onSignal);
+    chrome = await launchChrome({ chromePath: CHROME });
+    browser = await puppeteer.connect({ browserURL: `http://127.0.0.1:${chrome.port}` });
+  });
+  after(async () => {
+    await browser?.disconnect();
+    await chrome?.kill();
+    process.off("SIGINT", onSignal);
+    process.off("SIGTERM", onSignal);
+    await server?.close();
+    await tmp?.cleanup();
+  });
+
+  /**
+   * Whether `check` comes true within `ms`, asked every 50 ms. An error, as
+   * from a frame not there yet or going away, counts as not yet.
+   */
+  async function until(check, ms) {
+    const end = Date.now() + ms;
+    for (;;) {
+      if (await Promise.resolve().then(check).catch(() => false)) return true;
+      if (Date.now() > end) return false;
+      await delay(50);
+    }
+  }
+
+  /**
+   * The article in a new tab 1280 px wide, the game `id` (tetris-before, say)
+   * scrolled to the top and played. Resolves to the tab and a function that
+   * gives the frame the game runs in now, inside the frame of its page.
+   */
+  async function play(id) {
+    const page = await browser.newPage();
+    await page.bringToFront();
+    await page.setViewport({ width: 1280, height: 900 });
+    await page.goto(`${server.url}/blog/${ARTICLE}/`, { waitUntil: "load" });
+    const button = await page.$(`.game-play[data-game-page="/blog/${ARTICLE}/${id}/"]`);
+    await button.evaluate((element) => element.closest(".game").scrollIntoView({ block: "start", behavior: "instant" }));
+    await button.click();
+    const gameFrame = () => page.frames().find((frame) => frame.url() === `${server.url}/blog/${ARTICLE}/${id}/`)?.childFrames()[0];
+    return { page, gameFrame };
+  }
+
+  /** Whether `frame` has the focus: key presses go to it. */
+  const hasKeys = (frame) => frame.evaluate(() => document.hasFocus());
+
+  /**
+   * Press ArrowDown in the tab. Resolves to how far the article scrolled and
+   * whether the key reached `frame`, where the game runs.
+   */
+  async function arrowDown(page, frame) {
+    await frame.evaluate(() => {
+      if (!window.keysSeen) addEventListener("keydown", (event) => window.keysSeen.push(event.key), true);
+      window.keysSeen = [];
+    });
+    const y = await page.evaluate(() => scrollY);
+    await page.keyboard.press("ArrowDown");
+    const reached = await until(() => frame.evaluate(() => window.keysSeen.includes("ArrowDown")), 3000);
+    // A scroll by a key is animated: time enough for one to show
+    await delay(300);
+    return { scrolled: (await page.evaluate(() => scrollY)) - y, reached };
+  }
+
+  for (const url of GAME_PAGES) {
+    const id = url.split("/").at(-2);
+    it(`${id}: ArrowDown reaches the game and does not scroll the article, after Play and after the window changes size`, async () => {
+      const { page, gameFrame } = await play(id);
+      try {
+        assert.ok(await until(() => hasKeys(gameFrame()), 10000), "the game's frame takes the keys after Play");
+        const first = gameFrame();
+        assert.deepEqual(await arrowDown(page, first), { scrolled: 0, reached: true }, "ArrowDown after Play");
+        await page.setViewport({ width: 1000, height: 900 });
+        // A game from before the cleanup loads again in a new frame 300 ms
+        // after the window stops resizing, as the app did
+        if (id.endsWith("-before")) assert.ok(await until(async () => gameFrame() && gameFrame() !== first, 10000), "the game loads again in a new frame");
+        // The new frame takes the keys once its page has loaded: ArrowDown
+        // tells whether it did
+        await until(() => hasKeys(gameFrame()), 5000);
+        assert.deepEqual(await arrowDown(page, gameFrame()), { scrolled: 0, reached: true }, "ArrowDown after the window changed size");
+      } finally {
+        await page.close();
+      }
+    });
+  }
+
+  it("leaves the focus in a text field of the article, and the keys to it, while a game from before the cleanup loads again", async () => {
+    const { page, gameFrame } = await play("tetris-before");
+    try {
+      assert.ok(await until(() => hasKeys(gameFrame()), 10000), "the game's frame takes the keys after Play");
+      const first = gameFrame();
+      // The article has no text field: one before the games stands in for
+      // anything a reader types in
+      const field = await page.evaluateHandle(() => {
+        const input = document.createElement("input");
+        input.setAttribute("aria-label", "A text field");
+        document.querySelector(".games").before(input);
+        return input;
+      });
+      await field.click();
+      await page.keyboard.type("ab");
+      await page.setViewport({ width: 1000, height: 900 });
+      assert.ok(await until(async () => gameFrame() && gameFrame() !== first, 10000), "the game loads again in a new frame");
+      const loaded = () => gameFrame().evaluate(() => document.readyState === "complete" && document.getElementById("game-canvas") !== null);
+      assert.ok(await until(loaded, 10000), "the game's page loads in the new frame");
+      // The new frame would take the focus just after its page loaded
+      await delay(500);
+      await page.keyboard.type("cd");
+      assert.equal(await field.evaluate((input) => input.value), "abcd");
+      assert.equal(await field.evaluate((input) => document.activeElement === input && document.hasFocus()), true, "the text field has the focus");
+      assert.equal(await hasKeys(gameFrame()), false, "the game's frame does not");
+    } finally {
+      await page.close();
     }
   });
 });

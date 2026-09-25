@@ -1,5 +1,6 @@
 // Shared helpers for the gate tests (node:test, no network; no browser except
-// in tests/chrome.test.mjs, which kills a real Chrome under the Chrome gates).
+// in tests/chrome.test.mjs, which kills a real Chrome under the Chrome gates,
+// and tests/games.test.mjs, which plays the Gaimer article's games in one).
 //
 // Positive cases run each gate against a fresh build of the real site written
 // to a temporary output directory. Negative cases use the committed fixtures
