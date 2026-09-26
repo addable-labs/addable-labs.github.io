@@ -5,12 +5,16 @@
     `listHeading` to "h3" when the list sits under an h2 (default "h2"). The
     image is the article's WebP copies (scripts/lib/images.mjs) with alt="",
     as the title link beside it names the article: below 48rem, on a phone,
-    the 600 px copy, and from 48rem the copy the card's width asks for. It
+    the 600 px copy, and from 48rem the copy the card's width asks for —
+    `sizes` gives that width as base.css lays the cards out (si-9dw5): two
+    columns from 48rem, three from 64rem, in a container of at most 76rem
+    with 2.5rem gutters from 1000 px (4vw below) and 1.5rem between cards. It
     loads lazily unless its card is one of the first `eagerCards` (default
-    none): the blog index and the category pages set 2, the first row, which
-    may be on the first screen, and those load at once but after the
-    stylesheets and fonts (fetchpriority="low"), as the text of the first
-    screen comes before its pictures. The empty state is blog.empty. -#}
+    none): the blog index and the category pages set 3, the first row on a
+    wide screen, which may be on the first screen, and those load at once
+    but after the stylesheets and fonts (fetchpriority="low"), as the text of
+    the first screen comes before its pictures. The empty state is
+    blog.empty. -#}
 {%- set headingTag = listHeading or "h2" -%}
 {%- set eager = eagerCards or 0 -%}
 {%- if posts | length %}
@@ -20,7 +24,7 @@
     <li class="post reveal">
       <picture>
         <source media="(max-width: 47.99rem)" srcset="{{ img.small }}">
-        <img class="post-image" src="{{ img.src }}" srcset="{{ img.srcset }}" sizes="35rem" width="{{ shareImage.width }}" height="{{ shareImage.height }}" alt=""{% if loop.index > eager %} loading="lazy"{% else %} fetchpriority="low"{% endif %}>
+        <img class="post-image" src="{{ img.src }}" srcset="{{ img.srcset }}" sizes="(min-width: 76rem) calc((76rem - 8rem) / 3), (min-width: 64rem) calc((100vw - 8rem) / 3), calc(46vw - 0.75rem)" width="{{ shareImage.width }}" height="{{ shareImage.height }}" alt=""{% if loop.index > eager %} loading="lazy"{% else %} fetchpriority="low"{% endif %}>
       </picture>
       <p class="post-meta">
         <time datetime="{{ post.date | isoDate }}">{{ post.date | localeDate(lang) }}</time>

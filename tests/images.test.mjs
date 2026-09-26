@@ -222,8 +222,9 @@ describe("a draft's image is only in the development build (C14)", () => {
 describe("which images load at once (si-awlu)", () => {
   // An image on the first screen loads at once: the article's image under its
   // summary, first of all, and the first row of cards on the blog index and
-  // the category pages, after the stylesheets and fonts. Every other card's
-  // image waits until it is near. On a phone a card shows the 600 px copy.
+  // the category pages, three on a wide screen (si-9dw5), after the
+  // stylesheets and fonts. Every other card's image waits until it is near.
+  // On a phone a card shows the 600 px copy.
   let tmp;
   let out;
   before(async () => {
@@ -242,7 +243,7 @@ describe("which images load at once (si-awlu)", () => {
     for (const page of [["blog", "index.html"], ["sv", "blog", "index.html"], ["blog", "ai-journey", "index.html"], ["sv", "blog", "app-development", "index.html"]]) {
       const loading = await cardLoading(...page);
       assert.ok(loading.length >= 2, `${page.join("/")} lists at least two articles`);
-      assert.deepEqual(loading, loading.map((_, index) => (index < 2 ? "low" : "lazy")), page.join("/"));
+      assert.deepEqual(loading, loading.map((_, index) => (index < 3 ? "low" : "lazy")), page.join("/"));
     }
   });
 
@@ -255,7 +256,9 @@ describe("which images load at once (si-awlu)", () => {
       assert.equal(source.getAttribute("srcset"), `/blog/${slug}/cover-600.webp`, slug);
       const img = card.querySelector("picture > img.post-image");
       assert.equal(img.getAttribute("srcset"), articleImage(slug, "cover.png").srcset, slug);
-      assert.equal(img.getAttribute("sizes"), "35rem", slug);
+      // The card's width in base.css: three columns from 64rem in a container
+      // of at most 76rem, two from 48rem (si-9dw5).
+      assert.equal(img.getAttribute("sizes"), "(min-width: 76rem) calc((76rem - 8rem) / 3), (min-width: 64rem) calc((100vw - 8rem) / 3), calc(46vw - 0.75rem)", slug);
     }
   });
 

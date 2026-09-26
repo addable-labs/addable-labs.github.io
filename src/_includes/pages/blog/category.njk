@@ -16,7 +16,7 @@
 {% include "partials/page-hero.njk" %}
 <div class="container page-body">
 {%- set posts = collections["posts_" + lang + "_" + category.key] %}
-{%- set eagerCards = 2 %}
+{%- set eagerCards = 3 %}
 {%- include "partials/post-list.njk" %}
   <h2 class="categories-heading">{{ strings[lang].blog.categoriesHeading }}</h2>
 {%- include "partials/category-chips.njk" %}

@@ -1234,6 +1234,15 @@ html:not(.js) .theme-toggle {
   margin: 0;
 }
 
+/* Every list of article cards — the landing's writing band, the blog index,
+   the category pages and the "More from the blog" band under an article —
+   is one column, two from 48rem and three from 64rem (founder feedback
+   2026-09-26, si-9dw5: at two columns a card's image was 551 px wide at
+   1210 px). As in the services and apps grids (the balance rule, above),
+   every card spans four row tracks — image | metadata | title | description
+   — and takes them from the list (subgrid), so the cards of a row are one
+   height and their parts in line, also where a narrow card's metadata row
+   wraps or its title takes three lines. */
 .post-list {
   padding: 0;
   margin: 0 0 var(--space-3);
@@ -1249,12 +1258,32 @@ html:not(.js) .theme-toggle {
   }
 }
 
+@media (min-width: 64rem) {
+  .post-list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
 .post {
+  display: grid;
+  grid-row: span 4;
+  grid-template-rows: subgrid;
+  row-gap: 0;
+  align-content: start;
   padding: var(--space-4);
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius);
   transition: border-color var(--dur) var(--ease), transform var(--dur) var(--ease);
+}
+
+/* Without subgrid a card is a block again, one height with its row but its
+   parts no longer in line. */
+@supports not (grid-template-rows: subgrid) {
+  .post {
+    display: block;
+    grid-row: auto;
+  }
 }
 
 .post:hover {
@@ -1267,9 +1296,14 @@ html:not(.js) .theme-toggle {
    top corners following the card's and a hairline between it and the text.
    Its width and height attributes reserve its 1200:630 box before it loads.
    Its <picture> only picks the file, the 600 px copy on a phone, and makes
-   no box of its own. */
+   no box of its own, and its <source> none either, or the card's grid would
+   place it as a part in the image's track (si-9dw5). */
 .post picture {
   display: contents;
+}
+
+.post source {
+  display: none;
 }
 
 .post-image {
@@ -1928,14 +1962,6 @@ html:not(.js) .game-play {
 .game-note {
   color: var(--color-text-muted);
   font-size: var(--text-xs);
-}
-
-/* The ending band (founder feedback 2026-09-22): the other articles of the
-   page's language as .post cards under the "More from the blog" heading,
-   the landing's writing band closing the article page — one card spans the
-   row, two or three share it — then the "All articles" link. */
-.article-more .post-list {
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
 }
 
 /* The drawing vocabulary of the figures (src/_includes/figures/figures.mjs):

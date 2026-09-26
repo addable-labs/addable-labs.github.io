@@ -350,11 +350,24 @@ change colour, border, transform and box-shadow only.
   with its article card under the heading from 64 rem, and the same split
   for its mission section: the heading and the facts line (founding month,
   country) on the left, the two first-person paragraphs on the right.
-- **Article list items** (`.post`). Surface cards in a two-column grid from
-  48 rem: mono metadata (date, category chip, draft chip), the title as a
-  44 px link that turns accent on hover, the description; the whole card
-  lifts 2 px and turns its border green on hover. The landing page shows the
-  newest three; the blog index and category pages show all.
+- **Article list items** (`.post`). Surface cards in one column, two from
+  48 rem and three from 64 rem (founder feedback 2026-09-26, si-9dw5: at two
+  columns a card's image was 551 px wide at 1210 px), in every list: the
+  landing page shows the newest three, the blog index and category pages
+  show all, and the "More from the blog" band under an article the newest
+  three others. A card opens with the article's image, then mono metadata
+  (date, category chip, draft chip), the title as a 44 px link that turns
+  accent on hover, the description; the whole card lifts 2 px and turns its
+  border green on hover. Like a service or app card, a card spans four row
+  tracks of its list — image | metadata | title | description — and takes
+  them from the list (`grid-template-rows: subgrid`), so the cards of a row
+  are one height and each part is in line, also where a narrow card's
+  metadata row wraps (at 1024 px, a date beside "App development") or its
+  title takes three lines; the `<source>` of its `<picture>` is
+  `display: none`, or the grid would place it as a part. The image's `sizes`
+  follows the columns, so a three-column card loads the 600 px copy where
+  that is enough, and the blog index and category pages load their first
+  row, three cards, at once.
 - **Notices.** None on the pages: both notice boxes were taken off (si-sfh8).
   A draft is marked by `chip-draft` in the article metadata and in the
   listings.
