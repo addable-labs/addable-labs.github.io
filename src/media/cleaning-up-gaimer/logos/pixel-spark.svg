@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <title>Gaimer: pixel spark</title>
+  <!-- the spark, in pixels -->
+  <path fill="#83F35D" d="M128 448 L320 448 L320 384 L384 384 L384 320 L448 320 L448 128 L576 128 L576 320 L640 320 L640 384 L704 384 L704 448 L896 448 L896 576 L704 576 L704 640 L640 640 L640 704 L576 704 L576 896 L448 896 L448 704 L384 704 L384 640 L320 640 L320 576 L128 576Z"/>
+  <!-- a pixel flying off it -->
+  <path fill="#FF6F00" d="M768 192 L832 192 L832 256 L768 256Z"/>
+</svg>

@@ -51,6 +51,16 @@ const GAME_PAGE_FILES = [
   ...new Set(readGames(SRC).map((entry) => path.join(SRC, MEDIA_DIR, entry.article, `game-page-${entry.version}.js`))),
 ];
 
+// The logos one agent proposed for Gaimer's icon (si-y2zu), which the Gaimer
+// article's logos figure shows, keep the colours they were drawn in, which
+// are Gaimer's and copy no token of the site: its green and orange in the
+// four symbols, copied as the agent wrote them, and its dark, behind the
+// icon on iOS, in the tile they stand on. These five files are left out of
+// the rule too, and hold no other colour.
+const LOGO_DIR = path.join(SRC, MEDIA_DIR, "cleaning-up-gaimer", "logos");
+const LOGO_FILES = ["spark-pad", "prompt", "say-and-play", "pixel-spark", "tile"].map((name) => path.join(LOGO_DIR, `${name}.svg`));
+const LOGO_COLOURS = ["#121212", "#83f35d", "#ff6f00"];
+
 describe("theme logic (REQ-007)", () => {
   it("returns light only for a stored \"light\" choice", () => {
     assert.equal(resolve("light"), "light");
@@ -93,8 +103,9 @@ describe("colours copied by hand from tokens.css", () => {
     // tokens.css holds the colours and COPIES names every file that repeats
     // one; a literal anywhere else would be a copy that nothing checks. Binary
     // files (the fonts) are skipped: they contain a NUL byte, text never does.
-    // The games' files keep their own colours (GAME_CODE, GAME_PAGE_FILES).
-    const covered = new Set([TOKENS_FILE, ...Object.keys(COPIES).map((file) => path.join(ROOT, file)), ...GAME_CODE, ...GAME_PAGE_FILES]);
+    // The games' files keep their own colours (GAME_CODE, GAME_PAGE_FILES),
+    // and so do the Gaimer logo proposals (LOGO_FILES).
+    const covered = new Set([TOKENS_FILE, ...Object.keys(COPIES).map((file) => path.join(ROOT, file)), ...GAME_CODE, ...GAME_PAGE_FILES, ...LOGO_FILES]);
     const found = [];
     for (const file of await walk(SRC)) {
       if (covered.has(file)) continue;
@@ -121,6 +132,15 @@ describe("colours copied by hand from tokens.css", () => {
       const literals = [...(await readFile(file, "utf8")).matchAll(HEX_COLOUR)].map(([hex]) => hex.toLowerCase());
       assert.ok(literals.length > 0, `${relative(file)} has Gaimer's background`);
       assert.deepEqual([...new Set(literals)], [GAME_BACKGROUND], `${relative(file)}: every colour is ${GAME_BACKGROUND}`);
+    }
+  });
+  it("leaves out only the five files of the Gaimer logo proposals, whose colours are Gaimer's dark, green and orange (si-y2zu)", async () => {
+    const relative = (file) => path.relative(ROOT, file);
+    assert.deepEqual((await walk(LOGO_DIR)).map(relative).sort(), LOGO_FILES.map(relative).sort());
+    for (const file of LOGO_FILES) {
+      const literals = [...(await readFile(file, "utf8")).matchAll(HEX_COLOUR)].map(([hex]) => hex.toLowerCase());
+      assert.ok(literals.length > 0, `${relative(file)} has a colour`);
+      assert.deepEqual(literals.filter((hex) => !LOGO_COLOURS.includes(hex)), [], `${relative(file)}: every colour is one of ${LOGO_COLOURS.join(", ")}`);
     }
   });
 });

@@ -123,6 +123,43 @@ När ett spel är öppet ändrar beskrivningsrutan nu det spelet.
 
 {% figure "lifecycle", "wide" %}
 
+### Appens ikon
+
+Gaimer hade ingen egen ikon: appen använde Tauris standardikon. Den 25
+september bad grundaren om en logotyp som visar spel gjorda med AI, i appens
+gröna färg och som SVG så att den går att skala till appikoner. En agent
+skrev fyra förslag direkt som SVG-kod, utan någon bildgenerator. Vart och
+ett bygger på en enda idé och agenten förhandsvisade dem i ikonstorlekar och
+i efterbildningar av Docken på macOS och av hemskärmen på en iPhone.
+Grundaren valde det första, Spark pad. Den sista pull requesten gjorde det
+till appens ikon på alla plattformar.
+
+{% figure "logos", "wide" %}
+
+### Mindre ändringar
+
+Varje AI-leverantör har nu en egen modell. Förut gällde ett enda val för
+båda, så när användaren bytte leverantör kunde en modell som valts för
+OpenAI skickas till Claude. Då gick det inte att göra något spel förrän en
+modell hade valts igen. Listorna har inte längre med modeller som inte
+kunde fungera, till exempel OpenAI:s modeller för tal och transkribering.
+Nu finns också nio GPT-5-modeller, med ett anrop anpassat för dem: inget
+temperaturvärde och en gräns för svaret som räknar in både resonemanget
+och spelet.
+
+Ett spel fick inga tangenttryck förrän spelaren klickade på det. Om spelet
+avbryter klicket, som en del spel gjorda med den nya prompten gör, fick det
+inga alls. Nu får ett spel tangentbordsfokus när det är redo och när någon
+klickar på det. Beskrivningsrutan släpper fokus när en beskrivning har
+skickats. Den nya prompten sa till modellen att tangenttryck når ett spel
+först efter ett klick eller ett tryck. Den raden är borta, men de tre nya
+spelen i artikeln gjordes med den.
+
+Förut startade spelet om när fönstret ändrade storlek eller telefonen
+vändes. Det spelaren inte hade sparat gick förlorat. Nu fortsätter spelet,
+skalat för att få plats, i den form det startade med: vänds telefonen från
+stående till liggande blir spelet mindre, med tomma fält på sidorna.
+
 ## Så gjordes spelen
 
 Varje spel gjordes precis som Gaimer gjorde spel med Claude när den nya

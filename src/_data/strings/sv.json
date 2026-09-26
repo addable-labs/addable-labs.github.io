@@ -810,9 +810,11 @@
       "caption": "Vad som fyllde borgmästarens kontext: de fem största källorna som andelar av alla bearbetade tokens, i samma skala, var och en med en stapel för 22–23 september (nedtonad) och en för 24–25 september. Under den första perioden var hälften av alla tokens startinnehållet, som skickades med varje anrop i 51 korta sessioner; under den andra tog borgmästarens egna utdata den största andelen. Den orange delen av tre staplar är det som nästa ändringar skulle rikta in sig på: borgmästarens resonemang, diffarna och genomförandeagenternas rapporter. Resten, 16 % och 20 %, kom från källor på högst 4 % vardera."
     },
     "merges": {
-      "title": "De 49 pull requests som slogs ihop i Gaimer den 24 och 25 september 2026. Varje streck visar när en av dem slogs ihop (UTC) och varje rad hör till en del av artikeln, med antalet i slutet av raden",
+      "title": "De 49 pull requests som slogs ihop i Gaimer den 24 och 25 september 2026, en ruta för varje, på en rad för varje del av artikeln som berättar vad de ändrade, med antalet för varje rad",
       "head": "49 pull requests",
-      "window": "24–25 sep · UTC",
+      "window": "24–25 sep",
+      "titleMore": "Samma 49 pull requests, resten av delarna",
+      "headMore": "per del av artikeln",
       "areas": {
         "saving": "öppna och spara spel",
         "errors": "fel i spelen",
@@ -823,13 +825,51 @@
         "prompt": "den nya systemprompten",
         "fix": "automatisk rättning",
         "change": "ändra det öppna spelet",
-        "other": "övrigt: modell, fokus, iOS, ikon"
+        "icon": "appens ikon",
+        "smaller": "mindre ändringar"
       },
-      "days": {
-        "first": "24 september",
-        "second": "25 september"
+      "caption": "De 49 pull requests som fabriken slog ihop i Gaimer den 24 och 25 september 2026, en ruta för varje, på en rad för varje del av artikeln som berättar vad de ändrade, i artikelns ordning och med antalet för varje rad. Den sista delen, om mindre ändringar, tar upp åtta av sina elva."
+    },
+    "logos": {
+      "panels": {
+        "first": {
+          "title": "Logoförslag 1 och 2 av de fyra som en agent skrev som SVG till Gaimers ikon, vart och ett på appens mörka rundade ruta",
+          "head": "4 logoförslag"
+        },
+        "second": {
+          "title": "Logoförslag 3 och 4",
+          "head": "skrivna som SVG-kod"
+        }
       },
-      "caption": "De 49 pull requests som fabriken slog ihop i Gaimer den 24 och 25 september 2026. Varje streck visar när en av dem slogs ihop (UTC) och varje rad hör till en del av artikeln, med antalet i slutet av raden. Den nedersta raden samlar de tolv som artikeln inte tar upp: fyra om att välja modell, en som låter ett spel fortsätta när fönstret ändrar storlek, en som tar bort fokus från beskrivningsfältet när beskrivningen har skickats, två som ger ett spel tangentbordsfokus, när det är redo och när spelaren klickar på det, en som stryker systempromptens påstående att tangenttryck når ett spel först efter ett klick, en som visar spelets styrning och regler i en dialogruta som inte hamnar under statusfältet på en iPhone, en som håller statusfältet läsbart oavsett om telefonen är inställd på ljust eller mörkt läge och en som gör appens logotyp till dess ikon på alla plattformar."
+      "window": "25 sep",
+      "chosen": "vald",
+      "proposals": {
+        "spark-pad": {
+          "name": "1. Spark pad",
+          "idea": "En handkontroll vars",
+          "idea2": "knappar är en AI-gnista:",
+          "idea3": "spel, gjorda av AI."
+        },
+        "prompt": {
+          "name": "2. Prompt",
+          "idea": "Markören efter en skriven prompt",
+          "idea2": "får liv som en pixelvarelse:",
+          "idea3": "en beskrivning blir ett spel."
+        },
+        "say-and-play": {
+          "name": "3. Say and play",
+          "idea": "En pratbubbla som rymmer en",
+          "idea2": "handkontroll: beskriv spelet,",
+          "idea3": "spela det sedan."
+        },
+        "pixel-spark": {
+          "name": "4. Pixel spark",
+          "idea": "AI-gnistan i 8-bitarspixlar,",
+          "idea2": "med armar som ett styrkors:",
+          "idea3": "AI som talar i spel."
+        }
+      },
+      "caption": "De fyra logotyper som en agent föreslog till Gaimers ikon den 25 september 2026. Varje logotyp är skriven som SVG-kod och visas här på appens mörka rundade ruta, som på en hemskärm, med sitt namn och den idé som agenten gav den. Grundaren valde den första."
     },
     "connection": {
       "title": "Claude-anropet för ett spel, före och efter städningen. Före: en hel Claude Code-session med Claude Codes egen systemprompt. Gaimers prompt klistrades in i användarens meddelande före beskrivningen, de inbyggda verktygen var på, användarens CLAUDE.md-filer, hooks, plugins, skills och MCP-servrar var med och sessionen sparades. Efter: ett enkelt anrop. Gaimers prompt är systemprompten och ligger i en egen fil, användarens meddelande är bara beskrivningen, de inbyggda verktygen är av, användarens CLAUDE.md-filer, hooks, plugins, skills och MCP-servrar hålls utanför och ingen session sparas. När användaren valde Claude startades upp till fyra inloggningsskal; nu kontrolleras inloggningen en gång. Tidsgränsen var 5 minuter, men anropet fortsatte ändå; nu är den 15 minuter och sedan stoppas anropet",

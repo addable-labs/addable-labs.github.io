@@ -131,6 +131,55 @@ describe("games data and media (si-y6pp)", () => {
     }
   });
 
+  it("draws the Gaimer article's merges figure as a row per part of \"What changed\", in the article's order, each with its label, a square per pull request and its count on one line, no row muted, in both languages (si-y2zu)", async () => {
+    for (const [i, lang] of ["en", "sv"].entries()) {
+      const strings = JSON.parse(await readFile(path.join(SRC, "_data", "strings", `${lang}.json`), "utf8"));
+      const figure = parse(renderFigure("merges", { placement: "wide", strings }));
+      // The parts as the article heads them under "What changed", in its
+      // order, each a row whose label is its heading in lower case.
+      const changes = (await readFile(path.join(SRC, ARTICLE_FILES[i]), "utf8")).split(/^## /m)[1];
+      const parts = [...changes.matchAll(/^### (.+)$/gm)].map(([, heading]) => heading[0].toLowerCase() + heading.slice(1));
+      const rows = figure.querySelectorAll("svg").flatMap((svg) => {
+        const texts = svg.querySelectorAll("text").map((node) => ({ cls: node.getAttribute("class").split(" "), y: Number(node.getAttribute("y")), value: node.text }));
+        const labels = texts.filter((node) => node.cls.includes("fig-label") && !node.cls.includes("fig-strong"));
+        const counts = texts.filter((node) => node.cls.includes("fig-strong"));
+        const squares = svg.querySelectorAll("rect.fig-ok").map((node) => ["x", "y", "width", "height"].map((name) => Number(node.getAttribute(name))));
+        // A row's squares stand on its label's baseline.
+        return labels.map((label, k) => ({ ...label, count: counts[k], squares: squares.filter(([, y, , height]) => y + height === label.y) }));
+      });
+      assert.deepEqual(rows.map((row) => row.value), parts, `${lang}: a row per part of the article, in its order`);
+      for (const row of rows) {
+        assert.equal(row.count?.y, row.y, `${lang}: ${row.value}: its count on its line`);
+        assert.equal(row.squares.length, Number(row.count.value), `${lang}: ${row.value}: a square per pull request`);
+        assert.ok(16 + row.value.length * 12 * 0.6 < Math.min(...row.squares.map(([x]) => x)), `${lang}: ${row.value}: the label ends before its squares`);
+      }
+      assert.equal(rows.reduce((sum, row) => sum + row.squares.length, 0), 49, `${lang}: the 49 pull requests`);
+      assert.equal(figure.querySelectorAll(".fig-muted, .fig-bar-muted").length, 0, `${lang}: no row muted`);
+    }
+  });
+
+  it("shows the four logo proposals in the Gaimer article's logos figure, each from its own file on the dark tile, with its name and its idea, the chosen one marked, in both languages (si-y2zu)", async () => {
+    const logos = ["spark-pad", "prompt", "say-and-play", "pixel-spark"];
+    for (const lang of ["en", "sv"]) {
+      const strings = JSON.parse(await readFile(path.join(SRC, "_data", "strings", `${lang}.json`), "utf8"));
+      const t = strings.figures.logos;
+      const figure = parse(renderFigure("logos", { placement: "wide", strings }));
+      const images = figure.querySelectorAll("image").map((node) => node.getAttribute("href"));
+      assert.deepEqual(images, logos.flatMap((key) => [`/blog/${ARTICLE}/logos/tile.svg`, `/blog/${ARTICLE}/logos/${key}.svg`]), `${lang}: each logo on its tile, in order`);
+      for (const href of new Set(images)) assert.ok(await exists(path.join(SRC, MEDIA_DIR, href.slice("/blog/".length))), `${href} is in the article's media directory`);
+      const texts = figure.querySelectorAll("text").map((node) => node.text);
+      for (const key of logos) {
+        const { name, idea, idea2, idea3 } = t.proposals[key];
+        for (const line of [name, idea, idea2, idea3]) assert.ok(texts.includes(line), `${lang}: ${key}: "${line}"`);
+      }
+      // One mark, a tick and the word, in the panel of the chosen one.
+      const [first] = figure.querySelectorAll("svg");
+      assert.equal(texts.filter((text) => text === t.chosen).length, 1, `${lang}: "${t.chosen}" once`);
+      assert.equal(figure.querySelectorAll(".fig-check").length, 1, `${lang}: one tick`);
+      assert.ok(first.querySelectorAll("text").some((node) => node.text === t.chosen) && first.querySelectorAll(".fig-check").length === 1, `${lang}: the mark beside ${t.proposals["spark-pad"].name}`);
+    }
+  });
+
   it("fails the build when an article asks for a game the data does not hold", async () => {
     const project = await copyProject(path.join(tmp.dir, "unknown"));
     const file = path.join(project, "src", ARTICLE_FILES[0]);
@@ -243,7 +292,7 @@ describe("a draft's games are only in the development build (C14)", () => {
   after(() => tmp.cleanup());
 
   it("builds the article, its game pages, the games' code and the screenshots in a development build", async () => {
-    assert.equal(expected.length, 2 + 6 + 6 * GAME_FILES.length + 3 + 3, "two articles, six game pages, three files a game, three scripts and the article's image with its two WebP copies (si-awlu)");
+    assert.equal(expected.length, 2 + 6 + 6 * GAME_FILES.length + 3 + 3 + 5, "two articles, six game pages, three files a game, three scripts, the article's image with its two WebP copies (si-awlu) and the four logo proposals with their tile (si-y2zu)");
     const built = new Set(await relativeFiles(dev));
     assert.deepEqual(expected.filter((file) => !built.has(file)), []);
     // And the listings, the feeds and the sitemap point at it.

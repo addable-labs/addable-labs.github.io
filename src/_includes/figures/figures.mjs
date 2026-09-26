@@ -943,20 +943,25 @@ function sources(t, id, figureId) {
 // security, the part about that policy; #53 (every call for a game at effort
 // low) and #55 (the effort level chosen in Settings) change the Claude call,
 // so they are under the Claude connection, though the part on how the games
-// were made tells them; "other" holds the twelve the article does not tell:
-// the choice of a model (#14, #25, #38, #41), a game kept running when the
-// window changes size (#26), the focus after sending (#48), a game's
-// keyboard focus when it is ready (#54) and when the player clicks it (#57),
-// the system prompt's claim that keys reach a game only after a click
-// dropped (#58; the games of the article were made with the prompt before
-// it), a game's controls and rules in a dialog clear of an iPhone's status
-// bar (#56), that status bar readable in light and dark (#59) and the app's
-// logo as its icon on every platform (#60).
+// were made tells them. #60, which made the logo the founder chose the
+// app's icon, has a part of its own (the founder's call, 26 September 2026:
+// the agents' four proposals are worth showing). "smaller" holds the eleven
+// of the last part, "Smaller changes", which tells only the significant ones
+// (his call of the same day): a model per provider (#14), model lists
+// without the models that could not work (#25), the GPT-5 models with their
+// request (#38), the keyboard focus for a game when it is ready (#54) and
+// when the player clicks it (#57), the focus off the description box after
+// sending (#48), the system prompt's claim that keys reach a game only after
+// a click dropped (#58; the article's games from after the cleanup were made
+// with the prompt before it) and a game kept running when the window changes
+// size (#26). It leaves out the default model shown in Settings (#41), a
+// game's controls and rules in a dialog clear of an iPhone's status bar
+// (#56) and that status bar readable in light and dark (#59).
 const GAIMER_MERGES = [
   [11, "2026-09-24T17:56:58Z", "saving"],
   [12, "2026-09-24T18:13:29Z", "cleanup"],
   [13, "2026-09-24T18:39:28Z", "cleanup"],
-  [14, "2026-09-24T19:07:37Z", "other"],
+  [14, "2026-09-24T19:07:37Z", "smaller"],
   [15, "2026-09-24T19:28:02Z", "errors"],
   [16, "2026-09-24T20:09:51Z", "claude"],
   [17, "2026-09-24T20:35:50Z", "tests"],
@@ -967,8 +972,8 @@ const GAIMER_MERGES = [
   [22, "2026-09-24T23:07:05Z", "claude"],
   [23, "2026-09-24T23:27:09Z", "security"],
   [24, "2026-09-24T23:55:27Z", "cleanup"],
-  [25, "2026-09-25T00:29:02Z", "other"],
-  [26, "2026-09-25T00:51:45Z", "other"],
+  [25, "2026-09-25T00:29:02Z", "smaller"],
+  [26, "2026-09-25T00:51:45Z", "smaller"],
   [27, "2026-09-25T01:15:17Z", "saving"],
   [28, "2026-09-25T01:33:43Z", "saving"],
   [29, "2026-09-25T01:59:31Z", "saving"],
@@ -980,94 +985,149 @@ const GAIMER_MERGES = [
   [35, "2026-09-25T04:39:48Z", "claude"],
   [36, "2026-09-25T05:02:04Z", "saving"],
   [37, "2026-09-25T05:26:42Z", "claude"],
-  [38, "2026-09-25T06:04:59Z", "other"],
+  [38, "2026-09-25T06:04:59Z", "smaller"],
   [39, "2026-09-25T06:43:42Z", "fix"],
   [40, "2026-09-25T11:59:29Z", "prompt"],
-  [41, "2026-09-25T07:38:04Z", "other"],
+  [41, "2026-09-25T07:38:04Z", "smaller"],
   [42, "2026-09-25T07:52:30Z", "cleanup"],
   [43, "2026-09-25T08:20:04Z", "errors"],
   [44, "2026-09-25T08:55:03Z", "errors"],
   [45, "2026-09-25T09:19:22Z", "errors"],
   [46, "2026-09-25T09:48:09Z", "tests"],
-  [48, "2026-09-25T10:32:38Z", "other"],
+  [48, "2026-09-25T10:32:38Z", "smaller"],
   [49, "2026-09-25T12:57:25Z", "fix"],
   [50, "2026-09-25T14:08:16Z", "change"],
   [51, "2026-09-25T14:32:39Z", "claude"],
   [52, "2026-09-25T15:12:27Z", "change"],
   [53, "2026-09-25T16:52:17Z", "claude"],
-  [54, "2026-09-25T17:26:26Z", "other"],
+  [54, "2026-09-25T17:26:26Z", "smaller"],
   [55, "2026-09-25T18:00:03Z", "claude"],
-  [56, "2026-09-25T18:48:58Z", "other"],
-  [57, "2026-09-25T19:25:37Z", "other"],
-  [58, "2026-09-25T20:04:37Z", "other"],
-  [59, "2026-09-25T20:57:51Z", "other"],
-  [60, "2026-09-25T21:43:16Z", "other"],
+  [56, "2026-09-25T18:48:58Z", "smaller"],
+  [57, "2026-09-25T19:25:37Z", "smaller"],
+  [58, "2026-09-25T20:04:37Z", "smaller"],
+  [59, "2026-09-25T20:57:51Z", "smaller"],
+  [60, "2026-09-25T21:43:16Z", "icon"],
 ];
 
-/** The parts of the Gaimer article that tell what its pull requests changed, in its order, and "other". */
-const GAIMER_AREAS = ["saving", "errors", "claude", "security", "cleanup", "tests", "prompt", "fix", "change", "other"];
+/** The parts of the Gaimer article that tell what its pull requests changed, in its order. */
+const GAIMER_AREAS = ["saving", "errors", "claude", "security", "cleanup", "tests", "prompt", "fix", "change", "icon", "smaller"];
 
-// (18) The work at a glance — wide, one panel on one time scale from 14:00
-// UTC on 24 September to 22:00 on 25 September, midnight in Sweden: a row
-// per part of the article, each pull request a mark at its merge time, each
-// row's count at its end and midnight marked in every row; a mark is line
-// art, so it takes the accent's text colour, which holds its contrast in
-// both themes. The scale starts early enough that the first day's name fits
-// before midnight (16:00 did, until the scale reached #60 at 21:43), and a
-// merge outside it fails the build.
-// The counts, the total in the head and the list in the panel's accessible
-// name all come from the list above, so a pull request moved to another
-// part moves everywhere at once; the eight the article does not tell are
-// the muted row.
+// (18) The work at a glance — redrawn on the founder's calls of 26
+// September 2026 (the marks by merge time were messy and hard to read; each
+// part's label, squares and count on one row, so the figure is wider and
+// less tall): a row per part of the article, in its order, with its label,
+// a square per pull request and its count, the parts split over two panels
+// that stand side by side from 48rem and one above the other below it, each
+// panel as tall as the first. The squares of a row end at a common edge
+// beside the counts, so rows compare like bars, and they are as large as the
+// longest row beside its label allows. A square is a solid shape in the
+// accent's text colour, which holds its contrast in both themes.
+// The counts, the total in the head and the lists in the panels' accessible
+// names all come from the list above, so a pull request moved to another
+// part moves everywhere at once; a merge outside 24–25 September in Sweden,
+// the head's dates, fails the build, and so does a label that would run
+// into its row's squares.
 function merges(t, id, figureId) {
   const unknown = GAIMER_MERGES.find(([, , area]) => !GAIMER_AREAS.includes(area));
   if (unknown) throw new Error(`Figure "${id}": pull request #${unknown[0]} is in no part of the article ("${unknown[2]}")`);
   const total = count(`${id}.head`, t.head);
   if (total !== GAIMER_MERGES.length) throw new Error(`Figure label "${id}.head" counts ${total} pull requests, the list ${GAIMER_MERGES.length} ("${t.head}")`);
-  const START = Date.parse("2026-09-24T14:00:00Z");
+  // 24 and 25 September in Sweden, on summer time (UTC+2).
+  const START = Date.parse("2026-09-23T22:00:00Z");
   const END = Date.parse("2026-09-25T22:00:00Z");
-  const outside = GAIMER_MERGES.find(([, at]) => !(Date.parse(at) >= START && Date.parse(at) <= END));
-  if (outside) throw new Error(`Figure "${id}": pull request #${outside[0]} was merged at ${outside[1]}, outside the time scale`);
-  const x = (at) => 16 + (288 * (Date.parse(at) - START)) / (END - START);
-  const midnight = x("2026-09-25T00:00:00Z");
-  const TOP = 60;
-  const PITCH = 30;
-  const listed = [];
-  const parts = [];
-  GAIMER_AREAS.forEach((area, i) => {
-    const y = TOP + i * PITCH;
-    const merged = GAIMER_MERGES.filter((pr) => pr[2] === area);
-    const muted = area === "other" ? " fig-muted" : "";
-    listed.push(`${t.areas[area]} (${merged.length})`);
-    // The label runs up to 8 units short of the count at the row's end.
-    const slot = WIDTH - 32 - String(merged.length).length * ADVANCE.small - 8;
-    parts.push(text(16, y, fit(`${id}.areas.${area}`, t.areas[area], slot, "small"), `fig-label fig-small${muted}`));
-    parts.push(text(WIDTH - 16, y, String(merged.length), `fig-label fig-small fig-strong${muted}`, "end"));
-    parts.push(`<line x1="16" y1="${y + 9}" x2="${WIDTH - 16}" y2="${y + 9}" class="fig-hair"/>`);
-    parts.push(`<line x1="${round(midnight)}" y1="${y + 2}" x2="${round(midnight)}" y2="${y + 16}" class="fig-line fig-dashed"/>`);
-    for (const [, at] of merged) {
-      parts.push(`<rect x="${round(x(at) - 1)}" y="${y + 4}" width="2" height="10" rx="1" class="${muted ? "fig-bar-muted" : "fig-ok"}"/>`);
-    }
-  });
-  // The scale: an hour mark every six hours, and the two days under it.
-  const axis = TOP + (GAIMER_AREAS.length - 1) * PITCH + 22;
-  parts.push(`<line x1="16" y1="${axis}" x2="${WIDTH - 16}" y2="${axis}" class="fig-hair"/>`);
-  for (const at of ["2026-09-24T18:00:00Z", "2026-09-25T00:00:00Z", "2026-09-25T06:00:00Z", "2026-09-25T12:00:00Z", "2026-09-25T18:00:00Z"]) {
-    parts.push(`<line x1="${round(x(at))}" y1="${axis}" x2="${round(x(at))}" y2="${axis + 4}" class="fig-hair"/>`);
-    parts.push(text(x(at), axis + 16, at.slice(11, 16), "fig-note", "middle"));
-  }
-  parts.push(text(16, axis + 31, fit(`${id}.days.first`, t.days.first, midnight - 24), "fig-note"));
-  parts.push(text(midnight + 4, axis + 31, fit(`${id}.days.second`, t.days.second, WIDTH - 20 - midnight), "fig-note"));
+  const outside = GAIMER_MERGES.find(([, at]) => !(Date.parse(at) >= START && Date.parse(at) < END));
+  if (outside) throw new Error(`Figure "${id}": pull request #${outside[0]} was merged at ${outside[1]}, outside 24–25 September in Sweden`);
+  const TOP = 62;
+  const PITCH = 25;
+  const SIZE = 9;
+  const STEP = 11;
+  // The squares end 6 units short of the widest count, which ends at the edge.
+  const counts = GAIMER_AREAS.map((area) => GAIMER_MERGES.filter((pr) => pr[2] === area).length);
+  const edge = WIDTH - 16 - String(Math.max(...counts)).length * ADVANCE.small - 6;
+  const half = Math.ceil(GAIMER_AREAS.length / 2);
+  const height = TOP + (half - 1) * PITCH + 18;
+  const rows = GAIMER_AREAS.map((area, i) => ({ area, n: counts[i] }));
+  const draw = (group) => {
+    const parts = [];
+    group.forEach(({ area, n }, i) => {
+      const y = TOP + i * PITCH;
+      const first = edge - n * STEP + (STEP - SIZE);
+      // The label runs up to 8 units short of the row's first square.
+      parts.push(text(16, y, fit(`${id}.areas.${area}`, t.areas[area], first - 8 - 16, "small"), "fig-label fig-small"));
+      for (let k = 0; k < n; k++) {
+        parts.push(`<rect x="${round(first + k * STEP)}" y="${y - SIZE}" width="${SIZE}" height="${SIZE}" rx="1.5" class="fig-ok"/>`);
+      }
+      parts.push(text(WIDTH - 16, y, String(n), "fig-label fig-small fig-strong", "end"));
+    });
+    return parts.join("");
+  };
+  const listed = (group) => group.map(({ area, n }) => `${t.areas[area]} (${n})`).join("; ");
+  const [first, second] = [rows.slice(0, half), rows.slice(half)];
   return {
     caption: t.caption,
     panels: [
-      {
-        title: `${t.title}: ${listed.join("; ")}`,
-        head: t.head,
-        headRight: { value: fit(`${id}.window`, t.window, 104, "head"), cls: "" },
-        height: axis + 42,
-        body: parts.join(""),
-      },
+      { title: `${t.title}: ${listed(first)}`, head: t.head, headRight: { value: fit(`${id}.window`, t.window, 104, "head"), cls: "" }, height, body: draw(first) },
+      { title: `${t.titleMore}: ${listed(second)}`, head: t.headMore, height, body: draw(second) },
+    ],
+  };
+}
+
+// The four logos one agent proposed for Gaimer's icon on 25 September 2026
+// (bead ga-fd5 on the gaimer rig), in its order, each an SVG as the agent
+// wrote it, copied byte for byte into the article's media directory; the
+// founder chose the first, which #60 made the app's icon.
+const GAIMER_LOGOS = ["spark-pad", "prompt", "say-and-play", "pixel-spark"];
+const GAIMER_LOGO_CHOSEN = "spark-pad";
+const GAIMER_LOGO_DIR = "/blog/cleaning-up-gaimer/logos";
+
+// (22) The four logo proposals — two panels side by side from 48rem, two
+// proposals each, one above the other below it: each logo on the app's
+// dark rounded tile, as on a home screen, with its name and the idea the
+// agent gave it, the chosen one marked. The logos keep their own colours,
+// Gaimer's green and orange, which is the point, so they are drawn from
+// their own files (<image>) on a tile of Gaimer's dark, which keeps them
+// legible in both themes; the site's colours stay in tokens.css. An idea
+// is three hand-broken lines in the strings (idea, idea2, idea3), each
+// within its budget.
+function logos(t, id, figureId) {
+  const unknown = Object.keys(t.proposals).find((key) => !GAIMER_LOGOS.includes(key));
+  if (unknown || Object.keys(t.proposals).length !== GAIMER_LOGOS.length) throw new Error(`Figure "${id}": the strings name ${Object.keys(t.proposals).join(", ")}, the logos are ${GAIMER_LOGOS.join(", ")}`);
+  // An idea's three lines, each a string of its own.
+  const IDEA = ["idea", "idea2", "idea3"];
+  const TILE = 64;
+  const TOP = 56;
+  const ROW = 88;
+  const X = 16 + TILE + 12;
+  const height = TOP + ROW + TILE + 16;
+  const draw = (keys) => {
+    const parts = [];
+    keys.forEach((key, i) => {
+      const y = TOP + i * ROW;
+      const p = t.proposals[key];
+      parts.push(`<image href="${GAIMER_LOGO_DIR}/tile.svg" x="16" y="${y}" width="${TILE}" height="${TILE}"/>`);
+      parts.push(`<image href="${GAIMER_LOGO_DIR}/${key}.svg" x="16" y="${y}" width="${TILE}" height="${TILE}"/>`);
+      // The tile's edge in the border colour, so that it stands out on the
+      // dark theme's panel too (the tile's corners are 229 of 1024).
+      parts.push(`<rect x="16.5" y="${y + 0.5}" width="${TILE - 1}" height="${TILE - 1}" rx="${round((229 / 1024) * TILE)}" class="fig-member"/>`);
+      const chosen = key === GAIMER_LOGO_CHOSEN;
+      // The name, and beside it for the chosen one a tick and the word.
+      const mark = chosen ? t.chosen.length * ADVANCE.note + 16 : 0;
+      parts.push(text(X, y + 11, fit(`${id}.proposals.${key}.name`, p.name, WIDTH - 16 - X - mark, "small"), "fig-label fig-small"));
+      if (chosen) {
+        parts.push(check(WIDTH - 16 - t.chosen.length * ADVANCE.note - 9, y + 7));
+        parts.push(text(WIDTH - 16, y + 11, t.chosen, "fig-note fig-ok", "end"));
+      }
+      IDEA.forEach((line, k) => parts.push(text(X, y + 28 + k * 13, fit(`${id}.proposals.${key}.${line}`, p[line], WIDTH - 16 - X), "fig-note")));
+    });
+    return parts.join("");
+  };
+  const named = (keys) => keys.map((key) => `${t.proposals[key].name}${key === GAIMER_LOGO_CHOSEN ? ` (${t.chosen})` : ""}: ${IDEA.map((line) => t.proposals[key][line]).join(" ")}`).join(" ");
+  const [first, second] = [GAIMER_LOGOS.slice(0, 2), GAIMER_LOGOS.slice(2)];
+  return {
+    caption: t.caption,
+    panels: [
+      { title: `${t.panels.first.title}: ${named(first)}`, head: t.panels.first.head, headRight: { value: fit(`${id}.window`, t.window, 104, "head"), cls: "" }, height, body: draw(first) },
+      { title: `${t.panels.second.title}: ${named(second)}`, head: t.panels.second.head, height, body: draw(second) },
     ],
   };
 }
@@ -1313,7 +1373,7 @@ function price(t, id, figureId) {
   };
 }
 
-export const FIGURES = { stages, gates, loop, assessment, team, harness, ledger, timeline, setup, build, words, bilingual, gauntlet, agents, critic, fleet, sources, merges, connection, lifecycle, price };
+export const FIGURES = { stages, gates, loop, assessment, team, harness, ledger, timeline, setup, build, words, bilingual, gauntlet, agents, critic, fleet, sources, merges, logos, connection, lifecycle, price };
 
 /**
  * Render one figure as HTML: `<figure class="figure figure-inline|figure-wide">`

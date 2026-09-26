@@ -45,8 +45,9 @@
 //     link beside it names the article, and every article page shows its
 //     image right under its summary, described in its imageAlt
 //   - both seed articles exist in both languages, the seed articles are
-//     300–600 English words of prose and every later article 300–1,500 (the
-//     figures' captions and diagram labels are not prose and do not count,
+//     300–600 English words of prose and every later article 300–1,500, the
+//     Gaimer article alone 300–1,850 (the founder's call, 26 September 2026;
+//     the figures' captions and diagram labels are not prose and do not count,
 //     si-55iu, and neither do tables' cells), a draft shows "Draft"/"Utkast" on its page, in the listings
 //     and in the feeds of a local build and has no page at all in the
 //     production build (si-mzf1), an article dated after today is built but
@@ -91,9 +92,13 @@ const EARLY_ACCESS_SUBJECT = { en: /access/i, sv: /tillgång/i };
 const ARTICLE_SLUG = "how-this-site-was-built-by-agents";
 // REQ-006 (AC-11): the two seed articles are 300–600 English words. Later
 // articles (the factory series, si-xcpc) get a floor against stubs and a
-// ceiling for a readable post: 300–1,500.
+// ceiling for a readable post: 300–1,500. The founder lifted the ceiling
+// for one article only (26 September 2026, si-y2zu): the Gaimer article may
+// run to 1,850, so that it can tell the significant changes its merges
+// figure counts, the app's icon among them; every other article keeps 1,500.
 const SEED_ARTICLES = new Set([ARTICLE_SLUG, "lessons-from-building-niva"]);
 const WORD_RANGE = { seed: [300, 600], other: [300, 1500] };
+const WORD_CEILING = new Map([["cleaning-up-gaimer", 1850]]);
 
 async function page(relPath) {
   const file = path.join(out, relPath);
@@ -492,7 +497,7 @@ for (const lang of site.languages.codes) {
       const body = built.doc.querySelector(".article-body");
       for (const element of body?.querySelectorAll("figure, table") ?? []) element.remove();
       const words = text(body).split(/\s+/).filter(Boolean).length;
-      const [min, max] = SEED_ARTICLES.has(article.slug) ? WORD_RANGE.seed : WORD_RANGE.other;
+      const [min, max] = SEED_ARTICLES.has(article.slug) ? WORD_RANGE.seed : [WORD_RANGE.other[0], WORD_CEILING.get(article.slug) ?? WORD_RANGE.other[1]];
       report.check(words >= min && words <= max, `${rel}: ${words} words (${min}–${max})`);
     }
     // The ending band (founder feedback 2026-09-22): the other articles of

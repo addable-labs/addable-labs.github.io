@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <title>Gaimer: prompt</title>
+  <!-- the prompt, and the cursor after it as a pixel creature, hopping -->
+  <path fill="#83F35D" d="M128 256 L320 256 L320 320 L384 320 L384 384 L448 384 L448 448 L512 448 L512 576 L448 576 L448 640 L384 640 L384 704 L320 704 L320 768 L128 768 L128 704 L192 704 L192 640 L256 640 L256 576 L320 576 L320 448 L256 448 L256 384 L192 384 L192 320 L128 320ZM576 192 L896 192 L896 704 L832 704 L832 640 L640 640 L640 704 L576 704Z"/>
+  <!-- its eyes, on top -->
+  <path fill="#FF6F00" d="M640 320 L704 320 L704 448 L640 448ZM768 320 L832 320 L832 448 L768 448Z"/>
+</svg>

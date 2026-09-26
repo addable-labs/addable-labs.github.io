@@ -113,6 +113,40 @@ With a game open, the description box now changes that game.
 
 {% figure "lifecycle", "wide" %}
 
+### The app's icon
+
+Gaimer had no icon of its own: it used Tauri's default. On 25 September the
+founder asked for a logo that shows games made with AI, in the app's green,
+as SVG so that it scales to app icons. One agent wrote four proposals
+directly as SVG code, without an image generator, each on one idea, and
+previewed each at icon sizes and in mock-ups of the macOS dock and an
+iPhone's home screen. The founder chose the first, Spark pad, and the last
+pull request made it the app's icon on every platform.
+
+{% figure "logos", "wide" %}
+
+### Smaller changes
+
+Each AI provider now keeps its own model: one choice used to serve both, so
+after a switch of provider a model picked for OpenAI went to Claude, and no
+game could be made until a model was picked again. The lists now leave out
+models that could not work, such as OpenAI's speech and transcription
+models, and add nine GPT-5 models with the request they take: no
+temperature, and a limit that counts their reasoning as well as the game.
+
+A game got no keys until the player clicked it, and none at all if it
+cancels the press, as some games made with the new prompt do. A game now
+takes the keyboard focus when it is ready and when it is clicked, and the
+description box lets go of it once a description is sent. The new prompt
+told the model that keys reach a game only after a click or a tap; that
+line is gone, though this article's games from after the cleanup were made
+with it.
+
+Resizing the window or turning the phone restarted the game, and the player
+lost what they had not saved. The game now keeps running, scaled to fit, in
+the shape it started with: turned from portrait to landscape, it is
+smaller, with bars at its sides.
+
 ## How the games were made
 
 Each game was made the way Gaimer's Claude provider made one when the new
