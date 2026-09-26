@@ -336,13 +336,19 @@ describe("the game pages", () => {
 // the new size, as the app did, and the new frame takes the keys as the
 // first one did; until keepFocus in game-page-before.js the focus left with
 // the old frame, and ArrowDown scrolled the article 40 px. A text field of
-// the article keeps the focus, and its keys, while a game loads again. The
-// cases skip when no Chrome is found, except under CHECK_REQUIRE_CHROME=1
-// (CI), where they run.
+// the article keeps the focus, and its keys, while a game loads again. A
+// game page whose frame gets its size only after the page has loaded loads
+// its game once, at that size (si-lbnd): Chrome runs the sandboxed frame in
+// a process of its own, and on a busy machine the size reached the page
+// after its script had run, at 0 × 0, so a game from before the cleanup
+// loaded at no size and again 300 ms later, in a new frame, and the keys
+// case above lost the keys after two or three of them. The cases skip when
+// no Chrome is found, except under CHECK_REQUIRE_CHROME=1 (CI), where they
+// run.
 const CHROME = await findChrome();
 const noChrome = CHROME === null && process.env.CHECK_REQUIRE_CHROME !== "1" ? "no Chrome found" : false;
 
-describe("a game played in the article keeps the keys when the window changes size (si-27c8), and none of them scrolls the article (si-6z03)", { skip: noChrome }, () => {
+describe("a game played in the article keeps the keys when the window changes size (si-27c8), none of them scrolls the article (si-6z03), and a game loads once, at its frame's size, however late the size comes (si-lbnd)", { skip: noChrome }, () => {
   let tmp;
   let server;
   let chrome;
@@ -511,6 +517,59 @@ describe("a game played in the article keeps the keys when the window changes si
       await page.close();
     }
   });
+
+  // The size a game's frame has in the article, 4:3
+  const SIZE = { width: 554, height: 415 };
+
+  for (const url of GAME_PAGES) {
+    const id = url.split("/").at(-2);
+    it(`${id}: loads its game once, at the size of its frame, when the frame gets its size only after the game page has loaded`, async () => {
+      const page = await browser.newPage();
+      try {
+        await page.setViewport({ width: 1280, height: 900 });
+        await page.goto(`${server.url}/blog/${ARTICLE}/`, { waitUntil: "load" });
+        // A frame with no size stands in for one whose size reaches its page
+        // late: the game page loads, and its script runs, at 0 × 0
+        await page.evaluate(
+          (url) =>
+            new Promise((resolve) => {
+              const frame = document.createElement("iframe");
+              frame.id = "late";
+              frame.title = "A game";
+              frame.setAttribute("sandbox", "allow-scripts");
+              frame.style.cssText = "display: block; width: 0; height: 0; border: 0";
+              frame.addEventListener("load", resolve, { once: true });
+              frame.src = url;
+              document.body.prepend(frame);
+            }),
+          url,
+        );
+        const gamePage = page.frames().find((frame) => frame.url() === `${server.url}${url}`);
+        const gameFrame = () => gamePage.childFrames()[0];
+        assert.equal(await gamePage.evaluate(() => innerWidth * innerHeight), 0, "the game page has no size");
+        // Then the size comes, as a resize of the game page
+        const resized = gamePage.evaluate(() => new Promise((resolve) => addEventListener("resize", resolve, { once: true })));
+        await page.evaluate(({ width, height }) => {
+          document.getElementById("late").style.cssText = `display: block; width: ${width}px; height: ${height}px; border: 0`;
+        }, SIZE);
+        await resized;
+        const loaded = () => gameFrame().evaluate(() => document.readyState === "complete" && document.getElementById("game-canvas") !== null);
+        assert.ok(await until(loaded, 10000), "the game loads");
+        const first = gameFrame();
+        // A game from before the cleanup loads again 300 ms after a resize:
+        // a second is time enough for that
+        await delay(1000);
+        assert.ok(gameFrame() === first && !first.detached, "the game loads once");
+        const canvas = await first.evaluate(() => {
+          const canvas = document.getElementById("game-canvas");
+          return { width: canvas.width, height: canvas.height };
+        });
+        assert.deepEqual(canvas, SIZE, "the game is made at the size of its frame");
+      } finally {
+        await page.close();
+      }
+    });
+  }
 });
 
 describe("the gate rules a game page is held to, by its path (si-y6pp)", () => {

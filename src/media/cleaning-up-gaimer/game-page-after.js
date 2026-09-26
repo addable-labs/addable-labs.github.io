@@ -325,6 +325,10 @@ function toBase64(text) {
 // it scales the game to fit and keeps it running. It counts the seconds in
 // which an error means that the game fails as it starts. What differs from the
 // app:
+//   - the game loads once the page has a size (whenSized, the site's
+//     addition). In the article this page is in a frame whose size can reach
+//     the page after this script has run. Loaded before, the game would be
+//     made at the sandbox's default size, 800 × 600, and scaled to fit;
 //   - an error is logged once per message, as the app logged it, but no
 //     notification shows it;
 //   - an error the game fails with as it starts is logged as well. In the app
@@ -456,6 +460,25 @@ function toBase64(text) {
         return { width: Math.floor(rect.width), height: Math.floor(rect.height) };
     }
 
+    // The site's addition: loads the game once this page has a size. In the
+    // article this page is in a frame, which Chrome runs in a process of its
+    // own, and on a busy machine the frame's size can reach this page after
+    // this script has run: until then the page has no size (0 × 0). The game
+    // would be made at the sandbox's default size instead of the frame's.
+    function whenSized(load) {
+        const sized = () => {
+            const { width, height } = containerSize();
+            return width > 0 && height > 0;
+        };
+        if (sized()) return load();
+        const observer = new ResizeObserver(() => {
+            if (!sized()) return;
+            observer.disconnect();
+            load();
+        });
+        observer.observe(container);
+    }
+
     // Loads the game into the container. It runs once.
     function loadGameScript() {
         if (!container || !game.code) return;
@@ -535,7 +558,7 @@ function toBase64(text) {
         sandbox.scaleToFit(width, height);
     }
 
-    loadGameScript();
+    whenSized(loadGameScript);
     document.addEventListener("visibilitychange", handleVisibilityChange);
     // Watches the container rather than the window
     new ResizeObserver(fitGameToContainer).observe(container);

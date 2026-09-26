@@ -362,9 +362,10 @@ Brödtext i Markdown.
   article: the version's page script (`game-page-<version>.js`) stops the
   keys that scroll a page (the arrows, Space, Page Up, Page Down, Home and
   End) in the game's page and in the frame the game runs in, whether the
-  game takes them or not. One game runs at a time, and a game's page loads
-  only when its button is clicked. Without JavaScript the screenshots and
-  the links still work.
+  game takes them or not. The game loads once its frame has a size, at that
+  size, however late the size reaches the game's page. One game runs at a
+  time, and a game's page loads only when its button is clicked. Without
+  JavaScript the screenshots and the links still work.
   Each game also has a page of its own, `/blog/<slug>/<game>-<version>/`
   (`src/game-pages.njk`): the game and nothing else, as in the app, so it
   has no header, navigation, footer, skip link, theme toggle, language
@@ -574,9 +575,11 @@ twice: one `FAIL` line), and in `tests/games.test.mjs`, which plays each
 game of the Gaimer article in Chrome and presses the keys that scroll a page
 (the arrows, Space, Page Up, Page Down, Home and End) after Play and again
 after the window changes size: each key reaches the game and none scrolls
-the article, and a text field of the article keeps the focus while a game
-loads again. The Chrome cases of both files skip when no Chrome is found
-unless `CHECK_REQUIRE_CHROME=1`, as in CI.
+the article, a text field of the article keeps the focus while a game
+loads again, and a game page whose frame gets its size only after the page
+has loaded loads its game once, at that size. The Chrome cases of both
+files skip when no Chrome is found unless `CHECK_REQUIRE_CHROME=1`, as in
+CI.
 
 The REQ- and AC- ids in this README and in comments, test names and gate
 messages label requirements and acceptance criteria of the two factory runs

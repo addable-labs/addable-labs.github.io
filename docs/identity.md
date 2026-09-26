@@ -199,13 +199,13 @@ colours cannot read the page tokens); change them by hand with the tokens.
 The hero's product visual is the HTML and CSS console, not a picture
 (REQ-008). Raster images have two uses. The games an article plays show
 screenshots of themselves (si-y6pp). And every article has one image
-(si-awlu), its figure drawn flat as one emblem on the figures' faint grid,
-without words: the picture a link preview shows, the thumbnail on its card
-and the picture under its summary. Every other page shares the mark on the
-same grid (`src/assets/img/share.png`) as its link-preview image. The images
-are drawn as SVG in `docs/images/`, in the dark palette, and published as
-PNG and WebP; they stay dark in both themes, framed by a hairline on the
-light page.
+(si-awlu), its figure or its idea drawn flat as one emblem on the figures'
+faint grid, without words: the picture a link preview shows, the thumbnail
+on its card and the picture under its summary. Every other page shares the
+mark on the same grid (`src/assets/img/share.png`) as its link-preview
+image. The images are drawn as SVG in `docs/images/`, in the dark palette,
+and published as PNG and WebP; they stay dark in both themes, framed by a
+hairline on the light page.
 
 ## Components and states
 

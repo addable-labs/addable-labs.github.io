@@ -168,6 +168,11 @@ function __gaimer_sendMessage(type, data) {
 // tells whether the game supports save and restore. It pauses the game while the
 // page is hidden and resumes it after. It loads the game again at the new size
 // 300 ms after the window stops resizing. What differs from the app:
+//   - the game loads once the page has a size, and loads again only when the
+//     game's area gets a new size (whenSized and handleResize, the site's
+//     additions). In the article this page is in a frame whose size can
+//     reach the page after this script has run. Loaded before, the game
+//     would be made at no size and loaded again 300 ms after the size came;
 //   - an error is logged, as the app logged it, but no notification shows it;
 //   - no offer to restore a saved state ever comes: this page saves nothing;
 //   - there is no Save button, and no buttons for the controls and the rules;
@@ -192,6 +197,8 @@ function __gaimer_sendMessage(type, data) {
 
     let sandbox = null;
     let saveSupported = false;
+    // The site's addition: the size the game was loaded at
+    let gameSize = null;
 
     async function probeSaveSupport() {
         if (!sandbox) return;
@@ -258,6 +265,34 @@ function __gaimer_sendMessage(type, data) {
         });
     }
 
+    // The site's addition: the size of the game's area in whole pixels, as
+    // loadGameScript measures it
+    function areaSize() {
+        const rect = container.getBoundingClientRect();
+        return { width: Math.floor(rect.width), height: Math.floor(rect.height) };
+    }
+
+    // The site's addition: loads the game once this page has a size. In the
+    // article this page is in a frame, which Chrome runs in a process of its
+    // own, and on a busy machine the frame's size can reach this page after
+    // this script has run: until then the page has no size (0 × 0). The game
+    // would be made at no size, and loaded again 300 ms after the size came,
+    // since it comes as a resize: the reader would see it start twice, and
+    // the keys pressed in between would go to the game that goes.
+    function whenSized(load) {
+        const sized = () => {
+            const { width, height } = areaSize();
+            return width > 0 && height > 0;
+        };
+        if (sized()) return load();
+        const observer = new ResizeObserver(() => {
+            if (!sized()) return;
+            observer.disconnect();
+            load();
+        });
+        observer.observe(container);
+    }
+
     function loadGameScript() {
         if (!container || !game.code) return;
 
@@ -277,6 +312,7 @@ function __gaimer_sendMessage(type, data) {
 
         // Create a new sandboxed iframe for the game
         sandbox = createSandbox(container, { width, height });
+        gameSize = { width, height };
 
         // Listen for messages from the sandbox
         sandbox.onMessage((msg) => {
@@ -318,6 +354,11 @@ function __gaimer_sendMessage(type, data) {
     // Handle resize for responsive canvas
     function handleResize() {
         if (!sandbox || !container) return;
+        // The site's addition: only at a size, and a new one. The resize that
+        // brings a frame its first size comes just as the game loads at it
+        // (whenSized).
+        const { width, height } = areaSize();
+        if (!width || !height || (width === gameSize.width && height === gameSize.height)) return;
         loadGameScript();
     }
 
@@ -327,7 +368,7 @@ function __gaimer_sendMessage(type, data) {
         resizeTimeout = setTimeout(handleResize, 300);
     }
 
-    loadGameScript();
+    whenSized(loadGameScript);
     document.addEventListener("visibilitychange", handleVisibilityChange);
     window.addEventListener("resize", debouncedResize);
     window.addEventListener("focus", focusGame);
