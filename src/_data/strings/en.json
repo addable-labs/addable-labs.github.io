@@ -982,13 +982,14 @@
           "head": "the call for each game"
         },
         "games": {
-          "title": "What each of the four games has: the two from after the cleanup have a start screen, a best score, sound, and mouse and touch; the two from before have none of these and take touch but not the mouse",
+          "title": "What each of the six games has: the three from after the cleanup have a start screen, a best score, sound, and mouse and touch; of the three from before, only the Space Invaders has a start screen, none has a best score or sound, and all three take touch but not the mouse",
           "head": "what each game has"
         }
       },
       "games": {
         "tetris": "Tetris",
-        "pong": "Pong"
+        "pong": "Pong",
+        "space-invaders": "Space Invaders"
       },
       "before": "before",
       "after": "after",
@@ -1016,6 +1017,18 @@
             "tokens": "22,030 output tokens",
             "lines": "370 lines"
           }
+        },
+        "space-invaders": {
+          "before": {
+            "time": "169 s",
+            "tokens": "22,223 output tokens",
+            "lines": "526 lines"
+          },
+          "after": {
+            "time": "322 s",
+            "tokens": "38,167 output tokens",
+            "lines": "509 lines"
+          }
         }
       },
       "limit": "the limit then: 300 s",
@@ -1029,7 +1042,7 @@
       },
       "touch": "touch",
       "asked": "the new prompt asks for all four",
-      "caption": "What the new system prompt cost in the run that made the four games: one call per game and prompt, with each call's time to scale, its output tokens and the game's lines of code, and what each game has. The dashed marks are the app's limit at the time, 300 seconds, which the first call for the Tetris from after the cleanup ran past. One game per prompt and request, not a benchmark."
+      "caption": "What the new system prompt cost in the two runs that made the six games, Tetris and Pong on 25 September and Space Invaders on 26 September, both made the same way: one call per game and prompt, with each call's time to scale, its output tokens and the game's lines of code, and what each game has. The dashed marks are the limit the app had when the new prompt went in, 300 seconds, which both runs kept; the first calls for the Tetris and the Space Invaders from after the cleanup ran past it. One game per prompt and request, not a benchmark."
     }
   },
   "games": {
@@ -1055,6 +1068,14 @@
     "pong-after": {
       "start": "Pong after the cleanup on its start screen: a panel reading NEON PONG, \"Arrows/WASD or drag to move\", \"First to 7 wins\" and \"Tap or click to start\", between a glowing cyan paddle and a glowing pink one.",
       "play": "Pong after the cleanup in the middle of a rally: the glowing ball has just left the pink paddle with a trail of particles, and the bar at the top shows a score of 0 - 0."
+    },
+    "space-invaders-before": {
+      "start": "Space Invaders before the cleanup on its start screen: the title SPACE INVADERS in green on black, \"Press SPACE or TAP to start\" in white and the keys in grey below it.",
+      "play": "Space Invaders before the cleanup a moment into play: five rows of rectangular aliens with two gone from the bottom row, a capsule marked M falling below them, a shot on its way up, red enemy shots, four green barriers and a score of 20."
+    },
+    "space-invaders-after": {
+      "start": "Space Invaders after the cleanup on its start screen: the title NEBULA INVADERS in turquoise over a dimmed wave of aliens, the keys and the touch controls in two lines, and \"Tap or click to start\" in yellow.",
+      "play": "Space Invaders after the cleanup a moment into play: three aliens shot out of the middle of the formation, two +20 scores floating up among particles, an enemy shot, four purple barriers, the turquoise ship, and SCORE 50 and BEST 50 along the top."
     }
   },
   "contact": {

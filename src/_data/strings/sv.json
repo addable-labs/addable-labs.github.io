@@ -982,13 +982,14 @@
           "head": "anropet bakom varje spel"
         },
         "games": {
-          "title": "Vad de fyra spelen har: båda spelen efter städningen har startskärm, rekord, ljud och styrning med både mus och pekskärm. Båda spelen före städningen saknar allt detta och fungerar med pekskärm men inte med mus",
+          "title": "Vad de sex spelen har: alla tre spelen efter städningen har startskärm, rekord, ljud och styrning med både mus och pekskärm. Av de tre spelen före städningen har bara Space Invaders en startskärm. Inget av dem har rekord eller ljud och alla tre fungerar med pekskärm men inte med mus",
           "head": "vad varje spel har"
         }
       },
       "games": {
         "tetris": "Tetris",
-        "pong": "Pong"
+        "pong": "Pong",
+        "space-invaders": "Space Invaders"
       },
       "before": "före",
       "after": "efter",
@@ -1016,6 +1017,18 @@
             "tokens": "22 030 utdata-tokens",
             "lines": "370 rader"
           }
+        },
+        "space-invaders": {
+          "before": {
+            "time": "169 s",
+            "tokens": "22 223 utdata-tokens",
+            "lines": "526 rader"
+          },
+          "after": {
+            "time": "322 s",
+            "tokens": "38 167 utdata-tokens",
+            "lines": "509 rader"
+          }
         }
       },
       "limit": "dåvarande gräns: 300 s",
@@ -1029,7 +1042,7 @@
       },
       "touch": "tryck",
       "asked": "den nya prompten ber om alla fyra",
-      "caption": "Vad den nya systemprompten kostade när de fyra spelen gjordes: ett anrop per spel och prompt, med anropets tid i skala, antalet utdata-tokens och antalet kodrader i spelet, samt vad varje spel har. De streckade linjerna visar appens dåvarande gräns på 300 sekunder, som det första anropet för det nya Tetrisspelet drog över. Ett spel per prompt och beskrivning, ingen systematisk jämförelse."
+      "caption": "Vad den nya systemprompten kostade i de två körningar som gjorde de sex spelen: Tetris och Pong den 25 september och Space Invaders den 26 september, på samma sätt. Ett anrop per spel och prompt, med anropets tid i skala, antalet utdata-tokens och antalet kodrader i spelet, samt vad varje spel har. De streckade linjerna visar den gräns på 300 sekunder som appen hade när den nya prompten infördes. Båda körningarna använde den gränsen och de första anropen för det nya Tetrisspelet och det nya Space Invaders-spelet drog över den. Ett spel per prompt och beskrivning, ingen systematisk jämförelse."
     }
   },
   "games": {
@@ -1055,6 +1068,14 @@
     "pong-after": {
       "start": "Pong efter städningen, på startskärmen: mellan en lysande cyanfärgad racket och en lysande rosa står en ruta med NEON PONG, \"Arrows/WASD or drag to move\", \"First to 7 wins\" och \"Tap or click to start\".",
       "play": "Pong efter städningen, mitt i en bollväxling: den lysande bollen har just lämnat den rosa racketen och drar ett spår av partiklar efter sig. Raden överst visar ställningen 0 - 0."
+    },
+    "space-invaders-before": {
+      "start": "Space Invaders före städningen, på startskärmen: rubriken SPACE INVADERS i grönt mot svart, \"Press SPACE or TAP to start\" i vitt och tangenterna i grått under.",
+      "play": "Space Invaders före städningen, en stund in i spelet: fem rader fyrkantiga utomjordingar, där två saknas i den nedersta raden. Under dem faller en kapsel märkt M, ett skott är på väg uppåt och fiendens röda skott faller mot fyra gröna skydd. Poängen är 20."
+    },
+    "space-invaders-after": {
+      "start": "Space Invaders efter städningen, på startskärmen: rubriken NEBULA INVADERS i turkos över en nedtonad våg av utomjordingar, instruktioner för tangenter och pekskärm på två rader och \"Tap or click to start\" i gult.",
+      "play": "Space Invaders efter städningen, en stund in i spelet: tre utomjordingar har skjutits bort mitt i formationen och två +20 stiger bland partiklar. Längre ner syns ett fientligt skott, fyra lila skydd och det turkosa skeppet. Överst står SCORE 50 och BEST 50."
     }
   },
   "contact": {

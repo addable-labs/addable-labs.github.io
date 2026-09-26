@@ -42,5 +42,27 @@
     "width": 640,
     "height": 480,
     "touch": true
+  },
+  {
+    "article": "cleaning-up-gaimer",
+    "game": "space-invaders",
+    "version": "before",
+    "name": "Space Invaders",
+    "title": "Space Invaders (Gaimer, before the cleanup)",
+    "description": "The Space Invaders that Gaimer's Claude provider made from the request \"Space Invaders\" with the system prompt Gaimer had before the factory's cleanup, running in a game page built like the one in the app at the time.",
+    "width": 640,
+    "height": 480,
+    "touch": true
+  },
+  {
+    "article": "cleaning-up-gaimer",
+    "game": "space-invaders",
+    "version": "after",
+    "name": "Nebula Invaders",
+    "title": "Nebula Invaders (Gaimer, after the cleanup)",
+    "description": "The Space Invaders that Gaimer's Claude provider made from the request \"Space Invaders\" with the system prompt the factory's cleanup wrote, running in a game page built like the one in the app after the cleanup.",
+    "width": 640,
+    "height": 480,
+    "touch": true
   }
 ]

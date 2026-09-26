@@ -16,12 +16,13 @@ import puppeteer from "puppeteer-core";
 import { findChrome, launchChrome } from "../scripts/lib/chrome.mjs";
 import { GAME_FILES, gameId, gamePagePaths, gameProblems, gamePages, MEDIA_DIR, readGames, renderGames } from "../scripts/lib/games.mjs";
 import { exists, walk } from "../scripts/lib/site.mjs";
+import { renderFigure } from "../src/_includes/figures/figures.mjs";
 import { start as serve } from "../scripts/lib/static-server.mjs";
 import { buildSite, copyDir, copyProject, runGate, SRC, tempDir } from "./helpers.mjs";
 
 // The one article that plays games, and its game pages.
 const ARTICLE = "cleaning-up-gaimer";
-const GAME_PAGES = ["tetris-before", "tetris-after", "pong-before", "pong-after"].map((id) => `/blog/${ARTICLE}/${id}/`);
+const GAME_PAGES = ["tetris-before", "tetris-after", "pong-before", "pong-after", "space-invaders-before", "space-invaders-after"].map((id) => `/blog/${ARTICLE}/${id}/`);
 const ARTICLE_FILES = ["en", "sv"].map((lang) => path.join(lang, "blog", "posts", `${ARTICLE}.md`));
 
 // The gates that read every built page, and so every game page.
@@ -67,7 +68,7 @@ describe("games data and media (si-y6pp)", () => {
     assert.deepEqual(gameProblems(SRC), []);
   });
 
-  it("names the four game pages of the Gaimer article, and none for a source tree without games data", async () => {
+  it("names the six game pages of the Gaimer article, and none for a source tree without games data", async () => {
     assert.deepEqual([...gamePagePaths(SRC)], GAME_PAGES);
     const empty = path.join(tmp.dir, "empty");
     await mkdir(empty);
@@ -85,11 +86,12 @@ describe("games data and media (si-y6pp)", () => {
     games.push({ ...games[0] });
     await writeFile(path.join(src, "_data", "games.json"), JSON.stringify(games, null, 2));
     await rm(path.join(src, MEDIA_DIR, ARTICLE, "pong-after", "play.webp"));
+    const copy = games.length; // the entry listed twice, last
     assert.deepEqual(gameProblems(src), [
       "src/media/no-such-article/: no article no-such-article to publish it with (src/en/blog/posts/no-such-article.md and src/sv/blog/posts/no-such-article.md missing)",
       "src/_data/games.json entry 2: name missing or not valid (article and game are slugs, version is before or after, width and height whole pixels, touch true or false)",
       `src/_data/games.json entry 4: src/media/${ARTICLE}/pong-after/play.webp is missing`,
-      `src/_data/games.json entry 5: ${ARTICLE}/tetris-before is listed twice`,
+      `src/_data/games.json entry ${copy}: ${ARTICLE}/tetris-before is listed twice`,
     ]);
   });
 
@@ -98,13 +100,35 @@ describe("games data and media (si-y6pp)", () => {
     await rm(path.join(src, ARTICLE_FILES[1]));
     const problems = gameProblems(src);
     assert.equal(problems[0], `src/media/${ARTICLE}/: no article ${ARTICLE} to publish it with (src/sv/blog/posts/${ARTICLE}.md missing)`);
-    assert.deepEqual(problems.slice(1), [1, 2, 3, 4].map((entry) => `src/_data/games.json entry ${entry}: no article ${ARTICLE} (src/sv/blog/posts/${ARTICLE}.md missing)`));
+    assert.deepEqual(problems.slice(1), [1, 2, 3, 4, 5, 6].map((entry) => `src/_data/games.json entry ${entry}: no article ${ARTICLE} (src/sv/blog/posts/${ARTICLE}.md missing)`));
   });
 
   it("fails the build, naming the file, when a game's screenshot is missing", async () => {
     const project = await copyProject(path.join(tmp.dir, "project"));
     await rm(path.join(project, "src", MEDIA_DIR, ARTICLE, "tetris-after", "start.webp"));
     assert.throws(() => buildSite(path.join(tmp.dir, "site"), {}, project), new RegExp(`src/media/${ARTICLE}/tetris-after/start\\.webp is missing`));
+  });
+
+  it("draws the calls of every game of the Gaimer article in its price figure, with the lines of the code it holds, in both languages (si-ri9t)", async () => {
+    const entries = readGames(SRC).filter((entry) => entry.article === ARTICLE);
+    const games = [...new Set(entries.map((entry) => entry.game))];
+    assert.deepEqual(games, ["tetris", "pong", "space-invaders"]);
+    for (const lang of ["en", "sv"]) {
+      const strings = JSON.parse(await readFile(path.join(SRC, "_data", "strings", `${lang}.json`), "utf8"));
+      const t = strings.figures.price;
+      const [calls] = parse(renderFigure("price", { placement: "wide", strings })).querySelectorAll("svg title");
+      for (const game of games) {
+        const run = (side) => `${t[side]} ${t.rows[game][side].time} (${t.rows[game][side].tokens}, ${t.rows[game][side].lines})`;
+        assert.ok(calls.text.includes(`${t.games[game]}: ${run("before")}, ${run("after")}`), `${lang}: ${game}'s two calls in the panel's name`);
+      }
+      // A line of code is a line as an editor counts it: a newline that ends
+      // the file starts no line of its own
+      for (const entry of entries) {
+        const code = await readFile(path.join(SRC, MEDIA_DIR, ARTICLE, gameId(entry), "game.js"), "utf8");
+        const lines = code.split(/\r\n|\n|\r/).length - (/(\r\n|\n|\r)$/.test(code) ? 1 : 0);
+        assert.equal(Number(t.rows[entry.game][entry.version].lines.replace(/\D/g, "")), lines, `${lang}: figures.price.rows.${entry.game}.${entry.version}.lines`);
+      }
+    }
   });
 
   it("fails the build when an article asks for a game the data does not hold", async () => {
@@ -219,7 +243,7 @@ describe("a draft's games are only in the development build (C14)", () => {
   after(() => tmp.cleanup());
 
   it("builds the article, its game pages, the games' code and the screenshots in a development build", async () => {
-    assert.equal(expected.length, 2 + 4 + 4 * GAME_FILES.length + 3 + 3, "two articles, four game pages, three files a game, three scripts and the article's image with its two WebP copies (si-awlu)");
+    assert.equal(expected.length, 2 + 6 + 6 * GAME_FILES.length + 3 + 3, "two articles, six game pages, three files a game, three scripts and the article's image with its two WebP copies (si-awlu)");
     const built = new Set(await relativeFiles(dev));
     assert.deepEqual(expected.filter((file) => !built.has(file)), []);
     // And the listings, the feeds and the sitemap point at it.
@@ -297,14 +321,15 @@ describe("the game pages", () => {
       const item = xml.split("<item>").find((part) => part.includes(`/blog/${ARTICLE}/</link>`));
       assert.ok(item, `${feed} has the draft's item in a development build`);
       assert.match(item, /Opening and saving games|Öppna och spara spel/, `${feed}: the article's text`);
-      assert.doesNotMatch(item, /games-(tetris|pong)|game-shot|game-play|play\.js|\.webp/, feed);
+      assert.doesNotMatch(item, /games-(tetris|pong|space-invaders)|game-shot|game-play|play\.js|\.webp/, feed);
     }
   });
 });
 
 // A real Chrome plays each game in the article as a reader does (si-27c8):
-// Play, ArrowDown, the window changes size, ArrowDown again. Each key reaches
-// the game and the article does not scroll. A game from before the cleanup
+// Play, ArrowDown (Space in Space Invaders, which leaves ArrowDown to the
+// page), the window changes size, the key again. Each key reaches the game
+// and the article does not scroll. A game from before the cleanup
 // loads again in a new frame at the new size, as the app did, and the new
 // frame takes the keys as the first one did; until keepFocus in
 // game-page-before.js the focus left with the old frame, and ArrowDown
@@ -378,17 +403,26 @@ describe("a game played in the article keeps the keys when the window changes si
   const hasKeys = (frame) => frame.evaluate(() => document.hasFocus());
 
   /**
-   * Press ArrowDown in the tab. Resolves to how far the article scrolled and
+   * The key pressed in a game: one the game takes itself, so the article
+   * scrolls only if the key went to the article. Tetris and Pong take
+   * ArrowDown. The Space Invaders games take Space and not ArrowDown, which
+   * then scrolls the article 40 px even while the game has the keys, as a
+   * key the game leaves alone goes on to the page (si-ri9t).
+   */
+  const keyOf = (id) => (id.startsWith("space-invaders-") ? { key: " ", name: "Space" } : { key: "ArrowDown", name: "ArrowDown" });
+
+  /**
+   * Press `key` in the tab. Resolves to how far the article scrolled and
    * whether the key reached `frame`, where the game runs.
    */
-  async function arrowDown(page, frame) {
+  async function press(page, frame, key) {
     await frame.evaluate(() => {
       if (!window.keysSeen) addEventListener("keydown", (event) => window.keysSeen.push(event.key), true);
       window.keysSeen = [];
     });
     const y = await page.evaluate(() => scrollY);
-    await page.keyboard.press("ArrowDown");
-    const reached = await until(() => frame.evaluate(() => window.keysSeen.includes("ArrowDown")), 3000);
+    await page.keyboard.press(key);
+    const reached = await until(() => frame.evaluate((key) => window.keysSeen.includes(key), key), 3000);
     // A scroll by a key is animated: time enough for one to show
     await delay(300);
     return { scrolled: (await page.evaluate(() => scrollY)) - y, reached };
@@ -396,20 +430,21 @@ describe("a game played in the article keeps the keys when the window changes si
 
   for (const url of GAME_PAGES) {
     const id = url.split("/").at(-2);
-    it(`${id}: ArrowDown reaches the game and does not scroll the article, after Play and after the window changes size`, async () => {
+    const { key, name } = keyOf(id);
+    it(`${id}: ${name} reaches the game and does not scroll the article, after Play and after the window changes size`, async () => {
       const { page, gameFrame } = await play(id);
       try {
         assert.ok(await until(() => hasKeys(gameFrame()), 10000), "the game's frame takes the keys after Play");
         const first = gameFrame();
-        assert.deepEqual(await arrowDown(page, first), { scrolled: 0, reached: true }, "ArrowDown after Play");
+        assert.deepEqual(await press(page, first, key), { scrolled: 0, reached: true }, `${name} after Play`);
         await page.setViewport({ width: 1000, height: 900 });
         // A game from before the cleanup loads again in a new frame 300 ms
         // after the window stops resizing, as the app did
         if (id.endsWith("-before")) assert.ok(await until(async () => gameFrame() && gameFrame() !== first, 10000), "the game loads again in a new frame");
-        // The new frame takes the keys once its page has loaded: ArrowDown
+        // The new frame takes the keys once its page has loaded: the key
         // tells whether it did
         await until(() => hasKeys(gameFrame()), 5000);
-        assert.deepEqual(await arrowDown(page, gameFrame()), { scrolled: 0, reached: true }, "ArrowDown after the window changed size");
+        assert.deepEqual(await press(page, gameFrame(), key), { scrolled: 0, reached: true }, `${name} after the window changed size`);
       } finally {
         await page.close();
       }

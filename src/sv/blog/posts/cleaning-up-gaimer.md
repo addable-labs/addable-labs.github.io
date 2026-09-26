@@ -1,6 +1,6 @@
 ---
-title: "Storstädning i Gaimer: Tetris och Pong före och efter"
-description: Den 24 och 25 september 2026 slog fabriken ihop 45 pull requests i Gaimer, skrivbordsappen som gör ett litet spel utifrån en beskrivning. Här är vad de ändrade. Du kan också spela Tetris och Pong, gjorda med appens systemprompt före och efter städningen, direkt på sidan.
+title: "Storstädning i Gaimer: tre spel före och efter"
+description: Den 24 och 25 september 2026 slog fabriken ihop 45 pull requests i Gaimer, skrivbordsappen som gör ett litet spel utifrån en beskrivning. Här är vad de ändrade. Du kan också spela Tetris, Pong och Space Invaders, gjorda med appens systemprompt före och efter städningen, direkt på sidan.
 image: cover.png                 # en PNG på 1200 × 630 i artikelns mediemapp
 imageAlt: "Ett Tetrisspel och ett Pongspel före och efter städningen: till vänster platta grå block och racketar, till höger rundade, lysande block, en rad som rensas och en boll som sprutar partiklar."
 date: 2026-09-25
@@ -23,9 +23,9 @@ Fabriken, alltså den [agentdrivna
 mjukvarufabriken](/sv/blog/why-we-run-an-agent-run-factory/) bakom den här
 sajten, slog ihop 45 pull requests i Gaimer den 24 och 25 september 2026.
 Det blev 72 commits sammanlagt och varje pull request förklarar varför den
-gjordes och vad som kontrollerades. Längre ner visar Tetris och Pong vad den
-nya systemprompten gör: båda spelen gjordes en gång med varje prompt och
-alla fyra går att spela här.
+gjordes och vad som kontrollerades. Längre ner visar Tetris, Pong och Space
+Invaders vad den nya systemprompten gör. Varje spel gjordes en gång med
+varje prompt och alla sex går att spela här.
 
 {% figure "merges", "wide" %}
 
@@ -56,9 +56,7 @@ kodens slut. Kod som har klippts av mitt i ett uttryck ger nu ett syntaxfel.
 
 Förut kördes en hel Claude Code-session för varje spel. Nu blir det ett
 enkelt anrop där det mesta av användarens egen konfiguration hålls utanför.
-Ett anrop som drar över appens tidsgräns stoppas nu i stället för att
-fortsätta och belasta användarens abonnemang. Misslyckas ett anrop visar
-appen varför i stället för "Exit code 1".
+Misslyckas ett anrop visar appen nu varför i stället för "Exit code 1".
 
 {% figure "connection" %}
 
@@ -115,56 +113,51 @@ anropades och utan att något spel gjordes med den.
 
 Om ett nytt spel får ett fel redan när det startar skickas det nu tillbaka
 en gång till leverantören som skrev det. Det rättade spelet ersätter sedan
-det trasiga. Det gäller fel som uppstår innan spelet är redo eller inom fem
-sekunder därefter. Eftersom den nya prompten ber om en startskärm i varje
-spel räknas också de fem sekunderna efter spelarens första tryck, klick
-eller tangenttryckning.
+det trasiga.
 
 ### Ändra det öppna spelet
 
-När ett spel är öppet ändrar beskrivningsrutan nu det spelet. Modellen
-svarar antingen med ändringsblock, där varje block är en bit av koden och
-det som ska ersätta den, eller med hela det ändrade spelet, som appen då
-använder som det är.
+När ett spel är öppet ändrar beskrivningsrutan nu det spelet.
 
 {% figure "lifecycle", "wide" %}
 
 ## Så gjordes spelen
 
-Varje spel gjordes precis som Gaimer gjorde spel med Claude vid den tiden:
-samma kommandorad, körd på samma sätt, med ordet "Tetris" eller "Pong" som
-enda beskrivning och med den modell som Gaimer använder för Claude när ingen
-är vald. Bara systemprompten skiljer sig: den gamla, oförändrad sedan den 1
-april, eller den som städningen skrev. Svaren tolkades med appens egen kod.
-Varje spel körs på en spelsida byggd som den i motsvarande version av appen,
-men utan sådant som bara appen har, till exempel sparfilerna.
+Varje spel gjordes precis som Gaimer gjorde spel med Claude när den nya
+prompten infördes: samma kommandorad, körd på samma sätt, med "Tetris",
+"Pong" eller "Space Invaders" som enda beskrivning och med den modell som
+Gaimer använder för Claude när ingen är vald. Bara systemprompten skiljer
+sig: den gamla, oförändrad sedan den 1 april, eller den som städningen
+skrev. Space Invaders gjordes den 26 september, de andra två den 25. Svaren
+tolkades med appens egen kod. Varje spel körs på en spelsida byggd som den i
+motsvarande version av appen, men utan sådant som bara appen har, till
+exempel sparfilerna.
 
 {% figure "price", "wide" %}
 
-Det första anropet för Tetris med den nya prompten drog över appens
-dåvarande gräns på 300 sekunder och stoppades där, precis som appen skulle
-ha gjort. I Gaimer betydde det felet "Command timed out" och inget spel.
-Tetrisspelet här kommer från ett andra anrop som gjordes på samma sätt men
-utan gräns. Fabriken har sedan dess höjt gränsen till [15
-minuter](https://github.com/addable-labs/gaimer/pull/51). Alla fyra spelen
-startade utan fel, så inget av de två nya behövde skickas tillbaka för
+De första anropen för Tetris och Space Invaders med den nya prompten drog
+över appens dåvarande gräns på 300 sekunder och stoppades där, precis som
+appen skulle ha gjort. I Gaimer betydde det felet "Command timed out" och
+inget spel. Spelen här kommer i båda fallen från ett andra anrop som gjordes
+på samma sätt men utan gräns. Fabriken har sedan dess höjt gränsen till [15
+minuter](https://github.com/addable-labs/gaimer/pull/51). Alla sex spelen
+startade utan fel, så inget av de tre nya behövde skickas tillbaka för
 rättning.
 
-Knappen Spela startar spelet i stället för bilden av startskärmen. Sedan går
-tangenterna till spelet och inte till sidan. Ett spel i taget kan vara
-igång.
+Knappen Spela startar spelet i stället för bilden av startskärmen. De
+tangenter som spelet använder går sedan till spelet och inte till sidan. Ett
+spel i taget kan vara igång.
 
 {% games "tetris" %}
 
-Det gamla Tetrisspelet startar direkt, utan startskärm. Längs nederkanten
-visas alltid fem pekknappar och spelet reagerar bara på touch-händelser, så
-med en mus händer ingenting. Det visar poäng, nivå, rader och nästa bit,
-markerar var biten kommer att landa och pausar när man trycker på P. Det nya
-kallade sig Neon Block Drop och skrev TETRIS på startskärmen. Det väntar på
-ett tryck, ett klick eller en tangent, ritar rundade block i en inramad
-spelplan och sparar ditt rekord. Pekknapparna visas först när någon rör vid
-skärmen. När en rad rensas hörs ett ljud, partiklar sprutar och skärmen
-skakar lite.
+Det gamla Tetrisspelet startar direkt. Längs nederkanten visas alltid fem
+pekknappar och spelet reagerar bara på touch-händelser, så med en mus händer
+ingenting. Det visar poäng, nivå, rader och nästa bit, markerar var biten
+kommer att landa och pausar när man trycker på P. Det nya kallade sig Neon
+Block Drop och skrev TETRIS på startskärmen. Det väntar på ett tryck, ett
+klick eller en tangent och ritar rundade block i en inramad spelplan.
+Pekknapparna visas först när någon rör vid skärmen. När en rad rensas hörs
+ett ljud, partiklar sprutar och skärmen skakar lite.
 
 {% games "pong" %}
 
@@ -177,9 +170,19 @@ att styra genom att dra med ett finger eller med musen och visar två
 pilknappar när någon har rört vid skärmen. Är skärmen högre än den är bred
 hamnar racketarna nertill och upptill.
 
-Spelparen visar att promptens nya avsnitt får genomslag i spelen. De två nya
-spelen är längre och deras anrop gav ungefär två till två och en halv gånger
-så många utdata-tokens.
+{% games "space-invaders" %}
+
+Det gamla Space Invaders-spelet startar när man trycker på mellanslag eller
+på skärmen. En mus gör ingenting i det. Utomjordingarna är platta block, de
+gröna skydden smulas sönder när de träffas och ibland släpper en utomjording
+en kapsel som ger snabbare eld, tre skott åt gången, en sköld eller ett
+extra liv. Det nya kallade sig Nebula Invaders. Utomjordingarna är
+sexkantiga och marscherar fram i rosa, gult och lila. Varje träff ger
+partiklar och en poängsiffra som stiger uppåt. Knapparna för att styra och
+skjuta på en pekskärm ritas inte ut medan man spelar.
+
+Spelparen visar att promptens nya avsnitt får genomslag i spelen. Anropen
+med den nya prompten gav 1,7 till 2,4 gånger så många utdata-tokens.
 
 Anropen tog också längre tid. När fabriken senare tog tid på appens eget
 anrop med Claude Codes förvalda effort-nivå, tog ett Pongspel 194 sekunder

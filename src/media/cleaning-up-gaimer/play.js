@@ -2,7 +2,7 @@
 // button puts the game's page where its start screen was, in a frame served
 // from the site's own origin, sandboxed without allow-same-origin, that may
 // run scripts and nothing else (sandbox="allow-scripts"), gives that frame the
-// focus, so key presses reach the game and the arrow keys do not scroll the
+// focus, so key presses reach the game and the keys it uses do not scroll the
 // page, and turns the button into Stop. Only one game runs: Stop, or Play on
 // another game, puts back the start screen of the game that ran, which ends
 // it. Nothing of a game loads before its button is clicked, so no game plays a

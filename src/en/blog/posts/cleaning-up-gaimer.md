@@ -1,6 +1,6 @@
 ---
-title: "Cleaning up Gaimer: Tetris and Pong, before and after"
-description: On 24 and 25 September 2026 the factory merged 45 pull requests into Gaimer, the desktop app that makes a small game from a description. What they changed, and a Tetris and a Pong made with its system prompt from before and after, to play in the page.
+title: "Cleaning up Gaimer: three games, before and after"
+description: On 24 and 25 September 2026 the factory merged 45 pull requests into Gaimer, the desktop app that makes a small game from a description. What they changed, and a Tetris, a Pong and a Space Invaders made with its system prompt from before and after, to play in the page.
 image: cover.png                 # a 1200 × 630 PNG in the article's media directory
 imageAlt: "A Tetris and a Pong, before and after the cleanup: flat grey blocks and bar paddles on the left; rounded, glowing blocks, a line clearing and a ball throwing off particles on the right."
 date: 2026-09-25
@@ -19,11 +19,11 @@ it saves and runs in a sandboxed page. It is open source under the MIT
 licence and runs on macOS, Windows, Linux and iOS.
 
 On 24 and 25 September 2026 the factory, the [agent-run software
-factory](/blog/why-we-run-an-agent-run-factory/) behind this site, merged
-45 pull requests into Gaimer, 72 commits in all, each saying why it was
-made and what was checked. Tetris and Pong, made with the old and the new
-system prompt, then show what the new prompt does. All four games can be
-played here.
+factory](/blog/why-we-run-an-agent-run-factory/) behind this site, merged 45
+pull requests into Gaimer, 72 commits in all, each saying why it was made
+and what was checked. Tetris, Pong and Space Invaders, made with the old and
+the new system prompt, then show what the new prompt does. All six games can
+be played here.
 
 {% figure "merges", "wide" %}
 
@@ -52,9 +52,8 @@ and code cut off mid-expression now fails as a syntax error.
 ### The Claude connection
 
 Each game used to be a full Claude Code session and is now one plain
-completion, with most of the user's own setup kept out. A call past the
-app's limit is now stopped instead of running on the user's subscription,
-and a failed call says why instead of "Exit code 1".
+completion, with most of the user's own setup kept out. A failed call now
+says why instead of "Exit code 1".
 
 {% figure "connection" %}
 
@@ -104,52 +103,49 @@ AI provider or running a game made with it.
 ### The automatic fix round
 
 A new game that fails as it starts now goes back once to the provider that
-wrote it, and the fixed game takes its place. That means an error before the
-game is ready, in the five seconds after that or, since the new prompt asks
-every game for a start screen, in the five seconds after the player's first
-tap, click or key press.
+wrote it, and the fixed game takes its place.
 
 ### Changing the open game
 
-With a game open, the description box now changes that game. The model
-answers with change blocks, each a piece of the code and its replacement,
-or with the whole game, changed, which the app takes as it is.
+With a game open, the description box now changes that game.
 
 {% figure "lifecycle", "wide" %}
 
 ## How the games were made
 
-Each game was made the way Gaimer's Claude provider made one at the time:
-the same command line, run the same way, with the one-word request "Tetris"
-or "Pong" and the model Gaimer uses for Claude when none is chosen. Only the
-system prompt differs: the one from before the cleanup, unchanged since 1
-April, or the one the cleanup wrote. Each answer was read with the app's own
-code, and each game runs in a game page built like the app's of its version,
-less what only the app holds, such as its save files.
+Each game was made the way Gaimer's Claude provider made one when the new
+prompt went in: the same command line, run the same way, with the request
+"Tetris", "Pong" or "Space Invaders" and the model Gaimer uses for Claude
+when none is chosen. Only the system prompt differs: the one from before the
+cleanup, unchanged since 1 April, or the one the cleanup wrote. Space
+Invaders was made on 26 September, the others on the 25th. Each answer was
+read with the app's own code, and each game runs in a game page built like
+the app's of its version, less what only the app holds, such as its save
+files.
 
 {% figure "price", "wide" %}
 
-The first call for Tetris with the new prompt ran past the app's limit at
-the time, 300 seconds, and was stopped there, as the app would have done: in
-Gaimer that meant the error "Command timed out" and no game. The Tetris
-shown comes from a second call, made the same way without the limit. The
-factory has since raised the limit to [15
-minutes](https://github.com/addable-labs/gaimer/pull/51). All four started
-with no error, so neither game from after the cleanup needed the fix round.
+The first calls for Tetris and Space Invaders with the new prompt ran past
+the app's limit then, 300 seconds, and were stopped there, as the app would
+have done: in Gaimer that meant the error "Command timed out" and no game.
+The two shown come from second calls, made the same way without the limit.
+The factory has since raised the limit to [15
+minutes](https://github.com/addable-labs/gaimer/pull/51). All six started
+with no error, so no game from after the cleanup needed the fix round.
 
-Play runs a game where its start screen is, and the keys then go to the
+Play runs a game where its start screen is, and the keys it uses go to the
 game, not the page. One game runs at a time.
 
 {% games "tetris" %}
 
-The Tetris from before the cleanup starts at once, with no start screen. It
-always draws five touch buttons along the bottom and takes touch through
-touch events only, so a mouse does nothing in it. It shows the score,
-level, lines and next piece, outlines where the piece will land and pauses
-on P. The one from after named itself Neon Block Drop and put TETRIS on its
-start screen. It waits for a tap, a click or a key, draws rounded blocks in
-a framed well, keeps a best score, shows touch buttons only once the screen
-is touched, and clears lines with a sound, particles and a small shake.
+The Tetris from before the cleanup starts at once. It always draws five
+touch buttons along the bottom and takes touch through touch events only,
+so a mouse does nothing in it. It shows the score, level, lines and next
+piece, outlines where the piece will land and pauses on P. The one from
+after named itself Neon Block Drop and put TETRIS on its start screen. It
+waits for a tap, a click or a key, draws rounded blocks in a framed well,
+shows touch buttons only once the screen is touched, and clears lines with
+a sound, particles and a small shake.
 
 {% games "pong" %}
 
@@ -162,9 +158,18 @@ plays sounds, takes a drag from a finger or a mouse, draws two arrow
 buttons after a touch and, on a screen taller than it is wide, puts the
 paddles at the bottom and the top.
 
-The pairs show that the prompt's new sections reach the games. Both games
-from the new prompt are longer, and their calls produced about two to two
-and a half times as many output tokens.
+{% games "space-invaders" %}
+
+The Space Invaders from before the cleanup starts on Space or a tap: a mouse
+does nothing in it. Its aliens are flat blocks, its green barriers crumble
+under fire, and some aliens drop capsules for faster fire, three shots at
+once, a shield or a life. The one from after named itself Nebula Invaders.
+Its hexagonal aliens march in pink, yellow and purple, each hit throws off
+particles and a score that floats up, and its touch buttons to move and fire
+are not drawn during play.
+
+The pairs show that the prompt's new sections reach the games, and the calls
+with the new prompt produced 1.7 to 2.4 times as many output tokens.
 
 Those calls also took longer. When the factory later timed the app's own
 call at Claude Code's default effort, a Pong took 194 seconds and a Tetris

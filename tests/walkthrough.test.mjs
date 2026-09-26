@@ -390,7 +390,7 @@ describe("the pages each check measures: a game page for no-hscroll only (si-y6p
   it("finds a game page by its path alone: a page elsewhere, or with no games data, gets every check", () => {
     for (const check of PAGE_CHECKS) assert.deepEqual(pagesFor(check, pages), pages, check);
     const real = [...gamePagePaths(SRC)];
-    assert.equal(real.length, 4, "the Gaimer article's four game pages");
+    assert.equal(real.length, 6, "the Gaimer article's six game pages");
     for (const check of PAGE_CHECKS.filter((check) => check !== "no-hscroll")) {
       assert.deepEqual(pagesFor(check, ["/", ...real, "/blog/cleaning-up-gaimer/"], gamePagePaths(SRC)), ["/", "/blog/cleaning-up-gaimer/"], check);
     }

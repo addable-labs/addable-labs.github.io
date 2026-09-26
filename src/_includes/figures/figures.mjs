@@ -932,8 +932,8 @@ function sources(t, id, figureId) {
 // scale, the Claude call before and after the cleanup, a game's life in the
 // app and what the new system prompt cost. Each element is traceable to the
 // pull requests or to the code on Gaimer's main branch; times are UTC, as
-// GitHub gives them, and what the run of the four games recorded is told in
-// the past tense.
+// GitHub gives them, and what the two runs of the six games recorded is
+// told in the past tense.
 
 // The 45 pull requests the factory merged into Gaimer on 24 and 25
 // September, Swedish time (gh pr list --repo addable-labs/gaimer --state
@@ -1203,22 +1203,36 @@ function lifecycle(t, id, figureId) {
   };
 }
 
-// (21) What the new system prompt cost, as the run of the four games
-// recorded it (the article's numbers, and #51's table) — wide, two panels.
-// The calls: each call's time as a bar on one scale, the prompt from before
-// muted and the one from after in the accent, with its output tokens and
-// the game's lines of code; the dashed marks are the app's limit at the
-// time, 300 seconds, which the Tetris from after ran past on its first
-// call. The games: what each of the four has, the four things the new
+// (21) What the new system prompt cost, as the two runs of the six games
+// recorded it (the article's numbers; #51's table has the first run's):
+// Tetris and Pong on 25 September, Space Invaders on 26 September, the same
+// way — wide, two panels. The calls: each call's time as a bar on one scale,
+// the prompt from before muted and the one from after in the accent, with
+// its output tokens and the game's lines of code; the dashed marks are the
+// limit the app had when the new prompt went in, 300 seconds (#51 raised it
+// to 15 minutes later that day), which both runs held every call to and
+// which the first calls for the Tetris and the Space Invaders from after
+// ran past. The games: what each of the six has of the four things the new
 // prompt asks for (#40) — a start screen, a best score, sound, and mouse
-// and touch; the two from before take touch but not the mouse. Every bar
-// and the limit come from the digits of their labels, so a rewording keeps
-// them honest; the first panel's accessible name is built from the same
-// labels.
+// and touch — as each plays in its game page (HAS); a game that takes touch
+// but not the mouse shows "touch". Every bar and the limit come from the
+// digits of their labels, so a rewording keeps them honest; the first
+// panel's accessible name is built from the same labels.
+const PRICE_FEATURES = ["start", "best", "sound", "pointer"];
+const HAS = {
+  tetris: { before: ["touch"], after: ["start", "best", "sound", "pointer"] },
+  pong: { before: ["touch"], after: ["start", "best", "sound", "pointer"] },
+  "space-invaders": { before: ["start", "touch"], after: ["start", "best", "sound", "pointer"] },
+};
 function price(t, id, figureId) {
-  const height = 284;
-  const games = ["tetris", "pong"];
+  const games = Object.keys(HAS);
   const sides = ["before", "after"];
+  for (const game of games) {
+    if (!t.games?.[game] || !sides.every((side) => t.rows?.[game]?.[side])) throw new Error(`Figure "${id}": no strings for the game "${game}" (figures.${id}.games.${game} and figures.${id}.rows.${game}.before and .after)`);
+  }
+  // A game's two calls take 88 units; the notes below the last take 48
+  const height = 108 + games.length * 88;
+  const bottom = height - 48;
   const TRACK = { x: 64, w: 180 };
   const seconds = (game, side) => count(`${id}.rows.${game}.${side}.time`, t.rows[game][side].time);
   const longest = Math.max(...games.flatMap((game) => sides.map((side) => seconds(game, side))));
@@ -1228,7 +1242,8 @@ function price(t, id, figureId) {
   const named = [];
   games.forEach((game, g) => {
     const top = 58 + g * 88;
-    calls.push(text(16, top, fit(`${id}.games.${game}`, t.games[game], 48, "label"), "fig-label"));
+    // The first game's name shares its line with the limit's label
+    calls.push(text(16, top, fit(`${id}.games.${game}`, t.games[game], g === 0 ? 48 : WIDTH - 32, "label"), "fig-label"));
     const runs = sides.map((side, s) => {
       const row = t.rows[game][side];
       const y = top + 18 + s * 32;
@@ -1243,36 +1258,42 @@ function price(t, id, figureId) {
     });
     named.push(`${t.games[game]}: ${runs.join(", ")}`);
   });
-  calls.push(`<line x1="16" y1="236" x2="${WIDTH - 16}" y2="236" class="fig-hair"/>`);
-  calls.push(text(16, 254, fit(`${id}.thinking`, t.thinking, 288), "fig-note"));
-  calls.push(text(16, 267, fit(`${id}.scope`, t.scope, 288), "fig-note"));
+  calls.push(`<line x1="16" y1="${bottom}" x2="${WIDTH - 16}" y2="${bottom}" class="fig-hair"/>`);
+  calls.push(text(16, bottom + 18, fit(`${id}.thinking`, t.thinking, 288), "fig-note"));
+  calls.push(text(16, bottom + 31, fit(`${id}.scope`, t.scope, 288), "fig-note"));
 
-  // Panel 2 — a column per game and prompt, a row per thing asked for.
-  const COLUMNS = [
-    ["tetris", "before", 164],
-    ["tetris", "after", 204],
-    ["pong", "before", 248],
-    ["pong", "after", 288],
-  ];
+  // Panel 2 — a pair of columns per game, before and after, and a row per
+  // thing asked for, its name on a line of its own above its marks: six
+  // columns leave no room for the names beside them.
+  const PAIR = { first: 60, step: 95, half: 22 };
+  const columns = games.flatMap((game, g) => sides.map((side, s) => ({ game, side, cx: PAIR.first + g * PAIR.step + (s === 0 ? -PAIR.half : PAIR.half) })));
   const has = [];
-  for (const game of games) {
-    const [first, second] = COLUMNS.filter(([g]) => g === game).map(([, , cx]) => cx);
-    has.push(text((first + second) / 2, 60, fit(`${id}.games.${game}`, t.games[game], second - first + 40, "small"), "fig-label fig-small", "middle"));
-  }
-  for (const [, side, cx] of COLUMNS) has.push(text(cx, 76, fit(`${id}.${side}`, t[side], 40), "fig-note", "middle"));
-  has.push(`<line x1="16" y1="86" x2="${WIDTH - 16}" y2="86" class="fig-hair"/>`);
-  ["start", "best", "sound", "pointer"].forEach((key, i) => {
-    const y = 112 + i * 30;
-    has.push(text(16, y, fit(`${id}.features.${key}`, t.features[key], 128, "small"), "fig-label fig-small"));
-    for (const [, side, cx] of COLUMNS) {
-      if (side === "after") has.push(check(cx, y - 4));
-      else if (key === "pointer") has.push(text(cx, y, fit(`${id}.touch`, t.touch, 40), "fig-note", "middle"));
-      else has.push(`<rect x="${cx - 5}" y="${y - 5}" width="10" height="2" rx="1" class="fig-bar-muted"/>`);
-    }
-    if (i < 3) has.push(`<line x1="16" y1="${y + 9}" x2="${WIDTH - 16}" y2="${y + 9}" class="fig-hair"/>`);
+  let previousEnd = 16;
+  games.forEach((game, g) => {
+    const cx = PAIR.first + g * PAIR.step;
+    const name = fit(`${id}.games.${game}`, t.games[game], 2 * Math.min(cx - 16, WIDTH - 16 - cx), "small");
+    // A name wider than its pair must still clear its neighbour's
+    const start = cx - (name.length * ADVANCE.small) / 2;
+    if (start < previousEnd + 8) throw new Error(`Figure label "${id}.games.${game}" ("${name}") runs into the name of the game before it`);
+    previousEnd = cx + (name.length * ADVANCE.small) / 2;
+    has.push(text(cx, 60, name, "fig-label fig-small", "middle"));
   });
-  has.push(`<line x1="16" y1="236" x2="${WIDTH - 16}" y2="236" class="fig-hair"/>`);
-  has.push(footer(id, `${id}.asked`, t.asked, 258));
+  for (const { side, cx } of columns) has.push(text(cx, 76, fit(`${id}.${side}`, t[side], 2 * PAIR.half - 4), "fig-note", "middle"));
+  has.push(`<line x1="16" y1="86" x2="${WIDTH - 16}" y2="86" class="fig-hair"/>`);
+  const rowStep = (bottom - 86) / PRICE_FEATURES.length;
+  PRICE_FEATURES.forEach((key, i) => {
+    const y = 86 + i * rowStep + 22;
+    has.push(text(16, y, fit(`${id}.features.${key}`, t.features[key], 288, "small"), "fig-label fig-small"));
+    for (const { game, side, cx } of columns) {
+      const features = HAS[game][side];
+      if (features.includes(key)) has.push(check(cx, y + 16));
+      else if (key === "pointer" && features.includes("touch")) has.push(text(cx, y + 20, fit(`${id}.touch`, t.touch, 2 * PAIR.half - 4), "fig-note", "middle"));
+      else has.push(`<rect x="${cx - 5}" y="${y + 15}" width="10" height="2" rx="1" class="fig-bar-muted"/>`);
+    }
+    if (i < PRICE_FEATURES.length - 1) has.push(`<line x1="16" y1="${round(86 + (i + 1) * rowStep)}" x2="${WIDTH - 16}" y2="${round(86 + (i + 1) * rowStep)}" class="fig-hair"/>`);
+  });
+  has.push(`<line x1="16" y1="${bottom}" x2="${WIDTH - 16}" y2="${bottom}" class="fig-hair"/>`);
+  has.push(footer(id, `${id}.asked`, t.asked, bottom + 22));
 
   return {
     caption: t.caption,

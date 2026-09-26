@@ -338,8 +338,9 @@ Brödtext i Markdown.
   layout gate measures both. A short cell keeps a table narrow on a phone:
   the unit can go in the row label, as in `Median start (tokens)`.
 - **Games.** An article can play small games in its page, as the Gaimer
-  article plays a Tetris and a Pong from before and after the cleanup. Each
-  game is an entry in `src/_data/games.json`: its `article` (the slug),
+  article plays a Tetris, a Pong and a Space Invaders from before and after
+  the cleanup.
+  Each game is an entry in `src/_data/games.json`: its `article` (the slug),
   `game` and `version` (`before` or `after`), the `name` it gave itself, the
   `title` and `description` of its page (in English, like the game), the
   screenshots' `width` and `height`, and `touch`, whether its code handles
@@ -566,9 +567,10 @@ The suite needs no network, and a browser only in `tests/chrome.test.mjs`,
 whose gate cases run both gates on the installed Chrome and kill the Chrome a
 gate launched, by its pid, mid-measure (once: the page is measured again;
 twice: one `FAIL` line), and in `tests/games.test.mjs`, which plays each
-game of the Gaimer article in Chrome and presses ArrowDown after Play and
-again after the window changes size: the key reaches the game and the article
-does not scroll, and a text field of the article keeps the focus while a game
+game of the Gaimer article in Chrome and presses a key the game takes
+(ArrowDown, or Space in a Space Invaders) after Play and again after the
+window changes size: the key reaches the game and the article does not
+scroll, and a text field of the article keeps the focus while a game
 loads again. The Chrome cases of both files skip when no Chrome is found
 unless `CHECK_REQUIRE_CHROME=1`, as in CI.
 
