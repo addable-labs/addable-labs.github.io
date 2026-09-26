@@ -96,7 +96,9 @@ contract and adds sections on look, play and speed: one visual style,
 particles and a small screen shake, a start screen, a best score, a smooth
 rise in difficulty, sound made in code, movement by frame time, and pointer
 events, so that a mouse works as well as a finger. It asks for "a few
-hundred lines" of code and grew the prompt from 2,830 characters to 6,873.
+hundred lines" of code and grew the prompt from
+[2,830 characters](https://github.com/addable-labs/gaimer/blob/7cef601c4b38cf6ead002c2864ad3a41ddd621a6/src/helpers/prompts.js#L2-L73)
+to [6,873](https://github.com/addable-labs/gaimer/blob/2693e10465e22c61f51c2f561f111ef20740164b/src/helpers/prompts.js#L6-L103).
 Its pull request calls it a draft for reading, written without calling an
 AI provider or running a game made with it.
 

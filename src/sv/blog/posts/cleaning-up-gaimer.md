@@ -105,7 +105,9 @@ enhetlig stil, partiklar och en lätt skakning av skärmen, en startskärm, ett
 sparat rekord, en svårighetsgrad som ökar jämnt, ljud som skapas i koden,
 hastigheter som räknas per sekund och inte per bildruta samt pointer events,
 så att en mus fungerar lika bra som ett finger. Den ber om "några hundra
-rader" kod och prompten växte från 2 830 till 6 873 tecken. I pull requesten
+rader" kod och prompten växte från
+[2 830](https://github.com/addable-labs/gaimer/blob/7cef601c4b38cf6ead002c2864ad3a41ddd621a6/src/helpers/prompts.js#L2-L73)
+till [6 873 tecken](https://github.com/addable-labs/gaimer/blob/2693e10465e22c61f51c2f561f111ef20740164b/src/helpers/prompts.js#L6-L103). I pull requesten
 kallas den ett utkast att läsa, skrivet utan att någon AI-leverantör
 anropades och utan att något spel gjordes med den.
 
