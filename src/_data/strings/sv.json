@@ -810,8 +810,8 @@
       "caption": "Vad som fyllde borgmästarens kontext: de fem största källorna som andelar av alla bearbetade tokens, i samma skala, var och en med en stapel för 22–23 september (nedtonad) och en för 24–25 september. Under den första perioden var hälften av alla tokens startinnehållet, som skickades med varje anrop i 51 korta sessioner; under den andra tog borgmästarens egna utdata den största andelen. Den orange delen av tre staplar är det som nästa ändringar skulle rikta in sig på: borgmästarens resonemang, diffarna och genomförandeagenternas rapporter. Resten, 16 % och 20 %, kom från källor på högst 4 % vardera."
     },
     "merges": {
-      "title": "De 45 pull requests som slogs ihop i Gaimer den 24 och 25 september 2026. Varje streck visar när en av dem slogs ihop (UTC) och varje rad hör till en del av artikeln, med antalet i slutet av raden",
-      "head": "45 pull requests",
+      "title": "De 49 pull requests som slogs ihop i Gaimer den 24 och 25 september 2026. Varje streck visar när en av dem slogs ihop (UTC) och varje rad hör till en del av artikeln, med antalet i slutet av raden",
+      "head": "49 pull requests",
       "window": "24–25 sep · UTC",
       "areas": {
         "saving": "öppna och spara spel",
@@ -823,13 +823,13 @@
         "prompt": "den nya systemprompten",
         "fix": "automatisk rättning",
         "change": "ändra det öppna spelet",
-        "other": "övrigt: modell, fönster, fokus, iOS"
+        "other": "övrigt: modell, fokus, iOS, ikon"
       },
       "days": {
         "first": "24 september",
         "second": "25 september"
       },
-      "caption": "De 45 pull requests som fabriken slog ihop i Gaimer den 24 och 25 september 2026. Varje streck visar när en av dem slogs ihop (UTC) och varje rad hör till en del av artikeln, med antalet i slutet av raden. Den nedersta raden samlar de åtta som artikeln inte tar upp: fyra om att välja modell, en som låter ett spel fortsätta när fönstret ändrar storlek, en som tar bort fokus från beskrivningsfältet när beskrivningen har skickats, en som ger ett spel tangentbordsfokus när det är redo och en som visar spelets styrning och regler i en dialogruta som inte hamnar under statusfältet på en iPhone."
+      "caption": "De 49 pull requests som fabriken slog ihop i Gaimer den 24 och 25 september 2026. Varje streck visar när en av dem slogs ihop (UTC) och varje rad hör till en del av artikeln, med antalet i slutet av raden. Den nedersta raden samlar de tolv som artikeln inte tar upp: fyra om att välja modell, en som låter ett spel fortsätta när fönstret ändrar storlek, en som tar bort fokus från beskrivningsfältet när beskrivningen har skickats, två som ger ett spel tangentbordsfokus, när det är redo och när spelaren klickar på det, en som stryker systempromptens påstående att tangenttryck når ett spel först efter ett klick, en som visar spelets styrning och regler i en dialogruta som inte hamnar under statusfältet på en iPhone, en som håller statusfältet läsbart oavsett om telefonen är inställd på ljust eller mörkt läge och en som gör appens logotyp till dess ikon på alla plattformar."
     },
     "connection": {
       "title": "Claude-anropet för ett spel, före och efter städningen. Före: en hel Claude Code-session med Claude Codes egen systemprompt. Gaimers prompt klistrades in i användarens meddelande före beskrivningen, de inbyggda verktygen var på, användarens CLAUDE.md-filer, hooks, plugins, skills och MCP-servrar var med och sessionen sparades. Efter: ett enkelt anrop. Gaimers prompt är systemprompten och ligger i en egen fil, användarens meddelande är bara beskrivningen, de inbyggda verktygen är av, användarens CLAUDE.md-filer, hooks, plugins, skills och MCP-servrar hålls utanför och ingen session sparas. När användaren valde Claude startades upp till fyra inloggningsskal; nu kontrolleras inloggningen en gång. Tidsgränsen var 5 minuter, men anropet fortsatte ändå; nu är den 15 minuter och sedan stoppas anropet",

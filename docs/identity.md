@@ -283,7 +283,7 @@ change colour, border, transform and box-shadow only.
   (the mono private note, muted), and beside it, where the app has an
   article, a second `a.app-action`, "Article →" / "Artikel →", to the article
   in the page's language (Ashlands and nivå, founder request 2026-09-23,
-  si-3hpa). The arrow tells a link that stays on the site (→) from one that
+  si-3hpa; Gaimer since its article went public, si-enrh). The arrow tells a link that stays on the site (→) from one that
   leaves it (↗), as everywhere else on the site; a link alone takes the
   whole line.
   **The chip-row mechanism:** the founder-confirmed

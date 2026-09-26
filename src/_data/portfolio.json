@@ -30,6 +30,7 @@
     "theme": "ai-apps",
     "repo": "addable-labs/gaimer",
     "url": "https://github.com/addable-labs/gaimer",
+    "article": "cleaning-up-gaimer",
     "status": "open-source-mit",
     "source": { "readme": "https://github.com/addable-labs/gaimer/blob/main/README.md", "retrieved": "2026-09-22" }
   }

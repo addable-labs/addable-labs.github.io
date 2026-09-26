@@ -365,10 +365,11 @@ describe("apps data and copy (REQ-011, REQ-025; AC-11, AC-12, AC-30)", () => {
     }
   });
 
-  it("names the article about the app where there is one — Ashlands and nivå — and fails an article that is not a post in both languages (si-3hpa)", () => {
-    // The founder's request of 2026-09-23: the two apps with an article link
-    // it, by the post's file name; the others name none.
-    assert.deepEqual(Object.fromEntries(data.map((entry) => [entry.key, entry.article])), { niva: "lessons-from-building-niva", notesage: undefined, ashlands: "ashlands-what-one-prompt-built", gaimer: undefined });
+  it("names the article about the app where there is one — Ashlands, nivå and Gaimer — and fails an article that is not a post in both languages (si-3hpa)", () => {
+    // The founder's request of 2026-09-23: an app with an article links it,
+    // by the post's file name (Gaimer's since its article went public,
+    // si-enrh); the others name none.
+    assert.deepEqual(Object.fromEntries(data.map((entry) => [entry.key, entry.article])), { niva: "lessons-from-building-niva", notesage: undefined, ashlands: "ashlands-what-one-prompt-built", gaimer: "cleaning-up-gaimer" });
     for (const lang of site.languages.codes) {
       assert.ok(strings[lang].portfolio.articleLink, `${lang}: portfolio.articleLink`);
     }

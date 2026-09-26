@@ -1,14 +1,14 @@
 ---
 title: "Cleaning up Gaimer: three games, before and after"
-description: On 24 and 25 September 2026 the factory merged 45 pull requests into Gaimer, the desktop app that makes a small game from a description. What they changed, and a Tetris, a Pong and a Space Invaders made with its system prompt from before and after, to play in the page.
+description: On 24 and 25 September 2026 the factory merged 49 pull requests into Gaimer, the desktop app that makes a small game from a description. What they changed, and a Tetris, a Pong and a Space Invaders made with its system prompt from before and after, to play in the page.
 image: cover.png                 # a 1200 × 630 PNG in the article's media directory
 imageAlt: "A Tetris and a Pong, before and after the cleanup: flat grey blocks and bar paddles on the left; rounded, glowing blocks, a line clearing and a ball throwing off particles on the right."
-date: 2026-09-25
+date: 2026-09-26
 category: app-development        # app-development | ai-journey
 translationKey: cleaning-up-gaimer
-draft: true                      # built locally, left out of the public build (see README)
+draft: false                     # published — set true to keep it out of the public build (see README)
 aiGenerated: true                # AI produced this text
-humanReviewed: false             # true once a person has read it
+humanReviewed: true              # a person has read it
 ---
 
 [Gaimer](https://github.com/addable-labs/gaimer) is a desktop app that
@@ -19,8 +19,8 @@ it saves and runs in a sandboxed page. It is open source under the MIT
 licence and runs on macOS, Windows, Linux and iOS.
 
 On 24 and 25 September 2026 the factory, the [agent-run software
-factory](/blog/why-we-run-an-agent-run-factory/) behind this site, merged 45
-pull requests into Gaimer, 72 commits in all, each saying why it was made
+factory](/blog/why-we-run-an-agent-run-factory/) behind this site, merged 49
+pull requests into Gaimer, 76 commits in all, each saying why it was made
 and what was checked. Tetris, Pong and Space Invaders, made with the old and
 the new system prompt, then show what the new prompt does. All six games can
 be played here.
@@ -79,7 +79,7 @@ ranges, which cleared all 22 findings of the package audit.
 Tests that could not fail were replaced, tests were added where a
 regression would reach the user, and coverage got a floor: 94 % of
 statements, 89 % of branches, 90 % of functions and 96 % of lines, the
-levels reached, rounded down. The unit tests went from 101 to 399. CI moved
+levels reached, rounded down. The unit tests went from 101 to 408. CI moved
 from Node 20, out of support since 30 April, to Node 24 and current
 actions, with a read-only token, and checks the Rust code's formatting and
 lints. It builds the app for Linux, macOS, Windows and iOS on every pull
@@ -117,7 +117,7 @@ Each game was made the way Gaimer's Claude provider made one when the new
 prompt went in: the same command line, run the same way, with the request
 "Tetris", "Pong" or "Space Invaders" and the model Gaimer uses for Claude
 when none is chosen. Only the system prompt differs: the one from before the
-cleanup, unchanged since 1 April, or the one the cleanup wrote. Space
+cleanup, unchanged since 1 April, or the rewrite. Space
 Invaders was made on 26 September, the others on the 25th. Each answer was
 read with the app's own code, and each game runs in a game page built like
 the app's of its version, less what only the app holds, such as its save

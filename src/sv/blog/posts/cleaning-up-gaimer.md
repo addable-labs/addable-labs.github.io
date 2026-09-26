@@ -1,14 +1,14 @@
 ---
 title: "Storstädning i Gaimer: tre spel före och efter"
-description: Den 24 och 25 september 2026 slog fabriken ihop 45 pull requests i Gaimer, skrivbordsappen som gör ett litet spel utifrån en beskrivning. Här är vad de ändrade. Du kan också spela Tetris, Pong och Space Invaders, gjorda med appens systemprompt före och efter städningen, direkt på sidan.
+description: Den 24 och 25 september 2026 slog fabriken ihop 49 pull requests i Gaimer, skrivbordsappen som gör ett litet spel utifrån en beskrivning. Här är vad de ändrade. Du kan också spela Tetris, Pong och Space Invaders, gjorda med appens systemprompt före och efter städningen, direkt på sidan.
 image: cover.png                 # en PNG på 1200 × 630 i artikelns mediemapp
 imageAlt: "Ett Tetrisspel och ett Pongspel före och efter städningen: till vänster platta grå block och racketar, till höger rundade, lysande block, en rad som rensas och en boll som sprutar partiklar."
-date: 2026-09-25
+date: 2026-09-26
 category: app-development        # app-development | ai-journey
 translationKey: cleaning-up-gaimer
-draft: true                      # byggs lokalt, lämnas utanför det publika bygget (se README)
+draft: false                     # publicerad — sätt true för att hålla den utanför publika bygget
 aiGenerated: true                # AI har skrivit texten
-humanReviewed: false             # true när en person har läst den
+humanReviewed: true              # en person har läst den
 ---
 
 [Gaimer](https://github.com/addable-labs/gaimer) är en skrivbordsapp som gör
@@ -21,8 +21,8 @@ macOS, Windows, Linux och iOS.
 
 Fabriken, alltså den [agentdrivna
 mjukvarufabriken](/sv/blog/why-we-run-an-agent-run-factory/) bakom den här
-sajten, slog ihop 45 pull requests i Gaimer den 24 och 25 september 2026.
-Det blev 72 commits sammanlagt och varje pull request förklarar varför den
+sajten, slog ihop 49 pull requests i Gaimer den 24 och 25 september 2026.
+Det blev 76 commits sammanlagt och varje pull request förklarar varför den
 gjordes och vad som kontrollerades. Längre ner visar Tetris, Pong och Space
 Invaders vad den nya systemprompten gör. Varje spel gjordes en gång med
 varje prompt och alla sex går att spela här.
@@ -85,7 +85,7 @@ Tester som inte kunde misslyckas byttes ut och nya tester skrevs där en
 regression skulle märkas av användaren. Testtäckningen får nu inte sjunka
 under de nivåer som hade nåtts, avrundade nedåt: 94 % av satserna, 89 % av
 grenarna, 90 % av funktionerna och 96 % av raderna. Antalet enhetstester
-ökade från 101 till 399. CI gick över från Node 20, som saknar stöd sedan
+ökade från 101 till 408. CI gick över från Node 20, som saknar stöd sedan
 den 30 april, till Node 24 och aktuella versioner av sina actions. Den har
 nu en token som bara kan läsa. Dessutom kontrollerar den formatering och
 lints i Rust-koden och bygger appen för Linux, macOS, Windows och iOS på
@@ -127,8 +127,8 @@ Varje spel gjordes precis som Gaimer gjorde spel med Claude när den nya
 prompten infördes: samma kommandorad, körd på samma sätt, med "Tetris",
 "Pong" eller "Space Invaders" som enda beskrivning och med den modell som
 Gaimer använder för Claude när ingen är vald. Bara systemprompten skiljer
-sig: den gamla, oförändrad sedan den 1 april, eller den som städningen
-skrev. Space Invaders gjordes den 26 september, de andra två den 25. Svaren
+sig: den gamla, oförändrad sedan den 1 april, eller omskrivningen.
+Space Invaders gjordes den 26 september, de andra två den 25. Svaren
 tolkades med appens egen kod. Varje spel körs på en spelsida byggd som den i
 motsvarande version av appen, men utan sådant som bara appen har, till
 exempel sparfilerna.

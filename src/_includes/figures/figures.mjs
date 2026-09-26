@@ -935,19 +935,23 @@ function sources(t, id, figureId) {
 // GitHub gives them, and what the two runs of the six games recorded is
 // told in the past tense.
 
-// The 45 pull requests the factory merged into Gaimer on 24 and 25
+// The 49 pull requests the factory merged into Gaimer on 24 and 25
 // September, Swedish time (gh pr list --repo addable-labs/gaimer --state
-// merged: #11–#46 and #48–#56), each with its merge time and the part of the
+// merged: #11–#46 and #48–#60), each with its merge time and the part of the
 // article that tells what it changed. #32, which let the game page's style
 // and Tauri's IPC through the window's Content Security Policy, is under
 // security, the part about that policy; #53 (every call for a game at effort
 // low) and #55 (the effort level chosen in Settings) change the Claude call,
 // so they are under the Claude connection, though the part on how the games
-// were made tells them; "other" holds the eight the article does not tell:
+// were made tells them; "other" holds the twelve the article does not tell:
 // the choice of a model (#14, #25, #38, #41), a game kept running when the
 // window changes size (#26), the focus after sending (#48), a game's
-// keyboard focus when it is ready (#54) and a game's controls and rules in a
-// dialog clear of an iPhone's status bar (#56).
+// keyboard focus when it is ready (#54) and when the player clicks it (#57),
+// the system prompt's claim that keys reach a game only after a click
+// dropped (#58; the games of the article were made with the prompt before
+// it), a game's controls and rules in a dialog clear of an iPhone's status
+// bar (#56), that status bar readable in light and dark (#59) and the app's
+// logo as its icon on every platform (#60).
 const GAIMER_MERGES = [
   [11, "2026-09-24T17:56:58Z", "saving"],
   [12, "2026-09-24T18:13:29Z", "cleanup"],
@@ -994,18 +998,23 @@ const GAIMER_MERGES = [
   [54, "2026-09-25T17:26:26Z", "other"],
   [55, "2026-09-25T18:00:03Z", "claude"],
   [56, "2026-09-25T18:48:58Z", "other"],
+  [57, "2026-09-25T19:25:37Z", "other"],
+  [58, "2026-09-25T20:04:37Z", "other"],
+  [59, "2026-09-25T20:57:51Z", "other"],
+  [60, "2026-09-25T21:43:16Z", "other"],
 ];
 
 /** The parts of the Gaimer article that tell what its pull requests changed, in its order, and "other". */
 const GAIMER_AREAS = ["saving", "errors", "claude", "security", "cleanup", "tests", "prompt", "fix", "change", "other"];
 
-// (18) The work at a glance — wide, one panel on one time scale from 16:00
-// UTC on 24 September to 19:00 on 25 September: a row per part of the
-// article, each pull request a mark at its merge time, each row's count at
-// its end and midnight marked in every row; a mark is line art, so it takes
-// the accent's text colour, which holds its contrast in both themes. The
-// scale starts an hour before the first merge's hour so that the first
-// day's name fits before midnight, and a merge outside it fails the build.
+// (18) The work at a glance — wide, one panel on one time scale from 14:00
+// UTC on 24 September to 22:00 on 25 September, midnight in Sweden: a row
+// per part of the article, each pull request a mark at its merge time, each
+// row's count at its end and midnight marked in every row; a mark is line
+// art, so it takes the accent's text colour, which holds its contrast in
+// both themes. The scale starts early enough that the first day's name fits
+// before midnight (16:00 did, until the scale reached #60 at 21:43), and a
+// merge outside it fails the build.
 // The counts, the total in the head and the list in the panel's accessible
 // name all come from the list above, so a pull request moved to another
 // part moves everywhere at once; the eight the article does not tell are
@@ -1015,8 +1024,8 @@ function merges(t, id, figureId) {
   if (unknown) throw new Error(`Figure "${id}": pull request #${unknown[0]} is in no part of the article ("${unknown[2]}")`);
   const total = count(`${id}.head`, t.head);
   if (total !== GAIMER_MERGES.length) throw new Error(`Figure label "${id}.head" counts ${total} pull requests, the list ${GAIMER_MERGES.length} ("${t.head}")`);
-  const START = Date.parse("2026-09-24T16:00:00Z");
-  const END = Date.parse("2026-09-25T19:00:00Z");
+  const START = Date.parse("2026-09-24T14:00:00Z");
+  const END = Date.parse("2026-09-25T22:00:00Z");
   const outside = GAIMER_MERGES.find(([, at]) => !(Date.parse(at) >= START && Date.parse(at) <= END));
   if (outside) throw new Error(`Figure "${id}": pull request #${outside[0]} was merged at ${outside[1]}, outside the time scale`);
   const x = (at) => 16 + (288 * (Date.parse(at) - START)) / (END - START);
@@ -1043,7 +1052,7 @@ function merges(t, id, figureId) {
   // The scale: an hour mark every six hours, and the two days under it.
   const axis = TOP + (GAIMER_AREAS.length - 1) * PITCH + 22;
   parts.push(`<line x1="16" y1="${axis}" x2="${WIDTH - 16}" y2="${axis}" class="fig-hair"/>`);
-  for (const at of ["2026-09-24T18:00:00Z", "2026-09-25T00:00:00Z", "2026-09-25T06:00:00Z", "2026-09-25T12:00:00Z"]) {
+  for (const at of ["2026-09-24T18:00:00Z", "2026-09-25T00:00:00Z", "2026-09-25T06:00:00Z", "2026-09-25T12:00:00Z", "2026-09-25T18:00:00Z"]) {
     parts.push(`<line x1="${round(x(at))}" y1="${axis}" x2="${round(x(at))}" y2="${axis + 4}" class="fig-hair"/>`);
     parts.push(text(x(at), axis + 16, at.slice(11, 16), "fig-note", "middle"));
   }
