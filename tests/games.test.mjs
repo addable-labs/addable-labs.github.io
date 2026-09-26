@@ -339,7 +339,17 @@ describe("the game pages", () => {
 // game gives it the keys, also in Tetris after the cleanup, which cancels
 // the press of the pointer and with it the focus a click gives: focusOnPress
 // in the game pages gives it the focus (si-wusy; WebKit's cases are in
-// games-webkit.test.mjs). A text field of the article keeps the focus, and
+// games-webkit.test.mjs). The click checks wait for the focus they check
+// (si-fvsh): the article and the game run in processes of their own, and a
+// change of focus that a click makes in one reaches the other by message, a
+// moment later. And Chrome sends a click to the frame it last drew under
+// the pointer, and it draws a scroll a frame or more after the scroll: a
+// click just after the test scrolled the game into view reached the
+// article, not the game. The article then gave the game the focus by way of
+// the game's page, a moment later, so a key pressed at once could go to the
+// article, and the check never tested focusOnPress. So the pointer first
+// moves onto the game until the game gets its moves, as a reader's pointer
+// is on the game they see. A text field of the article keeps the focus, and
 // its keys, while a game loads again. A
 // game page whose frame gets its size only after the page has loaded loads
 // its game once, at that size (si-lbnd): Chrome runs the sandboxed frame in
@@ -470,6 +480,26 @@ describe("a game played in the article keeps the keys when the window changes si
     return { scrolledBy, missed, scrolled: (await page.evaluate(() => scrollY)) - y };
   }
 
+  /**
+   * Move the pointer onto the middle of `box`, the frame of the game's page
+   * in the article, until `frame`, where the game runs, gets its moves.
+   * Resolves to whether it did. Chrome sends the pointer's events to the
+   * frame it last drew under the pointer: just after the article scrolled,
+   * that was not the game.
+   */
+  async function pointerOnGame(page, frame, box) {
+    await frame.evaluate(() => {
+      if (!window.pointerMoves) addEventListener("pointermove", (event) => window.pointerMoves.push(event.type), true);
+      window.pointerMoves = [];
+    });
+    // Each move 1 px from the one before, so that each one moves the pointer
+    let nudge = 0;
+    return until(async () => {
+      await page.mouse.move(box.x + box.width / 2 + (nudge ^= 1), box.y + box.height / 2);
+      return frame.evaluate(() => window.pointerMoves.length > 0);
+    }, 10000);
+  }
+
   for (const url of GAME_PAGES) {
     const id = url.split("/").at(-2);
     it(`${id}: the keys that scroll a page reach the game and do not scroll the article, after Play and after the window changes size, and a click into the game gives it the keys`, async () => {
@@ -490,13 +520,17 @@ describe("a game played in the article keeps the keys when the window changes si
         // click into the game gives them back, also in Tetris after the
         // cleanup, which cancels the press of the pointer (si-wusy). The
         // article has moved as the window changed size: the game goes back
-        // into view first.
+        // into view first. Each change of focus reaches the game's frame a
+        // moment after the click, and the pointer goes onto the game before
+        // the click into it (si-fvsh)
         const frameElement = await page.$(".game-frame");
         await frameElement.evaluate((frame) => frame.scrollIntoView({ block: "center", behavior: "instant" }));
         const box = await frameElement.boundingBox();
         await page.mouse.click(4, box.y + box.height / 2);
-        assert.equal(await hasKeys(gameFrame()), false, "a click beside the article takes the focus from the game");
+        assert.ok(await until(async () => !(await hasKeys(gameFrame())), 10000), "a click beside the article takes the focus from the game");
+        assert.ok(await pointerOnGame(page, gameFrame(), box), "the pointer reaches the game");
         await page.mouse.click(box.x + box.width / 2, box.y + box.height / 2);
+        assert.ok(await until(() => hasKeys(gameFrame()), 10000), "a click into the game gives it the focus");
         assert.deepEqual((await press(page, gameFrame(), ["ArrowLeft"])).missed, [], "after a click into the game");
       } finally {
         await page.close();
