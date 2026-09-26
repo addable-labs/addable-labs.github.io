@@ -1,7 +1,9 @@
 {#- Apps and products (REQ-011):
     one article.card.app.portfolio-entry per entry of src/_data/portfolio.json,
-    in data order, on the balanced subgrid — theme caption | chip row | name |
-    summary | action row. The theme caption has its own track (not the chip
+    in data order, on the balanced subgrid — picture band | theme caption |
+    chip row | name | summary | action row. The band is the app's drawing,
+    card-art/<key>.svg (si-jwwd), decorative and hidden from assistive
+    technology. The theme caption has its own track (not the chip
     row): the founder-confirmed private label fills a three-column card's
     width on its own, so the chip row holds only the status chip and stays
     one line. Copy comes from strings.portfolio.<key>; the status label from
@@ -35,6 +37,7 @@
       {%- set copy = strings[lang].portfolio[entry.key] %}
       {%- set appArticle = posts | postBySlug(entry.article) %}
       <article class="card app portfolio-entry reveal{% if entry.url %} app-linked{% endif %}">
+        <div class="card-band" aria-hidden="true">{% include "card-art/" + entry.key + ".svg" %}</div>
         <p class="app-theme">{{ strings[lang].themes[entry.theme].title }}</p>
         <div class="app-top">
           <span class="chip chip-{{ entry.status }}"><span class="chip-dot" aria-hidden="true"></span>{{ strings[lang].portfolioStatus[entry.status] }}</span>

@@ -132,10 +132,15 @@ describe("pages gate", () => {
     try {
       const copy = await copyDir(tmp.dir, path.join(over.dir, "site"));
       const file = path.join(copy, "index.html");
-      // A 70 KB inline script of base64 noise: gzip cannot shrink it below the budget.
+      // A 70 KB script of base64 noise: gzip cannot shrink it below the
+      // budget. The page links it as a same-origin file, so it weighs on the
+      // compressed CSS + JS only and never on the HTML + CSS size budget,
+      // whatever the landing page itself weighs (inline, it pushed a landing
+      // page of over 80 KB past that budget too: si-jwwd).
       const pad = randomBytes(53760).toString("base64");
       assert.equal(pad.length, 70 * 1024);
-      const html = (await readFile(file, "utf8")).replace("</head>", `<script>var pad = "${pad}";</script>\n</head>`);
+      await writeFile(path.join(copy, "assets", "js", "pad.js"), `var pad = "${pad}";\n`);
+      const html = (await readFile(file, "utf8")).replace("</head>", `<script src="/assets/js/pad.js"></script>\n</head>`);
       await writeFile(file, html);
       const { status, output } = runGate("pages", copy);
       assert.equal(status, 1, output);
@@ -143,7 +148,9 @@ describe("pages gate", () => {
       assert.ok(match, output);
       const total = Number(match[1].replaceAll(",", ""));
       assert.ok(total > COMPRESSED_BUDGET, `${total} B names a total over the budget`);
-      assert.equal(total, (await measure(copy, "index.html")).total);
+      const scripts = [...html.matchAll(/<script\b[^>]*\ssrc="([^"]+)"/g)].map(([, src]) => src);
+      assert.deepEqual(scripts, [...SCRIPTS, "/assets/js/pad.js"]);
+      assert.equal(total, compressedSize(html, { stylesheets: await assets(copy, STYLESHEETS), scripts: await assets(copy, scripts) }).total);
       assert.doesNotMatch(output, SIZE_LINE("/"));
       assert.match(output, SIZE_LINE("/sv/"), "the untouched Swedish landing page still passes");
       assert.doesNotMatch(output, /FAIL {2}sv\/index\.html/);

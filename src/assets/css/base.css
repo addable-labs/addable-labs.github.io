@@ -811,19 +811,19 @@ html:not(.js) .theme-toggle {
   }
 }
 
-/* number | title | text | "What you get" heading | list | action */
+/* band | number | title | text | "What you get" heading | list | action */
 .service {
   display: grid;
-  grid-row: span 6;
+  grid-row: span 7;
   grid-template-rows: subgrid;
   row-gap: 0;
   align-content: start;
 }
 
-/* theme caption | chip row | name | summary | action */
+/* band | theme caption | chip row | name | summary | action */
 .app {
   display: grid;
-  grid-row: span 5;
+  grid-row: span 6;
   grid-template-rows: subgrid;
   row-gap: 0;
   align-content: start;
@@ -998,6 +998,187 @@ html:not(.js) .theme-toggle {
 .app:not(.app-linked) {
   background: transparent;
   border-style: solid;
+}
+
+/* Card art (si-jwwd, suggestion B): every service and app card opens with a
+   picture band, as the article cards open with their image — edge to edge
+   inside the card's border, the card's padding taken back by negative
+   margins, its top corners following the card's and a hairline under it.
+   The band is the page's background with the figures' faint grid fading out
+   from its middle and the hero's glow, and one flat drawing without words:
+   the service, or what the app is. It is the first track of the card's
+   subgrid and the same height in every card, so the cards stay balanced.
+   The drawing is inline SVG (src/_includes/card-art/<key>.svg) in the
+   page's tokens, so it follows the theme, drawn on a 400 × 104 box whose
+   middle 260 units always show (it is cut at the sides, never scaled down,
+   in a narrower card); it is decorative and hidden from assistive
+   technology. */
+.card-band {
+  position: relative;
+  height: 6.5rem;
+  margin: calc(-1 * var(--space-4)) calc(-1 * var(--space-4)) var(--space-4);
+  overflow: hidden;
+  background: var(--color-bg);
+  border-bottom: 1px solid var(--color-hairline);
+  border-radius: calc(var(--radius) - 1px) calc(var(--radius) - 1px) 0 0;
+}
+
+.card-band::before,
+.card-band::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+.card-band::before {
+  background-image: linear-gradient(var(--color-hairline) 1px, transparent 1px), linear-gradient(90deg, var(--color-hairline) 1px, transparent 1px);
+  background-size: 16px 16px;
+  background-position: center;
+  mask-image: radial-gradient(ellipse at 50% 50%, currentcolor 20%, transparent 70%);
+  -webkit-mask-image: radial-gradient(ellipse at 50% 50%, currentcolor 20%, transparent 70%);
+}
+
+.card-band::after {
+  background: radial-gradient(ellipse 45% 70% at 50% 55%, var(--color-glow), transparent);
+}
+
+.card-band svg {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* The drawing vocabulary of the card art: the figures' (below), at the
+   weight of a small picture — structure in the border grey on the second
+   surface, secondary strokes muted, the accent text colour for what each
+   drawing is about, the glow as its halo, the orange of the founder's gate
+   and of what did not work. */
+.art-frame {
+  fill: var(--color-surface-2);
+  stroke: var(--color-border);
+  stroke-width: 2;
+  stroke-linejoin: round;
+}
+
+.art-line,
+.art-muted,
+.art-ok,
+.art-bar,
+.art-warn {
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.art-line {
+  stroke: var(--color-border);
+}
+
+.art-muted {
+  stroke: var(--color-text-muted);
+}
+
+.art-ok {
+  stroke: var(--color-accent-text);
+}
+
+.art-wave {
+  stroke-width: 3;
+}
+
+.art-bar {
+  stroke: var(--color-text);
+  stroke-width: 3.5;
+}
+
+.art-paddle {
+  stroke-width: 4.5;
+}
+
+.art-warn {
+  stroke: var(--color-secondary-text);
+  stroke-width: 2.5;
+}
+
+.art-dashed {
+  stroke-dasharray: 3 4;
+}
+
+.art-hair {
+  fill: none;
+  stroke: var(--color-hairline);
+  stroke-width: 1.5;
+}
+
+.art-fill {
+  fill: var(--color-border);
+}
+
+.art-node,
+.art-person {
+  fill: var(--color-surface);
+  stroke: var(--color-text-muted);
+  stroke-width: 2;
+}
+
+.art-person-on {
+  fill: var(--color-glow);
+  stroke: var(--color-accent-text);
+  stroke-width: 2;
+}
+
+.art-dot {
+  fill: var(--color-accent-text);
+}
+
+.art-glow {
+  fill: var(--color-glow);
+}
+
+.art-area {
+  fill: var(--color-glow);
+  stroke: var(--color-accent-text);
+  stroke-width: 2;
+  stroke-linejoin: round;
+}
+
+.art-gate {
+  fill: var(--color-secondary);
+}
+
+.art-facet-lit {
+  fill: var(--color-hairline);
+}
+
+.art-rock {
+  fill: var(--color-border);
+  fill-opacity: 0.45;
+}
+
+.art-heat-1,
+.art-heat-2,
+.art-heat-3,
+.art-heat-4 {
+  fill: var(--color-accent-text);
+}
+
+.art-heat-1 {
+  fill-opacity: 0.12;
+}
+
+.art-heat-2 {
+  fill-opacity: 0.28;
+}
+
+.art-heat-3 {
+  fill-opacity: 0.5;
+}
+
+.art-heat-4 {
+  fill-opacity: 0.8;
 }
 
 /* Trust, writing, contact (REQ-012 … REQ-014) ------------------------------ */

@@ -1,6 +1,8 @@
 {#- Services (REQ-010): three article.card.service
-    blocks on the balanced subgrid — number | title | text | "What you get"
-    heading | list (2–4 items) | action — the six tracks base.css spans.
+    blocks on the balanced subgrid — picture band | number | title | text |
+    "What you get" heading | list (2–4 items) | action — the seven tracks
+    base.css spans. The band is the card's drawing, card-art/<key>.svg
+    (si-jwwd), decorative and hidden from assistive technology.
     Headings, texts and lists come from strings.themes.<key> (the keys are
     ai-apps / ai-adoption / experiments — THEME_KEYS in scripts/lib/apps.mjs —
     so the apps data keeps validating; experiments replaced investing in
@@ -23,6 +25,7 @@
       {%- for key in ["ai-apps", "ai-adoption", "experiments"] %}
       {%- set theme = strings[lang].themes[key] %}
       <article class="card service reveal">
+        <div class="card-band" aria-hidden="true">{% include "card-art/" + key + ".svg" %}</div>
         <p class="num">0{{ loop.index }}</p>
         <h3>{{ theme.title }}</h3>
         <p>{{ theme.text }}</p>

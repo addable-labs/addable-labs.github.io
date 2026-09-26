@@ -255,9 +255,9 @@ change colour, border, transform and box-shadow only.
   tracks from the parent — `display: grid; grid-row: span N;
   grid-template-rows: subgrid` — so the cards in one row share each track
   and every track takes the tallest content in the row. A service card
-  spans six tracks (number | title | text | "What you get" heading | list |
-  action); an app card spans **five** (theme caption | chip row | name |
-  summary | action). The last track holds the action row, `align-self: end`,
+  spans seven tracks (picture band | number | title | text | "What you get"
+  heading | list | action); an app card spans **six** (picture band | theme
+  caption | chip row | name | summary | action). The last track holds the action row, `align-self: end`,
   so links and private notes sit on the same bottom line. Titles are set on
   one line: `.service h3` and `.app-name` at 1.25 rem with `text-wrap:
   nowrap`, and the copy bands under *Adding an app* keep the longest title
@@ -271,7 +271,8 @@ change colour, border, transform and box-shadow only.
   on the action row (bottom-aligned links); only the cross-card alignment
   of the inner rows is lost. The `check:layout` gate measures the rendered
   geometry on both landing pages at 360, 768, 1024, 1280 and 1920 px.
-- **App card anatomy.** `p.app-theme` — the theme caption, a muted uppercase
+- **App card anatomy.** `div.card-band` — the picture band (see *Card
+  art*); `p.app-theme` — the theme caption, a muted uppercase
   mono line like the services' number; `div.app-top` — the chip row, holding
   exactly the status chip on one line; `h3.app-name` — plain text, never a
   link; `p.app-text` — the one-liner; then the action row, the same element
@@ -293,6 +294,26 @@ change colour, border, transform and box-shadow only.
   nothing else, and the apps grid gains its columns only where a card is
   20.5 rem wide (46 and 70 rem); every chip row is therefore one line with
   its text intact at every width in both languages.
+- **Card art** (si-jwwd). Every service card and every app card opens
+  with a picture band, as the article cards open with their image:
+  `div.card-band`, the card's first child and the first track of its
+  subgrid, `aria-hidden`, 104 px tall in every card so the cards stay
+  balanced, edge to edge inside the card's border (the padding taken back
+  by negative margins), its top corners following the card's and a
+  hairline under it. The band is the page background (`--color-bg`) with
+  the figures' faint grid (16 px cells, `--color-hairline`) fading out from
+  its middle and the hero's glow, and one flat drawing without words: the
+  service, or what the app is. The drawing is inline SVG from
+  `src/_includes/card-art/<key>.svg` on a 400 × 104 box, cut at the sides
+  in a narrower card and never scaled down (`xMidYMid slice`): the middle
+  280 units show in the narrowest card (a two-column service card at
+  640 px), so a drawing keeps its subject inside the middle 260. It is
+  drawn only with the `.art-*` classes in `base.css` — structure in
+  `--color-border` on `--color-surface-2`, secondary strokes in
+  `--color-text-muted`, what each drawing is about in
+  `--color-accent-text` with `--color-glow` as its halo, the founder's gate
+  and what did not work in the orange of the figures — so it follows the
+  theme like the figures.
 - **Chips.** Pills, mono Medium 0.75 rem, 28 px tall, a 1 px outline and a
   6 px dot in `currentColor`. Kinds follow the data's status keys:
   `chip-open-source-mit` in the accent text colour; `chip-in-development`
@@ -596,6 +617,12 @@ when they are broken:
   in `base.css` (accent for shipped/open source, orange for in progress,
   muted for the rest); unused labels are rejected, so remove a label when
   its last entry goes.
+- **A drawing.** Each entry has its card art, `src/_includes/card-art/<key>.svg`
+  (see *Card art*): an `<svg>` on the `0 0 400 104` box with
+  `preserveAspectRatio="xMidYMid slice"`, its subject inside the middle 260
+  units, no words, no ids, no colours of its own — only `.art-*` classes.
+  `tests/card-art.test.mjs` fails naming the file when a service or an app
+  has none, when a drawing has no card, or when it breaks those rules.
 - Keep the order of the entries the founder chose (`APP_KEYS`); a new
   entry extends the list in `apps.mjs` and the data file together, and
   `PRIVATE_APP_KEYS` too for a private one or `PUBLIC_REPOS` for a public
