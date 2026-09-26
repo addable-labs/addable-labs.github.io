@@ -449,10 +449,11 @@ one-liner in both strings files and its key in the curated list `APP_KEYS`
 - **The copy bands keep the cards balanced** (the design never changes with
   the content): a name is at most 16 characters, a service title at most 20,
   a status label at most 22 (except the founder-confirmed `private` label,
-  which is fixed), and the app summaries — like the three service texts —
-  stay within a 25 % length band per language (the longest at most 1.25 ×
-  the shortest). Write the new one-liner to fit that band: at least 0.8 ×
-  the longest summary of its language and at most 1.25 × the shortest.
+  which is fixed), and the app summaries stay within a 25 % length band per
+  language (the longest at most 1.25 × the shortest); the three service
+  texts, within 45 %. Write the new one-liner to fit the summaries' band: at
+  least 0.8 × the longest summary of its language and at most 1.25 × the
+  shortest.
 - **The guard** is `tests/apps.test.mjs` (`validateApps()` in
   `scripts/lib/apps.mjs`): it fails naming the key, the language or the band
   when an entry lacks strings in a language, uses an unknown or unused

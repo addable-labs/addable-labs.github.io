@@ -595,10 +595,13 @@ when they are broken:
   A longer chip is what forced the theme caption onto its own track; do not
   lengthen it further.
 - **Summaries within a 25 % length band** per language (the longest at most
-  1.25 × the shortest), as are the three service texts, so descriptions in
-  a row take the same number of lines. Write the new one-liner to fit that
-  band: at least 0.8 × the longest summary of its language and at most
-  1.25 × the shortest.
+  1.25 × the shortest), so descriptions in a row take the same number of
+  lines. Write the new one-liner to fit that band: at least 0.8 × the
+  longest summary of its language and at most 1.25 × the shortest. The
+  three service texts have a 45 % band (at most 1.45 × the shortest) since
+  the founder's wording of the AI-powered apps card, 1.41 × the shortest in
+  English (si-hqi0): where the cards share a row, a shorter service text
+  can leave up to two empty lines under it.
 - **2–4 "What you get" items** per service.
 - **A private repository is never linked.** A private entry links the
   product's public page once, labelled "Website ↗" — never a

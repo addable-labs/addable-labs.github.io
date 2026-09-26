@@ -39,8 +39,10 @@ export const PRIVATE_STATUS_LABEL = {
 };
 
 /** Copy bands: characters, and the ratio between the longest and
-    the shortest description of a language. */
-export const BANDS = { name: 16, serviceTitle: 20, statusLabel: 22, ratio: 1.25, getsMin: 2, getsMax: 4 };
+    the shortest description of a language: 25 % for the app summaries, 45 %
+    for the service texts since the founder's wording of the AI-powered apps
+    card, 1.41 × the shortest in English (si-hqi0). */
+export const BANDS = { name: 16, serviceTitle: 20, statusLabel: 22, ratio: 1.25, serviceRatio: 1.45, getsMin: 2, getsMax: 4 };
 
 /** The GitHub repositories the site may link, as owner/name: the public
     repositories it links today — the public apps', the tooling the articles
@@ -309,18 +311,19 @@ export function validateApps({
       }
     }
 
-    // Descriptions within the ratio band, so rows share their line count.
-    const band = (label, items) => {
+    // Descriptions within a ratio band, so the texts of a row take about the
+    // same number of lines.
+    const band = (label, items, ratio) => {
       const measured = items.filter(([, value]) => isText(value)).map(([id, value]) => [id, length(value)]);
       if (measured.length < 2) return;
       const [minId, min] = measured.reduce((a, b) => (b[1] < a[1] ? b : a));
       const [maxId, max] = measured.reduce((a, b) => (b[1] > a[1] ? b : a));
-      if (max > min * bands.ratio) {
-        problems.push(`${lang}: ${label} are outside the ${Math.round((bands.ratio - 1) * 100)} % band: ${minId} is ${min} characters, ${maxId} is ${max}`);
+      if (max > min * ratio) {
+        problems.push(`${lang}: ${label} are outside the ${Math.round((ratio - 1) * 100)} % band: ${minId} is ${min} characters, ${maxId} is ${max}`);
       }
     };
-    band("app summaries", data.map((entry) => [`portfolio.${entry?.key}.summary`, portfolio[entry?.key]?.summary]));
-    band("service texts", themes.map((theme) => [`themes.${theme}.text`, themeStrings[theme]?.text]));
+    band("app summaries", data.map((entry) => [`portfolio.${entry?.key}.summary`, portfolio[entry?.key]?.summary]), bands.ratio);
+    band("service texts", themes.map((theme) => [`themes.${theme}.text`, themeStrings[theme]?.text]), bands.serviceRatio);
   }
 
   return { ok: problems.length === 0, problems };

@@ -81,7 +81,7 @@
   "themes": {
     "ai-apps": {
       "title": "AI-drivna appar",
-      "text": "AI som en del av produkten, inte ett tillägg: apparna här nedan är till stor del byggda av AI-agenter och grundaren granskar varje ändring. Nya appar bygger vi bara när det tydligt är ett jobb för ett team av AI-agenter.",
+      "text": "AI som en del av produkten, inte ett tillägg: apparna här nedan är till stor del byggda av AI-agenter. Grundaren sätter riktningen och godkänner det vi publicerar. Nya appar bygger vi bara när det tydligt är ett jobb för ett team av AI-agenter.",
       "getsHeading": "Det här får du",
       "gets": {
         "product": "En fungerande produkt, inte en presentation",

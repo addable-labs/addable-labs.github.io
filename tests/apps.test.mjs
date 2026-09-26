@@ -452,10 +452,10 @@ describe("apps data and copy (REQ-011, REQ-025; AC-11, AC-12, AC-30)", () => {
     assert.ok(problemsOf(uneven).some((p) => /^sv: app summaries are outside the 25 % band: .* portfolio\.niva\.summary is \d+$/.test(p)), problemsOf(uneven).join("\n"));
   });
 
-  it("keeps service titles within 20 characters, texts within a 25 % band and 2–4 gets items per service", () => {
+  it("keeps service titles within 20 characters, texts within a 45 % band and 2–4 gets items per service", () => {
     for (const lang of site.languages.codes) {
       const lengths = THEME_KEYS.map((key) => [...strings[lang].themes[key].text].length);
-      assert.ok(Math.max(...lengths) <= Math.min(...lengths) * BANDS.ratio, `${lang}: ${lengths.join(", ")}`);
+      assert.ok(Math.max(...lengths) <= Math.min(...lengths) * BANDS.serviceRatio, `${lang}: ${lengths.join(", ")}`);
       for (const key of THEME_KEYS) {
         assert.ok([...strings[lang].themes[key].title].length <= BANDS.serviceTitle, `${lang}: ${key}`);
         const gets = Object.values(strings[lang].themes[key].gets).length;
@@ -475,6 +475,21 @@ describe("apps data and copy (REQ-011, REQ-025; AC-11, AC-12, AC-30)", () => {
     assert.ok(problemsOf(many).includes("en: themes.ai-apps.gets has 5 item(s) (band: 2–4 non-empty items)"), problemsOf(many).join("\n"));
     const uneven = copy();
     uneven.strings.en.themes["ai-apps"].text += " " + uneven.strings.en.themes["ai-apps"].text;
-    assert.ok(problemsOf(uneven).some((p) => /^en: service texts are outside the 25 % band/.test(p)), problemsOf(uneven).join("\n"));
+    assert.ok(problemsOf(uneven).some((p) => /^en: service texts are outside the 45 % band/.test(p)), problemsOf(uneven).join("\n"));
+    // The band's edge (si-hqi0): beside the longest English text, the others
+    // may be as short as the longest over 1.45, and one character shorter fails.
+    const texts = THEME_KEYS.map((key) => [key, [...strings.en.themes[key].text].length]);
+    const [longestKey, longest] = texts.reduce((a, b) => (b[1] > a[1] ? b : a));
+    const others = THEME_KEYS.filter((key) => key !== longestKey);
+    let edge = 1;
+    while (longest > edge * BANDS.serviceRatio) edge += 1;
+    const withShortest = (shortest) => {
+      const input = copy();
+      for (const key of others) input.strings.en.themes[key].text = "x".repeat(edge);
+      input.strings.en.themes[others[0]].text = "x".repeat(shortest);
+      return input;
+    };
+    assert.ok(!problemsOf(withShortest(edge)).some((p) => p.startsWith("en: service texts")), problemsOf(withShortest(edge)).join("\n"));
+    assert.ok(problemsOf(withShortest(edge - 1)).includes(`en: service texts are outside the 45 % band: themes.${others[0]}.text is ${edge - 1} characters, themes.${longestKey}.text is ${longest}`), problemsOf(withShortest(edge - 1)).join("\n"));
   });
 });

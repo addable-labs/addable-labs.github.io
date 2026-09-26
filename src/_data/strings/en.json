@@ -81,7 +81,7 @@
   "themes": {
     "ai-apps": {
       "title": "AI-powered apps",
-      "text": "AI as part of the product, not a bolt-on: the apps below were built largely by AI agents, with the founder reviewing every change. We build new apps only when they are clearly a job for an AI agent team.",
+      "text": "AI as part of the product, not a bolt-on: the apps below were built largely by AI agents, with the founder setting the direction and approving what we publish. We build new apps only when they are clearly a job for an AI agent team.",
       "getsHeading": "What you get",
       "gets": {
         "product": "A working product, not a slide deck",
