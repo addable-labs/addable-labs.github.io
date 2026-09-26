@@ -1,0 +1,63 @@
+[
+  {
+    "page": "/sv/blog/",
+    "width": 1024,
+    "posts": [
+      {
+        "index": 0,
+        "top": 410.63,
+        "height": 437.08,
+        "parts": {
+          "image": 411.63,
+          "metadata": 584.36,
+          "title": 636.36,
+          "description": 688.36
+        }
+      },
+      {
+        "index": 1,
+        "top": 410.63,
+        "height": 437.08,
+        "parts": {
+          "image": 411.63,
+          "metadata": 584.38,
+          "title": 636.38,
+          "description": 688.38
+        }
+      },
+      {
+        "index": 2,
+        "top": 410.63,
+        "height": 437.08,
+        "parts": {
+          "image": 411.63,
+          "metadata": 584.36,
+          "title": 636.36,
+          "description": 688.36
+        }
+      },
+      {
+        "index": 3,
+        "top": 871.7,
+        "height": 441.89,
+        "parts": {
+          "image": 872.7,
+          "metadata": 1045.44,
+          "title": 1097.44,
+          "description": 1167.5
+        }
+      },
+      {
+        "index": 4,
+        "top": 871.7,
+        "height": 441.89,
+        "parts": {
+          "image": 872.7,
+          "metadata": 1045.45,
+          "title": 1124.64,
+          "description": 1176.64
+        }
+      }
+    ]
+  }
+]

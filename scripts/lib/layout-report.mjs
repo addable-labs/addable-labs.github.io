@@ -2,11 +2,12 @@
 // (redesign AC-30), the article measure and figure
 // placement (founder feedback 2026-09-21, si-55iu; centred composition,
 // founder feedback 2026-09-22), the article tables (founder feedback
-// 2026-09-24, si-t64i), the games (si-y6pp) and the article's image
-// (si-awlu) — judged on plain measurements so
-// tests/layout.test.mjs runs on fixtures without Chrome.
+// 2026-09-24, si-t64i), the games (si-y6pp), the article's image
+// (si-awlu) and the rows of article cards (si-a4it) — judged on plain
+// measurements so tests/layout.test.mjs runs on fixtures without Chrome.
 // scripts/check/layout.mjs collects one measurement per page × viewport
-// width, of one of two kinds. A landing page:
+// width: of a landing page, of an article page, or of a page measured only
+// for its list of article cards (below). A landing page:
 //
 //   {
 //     page: "/", width: 1280,
@@ -54,6 +55,22 @@
 // blocks as well as the figures. `image` is null when the page has no
 // article image, and a measurement without it (one taken before si-awlu)
 // has none to judge.
+//
+// A page that lists article cards (partials/post-list.njk: the landing's
+// "Notes from the work", a blog index, a category page, the "More from the
+// blog" band under an article) carries its list as `posts`, beside the grids
+// of a landing page and the article of an article page, and alone for a blog
+// index or category page ({ page: "/blog/", width: 1024, posts: […] }):
+//
+//   posts: [{ index, top, height,                               // each .post card's box
+//             parts: { image, metadata, title, description } }, …]
+//                                                               // the top of each of its parts
+//
+// where the parts are the card's four row tracks (base.css .post): its
+// img.post-image, .post-meta, .post-title and .post-text. `posts` is null
+// when the page has no .post-list, and a part is null when it was not found.
+// A measurement without `posts` (one taken before si-a4it) has no list to
+// judge.
 
 import { IMAGE_HEIGHT, IMAGE_WIDTH } from "./images.mjs";
 
@@ -84,6 +101,20 @@ export const IMAGE_RATIO = IMAGE_WIDTH / IMAGE_HEIGHT;
 /** A figure label is 13 user units (base.css .fig-label) and must render at 12 px or more. */
 export const LABEL_UNITS = 13;
 export const LABEL_MIN_PX = 12;
+
+/** An article card's parts, one to each row track of the card (base.css .post), and what a line calls them. */
+export const POST_PARTS = { image: "images", metadata: "metadata rows", title: "titles", description: "descriptions" };
+
+/**
+ * The article cards to a full row at a viewport width, as base.css lays out
+ * every list of them (si-9dw5, docs/identity.md): one, two from 48rem
+ * (768 px) and three from 64rem (1024 px).
+ */
+export function postsPerRow(width) {
+  if (width >= 1024) return 3;
+  if (width >= 768) return 2;
+  return 1;
+}
 
 /** Group cards by grid row: cards whose tops are within the tolerance of each other. */
 export function rowsOf(cards, tolerance = TOLERANCE) {
@@ -316,13 +347,53 @@ function evaluateArticle(run, where, tolerance) {
 }
 
 /**
+ * The rules for a page's list of article cards (si-a4it) for one run;
+ * returns its problems, each prefixed with `where`. As in the services and
+ * apps grids, the cards sharing a row are equal in height and each of their
+ * parts starts at the same top, as every card takes its row tracks from the
+ * list (base.css .post); and a row holds as many cards as a full row at the
+ * width (`postsPerRow`), the last row that many or fewer.
+ */
+function evaluatePosts(run, where, tolerance) {
+  const cards = run.posts;
+  if (!Array.isArray(cards) || cards.length === 0) return [`${where}: post list has no cards`];
+  const problems = [];
+  for (const card of cards) {
+    // A part that was not found is named, never compared.
+    const missing = Object.keys(POST_PARTS).filter((part) => !Number.isFinite(card.parts?.[part]));
+    if (missing.length > 0) problems.push(`${where}: post card ${card.index + 1} has no measurable ${missing.join(", ")} (element not found)`);
+  }
+  const full = postsPerRow(run.width);
+  const rows = rowsOf(cards, tolerance);
+  for (const [at, row] of rows.entries()) {
+    const names = row.map((card) => card.index + 1).join(", ");
+    if (row.length > full || (row.length < full && at < rows.length - 1)) {
+      problems.push(`${where}: post row ${at + 1} holds ${row.length} card${row.length === 1 ? "" : "s"} (${names}), where a full row is ${full}`);
+    }
+    if (row.length < 2) continue;
+    if (spread(row.map((card) => card.height)) > tolerance) {
+      problems.push(`${where}: post cards ${names} differ in height (${row.map((card) => card.height).join(" / ")} px)`);
+    }
+    for (const [part, plural] of Object.entries(POST_PARTS)) {
+      const measured = row.filter((card) => Number.isFinite(card.parts?.[part]));
+      if (measured.length > 1 && spread(measured.map((card) => card.parts[part])) > tolerance) {
+        problems.push(`${where}: post cards ${measured.map((card) => card.index + 1).join(", ")} ${plural} start at different heights (${measured.map((card) => card.parts[part]).join(" / ")} px)`);
+      }
+    }
+  }
+  return problems;
+}
+
+/**
  * Judge the measurements of one or more page × width runs.
  * @param {Array<object>} measurements
  * @param {number} [tolerance]
  * @returns {{ ok: boolean, problems: string[], lines: string[] }} — `lines` are the
  *   documented per-run lines (`layout /sv/ 1024: ok (3 service cards, 6 app cards)`,
  *   `layout /blog/<slug>/ 1024: ok (12 blocks on the measure, 3 figures)`, with
- *   `, 2 tables` after the figures on a page that has tables)
+ *   `, 2 tables` after the figures on a page that has tables, and
+ *   `layout /blog/ 1024: ok (5 post cards in 2 rows)`, the cards last on a
+ *   page that lists them beside its grids or article)
  */
 export function evaluate(measurements, tolerance = TOLERANCE) {
   const problems = [];
@@ -330,14 +401,12 @@ export function evaluate(measurements, tolerance = TOLERANCE) {
   for (const run of measurements) {
     const where = `${run.page} ${run.width}`;
     const before = problems.length;
+    const counts = [];
     if (run.article !== undefined) {
       problems.push(...evaluateArticle(run, where, tolerance));
-      const runProblems = problems.slice(before);
       const tables = run.article?.tables?.length ?? 0;
       const games = run.article?.games?.length ?? 0;
-      const counts = `${run.article?.blocks?.length ?? 0} blocks on the measure, ${run.article?.figures?.length ?? 0} figures${tables > 0 ? `, ${tables} table${tables === 1 ? "" : "s"}` : ""}${games > 0 ? `, ${games} block${games === 1 ? "" : "s"} of games` : ""}`;
-      lines.push(runProblems.length === 0 ? `layout ${run.page} ${run.width}: ok (${counts})` : `layout ${run.page} ${run.width}: FAIL — ${runProblems.map((problem) => problem.slice(where.length + 2)).join("; ")}`);
-      continue;
+      counts.push(`${run.article?.blocks?.length ?? 0} blocks on the measure, ${run.article?.figures?.length ?? 0} figures${tables > 0 ? `, ${tables} table${tables === 1 ? "" : "s"}` : ""}${games > 0 ? `, ${games} block${games === 1 ? "" : "s"} of games` : ""}`);
     }
     for (const [grid, cards] of Object.entries(run.grids ?? {})) {
       if (!Array.isArray(cards) || cards.length === 0) {
@@ -380,9 +449,15 @@ export function evaluate(measurements, tolerance = TOLERANCE) {
         }
       }
     }
-    const counts = Object.entries(run.grids ?? {}).map(([grid, cards]) => `${Array.isArray(cards) ? cards.length : 0} ${grid === "services" ? "service" : grid === "apps" ? "app" : grid} cards`).join(", ");
+    counts.push(...Object.entries(run.grids ?? {}).map(([grid, cards]) => `${Array.isArray(cards) ? cards.length : 0} ${grid === "services" ? "service" : grid === "apps" ? "app" : grid} cards`));
+    if (run.posts !== undefined) {
+      problems.push(...evaluatePosts(run, where, tolerance));
+      const cards = Array.isArray(run.posts) ? run.posts.length : 0;
+      const rows = Array.isArray(run.posts) ? rowsOf(run.posts, tolerance).length : 0;
+      counts.push(`${cards} post card${cards === 1 ? "" : "s"} in ${rows} row${rows === 1 ? "" : "s"}`);
+    }
     const runProblems = problems.slice(before);
-    lines.push(runProblems.length === 0 ? `layout ${run.page} ${run.width}: ok (${counts})` : `layout ${run.page} ${run.width}: FAIL — ${runProblems.map((problem) => problem.slice(where.length + 2)).join("; ")}`);
+    lines.push(runProblems.length === 0 ? `layout ${run.page} ${run.width}: ok (${counts.join(", ")})` : `layout ${run.page} ${run.width}: FAIL — ${runProblems.map((problem) => problem.slice(where.length + 2)).join("; ")}`);
   }
   return { ok: problems.length === 0, problems, lines };
 }

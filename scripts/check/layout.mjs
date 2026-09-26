@@ -1,11 +1,19 @@
 #!/usr/bin/env node
 // Gate: layout (redesign AC-30; article layout si-55iu and founder feedback
-// 2026-09-22; article tables si-t64i).
+// 2026-09-22; article tables si-t64i; lists of article cards si-a4it).
 // Measures, in headless Chrome at 360, 768, 1024, 1280 and 1920 CSS px:
 //   - the balanced cards of both landing pages: in the services grid and the
 //     apps grid every title is one line, cards sharing a grid row have equal
 //     heights, equal "What you get" heading / summary tops and bottom-aligned
 //     action rows (± 1 px), and every chip row is one line;
+//   - the lists of article cards (si-a4it): the landing's "Notes from the
+//     work" in both languages, both blog indexes, in each language the
+//     category page that lists the most articles, and the "More from the
+//     blog" band under every article: cards sharing a row have equal heights
+//     and each part of a card — image, metadata, title, description — starts
+//     at the same top (± 1 px), and a row holds one card below 768 px
+//     (48rem), two from 768 px and three from 1024 px (64rem), the last row
+//     that many or fewer;
 //   - every article page in both languages: the page never scrolls
 //     horizontally, every text block of the body is at most 44rem wide and
 //     centred in the body on one shared left edge, and every figure is where
@@ -30,15 +38,16 @@
 // the Lighthouse gate when no Chrome is found. Optional arguments:
 // <built-site dir> [<source dir>] (the source dir lists the articles).
 // LAYOUT_DUMP=<file> writes the raw measurements as JSON (to regenerate
-// tests/fixtures/layout/article.json and tables.json).
+// tests/fixtures/layout/article.json, tables.json, games.json, image.json
+// and posts.json).
 
-import { writeFile } from "node:fs/promises";
+import { readFile, writeFile } from "node:fs/promises";
+import path from "node:path";
 import puppeteer from "puppeteer-core";
 import { withChrome } from "../lib/chrome.mjs";
 import { evaluate } from "../lib/layout-report.mjs";
-import { loadSite, readArticleSources, resolveDirs } from "../lib/site.mjs";
+import { langPrefix, loadSite, readArticleSources, resolveDirs } from "../lib/site.mjs";
 
-const PAGES = ["/", "/sv/"];
 const WIDTHS = [360, 768, 1024, 1280, 1920];
 const HEIGHT = 1000;
 
@@ -150,16 +159,67 @@ function measureArticle() {
   };
 }
 
+// Runs inside a page that lists article cards: the shape
+// scripts/lib/layout-report.mjs documents under `posts`, for the page's
+// .post-list (partials/post-list.njk): each .post card's box and the top of
+// each of its parts, img.post-image, .post-meta, .post-title and .post-text;
+// null when the page has no list.
+function measurePosts() {
+  const box = (el) => el.getBoundingClientRect();
+  const round = (value) => Math.round(value * 100) / 100;
+  const top = (el) => (el ? round(box(el).top + scrollY) : NaN);
+  const list = document.querySelector(".post-list");
+  if (!list) return null;
+  return [...list.querySelectorAll(":scope > .post")].map((card, index) => ({
+    index,
+    top: top(card),
+    height: round(box(card).height),
+    parts: {
+      image: top(card.querySelector(".post-image")),
+      metadata: top(card.querySelector(".post-meta")),
+      title: top(card.querySelector(".post-title")),
+      description: top(card.querySelector(".post-text")),
+    },
+  }));
+}
+
+const GRIDS = ["grids", measureGrids];
+const ARTICLE = ["article", measureArticle];
+const POSTS = ["posts", measurePosts];
+
 const { out, src } = resolveDirs();
 const site = await loadSite(src);
+const categories = JSON.parse(await readFile(path.join(src, "_data", "categories.json"), "utf8"));
+// The pages and what each is measured for, in the order they are measured
+// at each width: both landing pages, then each language's blog index and
+// the category page that lists the most of its articles (the first in
+// categories.json of those that list as many), then every article page.
+// Each is measured for its list of article cards where the templates list
+// some: the landing page, the blog index and the category page where the
+// language lists an article at all, an article's page where it lists
+// another (layouts/article.njk).
+const LANDINGS = [];
+const LISTS = [];
 const ARTICLES = [];
 for (const lang of site.languages.codes) {
+  const prefix = langPrefix(lang, site);
+  const articles = await readArticleSources(src, site, lang);
+  const listed = articles.filter((article) => article.listed);
+  LANDINGS.push({ page: `${prefix}/`, kinds: listed.length > 0 ? [GRIDS, POSTS] : [GRIDS] });
+  if (listed.length > 0) {
+    const count = (key) => listed.filter((article) => article.category === key).length;
+    const busiest = categories.map(({ key }) => key).reduce((best, key) => (count(key) > count(best) ? key : best));
+    LISTS.push({ page: `${prefix}/blog/`, kinds: [POSTS] }, { page: `${prefix}/blog/${busiest}/`, kinds: [POSTS] });
+  }
   // A draft has no page in the production build (si-mzf1), so there is
   // nothing to measure and asking for it would be a 404.
-  for (const article of await readArticleSources(src, site, lang)) {
-    if (!article.omitted) ARTICLES.push(article.path);
+  for (const article of articles) {
+    if (article.omitted) continue;
+    const band = listed.some((other) => other.path !== article.path);
+    ARTICLES.push({ page: article.path, kinds: band ? [ARTICLE, POSTS] : [ARTICLE] });
   }
 }
+const PAGES = [...LANDINGS, ...LISTS, ...ARTICLES];
 
 const exitCode = await withChrome("layout", out, async ({ baseUrl, measure }) => {
   // The tab every page is measured in, opened in the first Chrome and again
@@ -171,23 +231,24 @@ const exitCode = await withChrome("layout", out, async ({ baseUrl, measure }) =>
     await page.emulateMediaFeatures([{ name: "prefers-reduced-motion", value: "reduce" }]);
     return { chrome, browser, page, width: null };
   };
-  /** Load `path` at `width` and run `measureIn` in the page. */
-  const measurePage = (path, width, measureIn) =>
-    measure(`${path} ${width}`, async (chrome) => {
+  /** Load `page` at `width` and take each of `kinds`' measurements in it: { page, width, <kind>: … }. */
+  const measurePage = (page, width, kinds) =>
+    measure(`${page} ${width}`, async (chrome) => {
       if (tab?.chrome !== chrome) tab = await openTab(chrome);
       if (tab.width !== width) {
         await tab.page.setViewport({ width, height: HEIGHT, deviceScaleFactor: 1 });
         tab.width = width;
       }
-      await tab.page.goto(`${baseUrl}${path}`, { waitUntil: "load" });
+      await tab.page.goto(`${baseUrl}${page}`, { waitUntil: "load" });
       await tab.page.evaluate(() => document.fonts.ready.then(() => true));
-      return tab.page.evaluate(measureIn);
+      const run = { page, width };
+      for (const [kind, measureIn] of kinds) run[kind] = await tab.page.evaluate(measureIn);
+      return run;
     });
   const measurements = [];
   try {
     for (const width of WIDTHS) {
-      for (const path of PAGES) measurements.push({ page: path, width, grids: await measurePage(path, width, measureGrids) });
-      for (const path of ARTICLES) measurements.push({ page: path, width, article: await measurePage(path, width, measureArticle) });
+      for (const { page, kinds } of PAGES) measurements.push(await measurePage(page, width, kinds));
     }
   } finally {
     // Disconnect only: withChrome kills Chrome, and the tab's Chrome may be

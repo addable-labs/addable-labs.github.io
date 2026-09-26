@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { after, before, describe, it } from "node:test";
-import { BESIDE_FROM_PX, evaluate, GAME_RATIO, IMAGE_RATIO, INLINE_GAP_REM, LABEL_MIN_PX, LABEL_UNITS, LINE_RATIO, MEASURE_REM, PANEL_REM, rowsOf, TOLERANCE } from "../scripts/lib/layout-report.mjs";
+import { BESIDE_FROM_PX, evaluate, GAME_RATIO, IMAGE_RATIO, INLINE_GAP_REM, LABEL_MIN_PX, LABEL_UNITS, LINE_RATIO, MEASURE_REM, PANEL_REM, POST_PARTS, postsPerRow, rowsOf, TOLERANCE } from "../scripts/lib/layout-report.mjs";
 import { skipMessage, SKIP_EXIT_CODE } from "../scripts/lib/chrome.mjs";
 import { fixture, runGate, SRC, tempDir } from "./helpers.mjs";
 
@@ -9,10 +9,11 @@ import { fixture, runGate, SRC, tempDir } from "./helpers.mjs";
 // REQ-025), the article rules on fixture measurements of
 // the illustrated articles (si-55iu; centred composition, founder feedback
 // 2026-09-22), of the article with tables (si-t64i), of the article that
-// plays games (si-y6pp) and of the article's image (si-awlu) — no Chrome
-// needed — and the gate's explicit SKIP when no Chrome is found. Regenerate the
-// article fixture from a real run with `LAYOUT_DUMP=<file> pnpm
-// check:layout` and keep its three runs.
+// plays games (si-y6pp) and of the article's image (si-awlu), and the rules
+// for the lists of article cards on fixture measurements of each page that
+// lists them (si-a4it) — no Chrome needed — and the gate's explicit SKIP when
+// no Chrome is found. Regenerate the article fixture from a real run with
+// `LAYOUT_DUMP=<file> pnpm check:layout` and keep its three runs.
 
 describe("layout report evaluation (AC-30)", () => {
   let aligned;
@@ -430,6 +431,149 @@ describe("layout report evaluation — the article's image (si-awlu)", () => {
     const older = structuredClone(image);
     delete older[0].article.image;
     assert.deepEqual(evaluate(older).problems, []);
+  });
+});
+
+describe("layout report evaluation — lists of article cards (si-a4it)", () => {
+  // Real measurements of each kind of page that lists article cards: the
+  // Swedish landing page at 768 (its grids, and its writing band two to a
+  // row, 2 + 1), the Swedish blog index at 1024 (three to a row, 3 + 2; in
+  // the second row the 21 September article's title takes three lines and
+  // the 20 September article's metadata row wraps, the date above the
+  // category chip, and each track of the row takes the taller of the two),
+  // the English category page "AI journey" at 360 (one to a row, 4 rows) and
+  // the cards under an article at 1920 (one row of three). Regenerate from a
+  // real run with `LAYOUT_DUMP=<file> pnpm check:layout` and keep these four
+  // runs. posts-without-subgrid.json is that Swedish blog index at 1024 as
+  // base.css's fallback for a browser without subgrid lays it out (each card
+  // a block: `.post { display: block; grid-row: auto }`, forced on in
+  // Chrome): the cards of a row are still one height, their parts are not in
+  // line.
+  let posts;
+  let withoutSubgrid;
+  before(async () => {
+    posts = JSON.parse(await readFile(fixture("layout", "posts.json"), "utf8"));
+    withoutSubgrid = JSON.parse(await readFile(fixture("layout", "posts-without-subgrid.json"), "utf8"));
+  });
+
+  it("passes the fixture and prints the documented lines, the cards last on a page with grids or an article", () => {
+    const result = evaluate(posts);
+    assert.deepEqual(result.problems, []);
+    assert.deepEqual(result.lines, [
+      "layout /sv/ 768: ok (3 service cards, 4 app cards, 3 post cards in 2 rows)",
+      "layout /sv/blog/ 1024: ok (5 post cards in 2 rows)",
+      "layout /blog/ai-journey/ 360: ok (4 post cards in 4 rows)",
+      "layout /blog/how-this-site-was-built-by-agents/ 1920: ok (11 blocks on the measure, 4 figures, 3 post cards in 1 row)",
+    ]);
+    assert.deepEqual([360, 767, 768, 1023, 1024, 1920].map(postsPerRow), [1, 1, 2, 2, 3, 3]);
+    assert.deepEqual(Object.keys(POST_PARTS), ["image", "metadata", "title", "description"]);
+  });
+
+  it("fails cards of a row that differ in height", () => {
+    const uneven = structuredClone(posts);
+    uneven[1].posts[3].height = 437.09; // card 4 at the first row's height, not its own row's
+    uneven[3].posts[2].height = 450.3; // the third card under the article 2 px taller
+    const result = evaluate(uneven);
+    assert.deepEqual(result.problems, [
+      "/sv/blog/ 1024: post cards 4, 5 differ in height (437.09 / 459.95 px)",
+      "/blog/how-this-site-was-built-by-agents/ 1920: post cards 1, 2, 3 differ in height (448.3 / 448.3 / 450.3 px)",
+    ]);
+    assert.equal(result.lines[1], "layout /sv/blog/ 1024: FAIL — post cards 4, 5 differ in height (437.09 / 459.95 px)");
+    assert.equal(result.lines[3], "layout /blog/how-this-site-was-built-by-agents/ 1920: FAIL — post cards 1, 2, 3 differ in height (448.3 / 448.3 / 450.3 px)");
+  });
+
+  it("fails the titles and descriptions of a row out of line, as the Swedish blog index is at 1024 px without subgrid", () => {
+    const result = evaluate(withoutSubgrid);
+    // Each card lays out its own parts: the 21 September article's title
+    // follows its one-line metadata row, 27 px above its neighbour's, and its
+    // three-line title pushes its description down, 9 px above.
+    assert.deepEqual(result.problems, [
+      "/sv/blog/ 1024: post cards 4, 5 titles start at different heights (1097.44 / 1124.64 px)",
+      "/sv/blog/ 1024: post cards 4, 5 descriptions start at different heights (1167.5 / 1176.64 px)",
+    ]);
+    assert.deepEqual(result.lines, ["layout /sv/blog/ 1024: FAIL — post cards 4, 5 titles start at different heights (1097.44 / 1124.64 px); post cards 4, 5 descriptions start at different heights (1167.5 / 1176.64 px)"]);
+    assert.deepEqual(
+      withoutSubgrid[0].posts.map((card) => card.height),
+      [437.08, 437.08, 437.08, 441.89, 441.89],
+      "one height per row all the same",
+    );
+  });
+
+  it("fails an image and a metadata row that start off their row's line", () => {
+    const off = structuredClone(posts);
+    off[0].posts[1].parts.image = 4913.33; // 2 px lower
+    off[3].posts[0].parts.metadata = 4554.19; // 3 px higher
+    const result = evaluate(off);
+    assert.deepEqual(result.problems, [
+      "/sv/ 768: post cards 1, 2 images start at different heights (4911.33 / 4913.33 px)",
+      "/blog/how-this-site-was-built-by-agents/ 1920: post cards 1, 2, 3 metadata rows start at different heights (4554.19 / 4557.19 / 4557.19 px)",
+    ]);
+    assert.equal(result.lines[0], "layout /sv/ 768: FAIL — post cards 1, 2 images start at different heights (4911.33 / 4913.33 px)");
+    assert.equal(result.lines[3], "layout /blog/how-this-site-was-built-by-agents/ 1920: FAIL — post cards 1, 2, 3 metadata rows start at different heights (4554.19 / 4557.19 / 4557.19 px)");
+  });
+
+  it("fails a row that holds fewer cards than a full row at its width, unless it is the last, and one that holds more", () => {
+    // Real rows measured at another width: the landing's two to a row at 1024
+    // and at 360, and the article's one row of three at 768.
+    const twoAt1024 = { ...structuredClone(posts[0]), width: 1024 };
+    const twoAt360 = { ...structuredClone(posts[0]), width: 360 };
+    const threeAt768 = { page: posts[3].page, width: 768, posts: structuredClone(posts[3].posts) };
+    const result = evaluate([twoAt1024, twoAt360, threeAt768]);
+    // The landing's last row, one card, is not a full row at any width, and passes.
+    assert.deepEqual(result.problems, [
+      "/sv/ 1024: post row 1 holds 2 cards (1, 2), where a full row is 3",
+      "/sv/ 360: post row 1 holds 2 cards (1, 2), where a full row is 1",
+      "/blog/how-this-site-was-built-by-agents/ 768: post row 1 holds 3 cards (1, 2, 3), where a full row is 2",
+    ]);
+    assert.deepEqual(result.lines, [
+      "layout /sv/ 1024: FAIL — post row 1 holds 2 cards (1, 2), where a full row is 3",
+      "layout /sv/ 360: FAIL — post row 1 holds 2 cards (1, 2), where a full row is 1",
+      "layout /blog/how-this-site-was-built-by-agents/ 768: FAIL — post row 1 holds 3 cards (1, 2, 3), where a full row is 2",
+    ]);
+  });
+
+  it("names a part that was not found and a list without cards instead of passing on NaN or null (never silently)", () => {
+    const missing = structuredClone(posts);
+    missing[0].posts[0].parts.metadata = null; // a NaN measurement arrives as null over the protocol
+    missing[2].posts[1].parts.title = null;
+    missing[2].posts[3].parts.image = NaN;
+    missing[2].posts[3].parts.description = null;
+    missing[1].posts = []; // a list without a card
+    missing[3].posts = null; // no .post-list under the article
+    const result = evaluate(missing);
+    // Card 1's metadata row is left out of its row's comparison, not compared as missing.
+    assert.deepEqual(result.problems, [
+      "/sv/ 768: post card 1 has no measurable metadata (element not found)",
+      "/sv/blog/ 1024: post list has no cards",
+      "/blog/ai-journey/ 360: post card 2 has no measurable title (element not found)",
+      "/blog/ai-journey/ 360: post card 4 has no measurable image, description (element not found)",
+      "/blog/how-this-site-was-built-by-agents/ 1920: post list has no cards",
+    ]);
+    assert.equal(result.lines[1], "layout /sv/blog/ 1024: FAIL — post list has no cards");
+    assert.equal(result.lines[3], "layout /blog/how-this-site-was-built-by-agents/ 1920: FAIL — post list has no cards");
+  });
+
+  it("tolerates differences of one pixel, and the tolerance is a parameter", () => {
+    const nudged = structuredClone(posts);
+    nudged[1].posts[4].height = 460.95;
+    nudged[1].posts[3].parts.title = 1123.66;
+    nudged[3].posts[1].parts.description = 4662.19;
+    nudged[0].posts[1].top = 4911.33;
+    assert.deepEqual(evaluate(nudged).problems, []);
+    const twoPx = structuredClone(posts);
+    twoPx[1].posts[4].parts.image = 874.72;
+    assert.equal(evaluate(twoPx).ok, false);
+    assert.equal(evaluate(twoPx, 2).ok, true, "the tolerance is a parameter");
+  });
+
+  it("judges a measurement without a list, as the gate took them before si-a4it, as a page without one", () => {
+    const older = structuredClone(posts);
+    delete older[0].posts;
+    delete older[3].posts;
+    const result = evaluate(older);
+    assert.deepEqual(result.problems, []);
+    assert.equal(result.lines[0], "layout /sv/ 768: ok (3 service cards, 4 app cards)");
+    assert.equal(result.lines[3], "layout /blog/how-this-site-was-built-by-agents/ 1920: ok (11 blocks on the measure, 4 figures)");
   });
 });
 

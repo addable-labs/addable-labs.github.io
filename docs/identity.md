@@ -364,10 +364,13 @@ change colour, border, transform and box-shadow only.
   are one height and each part is in line, also where a narrow card's
   metadata row wraps (at 1024 px, a date beside "App development") or its
   title takes three lines; the `<source>` of its `<picture>` is
-  `display: none`, or the grid would place it as a part. The image's `sizes`
-  follows the columns, so a three-column card loads the 600 px copy where
-  that is enough, and the blog index and category pages load their first
-  row, three cards, at once.
+  `display: none`, or the grid would place it as a part. The `check:layout`
+  gate measures the rows, and the cards to a row, at 360, 768, 1024, 1280
+  and 1920 px in both languages, on the landing page, the blog index, the
+  category page that lists the most articles and under every article. The
+  image's `sizes` follows the columns, so a three-column card loads the
+  600 px copy where that is enough, and the blog index and category pages
+  load their first row, three cards, at once.
 - **Notices.** None on the pages: both notice boxes were taken off (si-sfh8).
   A draft is marked by `chip-draft` in the article metadata and in the
   listings.

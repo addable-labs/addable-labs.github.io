@@ -1,0 +1,465 @@
+[
+  {
+    "page": "/sv/",
+    "width": 768,
+    "grids": {
+      "services": [
+        {
+          "index": 0,
+          "top": 1225.39,
+          "height": 661.78,
+          "title": {
+            "height": 23,
+            "lineHeight": 23
+          },
+          "midTop": 1631.73,
+          "actionBottom": 1862.17,
+          "chip": null
+        },
+        {
+          "index": 1,
+          "top": 1225.39,
+          "height": 661.78,
+          "title": {
+            "height": 23,
+            "lineHeight": 23
+          },
+          "midTop": 1631.73,
+          "actionBottom": 1862.17,
+          "chip": null
+        },
+        {
+          "index": 2,
+          "top": 1911.17,
+          "height": 636.19,
+          "title": {
+            "height": 23,
+            "lineHeight": 23
+          },
+          "midTop": 2291.92,
+          "actionBottom": 2522.36,
+          "chip": null
+        }
+      ],
+      "apps": [
+        {
+          "index": 0,
+          "top": 2925.11,
+          "height": 413.75,
+          "title": {
+            "height": 23,
+            "lineHeight": 23
+          },
+          "midTop": 3164.3,
+          "actionBottom": 3313.86,
+          "chip": {
+            "height": 28,
+            "lineHeight": 28
+          }
+        },
+        {
+          "index": 1,
+          "top": 2925.11,
+          "height": 413.75,
+          "title": {
+            "height": 23,
+            "lineHeight": 23
+          },
+          "midTop": 3164.3,
+          "actionBottom": 3313.86,
+          "chip": {
+            "height": 28,
+            "lineHeight": 28
+          }
+        },
+        {
+          "index": 2,
+          "top": 3354.86,
+          "height": 413.75,
+          "title": {
+            "height": 23,
+            "lineHeight": 23
+          },
+          "midTop": 3594.05,
+          "actionBottom": 3743.61,
+          "chip": {
+            "height": 28,
+            "lineHeight": 28
+          }
+        },
+        {
+          "index": 3,
+          "top": 3354.86,
+          "height": 413.75,
+          "title": {
+            "height": 23,
+            "lineHeight": 23
+          },
+          "midTop": 3594.05,
+          "actionBottom": 3743.61,
+          "chip": {
+            "height": 28,
+            "lineHeight": 28
+          }
+        }
+      ]
+    },
+    "posts": [
+      {
+        "index": 0,
+        "top": 4910.33,
+        "height": 437.06,
+        "parts": {
+          "image": 4911.33,
+          "metadata": 5106.44,
+          "title": 5158.44,
+          "description": 5210.44
+        }
+      },
+      {
+        "index": 1,
+        "top": 4910.33,
+        "height": 437.06,
+        "parts": {
+          "image": 4911.33,
+          "metadata": 5106.44,
+          "title": 5158.44,
+          "description": 5210.44
+        }
+      },
+      {
+        "index": 2,
+        "top": 5371.39,
+        "height": 437.06,
+        "parts": {
+          "image": 5372.39,
+          "metadata": 5567.5,
+          "title": 5619.5,
+          "description": 5671.5
+        }
+      }
+    ]
+  },
+  {
+    "page": "/sv/blog/",
+    "width": 1024,
+    "posts": [
+      {
+        "index": 0,
+        "top": 410.63,
+        "height": 437.09,
+        "parts": {
+          "image": 411.63,
+          "metadata": 584.38,
+          "title": 636.38,
+          "description": 688.38
+        }
+      },
+      {
+        "index": 1,
+        "top": 410.63,
+        "height": 437.09,
+        "parts": {
+          "image": 411.63,
+          "metadata": 584.38,
+          "title": 636.38,
+          "description": 688.38
+        }
+      },
+      {
+        "index": 2,
+        "top": 410.63,
+        "height": 437.09,
+        "parts": {
+          "image": 411.63,
+          "metadata": 584.38,
+          "title": 636.38,
+          "description": 688.38
+        }
+      },
+      {
+        "index": 3,
+        "top": 871.72,
+        "height": 459.95,
+        "parts": {
+          "image": 872.72,
+          "metadata": 1045.47,
+          "title": 1124.66,
+          "description": 1194.72
+        }
+      },
+      {
+        "index": 4,
+        "top": 871.72,
+        "height": 459.95,
+        "parts": {
+          "image": 872.72,
+          "metadata": 1045.47,
+          "title": 1124.66,
+          "description": 1194.72
+        }
+      }
+    ]
+  },
+  {
+    "page": "/blog/ai-journey/",
+    "width": 360,
+    "posts": [
+      {
+        "index": 0,
+        "top": 432.19,
+        "height": 430.09,
+        "parts": {
+          "image": 433.19,
+          "metadata": 621.33,
+          "title": 673.33,
+          "description": 725.33
+        }
+      },
+      {
+        "index": 1,
+        "top": 878.28,
+        "height": 407.7,
+        "parts": {
+          "image": 879.28,
+          "metadata": 1067.42,
+          "title": 1119.42,
+          "description": 1171.42
+        }
+      },
+      {
+        "index": 2,
+        "top": 1301.98,
+        "height": 452.48,
+        "parts": {
+          "image": 1302.98,
+          "metadata": 1491.13,
+          "title": 1543.13,
+          "description": 1595.13
+        }
+      },
+      {
+        "index": 3,
+        "top": 1770.47,
+        "height": 430.09,
+        "parts": {
+          "image": 1771.47,
+          "metadata": 1959.61,
+          "title": 2011.61,
+          "description": 2063.61
+        }
+      }
+    ]
+  },
+  {
+    "page": "/blog/how-this-site-was-built-by-agents/",
+    "width": 1920,
+    "article": {
+      "rem": 16,
+      "scrollWidth": 1920,
+      "innerWidth": 1920,
+      "body": {
+        "left": 392,
+        "right": 1528
+      },
+      "blocks": [
+        {
+          "tag": "p",
+          "left": 608,
+          "right": 1312,
+          "top": 781.38
+        },
+        {
+          "tag": "h2",
+          "left": 608,
+          "right": 1312,
+          "top": 960.94
+        },
+        {
+          "tag": "p",
+          "left": 608,
+          "right": 1312,
+          "top": 1027.13
+        },
+        {
+          "tag": "h2",
+          "left": 608,
+          "right": 1312,
+          "top": 1657.41
+        },
+        {
+          "tag": "p",
+          "left": 608,
+          "right": 1312,
+          "top": 2033.34
+        },
+        {
+          "tag": "h2",
+          "left": 608,
+          "right": 1312,
+          "top": 2299.58
+        },
+        {
+          "tag": "p",
+          "left": 608,
+          "right": 1312,
+          "top": 2792.52
+        },
+        {
+          "tag": "h2",
+          "left": 608,
+          "right": 1312,
+          "top": 3058.75
+        },
+        {
+          "tag": "p",
+          "left": 608,
+          "right": 1312,
+          "top": 3124.94
+        },
+        {
+          "tag": "p",
+          "left": 608,
+          "right": 1312,
+          "top": 3624.75
+        },
+        {
+          "tag": "p",
+          "left": 608,
+          "right": 1312,
+          "top": 3814.09
+        }
+      ],
+      "figures": [
+        {
+          "id": "fig-stages",
+          "placement": "wide",
+          "left": 392,
+          "right": 1528,
+          "top": 1298.25,
+          "bottom": 1593.41,
+          "panel": {
+            "left": 392,
+            "right": 1528,
+            "top": 1298.25,
+            "bottom": 1519.84
+          },
+          "caption": {
+            "left": 608,
+            "right": 1312,
+            "top": 1535.84,
+            "bottom": 1593.41
+          },
+          "scale": 1.15
+        },
+        {
+          "id": "fig-loop",
+          "placement": "inline",
+          "left": 608,
+          "right": 1312,
+          "top": 1747.59,
+          "bottom": 1993.34,
+          "panel": {
+            "left": 608,
+            "right": 1000,
+            "top": 1747.59,
+            "bottom": 1993.34
+          },
+          "caption": {
+            "left": 1024,
+            "right": 1312,
+            "top": 1747.59,
+            "bottom": 1840.34
+          },
+          "scale": 1.23
+        },
+        {
+          "id": "fig-gates",
+          "placement": "inline",
+          "left": 608,
+          "right": 1312,
+          "top": 2389.77,
+          "bottom": 2752.52,
+          "panel": {
+            "left": 608,
+            "right": 1000,
+            "top": 2389.77,
+            "bottom": 2752.52
+          },
+          "caption": {
+            "left": 1024,
+            "right": 1312,
+            "top": 2389.77,
+            "bottom": 2501.7
+          },
+          "scale": 1.23
+        },
+        {
+          "id": "fig-words",
+          "placement": "inline",
+          "left": 608,
+          "right": 1312,
+          "top": 3280.5,
+          "bottom": 3584.75,
+          "panel": {
+            "left": 608,
+            "right": 1000,
+            "top": 3280.5,
+            "bottom": 3584.75
+          },
+          "caption": {
+            "left": 1024,
+            "right": 1312,
+            "top": 3280.5,
+            "bottom": 3488.38
+          },
+          "scale": 1.23
+        }
+      ],
+      "tables": [],
+      "games": [],
+      "image": {
+        "left": 608,
+        "right": 1312,
+        "top": 371.78,
+        "bottom": 741.38,
+        "summaryBottom": 347.78
+      }
+    },
+    "posts": [
+      {
+        "index": 0,
+        "top": 4349.84,
+        "height": 448.3,
+        "parts": {
+          "image": 4350.84,
+          "metadata": 4557.19,
+          "title": 4609.19,
+          "description": 4661.19
+        }
+      },
+      {
+        "index": 1,
+        "top": 4349.84,
+        "height": 448.3,
+        "parts": {
+          "image": 4350.84,
+          "metadata": 4557.19,
+          "title": 4609.19,
+          "description": 4661.19
+        }
+      },
+      {
+        "index": 2,
+        "top": 4349.84,
+        "height": 448.3,
+        "parts": {
+          "image": 4350.84,
+          "metadata": 4557.19,
+          "title": 4609.19,
+          "description": 4661.19
+        }
+      }
+    ]
+  }
+]
