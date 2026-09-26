@@ -2,8 +2,8 @@
 // the data and media checks, the block the `games` shortcode writes, the game
 // pages, the draft rule that keeps all of it out of the production build
 // (C14), the keys a game keeps in a real Chrome when the window changes size
-// (si-27c8), and the gate rules a game page is held to by its path, and only
-// by its path.
+// (si-27c8), none of which scrolls the article (si-6z03), and the gate rules
+// a game page is held to by its path, and only by its path.
 
 import assert from "node:assert/strict";
 import { randomBytes } from "node:crypto";
@@ -327,19 +327,22 @@ describe("the game pages", () => {
 });
 
 // A real Chrome plays each game in the article as a reader does (si-27c8):
-// Play, ArrowDown (Space in Space Invaders, which leaves ArrowDown to the
-// page), the window changes size, the key again. Each key reaches the game
-// and the article does not scroll. A game from before the cleanup
-// loads again in a new frame at the new size, as the app did, and the new
-// frame takes the keys as the first one did; until keepFocus in
-// game-page-before.js the focus left with the old frame, and ArrowDown
-// scrolled the article 40 px. A text field of the article keeps the focus,
-// and its keys, while a game loads again. The cases skip when no Chrome is
-// found, except under CHECK_REQUIRE_CHROME=1 (CI), where they run.
+// Play, the keys that scroll a page, the window changes size, the keys
+// again. Each key reaches the game and the article does not scroll, also
+// when the game leaves the key alone: no game takes PageUp, PageDown, Home
+// or End, and neither Space Invaders takes ArrowUp or ArrowDown. Until
+// stopScrollKeys in the game pages, such a key scrolled the article
+// (si-6z03). A game from before the cleanup loads again in a new frame at
+// the new size, as the app did, and the new frame takes the keys as the
+// first one did; until keepFocus in game-page-before.js the focus left with
+// the old frame, and ArrowDown scrolled the article 40 px. A text field of
+// the article keeps the focus, and its keys, while a game loads again. The
+// cases skip when no Chrome is found, except under CHECK_REQUIRE_CHROME=1
+// (CI), where they run.
 const CHROME = await findChrome();
 const noChrome = CHROME === null && process.env.CHECK_REQUIRE_CHROME !== "1" ? "no Chrome found" : false;
 
-describe("a game played in the article keeps the keys when the window changes size (si-27c8)", { skip: noChrome }, () => {
+describe("a game played in the article keeps the keys when the window changes size (si-27c8), and none of them scrolls the article (si-6z03)", { skip: noChrome }, () => {
   let tmp;
   let server;
   let chrome;
@@ -403,48 +406,76 @@ describe("a game played in the article keeps the keys when the window changes si
   const hasKeys = (frame) => frame.evaluate(() => document.hasFocus());
 
   /**
-   * The key pressed in a game: one the game takes itself, so the article
-   * scrolls only if the key went to the article. Tetris and Pong take
-   * ArrowDown. The Space Invaders games take Space and not ArrowDown, which
-   * then scrolls the article 40 px even while the game has the keys, as a
-   * key the game leaves alone goes on to the page (si-ri9t).
+   * The keys that scroll a page, by the names puppeteer presses them by,
+   * which are also their codes. A key the game takes itself does not scroll
+   * the article; one it leaves alone did, from a game that has the keys,
+   * until stopScrollKeys in the game pages (si-6z03).
    */
-  const keyOf = (id) => (id.startsWith("space-invaders-") ? { key: " ", name: "Space" } : { key: "ArrowDown", name: "ArrowDown" });
+  const SCROLL_KEYS = ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", "Space", "PageUp", "PageDown", "Home", "End"];
 
   /**
-   * Press `key` in the tab. Resolves to how far the article scrolled and
-   * whether the key reached `frame`, where the game runs.
+   * Resolves once the article has drawn `count` more frames, or after a
+   * second if it draws none.
    */
-  async function press(page, frame, key) {
+  const frames = (page, count) =>
+    page.evaluate(
+      (count) =>
+        new Promise((resolve) => {
+          setTimeout(resolve, 1000);
+          const next = () => (--count === 0 ? resolve() : requestAnimationFrame(next));
+          requestAnimationFrame(next);
+        }),
+      count,
+    );
+
+  /**
+   * Press each of `keys` in the tab in turn. Resolves to the keys that
+   * scrolled the article, the keys that did not reach `frame`, where the game
+   * runs, and how far the article is from where it was at the end.
+   */
+  async function press(page, frame, keys) {
     await frame.evaluate(() => {
-      if (!window.keysSeen) addEventListener("keydown", (event) => window.keysSeen.push(event.key), true);
+      if (!window.keysSeen) addEventListener("keydown", (event) => window.keysSeen.push(event.code), true);
       window.keysSeen = [];
     });
     const y = await page.evaluate(() => scrollY);
-    await page.keyboard.press(key);
-    const reached = await until(() => frame.evaluate((key) => window.keysSeen.includes(key), key), 3000);
+    const scrolledBy = [];
+    const missed = [];
+    for (const key of keys) {
+      await page.keyboard.press(key);
+      if (!(await until(() => frame.evaluate((key) => window.keysSeen.includes(key), key), 3000))) missed.push(key);
+      // A scroll by a key shows in the article's first or second frame after
+      // the key: five are time enough
+      await frames(page, 5);
+      if ((await page.evaluate(() => scrollY)) !== y) {
+        scrolledBy.push(key);
+        // The article goes back to where it was once the scroll has ended,
+        // for the next key
+        await delay(500);
+        await page.evaluate((y) => scrollTo({ top: y, behavior: "instant" }), y);
+      }
+    }
     // A scroll by a key is animated: time enough for one to show
     await delay(300);
-    return { scrolled: (await page.evaluate(() => scrollY)) - y, reached };
+    return { scrolledBy, missed, scrolled: (await page.evaluate(() => scrollY)) - y };
   }
 
   for (const url of GAME_PAGES) {
     const id = url.split("/").at(-2);
-    const { key, name } = keyOf(id);
-    it(`${id}: ${name} reaches the game and does not scroll the article, after Play and after the window changes size`, async () => {
+    it(`${id}: the keys that scroll a page reach the game and do not scroll the article, after Play and after the window changes size`, async () => {
       const { page, gameFrame } = await play(id);
       try {
         assert.ok(await until(() => hasKeys(gameFrame()), 10000), "the game's frame takes the keys after Play");
         const first = gameFrame();
-        assert.deepEqual(await press(page, first, key), { scrolled: 0, reached: true }, `${name} after Play`);
+        assert.deepEqual(await press(page, first, SCROLL_KEYS), { scrolledBy: [], missed: [], scrolled: 0 }, "after Play");
         await page.setViewport({ width: 1000, height: 900 });
         // A game from before the cleanup loads again in a new frame 300 ms
         // after the window stops resizing, as the app did
         if (id.endsWith("-before")) assert.ok(await until(async () => gameFrame() && gameFrame() !== first, 10000), "the game loads again in a new frame");
-        // The new frame takes the keys once its page has loaded: the key
-        // tells whether it did
+        // The new frame takes the keys once its page has loaded: the keys
+        // tell whether it did
         await until(() => hasKeys(gameFrame()), 5000);
-        assert.deepEqual(await press(page, gameFrame(), key), { scrolled: 0, reached: true }, `${name} after the window changed size`);
+        assert.deepEqual(await press(page, gameFrame(), SCROLL_KEYS), { scrolledBy: [], missed: [], scrolled: 0 }, "after the window changed size");
       } finally {
         await page.close();
       }

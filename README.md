@@ -358,9 +358,13 @@ Brödtext i Markdown.
   screenshots come from `games.<game>-<version>` in the two strings files.
   Play runs the game where its start screen was, in a frame served from the
   site's own origin, sandboxed without `allow-same-origin`, that may run
-  scripts and nothing else, and gives it the keys; one game runs at a time,
-  and a game's page loads only when its button is clicked. Without
-  JavaScript the screenshots and the links still work.
+  scripts and nothing else, and gives it the keys, none of which scrolls the
+  article: the version's page script (`game-page-<version>.js`) stops the
+  keys that scroll a page (the arrows, Space, Page Up, Page Down, Home and
+  End) in the game's page and in the frame the game runs in, whether the
+  game takes them or not. One game runs at a time, and a game's page loads
+  only when its button is clicked. Without JavaScript the screenshots and
+  the links still work.
   Each game also has a page of its own, `/blog/<slug>/<game>-<version>/`
   (`src/game-pages.njk`): the game and nothing else, as in the app, so it
   has no header, navigation, footer, skip link, theme toggle, language
@@ -567,10 +571,10 @@ The suite needs no network, and a browser only in `tests/chrome.test.mjs`,
 whose gate cases run both gates on the installed Chrome and kill the Chrome a
 gate launched, by its pid, mid-measure (once: the page is measured again;
 twice: one `FAIL` line), and in `tests/games.test.mjs`, which plays each
-game of the Gaimer article in Chrome and presses a key the game takes
-(ArrowDown, or Space in a Space Invaders) after Play and again after the
-window changes size: the key reaches the game and the article does not
-scroll, and a text field of the article keeps the focus while a game
+game of the Gaimer article in Chrome and presses the keys that scroll a page
+(the arrows, Space, Page Up, Page Down, Home and End) after Play and again
+after the window changes size: each key reaches the game and none scrolls
+the article, and a text field of the article keeps the focus while a game
 loads again. The Chrome cases of both files skip when no Chrome is found
 unless `CHECK_REQUIRE_CHROME=1`, as in CI.
 

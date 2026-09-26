@@ -133,7 +133,7 @@ The factory has since raised the limit to [15
 minutes](https://github.com/addable-labs/gaimer/pull/51). All six started
 with no error, so no game from after the cleanup needed the fix round.
 
-Play runs a game where its start screen is, and the keys it uses go to the
+Play runs a game where its start screen is, and the keys then go to the
 game, not the page. One game runs at a time.
 
 {% games "tetris" %}

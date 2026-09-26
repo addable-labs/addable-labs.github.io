@@ -144,9 +144,9 @@ minuter](https://github.com/addable-labs/gaimer/pull/51). Alla sex spelen
 startade utan fel, så inget av de tre nya behövde skickas tillbaka för
 rättning.
 
-Knappen Spela startar spelet i stället för bilden av startskärmen. De
-tangenter som spelet använder går sedan till spelet och inte till sidan. Ett
-spel i taget kan vara igång.
+Knappen Spela startar spelet i stället för bilden av startskärmen. Sedan går
+tangenterna till spelet och inte till sidan. Ett spel i taget kan vara
+igång.
 
 {% games "tetris" %}
 

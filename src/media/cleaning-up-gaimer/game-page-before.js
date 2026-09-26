@@ -179,6 +179,10 @@ function __gaimer_sendMessage(type, data) {
 //     goes, as the game loads again at a new size, and keeps it until the
 //     new frame takes it (keepFocus, the site's addition), so the keys still
 //     reach the game after the window changes size;
+//   - the keys that scroll a page scroll nothing, in the game's page or in
+//     this one (stopScrollKeys, the site's addition), so a key the game
+//     leaves alone does not scroll the article this page is in. The game
+//     still gets every key;
 //   - the game's frame has a title, the game's name from the page's heading
 //     (the site's addition), so a screen reader names it: the app's frame has
 //     none.
@@ -228,6 +232,32 @@ function __gaimer_sendMessage(type, data) {
         if (frame && document.hasFocus()) frame.blur();
     }
 
+    // The site's addition: the keys that scroll a page (the arrows, Space,
+    // Page Up, Page Down, Home and End, alone or with Shift) scroll nothing,
+    // in this page and in the game's page. Neither page can scroll, and a
+    // key the game leaves alone can scroll the page around them instead:
+    // the article this page is in. Only the scroll is stopped: the key still
+    // reaches the game. With Ctrl, Alt or Cmd a key keeps its use, a
+    // shortcut of the browser's. The game's page gets the function as a
+    // script (withScrollKeysStopped), so it may use nothing from outside it.
+    function stopScrollKeys(event) {
+        if (event.ctrlKey || event.altKey || event.metaKey) return;
+        if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", " ", "PageUp", "PageDown", "Home", "End"].includes(event.key)) event.preventDefault();
+    }
+
+    // The site's addition: the game's page runs stopScrollKeys as well, in a
+    // script at the end of its head, before its own scripts. The script goes
+    // into the page's HTML as the sandbox's loadGame sets the frame's srcdoc,
+    // so the page loads once, with it.
+    function withScrollKeysStopped(frame) {
+        const srcdoc = Object.getOwnPropertyDescriptor(HTMLIFrameElement.prototype, "srcdoc");
+        const script = `<script>addEventListener("keydown", ${stopScrollKeys}, true);</script>\n`;
+        Object.defineProperty(frame, "srcdoc", {
+            get: () => srcdoc.get.call(frame),
+            set: (html) => srcdoc.set.call(frame, html.replace("</head>", () => `${script}</head>`)),
+        });
+    }
+
     function loadGameScript() {
         if (!container || !game.code) return;
 
@@ -259,6 +289,11 @@ function __gaimer_sendMessage(type, data) {
             }
         });
 
+        // The site's addition: the game's page stops the keys that scroll a
+        // page, as this page does
+        const frame = container.querySelector("iframe");
+        withScrollKeysStopped(frame);
+
         // Load the game code into the sandbox
         sandbox.loadGame(game.code);
         // The site's additions: the game's frame is named after the game, as
@@ -266,7 +301,6 @@ function __gaimer_sendMessage(type, data) {
         // game's page has loaded, the frame takes the focus if this page has
         // it. Focus given to the frame before its page loads does not reach
         // that page.
-        const frame = container.querySelector("iframe");
         frame.title = container.querySelector("h1").textContent;
         frame.addEventListener("load", focusGame);
     }
@@ -297,4 +331,5 @@ function __gaimer_sendMessage(type, data) {
     document.addEventListener("visibilitychange", handleVisibilityChange);
     window.addEventListener("resize", debouncedResize);
     window.addEventListener("focus", focusGame);
+    window.addEventListener("keydown", stopScrollKeys, true);
 })();
