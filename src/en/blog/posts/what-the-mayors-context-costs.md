@@ -2,7 +2,7 @@
 title: A study of the mayor's context
 description: What a bead cost the mayor, the agent that coordinates the factory behind this site, on 22–23 and 24–25 September 2026, what drove that cost and what each change to its context did.
 image: cover.png                 # a 1200 × 630 PNG in the article's media directory
-imageAlt: "The mayor's context, call by call: first many short sessions, each starting again on a thick floor of start-up content, then a few long ones on a thinner floor that grow far higher before each hand-off. Orange marks the re-orientation at the start of each session."
+imageAlt: "Two of the mayor's sessions side by side. The first one's context has filled call by call: the start-up content at the bottom, re-orientation in orange, then the work up to the dashed hand-off point. At the hand-off the mayor writes the state of its work on a card; a new session starts on the same start-up content and reads it first."
 date: 2026-09-25
 category: ai-journey             # app-development | ai-journey
 translationKey: what-the-mayors-context-costs

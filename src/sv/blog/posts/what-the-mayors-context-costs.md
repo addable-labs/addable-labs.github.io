@@ -2,7 +2,7 @@
 title: En studie av borgmästarens kontext
 description: Vad en bead kostade borgmästaren, agenten som samordnar fabriken bakom den här sajten, den 22–23 och 24–25 september 2026, vad som drev den kostnaden och vad varje ändring i dess kontext gjorde.
 image: cover.png                 # en PNG på 1200 × 630 i artikelns mediemapp
-imageAlt: "Borgmästarens kontext, anrop för anrop: först många korta sessioner som var och en börjar om på en tjock grund av startinnehåll, sedan några få långa som står på en tunnare grund och växer sig mycket högre före varje överlämning. Orange markerar omorienteringen i början av varje session."
+imageAlt: "Två av borgmästarens sessioner bredvid varandra. Den förstas kontext har fyllts anrop för anrop: startinnehållet längst ner, omorienteringen i orange, sedan arbetet upp till den streckade överlämningspunkten. Vid överlämningen skriver borgmästaren läget i sitt arbete på ett kort; en ny session börjar på samma startinnehåll och läser kortet först."
 date: 2026-09-25
 category: ai-journey             # app-development | ai-journey
 translationKey: what-the-mayors-context-costs
