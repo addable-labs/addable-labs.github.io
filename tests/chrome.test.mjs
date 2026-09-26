@@ -1,7 +1,10 @@
 import assert from "node:assert/strict";
+import { spawn } from "node:child_process";
+import { once } from "node:events";
 import { existsSync } from "node:fs";
 import { mkdir, readdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
+import { createInterface } from "node:readline";
 import { after, before, describe, it } from "node:test";
 import { setTimeout as delay } from "node:timers/promises";
 import { pathToFileURL } from "node:url";
@@ -23,7 +26,11 @@ import { buildSite, fixture, runGate, SRC, tempDir } from "./helpers.mjs";
 // (si-shkd) exits 130 or 143 at once, with no page measured again and no line
 // after the signal, and leaves no Chrome and no profile; SIGINT comes twice,
 // as it does under pnpm. The gate cases skip when no Chrome is found,
-// except under CHECK_REQUIRE_CHROME=1 (CI), where they run.
+// except under CHECK_REQUIRE_CHROME=1 (CI), where they run. A killed Chrome's
+// process group is gone for these cases once no process of it is alive: on
+// macOS a group whose processes are all zombies, dead but not yet reaped,
+// answers EPERM (si-0w89), which failed the cases now and then on a loaded
+// machine; Linux answers as if it were alive until the reap, so the cases wait.
 
 /** Whether a process in the group `pid` leads is alive (Chrome's helpers share its group). */
 function groupAlive(pid) {
@@ -31,7 +38,10 @@ function groupAlive(pid) {
     process.kill(-pid, 0);
     return true;
   } catch (error) {
-    if (error.code === "ESRCH") return false;
+    // EPERM is macOS's answer for a group whose processes are all zombies,
+    // dead but not yet reaped (si-0w89). Chrome, its helpers and the stand-in
+    // run as our own user, so it never means a live process we may not signal.
+    if (error.code === "ESRCH" || error.code === "EPERM") return false;
     throw error;
   }
 }
@@ -50,6 +60,43 @@ async function groupGone(pid, ms = 5000) {
 function flag(args, name) {
   return args.find((arg) => arg.startsWith(`--${name}=`))?.slice(name.length + 3);
 }
+
+describe("groupAlive with a group of zombies (si-0w89)", () => {
+  const notMacOS = process.platform === "darwin" ? false : "macOS only: Linux answers 0 for a group of zombies until the reap";
+
+  it("counts a group whose only process is a zombie, dead but not yet reaped, as gone: macOS answers EPERM for it (macOS only; Linux answers 0 until the reap)", { skip: notMacOS }, async () => {
+    // A parent forks a child that leads a group of its own and exits, and never
+    // reaps it: the parent prints the child's pid once it is a zombie (on
+    // SIGCHLD), then waits for its stdin to close, so it ends with this process
+    // whatever happens.
+    const script = String.raw`
+      $| = 1;
+      my $zombie = 0;
+      $SIG{CHLD} = sub { $zombie = 1 };
+      my $child = fork() // die "fork: $!";
+      if ($child == 0) { setpgrp(0, 0) or die "setpgrp: $!"; exit 0 }
+      sleep 1 until $zombie;
+      print "$child\n";
+      <STDIN>;
+    `;
+    const parent = spawn("perl", ["-e", script], { stdio: ["pipe", "pipe", "inherit"] });
+    try {
+      let pid;
+      for await (const line of createInterface({ input: parent.stdout })) {
+        pid = Number(line);
+        break;
+      }
+      assert.ok(pid > 0, "the parent printed no pid");
+      // The flake's cause: EPERM, not ESRCH, while the zombie is not reaped.
+      assert.throws(() => process.kill(-pid, 0), { code: "EPERM" });
+      assert.equal(groupAlive(pid), false);
+    } finally {
+      // Killed, the parent leaves its zombie to launchd, which reaps it.
+      parent.kill("SIGKILL");
+      if (parent.exitCode === null && parent.signalCode === null) await once(parent, "exit");
+    }
+  });
+});
 
 describe("launchChrome with a Chrome that never opens its DevTools port (si-828d)", () => {
   let tmp;
