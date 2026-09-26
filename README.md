@@ -362,10 +362,15 @@ Brödtext i Markdown.
   article: the version's page script (`game-page-<version>.js`) stops the
   keys that scroll a page (the arrows, Space, Page Up, Page Down, Home and
   End) in the game's page and in the frame the game runs in, whether the
-  game takes them or not. The game loads once its frame has a size, at that
-  size, however late the size reaches the game's page. One game runs at a
-  time, and a game's page loads only when its button is clicked. Without
-  JavaScript the screenshots and the links still work.
+  game takes them or not. WebKit (Safari) lets the game's page give the
+  focus to the frame the game runs in only once the reader has used the
+  page, so there the first key after Play goes to the game's page, which
+  hands it on to the game and gives the game the focus. A click into a game
+  gives it the focus, also in a game that cancels the press of the pointer.
+  The game loads once its frame has a size, at that size, however late the
+  size reaches the game's page. One game runs at a time, and a game's page
+  loads only when its button is clicked. Without JavaScript the screenshots
+  and the links still work.
   Each game also has a page of its own, `/blog/<slug>/<game>-<version>/`
   (`src/game-pages.njk`): the game and nothing else, as in the app, so it
   has no header, navigation, footer, skip link, theme toggle, language
@@ -571,15 +576,21 @@ measurements, and the two gates' `SKIP` path with `CHROME_PATH=/nonexistent`.
 The suite needs no network, and a browser only in `tests/chrome.test.mjs`,
 whose gate cases run both gates on the installed Chrome and kill the Chrome a
 gate launched, by its pid, mid-measure (once: the page is measured again;
-twice: one `FAIL` line), and in `tests/games.test.mjs`, which plays each
+twice: one `FAIL` line), in `tests/games.test.mjs`, which plays each
 game of the Gaimer article in Chrome and presses the keys that scroll a page
 (the arrows, Space, Page Up, Page Down, Home and End) after Play and again
 after the window changes size: each key reaches the game and none scrolls
-the article, a text field of the article keeps the focus while a game
-loads again, and a game page whose frame gets its size only after the page
-has loaded loads its game once, at that size. The Chrome cases of both
-files skip when no Chrome is found unless `CHECK_REQUIRE_CHROME=1`, as in
-CI.
+the article, a click into the game gives it the keys, a text field of the
+article keeps the focus while a game loads again, and a game page whose
+frame gets its size only after the page has loaded loads its game once, at
+that size; and in `tests/games-webkit.test.mjs`, which plays each game in
+Playwright's WebKit (`playwright-core`, which never downloads a browser) in
+the same way: each key reaches the game, pressed and let go, and none
+scrolls the article, after Play, after the window changes size and after a
+click into the game. The Chrome cases of the first two files skip when no
+Chrome is found unless `CHECK_REQUIRE_CHROME=1`, as in CI; the WebKit cases
+skip when Playwright's WebKit is not installed, as in CI (`pnpm exec
+playwright-core install webkit` installs it).
 
 The REQ- and AC- ids in this README and in comments, test names and gate
 messages label requirements and acceptance criteria of the two factory runs

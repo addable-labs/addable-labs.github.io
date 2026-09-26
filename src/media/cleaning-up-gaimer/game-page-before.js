@@ -180,6 +180,14 @@ function __gaimer_sendMessage(type, data) {
 //     addition), so key presses reach a game that the article starts with a
 //     click on Play, as they reach a game in the app once the player has
 //     clicked it;
+//   - a key that reaches the page goes on to the game, and gives the game
+//     the focus (handOnKey and takeKey, the site's additions). WebKit lets
+//     a page in a frame of another origin, as this page is in the article,
+//     give the focus to a frame of its own only once the reader has used
+//     the page, so there focusGame does nothing until the first key;
+//   - a press of the pointer in the game gives the game the focus
+//     (focusOnPress, the site's addition), also in a game that cancels the
+//     press and with it the focus that a click gives;
 //   - the page takes the focus back from the game's frame before the frame
 //     goes, as the game loads again at a new size, and keeps it until the
 //     new frame takes it (keepFocus, the site's addition), so the keys still
@@ -197,6 +205,8 @@ function __gaimer_sendMessage(type, data) {
 
     let sandbox = null;
     let saveSupported = false;
+    // The site's addition: the game's frames whose page has loaded
+    const loadedFrames = new WeakSet();
     // The site's addition: the size the game was loaded at
     let gameSize = null;
 
@@ -233,10 +243,15 @@ function __gaimer_sendMessage(type, data) {
     // with the focus, the frame would take it out of this page and out of
     // the article this page is in, and the arrow keys would scroll the
     // article. A focus the reader has moved out of this page, into a text
-    // field say, stays where it is.
+    // field say, stays where it is. WebKit leaves the focus in the frame's
+    // page after the blur, and so loses it as the frame goes: this page
+    // takes it itself as well.
     function keepFocus() {
         const frame = container.querySelector("iframe");
-        if (frame && document.hasFocus()) frame.blur();
+        if (frame && document.hasFocus()) {
+            frame.blur();
+            focus();
+        }
     }
 
     // The site's addition: the keys that scroll a page (the arrows, Space,
@@ -246,19 +261,58 @@ function __gaimer_sendMessage(type, data) {
     // the article this page is in. Only the scroll is stopped: the key still
     // reaches the game. With Ctrl, Alt or Cmd a key keeps its use, a
     // shortcut of the browser's. The game's page gets the function as a
-    // script (withScrollKeysStopped), so it may use nothing from outside it.
+    // script (withSiteScript), so it may use nothing from outside it.
     function stopScrollKeys(event) {
         if (event.ctrlKey || event.altKey || event.metaKey) return;
         if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", " ", "PageUp", "PageDown", "Home", "End"].includes(event.key)) event.preventDefault();
     }
 
-    // The site's addition: the game's page runs stopScrollKeys as well, in a
-    // script at the end of its head, before its own scripts. The script goes
-    // into the page's HTML as the sandbox's loadGame sets the frame's srcdoc,
-    // so the page loads once, with it.
-    function withScrollKeysStopped(frame) {
+    // The site's addition, run in the game's page (see withSiteScript): a
+    // press of the pointer in the game gives the game's frame the focus. A
+    // click gives a frame the focus as the default action of its press, and
+    // a game that cancels the press, as Tetris after the cleanup does,
+    // cancels that too.
+    function focusOnPress() {
+        focus();
+    }
+
+    // The site's addition: a key that reaches this page, not the game, goes
+    // on to the game (takeKey), and a key press gives the game's frame the
+    // focus, so that the keys after it reach the game itself. In WebKit
+    // focusGame does nothing: there a page in a frame of another origin than
+    // the page around it, as this page is in the article, may give the focus
+    // to a frame of its own only once the reader has used the page, by a
+    // key press say. So after Play the first key reaches this page. Only
+    // once the game's page has loaded: in Chrome, focus given to a frame
+    // before then does not reach its page. Tab keeps its use, moving the
+    // focus, and so does a key held with Ctrl, Alt or Cmd.
+    function handOnKey(event) {
+        const frame = container.querySelector("iframe");
+        if (!frame || !loadedFrames.has(frame)) return;
+        if (event.key === "Tab" || event.ctrlKey || event.altKey || event.metaKey) return;
+        if (event.type === "keydown") frame.focus();
+        const { type, key, code, location, repeat, shiftKey } = event;
+        frame.contentWindow.postMessage({ siteKey: { type, key, code, location, repeat, shiftKey } }, "*");
+    }
+
+    // The site's addition, run in the game's page (see withSiteScript): a key
+    // that the page around it hands on (handOnKey) reaches the game as a key
+    // pressed or let go in this page. The message has no type, so the
+    // sandbox's own listener leaves it to this one.
+    function takeKey(event) {
+        const key = event.source === parent && event.data && event.data.siteKey;
+        if (!key) return;
+        const { type, ...init } = key;
+        (document.activeElement || document).dispatchEvent(new KeyboardEvent(type, { ...init, bubbles: true, cancelable: true }));
+    }
+
+    // The site's addition: the game's page runs stopScrollKeys, focusOnPress
+    // and takeKey, in a script at the end of its head, before its own
+    // scripts. The script goes into the page's HTML as the sandbox's loadGame
+    // sets the frame's srcdoc, so the page loads once, with it.
+    function withSiteScript(frame) {
         const srcdoc = Object.getOwnPropertyDescriptor(HTMLIFrameElement.prototype, "srcdoc");
-        const script = `<script>addEventListener("keydown", ${stopScrollKeys}, true);</script>\n`;
+        const script = `<script>addEventListener("keydown", ${stopScrollKeys}, true); addEventListener("pointerdown", ${focusOnPress}, true); addEventListener("message", ${takeKey});</script>\n`;
         Object.defineProperty(frame, "srcdoc", {
             get: () => srcdoc.get.call(frame),
             set: (html) => srcdoc.set.call(frame, html.replace("</head>", () => `${script}</head>`)),
@@ -325,10 +379,9 @@ function __gaimer_sendMessage(type, data) {
             }
         });
 
-        // The site's addition: the game's page stops the keys that scroll a
-        // page, as this page does
+        // The site's additions to the game's page (withSiteScript)
         const frame = container.querySelector("iframe");
-        withScrollKeysStopped(frame);
+        withSiteScript(frame);
 
         // Load the game code into the sandbox
         sandbox.loadGame(game.code);
@@ -338,6 +391,7 @@ function __gaimer_sendMessage(type, data) {
         // it. Focus given to the frame before its page loads does not reach
         // that page.
         frame.title = container.querySelector("h1").textContent;
+        frame.addEventListener("load", () => loadedFrames.add(frame));
         frame.addEventListener("load", focusGame);
     }
 
@@ -373,4 +427,6 @@ function __gaimer_sendMessage(type, data) {
     window.addEventListener("resize", debouncedResize);
     window.addEventListener("focus", focusGame);
     window.addEventListener("keydown", stopScrollKeys, true);
+    window.addEventListener("keydown", handOnKey, true);
+    window.addEventListener("keyup", handOnKey, true);
 })();

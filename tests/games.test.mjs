@@ -335,8 +335,12 @@ describe("the game pages", () => {
 // (si-6z03). A game from before the cleanup loads again in a new frame at
 // the new size, as the app did, and the new frame takes the keys as the
 // first one did; until keepFocus in game-page-before.js the focus left with
-// the old frame, and ArrowDown scrolled the article 40 px. A text field of
-// the article keeps the focus, and its keys, while a game loads again. A
+// the old frame, and ArrowDown scrolled the article 40 px. A click into a
+// game gives it the keys, also in Tetris after the cleanup, which cancels
+// the press of the pointer and with it the focus a click gives: focusOnPress
+// in the game pages gives it the focus (si-wusy; WebKit's cases are in
+// games-webkit.test.mjs). A text field of the article keeps the focus, and
+// its keys, while a game loads again. A
 // game page whose frame gets its size only after the page has loaded loads
 // its game once, at that size (si-lbnd): Chrome runs the sandboxed frame in
 // a process of its own, and on a busy machine the size reached the page
@@ -468,7 +472,7 @@ describe("a game played in the article keeps the keys when the window changes si
 
   for (const url of GAME_PAGES) {
     const id = url.split("/").at(-2);
-    it(`${id}: the keys that scroll a page reach the game and do not scroll the article, after Play and after the window changes size`, async () => {
+    it(`${id}: the keys that scroll a page reach the game and do not scroll the article, after Play and after the window changes size, and a click into the game gives it the keys`, async () => {
       const { page, gameFrame } = await play(id);
       try {
         assert.ok(await until(() => hasKeys(gameFrame()), 10000), "the game's frame takes the keys after Play");
@@ -482,6 +486,18 @@ describe("a game played in the article keeps the keys when the window changes si
         // tell whether it did
         await until(() => hasKeys(gameFrame()), 5000);
         assert.deepEqual(await press(page, gameFrame(), SCROLL_KEYS), { scrolledBy: [], missed: [], scrolled: 0 }, "after the window changed size");
+        // A click beside the article takes the keys from the game, and a
+        // click into the game gives them back, also in Tetris after the
+        // cleanup, which cancels the press of the pointer (si-wusy). The
+        // article has moved as the window changed size: the game goes back
+        // into view first.
+        const frameElement = await page.$(".game-frame");
+        await frameElement.evaluate((frame) => frame.scrollIntoView({ block: "center", behavior: "instant" }));
+        const box = await frameElement.boundingBox();
+        await page.mouse.click(4, box.y + box.height / 2);
+        assert.equal(await hasKeys(gameFrame()), false, "a click beside the article takes the focus from the game");
+        await page.mouse.click(box.x + box.width / 2, box.y + box.height / 2);
+        assert.deepEqual((await press(page, gameFrame(), ["ArrowLeft"])).missed, [], "after a click into the game");
       } finally {
         await page.close();
       }
