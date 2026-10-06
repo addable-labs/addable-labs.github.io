@@ -1373,7 +1373,184 @@ function price(t, id, figureId) {
   };
 }
 
-export const FIGURES = { stages, gates, loop, assessment, team, harness, ledger, timeline, setup, build, words, bilingual, gauntlet, agents, critic, fleet, sources, merges, logos, connection, lifecycle, price };
+// The figure of the article on how many agents the factory runs at once
+// (founder's request, 6 October 2026): the site's two workers on 26 September
+// 2026, the first day of two workers per project, from 10:00 to 16:00 UTC in
+// two panels of three hours. A lane per worker holds its sessions (outlined),
+// each job of its that held the factory's lock on Chrome and WebKit (solid)
+// and each wait for that lock (orange); a third lane holds the mayor's own
+// jobs; beneath, the machine's one-minute load average. Every element is a
+// record of that day: the sessions from the workers' transcripts (finished
+// sessions, mayor-bin/worker-sessions.py), the jobs and their waits from the
+// lock's log (mayor-bin/state/verify-lock.log: a job's wait ends when it
+// starts) and the load from the sampler that ran from 10:05 to 16:59 UTC
+// (mayor-bin/state/perf.log). Times are seconds after 10:00:00 UTC.
+const LOCK_DAY = {
+  // [lane, start, end]: lane 1 is the session that started first in each pair.
+  sessions: [
+    [1,448,4231], [2,518,3153], [1,4432,10509], [2,4560,5643], [1,11417,15605], [2,11816,17008], [1,18111,18970],
+    [2,18220,19864],
+  ],
+  // [lane, waiting from, start, end]: lane 3 is the mayor's; a job that did not wait has waiting from = start.
+  jobs: [
+    [1,571,571,649], [1,723,723,803], [1,804,804,872], [1,908,908,915], [1,983,983,1053], [1,1054,1054,1151],
+    [1,1147,1152,1185], [1,1497,1497,1511], [1,1521,1521,1556], [2,1602,1602,1739], [2,1740,1740,1892],
+    [1,1629,1893,1896], [1,1933,1933,2047], [2,2046,2050,2209], [1,2063,2212,2222], [1,2286,2286,2329],
+    [1,2557,2557,2586], [1,2712,2712,2919], [2,2864,2923,3083], [1,2927,3088,3260], [1,3329,3329,3349],
+    [1,3373,3373,3414], [1,3447,3447,3510], [1,3646,3646,3709], [1,3710,3710,3806], [1,3807,3807,3895],
+    [1,3896,3896,3990], [1,3990,3990,4050], [3,4184,4184,4255], [3,4255,4255,4349], [1,4718,4718,4991],
+    [2,4906,4996,5239], [1,5103,5240,5247], [2,5299,5299,5530], [1,5345,5533,5603], [1,5739,5739,5801],
+    [1,5922,5922,5985], [1,6014,6014,6103], [1,6201,6201,6245], [1,6331,6331,6343], [1,6430,6430,6525],
+    [1,6739,6739,7008], [1,7112,7112,7167], [1,7197,7197,7340], [1,7354,7354,7499], [1,7561,7561,8170],
+    [1,8218,8218,8508], [1,8508,8508,9090], [1,9090,9090,10285], [3,11016,11016,11128], [3,11128,11128,11264],
+    [3,11264,11264,11349], [1,11735,11735,11766], [1,11812,11812,11848], [2,12080,12080,12099],
+    [2,12130,12130,12152], [2,12308,12308,12332], [3,12347,12347,12411], [1,12372,12414,12795],
+    [1,12813,12813,12979], [2,12906,12980,12981], [1,13288,13288,13298], [1,13492,13492,13557],
+    [2,13559,13559,13609], [1,13640,13640,13669], [1,13693,13693,13736], [2,13798,13798,13802],
+    [1,13802,13808,13813], [1,13905,13905,14010], [2,13909,14015,14048], [1,14032,14049,14066],
+    [1,14075,14075,14606], [2,14096,14608,15000], [1,14637,15006,15473], [2,15070,15476,15691],
+    [2,15744,15744,16106], [2,16173,16173,16341], [2,16341,16341,16782], [3,17008,17008,17126],
+    [3,17128,17128,17137], [3,17137,17137,17468], [3,17502,17502,17742], [1,18530,18530,18530],
+    [1,18536,18536,18537], [1,18628,18628,18706], [1,18712,18712,18849], [2,18856,18856,18873],
+    [2,19023,19023,19025], [3,19036,19036,19101], [3,19101,19101,19206], [2,19228,19228,19252],
+    [2,19276,19276,19313], [2,19332,19332,19344], [2,19541,19541,19604], [2,19604,19604,19709],
+    [3,19892,19892,19955], [3,19955,19955,20042],
+  ],
+  // [time, one-minute load average, rounded], one sample a minute from 10:05:31.
+  load: [
+    [331,4], [391,4], [451,4], [511,3], [571,6], [632,32], [692,15], [752,22], [812,28], [872,26], [933,12],
+    [993,12], [1053,26], [1113,58], [1173,34], [1233,17], [1293,8], [1353,5], [1414,4], [1474,4], [1534,8],
+    [1594,5], [1654,6], [1714,42], [1774,24], [1835,43], [1895,30], [1955,14], [2015,10], [2075,7], [2136,16],
+    [2196,45], [2256,21], [2316,11], [2376,7], [2437,6], [2497,4], [2557,4], [2617,3], [2677,3], [2737,4],
+    [2798,5], [2858,4], [2918,5], [2978,6], [3038,60], [3098,47], [3159,29], [3219,15], [3279,9], [3339,6],
+    [3399,5], [3459,4], [3519,4], [3580,4], [3640,5], [3700,6], [3760,37], [3820,33], [3881,47], [3941,98],
+    [4001,50], [4061,22], [4121,12], [4181,7], [4242,12], [4302,37], [4362,25], [4422,12], [4482,13], [4542,7],
+    [4602,6], [4663,5], [4723,4], [4783,7], [4843,7], [4903,9], [4964,9], [5024,9], [5084,13], [5144,24],
+    [5205,29], [5265,20], [5325,12], [5385,15], [5446,26], [5506,27], [5566,15], [5626,11], [5686,11], [5746,9],
+    [5806,14], [5867,9], [5927,7], [5987,8], [6047,8], [6107,10], [6167,7], [6227,7], [6287,8], [6348,7],
+    [6408,10], [6468,14], [6528,11], [6588,6], [6648,5], [6708,10], [6768,9], [6828,8], [6889,7], [6949,6],
+    [7009,7], [7069,6], [7129,4], [7189,4], [7249,15], [7309,12], [7370,11], [7430,14], [7490,14], [7550,9],
+    [7610,21], [7671,42], [7731,72], [7791,51], [7851,31], [7912,22], [7972,16], [8032,20], [8092,17], [8152,10],
+    [8213,9], [8273,39], [8333,35], [8393,47], [8453,64], [8514,39], [8574,29], [8634,19], [8694,13], [8755,11],
+    [8815,21], [8875,30], [8935,38], [8995,33], [9056,53], [9116,68], [9176,113], [9237,133], [9297,138],
+    [9357,175], [9417,219], [9478,210], [9538,166], [9599,162], [9659,161], [9719,155], [9780,125], [9840,111],
+    [9900,90], [9960,75], [10021,94], [10081,104], [10141,127], [10202,98], [10262,88], [10322,92], [10382,98],
+    [10443,70], [10503,80], [10564,86], [10624,81], [10684,61], [10745,67], [10805,55], [10865,62], [10926,58],
+    [10986,56], [11046,79], [11106,67], [11167,94], [11227,84], [11287,57], [11348,41], [11408,32], [11468,24],
+    [11528,24], [11589,28], [11649,49], [11709,39], [11770,31], [11830,27], [11890,28], [11950,32], [12011,38],
+    [12071,35], [12132,35], [12194,69], [12255,63], [12315,44], [12379,51], [12439,70], [12501,58], [12562,68],
+    [12622,110], [12682,154], [12742,114], [12802,56], [12863,99], [12923,120], [12983,80], [13043,37],
+    [13104,26], [13164,40], [13224,26], [13284,24], [13344,59], [13405,34], [13465,24], [13525,43], [13585,64],
+    [13646,70], [13706,103], [13766,93], [13826,53], [13887,36], [13947,38], [14007,38], [14067,35], [14128,65],
+    [14188,61], [14249,50], [14309,49], [14370,76], [14431,106], [14491,102], [14552,85], [14612,62], [14673,46],
+    [14733,54], [14794,48], [14854,41], [14914,31], [14975,32], [15035,41], [15096,59], [15157,60], [15217,52],
+    [15278,64], [15338,57], [15398,50], [15459,32], [15519,25], [15579,22], [15639,24], [15700,27], [15760,25],
+    [15821,38], [15881,69], [15941,46], [16002,35], [16062,29], [16122,23], [16183,18], [16243,22], [16304,30],
+    [16364,30], [16424,37], [16485,43], [16546,45], [16606,38], [16666,31], [16727,30], [16787,37], [16847,45],
+    [16908,36], [16968,37], [17028,31], [17088,26], [17149,20], [17209,29], [17269,31], [17330,30], [17390,27],
+    [17450,24], [17511,55], [17571,158], [17631,157], [17692,145], [17752,122], [17812,60], [17872,32],
+    [17932,16], [17992,11], [18053,15], [18113,41], [18173,54], [18233,26], [18294,20], [18354,14], [18414,9],
+    [18474,8], [18534,6], [18594,6], [18654,15], [18715,14], [18775,68], [18835,70], [18895,38], [18955,20],
+    [19016,14], [19076,11], [19136,36], [19196,51], [19256,28], [19317,17], [19377,10], [19437,8], [19497,6],
+    [19557,6], [19617,18], [19677,66], [19738,43], [19798,20], [19858,15], [19918,9], [19978,17], [20038,34],
+    [20098,17], [20158,9], [20219,7], [20279,5], [20339,4], [20399,4], [20459,4], [20519,4], [20579,5],
+    [20639,4], [20699,4], [20759,4], [20820,4], [20880,4], [20940,4], [21000,4], [21060,4], [21120,4], [21180,4],
+    [21240,4], [21300,4], [21360,5], [21420,5], [21481,4], [21541,4],
+  ],
+};
+
+function lock(t, id, figureId) {
+  const X = 16;
+  const TRACK = WIDTH - 32;
+  const SPAN = 3 * 3600;
+  const LANES = [
+    ["worker1", 56],
+    ["worker2", 90],
+    ["mayor", 124],
+  ];
+  const BAR = 12;
+  const LOAD = { label: 160, top: 168, bottom: 236, max: 220 };
+  const LEGEND = 272;
+  const height = 284;
+  const mark = count(`${id}.mark`, t.mark);
+  if (mark >= LOAD.max) throw new Error(`Figure "${id}": the load mark ${mark} must be under the scale's top, ${LOAD.max}`);
+  const top = Math.max(...LOCK_DAY.load.map(([, load]) => load));
+  if (top > LOAD.max) throw new Error(`Figure "${id}": a load of ${top} is past the scale's top, ${LOAD.max}`);
+  const loadY = (load) => LOAD.bottom - ((LOAD.bottom - LOAD.top) * load) / LOAD.max;
+  const hhmm = (s) => t.time.replace("{h}", String(10 + Math.floor(s / 3600)).padStart(2, "0")).replace("{m}", String(Math.floor((s % 3600) / 60)).padStart(2, "0"));
+  const draw = (from) => {
+    const to = from + SPAN;
+    const x = (s) => X + (TRACK * (Math.min(Math.max(s, from), to) - from)) / SPAN;
+    // A span clipped to the panel, at least 1.2 units wide so a job of seconds shows.
+    const span = (a, b, y, h, cls) => {
+      if (b <= from || a >= to) return "";
+      const x1 = x(a);
+      const w = Math.max(x(b) - x1, 1.2);
+      return `<rect x="${round(x1)}" y="${y}" width="${round(w)}" height="${h}" rx="1" class="${cls}"/>`;
+    };
+    const parts = [];
+    LANES.forEach(([key, y], i) => {
+      const lane = i + 1;
+      parts.push(text(X, y, fit(`${id}.lanes.${key}`, t.lanes[key], TRACK, "note"), "fig-note"));
+      const bar = y + 5;
+      parts.push(`<line x1="${X}" y1="${bar + BAR / 2}" x2="${X + TRACK}" y2="${bar + BAR / 2}" class="fig-hair"/>`);
+      for (const [l, a, b] of LOCK_DAY.sessions) if (l === lane) parts.push(span(a, b, bar, BAR, "fig-node"));
+      for (const [l, w, a] of LOCK_DAY.jobs) if (l === lane && a > w) parts.push(span(w, a, bar + 2, BAR - 4, "fig-gate"));
+      for (const [l, , a, b] of LOCK_DAY.jobs) if (l === lane) parts.push(span(a, b, bar + 2, BAR - 4, "fig-bar"));
+    });
+    parts.push(text(X, LOAD.label, fit(`${id}.load`, t.load, TRACK - 40, "note"), "fig-note"));
+    const markY = loadY(mark);
+    parts.push(`<line x1="${X}" y1="${round(markY)}" x2="${X + TRACK}" y2="${round(markY)}" class="fig-hair fig-dashed"/>`);
+    parts.push(text(X, round(markY - 3), t.mark, "fig-note"));
+    const samples = LOCK_DAY.load.filter(([s]) => s >= from && s < to);
+    if (samples.length) {
+      const line = samples.map(([s, load]) => `L${round(x(s))} ${round(loadY(load))}`).join("");
+      parts.push(`<path d="M${round(x(samples[0][0]))} ${LOAD.bottom}${line}L${round(x(samples.at(-1)[0]))} ${LOAD.bottom}z" class="fig-area"/>`);
+      const [ps, peak] = samples.reduce((best, sample) => (sample[1] > best[1] ? sample : best));
+      const px = x(ps);
+      const label = fit(`${id}.peak`, t.peak.replace("{n}", String(peak)), 120, "note");
+      parts.push(`<circle cx="${round(px)}" cy="${round(loadY(peak))}" r="2.5" class="fig-dot"/>`);
+      const right = px > X + TRACK / 2;
+      parts.push(text(right ? px - 6 : px + 6, round(loadY(peak) + 3.5), label, "fig-note", right ? "end" : undefined));
+    }
+    parts.push(`<line x1="${X}" y1="${LOAD.bottom}" x2="${X + TRACK}" y2="${LOAD.bottom}" class="fig-line"/>`);
+    for (let h = 0; h <= 3; h++) {
+      const s = from + h * 3600;
+      const hx = x(s);
+      parts.push(`<line x1="${round(hx)}" y1="${LOAD.bottom}" x2="${round(hx)}" y2="${LOAD.bottom + 4}" class="fig-line"/>`);
+      parts.push(text(hx, LOAD.bottom + 16, hhmm(s), "fig-note", h === 0 ? undefined : h === 3 ? "end" : "middle"));
+    }
+    const legend = [
+      ["session", "fig-node"],
+      ["held", "fig-bar"],
+      ["waiting", "fig-gate"],
+    ];
+    legend.forEach(([key, cls], i) => {
+      const lx = X + i * 96;
+      parts.push(`<rect x="${lx}" y="${LEGEND - 8}" width="10" height="8" rx="1" class="${cls}"/>`);
+      parts.push(text(lx + 15, LEGEND, fit(`${id}.legend.${key}`, t.legend[key], 96 - 15 - 6, "note"), "fig-note"));
+    });
+    const jobs = LOCK_DAY.jobs.filter(([, , a]) => a >= from && a < to);
+    const waits = jobs.filter(([, w, a]) => a > w);
+    const peak = Math.max(...samples.map(([, load]) => load));
+    const summary = t.summary
+      .replace("{jobs}", String(jobs.length))
+      .replace("{waits}", String(waits.length))
+      .replace("{minutes}", (waits.reduce((sum, [, w, a]) => sum + a - w, 0) / 60).toFixed(1).replace(".", t.decimal))
+      .replace("{peak}", String(peak));
+    return { body: parts.join(""), summary };
+  };
+  const panels = [
+    ["am", 0],
+    ["pm", SPAN],
+  ].map(([key, from]) => {
+    const { body, summary } = draw(from);
+    return { title: `${t.title}, ${t.heads[key]}: ${summary}`, head: t.heads[key], height, body };
+  });
+  return { caption: t.caption, panels };
+}
+
+export const FIGURES = { stages, gates, loop, assessment, team, harness, ledger, timeline, setup, build, words, bilingual, gauntlet, agents, critic, fleet, sources, merges, logos, connection, lifecycle, price, lock };
 
 /**
  * Render one figure as HTML: `<figure class="figure figure-inline|figure-wide">`

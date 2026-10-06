@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <!-- The image of "How many agents the factory runs at once": five lanes,
+       the ceiling of five workers per project; two of them are busy (their
+       work in green) and three are empty (dashed): a ceiling, not a target.
+       Every job that starts a browser goes through one lock (right): the
+       first lane's job holds it (the line into the lock, its keyhole lit),
+       while the second lane's job waits for it (orange). The subject sits
+       inside the central 630 x 630 square; nothing that matters is within
+       40 px of an edge. -->
+  <defs>
+    <pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse" y="15">
+      <path d="M0 .5H30M.5 0V30" fill="none" stroke="#242C33"/>
+    </pattern>
+    <radialGradient id="fade" cx="600" cy="315" r="640" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff" stop-opacity=".95"/>
+      <stop offset=".6" stop-color="#fff" stop-opacity=".55"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </radialGradient>
+    <mask id="gridmask"><rect width="1200" height="630" fill="url(#fade)"/></mask>
+    <radialGradient id="glow" cx="600" cy="315" r="340" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#83F35D" stop-opacity=".11"/>
+      <stop offset="1" stop-color="#83F35D" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="#0B0E10"/>
+  <rect width="1200" height="630" fill="url(#grid)" mask="url(#gridmask)"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+
+  <!-- the two busy lanes -->
+  <rect x="317" y="173" width="400" height="44" rx="12" fill="#13181C" stroke="#626E79" stroke-width="3"/>
+  <rect x="317" y="233" width="400" height="44" rx="12" fill="#13181C" stroke="#626E79" stroke-width="3"/>
+  <!-- the three empty lanes: room up to the ceiling -->
+  <g fill="none" stroke="#626E79" stroke-width="2.5" stroke-dasharray="3 9" stroke-linecap="round">
+    <rect x="317" y="293" width="400" height="44" rx="12"/>
+    <rect x="317" y="353" width="400" height="44" rx="12"/>
+    <rect x="317" y="413" width="400" height="44" rx="12"/>
+  </g>
+  <!-- the work in the busy lanes -->
+  <g fill="#83F35D">
+    <rect x="331" y="185" width="78" height="20" rx="4"/>
+    <rect x="419" y="185" width="112" height="20" rx="4"/>
+    <rect x="541" y="185" width="56" height="20" rx="4"/>
+    <rect x="607" y="185" width="96" height="20" rx="4"/>
+    <rect x="331" y="245" width="104" height="20" rx="4"/>
+    <rect x="445" y="245" width="128" height="20" rx="4"/>
+  </g>
+  <!-- the second lane's job, waiting for the lock -->
+  <rect x="583" y="245" width="120" height="20" rx="4" fill="#FF6F00"/>
+
+  <!-- the first lane's job holds the lock -->
+  <path d="M717 195H757Q771 195 771 209V301Q771 315 785 315H797" fill="none" stroke="#626E79" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M813 315l-17-8.5v17z" fill="#626E79"/>
+  <!-- the lock -->
+  <path d="M827 290V270a22 22 0 0 1 44 0V290" fill="none" stroke="#ECEFF1" stroke-width="6" stroke-linecap="round"/>
+  <rect x="813" y="287" width="72" height="58" rx="10" fill="#1A2126" stroke="#ECEFF1" stroke-width="3"/>
+  <circle cx="849" cy="310" r="7" fill="#83F35D"/>
+  <rect x="846" y="314" width="6" height="15" rx="2" fill="#83F35D"/>
+</svg>

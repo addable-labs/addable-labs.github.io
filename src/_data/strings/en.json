@@ -1083,6 +1083,30 @@
       "touch": "touch",
       "asked": "the new prompt asks for all four",
       "caption": "What the new system prompt cost in the two runs that made the six games, Tetris and Pong on 25 September and Space Invaders on 26 September, both made the same way: one call per game and prompt, with each call's time to scale, its output tokens and the game's lines of code, and what each game has. The dashed marks are the limit the app had when the new prompt went in, 300 seconds, which both runs kept; the first calls for the Tetris and the Space Invaders from after the cleanup ran past it. One game per prompt and request, not a benchmark."
+    },
+    "lock": {
+      "title": "Two workers and one lock on 26 September 2026",
+      "heads": {
+        "am": "10:00–13:00 UTC",
+        "pm": "13:00–16:00 UTC"
+      },
+      "lanes": {
+        "worker1": "worker 1",
+        "worker2": "worker 2",
+        "mayor": "the mayor"
+      },
+      "load": "one-minute load average",
+      "mark": "100",
+      "peak": "peak {n}",
+      "time": "{h}:{m}",
+      "decimal": ".",
+      "legend": {
+        "session": "session",
+        "held": "lock held",
+        "waiting": "waiting"
+      },
+      "summary": "{jobs} lock jobs, {waits} of them waited, {minutes} minutes in all; the load peaked at {peak}",
+      "caption": "This site's two workers on 26 September 2026, 10:00 to 16:00 UTC, one lane each: their sessions outlined, each job that held the browser lock as a solid bar and each wait for it in orange. The third lane holds the mayor's own jobs; beneath is the machine's one-minute load average, sampled every minute from 10:05. All 17 waits were workers' jobs."
     }
   },
   "games": {

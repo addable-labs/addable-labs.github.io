@@ -1083,6 +1083,30 @@
       "touch": "tryck",
       "asked": "den nya prompten ber om alla fyra",
       "caption": "Vad den nya systemprompten kostade i de två körningar som gjorde de sex spelen: Tetris och Pong den 25 september och Space Invaders den 26 september, på samma sätt. Ett anrop per spel och prompt, med anropets tid i skala, antalet utdata-tokens och antalet kodrader i spelet, samt vad varje spel har. De streckade linjerna visar den gräns på 300 sekunder som appen hade när den nya prompten infördes. Båda körningarna använde den gränsen och de första anropen för det nya Tetrisspelet och det nya Space Invaders-spelet drog över den. Ett spel per prompt och beskrivning, ingen systematisk jämförelse."
+    },
+    "lock": {
+      "title": "Två genomförandeagenter och ett lås den 26 september 2026",
+      "heads": {
+        "am": "10:00–13:00 UTC",
+        "pm": "13:00–16:00 UTC"
+      },
+      "lanes": {
+        "worker1": "genomförandeagent 1",
+        "worker2": "genomförandeagent 2",
+        "mayor": "borgmästaren"
+      },
+      "load": "medelbelastning över en minut",
+      "mark": "100",
+      "peak": "topp {n}",
+      "time": "{h}:{m}",
+      "decimal": ",",
+      "legend": {
+        "session": "session",
+        "held": "har låset",
+        "waiting": "väntar"
+      },
+      "summary": "{jobs} jobb i låset, {waits} av dem väntade, {minutes} minuter sammanlagt; belastningen nådde som mest {peak}",
+      "caption": "Sajtens två genomförandeagenter den 26 september 2026, klockan 10:00 till 16:00 UTC, en rad för var och en: deras sessioner med kontur, varje jobb som höll webbläsarlåset som en fylld stapel och varje väntan på det i orange. Den tredje raden har borgmästarens egna jobb; under dem är maskinens medelbelastning över en minut, mätt varje minut från klockan 10:05. Alla 17 väntetider var genomförandeagenternas jobb."
     }
   },
   "games": {
