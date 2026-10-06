@@ -1550,7 +1550,93 @@ function lock(t, id, figureId) {
   return { caption: t.caption, panels };
 }
 
-export const FIGURES = { stages, gates, loop, assessment, team, harness, ledger, timeline, setup, build, words, bilingual, gauntlet, agents, critic, fleet, sources, merges, logos, connection, lifecycle, price, lock };
+// The two figures of the first part of the series "From AI chat to agentic
+// work" (si-mcvo), drawn after the founder's sketches of 6 October 2026: the
+// same fix made in a chat and by an AI agent, and the five parts of an AI
+// agent. The human is orange, as the founder in the loop figure; the model
+// and the AI agent are green.
+
+/**
+ * A 40-unit node: a label with a note under it, `t` holding both. `tone` is
+ * "wait" for the human (orange outline and label) or "ok" for the model
+ * (green); without it the node is plain.
+ */
+function card(x, y, width, key, t, tone = "") {
+  const parts = [`<rect x="${x}" y="${y}" width="${width}" height="40" rx="8" class="fig-node"/>`];
+  if (tone) parts.push(`<rect x="${x}" y="${y}" width="${width}" height="40" rx="8" class="${tone === "ok" ? "fig-accent-stroke" : "fig-wait-stroke"}"/>`);
+  parts.push(text(x + width / 2, y + 17, fit(`${key}.label`, t.label, width - 8, "label"), `fig-label${tone ? ` fig-${tone}` : ""}`, "middle"));
+  parts.push(text(x + width / 2, y + 31, fit(`${key}.note`, t.note, width - 8), "fig-note", "middle"));
+  return parts.join("");
+}
+
+// (23) The same fix twice — wide, two panels. In the chat the human carries
+// every round: the question to the chat, its suggestion to the editor, the
+// tests and the error back. With an AI agent the rounds happen inside the
+// tool (the dashed green box), and the human gives the task and reviews.
+function chatOrAgent(t, id, figureId) {
+  const height = 316;
+  const [p1, p2] = [1, 2].map((n) => `${figureId}-p${n}`);
+  const c = t.chat;
+  const chat = [
+    card(110, 50, 100, `${id}.chat.chat`, c.chat),
+    card(16, 128, 128, `${id}.chat.human`, c.human, "wait"),
+    card(196, 128, 108, `${id}.chat.editor`, c.editor),
+    card(110, 206, 100, `${id}.chat.tests`, c.tests),
+    pathArrow(p1, "M80 126C80 96 92 72 106 70"),
+    pathArrow(p1, "M214 70C236 72 250 96 250 124"),
+    pathArrow(p1, "M250 170C250 200 236 222 214 225"),
+    pathArrow(p1, "M106 225C92 222 80 200 80 172"),
+    text(160, 286, fit(`${id}.chat.note`, c.note, 288), "fig-note", "middle"),
+    text(160, 300, fit(`${id}.chat.note2`, c.note2, 288), "fig-note", "middle"),
+  ].join("");
+  const a = t.agent;
+  const agent = [
+    card(16, 50, 116, `${id}.agent.task`, a.task, "wait"),
+    `<rect x="12" y="108" width="296" height="128" rx="10" class="fig-accent-stroke fig-dashed"/>`,
+    text(298, 124, fit(`${id}.agent.agent`, a.agent, 140), "fig-note fig-ok fig-strong", "end"),
+    arrow(p2, 74, 92, 74, 134),
+    card(20, 136, 88, `${id}.agent.read`, a.read),
+    card(116, 136, 88, `${id}.agent.change`, a.change),
+    card(212, 136, 88, `${id}.agent.test`, a.test),
+    arrow(p2, 108, 156, 114, 156),
+    arrow(p2, 204, 156, 210, 156),
+    pathArrow(p2, "M256 178C256 214 104 214 66 180", true),
+    text(160, 228, fit(`${id}.agent.again`, a.again, 200), "fig-note", "middle"),
+    card(184, 256, 120, `${id}.agent.review`, a.review, "wait"),
+    arrow(p2, 244, 236, 244, 254),
+    text(16, 266, fit(`${id}.agent.note`, a.note, 160), "fig-note"),
+    text(16, 280, fit(`${id}.agent.note2`, a.note2, 160), "fig-note"),
+    text(16, 294, fit(`${id}.agent.note3`, a.note3, 160), "fig-note"),
+  ].join("");
+  return {
+    caption: t.caption,
+    panels: [
+      { title: c.title, head: c.head, height, body: chat },
+      { title: a.title, head: a.head, height, body: agent },
+    ],
+  };
+}
+
+// (24) The five parts of an AI agent — one panel: the model in the middle,
+// the instructions and the tools feeding it, the loop under it and the
+// harness, dashed, around it all.
+function fiveParts(t, id, figureId) {
+  const pid = `${figureId}-p1`;
+  const body = [
+    `<rect x="16" y="52" width="288" height="220" rx="12" class="fig-line fig-dashed"/>`,
+    card(30, 70, 112, `${id}.instructions`, t.instructions),
+    card(178, 70, 112, `${id}.tools`, t.tools),
+    card(116, 128, 88, `${id}.model`, t.model, "ok"),
+    arrow(pid, 104, 112, 126, 126),
+    arrow(pid, 216, 112, 194, 126),
+    pathArrow(pid, "M204 162C228 178 212 208 160 208C108 208 92 178 114 164"),
+    text(160, 232, fit(`${id}.loop`, t.loop, 272), "fig-note", "middle"),
+    text(160, 260, fit(`${id}.harness`, t.harness, 272), "fig-note fig-strong", "middle"),
+  ].join("");
+  return { caption: t.caption, panels: [{ title: t.title, head: t.head, height: 288, body }] };
+}
+
+export const FIGURES = { stages, gates, loop, assessment, team, harness, ledger, timeline, setup, build, words, bilingual, gauntlet, agents, critic, fleet, sources, merges, logos, connection, lifecycle, price, lock, "chat-or-agent": chatOrAgent, "five-parts": fiveParts };
 
 /**
  * Render one figure as HTML: `<figure class="figure figure-inline|figure-wide">`

@@ -1107,6 +1107,79 @@
       },
       "summary": "{jobs} lock jobs, {waits} of them waited, {minutes} minutes in all; the load peaked at {peak}",
       "caption": "This site's two workers on 26 September 2026, 10:00 to 16:00 UTC, one lane each: their sessions outlined, each job that held the browser lock as a solid bar and each wait for it in orange. The third lane holds the mayor's own jobs; beneath is the machine's one-minute load average, sampled every minute from 10:05. All 17 waits were workers' jobs."
+    },
+    "chat-or-agent": {
+      "chat": {
+        "title": "In the chat",
+        "head": "In the chat",
+        "chat": {
+          "label": "The chat",
+          "note": "a suggestion"
+        },
+        "human": {
+          "label": "The human",
+          "note": "carries every round"
+        },
+        "editor": {
+          "label": "The editor",
+          "note": "paste it in"
+        },
+        "tests": {
+          "label": "The tests",
+          "note": "an error"
+        },
+        "note": "The human pastes, runs and",
+        "note2": "carries the error back. Every round."
+      },
+      "agent": {
+        "title": "With an AI agent",
+        "head": "With an AI agent",
+        "task": {
+          "label": "The human",
+          "note": "gives the task"
+        },
+        "agent": "AI agent",
+        "read": {
+          "label": "Read",
+          "note": "the code"
+        },
+        "change": {
+          "label": "Change",
+          "note": "the file"
+        },
+        "test": {
+          "label": "Run",
+          "note": "the tests"
+        },
+        "again": "read the error, try again",
+        "review": {
+          "label": "The human",
+          "note": "reviews"
+        },
+        "note": "The rounds happen",
+        "note2": "in the tool. The human",
+        "note3": "starts and finishes."
+      },
+      "caption": "The same fix twice. In the chat the human carries every round between the chat, the editor and the tests. With an AI agent the rounds happen inside the tool, and the human's part is to give the task and review the result."
+    },
+    "five-parts": {
+      "title": "The five parts of an AI agent",
+      "head": "Five parts",
+      "instructions": {
+        "label": "Instructions",
+        "note": "AGENTS.md"
+      },
+      "tools": {
+        "label": "Tools",
+        "note": "files, terminal"
+      },
+      "model": {
+        "label": "Model",
+        "note": "reasons"
+      },
+      "loop": "loop: gather · act · verify",
+      "harness": "harness – holds it all together",
+      "caption": "The five parts of an AI agent: the model in the middle, the instructions and the tools that feed it, the loop it works in and, around it all, the layer called the harness."
     }
   },
   "games": {

@@ -2088,6 +2088,12 @@ html:not(.js) .game-play {
   stroke-width: 1.5;
 }
 
+.fig-wait-stroke {
+  fill: none;
+  stroke: var(--color-secondary-text);
+  stroke-width: 1.25;
+}
+
 .fig-cell {
   fill: var(--color-accent);
 }

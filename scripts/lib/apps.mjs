@@ -68,7 +68,9 @@ const GITHUB_FILE_URL = /^https:\/\/github\.com\/([A-Za-z0-9-]+)\/([A-Za-z0-9_.-
  * Every GitHub repository a text names, as owner/name the way it is written:
  * each <host>/<owner>/<name> in it — a link, a feed's escaped markup and
  * plain prose alike — where the host is github.com or one of its subdomains
- * (www., gist.), raw.githubusercontent.com, which serves the repository's
+ * (www., gist.) but docs.github.com, GitHub's documentation, whose paths
+ * name a language and a product, never a repository (si-mcvo: an article
+ * links /en/copilot/…), raw.githubusercontent.com, which serves the repository's
  * files, or github.dev, its editor (si-gnca), but no subdomain of these two:
  * a codespace's address on github.dev names no repository. Three more
  * spellings name one (si-3iuk): git's SSH address,
@@ -88,7 +90,7 @@ const GITHUB_FILE_URL = /^https:\/\/github\.com\/([A-Za-z0-9-]+)\/([A-Za-z0-9_.-
  * @returns {string[]}
  */
 export function githubRepos(text) {
-  return [...String(text).matchAll(/(?:(?:\bgithub\.com|(?<![\w.-])(?:raw\.githubusercontent\.com|github\.dev))\.?(?::\d*)?\/|\bgithub\.com\.?:(?:(?!\d*\/)|(?<!\/\/[\w.%+~:@-]*))|(?<![\w-])vscode\.dev\.?(?::\d*)?\/github\/|api\.github\.com\.?(?::\d*)?\/repos\/)([A-Za-z0-9-]+)\/([A-Za-z0-9_.-]+)/gi)].map(([, owner, name]) => `${owner}/${name.replace(/\.+$/, "").replace(/\.git$/i, "")}`);
+  return [...String(text).matchAll(/(?:(?:(?<!\bdocs\.)\bgithub\.com|(?<![\w.-])(?:raw\.githubusercontent\.com|github\.dev))\.?(?::\d*)?\/|(?<!\bdocs\.)\bgithub\.com\.?:(?:(?!\d*\/)|(?<!\/\/[\w.%+~:@-]*))|(?<![\w-])vscode\.dev\.?(?::\d*)?\/github\/|api\.github\.com\.?(?::\d*)?\/repos\/)([A-Za-z0-9-]+)\/([A-Za-z0-9_.-]+)/gi)].map(([, owner, name]) => `${owner}/${name.replace(/\.+$/, "").replace(/\.git$/i, "")}`);
 }
 
 /** The entry of `repos` that is this owner/name, or undefined. GitHub matches
