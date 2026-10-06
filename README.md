@@ -49,6 +49,7 @@ pnpm dev                         # http://localhost:8080/, rebuilds on save
 pnpm build                       # writes the whole site to _site/
 pnpm check                       # builds, then runs all ten quality gates
 pnpm test                        # proves every gate fails on deliberate breakage
+pnpm sources:check               # the articles' sources against the live pages (not a gate)
 ```
 
 ### Which build is the public one
@@ -387,6 +388,65 @@ Brödtext i Markdown.
   feeds (`withoutGames`), and the layout gate measures each block: across
   the body, the versions side by side from 768 px and stacked below, every
   screen at 4:3.
+- **Sources.** An article that rests on a vendor's documentation, as the
+  series "From AI chat to agentic work" does, has a source list beside it:
+  `docs/sources/<slug>.yaml`, outside `src/`, so it is never built and never
+  shown on a page. One file serves both languages, an entry for each
+  sentence that rests on a page:
+
+  ```yaml
+  - id: C3                    # unique in the file; the research notes' id
+    article: what-makes-a-chat-an-ai-agent
+    sentence:
+      sv: "Claude Code läser den så länge det inte finns någon CLAUDE.md."
+      en: "Claude Code reads it as long as there is no CLAUDE.md."
+    vendor: Anthropic         # who publishes the page
+    url: https://code.claude.com/docs/en/memory         # the link in the article
+    final_url: https://code.claude.com/docs/en/memory   # where it ended after redirects when last checked
+    quote: "An `AGENTS.md`, and no `CLAUDE.md` or `CLAUDE.local.md` in your working directory or above it"
+    retrieved: 2026-10-06     # the day the quote was taken from the page
+    last_checked: 2026-10-06  # the last day a check found it there
+  ```
+
+  `pnpm test` holds every list to the format (`tests/sources.test.mjs`, the
+  rules in `scripts/lib/sources.mjs`): exactly these keys, `id` unique in the
+  file, `article` the file's own name and an article in both languages,
+  `sentence.sv` and `sentence.en` each in the body of its article as plain
+  text (link syntax and the rest of the Markdown stripped, whitespace
+  collapsed), `url` and `final_url` https URLs, a `quote`, and `retrieved`
+  and `last_checked` real days, `YYYY-MM-DD`; `docs/sources/` holds nothing
+  else. An edit that breaks a sentence fails the tests until the list
+  follows.
+
+  `pnpm sources:check [file …]` checks the lists, every
+  `docs/sources/*.yaml` by default, against the live pages. For each entry
+  it fetches `url`, following the redirects and recording every hop,
+  compares where it ends with `final_url`, and looks for `quote` in the
+  page's text: whitespace collapsed, typographic quotes, apostrophes and
+  dashes read as plain ones, case ignored, the quote's backticks matching
+  code on the page, and a quote with "…" or "..." read as parts that must
+  all be there, in order. The result is `ok`, `moved` (the quote is there
+  but the link ends elsewhere), `quote-missing` or `unreachable` (no 2xx
+  after the redirects, a network error or a timeout), with a note that
+  says what changed, such as where the page's words part from the quote.
+  The report, a table per article, goes to stdout or to `--out <file>`, and
+  as JSON to `--json <file>`. It exits 0 when every entry is ok, 1 when one
+  is not, and 2 on a usage or format error, before any request, or when the
+  check itself fails. It asks for one page at a time, each once, with a
+  20 s timeout, one retry on a network error and a User-Agent naming the
+  site. `--no-article-check` skips the rules that read the article, for a
+  list written before its article.
+
+  It is not a gate, and neither `pnpm check` nor CI runs it: it needs the
+  network, and a vendor's page changes without any commit here, so it would
+  fail a build that changed nothing. A factory agent runs it once a month
+  and asks the mayor to update the article when something changed. It never
+  writes to `docs/sources/` or to an article, and refuses a report path in
+  either: updating an entry is a person's job, or a reviewed bead's. On 6
+  October 2026 every vendor page in the research for the series' first part
+  had its text in the HTML a plain fetch gets, so none needs a browser;
+  `openai.com` answers 403 to a script, and the first part cites OpenAI's
+  documentation on `learn.chatgpt.com`, which answers.
 
 Pages other than articles (landing, about, blog index, category pages) are
 Nunjucks templates under `src/en/` and `src/sv/` whose copy lives in
