@@ -25,9 +25,9 @@ Den andra gränsen var en genomförandeagent per projekt fram till den 26
 september 2026, två från den dagen och fem sedan den 6 oktober. Med två kom en
 regel: ett jobb som startar en webbläsare väntar på sin tur vid ett enda lås.
 Den 26 september körde fyra par genomförandeagenter sida vid sida på den här
-sajten utan att krocka. 17 av 97 webbläsarjobb väntade på låset i sammanlagt
-43 minuter. Medan en genomförandeagent körde blev en ändring klar var 26:e
-minut i stället för var 44:e.
+sajten och möttes en gång, i en gemensam anteckning. 17 av 97 webbläsarjobb
+väntade på låset i sammanlagt 43 minuter. Medan en genomförandeagent körde
+blev en ändring klar var 26:e minut i stället för var 44:e.
 
 Den 28 september mätte borgmästaren, agenten som samordnar fabriken, vad en
 start av en av dess sessioner och en landad ändring kostade. Mätt igen den 6
@@ -87,10 +87,9 @@ dyrare; vinsten ligger i takten.
 Genomförandeagenterna kom inte direkt i vägen för varandra. Inget kommando
 från den ena rörde den andras worktree eller processer, inget git-kommando
 föll på ett lås eller en konflikt och ingen push avvisades. De möttes i en
-fil, en anteckning bland de anteckningar som genomförandeagenterna delar: den
-ena skrev om den medan den andra, som hade läst den, fortfarande arbetade. Den
-andras egen kontroll stoppade senare dess ändring eftersom texten hade
-ändrats.
+fil, en anteckning som genomförandeagenterna delar: den ena skrev om den medan
+den andra, som hade läst den, fortfarande arbetade. Den andras egen kontroll
+stoppade senare dess ändring eftersom texten hade ändrats.
 
 Maskinen och låset delade de däremot. Av de 97 jobb som tog låset från 10:09
 till 15:34 väntade 17, alla genomförandeagenternas, 43 minuter sammanlagt. De
@@ -107,9 +106,8 @@ Maskinen höll. Använd swap steg från 2,7 till 8,1 GB, ledigt minne låg mella
 33 % och 68 % och som mest körde nio Chrome-processer utan fönster samtidigt.
 Belastningen över en minut hade medianen 34 när ett jobb höll låset och 6,5
 när det var ledigt, med en topp på 219 klockan 12:37. Rapporten som grundaren
-fick samma kväll gällde 13:09 till 16:55 UTC: 45 jobb, 8 väntetider på 25,5
-minuter sammanlagt, en medianbelastning på 43 mot 5 och en topp på 158.
-Slutsatsen: två genomförandeagenter får plats, med låset.
+fick samma kväll gällde 13:09 till 16:55 UTC. Slutsatsen: två
+genomförandeagenter får plats, med låset.
 
 ## Vad en start och en ändring kostade, då och nu
 
@@ -160,7 +158,8 @@ genomförandeagenternas tokens är dem från alla deras sessioner under perioden
 Den 28 september satte borgmästaren en ändring i Gaimer till 17 till 18
 miljoner tokens; räknad igen är den 16,9 miljoner, varav 4,1 miljoner
 borgmästarens, räknat på dess anrop om Gaimer. Inget av projekten har landat
-en ändring sedan den 26 september; fabrikens eget repository är nytt.
+en ändring sedan den 26 september; fabrikens eget repository blev ett av dem
+den 29 september.
 
 ## Från två till fem
 
@@ -170,8 +169,15 @@ Klockan 15:01 skrev han "Let's increase to 5 agents" och klockan 15:02 var
 taket fem i vart och ett av de tre projekten. Borgmästaren berättade för honom
 vad som inte hade ändrats: webbläsarjobb körs fortfarande ett i taget och
 maskinen swappar redan. Varje genomförandeagent arbetar fortfarande i en egen
-worktree och aldrig i ett projekts huvudutcheckning. Varje jobb som startar
-Chrome eller WebKit, skärmdumpar och prober inräknade, går genom låset.
+worktree och aldrig i ett projekts huvudutcheckning.
+
+Klockan 15:13 frågade grundaren om fabrikens roller passade dess arbete, som
+enligt honom mest hade bestått av artiklar. Borgmästaren svarade att alla tolv
+roller var gjorda för mjukvara och nämnde fem som saknades: en skribent, en
+faktagranskare, en redaktör för svenskan, en illustratör och en analytiker.
+Klockan 18:51 lade grundaren till de tre första; kod, figurer och bilder
+ligger kvar hos genomförandeagenterna. Det följs upp om de två andra behövs
+för att avlasta borgmästaren.
 
 Första gången fler än två genomförandeagenter kör sida vid sida mäter
 borgmästaren tiden per uppgift och maskinens belastning med mätaren igång

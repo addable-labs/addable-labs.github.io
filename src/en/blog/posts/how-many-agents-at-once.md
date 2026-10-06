@@ -23,9 +23,9 @@ delivers it. Gas City calls a project a rig; this article says project.
 The second limit was one worker per project until 26 September 2026, two from
 then and five since 6 October. With two came a rule: a job that starts a
 browser waits its turn for a single lock. On 26 September four pairs of
-workers ran side by side on this site without colliding; 17 of 97 browser jobs
-waited for the lock, 43 minutes in all, and while a worker ran, a change was
-finished every 26 minutes instead of every 44.
+workers ran side by side on this site and met once, in a shared note; 17 of 97
+browser jobs waited for the lock, 43 minutes in all, and while a worker ran, a
+change was finished every 26 minutes instead of every 44.
 
 On 28 September the mayor, the agent that coordinates the factory, measured
 what a start of one of its sessions and a landed change cost. Measured again
@@ -80,10 +80,9 @@ did not make a change dearer; the gain is the pace.
 
 The workers did not get in each other's way directly. No command of one
 touched the other's worktree or processes, no git command failed on a lock or
-a conflict, and no push was refused. They met in one file, a note in the notes
-the workers share: one rewrote it while the other, which had read it, was
-still working, and the other's own check later stopped its edit because the
-text had changed.
+a conflict, and no push was refused. They met in one file, a note the workers
+share: one rewrote it while the other, which had read it, was still working,
+and the other's own check later stopped its edit because the text had changed.
 
 They did share the machine and the lock. Of the 97 jobs that took the lock
 from 10:09 to 15:34, 17 waited, all of them workers' jobs, 43 minutes in all.
@@ -99,9 +98,8 @@ The machine held. Swap in use rose from 2.7 to 8.1 GB, free memory stayed
 between 33% and 68%, and at most nine headless Chrome processes ran at once.
 The one-minute load had a median of 34 while a job held the lock and 6.5 while
 it was free, with a peak of 219 at 12:37. The report the founder got that
-evening covered 13:09 to 16:55 UTC: 45 jobs, 8 waits of 25.5 minutes in all, a
-median load of 43 against 5 and a peak of 158. Its verdict: two workers fit,
-with the lock.
+evening covered 13:09 to 16:55 UTC. Its verdict: two workers fit, with the
+lock.
 
 ## What a start and a change cost, then and now
 
@@ -148,7 +146,7 @@ tokens are those of all worker sessions in the period. On 28 September the
 mayor put a change in Gaimer at 17 to 18 million tokens; counted again, it is
 16.9 million, 4.1 million of them the mayor's, by its calls about Gaimer.
 Neither project has landed a change since 26 September; the factory's own
-repository is new.
+repository joined them on 29 September.
 
 ## From two to five
 
@@ -157,9 +155,14 @@ were; the mayor answered that both sit in the factory's settings. At 15:01 he
 wrote "Let's increase to 5 agents", and at 15:02 the ceiling was five in each
 of the three projects. The mayor told him what had not changed: browser jobs
 still run one at a time, and the machine already swaps. Each worker still
-works in a worktree of its own, never in a project's main checkout, and every
-job that starts Chrome or WebKit, screenshots and probes included, goes
-through the lock.
+works in a worktree of its own, never in a project's main checkout.
+
+At 15:13 the founder asked whether the factory's roles fit its work, which he
+saw as mostly articles. The mayor answered that all twelve roles were for
+software and named five gaps: a writer, a fact checker, a Swedish editor, an
+illustrator and an analyst. At 18:51 the founder added the first three; code,
+figures and images stay with the implementation workers. Whether the other
+two are needed to take load off the mayor is being watched.
 
 The first time more than two workers run side by side, the mayor measures the
 time per task and the machine's load, with the sampler running again, and
