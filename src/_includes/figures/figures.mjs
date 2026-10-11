@@ -1550,7 +1550,95 @@ function lock(t, id, figureId) {
   return { caption: t.caption, panels };
 }
 
-export const FIGURES = { stages, gates, loop, assessment, team, harness, ledger, timeline, setup, build, words, bilingual, gauntlet, agents, critic, fleet, sources, merges, logos, connection, lifecycle, price, lock };
+// The figure of the article on what an agent costs while it waits (the
+// founder, 9 October 2026: "This is an important finding and should be
+// documented"): the mayor's tokens per UTC day from 27 September to 10
+// October 2026, each day's total and, of it, the tokens spent restarting a
+// watch that had reported nothing, both in millions, as the mayor measured
+// them from its own transcripts on 9 and 11 October; the rest of the day is
+// the difference. Two days have no bar: 6 October, with no calls for 1.8
+// hours after a login expired, and 9 October, the day of the change, with
+// no calls until the evening; 8 October's data end at 21:23 UTC.
+const WAITING_DAYS = [
+  // [UTC day, tokens, of them restarts, note?], or [UTC day, null, null, note]
+  ["2026-09-27", 31.08, 22.63],
+  ["2026-09-28", 40.02, 8.42],
+  ["2026-09-29", 73.75, 13.32],
+  ["2026-09-30", 12.15, 11.93],
+  ["2026-10-01", 28.62, 19.94],
+  ["2026-10-02", 15.6, 11.85],
+  ["2026-10-03", 72.31, 10.48],
+  ["2026-10-04", 35.73, 14.16],
+  ["2026-10-05", 33.09, 18.57],
+  ["2026-10-06", null, null, "login"],
+  ["2026-10-07", 56.71, 11.35],
+  ["2026-10-08", 11.73, 8.03, "partial"],
+  ["2026-10-09", null, null, "change"],
+  ["2026-10-10", 10.78, 0],
+];
+const WAITING_MONTHS = { "09": "sep", "10": "oct" };
+
+// (24) Waiting against everything else, per day — one panel, a row per UTC
+// day: a bar to one scale whose orange part, from the baseline, is the
+// restarts, then the day's total, and at the right the restarts' share of
+// it, computed from the two numbers, under its heading at the legend's
+// right. A day without a bar carries its note instead; the change's is
+// green. The panel's accessible name gives every row in words.
+function waitingPerDay(t, id, figureId) {
+  const X = 16;
+  const BAR = 60;
+  const TRACK = 172;
+  const TOP = 100;
+  const PITCH = 16;
+  const right = WIDTH - 16;
+  const most = Math.max(...WAITING_DAYS.map(([, total]) => total ?? 0));
+  const length = (value) => (TRACK * value) / most;
+  const decimal = (value) => value.toFixed(1).replace(".", t.decimal);
+  const width = (value, size) => value.length * ADVANCE[size];
+  const legend = (y, cls, key) => [
+    `<rect x="${X}" y="${y - 8}" width="8" height="8" rx="1.5" class="${cls}"/>`,
+    text(30, y, fit(`${id}.legend.${key}`, t.legend[key], right - 30), "fig-note"),
+  ].join("");
+  const parts = [
+    legend(56, "fig-gate", "restarts"),
+    legend(71, "fig-bar-muted", "rest"),
+    text(right, 71, fit(`${id}.share`, t.share, right - 30 - width(t.legend.rest, "note") - 12), "fig-note fig-wait", "end"),
+    `<line x1="${X}" y1="82" x2="${right}" y2="82" class="fig-hair"/>`,
+  ];
+  const named = [];
+  WAITING_DAYS.forEach(([date, total, restarts, note], i) => {
+    const y = TOP + i * PITCH;
+    const day = fit(`${id}.day`, t.day.replace("{d}", String(Number(date.slice(8)))).replace("{m}", t.months[WAITING_MONTHS[date.slice(5, 7)]]), BAR - X - 4);
+    parts.push(text(X, y, day, "fig-note"));
+    if (total === null) {
+      const value = fit(`${id}.notes.${note}`, t.notes[note], right - BAR);
+      parts.push(text(BAR, y, value, note === "change" ? "fig-note fig-ok" : "fig-note"));
+      named.push(`${day}: ${value}`);
+      return;
+    }
+    const share = t.percent.replace("{n}", String(Math.round((100 * restarts) / total)));
+    const end = BAR + length(total);
+    if (restarts > 0) parts.push(`<rect x="${BAR}" y="${y - 8}" width="${round(length(restarts))}" height="9" class="fig-gate"/>`);
+    parts.push(`<rect x="${round(BAR + length(restarts))}" y="${y - 8}" width="${round(length(total - restarts))}" height="9" class="fig-bar-muted"/>`);
+    parts.push(text(end + 5, y, decimal(total), "fig-note"));
+    parts.push(text(right, y, share, "fig-label fig-small fig-wait", "end"));
+    let line = t.named.replace("{day}", day).replace("{total}", decimal(total)).replace("{share}", share);
+    if (note) {
+      const from = end + 5 + width(decimal(total), "note") + 8;
+      const value = fit(`${id}.notes.${note}`, t.notes[note], right - width(share, "small") - 8 - from);
+      parts.push(text(from, y, value, "fig-note"));
+      line += ` (${value})`;
+    }
+    named.push(line);
+  });
+  const height = TOP + (WAITING_DAYS.length - 1) * PITCH + 12;
+  return {
+    caption: t.caption,
+    panels: [{ title: `${t.title}: ${named.join("; ")}`, head: t.head, height, body: parts.join("") }],
+  };
+}
+
+export const FIGURES = { stages, gates, loop, assessment, team, harness, ledger, timeline, setup, build, words, bilingual, gauntlet, agents, critic, fleet, sources, merges, logos, connection, lifecycle, price, lock, "waiting-per-day": waitingPerDay };
 
 /**
  * Render one figure as HTML: `<figure class="figure figure-inline|figure-wide">`

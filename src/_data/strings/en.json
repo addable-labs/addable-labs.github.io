@@ -1107,6 +1107,29 @@
       },
       "summary": "{jobs} lock jobs, {waits} of them waited, {minutes} minutes in all; the load peaked at {peak}",
       "caption": "This site's two workers on 26 September 2026, 10:00 to 16:00 UTC, one lane each: their sessions outlined, each job that held the browser lock as a solid bar and each wait for it in orange. The third lane holds the mayor's own jobs; beneath is the machine's one-minute load average, sampled every minute from 10:05. All 17 waits were workers' jobs."
+    },
+    "waiting-per-day": {
+      "title": "The mayor's tokens per UTC day, 27 September to 10 October 2026",
+      "head": "millions of tokens per UTC day",
+      "share": "share on restarts",
+      "legend": {
+        "restarts": "restarting a watch that reported nothing",
+        "rest": "everything else"
+      },
+      "day": "{d} {m}",
+      "months": {
+        "sep": "Sep",
+        "oct": "Oct"
+      },
+      "decimal": ".",
+      "percent": "{n}%",
+      "notes": {
+        "login": "left out: no calls for 1.8 hours",
+        "partial": "only until 21:23 UTC",
+        "change": "the change: woken only by events"
+      },
+      "named": "{day}: {total} million tokens, {share} on restarts",
+      "caption": "The mayor's tokens per UTC day from 27 September to 10 October 2026, in millions: restarting a watch that had reported nothing in orange and everything else in grey, with the share of the day's tokens that went on restarts at the right. 6 October is left out, with no calls for 1.8 hours after a login expired, and so is 9 October, the day of the change, with no calls until the evening; 8 October's data end at 21:23 UTC. From the change on, the mayor was woken only when something happened."
     }
   },
   "games": {
