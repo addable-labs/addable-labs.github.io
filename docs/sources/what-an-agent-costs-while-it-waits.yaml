@@ -1,0 +1,107 @@
+# The sources of "What an agent costs while it waits" (both languages): one entry
+# per sentence that rests on a vendor's page or on one of the site's published
+# articles, for the monthly source check. The factory's own numbers rest on the
+# mayor's measurements and are not listed. Every quote was taken from its page
+# on 2026-10-11.
+
+- id: V1
+  article: what-an-agent-costs-while-it-waits
+  sentence:
+    sv: "Enligt Claude Codes verktygsreferens har varje bevakning en tidsgräns på högst 30 minuter. Vid tidsgränsen upphör bevakningen och agenten får ett enda meddelande om det, så att den kan starta bevakningen igen."
+    en: "According to Claude Code's tools reference, every watch has a deadline of at most 30 minutes. When it passes, the watch ends and the agent is told once, so that it can start the watch again."
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/tools-reference
+  final_url: https://code.claude.com/docs/en/tools-reference
+  quote: "Every watch Claude starts has a deadline: 5 minutes by default, at most 30 minutes … At the deadline the watch ends. Claude gets one notice, so it can start the watch again if it’s still needed."
+  retrieved: 2026-10-11
+  last_checked: 2026-10-11
+- id: F1
+  article: what-an-agent-costs-while-it-waits
+  sentence:
+    sv: "Varje anrop skickade hela kontexten till modellen igen, som En studie av borgmästarens kontext förklarar, så var och en av de omstarterna kostade dubbelt så många tokens som kontexten."
+    en: "Each call sent the model the whole context again, as A study of the mayor's context explains, so each of those restarts cost twice the context in tokens."
+  vendor: Addable Labs
+  url: https://addablelabs.se/blog/what-the-mayors-context-costs/
+  final_url: https://addablelabs.se/blog/what-the-mayors-context-costs/
+  quote: "Every call sends the model the whole context."
+  retrieved: 2026-10-11
+  last_checked: 2026-10-11
+- id: V2
+  article: what-an-agent-costs-while-it-waits
+  sentence:
+    sv: "Borgmästarens schemalagda kontroller kostade på samma sätt: Claude Codes sida om att hantera kostnader påpekar att en schemalagd uppgift körs enligt sitt intervall även när sessionen är overksam och då skickar hela kontexten varje gång."
+    en: "The mayor's scheduled checks cost the same way: Claude Code's page on managing costs notes that a scheduled task still runs while the session is idle, and that each run sends the whole context."
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/costs
+  final_url: https://code.claude.com/docs/en/costs
+  quote: "a scheduled task fires on its interval even while the session is idle, sending your full context each time"
+  retrieved: 2026-10-11
+  last_checked: 2026-10-11
+- id: V3
+  article: what-an-agent-costs-while-it-waits
+  sentence:
+    sv: "Ett meddelande i Slack som nämner ChatGPT kan starta en molnuppgift i Codex, som fortsätter att arbeta medan användarens dator sover."
+    en: "A message in Slack that mentions ChatGPT can start a Codex cloud task, which keeps running while the user's computer sleeps."
+  vendor: OpenAI
+  url: https://learn.chatgpt.com/docs/cloud
+  final_url: https://learn.chatgpt.com/docs/cloud
+  quote: "Each task has its own workspace and can keep working while your computer is asleep."
+  retrieved: 2026-10-11
+  last_checked: 2026-10-11
+# The Slack half of the same sentence: the article links this page from
+# "A message in Slack".
+- id: V3-slack
+  article: what-an-agent-costs-while-it-waits
+  sentence:
+    sv: "Ett meddelande i Slack som nämner ChatGPT kan starta en molnuppgift i Codex, som fortsätter att arbeta medan användarens dator sover."
+    en: "A message in Slack that mentions ChatGPT can start a Codex cloud task, which keeps running while the user's computer sleeps."
+  vendor: OpenAI
+  url: https://learn.chatgpt.com/docs/third-party/slack
+  final_url: https://learn.chatgpt.com/docs/third-party/slack
+  quote: "Mention @ChatGPT in a Slack channel to start a request. If your workspace has Cloud delegation enabled, ChatGPT can send repository work to a separate Codex Cloud task and return the result to the thread."
+  retrieved: 2026-10-11
+  last_checked: 2026-10-11
+- id: V4
+  article: what-an-agent-costs-while-it-waits
+  sentence:
+    sv: "Molnagenten i GitHub Copilot startar när ett ärende tilldelas den eller en kommentar nämner den, ber om en granskning när den är klar och minns kontext från tidigare sessioner på samma pull request."
+    en: "The GitHub Copilot cloud agent starts when an issue is assigned to it or a comment mentions it, asks for a review when it finishes and carries context over between sessions on the same pull request."
+  vendor: GitHub
+  url: https://docs.github.com/en/copilot/how-tos/use-copilot-agents/cloud-agent/use-cloud-agent-on-github
+  final_url: https://docs.github.com/en/copilot/how-tos/use-copilot-agents/cloud-agent/use-cloud-agent-on-github
+  quote: "You can ask Copilot to start working on an issue by assigning the issue to Copilot. Copilot will start working on the task, raise a pull request, then request a review from you when it's finished. … You can mention @copilot in a comment on any pull request to ask Copilot to make changes. … Copilot remembers context from previous sessions on the same pull request"
+  retrieved: 2026-10-11
+  last_checked: 2026-10-11
+- id: V6
+  article: what-an-agent-costs-while-it-waits
+  sentence:
+    sv: "Codex kan också köra en schemalagd uppgift i en befintlig chatt och använder då – som borgmästaren – chattens kontext i stället för en ny prompt varje gång."
+    en: "Codex can also run a scheduled task in an existing chat, and then, like the mayor, it uses the chat's context instead of a new prompt each time."
+  vendor: OpenAI
+  url: https://learn.chatgpt.com/docs/automations
+  final_url: https://learn.chatgpt.com/docs/automations
+  quote: "You can create and update scheduled tasks from a ChatGPT or Codex chat. … The scheduled task uses the chat’s existing context instead of starting from a new prompt each time."
+  retrieved: 2026-10-11
+  last_checked: 2026-10-11
+- id: V7
+  article: what-an-agent-costs-while-it-waits
+  sentence:
+    sv: "Claude Codes sida om promptcachning säger att Claude Code begär en cache på en timme med ett Claude-abonnemang – inom den användning som ingår i abonnemanget – och en på fem minuter med en API-nyckel."
+    en: "Claude Code's page on prompt caching says that Claude Code asks for a one-hour cache on a Claude subscription, within the plan's included usage, and a five-minute one with an API key."
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/prompt-caching
+  final_url: https://code.claude.com/docs/en/prompt-caching
+  quote: "Unless you choose a TTL yourself, Claude Code requests the one-hour TTL only on a Claude subscription within your plan’s included usage. … Usage credits, API key, or cloud provider … Main conversation … One hour … Five minutes"
+  retrieved: 2026-10-11
+  last_checked: 2026-10-11
+- id: V7-reset
+  article: what-an-agent-costs-while-it-waits
+  sentence:
+    sv: "Varje anrop som läser från cachen startar timmen på nytt"
+    en: "Each call that reads the cache starts the hour again"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/prompt-caching
+  final_url: https://code.claude.com/docs/en/prompt-caching
+  quote: "Each request that hits the cache resets the timer, so the cache stays warm as long as you keep working."
+  retrieved: 2026-10-11
+  last_checked: 2026-10-11
