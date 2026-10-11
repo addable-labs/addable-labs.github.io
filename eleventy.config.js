@@ -4,6 +4,7 @@ import rssPlugin from "@11ty/eleventy-plugin-rss";
 import { isOmitted, isScheduled, parseFrontMatter, siteNow, validateArticle, validateArticleDate } from "./scripts/lib/frontmatter.mjs";
 import { articleIsBuilt, gamePages, gameProblems, MEDIA_DIR, mediaSlugs, readGames, renderGames } from "./scripts/lib/games.mjs";
 import { articleImage, DEFAULT_IMAGE, IMAGE_HEIGHT, IMAGE_WIDTH, imageProblems } from "./scripts/lib/images.mjs";
+import { swedishNumbersOnOneLine } from "./scripts/lib/swedish-numbers.mjs";
 import { ARTICLE_PATH, byDateDescThenSlug, checkPageUrls } from "./scripts/lib/urls.mjs";
 import site from "./src/_data/site.js";
 
@@ -92,6 +93,16 @@ export default function (eleventyConfig) {
 
   // id="" on headings so articles can link to sections.
   eleventyConfig.addPlugin(IdAttributePlugin);
+
+  // Swedish numbers on one line (si-j1b7; scripts/lib/swedish-numbers.mjs):
+  // on a Swedish page, the space inside a digit group ("25 387") and the
+  // space before a per cent sign ("36 %") become no-break spaces in the page
+  // the build writes, so no number ends one line and starts the next. The
+  // sources keep the spaces they were typed with. Eleventy's HTML transformer
+  // already parses every page for the heading ids above, so the plugin adds
+  // no parse of its own. It runs after the ids are made (priority -1): an id
+  // is made of its heading as typed.
+  eleventyConfig.htmlTransformer.addPosthtmlPlugin("html", () => swedishNumbersOnOneLine, { name: "swedish-numbers-on-one-line", priority: -1 });
 
   // Feed filters (absoluteUrl, dateToRfc822, getNewestCollectionItemDate,
   // htmlToAbsoluteUrls) for the RSS templates and the head's absolute URLs.
