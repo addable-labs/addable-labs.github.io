@@ -231,6 +231,20 @@ describe("apps data and copy (REQ-011, REQ-025; AC-11, AC-12, AC-30)", () => {
     }
   });
 
+  it("reads no repository in GitHub's documentation, docs.github.com, whose paths name a language and a product, and still refuses it as a private entry's url, a GitHub host (si-mcvo)", () => {
+    // The page an article links for Copilot's instruction file, in prose, in
+    // a link's markup and in another case; a repository on github.com beside
+    // it is still read.
+    const page = "https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/add-custom-instructions/add-repository-instructions";
+    for (const text of [page, `<a href="${page}">.github/copilot-instructions.md</a>`, "https://DOCS.GitHub.com/en/copilot", "docs.github.com:443/en/copilot"]) {
+      assert.deepEqual(githubRepos(text), [], text);
+    }
+    assert.deepEqual(githubRepos(`${page} and https://github.com/example-org/private-app`), ["example-org/private-app"]);
+    const input = copy();
+    input.data.find((entry) => entry.key === "niva").url = page;
+    assert.deepEqual(problemsOf(input), [`niva: private repository must not be linked — url is null or the product's public https:// page, never one on a GitHub host (got ${JSON.stringify(page)}, which is on docs.github.com)`]);
+  });
+
   it("fails an unknown status key and a status without a label in either language (AC-12)", () => {
     const unknown = copy();
     unknown.data.find((entry) => entry.key === "gaimer").status = "beta";
