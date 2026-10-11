@@ -265,11 +265,14 @@ export default function (eleventyConfig) {
   eleventyConfig.addFilter("listed", (items) => (items ?? []).filter(isListed));
 
   // Dates: `localeDate` renders a Date for humans in the page's language
-  // ("September 20, 2026" / "20 september 2026"); `isoDate` gives the
+  // ("20 September 2026" / "20 september 2026"); `isoDate` gives the
   // YYYY-MM-DD form for <time datetime>. Both read the date as UTC so a
-  // front-matter date never shifts by a day.
+  // front-matter date never shifts by a day. English is British English, day
+  // before month, as the English writing rule writes a date and as og:locale
+  // (en_GB) names the pages; Intl's plain "en" prints "September 20, 2026"
+  // (si-eqxt).
   eleventyConfig.addFilter("localeDate", (date, lang = "en") =>
-    new Intl.DateTimeFormat(lang, { dateStyle: "long", timeZone: "UTC" }).format(date),
+    new Intl.DateTimeFormat(lang === "en" ? "en-GB" : lang, { dateStyle: "long", timeZone: "UTC" }).format(date),
   );
   eleventyConfig.addFilter("isoDate", (date) => date.toISOString().slice(0, 10));
 
