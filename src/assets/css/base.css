@@ -1968,7 +1968,9 @@ html:not(.js) .game-play {
    text in the text tokens, the accent as a surface and as line art for
    "passed"/highlight, the orange text variant for the founder's gates and
    "waiting", hairlines for scaffolding. Sizes are SVG user units (the
-   320-unit panel), so 13px here is 13 units. */
+   320-unit panel), so 13px here is 13 units. The four type sizes and the
+   head's letter-spacing have a twin, TYPE in figures.mjs, which budgets
+   every label from them: change both (tests/figures.test.mjs). */
 .fig-grid {
   fill: none;
   stroke: var(--color-hairline);

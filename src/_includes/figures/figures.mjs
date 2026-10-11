@@ -18,9 +18,10 @@
 // (392 px) at the widest and 20 rem on a 360 px phone — so a 13-unit label
 // renders at 12–16 px everywhere. A wide figure is a row of such panels that
 // stacks below 48 rem instead of one wide drawing that would shrink its
-// type; an inline figure is one panel with its caption beside it. Each label slot has a character budget (JetBrains Mono
-// advances 0.6 em per character); a string that does not fit fails the build
-// naming the key, like the front-matter validator, so a longer Swedish
+// type; an inline figure is one panel with its caption beside it. Each label
+// slot has a character budget (JetBrains Mono advances 0.6 em per character,
+// plus the letter-spacing: see TYPE); a string that does not fit fails the
+// build naming the key, like the front-matter validator, so a longer Swedish
 // translation cannot overflow its panel silently.
 //
 // The values in the charts of the nivå figures (levels, cells, bars) are
@@ -28,8 +29,31 @@
 // figures are schematic — no real people, scores or screenshots.
 
 const WIDTH = 320;
-// Mono advance per character at the four type sizes used (0.6 em).
-const ADVANCE = { label: 13 * 0.6, small: 12 * 0.6, note: 10.5 * 0.6, head: 11 * 0.6 };
+// The four type sizes the figures' text is set in, as base.css sets them
+// (.fig-label, .fig-small, .fig-note, .fig-head): the size in units and the
+// letter-spacing in em. A change to one there is a change here, or the
+// budgets stop matching what is drawn; tests/figures.test.mjs reads base.css
+// and fails when the two part (si-di5e).
+export const TYPE = {
+  label: { size: 13, spacing: 0 },
+  small: { size: 12, spacing: 0 },
+  note: { size: 10.5, spacing: 0 },
+  head: { size: 11, spacing: 0.04 },
+};
+// Mono advance per character at each size: 0.6 em, plus the letter-spacing,
+// which Chrome adds after every character, the last one too.
+const ADVANCE = Object.fromEntries(Object.entries(TYPE).map(([name, { size, spacing }]) => [name, size * (0.6 + spacing)]));
+
+// A panel's head line holds the head and, when the panel has one, its value
+// on the right, as if one line with a space between them: at most 40
+// characters at the head's size. Two Swedish lines, drawn before the check
+// counted the letter-spacing (si-di5e, 11 October 2026), are one character
+// longer: the head of bilingual, and the head and window of build's last
+// panel. Measured in Chrome, the first's ink ends 0.6 units inside the margin
+// and the second's head and window are 8.3 units apart, so they stay as the
+// founder read them; any other line is held to the budget, and so are these
+// once their words change.
+export const MEASURED_LINES = ["två språk, en nyckeluppsättning, ett test", "innan det blir offentligt 00:04–00:14 UTC"];
 
 /** Escape a string for an attribute value or text node. */
 function esc(value) {
@@ -109,16 +133,21 @@ function radar(cx, cy, r, count, series, rings = 3) {
  * One panel: an <svg> with its own accessible name (the panel title and the
  * figure caption), a hairline grid, the mono header line and the body. Ids
  * are prefixed with the panel id so two panels on one page never share one.
+ * The header line is the head from the left margin and headRight's value up
+ * to the right one, budgeted together as one line (MEASURED_LINES above), so
+ * neither runs into the other or past a margin.
  */
 function panel({ id, captionId, height, title, head, headRight, body }) {
   const H = height;
+  const line = headRight ? `${head} ${headRight.value}` : head;
+  if (!MEASURED_LINES.includes(line)) fit(`${id}.head`, line, WIDTH - 32, "head");
   const parts = [
     `<svg class="figure-panel" viewBox="0 0 ${WIDTH} ${H}" role="img" aria-labelledby="${id}-title ${captionId}">`,
     `<title id="${id}-title">${esc(title)}</title>`,
     `<defs><pattern id="${id}-grid" width="24" height="24" patternUnits="userSpaceOnUse"><path d="M24 0H0v24" class="fig-grid"/></pattern>`,
     `<marker id="${id}-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0 0l8 4-8 4z" class="fig-arrowhead"/></marker></defs>`,
     `<rect width="${WIDTH}" height="${H}" fill="url(#${id}-grid)"/>`,
-    text(16, 25, fit(`${id}.head`, head, headRight ? 200 : 288, "head"), "fig-head"),
+    text(16, 25, head, "fig-head"),
   ];
   if (headRight) parts.push(text(WIDTH - 16, 25, headRight.value, `fig-head ${headRight.cls}`, "end"));
   parts.push(`<line x1="0" y1="38" x2="${WIDTH}" y2="38" class="fig-hair"/>`, body, "</svg>");
@@ -213,7 +242,7 @@ function gates(t, id, figureId) {
   });
   return {
     caption: t.caption,
-    panels: [{ title: t.title, head: t.head, headRight: { value: fit(`${id}.score`, t.score, 60, "head"), cls: "fig-ok" }, height: 296, body: parts.join("") }],
+    panels: [{ title: t.title, head: t.head, headRight: { value: t.score, cls: "fig-ok" }, height: 296, body: parts.join("") }],
   };
 }
 
@@ -514,7 +543,7 @@ function build(t, id, figureId) {
   const panelSpec = (key, rows, gate) => ({
     title: t.panels[key].title,
     head: t.panels[key].head,
-    headRight: { value: fit(`${id}.panels.${key}.window`, t.panels[key].window, 104, "head"), cls: "" },
+    headRight: { value: t.panels[key].window, cls: "" },
     height,
     body: stageList(id, rows) + footer(id, `${id}.footers.${key}`, t.footers[key], 64 + rows.length * 34, gate),
   });
@@ -752,7 +781,7 @@ function agents(t, id, figureId) {
   parts.push(text(40, 315, fit(`${id}.footerNote`, t.footerNote, 250), "fig-note"));
   return {
     caption: t.caption,
-    panels: [{ title: t.title, head: t.head, headRight: { value: fit(`${id}.wall`, t.wall, 104, "head"), cls: "" }, height: 332, body: parts.join("") }],
+    panels: [{ title: t.title, head: t.head, headRight: { value: t.wall, cls: "" }, height: 332, body: parts.join("") }],
   };
 }
 
@@ -849,7 +878,7 @@ function fleet(t, id, figureId) {
   const head = (key) => ({
     title: t.panels[key].title,
     head: t.panels[key].head,
-    headRight: { value: fit(`${id}.panels.${key}.value`, t.panels[key].value, 104, "head"), cls: "" },
+    headRight: { value: t.panels[key].value, cls: "" },
     height,
   });
   return {
@@ -1066,7 +1095,7 @@ function merges(t, id, figureId) {
   return {
     caption: t.caption,
     panels: [
-      { title: `${t.title}: ${listed(first)}`, head: t.head, headRight: { value: fit(`${id}.window`, t.window, 104, "head"), cls: "" }, height, body: draw(first) },
+      { title: `${t.title}: ${listed(first)}`, head: t.head, headRight: { value: t.window, cls: "" }, height, body: draw(first) },
       { title: `${t.titleMore}: ${listed(second)}`, head: t.headMore, height, body: draw(second) },
     ],
   };
@@ -1126,7 +1155,7 @@ function logos(t, id, figureId) {
   return {
     caption: t.caption,
     panels: [
-      { title: `${t.panels.first.title}: ${named(first)}`, head: t.panels.first.head, headRight: { value: fit(`${id}.window`, t.window, 104, "head"), cls: "" }, height, body: draw(first) },
+      { title: `${t.panels.first.title}: ${named(first)}`, head: t.panels.first.head, headRight: { value: t.window, cls: "" }, height, body: draw(first) },
       { title: `${t.panels.second.title}: ${named(second)}`, head: t.panels.second.head, height, body: draw(second) },
     ],
   };

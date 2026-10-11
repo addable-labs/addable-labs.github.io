@@ -324,7 +324,11 @@ Brödtext i Markdown.
   every word it shows — panel titles, labels, notes, the caption — comes
   from `figures.<id>` in the two strings files, so one drawing serves both
   languages; a label too long for its slot fails the
-  build naming the key. Adding a figure means one drawing function, its
+  build naming the key. The budgets take the type sizes and the head's
+  letter-spacing from base.css (`TYPE` in figures.mjs; a test holds the two
+  together), and a panel's head and its value on the right are budgeted as
+  one line with a space between them, so neither runs into the other or
+  past a margin. Adding a figure means one drawing function, its
   strings under `figures.<id>` in `en.json` and `sv.json`, and the two
   shortcode lines. Figures never reach the feeds (`withoutFigures` in the
   feed templates), and the layout gate measures every article page: the
