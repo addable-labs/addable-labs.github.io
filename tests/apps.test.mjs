@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { before, describe, it } from "node:test";
-import { APP_KEYS, BANDS, PRIVATE_APP_KEYS, PRIVATE_STATUS_LABEL, PUBLIC_REPOS, STATUS_KEYS, THEME_KEYS, githubRepos, publicRepo, validateApps } from "../scripts/lib/apps.mjs";
+import { APP_KEYS, BANDS, NON_REPOSITORY_HOSTS, PRIVATE_APP_KEYS, PRIVATE_STATUS_LABEL, PUBLIC_REPOS, STATUS_KEYS, THEME_KEYS, githubRepos, publicRepo, validateApps } from "../scripts/lib/apps.mjs";
 import { loadSite, loadStrings, readArticleSources } from "../scripts/lib/site.mjs";
 import { SRC } from "./helpers.mjs";
 
@@ -168,6 +168,13 @@ describe("apps data and copy (REQ-011, REQ-025; AC-11, AC-12, AC-30)", () => {
   // (Before si-3iuk the API's named "repos/<owner>", and vscode.dev's
   // passed: it is none of GitHub's hosts.) The host in capitals with a
   // closing dot, and an empty port, lead to the repository all the same.
+  // The subdomains of github.com that serve repositories stay read beside
+  // the sites held out (si-b44j) — the archives on codeload. and its older
+  // name nodeload., the Maven registry — and four more spellings are read:
+  // the API's address for uploading a release's files (before si-b44j it
+  // named "repos/<owner>"), and a file kept with Git LFS, the link that
+  // opens a codespace and a repository's preview image, which all passed the
+  // content gate before.
   for (const [how, url, bead = "si-gnca"] of [
     ["with a port", "https://github.com:443/example-org/private-app"],
     ["with an empty port", "https://github.com:/example-org/private-app"],
@@ -179,6 +186,13 @@ describe("apps data and copy (REQ-011, REQ-025; AC-11, AC-12, AC-30)", () => {
     ["at a file in the editor on insiders.vscode.dev", "https://insiders.vscode.dev/github/example-org/private-app/blob/main/README.md", "si-3iuk"],
     ["in the REST API", "https://api.github.com/repos/example-org/private-app", "si-3iuk"],
     ["at a file's contents in the REST API", "https://api.github.com/repos/example-org/private-app/contents/README.md", "si-3iuk"],
+    ["as an archive on codeload.github.com", "https://codeload.github.com/example-org/private-app/zip/refs/heads/main", "si-b44j"],
+    ["as an archive on nodeload.github.com, codeload's older name", "https://nodeload.github.com/example-org/private-app/zip/main", "si-b44j"],
+    ["in GitHub's Maven registry, maven.pkg.github.com", "https://maven.pkg.github.com/example-org/private-app", "si-b44j"],
+    ["the REST API gives for uploading a release's files", "https://uploads.github.com/repos/example-org/private-app/releases/1/assets?name=app.zip", "si-b44j"],
+    ["of a file kept with Git LFS, on media.githubusercontent.com", "https://media.githubusercontent.com/media/example-org/private-app/main/assets/logo.png", "si-b44j"],
+    ["that opens a codespace, on codespaces.new", "https://codespaces.new/example-org/private-app?quickstart=1", "si-b44j"],
+    ["of a repository's preview image, on opengraph.githubassets.com", "https://opengraph.githubassets.com/1/example-org/private-app", "si-b44j"],
   ]) {
     it(`reads the repository in a url ${how}, ${url}, and refuses it as a private entry's url, naming the repository (${bead})`, () => {
       assert.deepEqual(githubRepos(url), ["example-org/private-app"]);
@@ -243,6 +257,63 @@ describe("apps data and copy (REQ-011, REQ-025; AC-11, AC-12, AC-30)", () => {
     const input = copy();
     input.data.find((entry) => entry.key === "niva").url = page;
     assert.deepEqual(problemsOf(input), [`niva: private repository must not be linked — url is null or the product's public https:// page, never one on a GitHub host (got ${JSON.stringify(page)}, which is on docs.github.com)`]);
+  });
+
+  // GitHub's own sites whose paths name pages, never a repository
+  // (NON_REPOSITORY_HOSTS, si-b44j), each with a page an article may link,
+  // where githubRepos() read a repository before: "v3/repos", "en/articles",
+  // "manual/gh_pr_create", "learn/pathways" and the like. skills.github.com
+  // only sends a visitor to GitHub Learn now, so it gets the path an owner
+  // and a name would take. On each, githubRepos() reads no repository in
+  // prose, in a link's markup or a feed's escaped markup, in capitals, with a
+  // port or a closing dot — with a port and no scheme too, where the colon
+  // could start git's SSH path — and still reads a repository on github.com
+  // beside it. As a private entry's url the page is still refused: it is on a
+  // GitHub host.
+  const SITES = [
+    ["docs.github.com", "/en/copilot/how-tos/use-copilot-agents/cloud-agent/use-cloud-agent-on-github"],
+    ["developer.github.com", "/v3/repos/"],
+    ["guides.github.com", "/introduction/flow/"],
+    ["help.github.com", "/en/articles/about-pull-requests"],
+    ["support.github.com", "/contact/privacy"],
+    ["cli.github.com", "/manual/gh_pr_create"],
+    ["resources.github.com", "/learn/pathways/"],
+    ["skills.github.com", "/example-org/private-app"],
+    ["training.github.com", "/downloads/github-git-cheat-sheet/"],
+    ["education.github.com", "/pack/join"],
+  ];
+  for (const [host, path] of SITES) {
+    it(`reads no repository on ${host}, at ${path}, and still refuses the page as a private entry's url, one on a GitHub host (si-b44j)`, () => {
+      const page = `https://${host}${path}`;
+      for (const text of [`See ${host}${path} for the steps.`, `<a href="${page}">the page</a>`, `href=&quot;${page}&quot;`, `https://${host.toUpperCase()}${path}`, `https://${host}:443${path}`, `${host}:443${path}`, `https://${host}.${path}`]) {
+        assert.deepEqual(githubRepos(text), [], text);
+      }
+      assert.deepEqual(githubRepos(`${page} and https://github.com/example-org/private-app`), ["example-org/private-app"]);
+      const input = copy();
+      input.data.find((entry) => entry.key === "niva").url = page;
+      assert.deepEqual(problemsOf(input), [`niva: private repository must not be linked — url is null or the product's public https:// page, never one on a GitHub host (got ${JSON.stringify(page)}, which is on ${host})`]);
+    });
+  }
+
+  it("holds out exactly those sites, each by its whole host name, and still reads a repository on any other subdomain of github.com (si-b44j)", () => {
+    assert.deepEqual(NON_REPOSITORY_HOSTS, SITES.map(([host]) => host));
+    for (const text of [
+      // A host not shown to name none: GitHub Learn answers every path
+      // alike, and the retired Learning Lab wrote a course <owner>/<course>.
+      "https://learn.github.com/example-org/private-app",
+      "https://lab.github.com/example-org/private-app",
+      // A host whose name only ends in a held-out one's is another host, in
+      // git's SSH address too (before si-b44j, "docs." held out every one
+      // here but docs.help.github.com).
+      "https://www.docs.github.com/example-org/private-app",
+      "https://x-docs.github.com/example-org/private-app",
+      "https://docs.help.github.com/example-org/private-app",
+      "git@x-docs.github.com:example-org/private-app.git",
+      // A subdomain of codespaces.new opens the codespace all the same.
+      "https://www.codespaces.new/example-org/private-app",
+    ]) {
+      assert.deepEqual(githubRepos(text), ["example-org/private-app"], text);
+    }
   });
 
   it("fails an unknown status key and a status without a label in either language (AC-12)", () => {

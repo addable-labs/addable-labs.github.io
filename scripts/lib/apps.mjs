@@ -64,24 +64,67 @@ export const PUBLIC_URL_PREFIX = "https://github.com/";
     read as githubRepos() reads them. */
 const GITHUB_FILE_URL = /^https:\/\/github\.com\/([A-Za-z0-9-]+)\/([A-Za-z0-9_.-]+)\/blob\/[^/\s]+\/\S+$/;
 
+/** GitHub's own sites on github.com whose paths name pages, never a
+    repository: its documentation, docs.github.com, where an article links
+    /en/copilot/… (si-mcvo), and the two older ones that send a visitor there
+    now, developer. and guides.; its help and support, help. and support.;
+    the CLI's manual, cli.github.com/manual/…; and its learning sites,
+    resources., skills., training. and education. (si-b44j). Each answers
+    /<owner>/<name> with 404 but guides., which sends it to the
+    documentation's front page: none sends a visitor to the repository.
+    githubRepos() reads no repository on these hosts and still reads one on
+    every other subdomain of github.com, for GitHub serves repositories from
+    more of them than one can list — www., gist., codeload. and nodeload.
+    (archives), api. and uploads. (the REST API), maven.pkg. (packages) — so
+    a list of the exceptions fails safe where a list of the hosts that serve
+    repositories would not. A host not shown to name none counts:
+    learn.github.com, where resources.github.com/learn/… leads now, answers
+    every path alike, /<owner>/<name> too. Add a host only once
+    /<owner>/<name> on it answers 404. */
+export const NON_REPOSITORY_HOSTS = ["docs.github.com", "developer.github.com", "guides.github.com", "help.github.com", "support.github.com", "cli.github.com", "resources.github.com", "skills.github.com", "training.github.com", "education.github.com"];
+
+/** The pattern of github.com or any of its subdomains but
+    NON_REPOSITORY_HOSTS. Only the whole host name holds one out, so a host
+    whose name merely ends in one of theirs, www.docs.github.com or
+    x-docs.github.com, counts. */
+const GITHUB_COM = String.raw`(?<!(?<![\w.-])(?:${NON_REPOSITORY_HOSTS.map((host) => host.replace(/\.github\.com$/, "").replaceAll(".", "\\.")).join("|")})\.)\bgithub\.com`;
+
+/** The spellings githubRepos() reads, one to a line, each up to the owner. */
+const GITHUB_REPOSITORY = new RegExp(String.raw`(?:${[
+  String.raw`(?:${GITHUB_COM}|(?<![\w.-])(?:raw\.githubusercontent\.com|github\.dev))\.?(?::\d*)?\/`,
+  String.raw`${GITHUB_COM}\.?:(?:(?!\d*\/)|(?<!\/\/[\w.%+~:@-]*))`,
+  String.raw`(?<![\w-])vscode\.dev\.?(?::\d*)?\/github\/`,
+  String.raw`(?:api|uploads)\.github\.com\.?(?::\d*)?\/repos\/`,
+  String.raw`(?<![\w.-])media\.githubusercontent\.com\.?(?::\d*)?\/media\/`,
+  String.raw`(?<![\w-])codespaces\.new\.?(?::\d*)?\/`,
+  String.raw`(?<![\w.-])opengraph\.githubassets\.com\.?(?::\d*)?\/[^\/\s]*\/`,
+].join("|")})([A-Za-z0-9-]+)\/([A-Za-z0-9_.-]+)`, "gi");
+
 /**
  * Every GitHub repository a text names, as owner/name the way it is written:
  * each <host>/<owner>/<name> in it — a link, a feed's escaped markup and
- * plain prose alike — where the host is github.com or one of its subdomains
- * (www., gist.) but docs.github.com, GitHub's documentation, whose paths
- * name a language and a product, never a repository (si-mcvo: an article
- * links /en/copilot/…), raw.githubusercontent.com, which serves the repository's
- * files, or github.dev, its editor (si-gnca), but no subdomain of these two:
- * a codespace's address on github.dev names no repository. Three more
+ * plain prose alike — where the host is one of three: github.com or any of
+ * its subdomains (www., gist., codeload. …) but the sites of
+ * NON_REPOSITORY_HOSTS, whose paths name none (si-mcvo, si-b44j);
+ * raw.githubusercontent.com, which serves a repository's files; or
+ * github.dev, its editor (si-gnca), though no subdomain of these last two: a
+ * codespace's address on github.dev names no repository. Three more
  * spellings name one (si-3iuk): git's SSH address,
  * git@github.com:<owner>/<name>, with or without the user; the editor
  * github.dev sends a visitor to, vscode.dev/github/<owner>/<name>, on
  * vscode.dev or any of its subdomains (insiders., www.) but no other host
  * whose name ends in vscode.dev; and the REST API,
- * api.github.com/repos/<owner>/<name>. A colon after github.com starts the
- * path, as in the SSH address, except where digits and a slash follow it and
- * either a scheme comes before the host, as git reads it too, or
- * <owner>/<name> follows them: there it starts a port. So
+ * api.github.com/repos/<owner>/<name>. Four more do (si-b44j): the address
+ * the API gives for uploading a release's files,
+ * uploads.github.com/repos/<owner>/<name>; a file kept with Git LFS,
+ * media.githubusercontent.com/media/<owner>/<name>/…, where github.com sends
+ * a visitor for one; the link that opens a codespace,
+ * codespaces.new/<owner>/<name>, on codespaces.new or any of its
+ * subdomains; and a repository's preview image,
+ * opengraph.githubassets.com/<any segment>/<owner>/<name>. A colon after
+ * github.com starts the path, as in the SSH address, except where digits and
+ * a slash follow it and either a scheme comes before the host, as git reads
+ * it too, or <owner>/<name> follows them: there it starts a port. So
  * https://github.com:443/<owner> names no repository, but
  * git@github.com:42/<name> names the owner 42's. The host is read in any
  * case, with or without a closing dot and a port, an empty port too. A
@@ -90,7 +133,7 @@ const GITHUB_FILE_URL = /^https:\/\/github\.com\/([A-Za-z0-9-]+)\/([A-Za-z0-9_.-
  * @returns {string[]}
  */
 export function githubRepos(text) {
-  return [...String(text).matchAll(/(?:(?:(?<!\bdocs\.)\bgithub\.com|(?<![\w.-])(?:raw\.githubusercontent\.com|github\.dev))\.?(?::\d*)?\/|(?<!\bdocs\.)\bgithub\.com\.?:(?:(?!\d*\/)|(?<!\/\/[\w.%+~:@-]*))|(?<![\w-])vscode\.dev\.?(?::\d*)?\/github\/|api\.github\.com\.?(?::\d*)?\/repos\/)([A-Za-z0-9-]+)\/([A-Za-z0-9_.-]+)/gi)].map(([, owner, name]) => `${owner}/${name.replace(/\.+$/, "").replace(/\.git$/i, "")}`);
+  return [...String(text).matchAll(GITHUB_REPOSITORY)].map(([, owner, name]) => `${owner}/${name.replace(/\.+$/, "").replace(/\.git$/i, "")}`);
 }
 
 /** The entry of `repos` that is this owner/name, or undefined. GitHub matches
@@ -213,10 +256,11 @@ export function validateApps({
       // browser can open. It names no GitHub repository in any spelling
       // githubRepos() reads — www.github.com, GitHub.com, a subdomain, a
       // port, raw.githubusercontent.com, github.dev, vscode.dev/github/,
-      // api.github.com/repos/ — as the content gate reads the built site
-      // (si-i5uk, si-gnca, si-3iuk), and, whatever it names, it
-      // is on none of GITHUB_HOSTS, so a url in which githubRepos() reads no
-      // repository — an owner's page, a gist's file on
+      // api.github.com/repos/, codespaces.new/ — as the content gate reads
+      // the built site (si-i5uk, si-gnca, si-3iuk, si-b44j), and, whatever it
+      // names, it is on none of GITHUB_HOSTS, so a url in which githubRepos()
+      // reads no repository — an owner's page, a page of GitHub's
+      // documentation or help (NON_REPOSITORY_HOSTS), a gist's file on
       // gist.githubusercontent.com — is refused too (si-qtwy). A url gets
       // the message of the first of these rules it breaks, only.
       const host = isText(entry.url) ? hostOf(entry.url) : undefined;
