@@ -552,6 +552,7 @@ describe("content gate", () => {
 // same front matter the build reads (si-absd), so an article whose date
 // changes moves in both alike: only this table, written by hand, notices.
 const ARTICLES = [
+  ["/blog/what-an-agent-costs-while-it-waits/", "2026-10-11"],
   ["/blog/how-many-agents-at-once/", "2026-10-06"],
   ["/blog/cleaning-up-gaimer/", "2026-09-26"],
   ["/blog/what-the-mayors-context-costs/", "2026-09-25"],

@@ -1107,6 +1107,29 @@
       },
       "summary": "{jobs} jobb i låset, {waits} av dem väntade, {minutes} minuter sammanlagt; belastningen nådde som mest {peak}",
       "caption": "Sajtens två genomförandeagenter den 26 september 2026, klockan 10:00 till 16:00 UTC, en rad för var och en: deras sessioner med kontur, varje jobb som höll webbläsarlåset som en fylld stapel och varje väntan på det i orange. Den tredje raden har borgmästarens egna jobb; under dem är maskinens medelbelastning över en minut, mätt varje minut från klockan 10:05. Alla 17 väntetider var genomförandeagenternas jobb."
+    },
+    "waiting-per-day": {
+      "title": "Borgmästarens tokens per dygn (UTC), 27 september till 10 oktober 2026",
+      "head": "miljoner tokens per dygn (UTC)",
+      "share": "andel på omstarter",
+      "legend": {
+        "restarts": "omstart av en bevakning utan händelser",
+        "rest": "allt annat"
+      },
+      "day": "{d} {m}",
+      "months": {
+        "sep": "sep",
+        "oct": "okt"
+      },
+      "decimal": ",",
+      "percent": "{n} %",
+      "notes": {
+        "login": "utelämnad: inga anrop på 1,8 timmar",
+        "partial": "bara till 21:23 UTC",
+        "change": "ändringen: väcks bara av händelser"
+      },
+      "named": "{day}: {total} miljoner tokens, {share} på omstarter",
+      "caption": "Borgmästarens tokens per dygn (UTC) från 27 september till 10 oktober 2026, i miljoner: omstarter av en bevakning som inte hade rapporterat något i orange och allt annat i grått, med andelen av dygnets tokens som gick till omstarter till höger. Den 6 oktober är utelämnad – inga anrop på 1,8 timmar efter att en inloggning gått ut – och så är den 9 oktober, dagen för ändringen, utan anrop förrän på kvällen; data för den 8 oktober slutar klockan 21:23 UTC. Från ändringen väcktes borgmästaren bara när något hände."
     }
   },
   "games": {

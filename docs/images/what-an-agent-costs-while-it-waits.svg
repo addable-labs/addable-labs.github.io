@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <!-- The image of "What an agent costs while it waits": a quiet day for an
+       agent that waits, in two lanes over the same span of time. Above, a
+       stopwatch and a row of evenly spaced marks (orange): a watch that is
+       started again every 30 minutes, whether anything happened or not.
+       Below, a bell and a sparse, irregular row of marks (green): an agent
+       woken only when something happens. The marks are the same size in
+       both rows, since a wake-up cost what a restart cost. The subject sits
+       inside the central 630 x 630 square; nothing that matters is within
+       40 px of an edge. -->
+  <defs>
+    <pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse" y="15">
+      <path d="M0 .5H30M.5 0V30" fill="none" stroke="#242C33"/>
+    </pattern>
+    <radialGradient id="fade" cx="600" cy="315" r="640" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff" stop-opacity=".95"/>
+      <stop offset=".6" stop-color="#fff" stop-opacity=".55"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </radialGradient>
+    <mask id="gridmask"><rect width="1200" height="630" fill="url(#fade)"/></mask>
+    <radialGradient id="glow" cx="600" cy="315" r="340" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#83F35D" stop-opacity=".11"/>
+      <stop offset="1" stop-color="#83F35D" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="#0B0E10"/>
+  <rect width="1200" height="630" fill="url(#grid)" mask="url(#gridmask)"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+
+  <!-- the two lanes: the same span of a quiet day -->
+  <rect x="410" y="178" width="480" height="100" rx="16" fill="#13181C" stroke="#626E79" stroke-width="3"/>
+  <rect x="410" y="352" width="480" height="100" rx="16" fill="#13181C" stroke="#626E79" stroke-width="3"/>
+
+  <!-- above: a watch started again every 30 minutes, sixteen evenly spaced restarts -->
+  <g fill="#FF6F00">
+    <rect x="430" y="199" width="14" height="58" rx="3"/>
+    <rect x="458.4" y="199" width="14" height="58" rx="3"/>
+    <rect x="486.8" y="199" width="14" height="58" rx="3"/>
+    <rect x="515.2" y="199" width="14" height="58" rx="3"/>
+    <rect x="543.6" y="199" width="14" height="58" rx="3"/>
+    <rect x="572" y="199" width="14" height="58" rx="3"/>
+    <rect x="600.4" y="199" width="14" height="58" rx="3"/>
+    <rect x="628.8" y="199" width="14" height="58" rx="3"/>
+    <rect x="657.2" y="199" width="14" height="58" rx="3"/>
+    <rect x="685.6" y="199" width="14" height="58" rx="3"/>
+    <rect x="714" y="199" width="14" height="58" rx="3"/>
+    <rect x="742.4" y="199" width="14" height="58" rx="3"/>
+    <rect x="770.8" y="199" width="14" height="58" rx="3"/>
+    <rect x="799.2" y="199" width="14" height="58" rx="3"/>
+    <rect x="827.6" y="199" width="14" height="58" rx="3"/>
+    <rect x="856" y="199" width="14" height="58" rx="3"/>
+  </g>
+
+  <!-- below: woken only when something happens, a few marks at uneven intervals -->
+  <g fill="#83F35D">
+    <rect x="472.6" y="373" width="14" height="58" rx="3"/>
+    <rect x="594.01" y="373" width="14" height="58" rx="3"/>
+    <rect x="615.31" y="373" width="14" height="58" rx="3"/>
+    <rect x="736.72" y="373" width="14" height="58" rx="3"/>
+    <rect x="811.27" y="373" width="14" height="58" rx="3"/>
+  </g>
+
+  <!-- the stopwatch: the deadline that ends the watch -->
+  <rect x="329" y="167" width="22" height="12" rx="3" fill="#ECEFF1"/>
+  <path d="M340 178V192" stroke="#ECEFF1" stroke-width="6"/>
+  <circle cx="340" cy="228" r="36" fill="#1A2126" stroke="#ECEFF1" stroke-width="3"/>
+  <path d="M340 228V205" stroke="#FF6F00" stroke-width="6" stroke-linecap="round"/>
+  <circle cx="340" cy="228" r="6" fill="#FF6F00"/>
+
+  <!-- the bell: something happened -->
+  <circle cx="340" cy="365" r="6" fill="#ECEFF1"/>
+  <path d="M307 424C316 415 314 405 314 393C314 379 326 369 340 369C354 369 366 379 366 393C366 405 364 415 373 424Z" fill="#1A2126" stroke="#ECEFF1" stroke-width="3" stroke-linejoin="round"/>
+  <circle cx="340" cy="436" r="8" fill="#83F35D"/>
+</svg>
