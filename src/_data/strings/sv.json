@@ -1129,7 +1129,7 @@
         "change": "ändringen: väcks bara av händelser"
       },
       "named": "{day}: {total} miljoner tokens, {share} på omstarter",
-      "caption": "Borgmästarens tokens per dygn (UTC) från 27 september till 10 oktober 2026, i miljoner: omstarter av en bevakning som inte hade rapporterat något i orange och allt annat i grått, med andelen av dygnets tokens som gick till omstarter till höger. Den 6 oktober är utelämnad – inga anrop på 1,8 timmar efter att en inloggning gått ut – och så är den 9 oktober, dagen för ändringen, utan anrop förrän på kvällen; data för den 8 oktober slutar klockan 21:23 UTC. Från ändringen väcktes borgmästaren bara när något hände."
+      "caption": "Borgmästarens tokens per dygn (UTC) från 27 september till 10 oktober 2026, i miljoner: omstarter av en bevakning som inte hade rapporterat något i orange och allt annat i grått, med andelen av dygnets tokens som gick till omstarter till höger. Den 6 oktober är utelämnad – inga anrop på 1,8 timmar efter att en inloggning gått ut – och så är den 9 oktober, dagen för ändringen, utan anrop förrän på kvällen; data för den 8 oktober slutar klockan 21:23 UTC. Från ändringen väcktes borgmästaren bara när något hände: den 10 oktober blev det inga omstarter, men två tredjedelar av dygnets tokens gick till väckningar som inte krävde någon åtgärd."
     }
   },
   "games": {

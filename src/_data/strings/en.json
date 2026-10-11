@@ -1129,7 +1129,7 @@
         "change": "the change: woken only by events"
       },
       "named": "{day}: {total} million tokens, {share} on restarts",
-      "caption": "The mayor's tokens per UTC day from 27 September to 10 October 2026, in millions: restarting a watch that had reported nothing in orange and everything else in grey, with the share of the day's tokens that went on restarts at the right. 6 October is left out, with no calls for 1.8 hours after a login expired, and so is 9 October, the day of the change, with no calls until the evening; 8 October's data end at 21:23 UTC. From the change on, the mayor was woken only when something happened."
+      "caption": "The mayor's tokens per UTC day from 27 September to 10 October 2026, in millions: restarting a watch that had reported nothing in orange and everything else in grey, with the share of the day's tokens that went on restarts at the right. 6 October is left out, with no calls for 1.8 hours after a login expired, and so is 9 October, the day of the change, with no calls until the evening; 8 October's data end at 21:23 UTC. From the change on, the mayor was woken only when something happened: 10 October had no restarts, yet two thirds of its tokens went on wake-ups that needed no action."
     }
   },
   "games": {
