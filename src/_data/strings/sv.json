@@ -1140,8 +1140,8 @@
           "note": "förslag"
         },
         "human": {
-          "label": "Människan",
-          "note": "bär varje varv"
+          "label": "Användaren",
+          "note": "går varje varv"
         },
         "editor": {
           "label": "Editorn",
@@ -1151,14 +1151,14 @@
           "label": "Testerna",
           "note": "ett fel"
         },
-        "note": "Människan klistrar, kör och",
-        "note2": "bär felet tillbaka. Varje varv."
+        "note": "Användaren klistrar, kör och",
+        "note2": "för in felet i chatten. Varje varv."
       },
       "agent": {
         "title": "Med en AI-agent",
         "head": "Med en AI-agent",
         "task": {
-          "label": "Människan",
+          "label": "Användaren",
           "note": "ger uppgiften"
         },
         "agent": "AI-agent",
@@ -1171,19 +1171,19 @@
           "note": "filen"
         },
         "test": {
-          "label": "Testa",
-          "note": "kör testerna"
+          "label": "Köra",
+          "note": "testerna"
         },
-        "again": "läs felet, försök igen",
+        "again": "läsa felet, försöka igen",
         "review": {
-          "label": "Människan",
+          "label": "Användaren",
           "note": "granskar"
         },
         "note": "Varven sker i verktyget.",
-        "note2": "Människan börjar",
+        "note2": "Användaren börjar",
         "note3": "och avslutar."
       },
-      "caption": "Samma rättning två gånger. I chatten bär människan varje varv mellan chatten, editorn och testerna. Med en AI-agent sker varven inne i verktyget och människans del blir att ge uppgiften och granska resultatet."
+      "caption": "Samma rättning två gånger. I chatten går varje varv genom användaren. Med en AI-agent sker varven i verktyget och användaren finns i början och i slutet."
     },
     "five-parts": {
       "title": "En AI-agents fem delar",
@@ -1202,7 +1202,7 @@
       },
       "loop": "loop: samla · agera · kontrollera",
       "harness": "harness – håller ihop allt",
-      "caption": "En AI-agents fem delar: modellen i mitten, instruktionerna och verktygen som matar den, loopen den arbetar i och runt alltihop det lager som kallas harness."
+      "caption": "En AI-agents fem delar: modellen i mitten, instruktionerna och verktygen som matar den, loopen den arbetar i och lagret runt alltihop, som kallas harness."
     }
   },
   "games": {

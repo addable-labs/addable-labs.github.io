@@ -1140,8 +1140,8 @@
           "note": "a suggestion"
         },
         "human": {
-          "label": "The human",
-          "note": "carries every round"
+          "label": "The user",
+          "note": "does every round"
         },
         "editor": {
           "label": "The editor",
@@ -1151,14 +1151,14 @@
           "label": "The tests",
           "note": "an error"
         },
-        "note": "The human pastes, runs and",
-        "note2": "carries the error back. Every round."
+        "note": "The user pastes, runs and",
+        "note2": "brings the error into the chat. Every round."
       },
       "agent": {
         "title": "With an AI agent",
         "head": "With an AI agent",
         "task": {
-          "label": "The human",
+          "label": "The user",
           "note": "gives the task"
         },
         "agent": "AI agent",
@@ -1176,14 +1176,14 @@
         },
         "again": "read the error, try again",
         "review": {
-          "label": "The human",
+          "label": "The user",
           "note": "reviews"
         },
         "note": "The rounds happen",
-        "note2": "in the tool. The human",
+        "note2": "in the tool. The user",
         "note3": "starts and finishes."
       },
-      "caption": "The same fix twice. In the chat the human carries every round between the chat, the editor and the tests. With an AI agent the rounds happen inside the tool, and the human's part is to give the task and review the result."
+      "caption": "The same fix twice. In the chat every round goes through the user. With an AI agent the rounds happen in the tool, and the user is there at the start and at the end."
     },
     "five-parts": {
       "title": "The five parts of an AI agent",
@@ -1201,7 +1201,7 @@
         "note": "reasons"
       },
       "loop": "loop: gather · act · verify",
-      "harness": "harness – holds it all together",
+      "harness": "harness — holds it all together",
       "caption": "The five parts of an AI agent: the model in the middle, the instructions and the tools that feed it, the loop it works in and, around it all, the layer called the harness."
     }
   },
