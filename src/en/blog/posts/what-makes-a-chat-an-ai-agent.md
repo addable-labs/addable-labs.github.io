@@ -14,8 +14,8 @@ humanReviewed: false             # no one has read it yet
 Addable Labs builds software largely with AI agents, and this site is built
 and maintained by what we call the factory, as we described in
 [Why we run an agent-run software factory](/blog/why-we-run-an-agent-run-factory/).
-Much of the work with AI happens in a chat: someone pastes in code, gets a
-suggestion and pastes it back.
+Much of the work with AI happens in a chat: you paste in code, get a
+suggestion and paste it back.
 
 This series describes the road from there, one building block at a time,
 and starts with what sets the two apart. The short answer: the model is
@@ -27,10 +27,10 @@ work.
 
 A made-up example: a date field in a form accepts 31 February.
 
-In the chat, someone pastes in the code and describes the bug. They carry
-the suggestion to the editor, run the tests and see another test break. They
+You paste the code into the chat and describe the bug. You copy the
+suggestion into the editor, run the tests and see another test break. You
 paste the error into the chat, get a new suggestion and after a few rounds
-it works. The model has never seen the project, only the pieces they chose
+it works. The model has never seen the project, only the pieces you chose
 to show it.
 
 An AI agent gets the task instead: "The date field accepts 31 February. Fix
@@ -40,7 +40,7 @@ tries again. When all tests pass, it shows what it has changed, and the user
 decides whether the change goes in.
 
 The difference is who does the rounds. In the chat, the user runs the tests,
-reads the error and brings it into the chat. With an AI agent, that happens
+reads the error and copies it into the chat. With an AI agent, that happens
 inside the tool, and the user's part becomes giving the task and reviewing
 the result.
 
@@ -107,9 +107,8 @@ the result, choose the next.
 [Anthropic describes it](https://code.claude.com/docs/en/how-claude-code-works)
 as three phases: gather context, take action and verify results. The loop is
 also where the agent gets past its own mistakes. When the site was first
-built, on 20 September, a session claimed a bookkeeping record in the
-ledger, the factory's tracker, instead of its task and needed fourteen
-minutes to work around it. It wrote the fix into its notes, and when the
+built, on 20 September, a session claimed the wrong item in the
+factory's tracker and needed fourteen minutes to work around it. It wrote the fix into its notes, and when the
 second build's first session hit the same thing, it was on its task within
 a minute.
 
@@ -125,9 +124,9 @@ system prompt and tool definitions: in September they were about 33,000
 tokens of every start, according to
 [A study of the mayor's context](/blog/what-the-mayors-context-costs/).
 
-## What carries the work in the factory
+## What steers the work in the factory
 
-In the factory, four things outside the model carry the work.
+In the factory, four things outside the model steer the work.
 
 **Gates.** When the site was built in September, a single command ran ten
 quality gates on every pull request. Each gate has a test proving it fails

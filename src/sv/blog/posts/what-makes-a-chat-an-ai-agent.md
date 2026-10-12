@@ -23,11 +23,11 @@ densamma som i chatten. Det nya är allt runt omkring den: en AI-agent får
 läsa projektet, ändra filer, köra kommandon och kontrollera sitt eget
 arbete.
 
-## Samma fel, två sätt att rätta det
+## Samma bugg, två sätt att rätta den
 
 Ett påhittat exempel: ett datumfält i ett formulär godtar 31 februari.
 
-I chatten klistrar man in koden och beskriver felet. Man för över förslaget
+Man klistrar in koden i chatten och beskriver buggen. Man kopierar förslaget
 till editorn, kör testerna och ser ett annat test gå sönder. Man klistrar in
 felmeddelandet i chatten, får ett nytt förslag och efter några varv
 fungerar det. Modellen har aldrig sett projektet, bara de bitar man valde
@@ -40,7 +40,7 @@ felet och försöker igen. När alla tester går igenom visar den vad den har
 ändrat och användaren bestämmer om ändringen ska in.
 
 Skillnaden är vem som går varven. I chatten är det användaren som kör
-testerna, läser felet och för in det i chatten. Med en AI-agent sker det
+testerna, läser felet och kopierar det till chatten. Med en AI-agent sker det
 inne i verktyget och användarens del blir att ge uppgiften och granska
 resultatet.
 
@@ -79,7 +79,7 @@ Codex ingick. I dag läses det av en lång rad verktyg. Filen kan vara kort:
 - Kör `npm test` innan du säger att du är klar.
 
 ## Regler
-- Skriv ett test för varje fel du rättar.
+- Skriv ett test för varje bugg du rättar.
 - Ändra inget i mappen `migrations/`.
 - Fråga innan du lägger till ett nytt paket.
 ```
@@ -107,9 +107,8 @@ resultatet, välja nästa.
 [Anthropic beskriver den](https://code.claude.com/docs/en/how-claude-code-works)
 som tre faser – samla kontext, agera och kontrollera resultatet. Loopen är
 också där agenten tar sig förbi sina egna misstag. När sajten byggdes
-första gången den 20 september tog en session en administrativ post i
-registret, fabrikens ärendehanterare, i stället för sin uppgift och behövde
-fjorton minuter för att ta sig runt det. Den skrev ner lösningen i sina
+första gången den 20 september tog en session fel ärende i fabrikens
+ärendehanterare och behövde fjorton minuter för att ta sig runt det. Den skrev ner lösningen i sina
 anteckningar och när det andra byggets första session råkade ut för samma
 sak var den igång med sin uppgift inom en minut.
 
@@ -125,9 +124,9 @@ systemprompt och egna verktygsdefinitioner: i september var de ungefär
 33 000 tokens av varje start, enligt
 [En studie av borgmästarens kontext](/sv/blog/what-the-mayors-context-costs/).
 
-## Vad som bär arbetet i fabriken
+## Vad som styr arbetet i fabriken
 
-I fabriken är det fyra saker utanför modellen som bär arbetet.
+I fabriken är det fyra saker utanför modellen som styr arbetet.
 
 **Grindar.** När sajten byggdes i september körde ett enda kommando tio
 kvalitetsgrindar på varje pull request. Varje grind har ett test som

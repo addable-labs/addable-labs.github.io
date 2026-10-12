@@ -182,8 +182,8 @@
 - id: F11
   article: what-makes-a-chat-an-ai-agent
   sentence:
-    sv: "När sajten byggdes första gången den 20 september tog en session en administrativ post i registret, fabrikens ärendehanterare, i stället för sin uppgift och behövde fjorton minuter för att ta sig runt det."
-    en: "When the site was first built, on 20 September, a session claimed a bookkeeping record in the ledger, the factory's tracker, instead of its task and needed fourteen minutes to work around it."
+    sv: "När sajten byggdes första gången den 20 september tog en session fel ärende i fabrikens ärendehanterare och behövde fjorton minuter för att ta sig runt det."
+    en: "When the site was first built, on 20 September, a session claimed the wrong item in the factory's tracker and needed fourteen minutes to work around it."
   vendor: Addable Labs
   url: https://addablelabs.se/blog/why-we-run-an-agent-run-factory/
   final_url: https://addablelabs.se/blog/why-we-run-an-agent-run-factory/
@@ -215,8 +215,8 @@
 - id: F11e
   article: what-makes-a-chat-an-ai-agent
   sentence:
-    sv: "registret, fabrikens ärendehanterare"
-    en: "the ledger, the factory's tracker"
+    sv: "fabrikens ärendehanterare"
+    en: "the factory's tracker"
   vendor: Addable Labs
   url: https://addablelabs.se/blog/what-the-mayors-context-costs/
   final_url: https://addablelabs.se/blog/what-the-mayors-context-costs/
