@@ -1,7 +1,7 @@
 # The sources of "The instruction file, the first thing an AI agent reads" (both
 # languages): one entry per factual claim in the article, vendor and factory
 # claims alike, for the monthly check of the series' sources. Every quote was
-# taken from its page on 2026-10-12. The two lines from the shared machine's
+# taken from its page on 2026-10-12 or 2026-10-13. The two lines from the shared machine's
 # rules file rest on an unpublished file and have no entry.
 
 - id: O1-short
@@ -51,7 +51,7 @@
 - id: V2-edge
   article: the-instruction-file
   sentence:
-    sv: "Den senare skriver att AI:n fattar \"bättre beslut i gränsfall\" (vår översättning) när instruktionen förklarar varför regeln finns."
+    sv: "Den senare skriver att agenten fattar \"bättre beslut i gränsfall\" (vår översättning) när instruktionen förklarar varför regeln finns."
     en: "The latter writes: \"When instructions explain why a convention exists, the AI makes better decisions in edge cases.\""
   vendor: GitHub
   url: https://code.visualstudio.com/docs/agent-customization/custom-instructions
@@ -95,7 +95,7 @@
 - id: C5-nested
   article: the-instruction-file
   sentence:
-    sv: "Claude Code läser en undermapps AGENTS.md när det öppnar en fil där"
+    sv: "Claude Code läser AGENTS.md i en undermapp när det öppnar en fil där"
     en: "Claude Code reads a subfolder's AGENTS.md when it opens a file there"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/memory
@@ -117,8 +117,8 @@
 - id: V3-experiment
   article: the-instruction-file
   sentence:
-    sv: "i VS Code är filer i undermappar ett experiment som för den lokala agenten är avstängt från början."
-    en: "in VS Code, files in subfolders are an experiment, off by default for its local agent."
+    sv: "I VS Code är filer i undermappar ett experiment, avstängt från början för den lokala agenten."
+    en: "In VS Code, files in subfolders are experimental, off by default for its local agent."
   vendor: GitHub
   url: https://code.visualstudio.com/docs/agent-customization/custom-instructions
   final_url: https://code.visualstudio.com/docs/agent-customization/custom-instructions
@@ -128,8 +128,8 @@
 - id: V4-off
   article: the-instruction-file
   sentence:
-    sv: "i VS Code är filer i undermappar ett experiment som för den lokala agenten är avstängt från början."
-    en: "in VS Code, files in subfolders are an experiment, off by default for its local agent."
+    sv: "I VS Code är filer i undermappar ett experiment, avstängt från början för den lokala agenten."
+    en: "In VS Code, files in subfolders are experimental, off by default for its local agent."
   vendor: GitHub
   url: https://code.visualstudio.com/docs/agent-customization/custom-instructions
   final_url: https://code.visualstudio.com/docs/agent-customization/custom-instructions
@@ -139,8 +139,8 @@
 - id: V4-off-b
   article: the-instruction-file
   sentence:
-    sv: "i VS Code är filer i undermappar ett experiment som för den lokala agenten är avstängt från början."
-    en: "in VS Code, files in subfolders are an experiment, off by default for its local agent."
+    sv: "I VS Code är filer i undermappar ett experiment, avstängt från början för den lokala agenten."
+    en: "In VS Code, files in subfolders are experimental, off by default for its local agent."
   vendor: GitHub
   url: https://code.visualstudio.com/docs/agent-customization/custom-instructions
   final_url: https://code.visualstudio.com/docs/agent-customization/custom-instructions
@@ -150,14 +150,25 @@
 - id: C6-hook
   article: the-instruction-file
   sentence:
-    sv: "Anthropics eget exempel på en krok (hook) är en som blockerar skrivningar till mappen med migreringar"
-    en: "Anthropic's own example of a hook is one that blocks writes to the migrations folder"
+    sv: "ett av Anthropics egna exempel på en krok (hook) blockerar skrivningar till mappen med migreringar"
+    en: "one of Anthropic's own examples of a hook blocks writes to the migrations folder"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/best-practices
   final_url: https://code.claude.com/docs/en/best-practices
   quote: "Write a hook that blocks writes to the migrations folder."
   retrieved: 2026-10-12
   last_checked: 2026-10-12
+- id: C6-advisory
+  article: the-instruction-file
+  sentence:
+    sv: "Även i rotfilen stoppar regeln ingenting"
+    en: "Even in the root file the rule stops nothing"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/best-practices
+  final_url: https://code.claude.com/docs/en/best-practices
+  quote: "Unlike CLAUDE.md instructions which are advisory, hooks are deterministic and guarantee the action happens."
+  retrieved: 2026-10-13
+  last_checked: 2026-10-13
 - id: F1-niva
   article: the-instruction-file
   sentence:
@@ -169,6 +180,17 @@
   quote: "database migrations are append-only"
   retrieved: 2026-10-12
   last_checked: 2026-10-12
+- id: F1-niva-sv
+  article: the-instruction-file
+  sentence:
+    sv: "I självskattningen nivå, som vi skrev om i Lärdomar från att bygga nivå, får databasmigreringar bara läggas till och aldrig ändras."
+    en: "In the self-assessment nivå, which we wrote about in Lessons from building nivå, database migrations are append-only."
+  vendor: Addable Labs
+  url: https://addablelabs.se/sv/blog/lessons-from-building-niva/
+  final_url: https://addablelabs.se/sv/blog/lessons-from-building-niva/
+  quote: "databasmigreringar får bara läggas till, aldrig ändras"
+  retrieved: 2026-10-13
+  last_checked: 2026-10-13
 - id: F2-niva-check
   article: the-instruction-file
   sentence:
@@ -191,11 +213,22 @@
   quote: "Build the harness before the features."
   retrieved: 2026-10-12
   last_checked: 2026-10-12
+- id: F2-niva-check-sv
+  article: the-instruction-file
+  sentence:
+    sv: "Den hör till testmiljön som byggdes före funktionerna: \"ett beslut som är nedskrivet är ett beslut som testmiljön ser till att vi lever upp till\"."
+    en: "It is among the checks built before the features, so a decision written down is one they make sure is respected."
+  vendor: Addable Labs
+  url: https://addablelabs.se/sv/blog/lessons-from-building-niva/
+  final_url: https://addablelabs.se/sv/blog/lessons-from-building-niva/
+  quote: "ett beslut som är nedskrivet är ett beslut som testmiljön ser till att vi lever upp till"
+  retrieved: 2026-10-13
+  last_checked: 2026-10-13
 - id: G1-two-pages
   article: the-instruction-file
   sentence:
-    sv: "GitHubs förslag till prompt för att låta Copilot skriva filen säger att instruktionerna \"inte får vara längre än två sidor\" (vår översättning)"
-    en: "GitHub's suggested prompt for having Copilot write the file says \"Instructions must be no longer than 2 pages\""
+    sv: "GitHubs förslag till prompt för att låta Copilot skriva sin egen instruktionsfil säger att instruktionerna \"inte får vara längre än två sidor\" (vår översättning)"
+    en: "GitHub's suggested prompt for having Copilot write its own instruction file says \"Instructions must be no longer than 2 pages\""
   vendor: GitHub
   url: https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/add-custom-instructions/add-repository-instructions
   final_url: https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/add-custom-instructions/add-repository-instructions
@@ -238,8 +271,8 @@
 - id: S2-dev
   article: the-instruction-file
   sentence:
-    sv: "Filer som utvecklarna själva hade skrivit höjde andelen lösta uppgifter med 2,4 % i genomsnitt, en skillnad som inte är statistiskt säkerställd."
-    en: "Files the developers had written themselves raised the share of tasks solved by 2.4% on average, a difference that is not statistically significant."
+    sv: "Filer som utvecklarna själva hade skrivit höjde andelen lösta uppgifter med 2,4 % i genomsnitt."
+    en: "Files the developers had written themselves raised the share of tasks solved by 2.4% on average."
   vendor: ETH Zurich (arXiv)
   url: https://arxiv.org/html/2602.11988v3
   final_url: https://arxiv.org/html/2602.11988v3
@@ -249,19 +282,30 @@
 - id: S3-generated
   article: the-instruction-file
   sentence:
-    sv: "Filer som en språkmodell hade skrivit sänkte den med 0,5 och 2 % i studiens två uppsättningar uppgifter och gjorde körningarna 20 och 23 % dyrare."
-    en: "Files written by a language model lowered it by 0.5% and 2% in the study's two sets of tasks and made the runs 20% and 23% more expensive."
+    sv: "Filer som en språkmodell hade skrivit sänkte den med 0,5 och 2 % i studiens två uppsättningar uppgifter."
+    en: "Files written by a language model lowered it by 0.5% and 2% in the study's two sets of tasks."
   vendor: ETH Zurich (arXiv)
   url: https://arxiv.org/html/2602.11988v3
   final_url: https://arxiv.org/html/2602.11988v3
   quote: "LLM-generated context files cause performance drops in 5 out of 8 settings across SWE-bench and CTXbench"
   retrieved: 2026-10-12
   last_checked: 2026-10-12
+- id: S3-not-significant
+  article: the-instruction-file
+  sentence:
+    sv: "Ingen av skillnaderna är statistiskt säkerställd, men de genererade filerna gjorde körningarna 20 och 23 % dyrare."
+    en: "Neither result is statistically significant, but the generated files made the runs 20% and 23% more expensive."
+  vendor: ETH Zurich (arXiv)
+  url: https://arxiv.org/html/2602.11988v3
+  final_url: https://arxiv.org/html/2602.11988v3
+  quote: "this indicates that they have no significant effect on performance"
+  retrieved: 2026-10-13
+  last_checked: 2026-10-13
 - id: S3-generated-cost
   article: the-instruction-file
   sentence:
-    sv: "Filer som en språkmodell hade skrivit sänkte den med 0,5 och 2 % i studiens två uppsättningar uppgifter och gjorde körningarna 20 och 23 % dyrare."
-    en: "Files written by a language model lowered it by 0.5% and 2% in the study's two sets of tasks and made the runs 20% and 23% more expensive."
+    sv: "Ingen av skillnaderna är statistiskt säkerställd, men de genererade filerna gjorde körningarna 20 och 23 % dyrare."
+    en: "Neither result is statistically significant, but the generated files made the runs 20% and 23% more expensive."
   vendor: ETH Zurich (arXiv)
   url: https://arxiv.org/html/2602.11988v3
   final_url: https://arxiv.org/html/2602.11988v3
@@ -337,8 +381,8 @@
 - id: E1-responsive
   article: the-instruction-file
   sentence:
-    sv: "Anthropics promptguide skriver i oktober 2026 att nyare modeller lyssnar mer på systemprompten och att den som tidigare skrev \"CRITICAL: You MUST use this tool when...\" nu kan skriva \"Use this tool when...\"."
-    en: "Anthropic's prompting guide writes in October 2026 that newer models are more responsive to the system prompt, and that where one might have written \"CRITICAL: You MUST use this tool when...\", one can now write \"Use this tool when...\"."
+    sv: "Anthropics promptguide skriver i oktober 2026 att vissa nyare modeller är mer lyhörda för systemprompten och att den som tidigare skrev \"CRITICAL: You MUST use this tool when...\" nu kan skriva \"Use this tool when...\"."
+    en: "Anthropic's prompting guide writes in October 2026 that some newer models are more responsive to the system prompt, and that where one might have written \"CRITICAL: You MUST use this tool when...\", one can now write \"Use this tool when...\"."
   vendor: Anthropic
   url: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices
   final_url: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices
@@ -348,8 +392,8 @@
 - id: E1-critical
   article: the-instruction-file
   sentence:
-    sv: "Anthropics promptguide skriver i oktober 2026 att nyare modeller lyssnar mer på systemprompten och att den som tidigare skrev \"CRITICAL: You MUST use this tool when...\" nu kan skriva \"Use this tool when...\"."
-    en: "Anthropic's prompting guide writes in October 2026 that newer models are more responsive to the system prompt, and that where one might have written \"CRITICAL: You MUST use this tool when...\", one can now write \"Use this tool when...\"."
+    sv: "Anthropics promptguide skriver i oktober 2026 att vissa nyare modeller är mer lyhörda för systemprompten och att den som tidigare skrev \"CRITICAL: You MUST use this tool when...\" nu kan skriva \"Use this tool when...\"."
+    en: "Anthropic's prompting guide writes in October 2026 that some newer models are more responsive to the system prompt, and that where one might have written \"CRITICAL: You MUST use this tool when...\", one can now write \"Use this tool when...\"."
   vendor: Anthropic
   url: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices
   final_url: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices
@@ -414,7 +458,7 @@
 - id: C12-local-stops
   article: the-instruction-file
   sentence:
-    sv: "Den som lägger till en sådan för egna anteckningar får Claude Code att sluta läsa AGENTS.md om inte inställningen Project instructions är satt till att läsa båda."
+    sv: "Den som lägger till en sådan för egna anteckningar får sin Claude Code att sluta läsa AGENTS.md om inte inställningen Project instructions är satt till att läsa båda."
     en: "Someone who adds one for their own notes stops Claude Code from reading AGENTS.md for them unless the Project instructions setting is set to read both."
   vendor: Anthropic
   url: https://code.claude.com/docs/en/memory
@@ -425,7 +469,7 @@
 - id: C12-local-setting
   article: the-instruction-file
   sentence:
-    sv: "Den som lägger till en sådan för egna anteckningar får Claude Code att sluta läsa AGENTS.md om inte inställningen Project instructions är satt till att läsa båda."
+    sv: "Den som lägger till en sådan för egna anteckningar får sin Claude Code att sluta läsa AGENTS.md om inte inställningen Project instructions är satt till att läsa båda."
     en: "Someone who adds one for their own notes stops Claude Code from reading AGENTS.md for them unless the Project instructions setting is set to read both."
   vendor: Anthropic
   url: https://code.claude.com/docs/en/memory
@@ -477,6 +521,17 @@
   quote: "Git checks a committed symlink out as a plain text file unless core.symlinks is enabled"
   retrieved: 2026-10-12
   last_checked: 2026-10-12
+- id: C15-symlink
+  article: the-instruction-file
+  sentence:
+    sv: "En symbolisk länk fungerar också, men Anthropic rekommenderar importen om någon arbetar på Windows, där Git annars kan checka ut länken som en vanlig textfil."
+    en: "A symbolic link works too, but Anthropic recommends the import if anyone works on Windows, where Git may otherwise check the link out as a plain text file."
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/memory
+  final_url: https://code.claude.com/docs/en/memory
+  quote: "If you don't need Claude-specific content, a symlink also works"
+  retrieved: 2026-10-13
+  last_checked: 2026-10-13
 - id: O4-reads
   article: the-instruction-file
   sentence:
@@ -606,9 +661,9 @@
   vendor: Agentic AI Foundation
   url: https://agents.md/
   final_url: https://agents.md/
-  quote: "The closest AGENTS.md to the edited file wins"
-  retrieved: 2026-10-12
-  last_checked: 2026-10-12
+  quote: "Agents automatically read the nearest file in the directory tree, so the closest one takes precedence"
+  retrieved: 2026-10-13
+  last_checked: 2026-10-13
 - id: T1-format-wins
   article: the-instruction-file
   sentence:
@@ -653,6 +708,17 @@
   quote: "CLAUDE.md and CLAUDE.local.md files in the directory hierarchy above the working directory are loaded at launch. Files in subdirectories load on demand."
   retrieved: 2026-10-12
   last_checked: 2026-10-12
+- id: T3-claude-read-b
+  article: the-instruction-file
+  sentence:
+    sv: "Ovanför: vid start. Nedanför: när Claude Code öppnar en fil där"
+    en: "Above: at start. Below: when Claude Code opens a file there"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/memory
+  final_url: https://code.claude.com/docs/en/memory
+  quote: "every `AGENTS.md` and `.claude/AGENTS.md` in your working directory and the directories above it"
+  retrieved: 2026-10-13
+  last_checked: 2026-10-13
 - id: T3-claude-wins
   article: the-instruction-file
   sentence:
@@ -678,25 +744,25 @@
 - id: T4-github-read
   article: the-instruction-file
   sentence:
+    sv: "AGENTS.md-filer var som helst i repot"
+    en: "AGENTS.md files anywhere in the repository"
+  vendor: GitHub
+  url: https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/add-custom-instructions/add-repository-instructions
+  final_url: https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/add-custom-instructions/add-repository-instructions
+  quote: "You can create one or more AGENTS.md files, stored anywhere within the repository."
+  retrieved: 2026-10-13
+  last_checked: 2026-10-13
+- id: T4-github-wins
+  article: the-instruction-file
+  sentence:
     sv: "Den närmaste AGENTS.md går före"
     en: "The nearest AGENTS.md takes precedence"
   vendor: GitHub
   url: https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/add-custom-instructions/add-repository-instructions
   final_url: https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/add-custom-instructions/add-repository-instructions
   quote: "the nearest AGENTS.md file in the directory tree will take precedence"
-  retrieved: 2026-10-12
-  last_checked: 2026-10-12
-- id: T4-github-wins
-  article: the-instruction-file
-  sentence:
-    sv: "Alla skickas med, personliga instruktioner först"
-    en: "All are provided, personal instructions first"
-  vendor: GitHub
-  url: https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/add-custom-instructions/add-repository-instructions
-  final_url: https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/add-custom-instructions/add-repository-instructions
-  quote: "Personal instructions take the highest priority."
-  retrieved: 2026-10-12
-  last_checked: 2026-10-12
+  retrieved: 2026-10-13
+  last_checked: 2026-10-13
 - id: T5-vscode-read
   article: the-instruction-file
   sentence:
@@ -741,6 +807,17 @@
   quote: "Rules are written in the files every session reads first."
   retrieved: 2026-10-12
   last_checked: 2026-10-12
+- id: F4-read-first-sv
+  article: the-instruction-file
+  sentence:
+    sv: "Därför driver vi en agentdriven mjukvarufabrik säger att reglerna \"står i de filer varje session läser först\""
+    en: "Why we run an agent-run software factory says that rules \"are written in the files every session reads first\""
+  vendor: Addable Labs
+  url: https://addablelabs.se/sv/blog/why-we-run-an-agent-run-factory/
+  final_url: https://addablelabs.se/sv/blog/why-we-run-an-agent-run-factory/
+  quote: "Reglerna står i de filer varje session läser först."
+  retrieved: 2026-10-13
+  last_checked: 2026-10-13
 - id: F5-shared-machine
   article: the-instruction-file
   sentence:
@@ -752,6 +829,17 @@
   quote: "Our own contribution so far is the mayor's prompt, limits on how many sessions one computer runs at once and the rules of a shared machine."
   retrieved: 2026-10-12
   last_checked: 2026-10-12
+- id: F5-shared-machine-sv
+  article: the-instruction-file
+  sentence:
+    sv: "räknar \"reglerna för en delad maskin\" till vårt eget bidrag."
+    en: "counts \"the rules of a shared machine\" as our own contribution."
+  vendor: Addable Labs
+  url: https://addablelabs.se/sv/blog/why-we-run-an-agent-run-factory/
+  final_url: https://addablelabs.se/sv/blog/why-we-run-an-agent-run-factory/
+  quote: "Vårt eget bidrag hittills är borgmästarens prompt, gränser för hur många sessioner en dator kör samtidigt och reglerna för en delad maskin."
+  retrieved: 2026-10-13
+  last_checked: 2026-10-13
 - id: F6-start-up
   article: the-instruction-file
   sentence:
@@ -774,3 +862,25 @@
   quote: "The start-up content goes with every call, so it costs its size times the calls, not times the sessions"
   retrieved: 2026-10-12
   last_checked: 2026-10-12
+- id: F7-every-call-sv
+  article: the-instruction-file
+  sentence:
+    sv: "\"startinnehållet följer med varje anrop, så det kostar sin storlek gånger anropen, inte gånger sessionerna\""
+    en: "\"the start-up content goes with every call, so it costs its size times the calls, not times the sessions\""
+  vendor: Addable Labs
+  url: https://addablelabs.se/sv/blog/what-the-mayors-context-costs/
+  final_url: https://addablelabs.se/sv/blog/what-the-mayors-context-costs/
+  quote: "Startinnehållet följer med varje anrop, så det kostar sin storlek gånger anropen, inte gånger sessionerna"
+  retrieved: 2026-10-13
+  last_checked: 2026-10-13
+- id: C16-sometimes
+  article: the-instruction-file
+  sentence:
+    sv: "Det som bara behövs ibland hör hemma någon annanstans: beskrivningen av en agent med ett eget jobb i del 3 och färdigheter (skills) i del 4."
+    en: "What is needed only sometimes belongs elsewhere: the description of an agent with a job of its own in part 3 and skills in part 4."
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/best-practices
+  final_url: https://code.claude.com/docs/en/best-practices
+  quote: "For domain knowledge or workflows that are only relevant sometimes, use skills instead."
+  retrieved: 2026-10-13
+  last_checked: 2026-10-13

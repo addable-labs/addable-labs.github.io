@@ -24,8 +24,8 @@ prompt. OpenAI säger nästan detsamma om själva filen:
 
 ## Samma fil några veckor senare
 
-Historien är påhittad, liksom filen. Första dagen stod bara det i filen som
-en ny kollega behöver veta. Anthropic skriver att en rad hör hemma där när
+Historien är påhittad, liksom filen. Första dagen innehöll filen bara det en
+ny kollega behöver veta. Anthropic skriver att en rad hör hemma där när
 ["en ny kollega skulle behöva samma sammanhang för att komma igång"](https://code.claude.com/docs/en/memory)
 (vår översättning). Några veckor senare ser filen ut så här:
 
@@ -48,7 +48,7 @@ en ny kollega behöver veta. Anthropic skriver att en rad hör hemma där när
 [Anthropics promptguide](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices)
 och
 [dokumentationen för GitHub Copilot i VS Code](https://code.visualstudio.com/docs/agent-customization/custom-instructions)
-råder båda att skälet står med regeln. Den senare skriver att AI:n fattar
+råder båda att skälet står med regeln. Den senare skriver att agenten fattar
 ["bättre beslut i gränsfall"](https://code.visualstudio.com/docs/agent-customization/custom-instructions)
 (vår översättning) när instruktionen förklarar varför regeln finns.
 
@@ -76,18 +76,18 @@ något och inte säger emot rotfilen:
 
 **Regeln om `migrations/` står kvar i rotfilen.** Den hade kunnat ligga i
 en egen fil i mappen, men verktygen läser filer i undermappar vid olika
-tillfällen (se tabellen längre ned). Claude Code läser en undermapps
-AGENTS.md [när det öppnar en fil där](https://code.claude.com/docs/en/memory),
+tillfällen (se tabellen längre ned). Claude Code läser AGENTS.md i en
+undermapp [när det öppnar en fil där](https://code.claude.com/docs/en/memory);
 Codex
-[slutar leta i den mapp det startade i](https://learn.chatgpt.com/docs/agent-configuration/agents-md)
-och i VS Code är filer i undermappar
-[ett experiment](https://code.visualstudio.com/docs/agent-customization/custom-instructions)
-som för den lokala agenten [är avstängt från början](https://code.visualstudio.com/docs/agent-customization/custom-instructions).
+[slutar leta i den mapp det startade i](https://learn.chatgpt.com/docs/agent-configuration/agents-md).
+I VS Code är filer i undermappar
+[ett experiment](https://code.visualstudio.com/docs/agent-customization/custom-instructions),
+[avstängt från början](https://code.visualstudio.com/docs/agent-customization/custom-instructions) för den lokala agenten.
 En regel i `migrations/` kan alltså nå agenten för sent eller inte alls.
 Även i rotfilen stoppar regeln ingenting:
-[Anthropics eget exempel på en krok (hook)](https://code.claude.com/docs/en/best-practices)
-är en som blockerar skrivningar till mappen med migreringar och sådana
-spärrar är ämnet för del 7.
+[ett av Anthropics egna exempel på en krok (hook)](https://code.claude.com/docs/en/best-practices)
+blockerar skrivningar till mappen med migreringar och sådana spärrar är
+ämnet för del 7.
 
 I självskattningen nivå, som vi skrev om i
 [Lärdomar från att bygga nivå](/sv/blog/lessons-from-building-niva/), får
@@ -99,7 +99,8 @@ lever upp till".
 ## Kort slår långt, men vinsterna är små
 
 Leverantörerna sätter också gränser i siffror. GitHubs förslag till prompt
-för att låta Copilot skriva filen säger att instruktionerna
+för att låta Copilot skriva sin egen instruktionsfil säger att
+instruktionerna
 ["inte får vara längre än två sidor"](https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/add-custom-instructions/add-repository-instructions)
 (vår översättning) och Codex
 [slutar som standard lägga till filer när de tillsammans når 32 KiB](https://learn.chatgpt.com/docs/agent-configuration/agents-md).
@@ -108,10 +109,10 @@ Beläggen för att filen hjälper är tunnare än råden.
 [En studie från ETH Zürich](https://arxiv.org/html/2602.11988v3), i sin
 tredje version från den 29 september 2026, lät AI-agenter lösa verkliga
 uppgifter med och utan instruktionsfil. Filer som utvecklarna själva hade
-skrivit höjde andelen lösta uppgifter med 2,4 % i genomsnitt, en skillnad
-som inte är statistiskt säkerställd. Filer som en språkmodell hade skrivit
-sänkte den med 0,5 och 2 % i studiens två uppsättningar uppgifter och
-gjorde körningarna 20 och 23 % dyrare.
+skrivit höjde andelen lösta uppgifter med 2,4 % i genomsnitt. Filer som en
+språkmodell hade skrivit sänkte den med 0,5 och 2 % i studiens två
+uppsättningar uppgifter. Ingen av skillnaderna är statistiskt säkerställd,
+men de genererade filerna gjorde körningarna 20 och 23 % dyrare.
 Forskarna föreslår att man tills vidare avstår från genererade filer.
 Översikter av repot hjälpte inte.
 [En mindre studie av 124 pull requests](https://arxiv.org/abs/2601.20404)
@@ -125,9 +126,10 @@ hemma i filen.
 **Så har det ändrats.** Instruktioner som skrevs för en äldre modell kan
 behöva bli kortare och lugnare när modellen byts.
 [Anthropics promptguide](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices)
-skriver i oktober 2026 att nyare modeller lyssnar mer på systemprompten och
-att den som tidigare skrev "CRITICAL: You MUST use this tool when..." nu
-kan skriva "Use this tool when...". Betoning som "IMPORTANT" hör enligt
+skriver i oktober 2026 att vissa nyare modeller är mer lyhörda för
+systemprompten och att den som tidigare skrev "CRITICAL: You MUST use this
+tool when..." nu kan skriva "Use this tool when...". Betoning som
+"IMPORTANT" hör enligt
 [Anthropic](https://code.claude.com/docs/en/best-practices) hemma på en
 enda rad som Claude gång på gång hoppar över:
 ["om man betonar många rader sticker ingen av dem ut"](https://code.claude.com/docs/en/best-practices)
@@ -143,9 +145,10 @@ Verktygen beskriver vi här så som dokumentationen såg ut den 12 oktober
 
 **Claude Code**
 [läser AGENTS.md när det inte finns någon CLAUDE.md](https://code.claude.com/docs/en/memory).
-Där finns en fälla: en personlig CLAUDE.local.md räknas som en CLAUDE.md.
+Där finns en fälla: en personlig CLAUDE.local.md
+[räknas som en CLAUDE.md](https://code.claude.com/docs/en/memory).
 Den som lägger till en sådan för egna anteckningar
-[får Claude Code att sluta läsa AGENTS.md](https://code.claude.com/docs/en/memory)
+[får sin Claude Code att sluta läsa AGENTS.md](https://code.claude.com/docs/en/memory)
 om inte inställningen Project instructions är satt till att läsa båda. Ett
 projekt som behöver en CLAUDE.md kan
 [importera den gemensamma filen med raden `@AGENTS.md`](https://code.claude.com/docs/en/memory).
@@ -180,7 +183,7 @@ Tabellen visar vad sidorna samma dag säger om filer i undermappar.
 | [AGENTS.md, formatet](https://agents.md/) | Den närmaste filen till den fil som ändras | Den närmaste filen gäller |
 | [Codex](https://learn.chatgpt.com/docs/agent-configuration/agents-md) | Från roten ner till mappen Codex startade i | Den närmare filen går före |
 | [Claude Code](https://code.claude.com/docs/en/memory) | Ovanför: vid start. Nedanför: när Claude Code öppnar en fil där | Alla läses ihop och Claude kan välja en av dem godtyckligt |
-| [GitHub Copilot på GitHub](https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/add-custom-instructions/add-repository-instructions) | Den närmaste AGENTS.md går före | Alla skickas med, personliga instruktioner först |
+| [GitHub Copilot på GitHub](https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/add-custom-instructions/add-repository-instructions) | AGENTS.md-filer var som helst i repot | Den närmaste AGENTS.md går före |
 | [GitHub Copilot i VS Code](https://code.visualstudio.com/docs/agent-customization/custom-instructions) | Ett experiment, avstängt från början för den lokala agenten | Ingen ordning att räkna med |
 
 Det som sidorna har gemensamt är det säkra: regler som måste gälla
@@ -197,10 +200,10 @@ säger att reglerna "står i de filer varje session läser först" och räknar
 förkortade och utan namn:
 
 ```markdown
-- Stoppa aldrig processer med ett namnmönster: det träffar också andra
+- Stoppa aldrig processer med ett mönster: det träffar också andra
   agenters processer. Spara id:t för det du startar och stoppa det.
 - Radera aldrig den delade containermiljöns data: där ligger alla
-  projekts avbilder (images) och databaser.
+  projekts avbilder och databaser.
 ```
 
 Båda raderna bär sitt skäl så som leverantörerna råder. Inget av skälen

@@ -75,16 +75,16 @@ line that adds something and does not contradict the root file:
 **The `migrations/` rule stays in the root file.** It could have gone in a
 file of its own in that folder, but the tools read files in subfolders at
 different times (see the table below). Claude Code reads a subfolder's
-AGENTS.md [when it opens a file there](https://code.claude.com/docs/en/memory),
+AGENTS.md [when it opens a file there](https://code.claude.com/docs/en/memory);
 Codex
-[stops looking once it reaches the folder it started in](https://learn.chatgpt.com/docs/agent-configuration/agents-md)
-and in VS Code, files in subfolders are [an experiment](https://code.visualstudio.com/docs/agent-customization/custom-instructions),
+[stops looking once it reaches the folder it started in](https://learn.chatgpt.com/docs/agent-configuration/agents-md).
+In VS Code, files in subfolders are [experimental](https://code.visualstudio.com/docs/agent-customization/custom-instructions),
 [off by default](https://code.visualstudio.com/docs/agent-customization/custom-instructions) for its local agent.
 A rule in `migrations/` can therefore reach the agent too late or not at
 all. Even in the root file the rule stops nothing:
-[Anthropic's own example of a hook](https://code.claude.com/docs/en/best-practices)
-is one that blocks writes to the migrations folder, and such locks are the
-subject of part 7.
+[one of Anthropic's own examples of a hook](https://code.claude.com/docs/en/best-practices)
+blocks writes to the migrations folder, and such locks are the subject of
+part 7.
 
 In the self-assessment nivå, which we wrote about in
 [Lessons from building nivå](/blog/lessons-from-building-niva/), database
@@ -95,7 +95,7 @@ down is one they make sure is respected.
 ## Short beats long, but the gains are small
 
 The vendors also set limits in numbers. GitHub's suggested prompt for
-having Copilot write the file says
+having Copilot write its own instruction file says
 ["Instructions must be no longer than 2 pages"](https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/add-custom-instructions/add-repository-instructions),
 and Codex
 [by default stops adding files once together they reach 32 KiB](https://learn.chatgpt.com/docs/agent-configuration/agents-md).
@@ -104,12 +104,12 @@ The evidence that the file helps is thinner than the advice.
 [A study from ETH Zurich](https://arxiv.org/html/2602.11988v3), in its
 third version of 29 September 2026, had AI agents solve real-world tasks
 with and without an instruction file. Files the developers had written
-themselves raised the share of tasks solved by 2.4% on average, a
-difference that is not statistically significant. Files written by a
-language model lowered it by 0.5% and 2% in the study's two sets of tasks
-and made the runs 20% and 23% more expensive. The researchers suggest
-leaving out generated files for the time being. Overviews of the repository
-did not help.
+themselves raised the share of tasks solved by 2.4% on average. Files
+written by a language model lowered it by 0.5% and 2% in the study's two
+sets of tasks. Neither result is statistically significant, but the
+generated files made the runs 20% and 23% more expensive. The researchers
+suggest leaving out generated files for the time being. Overviews of the
+repository did not help.
 [A smaller study of 124 pull requests](https://arxiv.org/abs/2601.20404)
 found that runs with an AGENTS.md had a 28.64% shorter median time and that
 the agents solved the tasks about as often.
@@ -121,9 +121,10 @@ does not belong in the file.
 **How it has changed.** Instructions written for an older model may need to
 become shorter and calmer when the model changes.
 [Anthropic's prompting guide](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices)
-writes in October 2026 that newer models are more responsive to the system
-prompt, and that where one might have written "CRITICAL: You MUST use this
-tool when...", one can now write "Use this tool when...". Emphasis such as
+writes in October 2026 that some newer models are more responsive to the
+system prompt, and that where one might have written "CRITICAL: You MUST use
+this tool when...", one can now write "Use this tool when...". Emphasis such
+as
 "IMPORTANT" belongs, according to
 [Anthropic](https://code.claude.com/docs/en/best-practices), on a single
 line that Claude keeps skipping:
@@ -139,7 +140,8 @@ We describe the tools here from their documentation as it stood on
 
 **Claude Code**
 [reads AGENTS.md when there is no CLAUDE.md](https://code.claude.com/docs/en/memory).
-There is a trap: a personal CLAUDE.local.md counts as a CLAUDE.md. Someone
+There is a trap: a personal CLAUDE.local.md
+[counts as a CLAUDE.md](https://code.claude.com/docs/en/memory). Someone
 who adds one for their own notes
 [stops Claude Code from reading AGENTS.md for them](https://code.claude.com/docs/en/memory)
 unless the Project instructions setting is set to read both. A project that
@@ -177,7 +179,7 @@ subfolders.
 | [AGENTS.md, the format](https://agents.md/) | The nearest file to the file being edited | The nearest file wins |
 | [Codex](https://learn.chatgpt.com/docs/agent-configuration/agents-md) | From the root down to the folder Codex started in | The closer file takes precedence |
 | [Claude Code](https://code.claude.com/docs/en/memory) | Above: at start. Below: when Claude Code opens a file there | All are read together and Claude may pick one arbitrarily |
-| [GitHub Copilot on GitHub](https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/add-custom-instructions/add-repository-instructions) | The nearest AGENTS.md takes precedence | All are provided, personal instructions first |
+| [GitHub Copilot on GitHub](https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/add-custom-instructions/add-repository-instructions) | AGENTS.md files anywhere in the repository | The nearest AGENTS.md takes precedence |
 | [GitHub Copilot in VS Code](https://code.visualstudio.com/docs/agent-customization/custom-instructions) | An experiment, off by default for the local agent | No order to rely on |
 
 What the pages have in common is the safe course: rules that must hold
@@ -194,7 +196,7 @@ counts "the rules of a shared machine" as our own contribution. Two of
 them, shortened and without names:
 
 ```markdown
-- Never stop processes by a name pattern: it also hits other agents'
+- Never stop processes by a pattern: it also hits other agents'
   processes. Keep the id of what you start and stop that id.
 - Never delete the shared container runtime's data: it holds every
   project's images and databases.
