@@ -399,7 +399,11 @@ describe("the game pages", () => {
 // article, and the check never tested focusOnPress. So the pointer first
 // moves onto the game until the game gets its moves, as a reader's pointer
 // is on the game they see. A text field of the article keeps the focus, and
-// its keys, while a game loads again. A
+// its keys, while a game loads again. Its keys, too, wait until the game's
+// frame has lost the focus (si-3ggd): Chrome sends each key to the frame it
+// last heard has the focus, and the article tells it of the click into the
+// field by a message of its own, which can come after the click is over, so
+// a key typed at once can go to the game: in CI the first key was lost. A
 // game page whose frame gets its size only after the page has loaded loads
 // its game once, at that size (si-lbnd): Chrome runs the sandboxed frame in
 // a process of its own, and on a busy machine the size reached the page
@@ -601,6 +605,12 @@ describe("a game played in the article keeps the keys when the window changes si
         return input;
       });
       await field.click();
+      // The keys wait until the game's frame has lost the focus: Chrome sends
+      // a key to the frame it last heard has the focus, and the article tells
+      // it of the click into the field by a message of its own, which can
+      // come after the click is over. Typed at once, the first key was lost
+      // in CI (si-3ggd)
+      assert.ok(await until(async () => !(await hasKeys(first)), 10000), "a click into the text field takes the focus from the game");
       await page.keyboard.type("ab");
       await page.setViewport({ width: 1000, height: 900 });
       assert.ok(await until(async () => gameFrame() && gameFrame() !== first, 10000), "the game loads again in a new frame");
