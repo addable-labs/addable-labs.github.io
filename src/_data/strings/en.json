@@ -1130,6 +1130,79 @@
       },
       "named": "{day}: {total} million tokens, {share} on restarts",
       "caption": "The mayor's tokens per UTC day from 27 September to 10 October 2026, in millions: in orange, restarting a watch that had reported nothing; in grey, everything else; at the right, the share of the day's tokens that went on restarts. The figure leaves out 6 October, with no calls for 1.8 hours after a login expired, and 9 October, the day of the change, with no calls until the evening; 8 October's data end at 21:23 UTC. From the change on, the mayor was woken only when something happened or a scheduled check was due: 10 October had no restarts, yet two thirds of its tokens went on wake-ups that needed no action."
+    },
+    "chat-or-agent": {
+      "chat": {
+        "title": "In the chat",
+        "head": "In the chat",
+        "chat": {
+          "label": "The chat",
+          "note": "a suggestion"
+        },
+        "human": {
+          "label": "The human",
+          "note": "carries every round"
+        },
+        "editor": {
+          "label": "The editor",
+          "note": "paste it in"
+        },
+        "tests": {
+          "label": "The tests",
+          "note": "an error"
+        },
+        "note": "The human pastes, runs and",
+        "note2": "carries the error back. Every round."
+      },
+      "agent": {
+        "title": "With an AI agent",
+        "head": "With an AI agent",
+        "task": {
+          "label": "The human",
+          "note": "gives the task"
+        },
+        "agent": "AI agent",
+        "read": {
+          "label": "Read",
+          "note": "the code"
+        },
+        "change": {
+          "label": "Change",
+          "note": "the file"
+        },
+        "test": {
+          "label": "Run",
+          "note": "the tests"
+        },
+        "again": "read the error, try again",
+        "review": {
+          "label": "The human",
+          "note": "reviews"
+        },
+        "note": "The rounds happen",
+        "note2": "in the tool. The human",
+        "note3": "starts and finishes."
+      },
+      "caption": "The same fix twice. In the chat the human carries every round between the chat, the editor and the tests. With an AI agent the rounds happen inside the tool, and the human's part is to give the task and review the result."
+    },
+    "five-parts": {
+      "title": "The five parts of an AI agent",
+      "head": "Five parts",
+      "instructions": {
+        "label": "Instructions",
+        "note": "AGENTS.md"
+      },
+      "tools": {
+        "label": "Tools",
+        "note": "files, terminal"
+      },
+      "model": {
+        "label": "Model",
+        "note": "reasons"
+      },
+      "loop": "loop: gather · act · verify",
+      "harness": "harness – holds it all together",
+      "caption": "The five parts of an AI agent: the model in the middle, the instructions and the tools that feed it, the loop it works in and, around it all, the layer called the harness."
     }
   },
   "games": {

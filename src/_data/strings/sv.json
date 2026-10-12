@@ -1130,6 +1130,79 @@
       },
       "named": "{day}: {total} miljoner tokens, {share} på omstarter",
       "caption": "Borgmästarens tokens per dygn (UTC) från 27 september till 10 oktober 2026, i miljoner: i orange omstarter av en bevakning som inte hade rapporterat något, i grått allt annat och till höger andelen av dygnets tokens som gick till omstarter. Den 6 oktober är utelämnad – inga anrop på 1,8 timmar efter att en inloggning gått ut – och likaså den 9 oktober, dagen för ändringen, utan anrop förrän på kvällen; data för den 8 oktober slutar klockan 21:23 UTC. Från ändringen väcktes borgmästaren bara när något hände eller en schemalagd kontroll skulle köras: den 10 oktober blev det inga omstarter, men två tredjedelar av dygnets tokens gick till väckningar som inte krävde någon åtgärd."
+    },
+    "chat-or-agent": {
+      "chat": {
+        "title": "I chatten",
+        "head": "I chatten",
+        "chat": {
+          "label": "Chatten",
+          "note": "förslag"
+        },
+        "human": {
+          "label": "Människan",
+          "note": "bär varje varv"
+        },
+        "editor": {
+          "label": "Editorn",
+          "note": "klistra in"
+        },
+        "tests": {
+          "label": "Testerna",
+          "note": "ett fel"
+        },
+        "note": "Människan klistrar, kör och",
+        "note2": "bär felet tillbaka. Varje varv."
+      },
+      "agent": {
+        "title": "Med en AI-agent",
+        "head": "Med en AI-agent",
+        "task": {
+          "label": "Människan",
+          "note": "ger uppgiften"
+        },
+        "agent": "AI-agent",
+        "read": {
+          "label": "Läsa",
+          "note": "koden"
+        },
+        "change": {
+          "label": "Ändra",
+          "note": "filen"
+        },
+        "test": {
+          "label": "Testa",
+          "note": "kör testerna"
+        },
+        "again": "läs felet, försök igen",
+        "review": {
+          "label": "Människan",
+          "note": "granskar"
+        },
+        "note": "Varven sker i verktyget.",
+        "note2": "Människan börjar",
+        "note3": "och avslutar."
+      },
+      "caption": "Samma rättning två gånger. I chatten bär människan varje varv mellan chatten, editorn och testerna. Med en AI-agent sker varven inne i verktyget och människans del blir att ge uppgiften och granska resultatet."
+    },
+    "five-parts": {
+      "title": "En AI-agents fem delar",
+      "head": "Fem delar",
+      "instructions": {
+        "label": "Instruktioner",
+        "note": "AGENTS.md"
+      },
+      "tools": {
+        "label": "Verktyg",
+        "note": "filer, terminal"
+      },
+      "model": {
+        "label": "Modell",
+        "note": "resonerar"
+      },
+      "loop": "loop: samla · agera · kontrollera",
+      "harness": "harness – håller ihop allt",
+      "caption": "En AI-agents fem delar: modellen i mitten, instruktionerna och verktygen som matar den, loopen den arbetar i och runt alltihop det lager som kallas harness."
     }
   },
   "games": {
