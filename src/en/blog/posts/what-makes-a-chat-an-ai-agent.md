@@ -2,7 +2,7 @@
 title: What makes a chat an AI agent
 description: The first part of the series "From AI chat to agentic work" — what sets an AI agent apart from a chat with AI, the five parts the agent is made of and how they look in the factory behind this site.
 image: cover.png                 # a 1200 × 630 PNG in the article's media directory
-imageAlt: A developer seen from behind, split in two halves in front of two screens. The left half is grey and calmer, in front of a chat. The right half is green and active, the hand raised towards a screen with a graph of agents.
+imageAlt: A developer seen from behind, split into two halves in front of two screens. The left half is grey and calmer, in front of a chat. The right half is green and active, one hand raised towards a screen with a graph of agents.
 date: 2026-10-06
 category: ai-journey             # app-development | ai-journey
 translationKey: what-makes-a-chat-an-ai-agent
@@ -17,7 +17,7 @@ and maintained by what we call the factory, as we described in
 Much of the work with AI happens in a chat: someone pastes in code, gets a
 suggestion and pastes it back.
 
-This series describes the way on from there, one building block at a time,
+This series describes the road from there, one building block at a time,
 and starts with what sets the two apart. The short answer: the model is
 often the same as in the chat. What is new is everything around it: an AI
 agent may read the project, change files, run commands and check its own
@@ -61,7 +61,7 @@ loop and a layer that holds it all together.
 **The model** is the same kind of language model as in the chat. It reasons
 and chooses the next step, but does nothing on its own — in Anthropic's
 words, ["Without tools, Claude can only respond with text"](https://code.claude.com/docs/en/how-claude-code-works).
-The model often runs at the vendor: an agent can
+The model often runs on the vendor's servers: an agent can
 [change files locally while sending what it reads to a model in the cloud](https://code.visualstudio.com/docs/agents/overview),
 unless a local model is chosen.
 
@@ -87,9 +87,9 @@ others. Today a long list of tools reads it. The file can be short:
 Such a file
 [can also apply to every project on a computer](https://learn.chatgpt.com/docs/agent-configuration/agents-md).
 On 12 September, with four agents on one computer, each on its own project,
-we had the nivå agent write a message to the other three and pasted it into
+we had one of them write a message to the other three and pasted it into
 the rules file every agent on the machine reads first. But the file guides
-rather than locks: Anthropic writes that Claude treats it
+rather than enforces: Anthropic writes that Claude treats it
 ["as context, not enforced configuration"](https://code.claude.com/docs/en/memory).
 What must never happen is stopped outside the model — part 7 of the series
 is about that.
@@ -121,8 +121,8 @@ and keeping track of the session. It can run
 [as an editor extension or a terminal program, in a CI job or on a schedule](https://code.claude.com/docs/en/overview).
 In the factory, Claude Code is the harness for the mayor's sessions — the
 mayor is the agent that coordinates the factory. Claude Code has its own
-system prompt and tool definitions, which the factory cannot configure: in
-September they were about 33,000 tokens of every start, according to
+system prompt and tool definitions: in September they were about 33,000
+tokens of every start, according to
 [A study of the mayor's context](/blog/what-the-mayors-context-costs/).
 
 ## What carries the work in the factory
@@ -131,7 +131,7 @@ In the factory, four things outside the model carry the work.
 
 **Gates.** When the site was built in September, a single command ran ten
 quality gates on every pull request. Each gate has a test proving it fails
-when something has been deliberately broken. That is told in
+when something has been deliberately broken. That is described in
 [How this site was built by agents](/blog/how-this-site-was-built-by-agents/).
 
 **Tasks with a clear end.** The example's task has such an end: all the
@@ -146,16 +146,16 @@ too long to read whole, so new sessions skipped most of it and took old
 facts as current. On 24 September the state card — rewritten whenever a
 session hands over to the next — was trimmed and capped.
 
-**A human at the start and at the end.** The first build ran without a gate
-at the plan, and the founder's verdict on the result was "a page from the
-90s". Since then the founder's gate sits at the plan. No article and no
-change to what the site says goes public without the founder reading it
+**A person at the start and at the end.** The first build ran without a
+gate at the plan, and the founder's verdict on the result was "a page from
+the 90s". Since then the founder's gate has been at the plan. No article and
+no change to what the site says goes public without the founder reading it
 first.
 
 ## Claude Code, Codex and GitHub Copilot
 
 The mayor works in Claude Code. We describe all three from their
-documentation as it stood on 6 October 2026; menu names change often.
+documentation as it stood on 12 October 2026; menu names change often.
 
 In **Claude Code** the instruction file is CLAUDE.md, and the tool can
 [write a first draft of it](https://code.claude.com/docs/en/memory) from the
@@ -166,24 +166,24 @@ and VS Code it starts in Auto mode unless set otherwise. An automatic check
 then reviews most actions in the background and stops what looks risky. In
 Manual mode Claude Code asks before it changes files or runs commands that
 do more than read.
-[Claude Code's own file changes can be undone](https://code.claude.com/docs/en/checkpointing),
-but not what a command has changed or what has already reached other
-systems.
+[Claude Code's own file changes can usually be undone](https://code.claude.com/docs/en/checkpointing),
+but not what a command has changed or
+[what has already reached other systems](https://code.claude.com/docs/en/how-claude-code-works#undo-changes-with-checkpoints).
 
 In OpenAI's **Codex**, AGENTS.md is the instruction file itself: Codex
 [reads it before doing any work](https://learn.chatgpt.com/docs/agent-configuration/agents-md),
 one file per folder from the project's root down to the folder it works in.
-The nearest file weighs the most. On the local machine,
+The nearest file takes precedence. On the local machine,
 [Codex works in a sandbox](https://learn.chatgpt.com/docs/agent-approvals-security)
 that usually lets it write only in the project's folder, with no network
 unless set otherwise. An approval policy decides when it must stop and ask.
 
 In **GitHub Copilot** in VS Code the instruction file is
 [`.github/copilot-instructions.md`](https://code.visualstudio.com/docs/agent-customization/custom-instructions#_use-a-githubcopilot-instructionsmd-file),
-and Copilot reads AGENTS.md too. With the
+and Copilot reads AGENTS.md too. With the default
 [Manual permissions](https://code.visualstudio.com/docs/agents/run/approvals)
-setting, the default, Copilot asks before it runs commands or uses other
-tools — except common read-only commands — but
+setting, Copilot asks before it runs commands or uses other tools — except
+common read-only commands — but
 [changes files in the project folder without asking](https://code.visualstudio.com/docs/agents/agents-tutorial).
 A
 [checkpoint](https://code.visualstudio.com/docs/agents/run/review-code-edits#_restore-a-checkpoint)
@@ -194,7 +194,8 @@ but not commands that have run or changes in other services.
 
 The coming parts take the building blocks one at a time: the instruction
 file, agents with a scope each, skills for what should come out the same
-every time, the Model Context Protocol for reaching the rest of the systems,
-where the agent runs, who starts it and which limits are set in advance. The
-last part is about how much has changed along the way: that the latest
-models need less steering than earlier ones, but still some.
+every time, the Model Context Protocol for reaching other systems, where the
+agent runs, who starts it and which limits are set in advance. The last part
+is about how much has changed along the way: that
+[the latest models need less steering than earlier ones](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices),
+but still some.

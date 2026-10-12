@@ -1,7 +1,7 @@
 # The sources of "What makes a chat an AI agent" (both languages): one entry per
 # factual claim in the article, vendor and factory claims alike, for the monthly
 # check of the series' sources. Every quote was taken from its page on 2026-10-06,
-# except those the founder's review changed, taken on 2026-10-12.
+# except those the founder's review changed or added, taken on 2026-10-12.
 
 - id: F0
   article: what-makes-a-chat-an-ai-agent
@@ -36,6 +36,17 @@
   quote: "The OpenAI-hosted Codex instance that runs the model and tool loop and maintains the agent's session."
   retrieved: 2026-10-12
   last_checked: 2026-10-12
+- id: O1-agent-b
+  article: what-makes-a-chat-an-ai-agent
+  sentence:
+    sv: "Dokumentationen för Claude Code, Codex och GitHub Copilot beskriver en AI-agent på nästan samma sätt: en modell, instruktioner, verktyg, en loop och ett lager som håller ihop det hela."
+    en: "The documentation for Claude Code, Codex and GitHub Copilot describes an AI agent in much the same way: a model, instructions, tools, a loop and a layer that holds it all together."
+  vendor: OpenAI
+  url: https://developers.openai.com/api/docs/guides/agents-api/overview
+  final_url: https://developers.openai.com/api/docs/guides/agents-api/overview
+  quote: "The model, instructions, tools, and MCP servers available to the agent."
+  retrieved: 2026-10-12
+  last_checked: 2026-10-12
 - id: V1-agent
   article: what-makes-a-chat-an-ai-agent
   sentence:
@@ -62,7 +73,7 @@
   article: what-makes-a-chat-an-ai-agent
   sentence:
     sv: "Modellen körs ofta hos leverantören: en agent kan ändra filer lokalt och samtidigt skicka det den läser till en modell i molnet, om man inte har valt en lokal modell."
-    en: "The model often runs at the vendor: an agent can change files locally while sending what it reads to a model in the cloud, unless a local model is chosen."
+    en: "The model often runs on the vendor's servers: an agent can change files locally while sending what it reads to a model in the cloud, unless a local model is chosen."
   vendor: GitHub
   url: https://code.visualstudio.com/docs/agents/overview
   final_url: https://code.visualstudio.com/docs/agents/overview
@@ -116,8 +127,8 @@
 - id: F8
   article: what-makes-a-chat-an-ai-agent
   sentence:
-    sv: "Den 12 september, med fyra agenter på samma dator och var sitt projekt, lät vi nivå-agenten skriva ett meddelande till de andra tre och klistrade in det i den regelfil som varje agent på maskinen läser först."
-    en: "On 12 September, with four agents on one computer, each on its own project, we had the nivå agent write a message to the other three and pasted it into the rules file every agent on the machine reads first."
+    sv: "Den 12 september, med fyra agenter på samma dator och var sitt projekt, lät vi en av dem skriva ett meddelande till de andra tre och klistrade in det i den regelfil som varje agent på maskinen läser först."
+    en: "On 12 September, with four agents on one computer, each on its own project, we had one of them write a message to the other three and pasted it into the rules file every agent on the machine reads first."
   vendor: Addable Labs
   url: https://addablelabs.se/blog/why-we-run-an-agent-run-factory/
   final_url: https://addablelabs.se/blog/why-we-run-an-agent-run-factory/
@@ -128,7 +139,7 @@
   article: what-makes-a-chat-an-ai-agent
   sentence:
     sv: "Men filen vägleder, den låser ingenting: Anthropic skriver att Claude behandlar den \"som kontext, inte som tvingande inställningar\" (vår översättning)."
-    en: "But the file guides rather than locks: Anthropic writes that Claude treats it \"as context, not enforced configuration\"."
+    en: "But the file guides rather than enforces: Anthropic writes that Claude treats it \"as context, not enforced configuration\"."
   vendor: Anthropic
   url: https://code.claude.com/docs/en/memory
   final_url: https://code.claude.com/docs/en/memory
@@ -292,12 +303,12 @@
 - id: F12
   article: what-makes-a-chat-an-ai-agent
   sentence:
-    sv: "Claude Code har en egen systemprompt och egna verktygsdefinitioner som fabriken inte kan ställa in: i september var de ungefär 33 000 tokens av varje start"
-    en: "Claude Code has its own system prompt and tool definitions, which the factory cannot configure: in September they were about 33,000 tokens of every start"
+    sv: "Claude Code har en egen systemprompt och egna verktygsdefinitioner: i september var de ungefär 33 000 tokens av varje start"
+    en: "Claude Code has its own system prompt and tool definitions: in September they were about 33,000 tokens of every start"
   vendor: Addable Labs
   url: https://addablelabs.se/blog/what-the-mayors-context-costs/
   final_url: https://addablelabs.se/blog/what-the-mayors-context-costs/
-  quote: "about 33,000 tokens of every start are Claude Code's own system prompt and tool definitions, which the factory cannot configure"
+  quote: "about 33,000 tokens of every start are Claude Code's own system prompt and tool definitions"
   retrieved: 2026-10-12
   last_checked: 2026-10-12
 - id: F2b
@@ -425,7 +436,7 @@
   article: what-makes-a-chat-an-ai-agent
   sentence:
     sv: "Sedan dess sitter grundarens grind vid planen."
-    en: "Since then the founder's gate sits at the plan."
+    en: "Since then the founder's gate has been at the plan."
   vendor: Addable Labs
   url: https://addablelabs.se/blog/why-we-run-an-agent-run-factory/
   final_url: https://addablelabs.se/blog/why-we-run-an-agent-run-factory/
@@ -501,8 +512,8 @@
 - id: C9
   article: what-makes-a-chat-an-ai-agent
   sentence:
-    sv: "Claude Codes egna filändringar kan återställas, men inte det som ett kommando har ändrat eller som redan har nått andra system."
-    en: "Claude Code's own file changes can be undone, but not what a command has changed or what has already reached other systems."
+    sv: "Claude Codes egna filändringar kan oftast återställas, men inte det som ett kommando har ändrat eller som redan har nått andra system."
+    en: "Claude Code's own file changes can usually be undone, but not what a command has changed or what has already reached other systems."
   vendor: Anthropic
   url: https://code.claude.com/docs/en/checkpointing
   final_url: https://code.claude.com/docs/en/checkpointing
@@ -535,7 +546,7 @@
   article: what-makes-a-chat-an-ai-agent
   sentence:
     sv: "Den närmaste filen väger tyngst."
-    en: "The nearest file weighs the most."
+    en: "The nearest file takes precedence."
   vendor: OpenAI
   url: https://learn.chatgpt.com/docs/agent-configuration/agents-md
   final_url: https://learn.chatgpt.com/docs/agent-configuration/agents-md
@@ -545,7 +556,7 @@
 - id: O2
   article: what-makes-a-chat-an-ai-agent
   sentence:
-    sv: "På den egna datorn arbetar Codex i en sandlåda som oftast bara får skriva i projektets mapp, utan nätverk om inget annat är inställt."
+    sv: "På den egna datorn arbetar Codex i en sandlåda där det oftast bara får skriva i projektets mapp, utan nätverk om inget annat är inställt."
     en: "On the local machine, Codex works in a sandbox that usually lets it write only in the project's folder, with no network unless set otherwise."
   vendor: OpenAI
   url: https://learn.chatgpt.com/docs/agent-approvals-security
@@ -601,7 +612,7 @@
   article: what-makes-a-chat-an-ai-agent
   sentence:
     sv: "Med inställningen Manual permissions, som är förvald, ber Copilot om lov innan den kör kommandon eller använder andra verktyg – utom vanliga kommandon som bara läser – men ändrar filer i projektmappen utan att fråga."
-    en: "With the Manual permissions setting, the default, Copilot asks before it runs commands or uses other tools — except common read-only commands — but changes files in the project folder without asking."
+    en: "With the default Manual permissions setting, Copilot asks before it runs commands or uses other tools — except common read-only commands — but changes files in the project folder without asking."
   vendor: GitHub
   url: https://code.visualstudio.com/docs/agents/agents-tutorial
   final_url: https://code.visualstudio.com/docs/agents/agents-tutorial
@@ -612,7 +623,7 @@
   article: what-makes-a-chat-an-ai-agent
   sentence:
     sv: "Med inställningen Manual permissions, som är förvald,"
-    en: "With the Manual permissions setting, the default,"
+    en: "With the default Manual permissions setting,"
   vendor: GitHub
   url: https://code.visualstudio.com/docs/agents/run/approvals
   final_url: https://code.visualstudio.com/docs/agents/run/approvals
@@ -641,3 +652,14 @@
   quote: "It doesn't reverse completed terminal commands, network requests, deployments, or changes that tools made to external services."
   retrieved: 2026-10-06
   last_checked: 2026-10-06
+- id: C17
+  article: what-makes-a-chat-an-ai-agent
+  sentence:
+    sv: "att de senaste modellerna behöver mindre styrning än de förra, men fortfarande en del."
+    en: "that the latest models need less steering than earlier ones, but still some."
+  vendor: Anthropic
+  url: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices
+  final_url: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices
+  quote: "more responsive to the system prompt than previous models … The fix is to dial back any aggressive language."
+  retrieved: 2026-10-12
+  last_checked: 2026-10-12
