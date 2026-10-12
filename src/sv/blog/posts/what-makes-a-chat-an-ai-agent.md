@@ -87,8 +87,8 @@ Codex ingick. I dag läses det av en lång rad verktyg. Filen kan vara kort:
 En sådan fil
 [kan också gälla för alla projekt på en dator](https://learn.chatgpt.com/docs/agent-configuration/agents-md).
 Den 12 september, med fyra agenter på samma dator och var sitt projekt, lät
-vi nivå-agenten skriva ett meddelande till de andra tre och klistrade in det
-i den regelfil som varje agent på maskinen läser först. Men filen vägleder,
+vi en av dem skriva ett meddelande till de andra tre och klistrade in det i
+den regelfil som varje agent på maskinen läser först. Men filen vägleder,
 den låser ingenting: Anthropic skriver att Claude behandlar den
 ["som kontext, inte som tvingande inställningar"](https://code.claude.com/docs/en/memory)
 (vår översättning). Det som aldrig får hända stoppas utanför modellen – del
@@ -121,8 +121,8 @@ reda på sessionen. Det kan köras
 [som ett tillägg i editorn eller som ett program i terminalen, i ett jobb i CI eller på schema](https://code.claude.com/docs/en/overview).
 I fabriken är Claude Code harness för borgmästarens sessioner –
 borgmästaren är agenten som samordnar fabriken. Claude Code har en egen
-systemprompt och egna verktygsdefinitioner som fabriken inte kan ställa in:
-i september var de ungefär 33 000 tokens av varje start, enligt
+systemprompt och egna verktygsdefinitioner: i september var de ungefär
+33 000 tokens av varje start, enligt
 [En studie av borgmästarens kontext](/sv/blog/what-the-mayors-context-costs/).
 
 ## Vad som bär arbetet i fabriken
@@ -156,7 +156,7 @@ har läst den först.
 ## Claude Code, Codex och GitHub Copilot
 
 Borgmästaren arbetar i Claude Code. Alla tre beskriver vi här utifrån
-dokumentationen, så som den såg ut den 6 oktober 2026; menynamnen ändras
+dokumentationen, så som den såg ut den 12 oktober 2026; menynamnen ändras
 ofta.
 
 I **Claude Code** är instruktionsfilen CLAUDE.md och verktyget kan själv
@@ -168,17 +168,17 @@ i VS Code startar det i läget Auto om inget annat är inställt. Då granskar
 en automatisk kontroll det mesta i bakgrunden och stoppar det som ser
 riskabelt ut. I läget Manual frågar Claude Code innan det ändrar filer eller
 kör kommandon som gör mer än att läsa.
-[Claude Codes egna filändringar kan återställas](https://code.claude.com/docs/en/checkpointing),
-men inte det som ett kommando har ändrat eller som redan har nått andra
-system.
+[Claude Codes egna filändringar kan oftast återställas](https://code.claude.com/docs/en/checkpointing),
+men inte det som ett kommando har ändrat eller
+[som redan har nått andra system](https://code.claude.com/docs/en/how-claude-code-works#undo-changes-with-checkpoints).
 
 I OpenAI:s **Codex** är AGENTS.md själva instruktionsfilen: Codex
 [läser den innan det gör något arbete](https://learn.chatgpt.com/docs/agent-configuration/agents-md),
 en fil per mapp från projektets rot ner till den mapp det arbetar i. Den
 närmaste filen väger tyngst. På den egna datorn
 [arbetar Codex i en sandlåda](https://learn.chatgpt.com/docs/agent-approvals-security)
-som oftast bara får skriva i projektets mapp, utan nätverk om inget annat
-är inställt. En regel för godkännanden avgör när det måste stanna och
+där det oftast bara får skriva i projektets mapp, utan nätverk om inget
+annat är inställt. En regel för godkännanden avgör när det måste stanna och
 fråga.
 
 I **GitHub Copilot** i VS Code är instruktionsfilen
@@ -199,6 +199,6 @@ De kommande delarna tar byggstenarna en i taget: instruktionsfilen, agenter
 med var sitt ansvarsområde, färdigheter (skills) för det som ska bli
 likadant varje gång, Model Context Protocol för att nå resten av systemen,
 var agenten körs, vem som startar den och vilka gränser som sätts i förväg.
-Den sista delen handlar om hur mycket som har ändrats under tiden: att de
-senaste modellerna behöver mindre styrning än de förra, men fortfarande en
-del.
+Den sista delen handlar om hur mycket som har ändrats under tiden: att
+[de senaste modellerna behöver mindre styrning än de förra](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices),
+men fortfarande en del.
