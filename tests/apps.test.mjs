@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { before, describe, it } from "node:test";
-import { APP_KEYS, BANDS, NON_REPOSITORY_HOSTS, PRIVATE_APP_KEYS, PRIVATE_STATUS_LABEL, PUBLIC_REPOS, STATUS_KEYS, THEME_KEYS, githubRepos, publicRepo, validateApps } from "../scripts/lib/apps.mjs";
+import { APP_KEYS, BANDS, NON_REPOSITORY_HOSTS, PRIVATE_APP_KEYS, PRIVATE_STATUS_LABEL, PUBLIC_REPOS, RESERVED_NAMES, STATUS_KEYS, THEME_KEYS, githubRepos, publicRepo, validateApps } from "../scripts/lib/apps.mjs";
 import { loadSite, loadStrings, readArticleSources } from "../scripts/lib/site.mjs";
 import { SRC } from "./helpers.mjs";
 
@@ -159,6 +159,34 @@ describe("apps data and copy (REQ-011, REQ-025; AC-11, AC-12, AC-30)", () => {
     }
   });
 
+  // The spellings githubRepos() reads since si-bifa, each with an address an
+  // article may link: the pages of GitHub's own on github.com that name a
+  // repository under a reserved first segment, the REST API's other paths
+  // that name one, as GitHub's description of the API lists them, a
+  // project's site on GitHub Pages, an image on ghcr.io and the four
+  // services' addresses of one.
+  const REPOSITORY_SPELLINGS = [
+    ["on the page codespaces.new sends a visitor to, github.com/codespaces/new", "https://www.github.com/codespaces/new/example-org/private-app?quickstart=1"],
+    ["of a server's page in GitHub's MCP Registry, github.com/mcp", "https://www.github.com/mcp/example-org/private-app"],
+    ["of an organisation's package page on github.com", "https://www.github.com/orgs/example-org/packages/container/package/private-app"],
+    ["of one version of a user's package on github.com", "https://www.github.com/users/example-org/packages/container/private-app/123456?tag=latest"],
+    ["of a network's events in the REST API", "https://api.github.com/networks/example-org/private-app/events"],
+    ["of a starred repository in the REST API", "https://api.github.com/user/starred/example-org/private-app"],
+    ["of a team's repository in the REST API, by the team's id", "https://api.github.com/teams/42/repos/example-org/private-app"],
+    ["of an organisation's team's repository in the REST API", "https://api.github.com/orgs/example-org/teams/core/repos/example-org/private-app"],
+    ["of the tasks of Copilot's agent in the REST API", "https://api.github.com/agents/repos/example-org/private-app/tasks"],
+    ["of a project's site on GitHub Pages", "https://example-org.github.io/private-app/"],
+    ["of an image in GitHub's container registry, ghcr.io", "https://ghcr.io/example-org/private-app:latest"],
+    ["of a notebook Colab opens from GitHub", "https://colab.research.google.com/github/example-org/private-app/blob/main/notebook.ipynb"],
+    ["that launches it on Binder, mybinder.org", "https://mybinder.org/v2/gh/example-org/private-app/HEAD"],
+    ["of a file jsDelivr serves from it, on cdn.jsdelivr.net", "https://cdn.jsdelivr.net/gh/example-org/private-app@main/dist/app.js"],
+    ["of its package page on jsDelivr, www.jsdelivr.com", "https://www.jsdelivr.com/package/gh/example-org/private-app"],
+    ["in jsDelivr's data API, data.jsdelivr.com", "https://data.jsdelivr.com/v1/packages/gh/example-org/private-app"],
+    ["of a badge on shields.io", "https://img.shields.io/github/stars/example-org/private-app"],
+    ["of a badge on shields.io whose kind takes two segments, with a format suffix", "https://img.shields.io/github/v/release/example-org/private-app.svg"],
+    ["of a badge on shields.io whose kind takes three segments", "https://img.shields.io/github/actions/workflow/status/example-org/private-app/ci.yml?branch=main"],
+  ];
+
   // A repository written with a port, as a file on raw.githubusercontent.com
   // or in the editor, github.dev (si-gnca), and one after the path that the
   // editor on vscode.dev, where github.dev sends a visitor, or the REST API
@@ -174,7 +202,14 @@ describe("apps data and copy (REQ-011, REQ-025; AC-11, AC-12, AC-30)", () => {
   // the API's address for uploading a release's files (before si-b44j it
   // named "repos/<owner>"), and a file kept with Git LFS, the link that
   // opens a codespace and a repository's preview image, which all passed the
-  // content gate before.
+  // content gate before. And since si-bifa: the three pages of GitHub's own
+  // on github.com that name a repository though their first segment is
+  // reserved, the REST API's other paths that name one (before, each named
+  // its first two segments: "networks/example-org", "user/starred" …), and
+  // the spellings off github.com that passed the gate before: a project's
+  // site on GitHub Pages, an image on ghcr.io and the addresses of Colab,
+  // Binder, jsDelivr and shields.io. A url on github.com is written here on
+  // www., as one on https://github.com/ gets the message of the first rule.
   for (const [how, url, bead = "si-gnca"] of [
     ["with a port", "https://github.com:443/example-org/private-app"],
     ["with an empty port", "https://github.com:/example-org/private-app"],
@@ -193,6 +228,7 @@ describe("apps data and copy (REQ-011, REQ-025; AC-11, AC-12, AC-30)", () => {
     ["of a file kept with Git LFS, on media.githubusercontent.com", "https://media.githubusercontent.com/media/example-org/private-app/main/assets/logo.png", "si-b44j"],
     ["that opens a codespace, on codespaces.new", "https://codespaces.new/example-org/private-app?quickstart=1", "si-b44j"],
     ["of a repository's preview image, on opengraph.githubassets.com", "https://opengraph.githubassets.com/1/example-org/private-app", "si-b44j"],
+    ...REPOSITORY_SPELLINGS.map(([how, url]) => [how, url, "si-bifa"]),
   ]) {
     it(`reads the repository in a url ${how}, ${url}, and refuses it as a private entry's url, naming the repository (${bead})`, () => {
       assert.deepEqual(githubRepos(url), ["example-org/private-app"]);
@@ -313,6 +349,123 @@ describe("apps data and copy (REQ-011, REQ-025; AC-11, AC-12, AC-30)", () => {
       "https://www.codespaces.new/example-org/private-app",
     ]) {
       assert.deepEqual(githubRepos(text), ["example-org/private-app"], text);
+    }
+  });
+
+  // Each spelling si-bifa reads, as an article or a feed carries it: in
+  // prose without its scheme, in a link's markup, in a feed's escaped markup,
+  // with its host in capitals — a Pages site's owner then too, and GitHub
+  // matches names without regard to case — and with a port.
+  for (const [, url] of REPOSITORY_SPELLINGS) {
+    it(`reads the repository in ${url} in prose, in a link's markup and a feed's escaped markup, in capitals and with a port (si-bifa)`, () => {
+      const { host } = new URL(url);
+      const rest = url.slice(`https://${host}`.length);
+      for (const text of [`See ${host}${rest} for the steps.`, `<a href="${url}">the page</a>`, `href=&quot;${url}&quot;`, `https://${host.toUpperCase()}${rest}`, `https://${host}:443${rest}`]) {
+        assert.deepEqual(githubRepos(text).map((repo) => repo.toLowerCase()), ["example-org/private-app"], text);
+      }
+    });
+  }
+
+  // GitHub's own pages on github.com, one under each name it reserves
+  // (RESERVED_NAMES, si-bifa), where githubRepos() read a repository before:
+  // "features/copilot", "orgs/community", "marketplace/actions" and the
+  // like. A page of a user's or an organisation's (sponsors/, stars/,
+  // users/) is written with a made-up one, and mcp/ with an owner alone, as
+  // its pages with an owner and a name show that repository (above). On
+  // github.com and on www., githubRepos() reads no repository at the page in
+  // prose, in a link's markup or a feed's escaped markup, in capitals, with a
+  // port — with a port and no scheme too, where the colon could start git's
+  // SSH path — or with a closing dot, and still reads a repository on
+  // github.com beside it. As a private entry's url on www. the page is still
+  // refused: it is on a GitHub host.
+  const RESERVED = [
+    ["about", "/about/careers"],
+    ["advisories", "/advisories/GHSA-jfh8-c2jp-5v3q"],
+    ["apps", "/apps/dependabot"],
+    ["codespaces", "/codespaces/templates"],
+    ["collections", "/collections/machine-learning"],
+    ["copilot", "/copilot/agents"],
+    ["enterprise", "/enterprise/startups"],
+    ["features", "/features/copilot"],
+    ["git-guides", "/git-guides/install-git"],
+    ["github-copilot", "/github-copilot/signup"],
+    ["login", "/login/device"],
+    ["marketplace", "/marketplace/actions/checkout"],
+    ["mcp", "/mcp/example-org"],
+    ["new", "/new/import"],
+    ["open-source", "/open-source/sponsors"],
+    ["organizations", "/organizations/plan"],
+    ["orgs", "/orgs/community/discussions"],
+    ["pricing", "/pricing/calculator"],
+    ["readme", "/readme/featured"],
+    ["resources", "/resources/articles"],
+    ["search", "/search/advanced"],
+    ["security", "/security/advanced-security"],
+    ["settings", "/settings/copilot"],
+    ["site", "/site/terms"],
+    ["solutions", "/solutions/use-case/devops"],
+    ["sponsors", "/sponsors/example-org"],
+    ["stars", "/stars/example-org/lists/tools"],
+    ["topics", "/topics/ai-agents"],
+    ["trending", "/trending/python"],
+    ["users", "/users/example-org/projects/1"],
+  ];
+  for (const [name, page] of RESERVED) {
+    it(`reads no repository at github.com${page}, GitHub's own page under ${name}/, and still refuses it as a private entry's url, one on a GitHub host (si-bifa)`, () => {
+      for (const text of [`See github.com${page} for the steps.`, `<a href="https://github.com${page}">the page</a>`, `href=&quot;https://www.github.com${page}&quot;`, `https://GITHUB.COM${page.toUpperCase()}`, `https://github.com:443${page}`, `github.com:443${page}`, `https://github.com.${page}`, `https://www.github.com.:443${page}`]) {
+        assert.deepEqual(githubRepos(text), [], text);
+      }
+      assert.deepEqual(githubRepos(`https://github.com${page} and https://github.com/example-org/private-app`), ["example-org/private-app"]);
+      const url = `https://www.github.com${page}`;
+      const input = copy();
+      input.data.find((entry) => entry.key === "niva").url = url;
+      assert.deepEqual(problemsOf(input), [`niva: private repository must not be linked — url is null or the product's public https:// page, never one on a GitHub host (got ${JSON.stringify(url)}, which is on www.github.com)`]);
+    });
+  }
+
+  it("holds out exactly those names, on github.com and www. only, and still reads a repository where a name only looks reserved or an account has it (si-bifa)", () => {
+    assert.deepEqual(RESERVED_NAMES, RESERVED.map(([name]) => name));
+    for (const [text, repos] of [
+      // GitHub tells its customers' stories at github.com/customer-stories,
+      // but a user has had the name since 2019 and can own a repository.
+      ["https://github.com/customer-stories/private-app", ["customer-stories/private-app"]],
+      // A name that only starts like a reserved one is an owner's.
+      ["https://github.com/features-team/private-app", ["features-team/private-app"]],
+      ["https://github.com/orgs-example/private-app", ["orgs-example/private-app"]],
+      // On another subdomain the first segment counts as before: a gist's
+      // owner, and a path of the REST API that names no repository, or one
+      // GitHub may add, which fails the content gate rather than pass it.
+      ["https://gist.github.com/features/0123456789abcdef", ["features/0123456789abcdef"]],
+      ["https://api.github.com/orgs/example-org/repos", ["orgs/example-org"]],
+      ["https://api.github.com/users/example-org/starred", ["users/example-org"]],
+      // A user's or an organisation's own site on GitHub Pages names no
+      // repository, but a page on it cannot be told from a project's site by
+      // its address, so it counts.
+      ["https://example-org.github.io/", []],
+      ["https://example-org.github.io/posts/2026-10-01-notes/", ["example-org/posts"]],
+    ]) {
+      assert.deepEqual(githubRepos(text), repos, text);
+    }
+  });
+
+  it("reads the repository in every kind of shields.io's GitHub badges, before any format suffix, and none in a gist's or an owner's badge (si-bifa)", () => {
+    // Kinds of one segment, then each kind of more as the routes of
+    // badges/shields write it, with what follows the name where it takes
+    // more.
+    for (const [kind, tail = ""] of [
+      ["stars"], ["license"], ["last-commit", "/main"], ["issues"], ["issues-pr"], ["downloads", "/total"], ["discussions"],
+      ["v/release"], ["v/tag"], ["languages/top"], ["languages/count"], ["languages/code-size"], ["commit-activity/m"], ["go-mod/go-version"], ["hacktoberfest/2026"],
+      ["lerna-json/v"], ["manifest-json/v"], ["milestones/open"], ["package-json/v"], ["package-json/dependency-version", "/react"], ["r-package/v"], ["workflow/status", "/ci"], ["discussions/answered"],
+      ["actions/workflow/status", "/ci.yml"], ["pipenv/locked/python-version"], ["status/contexts/pulls", "/1"], ["issues/detail/state", "/1"], ["pulls/detail/title", "/1"],
+    ]) {
+      for (const suffix of ["", ".svg", ".png", ".json"]) {
+        const url = `https://img.shields.io/github/${kind}/example-org/private-app${tail}${suffix}`;
+        assert.deepEqual(githubRepos(url), ["example-org/private-app"], url);
+      }
+    }
+    // A badge of a gist or of an owner names no repository.
+    for (const url of ["https://img.shields.io/github/gist/stars/0123456789abcdef", "https://img.shields.io/github/gist/last-commit/0123456789abcdef", "https://img.shields.io/github/followers/example-org", "https://img.shields.io/github/sponsors/example-org"]) {
+      assert.deepEqual(githubRepos(url), [], url);
     }
   });
 

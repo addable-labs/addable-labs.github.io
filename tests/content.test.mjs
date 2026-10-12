@@ -518,10 +518,12 @@ describe("content gate", () => {
     assert.match(output, /^ok {4}sv\/blog\/why-we-run-an-agent-run-factory\/index\.html: shows its image/m, "the untouched Swedish page passes");
   });
 
-  it("fails a GitHub repository that is not one of the public ones the site may link, in a page and in a feed (si-vwu8)", async () => {
+  it("fails a GitHub repository that is not one of the public ones the site may link, in a page and in a feed, naming both fixes (si-vwu8, si-bifa)", async () => {
     // A made-up repository: the rule is an allow-list, so any repository it
-    // does not list is refused and the test needs no real private one.
-    const broken = await withLandingEdit("private-link", (html) => html.replace("</main>", '<a href="https://github.com/example-org/private-app">A private app</a></main>'));
+    // does not list is refused and the test needs no real private one. Beside
+    // it, a page of GitHub's own on github.com names none, and a project's
+    // site on GitHub Pages names its repository (si-bifa).
+    const broken = await withLandingEdit("private-link", (html) => html.replace("</main>", '<a href="https://github.com/example-org/private-app">A private app</a><a href="https://github.com/features/copilot">Copilot</a><a href="https://example-org.github.io/private-site/">Its site</a></main>'));
     const feed = path.join(broken, "feed.xml");
     const xml = await readFile(feed, "utf8");
     const linked = xml.replace("</channel>", "<item><title>A private app</title><link>https://github.com/example-org/private-app</link></item></channel>");
@@ -529,8 +531,12 @@ describe("content gate", () => {
     await writeFile(feed, linked);
     const { status, output } = runGate("content", broken);
     assert.equal(status, 1);
-    assert.match(output, /FAIL {2}index\.html: names github\.com\/example-org\/private-app, which is not one of the public repositories the site may link \(PUBLIC_REPOS in scripts\/lib\/apps\.mjs\)/);
-    assert.match(output, /FAIL {2}feed\.xml: names github\.com\/example-org\/private-app, which is not one of the public repositories the site may link/);
+    // The line names the list a public repository goes on and the two that
+    // hold out a page of GitHub's own that names none.
+    assert.match(output, /^FAIL {2}index\.html: names github\.com\/example-org\/private-app, which is not one of the public repositories the site may link \(PUBLIC_REPOS in scripts\/lib\/apps\.mjs\); if the address is a page of GitHub's own that names no repository, hold it out there by its host \(NON_REPOSITORY_HOSTS\) or by the first segment of its path on github\.com \(RESERVED_NAMES\)$/m);
+    assert.match(output, /^FAIL {2}index\.html: names github\.com\/example-org\/private-site, which is not one of the public repositories the site may link/m);
+    assert.match(output, /^FAIL {2}feed\.xml: names github\.com\/example-org\/private-app, which is not one of the public repositories the site may link/m);
+    assert.doesNotMatch(output, /features\/copilot/);
   });
 });
 

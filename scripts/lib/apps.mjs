@@ -83,22 +83,72 @@ const GITHUB_FILE_URL = /^https:\/\/github\.com\/([A-Za-z0-9-]+)\/([A-Za-z0-9_.-
     /<owner>/<name> on it answers 404. */
 export const NON_REPOSITORY_HOSTS = ["docs.github.com", "developer.github.com", "guides.github.com", "help.github.com", "support.github.com", "cli.github.com", "resources.github.com", "skills.github.com", "training.github.com", "education.github.com"];
 
+/** The names GitHub keeps for its own pages at github.com/<name>, which no
+    user or organisation can have, so a path on github.com that starts with
+    one names no repository (si-bifa): its products' pages (features/,
+    copilot/, enterprise/, …), its marketplace and apps, the pages of the
+    organisations, orgs/<org>/… — the community forum,
+    orgs/community/discussions, among them — and pages a reader opens signed
+    in (settings/, new/, login/, …). Each answers
+    api.github.com/users/<name> with 404, so no account has it, and
+    github.com/<name>, or a page under it, is GitHub's. A name GitHub shows
+    a page at still counts when an account has it: customer-stories, where
+    GitHub tells its customers' stories, is a user's too, who can own a
+    repository. Add a name only once both hold. */
+export const RESERVED_NAMES = ["about", "advisories", "apps", "codespaces", "collections", "copilot", "enterprise", "features", "git-guides", "github-copilot", "login", "marketplace", "mcp", "new", "open-source", "organizations", "orgs", "pricing", "readme", "resources", "search", "security", "settings", "site", "solutions", "sponsors", "stars", "topics", "trending", "users"];
+
 /** The pattern of github.com or any of its subdomains but
     NON_REPOSITORY_HOSTS. Only the whole host name holds one out, so a host
     whose name merely ends in one of theirs, www.docs.github.com or
     x-docs.github.com, counts. */
 const GITHUB_COM = String.raw`(?<!(?<![\w.-])(?:${NON_REPOSITORY_HOSTS.map((host) => host.replace(/\.github\.com$/, "").replaceAll(".", "\\.")).join("|")})\.)\bgithub\.com`;
 
-/** The spellings githubRepos() reads, one to a line, each up to the owner. */
-const GITHUB_REPOSITORY = new RegExp(String.raw`(?:${[
-  String.raw`(?:${GITHUB_COM}|(?<![\w.-])(?:raw\.githubusercontent\.com|github\.dev))\.?(?::\d*)?\/`,
-  String.raw`${GITHUB_COM}\.?:(?:(?!\d*\/)|(?<!\/\/[\w.%+~:@-]*))`,
-  String.raw`(?<![\w-])vscode\.dev\.?(?::\d*)?\/github\/`,
-  String.raw`(?:api|uploads)\.github\.com\.?(?::\d*)?\/repos\/`,
-  String.raw`(?<![\w.-])media\.githubusercontent\.com\.?(?::\d*)?\/media\/`,
-  String.raw`(?<![\w-])codespaces\.new\.?(?::\d*)?\/`,
-  String.raw`(?<![\w.-])opengraph\.githubassets\.com\.?(?::\d*)?\/[^\/\s]*\/`,
-].join("|")})([A-Za-z0-9-]+)\/([A-Za-z0-9_.-]+)`, "gi");
+/** github.com itself, with www. or without, up to its path, whose first
+    segment is an owner or one of RESERVED_NAMES. */
+const GITHUB_SITE = String.raw`(?<![\w.-])(?:www\.)?github\.com\.?(?::\d*)?\/`;
+
+/** The kinds of shields.io's GitHub badges, img.shields.io/github/<kind>/…,
+    that take more than one segment, as the routes of its GitHub badges
+    define them (badges/shields, services/github, 11 October 2026):
+    actions/workflow/status and the kinds of pipenv/ and status/ take three;
+    issues/detail/<field> and pulls/detail/<field> three; discussions/ with
+    all, answered or unanswered two; and v/release, languages/top,
+    commit-activity/<interval>, the kinds of package-json/ and the like two.
+    A gist's badges, gist/<kind>/<gist>, name no repository. Every other kind
+    takes one. */
+const SHIELDS_KIND = [
+  String.raw`(?:actions|pipenv|status)\/[^\/\s?#]+\/[^\/\s?#]+`,
+  String.raw`(?:issues|pulls)\/detail\/[^\/\s?#]+`,
+  String.raw`discussions\/(?:all|answered|unanswered)`,
+  String.raw`(?:commit-activity|gist|go-mod|hacktoberfest|languages|lerna-json|manifest-json|milestones|package-json|r-package|v|workflow)\/[^\/\s?#]+`,
+  String.raw`(?!gist\/)[^\/\s?#]+`,
+].join("|");
+
+/** The spellings githubRepos() reads, one to a line: those that end in
+    <owner>/<name>, each up to the owner, and then the three that hold the
+    owner and the name otherwise — a shields.io badge, whose name stops
+    before a format suffix, a project's site on GitHub Pages, whose owner
+    is read behind github.io so that the pattern does not start at every
+    word of a page (four times as slow), and a package's page. */
+const GITHUB_REPOSITORY = new RegExp([
+  String.raw`(?:${[
+    String.raw`(?:${GITHUB_COM}|(?<![\w.-])(?:raw\.githubusercontent\.com|github\.dev))\.?(?::\d*)?\/(?!(?<=${GITHUB_SITE})(?:${RESERVED_NAMES.join("|")})\/)`,
+    String.raw`${GITHUB_SITE}(?:codespaces\/new|mcp)\/`,
+    String.raw`${GITHUB_COM}\.?:(?:(?!\d*\/)|(?<!\/\/[\w.%+~:@-]*)(?!\d*\/[A-Za-z0-9-]+\/[\w.-]))`,
+    String.raw`(?<![\w-])vscode\.dev\.?(?::\d*)?\/github\/`,
+    String.raw`(?:api|uploads)\.github\.com\.?(?::\d*)?\/(?:(?:agents\/)?repos|networks|user\/starred|teams\/\d+\/repos|orgs\/[A-Za-z0-9-]+\/teams\/[^\/\s?#]+\/repos)\/`,
+    String.raw`(?<![\w.-])media\.githubusercontent\.com\.?(?::\d*)?\/media\/`,
+    String.raw`(?<![\w-])codespaces\.new\.?(?::\d*)?\/`,
+    String.raw`(?<![\w.-])opengraph\.githubassets\.com\.?(?::\d*)?\/[^\/\s]*\/`,
+    String.raw`(?<![\w.-])ghcr\.io\.?(?::\d*)?\/`,
+    String.raw`(?<![\w.-])colab\.research\.google\.com\.?(?::\d*)?\/github\/`,
+    String.raw`(?<![\w-])mybinder\.org\.?(?::\d*)?\/v2\/gh\/`,
+    String.raw`(?<![\w-])jsdelivr\.(?:net|com)\.?(?::\d*)?\/(?:package\/|v1\/packages?\/)?gh\/`,
+  ].join("|")})([A-Za-z0-9-]+)\/([A-Za-z0-9_.-]+)`,
+  String.raw`(?<![\w-])shields\.io\.?(?::\d*)?\/github\/(?:${SHIELDS_KIND})\/([A-Za-z0-9-]+)\/([A-Za-z0-9_.-]+?)(?:\.(?:svg|png|json))?\.*(?![\w.-])`,
+  String.raw`(?<=(?<![\w.-])([A-Za-z0-9-]+)\.)github\.io\.?(?::\d*)?\/([A-Za-z0-9_.-]+)`,
+  String.raw`${GITHUB_SITE}(?:orgs|users)\/([A-Za-z0-9-]+)\/packages\/[^\/\s?#]+\/(?:package\/)?([A-Za-z0-9_.-]+)`,
+].join("|"), "gi");
 
 /**
  * Every GitHub repository a text names, as owner/name the way it is written:
@@ -121,11 +171,51 @@ const GITHUB_REPOSITORY = new RegExp(String.raw`(?:${[
  * a visitor for one; the link that opens a codespace,
  * codespaces.new/<owner>/<name>, on codespaces.new or any of its
  * subdomains; and a repository's preview image,
- * opengraph.githubassets.com/<any segment>/<owner>/<name>. A colon after
- * github.com starts the path, as in the SSH address, except where digits and
- * a slash follow it and either a scheme comes before the host, as git reads
- * it too, or <owner>/<name> follows them: there it starts a port. So
- * https://github.com:443/<owner> names no repository, but
+ * opengraph.githubassets.com/<any segment>/<owner>/<name>.
+ *
+ * On github.com itself, with www. or without, a path whose first segment is
+ * one of RESERVED_NAMES is GitHub's own page and names no repository
+ * (si-bifa); before, github.com/features/copilot read as the repository
+ * "features/copilot". Three such paths still name one, and are read: the
+ * page codespaces.new sends a visitor to,
+ * github.com/codespaces/new/<owner>/<name>; a server's page in GitHub's MCP
+ * Registry, github.com/mcp/<owner>/<name>, which shows that repository's
+ * README; and a package's page,
+ * github.com/orgs/<owner>/packages/<type>/package/<name>, users/ for a
+ * user's and <name>/<version> for one version, read as <owner>/<name> like
+ * an image on ghcr.io (below). Elsewhere — on gist. or api., in git's SSH
+ * address — the first segment counts as before.
+ *
+ * The REST API's other paths that name a repository, as GitHub's
+ * description of the API lists them (1.1.4, 11 October 2026), are read like
+ * /repos/<owner>/<name> (si-bifa): /agents/repos/, /networks/,
+ * /user/starred/, /teams/<id>/repos/ and /orgs/<org>/teams/<team>/repos/
+ * before <owner>/<name>. Before, they named "networks/<owner>" and the like.
+ * Any other path on api.github.com, one GitHub may add, still counts its
+ * first two segments, so it fails the content gate rather than pass it.
+ *
+ * Six more spellings name a repository off github.com (si-bifa): a
+ * project's site on GitHub Pages, <owner>.github.io/<name>; an image in
+ * GitHub's container registry, ghcr.io/<owner>/<name>, which GitHub shows
+ * as a package of the repository it was built from; and four services'
+ * addresses of one: Colab's notebook,
+ * colab.research.google.com/github/<owner>/<name>/…; Binder's launch,
+ * mybinder.org/v2/gh/<owner>/<name>/…, on any subdomain of mybinder.org
+ * too; jsDelivr's files, /gh/<owner>/<name> on cdn.jsdelivr.net or any
+ * other subdomain of jsdelivr.net, with its package page,
+ * www.jsdelivr.com/package/gh/<owner>/<name>, and its data API,
+ * data.jsdelivr.com/v1/packages/gh/<owner>/<name>; and a shields.io badge,
+ * img.shields.io/github/<kind>/<owner>/<name>, on any subdomain of
+ * shields.io too, where <kind> takes the segments SHIELDS_KIND gives it and
+ * a format suffix, .svg, .png or .json, is not part of the name. A page of
+ * a user's or an organisation's own site on GitHub Pages,
+ * <owner>.github.io/<page>, cannot be told from a project's site by its
+ * address, so it counts too. No other service is read.
+ *
+ * A colon after github.com starts the path, as in the SSH address, except
+ * where digits and a slash follow it and either a scheme comes before the
+ * host, as git reads it too, or <owner>/<name> follows them: there it
+ * starts a port. So https://github.com:443/<owner> names no repository, but
  * git@github.com:42/<name> names the owner 42's. The host is read in any
  * case, with or without a closing dot and a port, an empty port too. A
  * sentence's full stop and a ".git" suffix are not part of the name.
@@ -133,7 +223,10 @@ const GITHUB_REPOSITORY = new RegExp(String.raw`(?:${[
  * @returns {string[]}
  */
 export function githubRepos(text) {
-  return [...String(text).matchAll(GITHUB_REPOSITORY)].map(([, owner, name]) => `${owner}/${name.replace(/\.+$/, "").replace(/\.git$/i, "")}`);
+  return [...String(text).matchAll(GITHUB_REPOSITORY)].map(([, ...groups]) => {
+    const [owner, name] = groups.filter((group) => group !== undefined);
+    return `${owner}/${name.replace(/\.+$/, "").replace(/\.git$/i, "")}`;
+  });
 }
 
 /** The entry of `repos` that is this owner/name, or undefined. GitHub matches
@@ -256,11 +349,13 @@ export function validateApps({
       // browser can open. It names no GitHub repository in any spelling
       // githubRepos() reads — www.github.com, GitHub.com, a subdomain, a
       // port, raw.githubusercontent.com, github.dev, vscode.dev/github/,
-      // api.github.com/repos/, codespaces.new/ — as the content gate reads
-      // the built site (si-i5uk, si-gnca, si-3iuk, si-b44j), and, whatever it
-      // names, it is on none of GITHUB_HOSTS, so a url in which githubRepos()
-      // reads no repository — an owner's page, a page of GitHub's
-      // documentation or help (NON_REPOSITORY_HOSTS), a gist's file on
+      // api.github.com/repos/, codespaces.new/, a project's site on GitHub
+      // Pages, ghcr.io/, a shields.io badge and the like — as the content
+      // gate reads the built site (si-i5uk, si-gnca, si-3iuk, si-b44j,
+      // si-bifa), and, whatever it names, it is on none of GITHUB_HOSTS, so a
+      // url in which githubRepos() reads no repository — an owner's page, a
+      // page of GitHub's documentation or help (NON_REPOSITORY_HOSTS) or of
+      // its own on www.github.com (RESERVED_NAMES), a gist's file on
       // gist.githubusercontent.com — is refused too (si-qtwy). A url gets
       // the message of the first of these rules it breaks, only.
       const host = isText(entry.url) ? hostOf(entry.url) : undefined;

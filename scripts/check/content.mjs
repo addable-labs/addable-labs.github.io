@@ -358,7 +358,11 @@ report.check(controlProblems === 0, "every page carries the language switch to i
 // text, in a page, a feed, the sitemap or a text file such as the font
 // licence — is one of the public repositories it may link. An allow-list, not
 // a list of private repositories to keep out: it refuses a repository nobody
-// thought of, and it names only public things.
+// thought of, and it names only public things. A failure names both fixes
+// (si-bifa): a public repository goes on PUBLIC_REPOS, and a page of
+// GitHub's own that githubRepos() reads as a repository is held out by its
+// host (NON_REPOSITORY_HOSTS) or by the first segment of its path on
+// github.com (RESERVED_NAMES).
 const named = new Set(); // the PUBLIC_REPOS entries the site names
 let repoProblems = 0;
 for (const extension of [".html", ".xml", ".txt"]) {
@@ -370,7 +374,7 @@ for (const extension of [".html", ".xml", ".txt"]) {
         named.add(allowed);
       } else {
         repoProblems += 1;
-        report.fail(`${rel}: names github.com/${repo}, which is not one of the public repositories the site may link (PUBLIC_REPOS in scripts/lib/apps.mjs)`);
+        report.fail(`${rel}: names github.com/${repo}, which is not one of the public repositories the site may link (PUBLIC_REPOS in scripts/lib/apps.mjs); if the address is a page of GitHub's own that names no repository, hold it out there by its host (NON_REPOSITORY_HOSTS) or by the first segment of its path on github.com (RESERVED_NAMES)`);
       }
     }
   }
