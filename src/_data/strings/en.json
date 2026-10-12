@@ -1152,7 +1152,7 @@
           "note": "an error"
         },
         "note": "The user pastes, runs and",
-        "note2": "brings the error into the chat. Every round."
+        "note2": "copies the error into the chat. Every round."
       },
       "agent": {
         "title": "With an AI agent",

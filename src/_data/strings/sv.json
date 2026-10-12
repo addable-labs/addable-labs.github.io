@@ -1151,8 +1151,8 @@
           "label": "Testerna",
           "note": "ett fel"
         },
-        "note": "Användaren klistrar, kör och",
-        "note2": "för in felet i chatten. Varje varv."
+        "note": "Användaren klistrar, kör och kopierar",
+        "note2": "felmeddelandet till chatten. Varje varv."
       },
       "agent": {
         "title": "Med en AI-agent",
