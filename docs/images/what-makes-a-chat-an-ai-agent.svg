@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <!-- The image of "What makes a chat an AI agent", drawn after the
+       founder's sketch "Two screens" (6 October 2026): a developer seen
+       from behind, split in two halves in front of two screens. The left
+       half is grey and calmer, in front of a chat (two replies, a question
+       outlined, the dots of a reply on its way). The right half is green and
+       active, the hand raised toward the other screen: a graph of agents,
+       two steps done (ticked), two at work (lit, with a halo) and one
+       waiting (outlined). The subject sits inside the central 630 x 630
+       square; nothing that matters is within 40 px of an edge. -->
+  <defs>
+    <pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse" y="15">
+      <path d="M0 .5H30M.5 0V30" fill="none" stroke="#242C33"/>
+    </pattern>
+    <radialGradient id="fade" cx="600" cy="315" r="640" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff" stop-opacity=".95"/>
+      <stop offset=".6" stop-color="#fff" stop-opacity=".55"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </radialGradient>
+    <mask id="gridmask"><rect width="1200" height="630" fill="url(#fade)"/></mask>
+    <radialGradient id="glow" cx="600" cy="315" r="340" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#83F35D" stop-opacity=".09"/>
+      <stop offset="1" stop-color="#83F35D" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glow-agents" cx="764" cy="210" r="260" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#83F35D" stop-opacity=".16"/>
+      <stop offset="1" stop-color="#83F35D" stop-opacity="0"/>
+    </radialGradient>
+    <clipPath id="left"><rect width="600" height="630"/></clipPath>
+    <clipPath id="right"><rect x="600" width="600" height="630"/></clipPath>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#626E79"/>
+    </marker>
+  </defs>
+
+  <rect width="1200" height="630" fill="#0B0E10"/>
+  <rect width="1200" height="630" fill="url(#grid)" mask="url(#gridmask)"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+  <rect width="1200" height="630" fill="url(#glow-agents)"/>
+
+  <!-- The desk. -->
+  <path d="M290 430H910" stroke="#626E79" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- The left screen: a chat, quieter. -->
+  <g opacity=".8">
+    <rect x="318" y="118" width="236" height="176" rx="14" fill="#13181C" stroke="#626E79" stroke-width="3"/>
+    <path d="M436 294V330M396 330H476" stroke="#626E79" stroke-width="3" stroke-linecap="round"/>
+    <rect x="338" y="140" width="120" height="26" rx="9" fill="#626E79" fill-opacity=".55"/>
+    <rect x="414" y="180" width="120" height="26" rx="9" fill="none" stroke="#ECEFF1" stroke-opacity=".7" stroke-width="2.5"/>
+    <rect x="338" y="220" width="150" height="26" rx="9" fill="#626E79" fill-opacity=".55"/>
+    <g fill="#A6B0BA">
+      <circle cx="350" cy="270" r="3.5"/>
+      <circle cx="362" cy="270" r="3.5"/>
+      <circle cx="374" cy="270" r="3.5"/>
+    </g>
+  </g>
+
+  <!-- The right screen: a graph of agents. -->
+  <rect x="646" y="118" width="236" height="176" rx="14" fill="#13181C" stroke="#83F35D" stroke-width="3"/>
+  <path d="M764 294V330M724 330H804" stroke="#626E79" stroke-width="3" stroke-linecap="round"/>
+  <g stroke="#626E79" stroke-width="2.5" fill="none" stroke-linecap="round" marker-end="url(#arrow)">
+    <path d="M708 160L742 160"/>
+    <path d="M782 160L816 160"/>
+    <path d="M700 178L718 220"/>
+    <path d="M828 178L810 220"/>
+  </g>
+  <circle cx="690" cy="160" r="15" fill="#83F35D"/>
+  <path d="M682 160l5 5l10-10" fill="none" stroke="#0B0E10" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="764" cy="160" r="15" fill="#83F35D"/>
+  <path d="M756 160l5 5l10-10" fill="none" stroke="#0B0E10" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="838" cy="160" r="15" fill="#83F35D"/>
+  <circle cx="838" cy="160" r="24" fill="none" stroke="#83F35D" stroke-opacity=".35" stroke-width="3"/>
+  <circle cx="727" cy="240" r="15" fill="#83F35D"/>
+  <circle cx="727" cy="240" r="24" fill="none" stroke="#83F35D" stroke-opacity=".35" stroke-width="3"/>
+  <circle cx="801" cy="240" r="15" fill="#0B0E10" stroke="#ECEFF1" stroke-width="3"/>
+
+  <!-- The raised arm of the right half, reaching toward the agents. -->
+  <path d="M668 470L712 372" fill="none" stroke="#83F35D" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M668 470L712 372" fill="none" stroke="#1A2126" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="716" cy="362" r="12" fill="#1A2126" stroke="#83F35D" stroke-width="3"/>
+
+  <!-- The developer from behind, drawn twice and cut down the middle:
+       grey on the left, green on the right. -->
+  <g clip-path="url(#left)" fill="#1A2126" stroke="#626E79" stroke-width="3">
+    <path d="M472 590C472 476 520.64 436 600 432C679.36 436 728 476 728 590Z"/>
+    <rect x="583" y="394" width="34" height="40" rx="8"/>
+    <circle cx="600" cy="362" r="40"/>
+  </g>
+  <g clip-path="url(#right)" fill="#1A2126" stroke="#83F35D" stroke-width="3">
+    <path d="M472 590C472 476 520.64 436 600 432C679.36 436 728 476 728 590Z"/>
+    <rect x="583" y="394" width="34" height="40" rx="8"/>
+    <circle cx="600" cy="362" r="40"/>
+  </g>
+</svg>
