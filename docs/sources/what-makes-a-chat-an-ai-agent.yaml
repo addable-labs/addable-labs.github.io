@@ -1,12 +1,13 @@
 # The sources of "What makes a chat an AI agent" (both languages): one entry per
 # factual claim in the article, vendor and factory claims alike, for the monthly
-# check of the series' sources. Every quote was taken from its page on 2026-10-06.
+# check of the series' sources. Every quote was taken from its page on 2026-10-06,
+# except those the founder's review changed, taken on 2026-10-12.
 
 - id: F0
   article: what-makes-a-chat-an-ai-agent
   sentence:
-    sv: "Addable Labs bygger mjukvara till stor del med AI-agenter och den här sajten byggs och underhålls av en agentdriven mjukvarufabrik"
-    en: "Addable Labs builds software largely with AI agents, and this site is built and maintained by an agent-run software factory"
+    sv: "Addable Labs bygger mjukvara till stor del med AI-agenter och den här sajten byggs och underhålls av det vi kallar fabriken"
+    en: "Addable Labs builds software largely with AI agents, and this site is built and maintained by what we call the factory"
   vendor: Addable Labs
   url: https://addablelabs.se/blog/why-we-run-an-agent-run-factory/
   final_url: https://addablelabs.se/blog/why-we-run-an-agent-run-factory/
@@ -16,8 +17,8 @@
 - id: C6-agent
   article: what-makes-a-chat-an-ai-agent
   sentence:
-    sv: "Anthropic, OpenAI och GitHub beskriver en AI-agent på nästan samma sätt i dokumentationen för Claude Code, Codex och GitHub Copilot: en modell, instruktioner, verktyg, en loop och ett lager som håller ihop det hela."
-    en: "Anthropic, OpenAI and GitHub describe an AI agent in much the same way in the documentation for Claude Code, Codex and GitHub Copilot: a model, instructions, tools, a loop and a layer that holds it all together."
+    sv: "Dokumentationen för Claude Code, Codex och GitHub Copilot beskriver en AI-agent på nästan samma sätt: en modell, instruktioner, verktyg, en loop och ett lager som håller ihop det hela."
+    en: "The documentation for Claude Code, Codex and GitHub Copilot describes an AI agent in much the same way: a model, instructions, tools, a loop and a layer that holds it all together."
   vendor: Anthropic
   url: https://code.claude.com/docs/en/how-claude-code-works
   final_url: https://code.claude.com/docs/en/how-claude-code-works
@@ -27,19 +28,19 @@
 - id: O1-agent
   article: what-makes-a-chat-an-ai-agent
   sentence:
-    sv: "Anthropic, OpenAI och GitHub beskriver en AI-agent på nästan samma sätt i dokumentationen för Claude Code, Codex och GitHub Copilot: en modell, instruktioner, verktyg, en loop och ett lager som håller ihop det hela."
-    en: "Anthropic, OpenAI and GitHub describe an AI agent in much the same way in the documentation for Claude Code, Codex and GitHub Copilot: a model, instructions, tools, a loop and a layer that holds it all together."
+    sv: "Dokumentationen för Claude Code, Codex och GitHub Copilot beskriver en AI-agent på nästan samma sätt: en modell, instruktioner, verktyg, en loop och ett lager som håller ihop det hela."
+    en: "The documentation for Claude Code, Codex and GitHub Copilot describes an AI agent in much the same way: a model, instructions, tools, a loop and a layer that holds it all together."
   vendor: OpenAI
-  url: https://learn.chatgpt.com/docs/agent-configuration/agents-md
-  final_url: https://learn.chatgpt.com/docs/agent-configuration/agents-md
-  quote: "Codex reads AGENTS.md files before doing any work."
-  retrieved: 2026-10-06
-  last_checked: 2026-10-06
+  url: https://developers.openai.com/api/docs/guides/agents-api/architecture
+  final_url: https://developers.openai.com/api/docs/guides/agents-api/architecture
+  quote: "The OpenAI-hosted Codex instance that runs the model and tool loop and maintains the agent's session."
+  retrieved: 2026-10-12
+  last_checked: 2026-10-12
 - id: V1-agent
   article: what-makes-a-chat-an-ai-agent
   sentence:
-    sv: "Anthropic, OpenAI och GitHub beskriver en AI-agent på nästan samma sätt i dokumentationen för Claude Code, Codex och GitHub Copilot: en modell, instruktioner, verktyg, en loop och ett lager som håller ihop det hela."
-    en: "Anthropic, OpenAI and GitHub describe an AI agent in much the same way in the documentation for Claude Code, Codex and GitHub Copilot: a model, instructions, tools, a loop and a layer that holds it all together."
+    sv: "Dokumentationen för Claude Code, Codex och GitHub Copilot beskriver en AI-agent på nästan samma sätt: en modell, instruktioner, verktyg, en loop och ett lager som håller ihop det hela."
+    en: "The documentation for Claude Code, Codex and GitHub Copilot describes an AI agent in much the same way: a model, instructions, tools, a loop and a layer that holds it all together."
   vendor: GitHub
   url: https://code.visualstudio.com/docs/agents/concepts/agent-harnesses
   final_url: https://code.visualstudio.com/docs/agents/concepts/agent-harnesses
@@ -61,7 +62,7 @@
   article: what-makes-a-chat-an-ai-agent
   sentence:
     sv: "Modellen körs ofta hos leverantören: en agent kan ändra filer lokalt och samtidigt skicka det den läser till en modell i molnet, om man inte har valt en lokal modell."
-    en: "The model often runs at the vendor: an agent can change files locally while sending what it reads to a model in the cloud, unless a local model has been chosen."
+    en: "The model often runs at the vendor: an agent can change files locally while sending what it reads to a model in the cloud, unless a local model is chosen."
   vendor: GitHub
   url: https://code.visualstudio.com/docs/agents/overview
   final_url: https://code.visualstudio.com/docs/agents/overview
@@ -93,30 +94,41 @@
 - id: A3
   article: what-makes-a-chat-an-ai-agent
   sentence:
-    sv: "och läses i dag av en lång rad verktyg"
-    en: "and is read today by a long list of tools"
+    sv: "I dag läses det av en lång rad verktyg."
+    en: "Today a long list of tools reads it."
   vendor: Agentic AI Foundation
   url: https://agents.md/
   final_url: https://agents.md/
   quote: "compatible with a growing ecosystem of AI coding agents and tools"
   retrieved: 2026-10-06
   last_checked: 2026-10-06
+- id: O4
+  article: what-makes-a-chat-an-ai-agent
+  sentence:
+    sv: "En sådan fil kan också gälla för alla projekt på en dator."
+    en: "Such a file can also apply to every project on a computer."
+  vendor: OpenAI
+  url: https://learn.chatgpt.com/docs/agent-configuration/agents-md
+  final_url: https://learn.chatgpt.com/docs/agent-configuration/agents-md
+  quote: "By layering global guidance with project-specific overrides, you can start each task with consistent expectations, no matter which repository you open."
+  retrieved: 2026-10-12
+  last_checked: 2026-10-12
 - id: F8
   article: what-makes-a-chat-an-ai-agent
   sentence:
-    sv: "Den 12 september, med fyra agenter på samma dator, behövde ett meddelande nå alla fyra och vi klistrade in det i den regelfil som varje agent på maskinen läser först."
-    en: "On 12 September, with four agents on one computer, a message had to reach all four, and we pasted it into the rules file every agent on the machine reads first."
+    sv: "Den 12 september, med fyra agenter på samma dator och var sitt projekt, lät vi nivå-agenten skriva ett meddelande till de andra tre och klistrade in det i den regelfil som varje agent på maskinen läser först."
+    en: "On 12 September, with four agents on one computer, each on its own project, we had the nivå agent write a message to the other three and pasted it into the rules file every agent on the machine reads first."
   vendor: Addable Labs
   url: https://addablelabs.se/blog/why-we-run-an-agent-run-factory/
   final_url: https://addablelabs.se/blog/why-we-run-an-agent-run-factory/
-  quote: "pasted it into the rules file every agent on the machine reads first"
-  retrieved: 2026-10-06
-  last_checked: 2026-10-06
+  quote: "with four agents on one computer, each on its own project, we had the nivå agent write a message we could carry to the other three by hand, and pasted it into the rules file every agent on the machine reads first"
+  retrieved: 2026-10-12
+  last_checked: 2026-10-12
 - id: C5
   article: what-makes-a-chat-an-ai-agent
   sentence:
-    sv: "Men filen vägleder och låser ingenting: Anthropic skriver att Claude behandlar den som sammanhang, inte som tvingande inställningar (vår översättning)."
-    en: "But the file guides and locks nothing: Anthropic writes that Claude treats it as context, not enforced configuration."
+    sv: "Men filen vägleder, den låser ingenting: Anthropic skriver att Claude behandlar den \"som kontext, inte som tvingande inställningar\" (vår översättning)."
+    en: "But the file guides rather than locks: Anthropic writes that Claude treats it \"as context, not enforced configuration\"."
   vendor: Anthropic
   url: https://code.claude.com/docs/en/memory
   final_url: https://code.claude.com/docs/en/memory
@@ -126,8 +138,8 @@
 - id: C16
   article: what-makes-a-chat-an-ai-agent
   sentence:
-    sv: "En agent med tillgång till terminalen kan köra samma kommandon som den som sitter vid tangentbordet."
-    en: "An agent with access to the terminal can run the same commands as the person at the keyboard."
+    sv: "En agent med tillgång till terminalen kan köra samma slags kommandon som den som sitter vid tangentbordet."
+    en: "An agent with access to the terminal can run the same kinds of commands as the person at the keyboard."
   vendor: Anthropic
   url: https://code.claude.com/docs/en/how-claude-code-works
   final_url: https://code.claude.com/docs/en/how-claude-code-works
@@ -138,7 +150,7 @@
   article: what-makes-a-chat-an-ai-agent
   sentence:
     sv: "Kopplingar till system utanför projektet, som ett ärendesystem, görs ofta med Model Context Protocol, en öppen standard för just sådana kopplingar."
-    en: "Connections to systems outside the project, such as an issue tracker, are often made with the Model Context Protocol, an open standard for exactly such connections."
+    en: "Connections to systems outside the project, such as an issue tracker, are often made with the Model Context Protocol, an open standard for such connections."
   vendor: Model Context Protocol
   url: https://modelcontextprotocol.io/
   final_url: https://modelcontextprotocol.io/docs/2026-07-28/getting-started/intro
@@ -148,7 +160,7 @@
 - id: C6
   article: what-makes-a-chat-an-ai-agent
   sentence:
-    sv: "Anthropic beskriver den som tre faser – samla sammanhang, agera och kontrollera resultatet."
+    sv: "Anthropic beskriver den som tre faser – samla kontext, agera och kontrollera resultatet."
     en: "Anthropic describes it as three phases: gather context, take action and verify results."
   vendor: Anthropic
   url: https://code.claude.com/docs/en/how-claude-code-works
@@ -159,14 +171,47 @@
 - id: F11
   article: what-makes-a-chat-an-ai-agent
   sentence:
-    sv: "I fabrikens första bygge tog en session en administrativ post i registret i stället för sin uppgift och behövde fjorton minuter för att ta sig runt det."
-    en: "In the factory's first build, a session claimed a bookkeeping record in the ledger instead of its task and needed fourteen minutes to work around it."
+    sv: "När sajten byggdes första gången den 20 september tog en session en administrativ post i registret, fabrikens ärendehanterare, i stället för sin uppgift och behövde fjorton minuter för att ta sig runt det."
+    en: "When the site was first built, on 20 September, a session claimed a bookkeeping record in the ledger, the factory's tracker, instead of its task and needed fourteen minutes to work around it."
   vendor: Addable Labs
   url: https://addablelabs.se/blog/why-we-run-an-agent-run-factory/
   final_url: https://addablelabs.se/blog/why-we-run-an-agent-run-factory/
   quote: "In the first, a session claimed a bookkeeping record instead of its task and needed fourteen minutes to work around it"
   retrieved: 2026-10-06
   last_checked: 2026-10-06
+- id: F11c
+  article: what-makes-a-chat-an-ai-agent
+  sentence:
+    sv: "När sajten byggdes första gången den 20 september"
+    en: "When the site was first built, on 20 September"
+  vendor: Addable Labs
+  url: https://addablelabs.se/blog/why-we-run-an-agent-run-factory/
+  final_url: https://addablelabs.se/blog/why-we-run-an-agent-run-factory/
+  quote: "We went through all of that on 20 September 2026"
+  retrieved: 2026-10-12
+  last_checked: 2026-10-12
+- id: F11d
+  article: what-makes-a-chat-an-ai-agent
+  sentence:
+    sv: "När sajten byggdes första gången den 20 september"
+    en: "When the site was first built, on 20 September"
+  vendor: Addable Labs
+  url: https://addablelabs.se/blog/why-we-run-an-agent-run-factory/
+  final_url: https://addablelabs.se/blog/why-we-run-an-agent-run-factory/
+  quote: "ran the first build the same afternoon"
+  retrieved: 2026-10-12
+  last_checked: 2026-10-12
+- id: F11e
+  article: what-makes-a-chat-an-ai-agent
+  sentence:
+    sv: "registret, fabrikens ärendehanterare"
+    en: "the ledger, the factory's tracker"
+  vendor: Addable Labs
+  url: https://addablelabs.se/blog/what-the-mayors-context-costs/
+  final_url: https://addablelabs.se/blog/what-the-mayors-context-costs/
+  quote: "A bead is one task in the factory's tracker"
+  retrieved: 2026-10-12
+  last_checked: 2026-10-12
 - id: F11b
   article: what-makes-a-chat-an-ai-agent
   sentence:
@@ -181,8 +226,8 @@
 - id: V1
   article: what-makes-a-chat-an-ai-agent
   sentence:
-    sv: "Dokumentationen för GitHub Copilot i VS Code definierar det som mjukvaran som kör en agentsession och gör en språkmodell till en agent genom att koppla den till sammanhang och verktyg, styra loopen och hålla reda på sessionen."
-    en: "The documentation for GitHub Copilot in VS Code defines it as the software that runs an agent session and turns a language model into an agent by connecting it to context and tools, coordinating the loop and keeping track of the session."
+    sv: "Dokumentationen för GitHub Copilot i VS Code definierar det som mjukvarulagret som kör en agentsession och gör en språkmodell till en agent genom att koppla den till kontext och verktyg, styra loopen och hålla reda på sessionen."
+    en: "The documentation for GitHub Copilot in VS Code defines it as the software layer that runs an agent session and turns a language model into an agent by connecting it to context and tools, coordinating the loop and keeping track of the session."
   vendor: GitHub
   url: https://code.visualstudio.com/docs/agents/concepts/agent-harnesses
   final_url: https://code.visualstudio.com/docs/agents/concepts/agent-harnesses
@@ -192,14 +237,36 @@
 - id: H1
   article: what-makes-a-chat-an-ai-agent
   sentence:
-    sv: "Det kan vara ett tillägg i editorn, ett program i terminalen, ett jobb i CI eller en schemalagd körning."
-    en: "It can be an extension in the editor, a program in the terminal, a job in CI or a scheduled run."
+    sv: "Det kan köras som ett tillägg i editorn eller som ett program i terminalen, i ett jobb i CI eller på schema."
+    en: "It can run as an editor extension or a terminal program, in a CI job or on a schedule."
   vendor: Anthropic
-  url: https://code.claude.com/docs/en/how-claude-code-works
-  final_url: https://code.claude.com/docs/en/how-claude-code-works
-  quote: "You can access Claude Code through the terminal"
-  retrieved: 2026-10-06
-  last_checked: 2026-10-06
+  url: https://code.claude.com/docs/en/overview
+  final_url: https://code.claude.com/docs/en/overview
+  quote: "Claude Code runs on several surfaces: the terminal, IDE extensions, a desktop app, and the web."
+  retrieved: 2026-10-12
+  last_checked: 2026-10-12
+- id: H1b
+  article: what-makes-a-chat-an-ai-agent
+  sentence:
+    sv: "Det kan köras som ett tillägg i editorn eller som ett program i terminalen, i ett jobb i CI eller på schema."
+    en: "It can run as an editor extension or a terminal program, in a CI job or on a schedule."
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/overview
+  final_url: https://code.claude.com/docs/en/overview
+  quote: "In CI, you can automate code review and issue triage with GitHub Actions or GitLab CI/CD."
+  retrieved: 2026-10-12
+  last_checked: 2026-10-12
+- id: H1c
+  article: what-makes-a-chat-an-ai-agent
+  sentence:
+    sv: "Det kan köras som ett tillägg i editorn eller som ett program i terminalen, i ett jobb i CI eller på schema."
+    en: "It can run as an editor extension or a terminal program, in a CI job or on a schedule."
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/overview
+  final_url: https://code.claude.com/docs/en/overview
+  quote: "Run Claude on a schedule to automate work that repeats"
+  retrieved: 2026-10-12
+  last_checked: 2026-10-12
 - id: F13b
   article: what-makes-a-chat-an-ai-agent
   sentence:
@@ -225,36 +292,14 @@
 - id: F12
   article: what-makes-a-chat-an-ai-agent
   sentence:
-    sv: "i september var ungefär 33 000 tokens av varje start Claude Codes egen systemprompt och verktygsdefinitioner"
-    en: "in September about 33,000 tokens of every start were Claude Code's own system prompt and tool definitions"
+    sv: "Claude Code har en egen systemprompt och egna verktygsdefinitioner som fabriken inte kan ställa in: i september var de ungefär 33 000 tokens av varje start"
+    en: "Claude Code has its own system prompt and tool definitions, which the factory cannot configure: in September they were about 33,000 tokens of every start"
   vendor: Addable Labs
   url: https://addablelabs.se/blog/what-the-mayors-context-costs/
   final_url: https://addablelabs.se/blog/what-the-mayors-context-costs/
-  quote: "about 33,000 tokens of every start are Claude Code's own system prompt and tool definitions"
-  retrieved: 2026-10-06
-  last_checked: 2026-10-06
-- id: F6
-  article: what-makes-a-chat-an-ai-agent
-  sentence:
-    sv: "Att en planerare och en granskare kan vara olika agenter kommer från lagret ovanpå, Gas City"
-    en: "That a planner and a reviewer can be different agents comes from the layer above, Gas City"
-  vendor: Addable Labs
-  url: https://addablelabs.se/blog/why-we-run-an-agent-run-factory/
-  final_url: https://addablelabs.se/blog/why-we-run-an-agent-run-factory/
-  quote: "Planner, builder and reviewer are different agents, and review runs in several lanes."
-  retrieved: 2026-10-06
-  last_checked: 2026-10-06
-- id: F5
-  article: what-makes-a-chat-an-ai-agent
-  sentence:
-    sv: "där en agent är konfiguration: ett namn, en prompt, ett ansvarsområde."
-    en: "where an agent is configuration: a name, a prompt, a scope."
-  vendor: Addable Labs
-  url: https://addablelabs.se/blog/why-we-run-an-agent-run-factory/
-  final_url: https://addablelabs.se/blog/why-we-run-an-agent-run-factory/
-  quote: "An agent is configuration: a name, a prompt, a scope."
-  retrieved: 2026-10-06
-  last_checked: 2026-10-06
+  quote: "about 33,000 tokens of every start are Claude Code's own system prompt and tool definitions, which the factory cannot configure"
+  retrieved: 2026-10-12
+  last_checked: 2026-10-12
 - id: F2b
   article: what-makes-a-chat-an-ai-agent
   sentence:
@@ -280,8 +325,8 @@
 - id: F2
   article: what-makes-a-chat-an-ai-agent
   sentence:
-    sv: "varje grind har ett test som bevisar att den misslyckas när något medvetet har gjorts sönder."
-    en: "each gate has a test proving that it fails when something has been deliberately broken."
+    sv: "Varje grind har ett test som bevisar att den misslyckas när något medvetet har tagits sönder."
+    en: "Each gate has a test proving it fails when something has been deliberately broken."
   vendor: Addable Labs
   url: https://addablelabs.se/blog/how-this-site-was-built-by-agents/
   final_url: https://addablelabs.se/blog/how-this-site-was-built-by-agents/
@@ -291,14 +336,25 @@
 - id: F1
   article: what-makes-a-chat-an-ai-agent
   sentence:
-    sv: "Kraven blev numrerade påståenden med acceptanskriterier"
-    en: "The requirements became numbered statements with acceptance criteria"
+    sv: "I båda byggena blev kraven numrerade påståenden med acceptanskriterier"
+    en: "In both builds, the requirements became numbered statements with acceptance criteria"
   vendor: Addable Labs
   url: https://addablelabs.se/blog/how-this-site-was-built-by-agents/
   final_url: https://addablelabs.se/blog/how-this-site-was-built-by-agents/
   quote: "The requirements turned a short brief into numbered statements with acceptance criteria."
   retrieved: 2026-10-06
   last_checked: 2026-10-06
+- id: F1c
+  article: what-makes-a-chat-an-ai-agent
+  sentence:
+    sv: "I båda byggena blev kraven numrerade påståenden med acceptanskriterier"
+    en: "In both builds, the requirements became numbered statements with acceptance criteria"
+  vendor: Addable Labs
+  url: https://addablelabs.se/blog/how-this-site-was-built-by-agents/
+  final_url: https://addablelabs.se/blog/how-this-site-was-built-by-agents/
+  quote: "Each run moved through a fixed sequence"
+  retrieved: 2026-10-12
+  last_checked: 2026-10-12
 - id: F1b
   article: what-makes-a-chat-an-ai-agent
   sentence:
@@ -324,8 +380,8 @@
 - id: F14
   article: what-makes-a-chat-an-ai-agent
   sentence:
-    sv: "Vi såg samma sak i september: borgmästarens anteckningslogg hade blivit för lång för att läsas i sin helhet, så nya sessioner hoppade över det mesta och tog gamla fakta för aktuella."
-    en: "We saw the same in September: the mayor's notes log had grown too long to read whole, so new sessions skipped most of it and took old facts as current."
+    sv: "Vi såg något liknande i september med borgmästarens anteckningar: loggen hade blivit för lång för att läsas i sin helhet, så nya sessioner hoppade över det mesta och tog gamla fakta för aktuella."
+    en: "We saw something similar in September with the mayor's notes: the log had grown too long to read whole, so new sessions skipped most of it and took old facts as current."
   vendor: Addable Labs
   url: https://addablelabs.se/blog/what-the-mayors-context-costs/
   final_url: https://addablelabs.se/blog/what-the-mayors-context-costs/
@@ -335,8 +391,8 @@
 - id: F15
   article: what-makes-a-chat-an-ai-agent
   sentence:
-    sv: "Sedan den 24 september är lägeskortet – som skrivs om vid varje överlämning – och referensen kortade och har ett tak."
-    en: "Since 24 September the state card, rewritten at every hand-off, and the reference have been trimmed and capped."
+    sv: "Den 24 september kortades lägeskortet – som skrivs om varje gång en session lämnar över till nästa – och fick ett tak."
+    en: "On 24 September the state card — rewritten whenever a session hands over to the next — was trimmed and capped."
   vendor: Addable Labs
   url: https://addablelabs.se/blog/what-the-mayors-context-costs/
   final_url: https://addablelabs.se/blog/what-the-mayors-context-costs/
@@ -368,8 +424,8 @@
 - id: F3c
   article: what-makes-a-chat-an-ai-agent
   sentence:
-    sv: "Sedan dess sitter grinden vid planen."
-    en: "Since then the gate sits at the plan."
+    sv: "Sedan dess sitter grundarens grind vid planen."
+    en: "Since then the founder's gate sits at the plan."
   vendor: Addable Labs
   url: https://addablelabs.se/blog/why-we-run-an-agent-run-factory/
   final_url: https://addablelabs.se/blog/why-we-run-an-agent-run-factory/
@@ -390,8 +446,8 @@
 - id: C2
   article: what-makes-a-chat-an-ai-agent
   sentence:
-    sv: "Claude Code kan själv skriva ett första utkast till den utifrån koden."
-    en: "Claude Code can write a first draft of it from the code."
+    sv: "verktyget kan själv skriva ett första utkast till den utifrån koden."
+    en: "the tool can write a first draft of it from the code."
   vendor: Anthropic
   url: https://code.claude.com/docs/en/memory
   final_url: https://code.claude.com/docs/en/memory
@@ -401,7 +457,7 @@
 - id: C3
   article: what-makes-a-chat-an-ai-agent
   sentence:
-    sv: "Finns det ingen CLAUDE.md läser det AGENTS.md i stället."
+    sv: "Finns det ingen CLAUDE.md läser Claude Code AGENTS.md i stället."
     en: "If there is no CLAUDE.md, it reads AGENTS.md instead."
   vendor: Anthropic
   url: https://code.claude.com/docs/en/memory
@@ -412,19 +468,30 @@
 - id: C8
   article: what-makes-a-chat-an-ai-agent
   sentence:
-    sv: "från version 2.1.283 startar det i läget Auto om inget annat är inställt och då granskar en automatisk kontroll det mesta i bakgrunden och stoppar det som ser riskabelt ut."
-    en: "from version 2.1.283 it starts in Auto mode unless something else is set, and an automatic check then reviews most actions in the background and stops what looks risky."
+    sv: "i terminalen och i VS Code startar det i läget Auto om inget annat är inställt."
+    en: "in the terminal and VS Code it starts in Auto mode unless set otherwise."
   vendor: Anthropic
   url: https://code.claude.com/docs/en/permission-modes
   final_url: https://code.claude.com/docs/en/permission-modes
   quote: "With Claude Code v2.1.283 or later, auto mode is the built-in starting permission mode for interactive terminal and VS Code sessions."
   retrieved: 2026-10-06
   last_checked: 2026-10-06
+- id: C8b
+  article: what-makes-a-chat-an-ai-agent
+  sentence:
+    sv: "Då granskar en automatisk kontroll det mesta i bakgrunden och stoppar det som ser riskabelt ut."
+    en: "An automatic check then reviews most actions in the background and stops what looks risky."
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/permission-modes
+  final_url: https://code.claude.com/docs/en/permission-modes
+  quote: "In auto mode, a second model, the classifier, reviews actions instead of you"
+  retrieved: 2026-10-12
+  last_checked: 2026-10-12
 - id: C8-manual
   article: what-makes-a-chat-an-ai-agent
   sentence:
-    sv: "I läget Manual frågar Claude Code innan det ändrar filer eller kör kommandon."
-    en: "In Manual mode Claude Code asks before it changes files or runs commands."
+    sv: "I läget Manual frågar Claude Code innan det ändrar filer eller kör kommandon som gör mer än att läsa."
+    en: "In Manual mode Claude Code asks before it changes files or runs commands that do more than read."
   vendor: Anthropic
   url: https://code.claude.com/docs/en/permission-modes
   final_url: https://code.claude.com/docs/en/permission-modes
@@ -434,14 +501,25 @@
 - id: C9
   article: what-makes-a-chat-an-ai-agent
   sentence:
-    sv: "Filändringar kan återställas, men inte det som redan har nått andra system."
-    en: "File changes can be undone, but not what has already reached other systems."
+    sv: "Claude Codes egna filändringar kan återställas, men inte det som ett kommando har ändrat eller som redan har nått andra system."
+    en: "Claude Code's own file changes can be undone, but not what a command has changed or what has already reached other systems."
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/checkpointing
+  final_url: https://code.claude.com/docs/en/checkpointing
+  quote: "Checkpointing does not track files modified by Bash commands."
+  retrieved: 2026-10-12
+  last_checked: 2026-10-12
+- id: C9b
+  article: what-makes-a-chat-an-ai-agent
+  sentence:
+    sv: "men inte det som ett kommando har ändrat eller som redan har nått andra system."
+    en: "but not what a command has changed or what has already reached other systems."
   vendor: Anthropic
   url: https://code.claude.com/docs/en/how-claude-code-works#undo-changes-with-checkpoints
   final_url: https://code.claude.com/docs/en/how-claude-code-works#undo-changes-with-checkpoints
-  quote: "File edits are reversible."
-  retrieved: 2026-10-06
-  last_checked: 2026-10-06
+  quote: "Actions that affect remote systems (databases, APIs, deployments)"
+  retrieved: 2026-10-12
+  last_checked: 2026-10-12
 - id: O1
   article: what-makes-a-chat-an-ai-agent
   sentence:
@@ -467,14 +545,14 @@
 - id: O2
   article: what-makes-a-chat-an-ai-agent
   sentence:
-    sv: "På den egna datorn arbetar Codex i en sandlåda som oftast bara når projektets mapp – utan nätverk om inget annat är inställt – och en regel för godkännanden avgör när det måste stanna och fråga."
-    en: "On the local machine, Codex works in a sandbox that usually reaches only the project's folder — with no network unless set otherwise — and an approval policy decides when it must stop and ask."
+    sv: "På den egna datorn arbetar Codex i en sandlåda som oftast bara får skriva i projektets mapp, utan nätverk om inget annat är inställt."
+    en: "On the local machine, Codex works in a sandbox that usually lets it write only in the project's folder, with no network unless set otherwise."
   vendor: OpenAI
   url: https://learn.chatgpt.com/docs/agent-approvals-security
   final_url: https://learn.chatgpt.com/docs/agent-approvals-security
-  quote: "Locally, Codex uses an OS-enforced sandbox that limits what it can touch (typically to the current workspace), plus an approval policy that controls when it must stop and ask you before acting."
-  retrieved: 2026-10-06
-  last_checked: 2026-10-06
+  quote: "Defaults include no network access and write permissions limited to the active workspace."
+  retrieved: 2026-10-12
+  last_checked: 2026-10-12
 - id: O2b
   article: what-makes-a-chat-an-ai-agent
   sentence:
@@ -486,43 +564,76 @@
   quote: "By default, the agent runs with network access turned off."
   retrieved: 2026-10-06
   last_checked: 2026-10-06
+- id: O2c
+  article: what-makes-a-chat-an-ai-agent
+  sentence:
+    sv: "En regel för godkännanden avgör när det måste stanna och fråga."
+    en: "An approval policy decides when it must stop and ask."
+  vendor: OpenAI
+  url: https://learn.chatgpt.com/docs/agent-approvals-security
+  final_url: https://learn.chatgpt.com/docs/agent-approvals-security
+  quote: "Locally, Codex uses an OS-enforced sandbox that limits what it can touch (typically to the current workspace), plus an approval policy that controls when it must stop and ask you before acting."
+  retrieved: 2026-10-12
+  last_checked: 2026-10-12
 - id: G1
   article: what-makes-a-chat-an-ai-agent
   sentence:
     sv: "i VS Code är instruktionsfilen `.github/copilot-instructions.md` och Copilot läser också AGENTS.md."
     en: "in VS Code the instruction file is `.github/copilot-instructions.md`, and Copilot reads AGENTS.md too."
   vendor: GitHub
-  url: https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/add-custom-instructions/add-repository-instructions
-  final_url: https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/add-custom-instructions/add-repository-instructions
-  quote: "In the root of your repository, create a file named .github/copilot-instructions.md"
-  retrieved: 2026-10-06
-  last_checked: 2026-10-06
+  url: https://code.visualstudio.com/docs/agent-customization/custom-instructions#_use-a-githubcopilot-instructionsmd-file
+  final_url: https://code.visualstudio.com/docs/agent-customization/custom-instructions#_use-a-githubcopilot-instructionsmd-file
+  quote: "For Copilot Agent Host sessions, use .github/copilot-instructions.md for project-wide guidance."
+  retrieved: 2026-10-12
+  last_checked: 2026-10-12
 - id: G2
   article: what-makes-a-chat-an-ai-agent
   sentence:
     sv: "och Copilot läser också AGENTS.md."
     en: "and Copilot reads AGENTS.md too."
   vendor: GitHub
-  url: https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/add-custom-instructions/add-repository-instructions
-  final_url: https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/add-custom-instructions/add-repository-instructions
-  quote: "When Copilot is working, the nearest AGENTS.md file in the directory tree will take precedence."
-  retrieved: 2026-10-06
-  last_checked: 2026-10-06
+  url: https://code.visualstudio.com/docs/agent-customization/custom-instructions#_use-a-githubcopilot-instructionsmd-file
+  final_url: https://code.visualstudio.com/docs/agent-customization/custom-instructions#_use-a-githubcopilot-instructionsmd-file
+  quote: "It is supported by multiple harnesses, including Copilot and OpenAI Codex, and by the Local agent."
+  retrieved: 2026-10-12
+  last_checked: 2026-10-12
 - id: V4
   article: what-makes-a-chat-an-ai-agent
   sentence:
-    sv: "Med Manual permissions ber Copilot om lov innan den kör kommandon eller använder andra verktyg, men ändrar filer i projektmappen utan att fråga."
-    en: "With Manual permissions Copilot asks before it runs commands or uses other tools, but changes files in the project folder without asking."
+    sv: "Med inställningen Manual permissions, som är förvald, ber Copilot om lov innan den kör kommandon eller använder andra verktyg – utom vanliga kommandon som bara läser – men ändrar filer i projektmappen utan att fråga."
+    en: "With the Manual permissions setting, the default, Copilot asks before it runs commands or uses other tools — except common read-only commands — but changes files in the project folder without asking."
   vendor: GitHub
   url: https://code.visualstudio.com/docs/agents/agents-tutorial
   final_url: https://code.visualstudio.com/docs/agents/agents-tutorial
   quote: "Requests your approval for running tools or accessing resources. The agent can make file edits in your project folder."
   retrieved: 2026-10-06
   last_checked: 2026-10-06
+- id: V4b
+  article: what-makes-a-chat-an-ai-agent
+  sentence:
+    sv: "Med inställningen Manual permissions, som är förvald,"
+    en: "With the Manual permissions setting, the default,"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agents/run/approvals
+  final_url: https://code.visualstudio.com/docs/agents/run/approvals
+  quote: "Manual permissions (default)"
+  retrieved: 2026-10-12
+  last_checked: 2026-10-12
+- id: V4c
+  article: what-makes-a-chat-an-ai-agent
+  sentence:
+    sv: "utom vanliga kommandon som bara läser"
+    en: "except common read-only commands"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agents/run/approvals
+  final_url: https://code.visualstudio.com/docs/agents/run/approvals
+  quote: "By default, common read-only commands run automatically, while risky commands such as rm and del require approval."
+  retrieved: 2026-10-12
+  last_checked: 2026-10-12
 - id: V9
   article: what-makes-a-chat-an-ai-agent
   sentence:
-    sv: "En checkpoint återställer filerna och chatten till hur de såg ut före en viss förfrågan, men inte kommandon som har körts eller ändringar i andra tjänster."
+    sv: "En kontrollpunkt (checkpoint) återställer filerna och chatten till hur de såg ut före en viss förfrågan, men inte kommandon som har körts eller ändringar i andra tjänster."
     en: "A checkpoint restores the files and the chat to how they were before a given request, but not commands that have run or changes in other services."
   vendor: GitHub
   url: https://code.visualstudio.com/docs/agents/run/review-code-edits#_restore-a-checkpoint
