@@ -269,7 +269,7 @@
       "head": "pnpm check",
       "score": "10/10",
       "pass": "PASS",
-      "caption": "Grindtavlan: ett kommando kör de tio kontrollerna, i den här ordningen, vid varje ändring och varje pull request; var och en har ett test som bevisar att den misslyckas när något medvetet har gjorts sönder.",
+      "caption": "Grindtavlan: ett kommando kör de tio kontrollerna, i den här ordningen, vid varje ändring och varje pull request; var och en har ett test som bevisar att den misslyckas när något medvetet har tagits sönder.",
       "guards": {
         "build": "webbplatsen byggs",
         "links": "interna länkar finns",
@@ -807,7 +807,7 @@
         }
       },
       "partNote": "{part}: {first} och {second}",
-      "caption": "Vad som fyllde borgmästarens kontext: de fem största källorna som andelar av alla bearbetade tokens, i samma skala, var och en med en stapel för 22–23 september (nedtonad) och en för 24–25 september. Under den första perioden var hälften av alla tokens startinnehållet, som skickades med varje anrop i 51 korta sessioner; under den andra tog borgmästarens egna utdata den största andelen. Den orange delen av tre staplar är det som nästa ändringar skulle rikta in sig på: borgmästarens resonemang, diffarna och genomförandeagenternas rapporter. Resten, 16 % och 20 %, kom från källor på högst 4 % vardera."
+      "caption": "Vad som fyllde borgmästarens kontext: de fem största källorna som andelar av alla bearbetade tokens, i samma skala, var och en med en stapel för 22–23 september (nedtonad) och en för 24–25 september. Under den första perioden var hälften av alla tokens startinnehållet, som skickades med varje anrop i 51 korta sessioner; under den andra tog borgmästarens egna utdata den största andelen. Den orange delen av tre staplar är det som nästa ändringar skulle rikta in sig på: borgmästarens resonemang, diffarna och byggarnas rapporter. Resten, 16 % och 20 %, kom från källor på högst 4 % vardera."
     },
     "merges": {
       "title": "De 49 pull requests som slogs ihop i Gaimer den 24 och 25 september 2026, en ruta för varje, på en rad för varje del av artikeln som berättar vad de ändrade, med antalet för varje rad",

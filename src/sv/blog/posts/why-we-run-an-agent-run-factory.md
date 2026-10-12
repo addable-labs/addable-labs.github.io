@@ -133,7 +133,7 @@ Däremellan tog kravsteget fram 31 krav med acceptanskriterier; plansteget
 renderade tre designriktningar som riktiga sidor – vi såg dem redan på
 förhandsvisningsservern och valde en inom två minuter efter att ha fått
 frågan – och godkände den granskade planen 19:45; nedbrytningen gav tio
-arbetspaket; en genomförandeagent arbetade sig igenom dem i fyra sessioner
+arbetspaket; en byggare arbetade sig igenom dem i fyra sessioner
 och 22 commits; och tre granskningsspår hittade två fel som måste rättas,
 vilket ett rättningsspår gjorde innan rapporten skrevs. Grenen slutade på 39
 commits som rörde 90 källfiler, klarade tio automatiska kvalitetsgrindar,
@@ -149,8 +149,8 @@ vi aldrig behövde bära; ingen text blev offentlig utan att jag läst den.
 Det första bygget, tidigare samma dag, tog ungefär fyra timmar för 27 krav
 och tio arbetspaket, behövde en rättning och hade ingen grind före slutet:
 vi såg resultatet när det var klart och gillade inte utseendet. Ingen av
-körningarna var felfri. I den första tog en session en administrativ post i
-registret i stället för sin uppgift och behövde fjorton minuter för att ta
+körningarna var felfri. I den första tog en session fel ärende i registret
+och behövde fjorton minuter för att ta
 sig runt det; den skrev ner lösningen i sina anteckningar och när det andra
 byggets första session råkade ut för samma kapplöpning var den igång med sin
 uppgift inom en minut. Båda körningarna lämnade oss en lista med öppna

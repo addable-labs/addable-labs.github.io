@@ -15,10 +15,10 @@ humanReviewed: true              # en person har läst den
 
 Borgmästaren, agenten som samordnar
 [fabriken](/sv/blog/why-we-run-an-agent-run-factory/) bakom den här sajten,
-bearbetade 8,28 miljoner tokens per bead som en genomförandeagent levererade
+bearbetade 8,28 miljoner tokens per bead som en byggare levererade
 den 22–23 september och 5,14 miljoner den 24–25 september: 38 % färre, för 57
 beads i stället för 35. En bead är en uppgift i fabrikens ärendehanterare och
-en genomförandeagent är en agentsession som utför en.
+en byggare är en agentsession som utför en.
 
 Hela besparingen kom från omorienteringen, de anrop som en ny session gör före
 sin första utåtriktade handling (ett svar, ett utskickat uppdrag, en skriven
@@ -77,26 +77,26 @@ git-historiken.
 
 | I varje period | 22–23 sep | 24–25 sep |
 | --- | ---: | ---: |
-| Beads levererade av genomförandeagenter | 35 | 57 |
+| Beads levererade av byggare | 35 | 57 |
 | Beads som borgmästaren stängde själv | 33 | 0 |
 | Commits som nådde main | 32 | 85 |
-| Beads skickade till en genomförandeagent | 38 | 58 |
-| Rapporter mejlade av genomförandeagenter | 37 | 58 |
+| Beads skickade till en byggare | 38 | 58 |
+| Rapporter mejlade av byggare | 37 | 58 |
 | Meddelanden på Discord från grundaren | 18 | 10 |
 | Sessioner, var och en avslutad med en överlämning | 51 | 10 |
 | Tokens bearbetade av borgmästaren (miljoner) | 290 | 293 |
-| Per bead levererad av genomförandeagenter (miljoner) | 8,28 | 5,14 |
+| Per bead levererad av byggare (miljoner) | 8,28 | 5,14 |
 
-Under den första perioden gällde alla genomförandeagenternas beads sajten:
+Under den första perioden gällde alla byggarnas beads sajten:
 dess texter, dess kontroller och tester samt dess README, mycket av det i nära
 kontakt med grundaren. Borgmästaren stängde dessutom 33 beads själv, de flesta
 granskningsfynd som den avfärdade. Under den andra perioden gällde 32 av de 57
 beads ett andra projekt, [Gaimer](https://github.com/addable-labs/gaimer), de
-flesta små pull requests från en granskning av dess kod. En genomförandeagent
+flesta små pull requests från en granskning av dess kod. En byggare
 fick sina instruktioner i den bead som borgmästaren skickade ut och mejlade en
 rapport när den var klar; borgmästaren följde arbetet genom sina egna
 bevakningar. Utöver uppdragen skickade den två mejl och två korta meddelanden
-till genomförandeagenter, alla under den andra perioden.
+till byggare, alla under den andra perioden.
 
 ## Vad som fyllde kontexten
 
@@ -109,7 +109,7 @@ första perioden var hälften av alla bearbetade tokens startinnehållet, som
 skickades med varje anrop i 51 korta sessioner. Under den andra var det en
 fjärdedel: startinnehållet var mindre och det som arbetet lade till skickades
 igen i genomsnitt 90 gånger i stället för 28. Borgmästarens egna utdata, mest
-dess resonemang, diffarna den läste och genomförandeagenternas rapporter vägde
+dess resonemang, diffarna den läste och byggarnas rapporter vägde
 tyngre.
 
 ## Fynd, ändringar och utfall
@@ -140,7 +140,7 @@ session kontrollerade läget i stället för att lita på sina anteckningar.
   skilja dem åt.
 - Borgmästarens subagenter, tre under varje period, använde 62,9 miljoner
   egna tokens under den första perioden och 15,2 miljoner under den andra. De
-  ingår inte i summorna och det gör inte heller genomförandeagenternas tokens.
+  ingår inte i summorna och det gör inte heller byggarnas tokens.
 - En token som lästes från cachen räknas som vilken annan som helst: 97 % av
   den första periodens tokens och 99 % av den andras var cacheläsningar.
 
@@ -159,9 +159,9 @@ Den andra periodens andelar pekar på tre mål:
 - Borgmästarens eget resonemang, 17 % av alla tokens, med den högsta
   inställningen för resonemang på varje svar: en lägre inställning för
   rutinsteg.
-- Diffarna och genomförandeagenternas rapporter som den läser i sin egen
+- Diffarna och byggarnas rapporter som den läser i sin egen
   kontext, 13 %: att läsa dem i en subagent som bara lämnar tillbaka sitt
   utlåtande.
 - Startinnehållet, 25 %: ungefär 33 000 tokens av varje start är Claude Codes
-  egen systemprompt och verktygsdefinitioner, som fabriken inte kan ställa in,
-  så bara resten kan krympa.
+  egen systemprompt och verktygsdefinitioner, som fabriken inte ändrar,
+  så bara resten krymper.

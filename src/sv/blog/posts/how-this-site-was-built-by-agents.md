@@ -57,7 +57,7 @@ kontrasten för varje färgpar i båda teman, bekräftar att varje engelsk sida
 har en svensk motsvarighet och att de två uppsättningarna gränssnittstexter
 har samma nycklar, validerar flödena och söker igenom resultatet efter de
 fakta som sidorna måste ange. Varje kvalitetsgrind har ett test som bevisar
-att den misslyckas när något medvetet har gjorts sönder.
+att den misslyckas när något medvetet har tagits sönder.
 
 ## Två ärliga iakttagelser
 
@@ -74,8 +74,8 @@ svensk sida eller en färg som inte klarar kontrastkravet fångas automatiskt;
 om en mening om en produkt är sann kan de däremot inte avgöra. Därför kan
 varje uppgift om apparna på startsidan spåras till en källa – README-filen
 eller rapporten i appens kodförråd och datumet då den lästes – och vi läser
-ändå allt. Agenterna gjorde också misstag: en session tog en administrativ
-post i registret i stället för sin uppgift och behövde fjorton minuter för att
+ändå allt. Agenterna gjorde också misstag: en session tog fel ärende i
+fabrikens ärendehanterare och behövde fjorton minuter för att
 ta sig runt det.
 
 Webbplatsen är enkel: statisk HTML och CSS, två små skript (ett som växlar

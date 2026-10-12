@@ -153,5 +153,5 @@ The second period's shares point at three targets:
 - The diffs and the workers' reports it reads in its own context, 13%:
   reading them in a subagent that returns only its verdict.
 - The start-up content, 25%: about 33,000 tokens of every start are Claude
-  Code's own system prompt and tool definitions, which the factory cannot
-  configure, so only the rest can shrink.
+  Code's own system prompt and tool definitions, which the factory does not
+  change, so only the rest shrinks.
