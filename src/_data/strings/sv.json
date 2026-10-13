@@ -1203,6 +1203,57 @@
       "loop": "loop: samla · agera · kontrollera",
       "harness": "harness – håller ihop allt",
       "caption": "En AI-agents fem delar: modellen i mitten, instruktionerna och verktygen som matar den, loopen den arbetar i och lagret runt alltihop, som kallas harness."
+    },
+    "file-before-after": {
+      "first": {
+        "title": "Två versioner av samma instruktionsfil sida vid sida. Första dagen har den åtta rader.",
+        "head": "Första dagen"
+      },
+      "later": {
+        "title": "Efter några veckor har en rad om att köra en enskild testfil lagts till. Regeln om migreringar har fått sitt skäl och en utväg. Ett stycke som beskriver varje fil är struket. Mappen web/ har fått en egen fil med en rad.",
+        "head": "Några veckor senare"
+      },
+      "file": "AGENTS.md",
+      "webFile": "web/AGENTS.md",
+      "lines": {
+        "title": "# Instructions for AI agents",
+        "build": "## Build and test",
+        "install": "- Install dependencies with `npm install`.",
+        "single": "- Run a single test file with `npm test -- <file>`.",
+        "test": "- Run `npm test` before you say you are done.",
+        "rules": "## Rules",
+        "bug": "- Write a test for every bug you fix.",
+        "migrations": "- Change nothing in the `migrations/` folder.",
+        "migrationsLater": "- Change nothing in the `migrations/` folder: those files have already run in production. Add a new migration instead.",
+        "package": "- Ask before you add a new package.",
+        "overview": "## What each file in the project does",
+        "web": "- Also run `npm run test:web` before you say you are done."
+      },
+      "marks": {
+        "added": "Tillagd",
+        "changed": "Ändrad: skäl och utväg tillagda",
+        "cut": "Struken: agenten läser filerna själv",
+        "newFile": "Ny fil i web/"
+      },
+      "caption": "Den påhittade exempelfilen första dagen och några veckor senare. Historien och filen är påhittade."
+    },
+    "which-tool-reads-what": {
+      "title": "Tre verktyg och de filer de läser. Codex läser AGENTS.md. GitHub Copilot läser AGENTS.md och .github/copilot-instructions.md. Claude Code läser AGENTS.md också när det inte finns någon CLAUDE.md. Där det finns en importerar en enda rad i den, @AGENTS.md, den delade filen.",
+      "head": "Filer i projektet",
+      "files": {
+        "agents": "AGENTS.md",
+        "copilot": ".github/copilot-instructions.md",
+        "claude": "CLAUDE.md",
+        "import": "@AGENTS.md"
+      },
+      "tools": {
+        "codex": "Codex",
+        "copilot": "GitHub Copilot",
+        "claude": "Claude Code"
+      },
+      "ifNone": "om det inte finns någon CLAUDE.md",
+      "ifClaude": "om projektet har en CLAUDE.md",
+      "caption": "Vilka av projektets filer varje verktyg läser, så som dokumentationen såg ut den 13 oktober 2026."
     }
   },
   "games": {

@@ -1203,6 +1203,57 @@
       "loop": "loop: gather · act · verify",
       "harness": "harness — holds it all together",
       "caption": "The five parts of an AI agent: the model in the middle, the instructions and the tools that feed it, the loop it works in and, around it all, the layer called the harness."
+    },
+    "file-before-after": {
+      "first": {
+        "title": "Two versions of the same instruction file side by side. On the first day it has eight lines.",
+        "head": "Day one"
+      },
+      "later": {
+        "title": "A few weeks later a line on running a single test file has been added. The migrations rule has got its reason and a way out. A section that describes every file has been struck out. The web folder has got a file of its own with one line.",
+        "head": "A few weeks later"
+      },
+      "file": "AGENTS.md",
+      "webFile": "web/AGENTS.md",
+      "lines": {
+        "title": "# Instructions for AI agents",
+        "build": "## Build and test",
+        "install": "- Install dependencies with `npm install`.",
+        "single": "- Run a single test file with `npm test -- <file>`.",
+        "test": "- Run `npm test` before you say you are done.",
+        "rules": "## Rules",
+        "bug": "- Write a test for every bug you fix.",
+        "migrations": "- Change nothing in the `migrations/` folder.",
+        "migrationsLater": "- Change nothing in the `migrations/` folder: those files have already run in production. Add a new migration instead.",
+        "package": "- Ask before you add a new package.",
+        "overview": "## What each file in the project does",
+        "web": "- Also run `npm run test:web` before you say you are done."
+      },
+      "marks": {
+        "added": "Added",
+        "changed": "Changed: reason and way out added",
+        "cut": "Cut: the agent reads the files itself",
+        "newFile": "New file in web/"
+      },
+      "caption": "The made-up example file on its first day and a few weeks later. The story and the file are made up."
+    },
+    "which-tool-reads-what": {
+      "title": "Three tools and the files they read. Codex reads AGENTS.md. GitHub Copilot reads AGENTS.md and .github/copilot-instructions.md. Claude Code reads AGENTS.md too when there is no CLAUDE.md. Where there is one, a single line in it, @AGENTS.md, imports the shared file.",
+      "head": "Files in the project",
+      "files": {
+        "agents": "AGENTS.md",
+        "copilot": ".github/copilot-instructions.md",
+        "claude": "CLAUDE.md",
+        "import": "@AGENTS.md"
+      },
+      "tools": {
+        "codex": "Codex",
+        "copilot": "GitHub Copilot",
+        "claude": "Claude Code"
+      },
+      "ifNone": "if there is no CLAUDE.md",
+      "ifClaude": "if the project has a CLAUDE.md",
+      "caption": "Which of the project's files each tool reads, as their documentation stood on 13 October 2026."
     }
   },
   "games": {

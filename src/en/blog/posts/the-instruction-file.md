@@ -2,7 +2,7 @@
 title: The instruction file, the first thing an AI agent reads
 description: The second part of the series "From AI chat to agentic work" — whether to make an instruction file, what to write first, how to keep it useful and how one file can serve several tools.
 image: cover.png                 # a 1200 × 630 PNG in the article's media directory
-imageAlt: A developer seen from behind, split into two halves in front of two screens. The left half is grey and calmer, in front of a chat. The right half is green and active, one hand raised towards a screen with a graph of agents.
+imageAlt: An AI agent, a green circle, stands at the entrance of a project and reads a short note card on a post before it steps in. Behind the doorway lie the project's folders and files.
 date: 2026-10-12
 category: ai-journey             # app-development | ai-journey
 translationKey: the-instruction-file
@@ -68,7 +68,7 @@ Anthropic counts
 [file-by-file descriptions of the codebase](https://code.claude.com/docs/en/best-practices)
 among what does not belong in the file. It was cut.
 
-<!-- figure A: file-before-after -->
+{% figure "file-before-after", "wide" %}
 
 The web client's tests are not part of `npm test`, so the `web/` folder got
 an AGENTS.md of its own, with one line that adds the web tests without
@@ -102,7 +102,7 @@ A line in the file stops nothing: it asks and does not block.
 [One of Anthropic's own examples of a hook](https://code.claude.com/docs/en/best-practices),
 [a command the tool runs by itself](https://code.claude.com/docs/en/hooks-guide),
 blocks writes to the migrations folder. In nivå, our AI-fluency
-self-assessment, database migrations may only be added to, never changed:
+self-assessment, database migrations may only be added, never changed:
 the checks built before the features make sure a decision written down is
 respected, as we wrote in
 [Lessons from building nivå](/blog/lessons-from-building-niva/). Part 7 is
@@ -147,7 +147,7 @@ agent cannot find out for itself, and for expecting small, uncertain gains.
 A file written for one model can be too loud for the next. In October 2026
 [Anthropic's prompting guide](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices)
 says that some newer models are more responsive to the system prompt, the
-instructions sent ahead of the conversation, so where one might have written
+tool's own instructions, so where one might have written
 "CRITICAL: You MUST use this tool when...", one can now write "Use this
 tool when...".
 
@@ -164,10 +164,10 @@ and changes nothing until you ask.
 ## One file for three tools
 
 With more than one tool, a single AGENTS.md in the root is enough, if each
-tool finds it. We describe the tools as their documentation stood on 12
+tool finds it. We describe the tools as their documentation stood on 13
 October 2026.
 
-<!-- figure B: which-tool-reads-what -->
+{% figure "which-tool-reads-what", "wide" %}
 
 [Codex reads AGENTS.md before doing any work](https://learn.chatgpt.com/docs/agent-configuration/agents-md).
 GitHub Copilot reads it too,
@@ -186,8 +186,8 @@ line:
 There is a trap: a personal CLAUDE.local.md
 [counts as a CLAUDE.md](https://code.claude.com/docs/en/memory), so by
 default whoever adds one stops their own Claude Code from reading
-AGENTS.md. The line `@AGENTS.md` in that file
-[keeps AGENTS.md read](https://code.claude.com/docs/en/memory).
+AGENTS.md.
+[Setting Project instructions to `claude-md-and-agents-md` in `/config` keeps AGENTS.md read](https://code.claude.com/docs/en/memory).
 
 GitHub Copilot also reads `.github/copilot-instructions.md` and sends the
 model

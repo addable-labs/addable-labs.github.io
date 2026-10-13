@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <!-- The image of "The instruction file, the first thing an AI agent reads"
+       (si-es1f, 13 October 2026), in part 1's style and palette: the
+       entrance of a project, a doorway with a simple folder tree inside, and
+       a short note card on a post at the entrance. A small agent, part 1's
+       motif (a green circle with a halo, at work), stands in front of the
+       card and reads it (the soft green light between them) before it steps
+       in (the dashed path through the doorway). The subject sits inside the
+       central 630 x 630 square; nothing that matters is within 40 px of an
+       edge. -->
+  <defs>
+    <pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse" y="15">
+      <path d="M0 .5H30M.5 0V30" fill="none" stroke="#242C33"/>
+    </pattern>
+    <radialGradient id="fade" cx="600" cy="315" r="640" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff" stop-opacity=".95"/>
+      <stop offset=".6" stop-color="#fff" stop-opacity=".55"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </radialGradient>
+    <mask id="gridmask"><rect width="1200" height="630" fill="url(#fade)"/></mask>
+    <radialGradient id="glow" cx="600" cy="315" r="340" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#83F35D" stop-opacity=".09"/>
+      <stop offset="1" stop-color="#83F35D" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glow-card" cx="540" cy="300" r="200" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#83F35D" stop-opacity=".16"/>
+      <stop offset="1" stop-color="#83F35D" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="reading" x1="438" y1="0" x2="500" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#83F35D" stop-opacity=".05"/>
+      <stop offset="1" stop-color="#83F35D" stop-opacity=".22"/>
+    </linearGradient>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#626E79"/>
+    </marker>
+  </defs>
+
+  <rect width="1200" height="630" fill="#0B0E10"/>
+  <rect width="1200" height="630" fill="url(#grid)" mask="url(#gridmask)"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+  <rect width="1200" height="630" fill="url(#glow-card)"/>
+
+  <!-- The floor. -->
+  <path d="M300 484H900" stroke="#626E79" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- The doorway into the project, open at the floor, and the project
+       inside it: a folder and the folders and files under it. -->
+  <path d="M664 484V138a18 18 0 0 1 18-18H850a18 18 0 0 1 18 18V484Z" fill="#13181C"/>
+  <path d="M664 484V138a18 18 0 0 1 18-18H850a18 18 0 0 1 18 18V484" fill="none" stroke="#626E79" stroke-width="3" stroke-linejoin="round"/>
+  <g fill="#1A2126" stroke="#A6B0BA" stroke-width="2.5" stroke-linejoin="round">
+    <path d="M700 168h16l6 7h26v27h-48z"/>
+  </g>
+  <path d="M712 202V418M712 252H738M712 310H738M712 368H738M712 418H738" fill="none" stroke="#626E79" stroke-width="2.5" stroke-linecap="round"/>
+  <g fill="#1A2126" stroke="#626E79" stroke-width="2.5" stroke-linejoin="round">
+    <path d="M742 240h13l5 6h20v20h-38z"/>
+    <path d="M742 298h13l5 6h20v20h-38z"/>
+    <rect x="746" y="353" width="24" height="30" rx="4"/>
+    <rect x="746" y="403" width="24" height="30" rx="4"/>
+  </g>
+  <g fill="#626E79" fill-opacity=".55">
+    <rect x="792" y="248" width="52" height="10" rx="5"/>
+    <rect x="792" y="306" width="40" height="10" rx="5"/>
+    <rect x="782" y="363" width="58" height="10" rx="5"/>
+    <rect x="782" y="413" width="46" height="10" rx="5"/>
+  </g>
+
+  <!-- The note card on its post at the entrance: a heading and a few short
+       lines. -->
+  <path d="M560 380V484" stroke="#626E79" stroke-width="3" stroke-linecap="round"/>
+  <path d="M536 484H584" stroke="#626E79" stroke-width="3" stroke-linecap="round"/>
+  <rect x="500" y="232" width="120" height="148" rx="12" fill="#13181C" stroke="#83F35D" stroke-width="3"/>
+  <rect x="520" y="254" width="62" height="12" rx="6" fill="#83F35D"/>
+  <g fill="#ECEFF1" fill-opacity=".7">
+    <rect x="520" y="284" width="80" height="9" rx="4.5"/>
+    <rect x="520" y="306" width="62" height="9" rx="4.5"/>
+    <rect x="520" y="328" width="74" height="9" rx="4.5"/>
+    <rect x="520" y="350" width="48" height="9" rx="4.5"/>
+  </g>
+
+  <!-- The agent reading the card: the light between them. -->
+  <path d="M438 366L498 246V378L438 404Z" fill="url(#reading)"/>
+  <circle cx="404" cy="400" r="30" fill="#83F35D"/>
+  <circle cx="404" cy="400" r="46" fill="none" stroke="#83F35D" stroke-opacity=".35" stroke-width="3"/>
+  <ellipse cx="404" cy="484" rx="30" ry="5" fill="#626E79" fill-opacity=".45"/>
+
+  <!-- Then it steps in: the path through the doorway. -->
+  <path d="M446 448C520 470 610 468 694 452" fill="none" stroke="#626E79" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="2 9" marker-end="url(#arrow)"/>
+</svg>

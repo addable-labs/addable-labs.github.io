@@ -239,18 +239,18 @@
   article: the-instruction-file
   sentence:
     sv: "får databasmigreringar bara läggas till, aldrig ändras"
-    en: "database migrations may only be added to, never changed"
+    en: "database migrations may only be added, never changed"
   vendor: Addable Labs
   url: https://addablelabs.se/blog/lessons-from-building-niva/
   final_url: https://addablelabs.se/blog/lessons-from-building-niva/
   quote: "database migrations are append-only"
-  retrieved: 2026-10-12
-  last_checked: 2026-10-12
+  retrieved: 2026-10-13
+  last_checked: 2026-10-13
 - id: F1-niva-sv
   article: the-instruction-file
   sentence:
     sv: "får databasmigreringar bara läggas till, aldrig ändras"
-    en: "database migrations may only be added to, never changed"
+    en: "database migrations may only be added, never changed"
   vendor: Addable Labs
   url: https://addablelabs.se/sv/blog/lessons-from-building-niva/
   final_url: https://addablelabs.se/sv/blog/lessons-from-building-niva/
@@ -590,8 +590,8 @@
 - id: E1-sysprompt
   article: the-instruction-file
   sentence:
-    sv: "systemprompten, de instruktioner som skickas med före samtalet"
-    en: "the system prompt, the instructions sent ahead of the conversation"
+    sv: "systemprompten, verktygets egna instruktioner"
+    en: "the system prompt, the tool's own instructions"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/glossary
   final_url: https://code.claude.com/docs/en/glossary
@@ -733,23 +733,23 @@
 - id: C14-local-fix
   article: the-instruction-file
   sentence:
-    sv: "Raden @AGENTS.md i den filen gör att AGENTS.md läses ändå"
-    en: "The line @AGENTS.md in that file keeps AGENTS.md read"
+    sv: "Med inställningen Project instructions i /config satt till claude-md-and-agents-md läses AGENTS.md ändå"
+    en: "Setting Project instructions to claude-md-and-agents-md in /config keeps AGENTS.md read"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/memory
   final_url: https://code.claude.com/docs/en/memory
-  quote: "It loads alongside CLAUDE.md and is treated the same way."
+  quote: "To keep your CLAUDE.local.md and still have Claude read AGENTS.md, set Project instructions to claude-md-and-agents-md."
   retrieved: 2026-10-13
   last_checked: 2026-10-13
 - id: C14-local-fix-b
   article: the-instruction-file
   sentence:
-    sv: "Raden @AGENTS.md i den filen gör att AGENTS.md läses ändå"
-    en: "The line @AGENTS.md in that file keeps AGENTS.md read"
+    sv: "Med inställningen Project instructions i /config satt till claude-md-and-agents-md läses AGENTS.md ändå"
+    en: "Setting Project instructions to claude-md-and-agents-md in /config keeps AGENTS.md read"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/memory
   final_url: https://code.claude.com/docs/en/memory
-  quote: "putting an @AGENTS.md import in a CLAUDE.md next to it"
+  quote: "type /config in a Claude Code session to open the settings panel, then set Project instructions to one of these values"
   retrieved: 2026-10-13
   last_checked: 2026-10-13
 - id: G4-all
@@ -961,6 +961,17 @@
   quote: "the rules files and Gas City's prompt for the mayor"
   retrieved: 2026-10-12
   last_checked: 2026-10-12
+- id: F6-start-up-sv
+  article: the-instruction-file
+  sentence:
+    sv: "räknas de regelfiler som vår samordnande agent läser till det som skickas till modellen i varje anrop"
+    en: "the rules files our coordinating agent reads count as what goes to the model with every call"
+  vendor: Addable Labs
+  url: https://addablelabs.se/sv/blog/what-the-mayors-context-costs/
+  final_url: https://addablelabs.se/sv/blog/what-the-mayors-context-costs/
+  quote: "regelfilerna och Gas Citys prompt för borgmästaren"
+  retrieved: 2026-10-13
+  last_checked: 2026-10-13
 - id: F7-every-call
   article: the-instruction-file
   sentence:

@@ -2,7 +2,7 @@
 title: Instruktionsfilen, det första en AI-agent läser
 description: Andra delen i serien "Från AI-chatt till agentiskt arbete" – om man ska göra en instruktionsfil, vad som ska stå i den först, hur den hålls användbar och hur en fil räcker för flera verktyg.
 image: cover.png                 # en PNG på 1200 × 630 i artikelns mediemapp
-imageAlt: En utvecklare sedd bakifrån, delad i två halvor framför två skärmar. Den vänstra halvan är grå och lugnare framför en chatt. Den högra är grön och aktiv, med handen höjd mot en skärm med en graf av agenter.
+imageAlt: En AI-agent, en grön cirkel, står vid ingången till ett projekt och läser en kort lapp på en stolpe innan den går in. Bakom dörröppningen ligger projektets mappar och filer.
 date: 2026-10-12
 category: ai-journey             # app-development | ai-journey
 translationKey: the-instruction-file
@@ -69,7 +69,7 @@ Anthropic räknar
 [beskrivningar av kodbasen fil för fil](https://code.claude.com/docs/en/best-practices)
 till det som inte hör hemma i filen. Stycket stryktes.
 
-<!-- figure A: file-before-after -->
+{% figure "file-before-after", "wide" %}
 
 Webbgränssnittets tester ingår inte i `npm test`, så mappen `web/` fick en
 egen AGENTS.md med en enda rad som lägger till webbtesterna utan att säga
@@ -152,8 +152,8 @@ osäkra vinster.
 En fil som skrevs för en äldre modell kan bli för högljudd för nästa. I
 oktober 2026 står det i
 [Anthropics promptguide](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices)
-att vissa nyare modeller är mer lyhörda för systemprompten, de
-instruktioner som skickas med före samtalet, så där man tidigare skrev "CRITICAL: You MUST use
+att vissa nyare modeller är mer lyhörda för systemprompten,
+verktygets egna instruktioner, så där man tidigare skrev "CRITICAL: You MUST use
 this tool when..." kan man nu skriva "Use this tool when...".
 
 Sedan den 25 september 2026 har Claude Code
@@ -171,9 +171,9 @@ ingenting förrän man ber om det.
 
 Med flera verktyg räcker en AGENTS.md i roten, så länge varje verktyg
 hittar den. Verktygen beskriver vi så som dokumentationen såg ut den
-12 oktober 2026.
+13 oktober 2026.
 
-<!-- figure B: which-tool-reads-what -->
+{% figure "which-tool-reads-what", "wide" %}
 
 [Codex läser AGENTS.md innan det gör något arbete](https://learn.chatgpt.com/docs/agent-configuration/agents-md).
 GitHub Copilot läser den också, både
@@ -192,8 +192,8 @@ rad:
 Det finns en fälla: en personlig CLAUDE.local.md
 [räknas som en CLAUDE.md](https://code.claude.com/docs/en/memory), så den
 som lägger till en får som standard sin egen Claude Code att sluta läsa
-AGENTS.md. Raden `@AGENTS.md` i den filen
-[gör att AGENTS.md läses ändå](https://code.claude.com/docs/en/memory).
+AGENTS.md.
+[Med inställningen Project instructions i `/config` satt till `claude-md-and-agents-md` läses AGENTS.md ändå](https://code.claude.com/docs/en/memory).
 
 GitHub Copilot läser också `.github/copilot-instructions.md` och tar med
 [alla instruktioner som gäller](https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/add-custom-instructions/add-repository-instructions).
