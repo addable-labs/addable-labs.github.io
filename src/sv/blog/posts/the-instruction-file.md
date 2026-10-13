@@ -1,6 +1,6 @@
 ---
 title: Instruktionsfilen, det första en AI-agent läser
-description: Andra delen i serien "Från AI-chatt till agentiskt arbete" – om man ska göra en instruktionsfil, vad som ska stå i den först, hur den hålls användbar och hur en fil räcker för flera verktyg.
+description: Andra delen i serien "Från AI-chatt till agentiskt arbete" – om man ska skapa en instruktionsfil, vad som ska stå i den först, hur den hålls användbar och hur en fil räcker för flera verktyg.
 image: cover.png                 # en PNG på 1200 × 630 i artikelns mediemapp
 imageAlt: En AI-agent, en grön cirkel, står vid ingången till ett projekt och läser en kort lapp på en stolpe innan den går in. Bakom dörröppningen ligger projektets mappar och filer.
 date: 2026-10-12
@@ -13,10 +13,10 @@ humanReviewed: false             # ingen har läst den ännu
 
 I [Vad som gör en chatt till en AI-agent](/sv/blog/what-makes-a-chat-an-ai-agent/),
 seriens första del, visade vi en kort AGENTS.md för en påhittad webbapp.
-Den här delen börjar med det en nybörjare undrar först: ska man göra en
+Den här delen börjar med det en nybörjare undrar först: ska man skapa en
 sådan fil, vad ska stå i den och hur håller man den användbar?
 
-## Ja, gör en – och håll den kort
+## Ja, skapa en – och håll den kort
 
 Anthropic beskriver CLAUDE.md, sin variant av filen, som
 [stället där man skriver ner det man annars skulle förklara på nytt](https://code.claude.com/docs/en/memory).
