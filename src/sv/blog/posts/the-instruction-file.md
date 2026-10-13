@@ -1,6 +1,6 @@
 ---
 title: Instruktionsfilen, det första en AI-agent läser
-description: Andra delen i serien "Från AI-chatt till agentiskt arbete" – samma instruktionsfil några veckor senare, vad som kommer till och vad som stryks, varför kort slår långt och hur en fil räcker för tre verktyg.
+description: Andra delen i serien "Från AI-chatt till agentiskt arbete" – om man ska göra en instruktionsfil, vad som ska stå i den först, hur den hålls användbar och hur en fil räcker för flera verktyg.
 image: cover.png                 # en PNG på 1200 × 630 i artikelns mediemapp
 imageAlt: En utvecklare sedd bakifrån, delad i två halvor framför två skärmar. Den vänstra halvan är grå och lugnare framför en chatt. Den högra är grön och aktiv, med handen höjd mot en skärm med en graf av agenter.
 date: 2026-10-12
@@ -13,96 +13,105 @@ humanReviewed: false             # ingen har läst den ännu
 
 I [Vad som gör en chatt till en AI-agent](/sv/blog/what-makes-a-chat-an-ai-agent/),
 seriens första del, visade vi en kort AGENTS.md för en påhittad webbapp.
-Den här delen följer samma fil några veckor senare: vad som kommer till,
-vad som stryks och var en regel måste stå för att varje verktyg ska läsa
-den i tid.
+Den här delen börjar med det en nybörjare undrar först: ska man göra en
+sådan fil, vad ska stå i den och hur håller man den användbar?
 
-Poängen är att en kort och sann instruktionsfil gör mer nytta än en lång
-prompt. OpenAI säger nästan detsamma om själva filen:
-["en kort och korrekt AGENTS.md är mer användbar än en lång fil full av vaga regler"](https://learn.chatgpt.com/docs/learn/best-practices)
-(vår översättning).
+## Ja, gör en – och håll den kort
+
+Ja. Anthropic beskriver CLAUDE.md, sin variant av filen, som
+[stället där man skriver ner det man annars skulle förklara på nytt](https://code.claude.com/docs/en/memory).
+Studierna längre ned visar små vinster, så håll insatsen liten också:
+
+1. Skriv den själv, som en AGENTS.md i repots rot. Forskare vid ETH
+   Zürich
+   [föreslår att man tills vidare avstår från filer som en språkmodell har skrivit](https://arxiv.org/html/2602.11988v3).
+2. Börja med kommandona för att installera, bygga och testa. Anthropic
+   listar
+   [kommandon som Claude inte kan gissa](https://code.claude.com/docs/en/best-practices)
+   först bland det som hör hemma i filen.
+3. Lägg till de få regler som agenten inte kan läsa ut ur koden, var och
+   en med sitt skäl, så att den
+   [fattar bättre beslut i gränsfall](https://code.visualstudio.com/docs/agent-customization/custom-instructions).
+4. Lämna ut översikter och beskrivningar av vad varje fil gör.
+   [Det agenten kan ta reda på själv hör inte hemma i filen](https://code.claude.com/docs/en/best-practices).
+5. Lägg till en rad när agenten
+   [gör samma misstag en andra gång](https://code.claude.com/docs/en/memory).
+   Stryk en rad när
+   [borttagningen inte skulle orsaka något misstag](https://code.claude.com/docs/en/best-practices).
+
+Om man också använder Claude Code behåller man filen och lägger till en
+CLAUDE.md som [importerar den](https://code.claude.com/docs/en/memory), som
+avsnittet om flera verktyg visar.
 
 ## Samma fil några veckor senare
 
-Historien är påhittad, liksom filen. Första dagen innehöll filen bara det en
-ny kollega behöver veta. Anthropic skriver att en rad hör hemma där när
-["en ny kollega skulle behöva samma sammanhang för att komma igång"](https://code.claude.com/docs/en/memory)
-(vår översättning). Några veckor senare ser filen ut så här:
+Historien är påhittad, liksom filen. Första dagen såg den ut som i del 1
+och innehöll knappt mer än det en ny kollega behöver veta. Sedan behövde
+en tabell en ny kolumn. Filen sa att ingenting i mappen `migrations/` fick
+ändras. Agenten fick varken veta varför eller vad den skulle göra i
+stället och lämnade ett löst SQL-skript i projektets rot.
 
-```markdown
-# Instruktioner för AI-agenter
+Utvecklaren skrev om regeln så att den fick både skäl och utväg: filerna
+har redan körts i produktion, så lägg till en ny migrering i stället. Två
+veckor i rad körde agenten sedan hela testsviten efter en ändring på en
+enda rad. Då fick filen en rad om hur man kör en enskild testfil.
 
-## Bygga och testa
-- Installera beroenden med `npm install`.
-- Kör en enskild testfil med `npm test -- <fil>`.
-- Kör `npm test` innan du säger att du är klar.
-
-## Regler
-- Skriv ett test för varje bugg du rättar.
-- Ändra inget i mappen `migrations/`: filerna där har redan körts i
-  produktion. Lägg till en ny migrering i stället.
-- Fråga innan du lägger till ett nytt paket.
-```
-
-**Regeln om migreringarna har fått sitt skäl** och en väg ut.
-[Anthropics promptguide](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices)
-och
-[dokumentationen för GitHub Copilot i VS Code](https://code.visualstudio.com/docs/agent-customization/custom-instructions)
-råder båda att skälet står med regeln. Den senare skriver att agenten fattar
-["bättre beslut i gränsfall"](https://code.visualstudio.com/docs/agent-customization/custom-instructions)
-(vår översättning) när instruktionen förklarar varför regeln finns.
-
-**En rad kom till när ett misstag kom tillbaka.** Två gånger körde agenten
-hela testsviten efter en ändring på en enda rad, så nu står det i filen hur
-en enskild testfil körs. Det är det första skälet på Anthropics lista över
-när en rad ska läggas till:
-["Claude gör samma misstag en andra gång"](https://code.claude.com/docs/en/memory)
-(vår översättning).
-
-**Ett stycke har strukits.** Filen hade fått en beskrivning av vad varje
-fil i projektet gör. Agenten läser filerna själv och Anthropic räknar
+Utvecklaren ställde också frågan om varje rad: skulle agenten göra misstag
+om den togs bort? Ett stycke klarade inte det, en beskrivning av vad varje
+fil i projektet gör. Agenten läser filerna själv. Anthropic räknar
 [beskrivningar av kodbasen fil för fil](https://code.claude.com/docs/en/best-practices)
-till det som inte hör hemma i filen. Anthropics fråga för varje rad är
-["Skulle Claude göra misstag om det här togs bort?"](https://code.claude.com/docs/en/best-practices)
-(vår översättning). För beskrivningen av filerna var svaret nej.
+till det som inte hör hemma i filen. Stycket stryktes.
 
-**Webbklienten har fått en egen fil.** Testerna i mappen `web/` ingår inte
-i `npm test`, så där ligger en egen AGENTS.md med en rad som lägger till
-något och inte säger emot rotfilen:
+Webbklientens tester ingår inte i `npm test`, så mappen `web/` fick en egen
+AGENTS.md med en enda rad som lägger till något utan att säga emot
+rotfilen:
 
 ```markdown
-- Kör också `npm run test:web` innan du säger att du är klar.
+- Also run `npm run test:web` before you say you are done.
 ```
 
-**Regeln om `migrations/` står kvar i rotfilen.** Den hade kunnat ligga i
-en egen fil i mappen, men verktygen läser filer i undermappar vid olika
-tillfällen (se tabellen längre ned). Claude Code läser AGENTS.md i en
-undermapp [när det öppnar en fil där](https://code.claude.com/docs/en/memory);
-Codex
-[slutar leta i den mapp det startade i](https://learn.chatgpt.com/docs/agent-configuration/agents-md).
-I VS Code är filer i undermappar
-[ett experiment](https://code.visualstudio.com/docs/agent-customization/custom-instructions),
-[avstängt från början](https://code.visualstudio.com/docs/agent-customization/custom-instructions) för den lokala agenten.
-En regel i `migrations/` kan alltså nå agenten för sent eller inte alls.
-Även i rotfilen stoppar regeln ingenting:
-[ett av Anthropics egna exempel på en krok (hook)](https://code.claude.com/docs/en/best-practices)
-blockerar skrivningar till mappen med migreringar och sådana spärrar är
+Regeln om `migrations/` blev kvar i rotfilen. Den hade kunnat flytta in i
+mappen, men verktygen läser filer i undermappar vid olika tillfällen, så en
+regel som alltid måste gälla står säkrast i roten. Rotfilen såg sedan ut så
+här:
+
+```markdown
+# Instructions for AI agents
+
+## Build and test
+- Install dependencies with `npm install`.
+- Run a single test file with `npm test -- <file>`.
+- Run `npm test` before you say you are done.
+
+## Rules
+- Write a test for every bug you fix.
+- Change nothing in the `migrations/` folder: those files have already
+  run in production. Add a new migration instead.
+- Ask before you add a new package.
+```
+
+<!-- figure A: file-before-after -->
+
+Även i rotfilen stoppar regeln ingenting.
+[Ett av Anthropics egna exempel på en krok (hook)](https://code.claude.com/docs/en/best-practices)
+blockerar skrivningar till mappen med migreringar. Sådana spärrar är
 ämnet för del 7.
 
-I självskattningen nivå, som vi skrev om i
-[Lärdomar från att bygga nivå](/sv/blog/lessons-from-building-niva/), får
-databasmigreringar bara läggas till och aldrig ändras. Där är regeln mer
-än en rad i en fil. Den hör till testmiljön som byggdes före funktionerna:
-"ett beslut som är nedskrivet är ett beslut som testmiljön ser till att vi
-lever upp till".
+Självskattningen nivå, som vi skrev om i
+[Lärdomar från att bygga nivå](/sv/blog/lessons-from-building-niva/), visar
+en regel med mer bakom sig än en rad i en fil. Där får databasmigreringar
+bara läggas till och aldrig ändras. Regeln hör till testmiljön som byggdes
+före funktionerna: "ett beslut som är nedskrivet är ett beslut som
+testmiljön ser till att vi lever upp till".
 
 ## Kort slår långt, men vinsterna är små
 
-Leverantörerna sätter också gränser i siffror. GitHubs förslag till prompt
-för att låta Copilot skriva sin egen instruktionsfil säger att
-instruktionerna
-["inte får vara längre än två sidor"](https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/add-custom-instructions/add-repository-instructions)
-(vår översättning) och Codex
+Kort är också vad leverantörerna ber om. OpenAI
+[föredrar en kort och korrekt AGENTS.md framför en lång fil full av vaga regler](https://learn.chatgpt.com/docs/learn/best-practices).
+GitHubs förslag till prompt för att låta Copilot skriva sin egen
+instruktionsfil
+[ber om högst två sidor](https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/add-custom-instructions/add-repository-instructions).
+Codex
 [slutar som standard lägga till filer när de tillsammans når 32 KiB](https://learn.chatgpt.com/docs/agent-configuration/agents-md).
 
 Beläggen för att filen hjälper är tunnare än råden.
@@ -112,86 +121,91 @@ uppgifter med och utan instruktionsfil. Filer som utvecklarna själva hade
 skrivit höjde andelen lösta uppgifter med 2,4 % i genomsnitt. Filer som en
 språkmodell hade skrivit sänkte den med 0,5 och 2 % i studiens två
 uppsättningar uppgifter. Ingen av skillnaderna är statistiskt säkerställd,
-men de genererade filerna gjorde körningarna 20 och 23 % dyrare.
-Forskarna föreslår att man tills vidare avstår från genererade filer.
-Översikter av repot hjälpte inte.
+så studien kan inte skilja dem från slumpen. De genererade filerna gjorde
+däremot körningarna 20 och 23 % dyrare. Den ökningen är säkerställd. Även
+de handskrivna filerna höjde kostnaden, med högst 19 %. Översikter av repot
+hjälpte inte, trots att forskarna noterar att modellleverantörer
+rekommenderar dem.
+
+Claude Code och Codex kan båda skriva ett första utkast, men
+[Anthropic råder till att förfina det med sådant som Claude inte skulle hitta på egen hand](https://code.claude.com/docs/en/memory)
+och
+[OpenAI till att redigera resultatet så att det passar hur teamet arbetar](https://learn.chatgpt.com/docs/learn/best-practices).
+I praktiken: skriv filen för hand, håll dig till det agenten inte kan ta
+reda på själv och räkna med små vinster.
+
 [En mindre studie av 124 pull requests](https://arxiv.org/abs/2601.20404)
 fann att körningarna med en AGENTS.md hade 28,64 % kortare mediantid och
-att agenterna löste uppgifterna ungefär lika ofta.
+att agenterna löste uppgifterna ungefär lika ofta. Där köpte filen alltså
+tid och inte bättre svar.
 
-Vinsterna är alltså små och beläggen spretar. ETH-studien stöder ändå en
-del av leverantörernas råd: det som agenten kan ta reda på själv hör inte
-hemma i filen.
+## Modellerna ändras – och filen med dem
 
-**Så har det ändrats.** Instruktioner som skrevs för en äldre modell kan
-behöva bli kortare och lugnare när modellen byts.
+En fil som skrevs för en äldre modell kan bli för högljudd för nästa.
 [Anthropics promptguide](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices)
 skriver i oktober 2026 att vissa nyare modeller är mer lyhörda för
-systemprompten och att den som tidigare skrev "CRITICAL: You MUST use this
-tool when..." nu kan skriva "Use this tool when...". Betoning som
-"IMPORTANT" hör enligt
-[Anthropic](https://code.claude.com/docs/en/best-practices) hemma på en
-enda rad som Claude gång på gång hoppar över:
-["om man betonar många rader sticker ingen av dem ut"](https://code.claude.com/docs/en/best-practices)
-(vår översättning).
-[Sedan den 25 september 2026](https://code.claude.com/docs/en/changelog)
-har Claude Code kommandot `/doctor prompt-audit`, som
-[letar efter instruktioner skrivna för äldre modeller](https://code.claude.com/docs/en/memory).
+systemprompten, så där man tidigare skrev "CRITICAL: You MUST use this
+tool when..." kan man nu skriva "Use this tool when...".
+
+Claude Code har
+[sedan den 25 september 2026](https://code.claude.com/docs/en/changelog)
+ett kommando som letar efter instruktioner skrivna för äldre modeller:
+
+```text
+/doctor prompt-audit
+```
+
+Granskningen omfattar
+[AGENTS.md också](https://code.claude.com/docs/en/memory) och ändrar
+ingenting förrän man ber om det.
 
 ## En fil för tre verktyg
 
-Verktygen beskriver vi här så som dokumentationen såg ut den 12 oktober
-2026.
+Med flera verktyg räcker en AGENTS.md i roten, så länge varje verktyg
+hittar den. Verktygen beskriver vi här så som dokumentationen såg ut den
+12 oktober 2026.
 
-**Claude Code**
-[läser AGENTS.md när det inte finns någon CLAUDE.md](https://code.claude.com/docs/en/memory).
-Där finns en fälla: en personlig CLAUDE.local.md
-[räknas som en CLAUDE.md](https://code.claude.com/docs/en/memory).
-Den som lägger till en sådan för egna anteckningar
-[får sin Claude Code att sluta läsa AGENTS.md](https://code.claude.com/docs/en/memory)
-om inte inställningen Project instructions är satt till att läsa båda. Ett
-projekt som behöver en CLAUDE.md kan
-[importera den gemensamma filen med raden `@AGENTS.md`](https://code.claude.com/docs/en/memory).
-En mening som ber agenten läsa AGENTS.md räcker inte:
-["Claude ser AGENTS.md bara om det bestämmer sig för att öppna filen"](https://code.claude.com/docs/en/memory)
-(vår översättning). En symbolisk länk fungerar också, men Anthropic
-[rekommenderar importen om någon arbetar på Windows](https://code.claude.com/docs/en/memory),
-där Git annars kan checka ut länken som en vanlig textfil.
+<!-- figure B: which-tool-reads-what -->
 
-**Codex**
-[läser AGENTS.md innan det gör något arbete](https://learn.chatgpt.com/docs/agent-configuration/agents-md)
-men
-[slutar leta när det når den mapp det startade i](https://learn.chatgpt.com/docs/agent-configuration/agents-md),
-så en fil längre ned i trädet läses inte om Codex startas i roten. En
-[AGENTS.override.md ersätter AGENTS.md i samma mapp](https://learn.chatgpt.com/docs/agent-configuration/agents-md).
+[Codex läser AGENTS.md innan det gör något arbete](https://learn.chatgpt.com/docs/agent-configuration/agents-md).
+GitHub Copilot läser den också, både
+[på GitHub](https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/add-custom-instructions/add-repository-instructions)
+och [i VS Code](https://code.visualstudio.com/docs/agent-customization/custom-instructions).
+Claude Code utgår från CLAUDE.md och
+[läser som standard AGENTS.md bara när det inte finns någon CLAUDE.md](https://code.claude.com/docs/en/memory).
+För att dela en fil kan en CLAUDE.md
+[importera AGENTS.md](https://code.claude.com/docs/en/memory)
+med en enda rad:
 
-**GitHub Copilot** på GitHub
-[läser både `.github/copilot-instructions.md` och AGENTS.md, där den närmaste AGENTS.md i mappträdet går före](https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/add-custom-instructions/add-repository-instructions).
-[En enda CLAUDE.md i roten fungerar också](https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/add-custom-instructions/add-repository-instructions).
-[Alla instruktioner som gäller skickas med till Copilot](https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/add-custom-instructions/add-repository-instructions),
-så två filer som säger emot varandra är ett problem även där. I VS Code
-kallar dokumentationen AGENTS.md
-[ett format för flera agenter](https://code.visualstudio.com/docs/agent-customization/custom-instructions)
-och avråder från att
-[räkna med en viss ordning när filer säger emot varandra](https://code.visualstudio.com/docs/agent-customization/custom-instructions),
-eftersom verktygen hittar och slår ihop filer på olika sätt.
+```text
+@AGENTS.md
+```
 
-Tabellen visar vad sidorna samma dag säger om filer i undermappar.
+En fälla finns: en personlig CLAUDE.local.md
+[räknas som en CLAUDE.md](https://code.claude.com/docs/en/memory), så den
+som lägger till en får som regel sin egen Claude Code att sluta läsa
+AGENTS.md.
 
-| Verktyg | Vilka filer i undermappar som läses | När filerna säger emot varandra |
-|---|---|---|
-| [AGENTS.md, formatet](https://agents.md/) | Den närmaste filen till den fil som ändras | Den närmaste filen gäller |
-| [Codex](https://learn.chatgpt.com/docs/agent-configuration/agents-md) | Från roten ner till mappen Codex startade i | Den närmare filen går före |
-| [Claude Code](https://code.claude.com/docs/en/memory) | Ovanför: vid start. Nedanför: när Claude Code öppnar en fil där | Alla läses ihop och Claude kan välja en av dem godtyckligt |
-| [GitHub Copilot på GitHub](https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/add-custom-instructions/add-repository-instructions) | AGENTS.md-filer var som helst i repot | Den närmaste AGENTS.md går före |
-| [GitHub Copilot i VS Code](https://code.visualstudio.com/docs/agent-customization/custom-instructions) | Ett experiment, avstängt från början för den lokala agenten | Ingen ordning att räkna med |
+GitHub Copilot skickar med
+[alla instruktioner som gäller](https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/add-custom-instructions/add-repository-instructions).
+VS Code avråder från att
+[räkna med en viss ordning](https://code.visualstudio.com/docs/agent-customization/custom-instructions)
+när filer säger emot varandra, så reglerna hör hemma på ett ställe.
 
-Det som sidorna har gemensamt är det säkra: regler som måste gälla
-överallt står i rotfilen och ingen fil säger emot en annan.
+Filer i undermappar, som `web/AGENTS.md` i exemplet, läses vid olika
+tillfällen. Claude Code läser en
+[när det öppnar en fil där](https://code.claude.com/docs/en/memory).
+Codex
+[slutar leta i den mapp det startade i](https://learn.chatgpt.com/docs/agent-configuration/agents-md)
+och läser alltså filen i `web/` bara när det startas i `web/` eller under.
+I VS Code är filer i undermappar
+[ett experiment, avstängt från början](https://code.visualstudio.com/docs/agent-customization/custom-instructions)
+för den lokala agenten. Regler som måste gälla överallt står kvar i
+rotfilen.
 
 ## Fabrikens regler står i filerna som läses först
 
-Fabriken bakom den här sajten arbetar på samma sätt – det var i en sådan
+Fabriken bakom den här sajten arbetar på samma sätt. Det var i en sådan
 fil, den som varje agent på maskinen läser först, som vi klistrade in
 meddelandet till de andra agenterna den 12 september.
 [Därför driver vi en agentdriven mjukvarufabrik](/sv/blog/why-we-run-an-agent-run-factory/)
@@ -200,22 +214,20 @@ säger att reglerna "står i de filer varje session läser först" och räknar
 förkortade och utan namn:
 
 ```markdown
-- Stoppa aldrig processer med ett mönster: det träffar också andra
-  agenters processer. Spara id:t för det du startar och stoppa det.
-- Radera aldrig den delade containermiljöns data: där ligger alla
-  projekts avbilder och databaser.
+- Never stop processes by a pattern: it also hits other agents'
+  processes. Keep the id of what you start and stop that id.
+- Never delete the shared container runtime's data: it holds every
+  project's images and databases.
 ```
 
-Båda raderna bär sitt skäl så som leverantörerna råder. Inget av skälen
-går att läsa ut ur koden.
+Båda raderna bär sitt skäl – och inget av skälen går att läsa ut ur koden.
 
 Varje rad har också ett pris.
 [En studie av borgmästarens kontext](/sv/blog/what-the-mayors-context-costs/)
 räknar regelfilerna till startinnehållet och "startinnehållet följer med
 varje anrop, så det kostar sin storlek gånger anropen, inte gånger
-sessionerna". En rad som ingen behöver kostar alltså något i varje anrop.
+sessionerna".
 
-Det som bara behövs ibland hör hemma någon annanstans: beskrivningen av en
-agent med ett eget jobb i del 3 och färdigheter (skills) i del 4.
-Instruktionsfilen är det första agenten läser, så den bär bara det som
-gäller varje gång.
+Det som bara behövs ibland hör hemma någon annanstans: en agent med ett
+eget jobb i del 3, färdigheter (skills) i del 4. Instruktionsfilen är det
+första agenten läser, så den bär bara det som gäller varje gång.

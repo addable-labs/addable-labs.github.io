@@ -72,16 +72,16 @@ för en sådan fil. Det växte fram ur ett samarbete där bland andra OpenAI:s
 Codex ingick. I dag läses det av en lång rad verktyg. Filen kan vara kort:
 
 ```markdown
-# Instruktioner för AI-agenter
+# Instructions for AI agents
 
-## Bygga och testa
-- Installera beroenden med `npm install`.
-- Kör `npm test` innan du säger att du är klar.
+## Build and test
+- Install dependencies with `npm install`.
+- Run `npm test` before you say you are done.
 
-## Regler
-- Skriv ett test för varje fel du rättar.
-- Ändra inget i mappen `migrations/`.
-- Fråga innan du lägger till ett nytt paket.
+## Rules
+- Write a test for every bug you fix.
+- Change nothing in the `migrations/` folder.
+- Ask before you add a new package.
 ```
 
 En sådan fil
