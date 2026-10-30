@@ -1,5 +1,5 @@
 ---
-title: Skills, när arbetet ska bli likadant varje gång
+title: Färdigheter, när arbetet ska bli likadant varje gång
 description: Fjärde delen i serien "Från AI-chatt till agentiskt arbete" – vad en färdighet är, när arbetet hör hemma i en färdighet och när en instruktion räcker, varför det som måste bli exakt hör hemma i ett skript och vad du gör först.
 image: cover.png                 # en PNG på 1200 × 630 i artikelns mediemapp
 imageAlt: En AI-agent, en grön cirkel, står vid ingången till ett projekt och läser en kort lapp på en stolpe innan den går in. Bakom dörröppningen ligger projektets mappar och filer.
@@ -36,9 +36,9 @@ står det 1.4.0 i ändringsloggen medan `package.json` säger 1.3.1.
 
 Varje gång rättar utvecklaren agenten i chatten och skriver samma påminnelser
 som sist.
-[Anthropics dokumentation](https://code.claude.com/docs/en/skills) pekar ut just
-det ögonblicket som tecknet på att göra en färdighet: när du gång på gång
-klistrar in samma instruktioner, checklista eller arbetssätt i chatten.
+[Anthropics dokumentation](https://code.claude.com/docs/en/skills) säger att
+det är dags att göra en färdighet när du gång på gång klistrar in samma
+instruktioner, checklista eller arbetssätt i chatten.
 
 Stegen skulle kunna stå i AGENTS.md från del 2, men agenten läser den filen vid
 varje start, också de dagar då ingenting släpps. Texten i en färdighet läses
@@ -69,7 +69,8 @@ description: Prepares a release of the web app. Checks that the version number a
 
 # Release
 
-1. Run `sh scripts/check-release.sh` from the project's top folder.
+1. Run the script `scripts/check-release.sh` in this skill's folder with `sh`.
+   The working directory must be the project's top folder.
 2. If it prints a problem, fix that and run it again. Go on only when it
    prints OK.
 3. Run `npm test`.
@@ -84,7 +85,7 @@ ger "hjälper till med PDF:er" (vår översättning) som exempel på en dålig
 beskrivning.
 
 Instruktionerna är korta med flit. När en färdighet har lästs in blir texten
-kvar i samtalet och tar utrymme i varje varv, så Anthropic rekommenderar att
+kvar och tar plats i samtalet för varje svar, så Anthropic rekommenderar att
 den hålls kort.
 
 ## Lägg det som måste bli exakt i ett skript
@@ -114,62 +115,51 @@ echo "OK: $version is ready to release."
 
 Skriptet jämför versionen i `package.json` med den första rubriken i
 ändringsloggen och kontrollerar sedan att git inte har någon tagg för
-versionen ännu. Misslyckas en kontroll skriver det ut vad som är fel och
-stannar. Går båda igenom skriver det ut OK.
+versionen ännu. Det förväntar sig att rubrikerna i ändringsloggen ser ut som
+`## 1.4.0`. Misslyckas en kontroll skriver det ut vad som är fel och stannar.
+Går båda igenom skriver det ut OK.
 
 Skriptet gör samma två kontroller på samma sätt varje gång. En mening i
 SKILL.md som "kontrollera att ändringsloggen är uppdaterad" lämnar
 kontrollen åt agenten, som kan titta på fel ställe eller bedöma att det ser bra
-ut. Ett skript har inget sådant val. Det ger samma svar oavsett dag och oavsett
+ut. Ett skript har inget sådant val: det ger samma svar oavsett dag och oavsett
 vilken modell som kör det.
-
-Anthropics guide för att skriva färdigheter ger samma råd. När en åtgärd är
-[ömtålig och måste göras likadant varje gång](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices)
-ska du använda ett färdigt skript och köra det precis som det är. Ett sådant
-skript är mer tillförlitligt än kod som agenten skriver på stående fot.
-
-Den andra halvan av rådet är att inte överdriva. Codex dokumentation säger att
-du ska [föredra instruktioner framför skript om du inte behöver deterministiskt
-beteende eller externa verktyg](https://learn.chatgpt.com/docs/build-skills).
-Deterministiskt betyder att samma indata alltid ger samma resultat. Där svaret
-beror på omdöme, som hur en rad i ändringsloggen ska formuleras, är några
-meningar instruktion rätt verktyg.
 
 Skriptets meddelanden är skrivna för agenten också: "package.json says 1.5.0,
 but the changelog starts with 1.4.0" talar om vad som ska rättas innan skriptet
 körs igen, som guiden om skript i Agent Skills
 [rekommenderar](https://agentskills.io/skill-creation/using-scripts).
 
-Fabriken bakom den här sajten bygger på samma tanke. När sajten byggdes fick
-varje arbetspaket ett eget beviskommando, ett kommando som går igenom eller
-inte, som [Så byggdes den här sajten av agenter](/sv/blog/how-this-site-was-built-by-agents/)
-beskriver.
+En del av arbetet lämpar sig bättre för instruktioner. Hur en rad i
+ändringsloggen för 1.4.0 ska formuleras beror på omdöme. Några meningar
+instruktion är rätt verktyg för det. Guiderna från Anthropic och OpenAI drar
+gränsen på samma ställe: ett färdigt skript för en åtgärd som är
+[känslig och måste göras likadant varje gång](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices)
+och i övrigt
+[instruktioner före skript, om du inte behöver deterministiskt beteende eller externa verktyg](https://learn.chatgpt.com/docs/build-skills).
+Deterministiskt betyder att samma indata alltid ger samma resultat.
 
-Ett skript hjälper bara när det körs. Agenten måste välja färdigheten och följa
-det första steget. Det som aldrig får hoppas över behöver därför något utanför
-färdigheten, precis som en regel i instruktionsfilen behövde i del 2. Kör samma
-skript bland projektets automatiska kontroller, så fångas en release som hoppade
-över det där.
+Ett skript hjälper bara när det körs: agenten måste välja färdigheten och följa
+det första steget. Det som aldrig får hoppas över behöver därför ett skydd
+utanför färdigheten, på samma sätt som en regel i instruktionsfilen i del 2:
+ett test i projektet eller en inställning i verktyget som stoppar steget.
 
 ## En färdighet, en instruktion eller en förfrågan
 
 Allt hör inte hemma i en färdighet.
 
-Instruktionsfilen innehåller det som gäller för varje uppgift i projektet, som
-hur det installeras och testas. Den läses vid varje start och hålls därför kort.
+Instruktionsfilen innehåller det som gäller för varje uppgift i projektet. Den
+läses vid varje start och hålls därför kort.
 
 En färdighet innehåller ett arbetssätt för en sorts uppgift som kommer tillbaka,
-som en release, en granskning eller en översättning. Anthropic beskriver tecknet
-som ett stycke i CLAUDE.md som har vuxit till ett arbetssätt i stället för ett
-faktum. Färdighetens instruktioner läses bara när den används.
+som en release, en granskning eller en översättning.
 
-Ett skript hör hemma i färdigheten när en del av arbetssättet har ett enda rätt
-svar, som kontrollen i exemplet.
+En färdighet är inte en andra agent som den i del 3. Den är text som agenten du
+redan pratar med läser när uppgiften kräver det.
 
-Ett jobb som du gör en enda gång behöver inget av detta. Be om det i chatten. En
-färdighets namn och beskrivning ligger framför agenten hela tiden. I Claude Code
-lägger varje färdighet dessutom till sammanhang i varje varv, vare sig den
-används eller inte, så en färdighet som ingen behöver tar bara plats.
+Ett jobb som du gör en enda gång behöver inget av detta: be om det i chatten.
+När du klistrar in samma checklista en andra gång har jobbet kommit tillbaka
+och är värt att skriva ner som en färdighet.
 
 ## Vad en studie visar
 
@@ -178,21 +168,38 @@ AI-agenter 87 uppgifter, var och en med tester som poängsätter resultatet.
 Varje uppgift kördes med och utan en färdighet som experter hade tagit fram för
 den sortens uppgift.
 
-Som genomsnitt över många kombinationer av modell och verktyg klarade agenterna
-ungefär 34 uppgifter av 100 utan färdigheten och ungefär 50 med den. Alla
-kombinationer förbättrades, men i mycket olika grad.
+Agenterna var 18 kombinationer av en modell och ett verktyg. Som genomsnitt över
+alla klarade de ungefär 34 uppgifter av 100 utan färdigheten och ungefär 50 med
+den.
+
+Varje kombination klarade fler uppgifter med färdigheten, men vinsten skilde
+sig mycket: från ungefär 4 fler uppgifter av 100 till ungefär 26 fler. Forskarna
+markerar ett osäkerhetsintervall, ett 95-procentigt konfidensintervall, kring
+varje kombinations resultat. De redovisar inget test av om en vinst kan bero på
+enbart slumpen.
+
+Färdigheter hjälpte inte överallt. På 13 av de 87 uppgifterna blev
+genomsnittsresultatet sämre med färdigheten. I programvaruutveckling, området
+för exemplet med releasen, var vinsten ungefär 12 uppgifter av 100 mot ungefär
+17 för alla uppgifter.
 
 Tre av kombinationerna fick också skriva färdigheter åt sig själva innan de
-löste varje uppgift. Med de färdigheterna hamnade de under resultatet utan
-någon färdighet alls, alla tre. Forskarna skriver att underskottet blandar
-textens kvalitet med andra effekter: agenten använde ofta aldrig färdigheten
-den hade skrivit och i en del körningar åt arbetet med att skriva den upp det
-som skulle ha gått till uppgiften.
+löste varje uppgift. Med de färdigheterna klarade de 8 till 12 färre uppgifter
+av 100 än utan någon färdighet alls. Forskarna skriver att underskottet blandar
+textens kvalitet med andra effekter: agenten använde ofta aldrig färdigheten den
+hade skrivit och i en del körningar gick kraften åt till att skriva
+färdigheten i stället för att lösa uppgiften.
 
-Studiens uppgifter är inte ditt projekt. Forskarna drar själva slutsatsen att
-"en färdighets effekt är alltså en empirisk egenskap hos en viss agentstack och
-inte en universell konstant" (vår översättning). Testa därför din färdighet,
-som de följande avsnitten beskriver. Läs också det en agent har skrivit åt dig
+Studien har gränser. Dess färdigheter var utvalda för sin kvalitet, vilket
+forskarna kallar "ett optimistiskt scenario" (vår översättning). Uppgifterna
+kördes i en terminal. Studien skilde inte ut vad i en färdighet som gör jobbet:
+forskarna nämner "steg, exempel, kodresurser" (vår översättning) som de delar
+som framtida arbete måste isolera. Den visar inte att ett skript hjälper mer än
+instruktioner.
+
+Forskarna drar slutsatsen att hur mycket en färdighet hjälper beror på den
+enskilda kombinationen av modell och verktyg. Testa därför din färdighet, som
+de följande avsnitten beskriver. Läs också det en agent har skrivit åt dig
 innan du litar på det.
 
 ## Claude Code, Codex och GitHub Copilot
@@ -202,99 +209,89 @@ Det vi skriver kan ha ändrats sedan dess. Alla tre följer samma format, Agent
 Skills, så mappen och dess SKILL.md ser likadana ut i var och en. Det som skiljer
 är var mappen ligger.
 
-Som standard kan både du och agenten starta en färdighet. En release är
-annorlunda: utvecklaren vill själv bestämma när den sker. Anthropics exempel på
-en sådan färdighet är en driftsättning, där du inte vill att Claude
-bestämmer sig för att driftsätta för att koden ser färdig ut. I varje verktyg
-kan en färdighet säga att bara en person får starta den.
+I **Claude Code** är en färdighet en mapp i `.claude/skills/` i projektet eller
+i `~/.claude/skills/` för alla dina projekt. Du startar färdigheten release
+genom att skriva `/release`. Claude kan också läsa in den själv när din
+förfrågan passar beskrivningen.
 
-I **Claude Code** är en färdighet en
-[mapp i `.claude/skills/`](https://code.claude.com/docs/en/skills) i projektet,
-som hela teamet får när mappen läggs in i projektet, eller i
-`~/.claude/skills/` för alla dina projekt. Du startar färdigheten release genom
-att skriva `/release`. Claude kan också läsa in den själv när din förfrågan
-passar beskrivningen. Med den här raden i SKILL.md, under beskrivningen, startar
-den bara när du skriver namnet:
-
-```text
-disable-model-invocation: true
-```
-
-I OpenAI:s **Codex** är en färdighet en
-[mapp i `.agents/skills/`](https://learn.chatgpt.com/docs/build-skills).
-Codex letar där i varje mapp från den du startar i upp till projektets rot. Du startar en
-färdighet genom att skriva `$` och dess namn eller köra `/skills`, men Codex
-kan också välja en utifrån beskrivningen. För att hindra Codex från att välja
-färdigheten själv lägger du en fil `agents/openai.yaml` i färdighetens mapp med
-de här raderna:
-
-```text
-policy:
-  allow_implicit_invocation: false
-```
+I OpenAI:s **Codex** är en färdighet en mapp i `.agents/skills/`. Du startar en
+färdighet genom att skriva `$` och dess namn eller köra `/skills`. Codex kan
+också välja en utifrån beskrivningen.
 
 **GitHub Copilot** läser färdigheter för projektet från
 [`.github/skills/`, `.claude/skills/` och `.agents/skills/`](https://docs.github.com/en/copilot/concepts/customizations/agent-skills).
 De fungerar i VS Code, i Copilot CLI och i Copilots molnagent (cloud agent) på
 GitHub. I VS Code dyker de färdigheter du kan starta själv upp när du
 [skriver `/` i chatten](https://code.visualstudio.com/docs/agent-customization/agent-skills).
-Samma rad `disable-model-invocation: true` som i Claude Code gör att en
-färdighet bara startar när du startar den.
 
 {% figure "skill-locations", "wide" %}
 
 En färdighet som ligger i `.agents/skills/` hittas därför av Codex och Copilot
-medan Claude Code letar i `.claude/skills/`. Både Claude Code och Codex följer en
-länk till en mapp, så en länk från `.claude/skills/release` till samma mapp gör
-att du slipper ha två kopior.
+medan Claude Code letar i `.claude/skills/`. För att alla tre ska använda en och
+samma kopia lägger du färdigheten i en mapp och länkar till den från den andra.
+Både Claude Code och Codex följer en länk till en mapp. På macOS och Linux skapar
+de här två raderna, körda i projektets toppmapp, länken:
+
+```text
+mkdir -p .claude/skills
+ln -s ../../.agents/skills/release .claude/skills/release
+```
 
 ## Kontrollera att den fungerar
 
-En färdighet som aldrig används gör ingenting. Den första kontrollen är din:
-börja en ny chatt och be om arbetet med dina egna ord, "Gör en release". Se om
-agenten väljer färdigheten, starta den sedan med namn och se om den följer
-stegen. Att en färdighet finns tillgänglig garanterar inte att agenten väljer
-den för varje förfrågan som passar, som VS Codes dokumentation uttrycker det.
+Börja en ny chatt och se först att verktyget har hittat färdigheten. I Claude
+Code frågar du vilka färdigheter som finns. I Codex kör du `/skills`. I VS Code
+skriver du `/` i chatten och letar efter färdigheten i listan.
 
-Claude Code har verktyg för nästa kontroll.
-[`/skill-doctor`](https://code.claude.com/docs/en/skills) visar vad varje
-färdighet kostar i utrymme och hur ofta den används och pekar ut dem som aldrig
-har använts.
+Be sedan om jobbet med dina egna ord, som "Gör en release". Se om agenten väljer
+färdigheten. Gör den inte det, starta färdigheten med namn. Läs i vilket fall
+vad agenten gjorde: om den körde skriptet, följde de fyra stegen och frågade
+innan den skapade taggen. Att en färdighet finns tillgänglig garanterar inte att
+agenten väljer den för varje förfrågan som passar, som VS Codes dokumentation
+uttrycker det.
 
-Två verktyg till testar hur en färdighet beter sig. Ett
-[tillägg](https://code.claude.com/docs/en/plugins/overview) (på engelska
-plugin) är ett paket med färdigheter och annat som du installerar i verktyget.
-Tillägget skill-creator hjälper dig skriva testfall för en färdighet, kör varje
-fall i en ny session och jämför resultatet med och utan färdigheten.
-[`claude plugin eval`](https://code.claude.com/docs/en/plugin-evals) gör samma
-sak för färdigheter som ligger i ett tillägg. Det kan få en automatisk kontroll
-att misslyckas när poängen faller under en gräns du har satt.
-
-`claude plugin eval` kör varje fall tre gånger som standard, eftersom "en
-körning av en icke-deterministisk agent säger lite" (vår översättning).
-Skriptet i exemplet behöver inga upprepningar, eftersom det ger samma svar
-varje gång. Det som varierar är om agenten väljer färdigheten
-och kör skriptet. Det är det de här verktygen mäter.
-
-Kör testfallen igen när du byter till en nyare modell. Anthropic nämner att
-fånga försämringar när en ny modell kommer som ett av användningsområdena för
-testerna.
+Claude Code har också `/skill-doctor`, som visar vad varje färdighet kostar i
+utrymme och hur ofta den används. Ett tillägg som heter skill-creator kör
+testfall för en färdighet med och utan den.
 
 ## När det går fel
 
 Använder agenten inte färdigheten, starta den med namn. Fungerar det ligger
-felet i beskrivningen: lägg till orden du använder när du ber om arbetet. Startar
-färdigheten när den inte ska, gör beskrivningen smalare eller låt bara en person
-starta den.
+felet i beskrivningen: lägg till orden du använder när du ber om arbetet.
+Startar färdigheten när den inte ska, gör beskrivningen smalare.
+
+Ett jobb som du vill starta själv kan säga det. Anthropics exempel på en sådan
+färdighet är en driftsättning, där du inte vill att Claude bestämmer sig för att
+driftsätta för att koden ser färdig ut. I Claude Code och VS Code gör den här
+raden högst upp i SKILL.md, under beskrivningen, att bara du kan starta
+färdigheten:
+
+```text
+disable-model-invocation: true
+```
+
+För att hindra Codex från att välja färdigheten själv lägger du en fil
+`agents/openai.yaml` i färdighetens mapp med de här raderna:
+
+```text
+policy:
+  allow_implicit_invocation: false
+```
+
+Om `/release` inte känns igen har verktyget inte hittat färdigheten. Kontrollera
+att mappen ligger på ett ställe som verktyget läser och att filen heter
+SKILL.md. I Claude Code behöver en färdighetsmapp som du skapade medan verktyget
+kördes kommandot `/reload-skills`. I Codex behöver en färdighet som inte dyker
+upp en omstart.
 
 Hoppar agenten över steg sent i ett långt samtal, lägg de viktigaste stegen
-först i SKILL.md, eftersom Claude Code kan behålla bara början av en färdighet
-när det kortar ner samtalet för att få plats.
+först i SKILL.md. När Claude Code sammanfattar ett långt samtal för att få plats
+behåller det bara början av varje färdighet som används.
 
-Misslyckas skriptet, läs dess meddelande. Testa sedan skriptet för hand i ett
-läge där det ska misslyckas: ändra versionen i `package.json` utan att ändra
-ändringsloggen och se att det stannar. En kontroll som aldrig har misslyckats är
-inte testad.
+Rapporterar skriptet ett problem, läs dess meddelande och åtgärda det som det
+nämner. Säger det OK när något är fel ligger felet i skriptet: ändra versionen i
+`package.json` utan att ändra ändringsloggen, kör det för hand och rätta det
+tills det stannar.
 
 ## Börja litet
 
@@ -302,10 +299,16 @@ Välj ett jobb som du redan ber agenten göra på samma sätt och som du rättar
 samma sätt varje gång. Gör det en gång med agenten och skriv ner vad som måste
 vara rätt.
 
+Döp en mapp för färdigheten efter jobbet och lägg den på ett ställe som ditt
+verktyg läser: `.claude/skills/release/` i Claude Code, `.agents/skills/release/`
+i Codex eller någon av de tre mapparna ovan i Copilot. Lägg en SKILL.md i den
+med de steg du skrev ner, ett `name` och en `description` som säger vad jobbet
+är och när färdigheten ska användas.
+
 Vill du inte börja med en tom fil kan du be verktyget skriva ett utkast. I Codex
 är det `$skill-creator`. I chatten i VS Code kan du skriva `/create-skill`
-följt av en beskrivning. Läs sedan utkastet: studien ovan är ett skäl att korta
-ner det till det jobbet behöver.
+följt av en beskrivning. Läs sedan utkastet och korta ner det till det jobbet
+behöver. Studien ovan är ett skäl att testa det innan du litar på det.
 
 Flytta det som måste bli exakt till ett skript och kör det för hand en gång där
 det ska gå igenom och en gång där det ska misslyckas. Läs varje skript innan du
@@ -323,7 +326,7 @@ Arbetstitlarna kan ändras på vägen.
 1. [Från AI-chatt till agentiskt arbete](/sv/blog/what-makes-a-chat-an-ai-agent/)
 2. [Instruktionsfilen, det första en AI-agent läser](/sv/blog/the-instruction-file/)
 3. Ge varje AI-agent ett eget jobb
-4. Skills, när arbetet ska bli likadant varje gång (den här delen)
+4. Färdigheter, när arbetet ska bli likadant varje gång (den här delen)
 5. Model Context Protocol – ett gemensamt sätt för agenter att nå andra system
 6. Var agenten körs och vem som startar den
 7. <span id="del-7"></span>Gränser som sätts i förväg

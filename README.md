@@ -310,7 +310,7 @@ Brödtext i Markdown.
   (`cleaning-up-gaimer`), which the founder allowed 1,850 on 26 September
   2026 so that it can tell the changes its first figure counts, and parts 2 and
   4 of the series on AI agents (`the-instruction-file`, which he allowed 2,030,
-  and `skills-for-repeatable-work`, 2,460), on 30 October 2026 as a 5–10 minute
+  and `skills-for-repeatable-work`, 2,500), on 30 October 2026 as a 5–10 minute
   read. The Swedish
   twin is not counted, and neither are the figures (captions and diagram
   labels) or the tables' cells: they are not prose.

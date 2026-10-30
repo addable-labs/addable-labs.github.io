@@ -67,7 +67,8 @@ description: Prepares a release of the web app. Checks that the version number a
 
 # Release
 
-1. Run `sh scripts/check-release.sh` from the project's top folder.
+1. Run the script `scripts/check-release.sh` in this skill's folder with `sh`.
+   The working directory must be the project's top folder.
 2. If it prints a problem, fix that and run it again. Go on only when it
    prints OK.
 3. Run `npm test`.
@@ -110,62 +111,51 @@ echo "OK: $version is ready to release."
 ```
 
 The script compares the version in `package.json` with the first heading of
-the changelog, then checks that git has no tag for the version yet. If a check
-fails, it prints what is wrong and stops. If both pass, it prints OK.
+the changelog, then checks that git has no tag for the version yet. It expects
+the changelog's headings to look like `## 1.4.0`. If a check fails, it prints
+what is wrong and stops. If both pass, it prints OK.
 
 The script checks the same two things in the same way every time. A sentence
 in the SKILL.md such as "check that the changelog is up to date" leaves the
 checking to the agent, which may look in the wrong place or decide that it
-looks fine. A script has no such choice. It gives the same answer whatever the
+looks fine. A script has no such choice: it gives the same answer whatever the
 day and whichever model runs it.
-
-Anthropic's guide to writing skills gives the same advice. Where an operation
-is [fragile and must be done the same way each time](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices),
-use a ready-made script and run it as it stands. Such a script is more reliable
-than code the agent writes on the spot.
-
-The other half of the advice is not to overdo it. Codex's documentation says
-to [prefer instructions over scripts unless you need deterministic behaviour or
-outside tools](https://learn.chatgpt.com/docs/build-skills). Deterministic
-means that the same input always gives the same result. Where the answer
-depends on judgement, such as how to word a changelog entry, a few sentences
-of instruction are the right tool.
 
 The script's messages are written for the agent as well: "package.json says
 1.5.0, but the changelog starts with 1.4.0" tells it what to fix before it
 runs the script again, as the Agent Skills guide on scripts
 [advises](https://agentskills.io/skill-creation/using-scripts).
 
-The factory behind this site works on the same idea. When the site was built,
-each work item got its own proof command, a command that passes or fails, as
-[How this site was built by agents](/blog/how-this-site-was-built-by-agents/)
-describes.
+Some of the work is better left to instructions. How to word the changelog
+entry for 1.4.0 depends on judgement. A few sentences of instruction are the
+right tool for that. The guides from Anthropic and OpenAI draw the same line: a
+ready-made script for an operation that is
+[fragile and must be done the same way each time](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices)
+and otherwise
+[instructions rather than scripts, unless you need deterministic behaviour or outside tools](https://learn.chatgpt.com/docs/build-skills).
+Deterministic means that the same input always gives the same result.
 
-A script helps only when it runs. The agent has to choose the skill and follow
-its first step. What must never be skipped therefore needs something outside
-the skill, just as a rule in the instruction file did in part 2. Run the same
-script among the project's automatic checks, and a release that skipped it is
-caught there.
+A script helps only when it runs: the agent has to choose the skill and follow
+its first step. What must never be skipped therefore needs a guard outside the
+skill, as a rule in the instruction file did in part 2: a test in the project,
+or a setting in the tool that blocks the step.
 
 ## A skill, an instruction or a request
 
 Not everything belongs in a skill.
 
-The instruction file holds what is true for every task in the project, such as
-how to install and test it. It is read at every start, so it is kept short.
+The instruction file holds what is true for every task in the project. It is
+read at every start, so it is kept short.
 
 A skill holds a procedure for one kind of task that comes back, such as a
-release, a review or a translation. Anthropic describes the sign as a section
-of CLAUDE.md that has grown into a procedure rather than a fact. The skill's
-instructions load only when it is used.
+release, a review or a translation.
 
-A script goes into the skill when part of the procedure has one right answer,
-like the check in the example.
+A skill is not a second agent like the one in part 3. It is text that the agent
+you are already talking to reads when the task needs it.
 
-A job you do once needs none of this. Ask for it in the chat. A skill's name
-and description are in view all the time, and in Claude Code each one adds to
-the context on every turn, whether or not it is used, so a skill nobody needs
-only takes up room.
+A job you do once needs none of this: ask for it in the chat. When you paste
+the same checklist a second time, the job has come back and is worth writing
+down as a skill.
 
 ## What a study shows
 
@@ -173,19 +163,32 @@ A study called [SkillsBench](https://arxiv.org/html/2602.12670v4) gave AI agents
 87 tasks, each with tests that score the result. Every task was run with and
 without a skill that experts had put together for that kind of task.
 
-Averaged over many combinations of a model and a tool, the agents passed about
-34 tasks in 100 without the skill and about 50 with it. Every combination
-improved, but by very different amounts.
+The agents were 18 combinations of a model and a tool. Averaged over all of
+them, they passed about 34 tasks in 100 without the skill and about 50 with it.
+
+Every combination passed more tasks with the skill, but the gain differed a
+lot: from about 4 more tasks in 100 to about 26 more. The paper marks a range
+of uncertainty, a 95% confidence interval, around each combination's pass
+rates. It reports no test of whether a gain could be chance alone.
+
+Skills did not help everywhere. On 13 of the 87 tasks the average result was
+worse with the skill. In software engineering, the field of the release
+example, the gain was about 12 tasks in 100 against about 17 for all tasks.
 
 Three of the combinations also wrote skills for themselves before they solved
-each task. With those skills they fell below the result with no skill at all,
-in all three. The paper says the shortfall mixes the quality of the text with
-other effects: the agent frequently never used the skill it had written, and in
-some runs writing it used up the effort meant for the task.
+each task. With those skills they passed 8 to 12 fewer tasks in 100 than with
+no skill at all. The paper says the shortfall mixes the quality of the text
+with other effects: the agent frequently never used the skill it had written,
+and in some runs writing it used up the effort meant for the task.
 
-The study's tasks are not your project. The paper itself concludes that
-"Skill efficacy is therefore an empirical property of a specific agent stack
-rather than a universal constant". So test your skill, as the next sections
+The study has limits. Its skills were picked for quality, which the paper calls
+"an optimistic scenario". Its tasks ran in a terminal. It did not separate what
+in a skill does the work: the paper names "steps, examples, code resources" as
+the parts that future work has to isolate. It does not show that a script helps
+more than instructions do.
+
+The paper concludes that how much a skill helps depends on the particular
+combination of model and tool. So test your skill, as the next sections
 describe, and read what an agent wrote for you before you rely on it.
 
 ## Claude Code, Codex and GitHub Copilot
@@ -195,97 +198,87 @@ say may have changed since. All three follow the same Agent Skills format, so
 the folder and its SKILL.md look the same in each. What differs is where the
 folder is kept.
 
-By default both you and the agent can start a skill. A release is different:
-the developer wants to decide when it happens. Anthropic's example of such a
-skill is a deploy, where you do not want Claude deciding to deploy because your
-code looks ready. In each tool a skill can say that only a person may start
-it.
-
-In **Claude Code** a skill is a
-[folder in `.claude/skills/`](https://code.claude.com/docs/en/skills) in the
-project, which the whole team gets once it is committed, or in
-`~/.claude/skills/` for all your projects. You start the release skill by
+In **Claude Code** a skill is a folder in `.claude/skills/` in the project, or
+in `~/.claude/skills/` for all your projects. You start the release skill by
 typing `/release`, and Claude can also load it by itself when your request
-matches the description. With this line in the SKILL.md, under the description, it starts only when you
-type the name:
+matches the description.
+
+In OpenAI's **Codex** a skill is a folder in `.agents/skills/`. You start a
+skill by typing `$` and its name, or by running `/skills`. Codex can also choose
+one from its description.
+
+**GitHub Copilot** reads project skills from
+[`.github/skills/`, `.claude/skills/` and `.agents/skills/`](https://docs.github.com/en/copilot/concepts/customizations/agent-skills).
+They work in VS Code, in the Copilot CLI and in Copilot's cloud agent on
+GitHub. In VS Code the skills you can start yourself show up when you
+[type `/` in the chat](https://code.visualstudio.com/docs/agent-customization/agent-skills).
+
+{% figure "skill-locations", "wide" %}
+
+A skill kept in `.agents/skills/` is therefore found by Codex and Copilot,
+while Claude Code looks in `.claude/skills/`. To serve all three from one copy,
+keep the skill in one folder and link to it from the other. Both Claude Code and
+Codex follow a link to a folder. On macOS and Linux, these two lines, run in the
+project's top folder, make the link:
+
+```text
+mkdir -p .claude/skills
+ln -s ../../.agents/skills/release .claude/skills/release
+```
+
+## Check that it works
+
+Start a fresh chat and first see that the tool found the skill. In Claude
+Code, ask which skills are available. In Codex, run `/skills`. In VS Code, type
+`/` in the chat and look for the skill in the list.
+
+Then ask for the job in your own words, such as "Make a release". See whether
+the agent picks the skill. If it does not, start the skill by name. Either way,
+read what the agent did: whether it ran the script, followed the four steps and
+asked before it created the tag. Making a skill available does not guarantee
+that the agent chooses it for every relevant request, as VS Code's
+documentation puts it.
+
+Claude Code also has `/skill-doctor`, which shows what each skill costs in room
+and how often it is used. An add-on called skill-creator runs test cases for a
+skill with and without it.
+
+## When it goes wrong
+
+If the agent does not use the skill, start it by name. When that works, the
+fault is in the description: add the words you use when you ask for the work.
+If the skill starts when it should not, make the description narrower.
+
+A job that you want to start yourself can say so. Anthropic's example of such a
+skill is a deploy, where you do not want Claude deciding to deploy because your
+code looks ready. In Claude Code and VS Code, this line at the top of the
+SKILL.md, under the description, lets only you start the skill:
 
 ```text
 disable-model-invocation: true
 ```
 
-In OpenAI's **Codex** a skill is a
-[folder in `.agents/skills/`](https://learn.chatgpt.com/docs/build-skills).
-Codex looks there in every directory from the one where you start up to the root of the
-repository. You start a skill by typing `$` and its name, or by running
-`/skills`, and Codex can also choose one from its description. To stop Codex
-from choosing the skill by itself, add a file `agents/openai.yaml` to the
-skill's folder with these lines:
+To stop Codex from choosing the skill by itself, add a file
+`agents/openai.yaml` to the skill's folder with these lines:
 
 ```text
 policy:
   allow_implicit_invocation: false
 ```
 
-**GitHub Copilot** reads project skills from
-[`.github/skills/`, `.claude/skills/` and `.agents/skills/`](https://docs.github.com/en/copilot/concepts/customizations/agent-skills).
-They work in VS Code, in the Copilot CLI and in Copilot's cloud agent on
-GitHub. In VS Code the skills you can start yourself show up when you
-[type `/` in the chat](https://code.visualstudio.com/docs/agent-customization/agent-skills),
-and the same `disable-model-invocation: true` line as in Claude Code makes a
-skill start only when you do.
-
-{% figure "skill-locations", "wide" %}
-
-A skill kept in `.agents/skills/` is therefore found by Codex and Copilot,
-while Claude Code looks in `.claude/skills/`. Both Claude Code and Codex follow
-a link to a folder, so a link from `.claude/skills/release` to the same folder
-saves you from keeping two copies.
-
-## Check that it works
-
-A skill that is never used does nothing. The first check is yours: start a
-fresh chat and ask for the work in your own words, "Make a release". See
-whether the agent picks the skill, then start it by name and see whether it
-follows the steps. Making a skill available does not guarantee that the agent
-chooses it for every relevant request, as VS Code's documentation puts it.
-
-Claude Code has tools for the next check.
-[`/skill-doctor`](https://code.claude.com/docs/en/skills) shows what each skill
-costs in room and how often it is used, and points out the ones that were never
-used.
-
-Two more tools test how a skill behaves. A
-[plugin](https://code.claude.com/docs/en/plugins/overview) is a package of
-skills and other add-ons that you install in the tool. The skill-creator plugin
-walks you through writing test cases for a skill, runs each in a fresh session
-and compares the result with and without the skill.
-[`claude plugin eval`](https://code.claude.com/docs/en/plugin-evals) does the
-same for skills that come in a plugin. It can fail an automatic check when the
-score falls below a limit you set.
-
-`claude plugin eval` runs each case three times by default, because "One run
-of a non-deterministic agent tells you little". The script in the example needs
-no repeats, since it gives the same answer every time. What varies is whether the agent picks the skill and runs it, and that is
-what these tools measure.
-
-Run the cases again when you move to a newer model. Anthropic lists catching
-regressions when a new model is released as one use of the evals.
-
-## When it goes wrong
-
-If the agent does not use the skill, start it by name. When that works, the
-fault is in the description: add the words you use when you ask for the work.
-If the skill starts when it should not, make the description narrower or let
-only a person start it.
+If `/release` is not recognised, the tool has not found the skill. Check that
+the folder is in a place the tool reads and that the file is called SKILL.md.
+In Claude Code, a skills folder you created while it was running needs
+`/reload-skills`. In Codex, a skill that does not appear needs a restart.
 
 If the agent skips steps late in a long conversation, put the most important
-steps first in the SKILL.md, since Claude Code can keep only the start of a
-skill when it shortens the conversation to make room.
+steps first in the SKILL.md. When Claude Code summarises a long conversation to
+free room, it keeps only the start of each skill in use.
 
-If the script fails, read its message. Then test the script by hand, in a
-state where it should fail: change the version in `package.json` without the
-changelog and see that it stops. A check that has never failed is not yet
-tested.
+If the script reports a problem, read its message and fix what it names. If it
+says OK when something is wrong, the fault is in the script: change the version
+in `package.json` without the changelog, run it by hand and fix it until it
+stops.
 
 ## Start small
 
@@ -293,10 +286,17 @@ Pick one job that you already ask the agent to do the same way, and that you
 correct the same way each time. Do it once with the agent, and write down
 what had to be right.
 
+Name a folder for the skill after the job and put it in the place your tool
+reads: `.claude/skills/release/` in Claude Code, `.agents/skills/release/` in
+Codex or any of the three folders above in Copilot. Put a SKILL.md in it with
+the steps you wrote down, a `name` and a `description` that says what the job is
+and when to use it.
+
 If you would rather not start from an empty file, ask the tool to draft the
 skill. In Codex that is `$skill-creator`, and in the VS Code chat you can type
-`/create-skill` followed by a description. Then read the draft: the study above
-is a reason to cut it down to what the job needs.
+`/create-skill` followed by a description. Then read the draft and cut it down
+to what the job needs. The study above is a reason to test it before you rely
+on it.
 
 Move the part that must be exact into a script, and run it by hand once where it
 should pass and once where it should fail. Read any script before you let an
