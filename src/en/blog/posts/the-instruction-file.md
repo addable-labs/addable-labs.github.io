@@ -16,22 +16,17 @@ first part of this series, the instructions were one of the five parts of an
 AI agent: a text file in the project that the agent reads every time it
 starts. We showed a short one for a made-up web app.
 
-If you are new to AI agents, you probably want to know three things. Should
-you make one? What goes in it first? And what do you do when the agent still
-gets something wrong? The short answer: yes, make one, write it yourself and
-keep it short. It does not have to be right on the first day. It grows from
-what the agent gets wrong, and it shrinks when a line is no longer needed.
-
-We follow the web app and its file from the first day to a few weeks later,
-and then look at what the studies say and at how the tools differ.
+If you use an AI agent in a project, make one. The agent can read your code
+but cannot guess how the project is installed and tested. A few lines in the
+file tell it.
 
 ## A made-up web app and its file
 
 A made-up example: a developer starts a web app with a database and tests,
 and has an AI agent to help. The agent knows nothing about the project, so on
 the first day the developer writes down what a new colleague would need to
-know, and nothing more. The result is a file called AGENTS.md, in the
-project's top folder (the root):
+know, and nothing more. The result is a plain text file called AGENTS.md in
+the project's top folder (the root):
 
 ```markdown
 # Instructions for AI agents
@@ -47,37 +42,41 @@ project's top folder (the root):
 ```
 
 The lines under "Build and test" are commands the agent could not guess: how
-to install the project and how to test it.
-[Anthropic lists build and test commands among what belongs in the file](https://code.claude.com/docs/en/memory).
-The rules are the few things that cannot be read out of the code. One keeps
-the agent out of the `migrations/` folder, where the changes to the database
-are kept as files called migrations. Another keeps new outside code, called
-packages, from entering the project unnoticed.
+to install the project and how to test it. The rules are the few things that
+cannot be read out of the code. One keeps the agent out of the `migrations/`
+folder, where the changes to the database are kept as files called
+migrations. Another keeps new outside code, called packages, from entering
+the project unnoticed.
 
-The file is short on purpose.
-[Anthropic recommends under 200 lines per file, because longer files take up more context and are followed less closely](https://code.claude.com/docs/en/memory).
-[OpenAI prefers a short, accurate AGENTS.md to a long file full of vague rules](https://learn.chatgpt.com/docs/learn/best-practices).
+The file is short on purpose. A long file takes up more of the room the agent
+has to work in and is followed less closely. That is why Anthropic suggests
+[under 200 lines](https://code.claude.com/docs/en/memory) and OpenAI prefers
+[a short, accurate file](https://learn.chatgpt.com/docs/learn/best-practices)
+to a long one full of vague rules.
 
 A week later the database needs a new column. The file says to change nothing
 in `migrations/`, but not why and not what to do instead, so the agent leaves
 a loose file of database commands in the root of the project. The developer
-sees it when reading the agent's changes, and rewrites the rule to give both:
-those files have already run in production, which means on the live database,
-so the change goes in a new migration.
-[VS Code's documentation](https://code.visualstudio.com/docs/agent-customization/custom-instructions)
-says that the agent makes better decisions in unusual cases when the
-instructions explain why a convention exists.
+reads through the agent's changes, finds the file and tells the agent to put
+the change in a new migration.
+
+Then the developer rewrites the rule so that it
+gives both the reason and the way out: those files have already run in
+production, which means on the live database, so the change goes in a new
+migration. A rule with its reason helps in cases nobody thought of: when the
+instructions explain why a convention exists, the agent
+[makes better decisions in unusual cases](https://code.visualstudio.com/docs/agent-customization/custom-instructions).
 
 Twice in the next two weeks, the agent runs all the tests after a change of a
 single line, although one test file would do. The second time, the developer
 adds a line on how to run one test file.
 
 By then the file has also grown a section on what each file in the project
-does. It looks helpful, but
-[Anthropic suggests a test for what to write down](https://code.claude.com/docs/en/best-practices):
-could the agent find it by reading the code, and would it actually go and
-look? If both answers are yes, the line is left out, so the developer cuts
-the section.
+does. It looks helpful, but it fails
+[the test Anthropic suggests](https://code.claude.com/docs/en/best-practices)
+for what to write down: could the agent find it by reading the code, and
+would it actually go and look? If both answers are yes, the line is left out.
+The developer cuts the section.
 
 {% figure "file-before-after", "wide" %}
 
@@ -90,9 +89,14 @@ line that adds them:
 ```
 
 That makes two files, two of the levels part 1 described: one for the whole
-project and one for a single folder. The rule about `migrations/` stays in the
-root file, because it applies to the whole project. The root file now looks
-like this:
+project and one for a single folder. When the agent works in `web/`, it reads
+the root file first and the `web/` file after it. The closest file has the
+last word, as part 1 described: in Codex, for example, files closer to the
+folder it works in
+[override earlier guidance](https://learn.chatgpt.com/docs/agent-configuration/agents-md).
+
+The rule about `migrations/` stays in the root file, because it applies to the
+whole project. The root file now looks like this:
 
 ```markdown
 # Instructions for AI agents
@@ -111,65 +115,64 @@ like this:
 
 ## What the studies show
 
-Does the file help at all? [A study from ETH Zurich](https://arxiv.org/html/2602.11988v3)
-had AI agents solve real-world tasks with and without an instruction file.
-Files the developers had written themselves raised the share of tasks solved
-by 2.4% on average.
+There is little evidence that an instruction file helps.
+[A study from ETH Zurich](https://arxiv.org/html/2602.11988v3) had AI agents
+solve real-world tasks with and without an instruction file. Files the
+developers had written themselves raised the share of tasks solved by 2.4% on
+average.
 
 That is a small gain that the study cannot tell from chance. Researchers call
 a difference "statistically significant" when chance is an unlikely
 explanation for it, so the word does not mean that the difference is large.
 None of the differences in the study was significant.
 
-Files written by a language model lowered the share slightly in both of the
-study's sets of tasks. The researchers suggest leaving out files written by a
-language model for the time being.
+Files written by a language model lowered the share slightly. The
+researchers suggest leaving out files written by a language model for the time
+being.
 
 All the files made the runs more expensive, by up to about a fifth.
 
 The study also looked at overviews of the project, like the section the
-developer cut. The researchers found that such overviews did not help,
-although model providers recommend them.
+developer cut. The researchers found that such overviews, although popular,
+did not help.
 
 [Another, smaller study](https://arxiv.org/abs/2601.20404) looked at 124 pull
-requests, which are proposed changes to a project's code. Runs with an
-AGENTS.md took more than a quarter less time at the median. The agents
-completed the tasks about as often. There the file saved time but gave no
-better answers.
+requests, which are proposed changes to a project's code. The typical run with
+an AGENTS.md took more than a quarter less time. The agents completed the
+tasks about as often. There the file saved time but gave no better answers.
 
-So there is little evidence that an instruction file helps. One study finds
-that every file adds cost and that none clearly helps, the other that the runs
-get faster and the results stay the same. The researchers behind the first
-advise putting in a file only what the agent cannot get from the code. That is
-the idea behind the advice here: write the file yourself and keep it short.
+The researchers behind the first study advise putting in a file only what the
+agent cannot get from the code. That fits the file in the example: the
+commands and the few rules are what the agent cannot work out itself. The
+studies give no reason to add more.
 
-## When the agent ignores a line
+## When the agent gets something wrong
 
-The first time the agent gets something wrong, tell it and carry on: one
-mistake is not yet a rule.
-[Anthropic advises adding a line when Claude makes the same mistake a second time](https://code.claude.com/docs/en/memory),
-as the developer did with the test command.
+If the file says nothing about the mistake, tell the agent and carry on, since
+one slip may be a one-off. When it makes the same mistake a second time,
+[add a line to the file](https://code.claude.com/docs/en/memory), as the
+developer did with the single test file.
 
-Sometimes the line is there and the agent ignores it. A line in the file asks
-the agent; it does not stop it. [Anthropic writes that such a line works most of the time, not every time](https://code.claude.com/docs/en/best-practices).
-Check first that the line says why, and what to do instead, as the
-`migrations/` rule does after its rewrite.
+Sometimes the line is already there and the agent still goes wrong. First
+check that the tool reads the file at all: Claude Code, for one, reads
+AGENTS.md by default only where there is no CLAUDE.md. The section on the
+tools below says what each tool reads.
 
-A rule that must never be broken needs a check outside the file.
-[Anthropic's best-practices page](https://code.claude.com/docs/en/best-practices)
-takes the same rule as its example: a rule like leaving the migrations
-folder alone is followed almost every time. For the few rules where
-"almost" is not good enough, the page moves the rule out of the file and into
-configuration that Claude Code applies itself. There it becomes a hook, a
-command that [the tool runs by itself](https://code.claude.com/docs/en/hooks-guide).
-The hook [blocks edits to the migrations folder](https://code.claude.com/docs/en/best-practices).
+Then look at the line. One that gives its reason and a way out works better, like the `migrations/` rule after its rewrite. The
+developer did not wait for a second mistake there, because the fault was in
+the line: it lacked its reason.
 
-A test in the project does the same job in any tool: in the example, a test
-that fails when a migration already in the project is changed. In
-[nivå](https://erniva.se/), our AI-fluency self-assessment, tests and checks
-run on every change. Database migrations may only be added, never changed. We
-wrote about it in
-[Lessons from building nivå](/blog/lessons-from-building-niva/).
+The agent tries to follow the file, but even a good line
+[works most of the time, not every time](https://code.claude.com/docs/en/best-practices).
+A rule that must never be broken therefore needs something outside the file.
+One way is a test in the project that fails when the rule is broken: for
+`migrations/`, a test that fails when a migration already in the project is
+changed. The agent can write the test if you ask it to.
+
+The other way is a setting in the tool that blocks the change. In Claude Code such a setting is a
+so-called [hook](https://code.claude.com/docs/en/hooks-guide), a command the
+tool runs by itself. Anthropic's own example is a hook that blocks edits to the
+migrations folder. You can ask Claude to write it for you.
 
 What must never happen is stopped outside the model, as part 1 described.
 [Part 7](#part-7) of the series comes back to it.
@@ -177,75 +180,61 @@ What must never happen is stopped outside the model, as part 1 described.
 ## One file for three tools
 
 With more than one tool in the project, one AGENTS.md in the top folder is
-enough if each tool finds it.
-[VS Code's documentation advises a shared format that all the tools support when possible](https://code.visualstudio.com/docs/agent-customization/custom-instructions).
-We describe the tools as their documentation
-stood on 30 October 2026. What we say may have changed since.
+enough if each tool finds it. That fits
+[VS Code's documentation](https://code.visualstudio.com/docs/agent-customization/custom-instructions),
+which advises a shared format that all the tools support when possible. We
+describe the tools as their documentation stood on 30 October 2026. What we
+say may have changed since.
+
+The file in the top folder is read at every start, as part 1 said. A file in a
+subfolder, like the one in `web/`, is read when the tool starts to work in that
+folder.
 
 {% figure "which-tool-reads-what", "wide" %}
 
-**Claude Code** has CLAUDE.md as its own instruction file and reads AGENTS.md
-too, but by default
-[only when there is no CLAUDE.md](https://code.claude.com/docs/en/memory). In
-that case it reads a file in a subfolder
-[when it opens a file there](https://code.claude.com/docs/en/memory). If there
-is a CLAUDE.md, it can
-[pull in AGENTS.md](https://code.claude.com/docs/en/memory) with a single line:
+**Claude Code** has CLAUDE.md as its own instruction file and by default
+[reads AGENTS.md only where there is no CLAUDE.md](https://code.claude.com/docs/en/memory).
+Where it does read AGENTS.md, it reads one in a subfolder when it opens a file
+there. If the project has a CLAUDE.md, that file can pull in the AGENTS.md
+with a single line, so that the AGENTS.md stays the one file every tool
+shares:
 
 ```text
 @AGENTS.md
 ```
 
-[A CLAUDE.local.md, for notes of your own, counts as a CLAUDE.md](https://code.claude.com/docs/en/memory),
-so adding one makes Claude Code stop reading AGENTS.md, unless
-[a setting says otherwise](https://code.claude.com/docs/en/memory).
+For this rule a CLAUDE.local.md, a file for notes of your own, counts as a
+CLAUDE.md. Adding one to a project that has only an AGENTS.md therefore makes
+Claude Code stop reading the AGENTS.md, unless a setting says otherwise.
 
 In OpenAI's **Codex**, AGENTS.md is the instruction file itself: Codex
 [reads it before doing any work](https://learn.chatgpt.com/docs/agent-configuration/agents-md),
 one file per folder from the project's root down to the folder it works in. By
-default it
-[stops adding files once together they reach 32 KiB](https://learn.chatgpt.com/docs/agent-configuration/agents-md),
-about 32,000 characters.
+default it stops adding files once together they reach 32 KiB, about 32,000
+characters.
 
 **GitHub Copilot** reads AGENTS.md too,
 [on GitHub](https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/add-custom-instructions/add-repository-instructions)
-and [in VS Code](https://code.visualstudio.com/docs/agent-customization/custom-instructions).
-It also reads `.github/copilot-instructions.md` and sends the model
-[all relevant instructions](https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/add-custom-instructions/add-repository-instructions).
-In VS Code it
-[finds a file in a subfolder as it works with files there](https://code.visualstudio.com/docs/agent-customization/custom-instructions).
+and in VS Code. It also reads `.github/copilot-instructions.md` and sends the
+model all relevant instructions. In VS Code it finds a file in a subfolder as
+it works with files there.
 
 ## Start small
 
-Make the file as an AGENTS.md in the project's top folder and write it
-yourself. Begin with the commands to install, build and test, then add the few
+To start, create a plain text file called AGENTS.md in the project's top
+folder. Begin with the commands to install, build and test, then add the few
 rules the agent cannot work out from the code, each with its reason. Leave out
 overviews and descriptions of what each file does.
 
-If a tool drafts the file for you, edit the draft:
-[Anthropic](https://code.claude.com/docs/en/memory) and
+You can write the file yourself or ask the agent to draft it. If a tool drafts
+it, edit the draft: [Anthropic](https://code.claude.com/docs/en/memory) and
 [OpenAI](https://learn.chatgpt.com/docs/learn/best-practices) both say so. The
-study above is a reason to cut it down to the commands and the few rules,
-since generated files brought no gain and added cost.
+study above is a reason to cut the draft down to the commands and the few
+rules, since generated files brought no gain and added cost.
 
-When you change model, read the file again. In October 2026
-[Anthropic's prompting guide](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices)
-says that some newer models are more responsive to the system prompt, the
-instructions a tool sends ahead of your conversation. If you once added
-emphasis to make an older model use a tool more often, a newer model may now
-overdo it. The guide's fix is to soften aggressive wording. Where you
-might have written "CRITICAL: You MUST use this tool when...", you can now
-write "Use this tool when...".
-
-Since 25 September 2026 Claude Code has
-[a command that looks for instructions written for older models](https://code.claude.com/docs/en/changelog):
-
-```text
-/doctor prompt-audit
-```
-
-The audit covers [AGENTS.md too](https://code.claude.com/docs/en/memory) and
-changes nothing until you ask.
+When you move to a newer model, read the file again: emphasis such as MUST in
+capitals, added to make an older model use a tool more often, may make a newer
+one [overdo it](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices).
 
 ## What comes next
 
