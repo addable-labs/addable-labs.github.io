@@ -16,13 +16,13 @@ the second part of this series, the AI agent got a short text file to read at
 every start. So far one agent has done all the work: it writes the code, runs
 the tests and checks its own result.
 
-This part is about handing a job to a second AI agent, one with a single job
-and only the tools it needs. That costs more than one agent: handing over adds
+This part is about handing a job to a second AI agent, one with a single job and
+only the tools it needs. That can cost more than one agent: handing over adds
 model usage and coordination, so
 [VS Code's documentation](https://code.visualstudio.com/docs/agents/run/subagents)
 says a direct request is usually enough for a quick lookup or a small edit. A
-second agent is worth it for a job you repeat, such as having a finished
-change reviewed.
+second agent is worth it for a job you repeat, such as having a finished change
+reviewed.
 
 ## A reviewer that may only read
 
@@ -31,10 +31,10 @@ add a phone number to the sign-up form. The agent changes the form, adds a new
 migration (a file that changes the database) for the column and runs the
 tests, which pass.
 
-The developer wants a second reader before the change goes in. The first idea
-is to ask the same agent to review its own work, but it still has the whole
-conversation in front of it, with every choice it made along the way. A
-reviewer that starts from nothing reads the code without that history.
+The developer wants a second reader before the change goes in. The first idea is
+to ask the same agent to review its own work, but it still has the whole
+conversation in front of it, with every choice it made along the way. A reviewer
+that starts fresh reads the code without that history.
 
 Such a second agent is called a subagent: an AI agent that another agent, the
 main agent, hands a task to. It works in a context of its own, which is the
@@ -107,8 +107,8 @@ runs. Put the detail in the instructions.
 
 The `tools` line decides what the reviewer can do. In Claude Code it is an
 allowlist, which means the agent can use the tools on it and no others. The
-reviewer has `Read`, `Grep` and `Glob`, the tools for reading and searching,
-so it cannot edit a file.
+reviewer has `Read`, `Grep` and `Glob`, the tools for reading and searching, so
+it [cannot edit a file](https://code.claude.com/docs/en/best-practices).
 
 Leave the line out and the agent gets all the tools a subagent can have,
 including the ones that change files. In
@@ -116,18 +116,20 @@ including the ones that change files. In
 it is the same: no `tools` line means all tools. A file without the line is
 the opposite of a limit.
 
-Anthropic's own code reviewer example also gives the agent `Bash`, the tool
-for running commands, so that it can run `git diff`, the command that shows
-what has changed. A command can
-[do more than read](https://code.claude.com/docs/en/how-claude-code-works),
-so a reviewer that must be read-only can do without it. Without `Bash` the
-main agent has to name the changed files when it hands the task over, as it
-does in the example.
+The code reviewer example in Claude Code's documentation also gives the agent
+`Bash`, the tool for running commands, so that it can run `git diff`, the
+command that shows what has changed. A command can
+[do more than read](https://code.claude.com/docs/en/how-claude-code-works), so a
+reviewer that must be read-only can do without it. Without `Bash` the main agent
+should name the changed files when it hands the task over, as it does in the
+example.
 
-Start with the fewest tools the job can be done with and add one when the
-agent turns out to need it. VS Code's documentation advises
+Start with the fewest tools the job can be done with and add one when the agent
+turns out to need it. VS Code's documentation advises
 [read-only tools for security-sensitive work](https://code.visualstudio.com/docs/agent-customization/custom-agents)
-and calls the aim the principle of least privilege.
+and says that the tool list of an agent shared in a repository should follow the
+principle of least privilege, which means giving an agent only the access its
+job needs.
 
 ## Claude Code, Codex and GitHub Copilot
 
@@ -140,16 +142,18 @@ to write the file for you.
 
 In OpenAI's **Codex** an agent is a TOML file in `.codex/agents/`. TOML is a
 plain text format for settings. This file holds a name, a description and the
-agent's instructions. Codex
-[hands over](https://learn.chatgpt.com/docs/agent-configuration/subagents)
-when you ask or when the AGENTS.md says so, which makes the file from part 2
-the place to say when.
+agent's instructions. On your own computer, Codex
+[hands over](https://learn.chatgpt.com/docs/agent-configuration/subagents) when
+you ask or when instructions such as the AGENTS.md say so, which makes the file
+from part 2 the place to say when.
 
-The file cannot set the agent's sandbox, which limits what the agent can
-touch, or its approvals, which decide when it must ask. Both come from your
-Codex session, the conversation you are having with Codex, so choose its
-permission settings before you ask Codex to hand over. The line "Do not edit
-files" in the example below is a request, not a limit.
+The file cannot set the agent's sandbox, which limits what the agent can touch,
+or its approvals, which decide when it must ask. Both come from your Codex
+session, the conversation you are having with Codex, so choose its permission
+settings before you ask Codex to hand over. The file can narrow the agent in
+other ways: the documentation lists settings, such as `features.shell_tool`,
+that you set to `false` to reduce what a custom agent can do. The line "Do not
+edit files" in the example below is a request, not a limit.
 
 ```text
 name = "reviewer"
@@ -162,11 +166,11 @@ file, the line and what is wrong.
 """
 ```
 
-**GitHub Copilot** reads agent files from `.github/agents/`, with names that
-end in `.agent.md`. In VS Code, if the file lists tools, only those tools are
-available. The documentation's own first example of when to make a custom
-agent is to restrict a code review agent to read-only tools. The reviewer's
-file is `.github/agents/reviewer.agent.md` and has this line in its header:
+**GitHub Copilot** reads agent files from `.github/agents/`, with names that end
+in `.agent.md` or `.md`. In VS Code, if the file lists tools, only those tools
+are available. The documentation's own first example of when to make a custom
+agent is to restrict a code review agent to read-only tools. The reviewer's file
+is `.github/agents/reviewer.agent.md` and has this line in its header:
 
 ```text
 tools: ['read', 'search']
@@ -200,18 +204,23 @@ In October 2026 Anthropic's
 [prompting guide](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices)
 says that its latest models hand work to subagents on their own. They can
 recognise when a task would benefit from a specialist and do so without being
-told to. In VS Code the main agent can also decide to hand over without being
-asked.
+told to.
 
 In Claude Code the main agent has the descriptions in front of it when it
 chooses on its own, and not the instructions, which load only when the agent
 runs. The description is what gets the agent used at all. The instructions
 matter only once it is.
 
-The new risk is the opposite one, that the main agent hands over too often.
-The same guide warns that a model may start subagents to explore code when a
-plain search would be faster and enough. Each needless hand-over adds the cost
-described at the start of this part.
+The other tools decide in other ways. In VS Code the main agent can also decide
+to hand over without being asked. Copilot's cloud agent on GitHub.com can use a
+custom agent on its own, based on the task, unless the agent's file switches
+that off. Codex's documentation calls the description guidance for people on
+when Codex should use the agent.
+
+Handing over on its own brings a risk: the main agent may hand over too often.
+Anthropic's guide also warns that a model may start subagents to explore code
+when a plain search would be faster and enough. Each needless hand-over adds the
+cost described at the start of this part.
 
 A line in the instruction file from part 2 can say when a hand-over is worth
 it:
@@ -232,23 +241,25 @@ Use the reviewer subagent to review the change in the sign-up form.
 In Claude Code this usually works. Typing @ and the agent's name makes sure
 the agent runs for that task.
 
-If naming the agent works but the main agent never picks it on its own, the
-fault is in the description. Say when the agent should be used, as the example
-does. In Claude Code a phrase like "use proactively" in the description
-encourages the main agent to hand over without being asked. Claude Code's
-advice is to write descriptions that single out one agent.
+If naming the agent works but the main agent never picks it on its own, start
+with the description: say when the agent should be used, as the example does. In
+Claude Code a phrase like "use proactively" in the description encourages the
+main agent to hand over without being asked. Claude Code's advice is to write
+descriptions that single out one agent.
+
+In Copilot, a second cause is the line `disable-model-invocation: true` in the
+file, which stops the main agent from picking the agent on its own.
 
 If naming it does not work either, look at the file. Claude Code skips a file
 that has no description. In VS Code the name must be written exactly as in the
 file, capitals included. The Run Subagent tool must also be selected under
 Configure Tools.
 
-Two faults go the other way. When the main agent hands over too often, make
-the description narrower and add the line from the last section to your
-instruction file. When the comments are shallow, the reviewer has probably
-started without knowing what to look at: it sees only the task it was given,
-so say in your request which change to review and what the change is meant to
-do.
+Two faults go the other way. When the main agent hands over too often, make the
+description narrower and add the line from the last section to your instruction
+file. When the comments are shallow, the reviewer has probably started without
+knowing what to look at: it does not see the conversation, so say in your
+request which change to review and what the change is meant to do.
 
 ## Start small
 
@@ -264,9 +275,9 @@ to use it, and keep its instructions to a few lines.
 Try it on one finished change. Name the agent in your request the first time
 and read the comments it hands back as you would read a colleague's.
 
-Add a tool, or a second agent, only when the first one has proved useful. If
-you move to a newer model, read the descriptions again, since the model
-decides by them.
+Add a tool, or a second agent, only when the first one has proved useful. If you
+move to a newer model, read the descriptions again, since in Claude Code the
+model decides by them.
 
 ## What comes next
 
