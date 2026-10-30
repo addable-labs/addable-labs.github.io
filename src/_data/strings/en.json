@@ -1254,6 +1254,32 @@
       "ifNone": "if there is no CLAUDE.md",
       "ifClaude": "if the project has a CLAUDE.md",
       "caption": "Which of the project's files each tool reads, as their documentation stood on 30 October 2026."
+    },
+    "file-hierarchy": {
+      "title": "A project as a folder tree, and the tools that read each file. The top folder holds AGENTS.md, which Codex and GitHub Copilot read, and Claude Code reads when there is no CLAUDE.md; an optional CLAUDE.md, which Claude Code reads and whose one line, @AGENTS.md, pulls in the AGENTS.md; and a .github folder with copilot-instructions.md, which GitHub Copilot reads. The web folder has an AGENTS.md of its own, read when the tool works in that folder, by Codex, by GitHub Copilot in VS Code and by Claude Code when there is no CLAUDE.md. The closest file has the last word.",
+      "head": "The project's folders",
+      "root": "the project",
+      "files": {
+        "agents": "AGENTS.md",
+        "claude": "CLAUDE.md",
+        "github": ".github/",
+        "copilot": "copilot-instructions.md",
+        "web": "web/",
+        "import": "@AGENTS.md"
+      },
+      "tools": {
+        "claude": "Claude Code",
+        "codex": "Codex",
+        "copilot": "Copilot"
+      },
+      "atStart": "read at every start",
+      "optional": "optional",
+      "pulls": "pulls in",
+      "inWeb": "read when the tool works here",
+      "lastWord": "last word",
+      "ifNoClaude": "if no CLAUDE.md",
+      "inVsCode": "in VS Code",
+      "caption": "Which tool reads which file in a project's folders, as their documentation stood on 30 October 2026. The closest file has the last word."
     }
   },
   "games": {

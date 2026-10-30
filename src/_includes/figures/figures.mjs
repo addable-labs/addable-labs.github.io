@@ -1912,7 +1912,98 @@ function whichToolReadsWhat(t, id, figureId) {
   return { caption: t.caption, panels: [{ title: t.title, head: t.head, height: 264, body }] };
 }
 
-export const FIGURES = { stages, gates, loop, assessment, team, harness, ledger, timeline, setup, build, words, bilingual, gauntlet, agents, critic, fleet, sources, merges, logos, connection, lifecycle, price, lock, "waiting-per-day": waitingPerDay, "chat-or-agent": chatOrAgent, "five-parts": fiveParts, "file-before-after": fileBeforeAfter, "which-tool-reads-what": whichToolReadsWhat };
+// (29) The same project as a folder tree, in the cover's drawing: the top
+// folder with its files, a folder inside it and the folder of its own
+// instruction file, `web/`. Under each file the tools that read it, each with
+// a tick and its name (a sign and a word, not a colour alone); where a tool
+// reads it only on a condition the condition stands beside it, in words. The
+// optional CLAUDE.md has a dashed glyph and the word, and its one line
+// (`@AGENTS.md`, a chip) pulls in the AGENTS.md in the top folder (the dashed
+// arrow). The file in `web/` is framed in green and says it has the last
+// word: the file closest to the work, as the article has it. File, folder and
+// tool names are the same in both languages (the founder: no Swedish file
+// names).
+function fileHierarchy(t, id, figureId) {
+  const pid = `${figureId}-p1`;
+  const F = t.files;
+  const T = t.tools;
+  const RIGHT = WIDTH - 16;
+  const TREE = 28; // the top folder's stem
+  const KIDS = 54; // the stem of a folder one level down
+  const NAME1 = 70; // a name at the first level; the second level's is at NAME2
+  const NAME2 = 92;
+  const note = (x, y, key, value, slot, cls = "fig-note", anchor) => text(x, y, fit(key, value, slot), cls, anchor);
+  const name = (x, y, key, value, slot) => text(x, y, fit(key, value, slot, "small"), "fig-label fig-small");
+  // The folder glyph of the cover: a tab on an outline; `w` and `h` its size.
+  const folder = (x, y, w = 16, h = 13) => `<path d="M${x} ${y + h}V${y}h6.5l2 3H${x + w}V${y + h}z" class="fig-node"/>`;
+  const file = (x, y, dashed = false) => `<rect x="${x}" y="${y}" width="12" height="16" rx="2.5" class="fig-node${dashed ? " fig-dashed" : ""}"/>`;
+  const branch = (d) => `<path d="${d}" class="fig-line"/>`;
+  // A line of readers from x: a tick and the tool's name, then the condition
+  // when there is one (`when` is [value, class]); the line must end at the margin.
+  const reads = (x, y, key, items) => {
+    const parts = [];
+    let at = x;
+    for (const { tool, when } of items) {
+      parts.push(check(at + 4.5, y - 3.2), text(at + 14, y, T[tool], "fig-note fig-strong"));
+      at += 14 + T[tool].length * ADVANCE.note;
+      if (when) {
+        at += 6;
+        parts.push(text(at, y, when[0], when[1]));
+        at += when[0].length * ADVANCE.note;
+      }
+      at += 12;
+    }
+    if (at - 12 > RIGHT) throw new Error(`Figure label "${key}" runs to ${round(at - 12)} units; at most ${RIGHT} fit its line`);
+    return parts.join("");
+  };
+  const unlessClaude = [t.ifNoClaude, "fig-note fig-wait"];
+
+  const body = [
+    // The tree.
+    branch(`M${TREE} 67V262`),
+    ...[90, 150, 194, 262].map((y) => branch(`M${TREE} ${y}H44`)),
+    branch(`M${KIDS} 201V218H68`),
+    branch(`M${KIDS} 269V286H68`),
+    // The top folder.
+    folder(16, 50, 24, 17),
+    name(48, 63, `${id}.root`, t.root, 80),
+    note(RIGHT, 63, `${id}.atStart`, t.atStart, 160, "fig-note", "end"),
+    // AGENTS.md: Codex, Copilot, and Claude Code where there is no CLAUDE.md.
+    file(48, 82),
+    name(NAME1, 94, `${id}.files.agents`, F.agents, 80),
+    reads(NAME1, 110, `${id}.reads.agents`, [{ tool: "codex" }, { tool: "copilot" }]),
+    reads(NAME1, 124, `${id}.reads.agentsClaude`, [{ tool: "claude", when: unlessClaude }]),
+    // CLAUDE.md: optional, read by Claude Code, whose one line pulls in AGENTS.md.
+    file(48, 142, true),
+    name(NAME1, 154, `${id}.files.claude`, F.claude, 80),
+    note(NAME1 + F.claude.length * ADVANCE.small + 10, 154, `${id}.optional`, t.optional, 80),
+    reads(NAME1, 170, `${id}.reads.claude`, [{ tool: "claude" }]),
+    `<rect x="176" y="158" width="76" height="16" rx="4" class="fig-node"/>`,
+    text(214, 169.5, fit(`${id}.import`, F.import, 70), "fig-note fig-strong", "middle"),
+    pathArrow(pid, "M252 166H294V90H140", true),
+    text(217, 85, fit(`${id}.pulls`, t.pulls, 100), "fig-note", "middle"),
+    // .github/copilot-instructions.md: read by Copilot.
+    folder(46, 188),
+    name(NAME1, 198, `${id}.files.github`, F.github, 100),
+    file(70, 210),
+    name(NAME2, 222, `${id}.files.copilot`, F.copilot, RIGHT - NAME2),
+    reads(NAME2, 238, `${id}.reads.copilot`, [{ tool: "copilot" }]),
+    // web/ and its own AGENTS.md: read when the tool works in that folder,
+    // and the closest file has the last word.
+    folder(46, 256),
+    name(NAME1, 266, `${id}.files.web`, F.web, 60),
+    note(RIGHT, 266, `${id}.inWeb`, t.inWeb, RIGHT - NAME1 - F.web.length * ADVANCE.small - 8, "fig-note", "end"),
+    `<rect x="62" y="272" width="250" height="58" rx="6" class="fig-accent-stroke"/>`,
+    file(70, 278),
+    name(NAME2, 290, `${id}.files.agents`, F.agents, 80),
+    note(RIGHT, 290, `${id}.lastWord`, t.lastWord, 90, "fig-note fig-ok fig-strong", "end"),
+    reads(NAME2, 306, `${id}.reads.web`, [{ tool: "codex" }, { tool: "copilot", when: [t.inVsCode, "fig-note"] }]),
+    reads(NAME2, 320, `${id}.reads.webClaude`, [{ tool: "claude", when: unlessClaude }]),
+  ].join("");
+  return { caption: t.caption, panels: [{ title: t.title, head: t.head, height: 346, body }] };
+}
+
+export const FIGURES = { stages, gates, loop, assessment, team, harness, ledger, timeline, setup, build, words, bilingual, gauntlet, agents, critic, fleet, sources, merges, logos, connection, lifecycle, price, lock, "waiting-per-day": waitingPerDay, "chat-or-agent": chatOrAgent, "five-parts": fiveParts, "file-before-after": fileBeforeAfter, "which-tool-reads-what": whichToolReadsWhat, "file-hierarchy": fileHierarchy };
 
 /**
  * Render one figure as HTML: `<figure class="figure figure-inline|figure-wide">`

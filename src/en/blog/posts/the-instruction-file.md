@@ -95,6 +95,8 @@ last word, as part 1 described: in Codex, for example, files closer to the
 folder it works in
 [override earlier guidance](https://learn.chatgpt.com/docs/agent-configuration/agents-md).
 
+{% figure "file-hierarchy", "wide" %}
+
 The rule about `migrations/` stays in the root file, because it applies to the
 whole project. The root file now looks like this:
 

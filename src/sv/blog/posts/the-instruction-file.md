@@ -94,6 +94,8 @@ rotfilen först och filen i `web/` efter den. Den närmaste filen har sista orde
 som del 1 beskrev: i Codex till exempel
 [går filer närmare den mapp det arbetar i före tidigare riktlinjer](https://learn.chatgpt.com/docs/agent-configuration/agents-md).
 
+{% figure "file-hierarchy", "wide" %}
+
 Regeln om `migrations/` blir kvar i rotfilen, eftersom den gäller hela
 projektet. Rotfilen ser nu ut så här:
 

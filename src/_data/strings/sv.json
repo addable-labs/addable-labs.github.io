@@ -1254,6 +1254,32 @@
       "ifNone": "om det inte finns någon CLAUDE.md",
       "ifClaude": "om projektet har en CLAUDE.md",
       "caption": "Vilka av projektets filer varje verktyg läser, så som dokumentationen såg ut den 30 oktober 2026."
+    },
+    "file-hierarchy": {
+      "title": "Ett projekt som ett mappträd och de verktyg som läser varje fil. Översta mappen har AGENTS.md, som Codex och GitHub Copilot läser och som Claude Code läser när det inte finns någon CLAUDE.md; en valfri CLAUDE.md, som Claude Code läser och vars enda rad, @AGENTS.md, hämtar in AGENTS.md; och en mapp .github med copilot-instructions.md, som GitHub Copilot läser. Mappen web har en egen AGENTS.md, som läses när verktyget arbetar i den mappen, av Codex, av GitHub Copilot i VS Code och av Claude Code när det inte finns någon CLAUDE.md. Den närmaste filen har sista ordet.",
+      "head": "Projektets mappar",
+      "root": "projektet",
+      "files": {
+        "agents": "AGENTS.md",
+        "claude": "CLAUDE.md",
+        "github": ".github/",
+        "copilot": "copilot-instructions.md",
+        "web": "web/",
+        "import": "@AGENTS.md"
+      },
+      "tools": {
+        "claude": "Claude Code",
+        "codex": "Codex",
+        "copilot": "Copilot"
+      },
+      "atStart": "läses vid varje start",
+      "optional": "valfri",
+      "pulls": "hämtar in",
+      "inWeb": "läses när verktyget arbetar här",
+      "lastWord": "sista ordet",
+      "ifNoClaude": "om CLAUDE.md saknas",
+      "inVsCode": "i VS Code",
+      "caption": "Vilket verktyg som läser vilken fil i ett projekts mappar, så som dokumentationen såg ut den 30 oktober 2026. Den närmaste filen har sista ordet."
     }
   },
   "games": {
