@@ -1203,6 +1203,38 @@
       "loop": "loop: samla · agera · kontrollera",
       "harness": "harness – håller ihop allt",
       "caption": "En AI-agents fem delar: modellen i mitten, instruktionerna och verktygen som matar den, loopen den arbetar i och lagret runt alltihop, som kallas harness."
+    },
+    "four-things": {
+      "title": "Vad som styr arbetet i fabriken",
+      "head": "Fyra saker utanför modellen",
+      "founderPlan": {
+        "label": "Grundaren",
+        "note": "godkänner planen"
+      },
+      "task": {
+        "label": "Uppgiften",
+        "note": "tydligt slut"
+      },
+      "agent": "AI-agent · harness",
+      "instructions": {
+        "label": "Instruktioner",
+        "note": "korta"
+      },
+      "model": {
+        "label": "Modell",
+        "note": "arbetar i loopen"
+      },
+      "gates": {
+        "label": "Grindar",
+        "note": "på varje PR"
+      },
+      "founderResult": {
+        "label": "Grundaren",
+        "note": "läser resultatet"
+      },
+      "note": "Modellen arbetar i mitten.",
+      "note2": "Det som styr arbetet finns runt den.",
+      "caption": "Fyra saker utanför modellen styr arbetet i fabriken: grundaren godkänner planen, uppgiften har ett tydligt slut, instruktionerna är korta och grindarna stoppar dåliga ändringar innan grundaren läser resultatet."
     }
   },
   "games": {

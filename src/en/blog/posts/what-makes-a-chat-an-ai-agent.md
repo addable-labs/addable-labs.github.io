@@ -131,6 +131,8 @@ use them.
 
 In the factory, four things outside the model steer the work.
 
+{% figure "four-things" %}
+
 **Gates.** When the site was built in September, a single command ran ten
 quality gates on every pull request. Each gate has a test proving it fails
 when something has been deliberately broken. That is described in more detail in

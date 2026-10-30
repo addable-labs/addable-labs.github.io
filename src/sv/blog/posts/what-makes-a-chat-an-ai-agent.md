@@ -129,6 +129,8 @@ de ska användas.
 
 I fabriken är det fyra saker utanför modellen som styr arbetet.
 
+{% figure "four-things" %}
+
 **Grindar.** När sajten byggdes i september körde ett enda kommando tio
 kvalitetsgrindar på varje pull request. Varje grind har ett test som
 bevisar att den misslyckas när något medvetet har tagits sönder. Det beskrivs mer detaljerat i

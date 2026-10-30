@@ -1203,6 +1203,38 @@
       "loop": "loop: gather · act · verify",
       "harness": "harness — holds it all together",
       "caption": "The five parts of an AI agent: the model in the middle, the instructions and the tools that feed it, the loop it works in and, around it all, the layer called the harness."
+    },
+    "four-things": {
+      "title": "What steers the work in the factory",
+      "head": "Four things outside the model",
+      "founderPlan": {
+        "label": "The founder",
+        "note": "approves the plan"
+      },
+      "task": {
+        "label": "The task",
+        "note": "has a clear end"
+      },
+      "agent": "AI agent · harness",
+      "instructions": {
+        "label": "Instructions",
+        "note": "kept short"
+      },
+      "model": {
+        "label": "Model",
+        "note": "works in the loop"
+      },
+      "gates": {
+        "label": "Gates",
+        "note": "on every PR"
+      },
+      "founderResult": {
+        "label": "The founder",
+        "note": "reads the result"
+      },
+      "note": "The model works in the middle.",
+      "note2": "What steers the work sits around it.",
+      "caption": "Four things outside the model steer the work in the factory: the founder approves the plan, the task has a clear end, the instructions are short, and the gates stop bad changes before the founder reads the result."
     }
   },
   "games": {
