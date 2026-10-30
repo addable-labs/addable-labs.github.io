@@ -1,6 +1,6 @@
 ---
-title: Skills, for work that must come out the same every time
-description: The fourth part of the series "From AI chat to agentic work" — how a job should be done so that it comes out the same way each time, what a skill is, why what must be exact belongs in a script, what the studies show and what to do first.
+title: Skills, for work that must be done the same every time
+description: The fourth part of the series "From AI chat to agentic work" — how a job should be done the same way each time, what a skill is, why what must be exact belongs in a script, what the studies show and what to do first.
 image: cover.png                 # a 1200 × 630 PNG in the article's media directory
 imageAlt: An AI agent, a green circle, stands at the entrance of a project and reads a short note card on a post before it steps in. Behind the doorway lie the project's folders and files.
 date: 2026-10-30
@@ -384,7 +384,7 @@ The working titles may change along the way.
 1. [From AI chat to agentic work](/blog/what-makes-a-chat-an-ai-agent/)
 2. [The instruction file, the first thing an AI agent reads](/blog/the-instruction-file/)
 3. Give each AI agent a job of its own
-4. Skills, for work that must come out the same every time (this part)
+4. Skills, for work that must be done the same every time (this part)
 5. The Model Context Protocol — a common way for agents to reach other systems
 6. Where the agent runs and who starts it
 7. <span id="part-7"></span>Limits set in advance

@@ -1,6 +1,6 @@
 ---
-title: Skills, när arbetet ska bli likadant varje gång
-description: Fjärde delen i serien "Från AI-chatt till agentiskt arbete" – hur ett jobb ska göras för att bli likadant varje gång, vad en skill är, varför det som måste bli exakt hör hemma i ett skript, vad studierna visar och vad du gör först.
+title: Skills, när arbetet ska göras likadant varje gång
+description: Fjärde delen i serien "Från AI-chatt till agentiskt arbete" – hur ett jobb ska göras likadant varje gång, vad en skill är, varför det som måste bli exakt hör hemma i ett skript, vad studierna visar och vad du gör först.
 image: cover.png                 # en PNG på 1200 × 630 i artikelns mediemapp
 imageAlt: En AI-agent, en grön cirkel, står vid ingången till ett projekt och läser en kort lapp på en stolpe innan den går in. Bakom dörröppningen ligger projektets mappar och filer.
 date: 2026-10-30
@@ -333,7 +333,7 @@ lägger till de valfria fälten `license`, `compatibility`, `metadata` och
 
 Varje verktyg lägger till egna fält. Claude Code har bland annat `allowed-tools`
 för verktyg som skillen får använda utan att fråga, `context: fork` för att köra
-skillen i en underagent och `model` och `effort`. VS Code lägger till
+skillen i en subagent och `model` och `effort`. VS Code lägger till
 `argument-hint`, `user-invocable` och `disable-model-invocation`. Codex har
 sina extra inställningar i den valfria filen `agents/openai.yaml`.
 `disable-model-invocation` och den filen används under Felsökning.
@@ -389,7 +389,7 @@ Arbetstitlarna kan ändras på vägen.
 1. [Från AI-chatt till agentiskt arbete](/sv/blog/what-makes-a-chat-an-ai-agent/)
 2. [Instruktionsfilen, det första en AI-agent läser](/sv/blog/the-instruction-file/)
 3. Ge varje AI-agent ett eget jobb
-4. Skills, när arbetet ska bli likadant varje gång (den här delen)
+4. Skills, när arbetet ska göras likadant varje gång (den här delen)
 5. Model Context Protocol – ett gemensamt sätt för agenter att nå andra system
 6. Var agenten körs och vem som startar den
 7. <span id="del-7"></span>Gränser som sätts i förväg

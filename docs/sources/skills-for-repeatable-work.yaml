@@ -1,4 +1,4 @@
-# The sources of "Skills, for work that must come out the same every time" (both
+# The sources of "Skills, for work that must be done the same every time" (both
 # languages): one entry per factual claim about a tool, a vendor, a study or the
 # factory, for the monthly check of the series' sources. Every quote was taken
 # from its page on the date in retrieved (2026-10-30) and checked again on the
@@ -966,7 +966,7 @@
 - id: P4-adv-cc-tools
   article: skills-for-repeatable-work
   sentence:
-    sv: "Claude Code har bland annat allowed-tools för verktyg som skillen får använda utan att fråga, context: fork för att köra skillen i en underagent och model och effort."
+    sv: "Claude Code har bland annat allowed-tools för verktyg som skillen får använda utan att fråga, context: fork för att köra skillen i en subagent och model och effort."
     en: "Claude Code has, among others, allowed-tools for tools the skill may use without asking, context: fork to run the skill in a subagent and model and effort."
   vendor: Anthropic
   url: https://code.claude.com/docs/en/skills
@@ -978,7 +978,7 @@
 - id: P4-adv-cc-fork
   article: skills-for-repeatable-work
   sentence:
-    sv: "Claude Code har bland annat allowed-tools för verktyg som skillen får använda utan att fråga, context: fork för att köra skillen i en underagent och model och effort."
+    sv: "Claude Code har bland annat allowed-tools för verktyg som skillen får använda utan att fråga, context: fork för att köra skillen i en subagent och model och effort."
     en: "Claude Code has, among others, allowed-tools for tools the skill may use without asking, context: fork to run the skill in a subagent and model and effort."
   vendor: Anthropic
   url: https://code.claude.com/docs/en/skills
@@ -990,7 +990,7 @@
 - id: P4-adv-cc-model
   article: skills-for-repeatable-work
   sentence:
-    sv: "Claude Code har bland annat allowed-tools för verktyg som skillen får använda utan att fråga, context: fork för att köra skillen i en underagent och model och effort."
+    sv: "Claude Code har bland annat allowed-tools för verktyg som skillen får använda utan att fråga, context: fork för att köra skillen i en subagent och model och effort."
     en: "Claude Code has, among others, allowed-tools for tools the skill may use without asking, context: fork to run the skill in a subagent and model and effort."
   vendor: Anthropic
   url: https://code.claude.com/docs/en/skills
@@ -1002,7 +1002,7 @@
 - id: P4-adv-cc-effort
   article: skills-for-repeatable-work
   sentence:
-    sv: "Claude Code har bland annat allowed-tools för verktyg som skillen får använda utan att fråga, context: fork för att köra skillen i en underagent och model och effort."
+    sv: "Claude Code har bland annat allowed-tools för verktyg som skillen får använda utan att fråga, context: fork för att köra skillen i en subagent och model och effort."
     en: "Claude Code has, among others, allowed-tools for tools the skill may use without asking, context: fork to run the skill in a subagent and model and effort."
   vendor: Anthropic
   url: https://code.claude.com/docs/en/skills
