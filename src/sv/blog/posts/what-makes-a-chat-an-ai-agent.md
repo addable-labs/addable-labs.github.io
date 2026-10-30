@@ -202,8 +202,8 @@ Serien tar byggstenarna en i taget. Arbetstitlarna kan ändras på vägen.
 
 1. Från AI-chatt till agentiskt arbete (den här delen)
 2. [Instruktionsfilen](/sv/blog/the-instruction-file/)
-3. Agenter med var sitt ansvarsområde
-4. Skills – färdigheter som beskriver hur något ska göras
+3. [Agenter med var sitt ansvarsområde](/sv/blog/agents-with-a-scope-each/)
+4. Skills, när arbetet ska göras likadant varje gång
 5. Model Context Protocol – ett gemensamt sätt för agenter att nå andra system
 6. Var agenten körs och vem som startar den
 7. <span id="del-7"></span>Gränser som sätts i förväg

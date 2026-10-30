@@ -1312,6 +1312,54 @@
       "ifNoClaude": "om CLAUDE.md saknas",
       "inVsCode": "i VS Code",
       "caption": "Vilket verktyg som läser vilken fil i ett projekts mappar, så som dokumentationen såg ut den 30 oktober 2026. Den närmaste filen har sista ordet."
+    },
+    "agent-handover": {
+      "title": "En huvudagent som har skrivit en ändring lämnar en granskningsuppgift till en granskare, en subagent. Granskaren har ett eget sammanhang och får läsa och söka men inte ändra filer eller köra kommandon. Den lämnar tillbaka synpunkter. Utvecklaren läser dem och bestämmer.",
+      "head": "Ett jobb som lämnas över",
+      "main": {
+        "label": "huvudagent",
+        "note": "skrev ändringen"
+      },
+      "task": "lämnar över uppgiften",
+      "reviewer": {
+        "name": "granskare",
+        "context": "ett eget sammanhang",
+        "may": "får",
+        "read": "läsa",
+        "search": "söka",
+        "mayNot": "får inte",
+        "edit": "ändra filer",
+        "run": "köra kommandon"
+      },
+      "back": "synpunkter tillbaka",
+      "you": {
+        "label": "du",
+        "note": "läser och bestämmer"
+      },
+      "caption": "Granskaren. Den har ett eget sammanhang, får läsa och söka men inte ändra filer eller köra kommandon och lämnar tillbaka text. Utvecklaren bestämmer vad som händer sedan."
+    },
+    "agent-file": {
+      "title": "En subagents fil i fyra delar. Namnet är vad du och huvudagenten kallar subagenten. Beskrivningen, inramad, är vad huvudagenten läser för att avgöra om en uppgift ska lämnas över. Raden tools anger vilka verktyg subagenten får använda. Instruktionerna är vad subagenten läser när den har fått uppgiften.",
+      "head": "Subagentens fil i fyra delar",
+      "parts": {
+        "name": "name",
+        "description": "description",
+        "tools": "tools",
+        "instructions": "instructions"
+      },
+      "values": {
+        "name": "reviewer",
+        "description": "Reviews a finished change",
+        "tools": "Read, Grep, Glob",
+        "instructions": "You review changes in…"
+      },
+      "for": {
+        "name": "det du och huvudagenten kallar den",
+        "description": "det huvudagenten läser för att välja",
+        "tools": "vilka verktyg den får använda, inga andra",
+        "instructions": "det den läser när den fått uppgiften"
+      },
+      "caption": "Granskarens fil i fyra delar. Den inramade delen, beskrivningen, är det huvudagenten läser för att avgöra om en uppgift ska gå till granskaren."
     }
   },
   "games": {

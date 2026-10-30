@@ -2031,7 +2031,71 @@ function fourThings(t, id, figureId) {
   return { caption: t.caption, panels: [{ title: t.title, head: t.head, height: 320, body }] };
 }
 
-export const FIGURES = { stages, gates, loop, assessment, team, harness, ledger, timeline, setup, build, words, bilingual, gauntlet, agents, critic, fleet, sources, merges, logos, connection, lifecycle, price, lock, "waiting-per-day": waitingPerDay, "chat-or-agent": chatOrAgent, "five-parts": fiveParts, "four-things": fourThings, "file-before-after": fileBeforeAfter, "which-tool-reads-what": whichToolReadsWhat, "file-hierarchy": fileHierarchy };
+// (30) A job handed over — wide, one panel: the made-up reviewer of part 3.
+// The main agent, which wrote the change, hands a task down; the reviewer, in
+// a frame of its own with its own context, may read and search (ticks) and
+// may not edit files or run commands (crosses); the comments come back to
+// the developer, a card in the orange of the people in the other figures,
+// who reads them and decides. A sign and a word say what is allowed, not a
+// colour alone.
+function agentHandover(t, id, figureId) {
+  const pid = `${figureId}-p1`;
+  const R = t.reviewer;
+  const RIGHT = WIDTH - 28;
+  const cross = (x, y) => `<path d="M${round(x - 3.5)} ${round(y - 3.5)}l7 7m0-7l-7 7" class="fig-wait-stroke" stroke-linecap="round"/>`;
+  // A line of tools from x: a sign and the tool's word, left to right; the
+  // line must end inside the frame.
+  const tools = (x, y, key, words, sign) => {
+    const parts = [];
+    let at = x;
+    for (const word of words) {
+      parts.push(sign(at + 4.5, y - 3.2), text(at + 14, y, word, "fig-note fig-strong"));
+      at += 14 + word.length * ADVANCE.note + 12;
+    }
+    if (at - 12 > RIGHT) throw new Error(`Figure label "${key}" runs to ${round(at - 12)} units; at most ${RIGHT} fit its line`);
+    return parts.join("");
+  };
+  const body = [
+    card(90, 48, 140, `${id}.main`, t.main),
+    arrow(pid, 160, 88, 160, 120),
+    text(170, 108, fit(`${id}.task`, t.task, 134), "fig-note"),
+    `<rect x="16" y="122" width="288" height="108" rx="10" class="fig-node"/>`,
+    `<rect x="16" y="122" width="288" height="108" rx="10" class="fig-accent-stroke"/>`,
+    text(28, 144, fit(`${id}.reviewer.name`, R.name, 100, "label"), "fig-label fig-ok fig-strong"),
+    text(292, 144, fit(`${id}.reviewer.context`, R.context, 160), "fig-note", "end"),
+    text(28, 176, fit(`${id}.reviewer.may`, R.may, 56), "fig-note"),
+    tools(90, 176, `${id}.reviewer.read`, [R.read, R.search], check),
+    text(28, 206, fit(`${id}.reviewer.mayNot`, R.mayNot, 56), "fig-note"),
+    tools(90, 206, `${id}.reviewer.edit`, [R.edit, R.run], cross),
+    arrow(pid, 160, 230, 160, 252),
+    text(170, 246, fit(`${id}.back`, t.back, 134), "fig-note"),
+    card(90, 254, 140, `${id}.you`, t.you, "wait"),
+  ].join("");
+  return { caption: t.caption, panels: [{ title: t.title, head: t.head, height: 310, body }] };
+}
+
+// (31) The agent's file in four parts — one panel, a file as four rows: the
+// key (or, for the instructions, the text under the dashes), the made-up
+// reviewer's value in English as in the file in the article, and in words what
+// the part is for. The description is framed in green: it is the part the main
+// agent reads when it decides whether to hand a task over.
+function agentFile(t, id, figureId) {
+  const ROW = 52;
+  const TOP = 50;
+  const VALUE_X = 130;
+  const parts = [`<rect x="16" y="${TOP}" width="288" height="${ROW * 4}" rx="8" class="fig-node"/>`];
+  ["name", "description", "tools", "instructions"].forEach((key, i) => {
+    const y = TOP + i * ROW;
+    if (i > 0) parts.push(`<line x1="16" y1="${y}" x2="304" y2="${y}" class="fig-hair"/>`);
+    parts.push(text(28, y + 22, fit(`${id}.parts.${key}`, t.parts[key], VALUE_X - 28 - 4, "small"), "fig-label fig-small"));
+    parts.push(text(VALUE_X, y + 21, fit(`${id}.values.${key}`, t.values[key], 304 - VALUE_X - 8), "fig-note fig-strong"));
+    parts.push(text(28, y + 39, fit(`${id}.for.${key}`, t.for[key], 304 - 28 - 8), "fig-note"));
+  });
+  parts.push(`<rect x="16" y="${TOP + ROW}" width="288" height="${ROW}" rx="6" class="fig-accent-stroke"/>`);
+  return { caption: t.caption, panels: [{ title: t.title, head: t.head, height: TOP + ROW * 4 + 16, body: parts.join("") }] };
+}
+
+export const FIGURES = { stages, gates, loop, assessment, team, harness, ledger, timeline, setup, build, words, bilingual, gauntlet, agents, critic, fleet, sources, merges, logos, connection, lifecycle, price, lock, "waiting-per-day": waitingPerDay, "chat-or-agent": chatOrAgent, "five-parts": fiveParts, "four-things": fourThings, "file-before-after": fileBeforeAfter, "which-tool-reads-what": whichToolReadsWhat, "file-hierarchy": fileHierarchy, "agent-handover": agentHandover, "agent-file": agentFile };
 
 /**
  * Render one figure as HTML: `<figure class="figure figure-inline|figure-wide">`

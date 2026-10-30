@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <!-- The image of "Give each AI agent a job of its own" (si-zvh1,
+       30 October 2026), in the style and palette of parts 1 and 2: a whole
+       project, seen from above as folders and files, calm and untouched. In
+       the middle one folder is marked out as a lane (the soft green frame).
+       Inside it a small agent, the series' motif (a green circle with a
+       halo), holds one short job card and has one tool laid out next to it,
+       a magnifying glass for reading, beside the folder it works in. The
+       subject sits inside the central 630 x 630 square; nothing that
+       matters is within 40 px of an edge. -->
+  <defs>
+    <pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse" y="15">
+      <path d="M0 .5H30M.5 0V30" fill="none" stroke="#242C33"/>
+    </pattern>
+    <radialGradient id="fade" cx="600" cy="315" r="640" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff" stop-opacity=".95"/>
+      <stop offset=".6" stop-color="#fff" stop-opacity=".55"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </radialGradient>
+    <mask id="gridmask"><rect width="1200" height="630" fill="url(#fade)"/></mask>
+    <radialGradient id="glow" cx="600" cy="315" r="340" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#83F35D" stop-opacity=".09"/>
+      <stop offset="1" stop-color="#83F35D" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glow-lane" cx="600" cy="310" r="250" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#83F35D" stop-opacity=".16"/>
+      <stop offset="1" stop-color="#83F35D" stop-opacity="0"/>
+    </radialGradient>
+    <path id="folder" d="M0 0h16l6 7h26v27H0z"/>
+    <rect id="file" width="26" height="32" rx="5"/>
+  </defs>
+
+  <rect width="1200" height="630" fill="#0B0E10"/>
+  <rect width="1200" height="630" fill="url(#grid)" mask="url(#gridmask)"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+  <rect width="1200" height="630" fill="url(#glow-lane)"/>
+
+  <!-- The rest of the project: folders and files in a ring, quiet and
+       untouched. -->
+  <g fill="#13181C" stroke="#626E79" stroke-opacity=".7" stroke-width="2.5" stroke-linejoin="round">
+    <use href="#folder" x="306" y="92"/>
+    <use href="#file" x="452" y="93"/>
+    <use href="#folder" x="576" y="92"/>
+    <use href="#folder" x="711" y="92"/>
+    <use href="#file" x="857" y="93"/>
+
+    <use href="#file" x="317" y="473"/>
+    <use href="#folder" x="441" y="472"/>
+    <use href="#folder" x="576" y="472"/>
+    <use href="#file" x="722" y="473"/>
+    <use href="#folder" x="846" y="472"/>
+
+    <use href="#folder" x="306" y="205"/>
+    <use href="#file" x="317" y="326"/>
+    <use href="#file" x="857" y="206"/>
+    <use href="#folder" x="846" y="325"/>
+  </g>
+  <g fill="#626E79" fill-opacity=".35">
+    <rect x="310" y="138" width="40" height="9" rx="4.5"/>
+    <rect x="450" y="138" width="30" height="9" rx="4.5"/>
+    <rect x="578" y="138" width="44" height="9" rx="4.5"/>
+    <rect x="718" y="138" width="34" height="9" rx="4.5"/>
+    <rect x="851" y="138" width="38" height="9" rx="4.5"/>
+
+    <rect x="315" y="518" width="30" height="9" rx="4.5"/>
+    <rect x="444" y="518" width="42" height="9" rx="4.5"/>
+    <rect x="582" y="518" width="36" height="9" rx="4.5"/>
+    <rect x="721" y="518" width="28" height="9" rx="4.5"/>
+    <rect x="848" y="518" width="44" height="9" rx="4.5"/>
+
+    <rect x="312" y="251" width="36" height="9" rx="4.5"/>
+    <rect x="315" y="372" width="30" height="9" rx="4.5"/>
+    <rect x="855" y="252" width="32" height="9" rx="4.5"/>
+    <rect x="850" y="371" width="40" height="9" rx="4.5"/>
+  </g>
+
+  <!-- The lane: one folder's worth of the project, marked out. -->
+  <rect x="410" y="186" width="380" height="246" rx="28" fill="#83F35D" fill-opacity=".05" stroke="#83F35D" stroke-opacity=".8" stroke-width="3" stroke-linecap="round" stroke-dasharray="14 10"/>
+
+  <!-- The tool it needs, laid out beside it: a magnifying glass, for
+       reading. -->
+  <rect x="450" y="316" width="60" height="60" rx="14" fill="#1A2126" stroke="#A6B0BA" stroke-width="2.5"/>
+  <circle cx="478" cy="341" r="13" fill="none" stroke="#ECEFF1" stroke-width="3.2"/>
+  <path d="M488 351L498 361" fill="none" stroke="#ECEFF1" stroke-width="4.5" stroke-linecap="round"/>
+
+  <!-- The folder it works in, brighter than the rest of the project. -->
+  <path d="M684 321h24l9 10h39v41h-72z" fill="#1A2126" stroke="#A6B0BA" stroke-width="3" stroke-linejoin="round"/>
+  <g fill="#626E79" fill-opacity=".55">
+    <rect x="684" y="385" width="56" height="9" rx="4.5"/>
+    <rect x="684" y="401" width="40" height="9" rx="4.5"/>
+  </g>
+
+  <!-- The agent, and its job card held up: a heading and two short lines. -->
+  <path d="M600 296V316" stroke="#83F35D" stroke-width="3" stroke-linecap="round"/>
+  <rect x="560" y="212" width="80" height="84" rx="12" fill="#13181C" stroke="#83F35D" stroke-width="3"/>
+  <rect x="576" y="230" width="40" height="11" rx="5.5" fill="#83F35D"/>
+  <g fill="#ECEFF1" fill-opacity=".7">
+    <rect x="576" y="252" width="48" height="9" rx="4.5"/>
+    <rect x="576" y="270" width="34" height="9" rx="4.5"/>
+  </g>
+  <circle cx="600" cy="346" r="30" fill="#83F35D"/>
+  <circle cx="600" cy="346" r="46" fill="none" stroke="#83F35D" stroke-opacity=".35" stroke-width="3"/>
+</svg>
