@@ -1753,7 +1753,35 @@ function fiveParts(t, id, figureId) {
   return { caption: t.caption, panels: [{ title: t.title, head: t.head, height: 288, body }] };
 }
 
-export const FIGURES = { stages, gates, loop, assessment, team, harness, ledger, timeline, setup, build, words, bilingual, gauntlet, agents, critic, fleet, sources, merges, logos, connection, lifecycle, price, lock, "waiting-per-day": waitingPerDay, "chat-or-agent": chatOrAgent, "five-parts": fiveParts };
+// (27) The four things outside the model that steer the work in the factory —
+// one panel: the founder approving the plan and the task with a clear end
+// above, the instructions and the model in the loop inside the dashed agent
+// box, the gates and the founder reading the result below.
+function fourThings(t, id, figureId) {
+  const pid = `${figureId}-p1`;
+  const body = [
+    card(16, 52, 124, `${id}.founderPlan`, t.founderPlan, "wait"),
+    card(180, 52, 124, `${id}.task`, t.task),
+    arrow(pid, 140, 72, 178, 72),
+    `<rect x="12" y="112" width="296" height="88" rx="10" class="fig-accent-stroke fig-dashed"/>`,
+    text(24, 129, fit(`${id}.agent`, t.agent, 272), "fig-note fig-ok fig-strong"),
+    arrow(pid, 242, 94, 242, 138),
+    card(24, 140, 124, `${id}.instructions`, t.instructions),
+    card(172, 140, 124, `${id}.model`, t.model, "ok"),
+    arrow(pid, 148, 160, 170, 160),
+    arrow(pid, 86, 202, 86, 226),
+    card(16, 228, 124, `${id}.gates`, t.gates),
+    `<rect x="126" y="236" width="4" height="10" rx="1" class="fig-gate"/>`,
+    `<rect x="126" y="250" width="4" height="10" rx="1" class="fig-gate"/>`,
+    arrow(pid, 140, 248, 178, 248),
+    card(180, 228, 124, `${id}.founderResult`, t.founderResult, "wait"),
+    text(160, 292, fit(`${id}.note`, t.note, 288), "fig-note", "middle"),
+    text(160, 306, fit(`${id}.note2`, t.note2, 288), "fig-note", "middle"),
+  ].join("");
+  return { caption: t.caption, panels: [{ title: t.title, head: t.head, height: 320, body }] };
+}
+
+export const FIGURES = { stages, gates, loop, assessment, team, harness, ledger, timeline, setup, build, words, bilingual, gauntlet, agents, critic, fleet, sources, merges, logos, connection, lifecycle, price, lock, "waiting-per-day": waitingPerDay, "chat-or-agent": chatOrAgent, "five-parts": fiveParts, "four-things": fourThings };
 
 /**
  * Render one figure as HTML: `<figure class="figure figure-inline|figure-wide">`
