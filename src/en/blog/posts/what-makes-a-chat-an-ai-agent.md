@@ -76,7 +76,7 @@ others. Since December 2025 it has been looked after by the
 [Agentic AI Foundation (AAIF)](https://www.linuxfoundation.org/press/linux-foundation-announces-the-formation-of-the-agentic-ai-foundation),
 a foundation within the Linux Foundation. Today a long list of tools reads it. The file can be short:
 
-```markdown
+```text
 # Instructions for AI agents
 
 ## Build and test
@@ -201,7 +201,7 @@ but not commands that have run or changes in other services.
 The series takes the building blocks one at a time. The working titles may change along the way.
 
 1. From AI chat to agentic work (this part)
-2. The instruction file
+2. [The instruction file](/blog/the-instruction-file/)
 3. Agents with a scope each
 4. Skills that describe how something should be done
 5. The Model Context Protocol – a common way for agents to reach other systems

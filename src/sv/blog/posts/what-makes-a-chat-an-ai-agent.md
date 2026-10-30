@@ -76,7 +76,7 @@ Codex ingick. Sedan december 2025 förvaltas det av
 [Agentic AI Foundation (AAIF)](https://www.linuxfoundation.org/press/linux-foundation-announces-the-formation-of-the-agentic-ai-foundation),
 en stiftelse inom Linux Foundation. I dag läses det av en lång rad verktyg. Filen kan vara kort:
 
-```markdown
+```text
 # Instruktioner för AI-agenter
 
 ## Bygga och testa
@@ -201,7 +201,7 @@ men inte kommandon som har körts eller ändringar i andra tjänster.
 Serien tar byggstenarna en i taget. Arbetstitlarna kan ändras på vägen.
 
 1. Från AI-chatt till agentiskt arbete (den här delen)
-2. Instruktionsfilen
+2. [Instruktionsfilen](/sv/blog/the-instruction-file/)
 3. Agenter med var sitt ansvarsområde
 4. Skills – färdigheter som beskriver hur något ska göras
 5. Model Context Protocol – ett gemensamt sätt för agenter att nå andra system
