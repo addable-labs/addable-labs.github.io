@@ -2,7 +2,7 @@
 title: Skills, när arbetet ska bli likadant varje gång
 description: Fjärde delen i serien "Från AI-chatt till agentiskt arbete" – hur ett jobb ska göras för att bli likadant varje gång, vad en skill är, varför det som måste bli exakt hör hemma i ett skript, vad studierna visar och vad du gör först.
 image: cover.png                 # en PNG på 1200 × 630 i artikelns mediemapp
-imageAlt: En AI-agent, en grön cirkel, står vid ingången till ett projekt och läser en kort lapp på en stolpe innan den går in. Bakom dörröppningen ligger projektets mappar och filer.
+imageAlt: En AI-agent, en grön cirkel, står bredvid en mapp och tar ett receptkort ur den. I mappen ligger kortet, med en rubrik och tre steg, och ett litet kugghjul. Ur mappen kommer tre ark på rad, alla exakt likadana.
 date: 2026-10-30
 category: ai-journey             # app-development | ai-journey
 translationKey: skills-for-repeatable-work

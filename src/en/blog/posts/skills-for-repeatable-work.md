@@ -2,7 +2,7 @@
 title: Skills, for work that must come out the same every time
 description: The fourth part of the series "From AI chat to agentic work" — how a job should be done so that it comes out the same way each time, what a skill is, why what must be exact belongs in a script, what the studies show and what to do first.
 image: cover.png                 # a 1200 × 630 PNG in the article's media directory
-imageAlt: An AI agent, a green circle, stands at the entrance of a project and reads a short note card on a post before it steps in. Behind the doorway lie the project's folders and files.
+imageAlt: An AI agent, a green circle, stands beside a folder and takes a recipe card from it. In the folder lie the card, with a heading and three steps, and a small gear. Out of the folder come three sheets in a row, all exactly the same.
 date: 2026-10-30
 category: ai-journey             # app-development | ai-journey
 translationKey: skills-for-repeatable-work
