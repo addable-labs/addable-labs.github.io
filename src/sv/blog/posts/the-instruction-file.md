@@ -28,7 +28,7 @@ första dagen skriver utvecklaren ner det en ny kollega skulle behöva veta – 
 inget mer. Resultatet är en vanlig textfil som heter AGENTS.md, i projektets
 översta mapp (roten):
 
-```markdown
+```text
 # Instructions for AI agents
 
 ## Build and test
@@ -84,7 +84,7 @@ Till sist ingår inte testerna för den del av appen som körs i webbläsaren i
 `npm test`. Mappen `web/` får en egen AGENTS.md med en enda rad som lägger till
 dem:
 
-```markdown
+```text
 - Also run `npm run test:web` before you say you are done.
 ```
 
@@ -97,7 +97,7 @@ som del 1 beskrev: i Codex till exempel
 Regeln om `migrations/` blir kvar i rotfilen, eftersom den gäller hela
 projektet. Rotfilen ser nu ut så här:
 
-```markdown
+```text
 # Instructions for AI agents
 
 ## Build and test
@@ -117,7 +117,8 @@ projektet. Rotfilen ser nu ut så här:
 Det finns inte mycket som visar att en instruktionsfil ger bättre resultat.
 [En studie från ETH Zürich](https://arxiv.org/html/2602.11988v3) lät AI-agenter
 lösa verkliga uppgifter med och utan instruktionsfil. Filer som utvecklarna
-själva hade skrivit höjde andelen lösta uppgifter med 2,4 procentenheter i genomsnitt.
+själva hade skrivit höjde andelen lösta uppgifter med 2,4 procentenheter i genomsnitt, till exempel
+från 60 uppgifter av 100 till ungefär 62.
 
 Det är en liten vinst som studien inte kan skilja från slumpen. Forskare
 kallar en skillnad "statistiskt säkerställd" när den knappast skulle uppstå av
@@ -126,16 +127,20 @@ alls var ingen av skillnaderna i andelen lösta uppgifter säkerställd. Filer s
 utvecklarna skrev klarade sig säkerställt bättre än filer som en språkmodell
 skrev.
 
-Filer som en språkmodell hade skrivit sänkte andelen något i genomsnitt. Forskarna föreslår
-att man tills vidare undviker filer som en språkmodell har skrivit.
-
-Alla filerna gjorde körningarna dyrare, med ungefär en femtedel i genomsnitt.
+Filer som en språkmodell hade skrivit sänkte andelen något i genomsnitt och
+forskarna föreslår att man tills vidare undviker sådana filer. Filer av båda
+slagen gjorde körningarna dyrare, med ungefär en femtedel i genomsnitt.
 Ökningarna var säkerställda.
 
 Studien tittade också på översikter av projektet, som det stycke utvecklaren
 tog bort. Forskarna fann att sådana översikter, fast populära, inte hjälpte i projekt som
-redan hade dokumentation. När forskarna tog bort all annan dokumentation hjälpte
-en fil som en språkmodell hade skrivit.
+redan hade dokumentation.
+
+När all annan dokumentation hade tagits bort fann forskarna att filer som en
+språkmodell hade skrivit "kan fungera som effektiva översikter när ingen
+dokumentation finns" (vår översättning). Sådana filer höjde andelen lösta
+uppgifter med 2,7 procentenheter i genomsnitt. Studien redovisar inget test av
+om höjningen är säkerställd och Claude Code lämnades utanför av kostnadsskäl.
 
 [En annan, mindre studie](https://arxiv.org/abs/2601.20404) tittade på 124 pull
 requests, alltså föreslagna ändringar i ett projekts kod. En typisk körning med
@@ -143,10 +148,12 @@ en AGENTS.md gick mer än en fjärdedel snabbare.
 
 Studien mätte inte om svaren blev bättre. Forskarna granskade 50 av uppgifterna
 och fann riktiga kodändringar, inte avbrutna körningar. Studien visar alltså att
-filen sparade tid, inte att den gjorde svaren bättre eller sämre.
+agenten blev klar snabbare, inte att svaren var bättre eller sämre. Den mätte
+ingen kostnad i pengar, så den kan inte ställas mot den första studien.
 
-Forskarna bakom den första studien rekommenderar att en fil bara innehåller det
-agenten inte kan få fram ur koden. Det stämmer med filen i exemplet: kommandona
+Forskarna bakom den första studien finner en fil användbar för ett projekts
+arbetssätt som avviker från standard och rekommenderar att den bara innehåller
+det agenten inte kan få fram ur koden. Det stämmer med filen i exemplet: kommandona
 och de få reglerna är sådant agenten inte kan räkna ut själv. Studierna ger
 ingen anledning att lägga till mer.
 
@@ -154,21 +161,23 @@ ingen anledning att lägga till mer.
 
 Om filen inte säger något om misstaget säger du till agenten och går vidare,
 eftersom ett enstaka misstag kan vara en engångsgrej. Gör agenten samma misstag
-en andra gång [lägger du till en rad i filen](https://code.claude.com/docs/en/memory),
-som utvecklaren gjorde med den enskilda testfilen.
+en andra gång lägger du till en rad i filen, som utvecklaren gjorde med den
+enskilda testfilen.
 
 Ibland finns raden redan och agenten gör ändå fel. Kontrollera först att
-verktyget läser filen över huvud taget: Claude Code läser till exempel
-AGENTS.md som standard bara där det inte finns någon CLAUDE.md. Avsnittet om
-verktygen längre ner säger vad varje verktyg läser.
+verktyget läser filen över huvud taget: Claude Code, vars egen fil heter
+CLAUDE.md, läser AGENTS.md som standard bara där det inte finns någon
+CLAUDE.md. Vill du se om det har läst din fil, kör `/memory` i Claude Code och
+leta efter AGENTS.md i listan. Avsnittet om verktygen längre ner säger vad
+varje verktyg läser.
 
 Titta sedan på raden. En rad som ger
 sitt skäl och en utväg fungerar bättre, som regeln om `migrations/` efter
 omskrivningen. Där väntade utvecklaren inte på ett andra misstag, eftersom
 felet låg i raden: den saknade sitt skäl.
 
-Agenten försöker följa filen men även en bra rad
-[fungerar för det mesta, inte varje gång](https://code.claude.com/docs/en/best-practices).
+Agenten försöker följa filen men även en bra rad fungerar för det mesta, inte
+varje gång.
 En regel som aldrig får brytas behöver därför något utanför filen. Ett sätt är
 ett test i projektet som misslyckas när regeln bryts: för `migrations/` ett test
 som misslyckas när en migrering som redan finns i projektet ändras. Agenten kan
@@ -187,19 +196,16 @@ Det som aldrig får hända stoppas utanför modellen, som del 1 beskrev.
 ## En fil för tre verktyg
 
 Med flera verktyg i projektet räcker en AGENTS.md i översta mappen om varje
-verktyg hittar den. Det stämmer med
-[VS Codes dokumentation](https://code.visualstudio.com/docs/agent-customization/custom-instructions),
-som rekommenderar ett gemensamt format som alla verktygen stöder, när det går.
+verktyg hittar den. Det stämmer med VS Codes dokumentation, som rekommenderar ett gemensamt format som alla verktygen stöder, när det går.
 Verktygen beskriver vi så som dokumentationen såg ut den 30 oktober 2026. Det
 vi skriver kan ha ändrats sedan dess.
 
-Filen i översta mappen läses vid varje start, som del 1 beskrev. En fil i en
-undermapp, som den i `web/`, läses när verktyget börjar arbeta i den mappen.
+Filen i översta mappen läses vid varje start, som del 1 beskrev.
 
 {% figure "which-tool-reads-what", "wide" %}
 
 **Claude Code** har CLAUDE.md som egen instruktionsfil och läser som standard
-[AGENTS.md bara där det inte finns någon CLAUDE.md](https://code.claude.com/docs/en/memory).
+AGENTS.md bara där det inte finns någon CLAUDE.md.
 Där det läser AGENTS.md läser det en fil i en undermapp när det öppnar en fil
 där. Finns det en CLAUDE.md kan den hämta in AGENTS.md med en enda rad, så att
 AGENTS.md förblir den fil som alla verktyg delar:
@@ -212,8 +218,7 @@ För den här regeln räknas en CLAUDE.local.md, en fil för egna anteckningar, 
 en CLAUDE.md. Lägger du till en i ett projekt som bara har en AGENTS.md slutar
 Claude Code därför läsa AGENTS.md, om inte en inställning säger något annat.
 
-I OpenAI:s **Codex** är AGENTS.md själva instruktionsfilen: Codex
-[läser den innan det gör något arbete](https://learn.chatgpt.com/docs/agent-configuration/agents-md),
+I OpenAI:s **Codex** är AGENTS.md själva instruktionsfilen: Codex läser den innan det gör något arbete,
 en fil per mapp från projektets rot ner till den mapp det arbetar i. Som
 standard slutar det lägga till filer när de tillsammans når 32 KiB, ungefär
 32 000 tecken.
@@ -233,11 +238,9 @@ regler som agenten inte kan läsa ut ur koden, var och en med sitt skäl. Låt b
 
 Du kan skriva filen själv eller be agenten skriva ett utkast. Skriver ett
 verktyg ett utkast åt dig, redigera det: både
-[Anthropic](https://code.claude.com/docs/en/memory) och
-[OpenAI](https://learn.chatgpt.com/docs/learn/best-practices) säger att
-utkastet ska redigeras. Studien ovan är ett skäl att korta ner utkastet till
-kommandona och de få reglerna, eftersom genererade filer inte gav någon vinst
-men ökade kostnaden.
+Anthropic och OpenAI säger att utkastet ska redigeras. Studien ovan är ett skäl att korta ner utkastet till
+kommandona och de få reglerna, eftersom genererade filer ökade kostnaden och inte gav någon tydlig vinst där
+det fanns dokumentation.
 
 När du byter till en nyare modell, läs filen igen. I oktober 2026 står det i
 Anthropics [promptguide](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices)
