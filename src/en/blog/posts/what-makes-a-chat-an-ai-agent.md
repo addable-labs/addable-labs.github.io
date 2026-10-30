@@ -1,6 +1,6 @@
 ---
-title: What makes a chat an AI agent
-description: The first part of the series "From AI chat to agentic work" — what sets an AI agent apart from a chat with AI, the five parts the agent is made of and how they look in the factory behind this site.
+title: From AI chat to agentic work
+description: The first part of the series — what sets an AI agent apart from a chat with AI, the five parts the agent is made of and how they look in the factory behind this site.
 image: cover.png                 # a 1200 × 630 PNG in the article's media directory
 imageAlt: A developer seen from behind, split into two halves in front of two screens. The left half is grey and calmer, in front of a chat. The right half is green and active, one hand raised towards a screen with a graph of agents.
 date: 2026-10-06
@@ -27,14 +27,17 @@ work.
 
 A made-up example: a date field in a form accepts 31 February.
 
-You paste the code into the chat and describe the bug. You copy the
+This is how it goes in an AI chat: you paste in the code and describe the bug. You copy the
 suggestion into the editor, run the tests and see another test break. You
 paste the error into the chat, get a new suggestion and after a few rounds
 it works. The model has never seen the project, only the pieces you chose
 to show it.
 
-An AI agent gets the task instead: "The date field accepts 31 February. Fix
-it and add a test." It finds the file, reads the code around it, makes the
+With an AI agent it works differently. The agent runs where the code
+already is: in the editor, for example as a panel in VS Code, or as a
+program in the terminal. It can reach the project's files and run commands.
+You type the task into the agent's box, much as you would in a chat: "The
+date field accepts 31 February. Fix it and add a test." The agent finds the file, reads the code around it, makes the
 change and runs the tests. When another test breaks, it reads the error and
 tries again. When all tests pass, it shows what it has changed, and the user
 decides whether the change goes in.
@@ -69,7 +72,9 @@ unless a local model is chosen.
 every start: how the project is built and tested, which rules apply and what
 to leave alone. [AGENTS.md](https://agents.md/) is an open format for such a
 file. It grew out of a collaboration that included OpenAI's Codex, among
-others. Today a long list of tools reads it. The file can be short:
+others. Since December 2025 it has been looked after by the
+[Agentic AI Foundation (AAIF)](https://www.linuxfoundation.org/press/linux-foundation-announces-the-formation-of-the-agentic-ai-foundation),
+a foundation within the Linux Foundation. Today a long list of tools reads it. The file can be short:
 
 ```markdown
 # Instructions for AI agents
@@ -84,15 +89,12 @@ others. Today a long list of tools reads it. The file can be short:
 - Ask before you add a new package.
 ```
 
-Such a file
-[can also apply to every project on a computer](https://learn.chatgpt.com/docs/agent-configuration/agents-md).
-On 12 September, with four agents on one computer, each on its own project,
-we had one of them write a message to the other three and pasted it into
-the rules file every agent on the machine reads first. But the file guides
-rather than enforces: Anthropic writes that Claude treats it
-["as context, not enforced configuration"](https://code.claude.com/docs/en/memory).
-What must never happen is stopped outside the model — part 7 of the series
-is about that.
+There can be several such files at different levels: one for every project
+on the computer, one for the whole project and one for a single folder. The
+agent reads them from the most general to the most specific, so the closest
+file has the last word. The file guides the agent but enforces nothing. What
+must never happen is stopped outside the model — [part 7](#part-7) of the series is
+about that.
 
 **The tools** let the agent do things: search the code, change files, run
 tests. An agent with access to the terminal
@@ -106,11 +108,9 @@ for such connections.
 the result, choose the next.
 [Anthropic describes it](https://code.claude.com/docs/en/how-claude-code-works)
 as three phases: gather context, take action and verify results. The loop is
-also where the agent gets past its own mistakes. When the site was first
-built, on 20 September, a session claimed the wrong item in the
-factory's tracker and needed fourteen minutes to work around it. It wrote the fix into its notes, and when the
-second build's first session hit the same thing, it was on its task within
-a minute.
+also where the agent gets past its own mistakes. When another test broke in
+the example, the agent read the error, changed the code again and reran the
+tests, without the user having to do anything.
 
 **What holds it all together** is called the harness.
 [The documentation for GitHub Copilot in VS Code defines it](https://code.visualstudio.com/docs/agents/concepts/agent-harnesses)
@@ -118,11 +118,14 @@ as the software layer that runs an agent session and turns a language model
 into an agent by connecting it to context and tools, coordinating the loop
 and keeping track of the session. It can run
 [as an editor extension or a terminal program, in a CI job or on a schedule](https://code.claude.com/docs/en/overview).
-In the factory, Claude Code is the harness for the mayor's sessions — the
-mayor is the agent that coordinates the factory. Claude Code has its own
-system prompt and tool definitions: in September they were about 33,000
-tokens of every start, according to
-[A study of the mayor's context](/blog/what-the-mayors-context-costs/).
+In the factory, Claude Code is the harness inside each session the mayor
+runs — the mayor is the agent that coordinates the factory. Around the
+sessions, the factory also has a layer of its own that starts new sessions
+and hands over between them. We will come back to that later in the series.
+Part of what a harness does
+is invisible to the user: before the model reads the project's instructions,
+the harness has already given it its own, about which tools exist and how to
+use them.
 
 ## What steers the work in the factory
 
@@ -130,7 +133,7 @@ In the factory, four things outside the model steer the work.
 
 **Gates.** When the site was built in September, a single command ran ten
 quality gates on every pull request. Each gate has a test proving it fails
-when something has been deliberately broken. That is described in
+when something has been deliberately broken. That is described in more detail in
 [How this site was built by agents](/blog/how-this-site-was-built-by-agents/).
 
 **Tasks with a clear end.** The example's task has such an end: all the
@@ -153,8 +156,10 @@ first.
 
 ## Claude Code, Codex and GitHub Copilot
 
-The mayor works in Claude Code. We describe all three from their
-documentation as it stood on 12 October 2026; menu names change often.
+We describe all three from their documentation as it stood on 12 October
+2026; the tools' terms and menu options we refer to may have changed since.
+The mayor works in Claude Code, but it could just as well have been one of
+the other two.
 
 In **Claude Code** the instruction file is CLAUDE.md, and the tool can
 [write a first draft of it](https://code.claude.com/docs/en/memory) from the
@@ -191,10 +196,13 @@ but not commands that have run or changes in other services.
 
 ## What comes next
 
-The coming parts take the building blocks one at a time: the instruction
-file, agents with a scope each, skills for what should come out the same
-every time, the Model Context Protocol for reaching other systems, where the
-agent runs, who starts it and which limits are set in advance. The last part
-is about how much has changed along the way: that
-[the latest models need less steering than earlier ones](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices),
-but still some.
+The series takes the building blocks one at a time. The working titles may change along the way.
+
+1. From AI chat to agentic work (this part)
+2. The instruction file
+3. Agents with a scope each
+4. Skills that describe how something should be done
+5. The Model Context Protocol – a common way for agents to reach other systems
+6. Where the agent runs and who starts it
+7. <span id="part-7"></span>Limits set in advance
+8. What has changed along the way – [the latest models need less steering than earlier ones](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices), but still some

@@ -1,7 +1,8 @@
-# The sources of "What makes a chat an AI agent" (both languages): one entry per
+# The sources of "From AI chat to agentic work" (both languages): one entry per
 # factual claim in the article, vendor and factory claims alike, for the monthly
 # check of the series' sources. Every quote was taken from its page on 2026-10-06,
-# except those the founder's review changed or added, taken on 2026-10-12.
+# except those the founder's review changed or added, taken on 2026-10-12, and
+# those the review of 29–30 October changed or added, taken on 2026-10-30.
 
 - id: F0
   article: what-makes-a-chat-an-ai-agent
@@ -14,6 +15,39 @@
   quote: "Addable Labs builds software largely with AI agents, and since September 2026 this website has been built and maintained by what we call the factory"
   retrieved: 2026-10-06
   last_checked: 2026-10-06
+- id: V6
+  article: what-makes-a-chat-an-ai-agent
+  sentence:
+    sv: "Agenten körs där koden redan finns: i editorn, till exempel som en panel i VS Code, eller som ett program i terminalen."
+    en: "The agent runs where the code already is: in the editor, for example as a panel in VS Code, or as a program in the terminal."
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agents/overview
+  final_url: https://code.visualstudio.com/docs/agents/overview
+  quote: "Work with an agent in the Chat view, focused on the current workspace alongside your editor, terminal, tests, and debugger."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: C18
+  article: what-makes-a-chat-an-ai-agent
+  sentence:
+    sv: "eller som ett program i terminalen"
+    en: "or as a program in the terminal"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/overview
+  final_url: https://code.claude.com/docs/en/overview
+  quote: "Available in your terminal, IDE, desktop app, and browser."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: C19
+  article: what-makes-a-chat-an-ai-agent
+  sentence:
+    sv: "Den kommer åt projektets filer och kan köra kommandon."
+    en: "It can reach the project's files and run commands."
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/overview
+  final_url: https://code.claude.com/docs/en/overview
+  quote: "Claude Code is an agentic coding tool that reads your codebase, edits files, runs commands, and integrates with your development tools."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
 - id: C6-agent
   article: what-makes-a-chat-an-ai-agent
   sentence:
@@ -113,39 +147,83 @@
   quote: "compatible with a growing ecosystem of AI coding agents and tools"
   retrieved: 2026-10-06
   last_checked: 2026-10-06
+- id: A4
+  article: what-makes-a-chat-an-ai-agent
+  sentence:
+    sv: "Sedan december 2025 förvaltas det av Agentic AI Foundation (AAIF), en stiftelse inom Linux Foundation."
+    en: "Since December 2025 it has been looked after by the Agentic AI Foundation (AAIF), a foundation within the Linux Foundation."
+  vendor: Linux Foundation
+  url: https://www.linuxfoundation.org/press/linux-foundation-announces-the-formation-of-the-agentic-ai-foundation
+  final_url: https://www.linuxfoundation.org/press/linux-foundation-announces-the-formation-of-the-agentic-ai-foundation
+  quote: "Dec. 9, 2025 … today announced the formation of the Agentic AI Foundation (AAIF), and founding contributions of three leading projects … OpenAI's AGENTS.md."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: A4b
+  article: what-makes-a-chat-an-ai-agent
+  sentence:
+    sv: "Sedan december 2025 förvaltas det av Agentic AI Foundation (AAIF), en stiftelse inom Linux Foundation."
+    en: "Since December 2025 it has been looked after by the Agentic AI Foundation (AAIF), a foundation within the Linux Foundation."
+  vendor: Agentic AI Foundation
+  url: https://agents.md/
+  final_url: https://agents.md/
+  quote: "AGENTS.md is now stewarded by the Agentic AI Foundation under the Linux Foundation."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
 - id: O4
   article: what-makes-a-chat-an-ai-agent
   sentence:
-    sv: "En sådan fil kan också gälla för alla projekt på en dator."
-    en: "Such a file can also apply to every project on a computer."
+    sv: "Det kan finnas flera sådana filer på olika nivåer: en för alla projekt på datorn, en för hela projektet och en för en enskild mapp."
+    en: "There can be several such files at different levels: one for every project on the computer, one for the whole project and one for a single folder."
   vendor: OpenAI
   url: https://learn.chatgpt.com/docs/agent-configuration/agents-md
   final_url: https://learn.chatgpt.com/docs/agent-configuration/agents-md
-  quote: "By layering global guidance with project-specific overrides, you can start each task with consistent expectations, no matter which repository you open."
-  retrieved: 2026-10-12
-  last_checked: 2026-10-12
-- id: F8
+  quote: "Global scope: In your Codex home directory … Project scope: Starting at the project root (typically the Git root), Codex walks down to your current working directory. … In each directory along the path, it checks for AGENTS.override.md, then AGENTS.md"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: O4b
   article: what-makes-a-chat-an-ai-agent
   sentence:
-    sv: "Den 12 september, med fyra agenter på samma dator och var sitt projekt, lät vi en av dem skriva ett meddelande till de andra tre och klistrade in det i den regelfil som varje agent på maskinen läser först."
-    en: "On 12 September, with four agents on one computer, each on its own project, we had one of them write a message to the other three and pasted it into the rules file every agent on the machine reads first."
-  vendor: Addable Labs
-  url: https://addablelabs.se/blog/why-we-run-an-agent-run-factory/
-  final_url: https://addablelabs.se/blog/why-we-run-an-agent-run-factory/
-  quote: "with four agents on one computer, each on its own project, we had the nivå agent write a message we could carry to the other three by hand, and pasted it into the rules file every agent on the machine reads first"
-  retrieved: 2026-10-12
-  last_checked: 2026-10-12
+    sv: "Agenten läser dem från den mest allmänna till den mest specifika, så den närmaste filen har sista ordet."
+    en: "The agent reads them from the most general to the most specific, so the closest file has the last word."
+  vendor: OpenAI
+  url: https://learn.chatgpt.com/docs/agent-configuration/agents-md
+  final_url: https://learn.chatgpt.com/docs/agent-configuration/agents-md
+  quote: "Codex concatenates files from the root down, joining them with blank lines. Files closer to your current directory override earlier guidance because they appear later in the combined prompt."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: C5b
+  article: what-makes-a-chat-an-ai-agent
+  sentence:
+    sv: "Agenten läser dem från den mest allmänna till den mest specifika, så den närmaste filen har sista ordet."
+    en: "The agent reads them from the most general to the most specific, so the closest file has the last word."
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/memory
+  final_url: https://code.claude.com/docs/en/memory
+  quote: "Across the directory tree, content is ordered from the filesystem root down to your working directory. … so instructions closer to where you launched Claude are read last."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: A5
+  article: what-makes-a-chat-an-ai-agent
+  sentence:
+    sv: "så den närmaste filen har sista ordet"
+    en: "so the closest file has the last word"
+  vendor: Agentic AI Foundation
+  url: https://agents.md/
+  final_url: https://agents.md/
+  quote: "The closest AGENTS.md to the edited file wins"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
 - id: C5
   article: what-makes-a-chat-an-ai-agent
   sentence:
-    sv: "Men filen vägleder, den låser ingenting: Anthropic skriver att Claude behandlar den \"som kontext, inte som tvingande inställningar\" (vår översättning)."
-    en: "But the file guides rather than enforces: Anthropic writes that Claude treats it \"as context, not enforced configuration\"."
+    sv: "Filen vägleder agenten men låser ingenting."
+    en: "The file guides the agent but enforces nothing."
   vendor: Anthropic
   url: https://code.claude.com/docs/en/memory
   final_url: https://code.claude.com/docs/en/memory
   quote: "Claude treats them as context, not enforced configuration."
-  retrieved: 2026-10-06
-  last_checked: 2026-10-06
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
 - id: C16
   article: what-makes-a-chat-an-ai-agent
   sentence:
@@ -166,8 +244,19 @@
   url: https://modelcontextprotocol.io/
   final_url: https://modelcontextprotocol.io/docs/2026-07-28/getting-started/intro
   quote: "is an open-source standard for connecting AI applications to external systems"
-  retrieved: 2026-10-06
-  last_checked: 2026-10-06
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: M1b
+  article: what-makes-a-chat-an-ai-agent
+  sentence:
+    sv: "Model Context Protocol – ett gemensamt sätt för agenter att nå andra system"
+    en: "The Model Context Protocol – a common way for agents to reach other systems"
+  vendor: Model Context Protocol
+  url: https://modelcontextprotocol.io/
+  final_url: https://modelcontextprotocol.io/docs/2026-07-28/getting-started/intro
+  quote: "MCP (Model Context Protocol) is an open-source standard for connecting AI applications to external systems."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
 - id: C6
   article: what-makes-a-chat-an-ai-agent
   sentence:
@@ -177,61 +266,6 @@
   url: https://code.claude.com/docs/en/how-claude-code-works
   final_url: https://code.claude.com/docs/en/how-claude-code-works
   quote: "When you give Claude a task, it works through three phases"
-  retrieved: 2026-10-06
-  last_checked: 2026-10-06
-- id: F11
-  article: what-makes-a-chat-an-ai-agent
-  sentence:
-    sv: "När sajten byggdes första gången den 20 september tog en session fel ärende i fabrikens ärendehanterare och behövde fjorton minuter för att ta sig runt det."
-    en: "When the site was first built, on 20 September, a session claimed the wrong item in the factory's tracker and needed fourteen minutes to work around it."
-  vendor: Addable Labs
-  url: https://addablelabs.se/blog/why-we-run-an-agent-run-factory/
-  final_url: https://addablelabs.se/blog/why-we-run-an-agent-run-factory/
-  quote: "In the first, a session claimed a bookkeeping record instead of its task and needed fourteen minutes to work around it"
-  retrieved: 2026-10-06
-  last_checked: 2026-10-06
-- id: F11c
-  article: what-makes-a-chat-an-ai-agent
-  sentence:
-    sv: "När sajten byggdes första gången den 20 september"
-    en: "When the site was first built, on 20 September"
-  vendor: Addable Labs
-  url: https://addablelabs.se/blog/why-we-run-an-agent-run-factory/
-  final_url: https://addablelabs.se/blog/why-we-run-an-agent-run-factory/
-  quote: "We went through all of that on 20 September 2026"
-  retrieved: 2026-10-12
-  last_checked: 2026-10-12
-- id: F11d
-  article: what-makes-a-chat-an-ai-agent
-  sentence:
-    sv: "När sajten byggdes första gången den 20 september"
-    en: "When the site was first built, on 20 September"
-  vendor: Addable Labs
-  url: https://addablelabs.se/blog/why-we-run-an-agent-run-factory/
-  final_url: https://addablelabs.se/blog/why-we-run-an-agent-run-factory/
-  quote: "ran the first build the same afternoon"
-  retrieved: 2026-10-12
-  last_checked: 2026-10-12
-- id: F11e
-  article: what-makes-a-chat-an-ai-agent
-  sentence:
-    sv: "fabrikens ärendehanterare"
-    en: "the factory's tracker"
-  vendor: Addable Labs
-  url: https://addablelabs.se/blog/what-the-mayors-context-costs/
-  final_url: https://addablelabs.se/blog/what-the-mayors-context-costs/
-  quote: "A bead is one task in the factory's tracker"
-  retrieved: 2026-10-12
-  last_checked: 2026-10-12
-- id: F11b
-  article: what-makes-a-chat-an-ai-agent
-  sentence:
-    sv: "Den skrev ner lösningen i sina anteckningar och när det andra byggets första session råkade ut för samma sak var den igång med sin uppgift inom en minut."
-    en: "It wrote the fix into its notes, and when the second build's first session hit the same thing, it was on its task within a minute."
-  vendor: Addable Labs
-  url: https://addablelabs.se/blog/why-we-run-an-agent-run-factory/
-  final_url: https://addablelabs.se/blog/why-we-run-an-agent-run-factory/
-  quote: "it wrote the fix into its notes, and when the second build's first session hit the same race, it was on its task within a minute"
   retrieved: 2026-10-06
   last_checked: 2026-10-06
 - id: V1
@@ -245,6 +279,28 @@
   quote: "It turns a language model into an agent by connecting the model to context and tools, coordinating the agent loop"
   retrieved: 2026-10-06
   last_checked: 2026-10-06
+- id: H2
+  article: what-makes-a-chat-an-ai-agent
+  sentence:
+    sv: "innan modellen läser projektets instruktioner har harnessen redan gett den sina egna, om vilka verktyg som finns och hur de ska användas"
+    en: "before the model reads the project's instructions, the harness has already given it its own, about which tools exist and how to use them"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/memory
+  final_url: https://code.claude.com/docs/en/memory
+  quote: "CLAUDE.md content is delivered as a user message after the system prompt, not as part of the system prompt itself."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: H2b
+  article: what-makes-a-chat-an-ai-agent
+  sentence:
+    sv: "innan modellen läser projektets instruktioner har harnessen redan gett den sina egna, om vilka verktyg som finns och hur de ska användas"
+    en: "before the model reads the project's instructions, the harness has already given it its own, about which tools exist and how to use them"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agents/concepts/agent-harnesses
+  final_url: https://code.visualstudio.com/docs/agents/concepts/agent-harnesses
+  quote: "It prepares the instructions, context, and available tool definitions for the language model."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
 - id: H1
   article: what-makes-a-chat-an-ai-agent
   sentence:
@@ -281,14 +337,14 @@
 - id: F13b
   article: what-makes-a-chat-an-ai-agent
   sentence:
-    sv: "I fabriken är Claude Code harness för borgmästarens sessioner"
-    en: "In the factory, Claude Code is the harness for the mayor's sessions"
+    sv: "I fabriken är Claude Code harness inne i varje session som borgmästaren kör"
+    en: "In the factory, Claude Code is the harness inside each session the mayor runs"
   vendor: Addable Labs
   url: https://addablelabs.se/blog/what-the-mayors-context-costs/
   final_url: https://addablelabs.se/blog/what-the-mayors-context-costs/
-  quote: "A session is one Claude Code conversation with one context."
-  retrieved: 2026-10-06
-  last_checked: 2026-10-06
+  quote: "The mayor is one long-lived Gas City agent that works in sessions. A session is one Claude Code conversation with one context."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
 - id: F13
   article: what-makes-a-chat-an-ai-agent
   sentence:
@@ -300,17 +356,28 @@
   quote: "the agent that coordinates the factory behind this site"
   retrieved: 2026-10-06
   last_checked: 2026-10-06
-- id: F12
+- id: F16
   article: what-makes-a-chat-an-ai-agent
   sentence:
-    sv: "Claude Code har en egen systemprompt och egna verktygsdefinitioner: i september var de ungefär 33 000 tokens av varje start"
-    en: "Claude Code has its own system prompt and tool definitions: in September they were about 33,000 tokens of every start"
+    sv: "Runt sessionerna har fabriken dessutom ett eget lager som startar nya sessioner och lämnar över mellan dem."
+    en: "Around the sessions, the factory also has a layer of its own that starts new sessions and hands over between them."
+  vendor: Addable Labs
+  url: https://addablelabs.se/blog/why-we-run-an-agent-run-factory/
+  final_url: https://addablelabs.se/blog/why-we-run-an-agent-run-factory/
+  quote: "each a session started when a build step needs it … which Gas City drives as a graph of beads, restarting sessions that crash."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: F16b
+  article: what-makes-a-chat-an-ai-agent
+  sentence:
+    sv: "Runt sessionerna har fabriken dessutom ett eget lager som startar nya sessioner och lämnar över mellan dem."
+    en: "Around the sessions, the factory also has a layer of its own that starts new sessions and hands over between them."
   vendor: Addable Labs
   url: https://addablelabs.se/blog/what-the-mayors-context-costs/
   final_url: https://addablelabs.se/blog/what-the-mayors-context-costs/
-  quote: "about 33,000 tokens of every start are Claude Code's own system prompt and tool definitions"
-  retrieved: 2026-10-12
-  last_checked: 2026-10-12
+  quote: "ends at a hand-off: it writes down the state of its work, and a new session continues from there."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
 - id: F2b
   article: what-makes-a-chat-an-ai-agent
   sentence:
@@ -446,14 +513,14 @@
 - id: F13c
   article: what-makes-a-chat-an-ai-agent
   sentence:
-    sv: "Borgmästaren arbetar i Claude Code."
-    en: "The mayor works in Claude Code."
+    sv: "Borgmästaren arbetar i Claude Code"
+    en: "The mayor works in Claude Code"
   vendor: Addable Labs
   url: https://addablelabs.se/blog/what-the-mayors-context-costs/
   final_url: https://addablelabs.se/blog/what-the-mayors-context-costs/
   quote: "A session is one Claude Code conversation with one context."
-  retrieved: 2026-10-06
-  last_checked: 2026-10-06
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
 - id: C2
   article: what-makes-a-chat-an-ai-agent
   sentence:
@@ -517,9 +584,9 @@
   vendor: Anthropic
   url: https://code.claude.com/docs/en/checkpointing
   final_url: https://code.claude.com/docs/en/checkpointing
-  quote: "Checkpointing does not track files modified by Bash commands."
-  retrieved: 2026-10-12
-  last_checked: 2026-10-12
+  quote: "A file that only Bash commands changed isn't tracked and stays as it is."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
 - id: C9b
   article: what-makes-a-chat-an-ai-agent
   sentence:
@@ -594,9 +661,9 @@
   vendor: GitHub
   url: https://code.visualstudio.com/docs/agent-customization/custom-instructions#_use-a-githubcopilot-instructionsmd-file
   final_url: https://code.visualstudio.com/docs/agent-customization/custom-instructions#_use-a-githubcopilot-instructionsmd-file
-  quote: "For Copilot Agent Host sessions, use .github/copilot-instructions.md for project-wide guidance."
-  retrieved: 2026-10-12
-  last_checked: 2026-10-12
+  quote: "For Copilot sessions, use .github/copilot-instructions.md for project-wide guidance."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
 - id: G2
   article: what-makes-a-chat-an-ai-agent
   sentence:
@@ -605,9 +672,9 @@
   vendor: GitHub
   url: https://code.visualstudio.com/docs/agent-customization/custom-instructions#_use-a-githubcopilot-instructionsmd-file
   final_url: https://code.visualstudio.com/docs/agent-customization/custom-instructions#_use-a-githubcopilot-instructionsmd-file
-  quote: "It is supported by multiple harnesses, including Copilot and OpenAI Codex, and by the Local agent."
-  retrieved: 2026-10-12
-  last_checked: 2026-10-12
+  quote: "Multiple harnesses, including Copilot and OpenAI Codex, support it."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
 - id: V4
   article: what-makes-a-chat-an-ai-agent
   sentence:
@@ -655,11 +722,11 @@
 - id: C17
   article: what-makes-a-chat-an-ai-agent
   sentence:
-    sv: "att de senaste modellerna behöver mindre styrning än de förra, men fortfarande en del."
-    en: "that the latest models need less steering than earlier ones, but still some."
+    sv: "de senaste modellerna behöver mindre styrning än de förra, men fortfarande en del"
+    en: "the latest models need less steering than earlier ones, but still some"
   vendor: Anthropic
   url: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices
   final_url: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices
-  quote: "more responsive to the system prompt than previous models … The fix is to dial back any aggressive language."
-  retrieved: 2026-10-12
-  last_checked: 2026-10-12
+  quote: "more responsive to the system prompt than previous models … The fix is to soften any aggressive language."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
