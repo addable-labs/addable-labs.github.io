@@ -1235,6 +1235,83 @@
       "note": "Modellen arbetar i mitten.",
       "note2": "Det som styr arbetet finns runt den.",
       "caption": "Fyra saker utanför modellen styr arbetet i fabriken: grundaren godkänner planen, uppgiften har ett tydligt slut, instruktionerna är korta och grindarna stoppar dåliga ändringar innan grundaren läser resultatet."
+    },
+    "file-before-after": {
+      "first": {
+        "title": "Två versioner av samma instruktionsfil sida vid sida. Första dagen har den åtta rader.",
+        "head": "Första dagen"
+      },
+      "later": {
+        "title": "Efter några veckor har en rad om att köra en enskild testfil lagts till. Regeln om migreringar har fått sitt skäl och en utväg. Ett stycke som beskriver varje fil är struket. Mappen web/ har fått en egen fil med en rad.",
+        "head": "Några veckor senare"
+      },
+      "file": "AGENTS.md",
+      "webFile": "web/AGENTS.md",
+      "lines": {
+        "title": "# Instructions for AI agents",
+        "build": "## Build and test",
+        "install": "- Install dependencies with `npm install`.",
+        "single": "- Run a single test file with `npm test -- <file>`.",
+        "test": "- Run `npm test` before you say you are done.",
+        "rules": "## Rules",
+        "bug": "- Write a test for every bug you fix.",
+        "migrations": "- Change nothing in the `migrations/` folder.",
+        "migrationsLater": "- Change nothing in the `migrations/` folder: those files have already run in production. Add a new migration instead.",
+        "package": "- Ask before you add a new package.",
+        "overview": "## What each file in the project does",
+        "web": "- Also run `npm run test:web` before you say you are done."
+      },
+      "marks": {
+        "added": "Tillagd",
+        "changed": "Ändrad: skäl och utväg tillagda",
+        "cut": "Struken: agenten läser filerna själv",
+        "newFile": "Ny fil i web/"
+      },
+      "caption": "Den påhittade exempelfilen första dagen och några veckor senare. Historien och filen är påhittade."
+    },
+    "which-tool-reads-what": {
+      "title": "Tre verktyg och de filer de läser. Codex läser AGENTS.md. GitHub Copilot läser AGENTS.md och .github/copilot-instructions.md. Claude Code läser AGENTS.md också när det inte finns någon CLAUDE.md. Där det finns en hämtar en enda rad i den, @AGENTS.md, in den delade filen.",
+      "head": "Filer i projektet",
+      "files": {
+        "agents": "AGENTS.md",
+        "copilot": ".github/copilot-instructions.md",
+        "claude": "CLAUDE.md",
+        "import": "@AGENTS.md"
+      },
+      "tools": {
+        "codex": "Codex",
+        "copilot": "GitHub Copilot",
+        "claude": "Claude Code"
+      },
+      "ifNone": "om det inte finns någon CLAUDE.md",
+      "ifClaude": "om projektet har en CLAUDE.md",
+      "caption": "Vilka av projektets filer varje verktyg läser, så som dokumentationen såg ut den 30 oktober 2026."
+    },
+    "file-hierarchy": {
+      "title": "Ett projekt som ett mappträd och de verktyg som läser varje fil. Översta mappen har AGENTS.md, som Codex och GitHub Copilot läser och som Claude Code läser när det inte finns någon CLAUDE.md; en valfri CLAUDE.md, som Claude Code läser och vars enda rad, @AGENTS.md, hämtar in AGENTS.md; och en mapp .github med copilot-instructions.md, som GitHub Copilot läser. Mappen web har en egen AGENTS.md, som läses när verktyget arbetar i den mappen, av Codex, av GitHub Copilot i VS Code och av Claude Code när det inte finns någon CLAUDE.md. Den närmaste filen har sista ordet.",
+      "head": "Projektets mappar",
+      "root": "projektet",
+      "files": {
+        "agents": "AGENTS.md",
+        "claude": "CLAUDE.md",
+        "github": ".github/",
+        "copilot": "copilot-instructions.md",
+        "web": "web/",
+        "import": "@AGENTS.md"
+      },
+      "tools": {
+        "claude": "Claude Code",
+        "codex": "Codex",
+        "copilot": "Copilot"
+      },
+      "atStart": "läses vid varje start",
+      "optional": "valfri",
+      "pulls": "hämtar in",
+      "inWeb": "läses när verktyget arbetar här",
+      "lastWord": "sista ordet",
+      "ifNoClaude": "om CLAUDE.md saknas",
+      "inVsCode": "i VS Code",
+      "caption": "Vilket verktyg som läser vilken fil i ett projekts mappar, så som dokumentationen såg ut den 30 oktober 2026. Den närmaste filen har sista ordet."
     }
   },
   "games": {

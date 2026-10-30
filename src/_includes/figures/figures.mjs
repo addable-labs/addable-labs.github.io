@@ -1753,6 +1753,256 @@ function fiveParts(t, id, figureId) {
   return { caption: t.caption, panels: [{ title: t.title, head: t.head, height: 288, body }] };
 }
 
+/**
+ * Break `value` into lines that fit `slot` units at `size`, at most `max`
+ * of them, at spaces outside backticks, so a command such as
+ * `npm test -- <file>` is never split. Lines after the first are `indent`
+ * characters narrower: a list item's hanging indent. Throws, naming the key,
+ * when a word does not fit or the text needs more lines.
+ */
+function wrap(key, value, slot, size = "note", max = 3, indent = 0) {
+  // The characters line n holds: the slot, less the indent after the first.
+  const room = (n) => Math.floor((slot - (n > 0 ? indent * ADVANCE[size] : 0)) / ADVANCE[size]);
+  const lines = [];
+  for (const word of value.match(/(?:`[^`]*`|[^\s`])+/g)) {
+    const n = lines.length - 1;
+    if (n >= 0 && lines[n].length + 1 + word.length <= room(n)) {
+      lines[n] = `${lines[n]} ${word}`;
+    } else {
+      if (word.length > room(n + 1)) throw new Error(`Figure label "${key}" has a word of ${word.length} characters; at most ${room(n + 1)} fit its slot ("${word}")`);
+      lines.push(word);
+    }
+  }
+  if (lines.length > max) throw new Error(`Figure label "${key}" needs ${lines.length} lines; at most ${max} fit ("${value}")`);
+  return lines;
+}
+
+// (27) The instruction file of part 2's story, on its first day and a few
+// weeks later — wide, two panels, the file's lines in English in both
+// languages (the founder: no Swedish instruction files). The first day is
+// part 1's eight lines; a few weeks later the root file has the line on a
+// single test file (added, "+"), the migrations rule with its reason and way
+// out (changed, "~"), the section on every file struck out (cut, "−", grey)
+// and, under it, web/AGENTS.md as a card of its own (a new file, green
+// frame). Each mark is a sign in the gutter and a word in the key, not a
+// colour alone. A long line breaks at a space with a list item's hanging
+// indent, never inside a command. Each panel is as tall as its file, so the
+// first day's card is the shorter one.
+function fileBeforeAfter(t, id, figureId) {
+  const L = t.lines;
+  const GUTTER = 14;
+  const X = 24;
+  const SLOT = WIDTH - X - 12;
+  const STEP = 14;
+  const INDENT = 2 * ADVANCE.note;
+  const MARK = {
+    added: { sign: "+", cls: "fig-note fig-ok fig-strong" },
+    changed: { sign: "~", cls: "fig-note fig-wait fig-strong" },
+    cut: { sign: "−", cls: "fig-note fig-muted", struck: true },
+  };
+  // A file drawn line by line from `top`: each row is [key, mark] with mark
+  // "added", "changed", "cut" or none; null is the file's blank line.
+  const file = (rows, top) => {
+    const parts = [];
+    let y = top;
+    for (const row of rows) {
+      if (row === null) {
+        y += STEP / 2;
+        continue;
+      }
+      const [key, mark] = row;
+      const value = L[key];
+      const heading = value.startsWith("#");
+      const style = MARK[mark];
+      const cls = style ? style.cls : `fig-note${heading ? " fig-strong" : ""}`;
+      const lines = wrap(`${id}.lines.${key}`, value, SLOT, "note", 3, 2);
+      if (style) parts.push(text(GUTTER, y, style.sign, style.cls, "middle"));
+      lines.forEach((line, n) => parts.push(text(n ? X + INDENT : X, y + n * STEP, line, cls, undefined, style?.struck)));
+      y += lines.length * STEP;
+    }
+    return { body: parts.join(""), bottom: y - STEP };
+  };
+
+  const first = file([["title"], null, ["build"], ["install"], ["test"], null, ["rules"], ["bug"], ["migrations"], ["package"]], 60);
+  const later = file(
+    [["title"], null, ["build"], ["install"], ["single", "added"], ["test"], null, ["rules"], ["bug"], ["migrationsLater", "changed"], ["package"], null, ["overview", "cut"]],
+    60,
+  );
+
+  // web/AGENTS.md, a new file: a green-framed card with its name and its line.
+  const cardTop = later.bottom + 20;
+  const webLines = wrap(`${id}.lines.web`, L.web, WIDTH - 16 - 8 - X, "note", 3, 2);
+  const cardHeight = 30 + webLines.length * STEP;
+  const card = [
+    `<rect x="16" y="${cardTop}" width="${WIDTH - 32}" height="${cardHeight}" rx="6" class="fig-node"/>`,
+    `<rect x="16" y="${cardTop}" width="${WIDTH - 32}" height="${cardHeight}" rx="6" class="fig-accent-stroke"/>`,
+    text(X, cardTop + 17, fit(`${id}.webFile`, t.webFile, WIDTH - 32 - 16), "fig-note fig-ok fig-strong"),
+    ...webLines.map((line, n) => text(n ? X + INDENT : X, cardTop + 17 + (n + 1) * STEP, line, "fig-note fig-ok")),
+  ];
+
+  // The key: each mark's sign and what it means.
+  const keyTop = cardTop + cardHeight + 18;
+  const legend = [`<line x1="16" y1="${keyTop - 4}" x2="${WIDTH - 16}" y2="${keyTop - 4}" class="fig-hair"/>`];
+  ["added", "changed", "cut"].forEach((mark, i) => {
+    const y = keyTop + 14 + i * STEP;
+    legend.push(text(GUTTER, y, MARK[mark].sign, MARK[mark].cls, "middle"));
+    legend.push(text(X, y, fit(`${id}.marks.${mark}`, t.marks[mark], SLOT), MARK[mark].cls.replace(" fig-strong", "")));
+  });
+  const newY = keyTop + 14 + 3 * STEP;
+  legend.push(`<rect x="${GUTTER - 4.5}" y="${newY - 8}" width="9" height="9" rx="2" class="fig-accent-stroke"/>`);
+  legend.push(text(X, newY, fit(`${id}.marks.newFile`, t.marks.newFile, SLOT), "fig-note fig-ok"));
+
+  return {
+    caption: t.caption,
+    panels: [
+      { title: t.first.title, head: t.first.head, headRight: { value: t.file, cls: "" }, height: first.bottom + 18, body: first.body },
+      { title: t.later.title, head: t.later.head, headRight: { value: t.file, cls: "" }, height: newY + 14, body: [later.body, ...card, ...legend].join("") },
+    ],
+  };
+}
+
+// (28) Which of the project's files each tool reads — one panel, the files
+// on the left and the three tools on the right, an arrow from a file to each
+// tool that reads it, as the vendors' pages stood on 12 October 2026: Codex
+// reads AGENTS.md; GitHub Copilot reads AGENTS.md and
+// .github/copilot-instructions.md; Claude Code reads AGENTS.md when there is
+// no CLAUDE.md, and a CLAUDE.md (dashed: a project need not have one) when
+// there is one, whose line @AGENTS.md (the dashed line) imports AGENTS.md.
+// The file and tool names and the @ line are the same in both languages.
+function whichToolReadsWhat(t, id, figureId) {
+  const pid = `${figureId}-p1`;
+  const F = t.files;
+  const T = t.tools;
+  const node = (x, y, width, height, dashed = false) => `<rect x="${x}" y="${y}" width="${width}" height="${height}" rx="6" class="fig-node${dashed ? " fig-dashed" : ""}"/>`;
+  const frame = (x, y, width, height) => `<rect x="${x}" y="${y}" width="${width}" height="${height}" rx="6" class="fig-accent-stroke"/>`;
+  const name = (x, y, key, value, slot, cls = "fig-label fig-small", anchor) => text(x, y, fit(key, value, slot, "small"), cls, anchor);
+  const TX = 196;
+  const TW = WIDTH - 16 - TX;
+  const tool = (y, key) => [node(TX, y, TW, 26), name(TX + TW / 2, y + 17.5, `${id}.tools.${key}`, T[key], TW - 6, "fig-label fig-small", "middle")].join("");
+  // .github/copilot-instructions.md on two lines: the folder, then the file.
+  const slash = F.copilot.indexOf("/") + 1;
+  const [folder, file] = [F.copilot.slice(0, slash), F.copilot.slice(slash)];
+  const ifNone = wrap(`${id}.ifNone`, t.ifNone, WIDTH - 16 - 146, "note", 2);
+  const body = [
+    // The files.
+    node(16, 50, 158, 38),
+    text(21, 65, fit(`${id}.files.copilot`, folder, 147), "fig-note"),
+    text(21, 79, fit(`${id}.files.copilot`, file, 147), "fig-note fig-strong"),
+    node(16, 118, 84, 26),
+    frame(16, 118, 84, 26),
+    name(22, 135.5, `${id}.files.agents`, F.agents, 72),
+    node(16, 188, 108, 46, true),
+    name(22, 205.5, `${id}.files.claude`, F.claude, 96),
+    text(22, 223, fit(`${id}.files.import`, F.import, 96), "fig-note fig-strong"),
+    text(16, 250, fit(`${id}.ifClaude`, t.ifClaude, WIDTH - 32), "fig-note"),
+    // The tools.
+    tool(70, "copilot"),
+    tool(118, "codex"),
+    tool(196, "claude"),
+    // Who reads what.
+    arrow(pid, 174, 78, 194, 82),
+    arrow(pid, 100, 124, 194, 94),
+    arrow(pid, 100, 131, 194, 131),
+    pathArrow(pid, "M92 144C120 176 160 196 194 202"),
+    arrow(pid, 124, 216, 194, 216),
+    ...ifNone.map((line, n) => text(146, 164 + n * 13, line, "fig-note")),
+    // @AGENTS.md in CLAUDE.md imports AGENTS.md.
+    pathArrow(pid, "M90 219C112 214 112 168 70 146", true),
+  ].join("");
+  return { caption: t.caption, panels: [{ title: t.title, head: t.head, height: 264, body }] };
+}
+
+// (29) The same project as a folder tree, in the cover's drawing: the top
+// folder with its files, a folder inside it and the folder of its own
+// instruction file, `web/`. Under each file the tools that read it, each with
+// a tick and its name (a sign and a word, not a colour alone); where a tool
+// reads it only on a condition the condition stands beside it, in words. The
+// optional CLAUDE.md has a dashed glyph and the word, and its one line
+// (`@AGENTS.md`, a chip) pulls in the AGENTS.md in the top folder (the dashed
+// arrow). The file in `web/` is framed in green and says it has the last
+// word: the file closest to the work, as the article has it. File, folder and
+// tool names are the same in both languages (the founder: no Swedish file
+// names).
+function fileHierarchy(t, id, figureId) {
+  const pid = `${figureId}-p1`;
+  const F = t.files;
+  const T = t.tools;
+  const RIGHT = WIDTH - 16;
+  const TREE = 28; // the top folder's stem
+  const KIDS = 54; // the stem of a folder one level down
+  const NAME1 = 70; // a name at the first level; the second level's is at NAME2
+  const NAME2 = 92;
+  const note = (x, y, key, value, slot, cls = "fig-note", anchor) => text(x, y, fit(key, value, slot), cls, anchor);
+  const name = (x, y, key, value, slot) => text(x, y, fit(key, value, slot, "small"), "fig-label fig-small");
+  // The folder glyph of the cover: a tab on an outline; `w` and `h` its size.
+  const folder = (x, y, w = 16, h = 13) => `<path d="M${x} ${y + h}V${y}h6.5l2 3H${x + w}V${y + h}z" class="fig-node"/>`;
+  const file = (x, y, dashed = false) => `<rect x="${x}" y="${y}" width="12" height="16" rx="2.5" class="fig-node${dashed ? " fig-dashed" : ""}"/>`;
+  const branch = (d) => `<path d="${d}" class="fig-line"/>`;
+  // A line of readers from x: a tick and the tool's name, then the condition
+  // when there is one (`when` is [value, class]); the line must end at the margin.
+  const reads = (x, y, key, items) => {
+    const parts = [];
+    let at = x;
+    for (const { tool, when } of items) {
+      parts.push(check(at + 4.5, y - 3.2), text(at + 14, y, T[tool], "fig-note fig-strong"));
+      at += 14 + T[tool].length * ADVANCE.note;
+      if (when) {
+        at += 6;
+        parts.push(text(at, y, when[0], when[1]));
+        at += when[0].length * ADVANCE.note;
+      }
+      at += 12;
+    }
+    if (at - 12 > RIGHT) throw new Error(`Figure label "${key}" runs to ${round(at - 12)} units; at most ${RIGHT} fit its line`);
+    return parts.join("");
+  };
+  const unlessClaude = [t.ifNoClaude, "fig-note fig-wait"];
+
+  const body = [
+    // The tree.
+    branch(`M${TREE} 67V262`),
+    ...[90, 150, 194, 262].map((y) => branch(`M${TREE} ${y}H44`)),
+    branch(`M${KIDS} 201V218H68`),
+    branch(`M${KIDS} 269V286H68`),
+    // The top folder.
+    folder(16, 50, 24, 17),
+    name(48, 63, `${id}.root`, t.root, 80),
+    note(RIGHT, 63, `${id}.atStart`, t.atStart, 160, "fig-note", "end"),
+    // AGENTS.md: Codex, Copilot, and Claude Code where there is no CLAUDE.md.
+    file(48, 82),
+    name(NAME1, 94, `${id}.files.agents`, F.agents, 80),
+    reads(NAME1, 110, `${id}.reads.agents`, [{ tool: "codex" }, { tool: "copilot" }]),
+    reads(NAME1, 124, `${id}.reads.agentsClaude`, [{ tool: "claude", when: unlessClaude }]),
+    // CLAUDE.md: optional, read by Claude Code, whose one line pulls in AGENTS.md.
+    file(48, 142, true),
+    name(NAME1, 154, `${id}.files.claude`, F.claude, 80),
+    note(NAME1 + F.claude.length * ADVANCE.small + 10, 154, `${id}.optional`, t.optional, 80),
+    reads(NAME1, 170, `${id}.reads.claude`, [{ tool: "claude" }]),
+    `<rect x="176" y="158" width="76" height="16" rx="4" class="fig-node"/>`,
+    text(214, 169.5, fit(`${id}.import`, F.import, 70), "fig-note fig-strong", "middle"),
+    pathArrow(pid, "M252 166H294V90H140", true),
+    text(217, 85, fit(`${id}.pulls`, t.pulls, 100), "fig-note", "middle"),
+    // .github/copilot-instructions.md: read by Copilot.
+    folder(46, 188),
+    name(NAME1, 198, `${id}.files.github`, F.github, 100),
+    file(70, 210),
+    name(NAME2, 222, `${id}.files.copilot`, F.copilot, RIGHT - NAME2),
+    reads(NAME2, 238, `${id}.reads.copilot`, [{ tool: "copilot" }]),
+    // web/ and its own AGENTS.md: read when the tool works in that folder,
+    // and the closest file has the last word.
+    folder(46, 256),
+    name(NAME1, 266, `${id}.files.web`, F.web, 60),
+    note(RIGHT, 266, `${id}.inWeb`, t.inWeb, RIGHT - NAME1 - F.web.length * ADVANCE.small - 8, "fig-note", "end"),
+    `<rect x="62" y="272" width="250" height="58" rx="6" class="fig-accent-stroke"/>`,
+    file(70, 278),
+    name(NAME2, 290, `${id}.files.agents`, F.agents, 80),
+    note(RIGHT, 290, `${id}.lastWord`, t.lastWord, 90, "fig-note fig-ok fig-strong", "end"),
+    reads(NAME2, 306, `${id}.reads.web`, [{ tool: "codex" }, { tool: "copilot", when: [t.inVsCode, "fig-note"] }]),
+    reads(NAME2, 320, `${id}.reads.webClaude`, [{ tool: "claude", when: unlessClaude }]),
+  ].join("");
+  return { caption: t.caption, panels: [{ title: t.title, head: t.head, height: 346, body }] };
+}
+
 // (27) The four things outside the model that steer the work in the factory —
 // one panel: the founder approving the plan and the task with a clear end
 // above, the instructions and the model in the loop inside the dashed agent
@@ -1781,7 +2031,7 @@ function fourThings(t, id, figureId) {
   return { caption: t.caption, panels: [{ title: t.title, head: t.head, height: 320, body }] };
 }
 
-export const FIGURES = { stages, gates, loop, assessment, team, harness, ledger, timeline, setup, build, words, bilingual, gauntlet, agents, critic, fleet, sources, merges, logos, connection, lifecycle, price, lock, "waiting-per-day": waitingPerDay, "chat-or-agent": chatOrAgent, "five-parts": fiveParts, "four-things": fourThings };
+export const FIGURES = { stages, gates, loop, assessment, team, harness, ledger, timeline, setup, build, words, bilingual, gauntlet, agents, critic, fleet, sources, merges, logos, connection, lifecycle, price, lock, "waiting-per-day": waitingPerDay, "chat-or-agent": chatOrAgent, "five-parts": fiveParts, "four-things": fourThings, "file-before-after": fileBeforeAfter, "which-tool-reads-what": whichToolReadsWhat, "file-hierarchy": fileHierarchy };
 
 /**
  * Render one figure as HTML: `<figure class="figure figure-inline|figure-wide">`

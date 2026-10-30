@@ -1235,6 +1235,83 @@
       "note": "The model works in the middle.",
       "note2": "What steers the work sits around it.",
       "caption": "Four things outside the model steer the work in the factory: the founder approves the plan, the task has a clear end, the instructions are short, and the gates stop bad changes before the founder reads the result."
+    },
+    "file-before-after": {
+      "first": {
+        "title": "Two versions of the same instruction file side by side. On the first day it has eight lines.",
+        "head": "Day one"
+      },
+      "later": {
+        "title": "A few weeks later a line on running a single test file has been added. The migrations rule has got its reason and a way out. A section that describes every file has been struck out. The web folder has got a file of its own with one line.",
+        "head": "A few weeks later"
+      },
+      "file": "AGENTS.md",
+      "webFile": "web/AGENTS.md",
+      "lines": {
+        "title": "# Instructions for AI agents",
+        "build": "## Build and test",
+        "install": "- Install dependencies with `npm install`.",
+        "single": "- Run a single test file with `npm test -- <file>`.",
+        "test": "- Run `npm test` before you say you are done.",
+        "rules": "## Rules",
+        "bug": "- Write a test for every bug you fix.",
+        "migrations": "- Change nothing in the `migrations/` folder.",
+        "migrationsLater": "- Change nothing in the `migrations/` folder: those files have already run in production. Add a new migration instead.",
+        "package": "- Ask before you add a new package.",
+        "overview": "## What each file in the project does",
+        "web": "- Also run `npm run test:web` before you say you are done."
+      },
+      "marks": {
+        "added": "Added",
+        "changed": "Changed: reason and way out added",
+        "cut": "Cut: the agent reads the files itself",
+        "newFile": "New file in web/"
+      },
+      "caption": "The made-up example file on its first day and a few weeks later. The story and the file are made up."
+    },
+    "which-tool-reads-what": {
+      "title": "Three tools and the files they read. Codex reads AGENTS.md. GitHub Copilot reads AGENTS.md and .github/copilot-instructions.md. Claude Code reads AGENTS.md too when there is no CLAUDE.md. Where there is one, a single line in it, @AGENTS.md, pulls in the shared file.",
+      "head": "Files in the project",
+      "files": {
+        "agents": "AGENTS.md",
+        "copilot": ".github/copilot-instructions.md",
+        "claude": "CLAUDE.md",
+        "import": "@AGENTS.md"
+      },
+      "tools": {
+        "codex": "Codex",
+        "copilot": "GitHub Copilot",
+        "claude": "Claude Code"
+      },
+      "ifNone": "if there is no CLAUDE.md",
+      "ifClaude": "if the project has a CLAUDE.md",
+      "caption": "Which of the project's files each tool reads, as their documentation stood on 30 October 2026."
+    },
+    "file-hierarchy": {
+      "title": "A project as a folder tree, and the tools that read each file. The top folder holds AGENTS.md, which Codex and GitHub Copilot read, and Claude Code reads when there is no CLAUDE.md; an optional CLAUDE.md, which Claude Code reads and whose one line, @AGENTS.md, pulls in the AGENTS.md; and a .github folder with copilot-instructions.md, which GitHub Copilot reads. The web folder has an AGENTS.md of its own, read when the tool works in that folder, by Codex, by GitHub Copilot in VS Code and by Claude Code when there is no CLAUDE.md. The closest file has the last word.",
+      "head": "The project's folders",
+      "root": "the project",
+      "files": {
+        "agents": "AGENTS.md",
+        "claude": "CLAUDE.md",
+        "github": ".github/",
+        "copilot": "copilot-instructions.md",
+        "web": "web/",
+        "import": "@AGENTS.md"
+      },
+      "tools": {
+        "claude": "Claude Code",
+        "codex": "Codex",
+        "copilot": "Copilot"
+      },
+      "atStart": "read at every start",
+      "optional": "optional",
+      "pulls": "pulls in",
+      "inWeb": "read when the tool works here",
+      "lastWord": "last word",
+      "ifNoClaude": "if no CLAUDE.md",
+      "inVsCode": "in VS Code",
+      "caption": "Which tool reads which file in a project's folders, as their documentation stood on 30 October 2026. The closest file has the last word."
     }
   },
   "games": {
