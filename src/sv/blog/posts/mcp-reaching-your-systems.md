@@ -2,7 +2,7 @@
 title: MCP, så når AI-agenten dina andra system
 description: Femte delen i serien "Från AI-chatt till agentiskt arbete" – vad MCP är, hur du gör en första koppling som bara får läsa och vad du gör när den inte fungerar.
 image: cover.png                 # en PNG på 1200 × 630 i artikelns mediemapp
-imageAlt: En AI-agent, en grön cirkel, står vid ingången till ett projekt och läser en kort lapp på en stolpe innan den går in. Bakom dörröppningen ligger projektets mappar och filer.
+imageAlt: En AI-agent, en grön cirkel, är kopplad med en enda sladd till en ärendelista, instoppad i listans uttag. Ett litet öga på sladden visar att kopplingen bara får läsa. Längre bak till höger sitter en dokumentationssida och en databas, båda grå, var och en med ett tomt uttag och utan koppling.
 date: 2026-10-30
 category: ai-journey             # app-development | ai-journey
 translationKey: mcp-reaching-your-systems
