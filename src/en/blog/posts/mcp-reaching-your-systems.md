@@ -2,7 +2,7 @@
 title: MCP, how an AI agent reaches your other systems
 description: The fifth part of the series "From AI chat to agentic work" — what MCP is, why every server you connect is a decision about trust, how to make a first connection that can only read and what to do when it does not work.
 image: cover.png                 # a 1200 × 630 PNG in the article's media directory
-imageAlt: An AI agent, a green circle, stands at the entrance of a project and reads a short note card on a post before it steps in. Behind the doorway lie the project's folders and files.
+imageAlt: An AI agent, a green circle, is joined by one cable to an issue list, plugged into the list's socket. A small eye on the cable shows that the connection can only read. Set back to the right, a documentation page and a database, both grey, each have an empty socket and are not connected.
 date: 2026-10-30
 category: ai-journey             # app-development | ai-journey
 translationKey: mcp-reaching-your-systems
