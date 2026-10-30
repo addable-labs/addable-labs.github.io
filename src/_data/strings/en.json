@@ -1280,6 +1280,43 @@
       "ifNoClaude": "if no CLAUDE.md",
       "inVsCode": "in VS Code",
       "caption": "Which tool reads which file in a project's folders, as their documentation stood on 30 October 2026. The closest file has the last word."
+    },
+    "skill-folder": {
+      "title": "A skill as a folder tree. The folder release holds a SKILL.md and a scripts folder with check-release.sh. In SKILL.md the name and description are always in view, and the instructions are read when the task needs them. The script is run as the instructions say, and only its output is read.",
+      "head": "The release skill",
+      "files": {
+        "root": "release/",
+        "skill": "SKILL.md",
+        "scripts": "scripts/",
+        "check": "check-release.sh"
+      },
+      "parts": {
+        "nameDescription": "name and description",
+        "instructions": "the instructions"
+      },
+      "when": {
+        "always": "always in view",
+        "needed": "read when the task needs them",
+        "run": "run as the instructions say",
+        "output": "only its output is read"
+      },
+      "caption": "A skill is a folder. The agent keeps the name and description in view, reads the instructions when the task needs them and runs the script as the instructions say."
+    },
+    "skill-locations": {
+      "title": "Three folders in a project where skills are kept, and the tools that look in each. Claude Code looks in .claude/skills. Codex looks in .agents/skills. GitHub Copilot looks in all three: .claude/skills, .agents/skills and .github/skills.",
+      "head": "Where each tool looks",
+      "folders": {
+        "claude": ".claude/skills/",
+        "agents": ".agents/skills/",
+        "github": ".github/skills/"
+      },
+      "tools": {
+        "claude": "Claude Code",
+        "codex": "Codex",
+        "copilot": "Copilot"
+      },
+      "same": "The skill's folder and its SKILL.md are the same in all three.",
+      "caption": "The project folders in which each tool looks for skills, as their documentation stood on 30 October 2026."
     }
   },
   "games": {

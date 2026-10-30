@@ -1,0 +1,599 @@
+# The sources of "Skills, for work that must come out the same every time" (both
+# languages): one entry per factual claim about a tool, a vendor, a study or the
+# factory, for the monthly check of the series' sources. Every quote was taken
+# from its page on the date in retrieved (2026-10-30) and checked again on the
+# date in last_checked.
+- id: P4-pasting
+  article: skills-for-repeatable-work
+  sentence:
+    sv: "pekar ut just det ögonblicket som tecknet på att göra en färdighet: när du gång på gång klistrar in samma instruktioner, checklista eller arbetssätt i chatten"
+    en: "names that as the moment to make a skill: when you keep pasting the same instructions, checklist or procedure into the chat"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/skills
+  final_url: https://code.claude.com/docs/en/skills
+  quote: "Create a skill when you keep pasting the same instructions, checklist, or multi-step procedure into chat"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P4-body-on-use
+  article: skills-for-repeatable-work
+  sentence:
+    sv: "Texten i en färdighet läses bara när färdigheten används."
+    en: "The text of a skill is read only when the skill is used."
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/skills
+  final_url: https://code.claude.com/docs/en/skills
+  quote: "Unlike CLAUDE.md content, a skill's body loads only when it's used"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P4-concise
+  article: skills-for-repeatable-work
+  sentence:
+    sv: "När en färdighet har lästs in blir texten kvar i samtalet och tar utrymme i varje varv, så Anthropic rekommenderar att den hålls kort."
+    en: "Once a skill is loaded, its text stays in the conversation and costs room on every turn, so Anthropic advises keeping it concise."
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/skills
+  final_url: https://code.claude.com/docs/en/skills
+  quote: "Keep the body itself concise. Once a skill loads, its content stays in context across turns, so every line is a recurring token cost."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P4-procedure
+  article: skills-for-repeatable-work
+  sentence:
+    sv: "Anthropic beskriver tecknet som ett stycke i CLAUDE.md som har vuxit till ett arbetssätt i stället för ett faktum."
+    en: "Anthropic describes the sign as a section of CLAUDE.md that has grown into a procedure rather than a fact."
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/skills
+  final_url: https://code.claude.com/docs/en/skills
+  quote: "when a section of CLAUDE.md has grown into a procedure rather than a fact"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P4-every-turn
+  article: skills-for-repeatable-work
+  sentence:
+    sv: "I Claude Code lägger varje färdighet dessutom till sammanhang i varje varv, vare sig den används eller inte"
+    en: "in Claude Code each one adds to the context on every turn, whether or not it is used"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/skills
+  final_url: https://code.claude.com/docs/en/skills
+  quote: "Every skill in the skill listing adds to your context on every turn, whether or not Claude ever uses it."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P4-deploy
+  article: skills-for-repeatable-work
+  sentence:
+    sv: "Anthropics exempel på en sådan färdighet är en driftsättning, där du inte vill att Claude bestämmer sig för att driftsätta för att koden ser färdig ut."
+    en: "Anthropic's example of such a skill is a deploy, where you do not want Claude deciding to deploy because your code looks ready."
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/skills
+  final_url: https://code.claude.com/docs/en/skills
+  quote: "You don't want Claude deciding to deploy because your code looks ready."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P4-claude-project
+  article: skills-for-repeatable-work
+  sentence:
+    sv: "I Claude Code är en färdighet en mapp i .claude/skills/ i projektet"
+    en: "In Claude Code a skill is a folder in .claude/skills/ in the project"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/skills
+  final_url: https://code.claude.com/docs/en/skills
+  quote: "claude plugin validate .claude/skills for project skills or claude plugin validate ~/.claude/skills for personal skills"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P4-claude-commit
+  article: skills-for-repeatable-work
+  sentence:
+    sv: "som hela teamet får när mappen läggs in i projektet"
+    en: "which the whole team gets once it is committed"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/skills
+  final_url: https://code.claude.com/docs/en/skills
+  quote: "commit it to a repository to share it with everyone who works there"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P4-claude-personal
+  article: skills-for-repeatable-work
+  sentence:
+    sv: "eller i ~/.claude/skills/ för alla dina projekt"
+    en: "or in ~/.claude/skills/ for all your projects"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/skills
+  final_url: https://code.claude.com/docs/en/skills
+  quote: "Save it under your home directory to get it in every project"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P4-claude-start
+  article: skills-for-repeatable-work
+  sentence:
+    sv: "Du startar färdigheten release genom att skriva /release. Claude kan också läsa in den själv när din förfrågan passar beskrivningen."
+    en: "You start the release skill by typing /release, and Claude can also load it by itself when your request matches the description."
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/skills
+  final_url: https://code.claude.com/docs/en/skills
+  quote: "Claude loads the skill automatically when you ask about your changes, or you can invoke it directly with /summarize-changes."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P4-claude-disable
+  article: skills-for-repeatable-work
+  sentence:
+    sv: "Med den här raden i SKILL.md, under beskrivningen, startar den bara när du skriver namnet:"
+    en: "With this line in the SKILL.md, under the description, it starts only when you type the name:"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/skills
+  final_url: https://code.claude.com/docs/en/skills
+  quote: "disable-model-invocation: true: Claude can't invoke the skill on its own."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P4-claude-compaction
+  article: skills-for-repeatable-work
+  sentence:
+    sv: "eftersom Claude Code kan behålla bara början av en färdighet när det kortar ner samtalet för att få plats."
+    en: "since Claude Code can keep only the start of a skill when it shortens the conversation to make room."
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/skills
+  final_url: https://code.claude.com/docs/en/skills
+  quote: "Claude Code can keep only the start of an invoked skill"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P4-skill-doctor
+  article: skills-for-repeatable-work
+  sentence:
+    sv: "/skill-doctor visar vad varje färdighet kostar i utrymme och hur ofta den används och pekar ut dem som aldrig har använts."
+    en: "/skill-doctor shows what each skill costs in room and how often it is used, and points out the ones that were never used."
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/skills
+  final_url: https://code.claude.com/docs/en/skills
+  quote: "Run /skill-doctor to see what each of your skills costs and how often it gets used … It flags skills in the listing that have never been invoked"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P4-skill-creator
+  article: skills-for-repeatable-work
+  sentence:
+    sv: "Tillägget skill-creator hjälper dig skriva testfall för en färdighet, kör varje fall i en ny session och jämför resultatet med och utan färdigheten."
+    en: "The skill-creator plugin walks you through writing test cases for a skill, runs each in a fresh session and compares the result with and without the skill."
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/skills
+  final_url: https://code.claude.com/docs/en/skills
+  quote: "The plugin walks you through writing test cases and runs the loop … spawns a subagent per test case so each run starts with a clean context … with-skill versus without-skill"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P4-plugin
+  article: skills-for-repeatable-work
+  sentence:
+    sv: "är ett paket med färdigheter och annat som du installerar i verktyget."
+    en: "is a package of skills and other add-ons that you install in the tool."
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/plugins/overview
+  final_url: https://code.claude.com/docs/en/plugins/overview
+  quote: "A Claude Code plugin is a directory of skills, agents, hooks, MCP servers, or other components that Claude Code installs and loads as one unit."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P4-plugin-eval
+  article: skills-for-repeatable-work
+  sentence:
+    sv: "gör samma sak för färdigheter som ligger i ett tillägg."
+    en: "does the same for skills that come in a plugin."
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/plugin-evals
+  final_url: https://code.claude.com/docs/en/plugin-evals
+  quote: "Claude Code starts a fresh, isolated non-interactive session with only your plugin loaded … a case's runs are repeated with no plugin loaded"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P4-plugin-eval-ci
+  article: skills-for-repeatable-work
+  sentence:
+    sv: "Det kan få en automatisk kontroll att misslyckas när poängen faller under en gräns du har satt."
+    en: "It can fail an automatic check when the score falls below a limit you set."
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/skills
+  final_url: https://code.claude.com/docs/en/skills
+  quote: "runs each prompt in an isolated session with and without the plugin, scores it with graders you define or that it writes for you, and exits non-zero below a threshold so you can gate CI on it"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P4-plugin-eval-three
+  article: skills-for-repeatable-work
+  sentence:
+    sv: "kör varje fall tre gånger som standard, eftersom \"en körning av en icke-deterministisk agent säger lite\" (vår översättning)"
+    en: "runs each case three times by default, because \"One run of a non-deterministic agent tells you little\""
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/plugin-evals
+  final_url: https://code.claude.com/docs/en/plugin-evals
+  quote: "One run of a non-deterministic agent tells you little, so each case runs three times by default."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P4-plugin-eval-regress
+  article: skills-for-repeatable-work
+  sentence:
+    sv: "Anthropic nämner att fånga försämringar när en ny modell kommer som ett av användningsområdena för testerna."
+    en: "Anthropic lists catching regressions when a new model is released as one use of the evals."
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/plugin-evals
+  final_url: https://code.claude.com/docs/en/plugin-evals
+  quote: "Catch regressions when you change the plugin or a new model is released"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P4-vscode-no-guarantee
+  article: skills-for-repeatable-work
+  sentence:
+    sv: "garanterar inte att agenten väljer den för varje förfrågan som passar, som VS Codes dokumentation uttrycker det."
+    en: "does not guarantee that the agent chooses it for every relevant request, as VS Code's documentation puts it."
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agent-customization/agent-skills
+  final_url: https://code.visualstudio.com/docs/agent-customization/agent-skills
+  quote: "Discovery and installation make a skill available; they don't guarantee that the agent selects it for every relevant request."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P4-vscode-scripts
+  article: skills-for-repeatable-work
+  sentence:
+    sv: "VS Codes dokumentation varnar för att färdigheter kan innehålla skript som kör verktyg eller når andra system."
+    en: "VS Code's documentation warns that skills can include scripts that run tools or reach other systems."
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agent-customization/agent-skills
+  final_url: https://code.visualstudio.com/docs/agent-customization/agent-skills
+  quote: "Skills can include scripts that run tools or interact with external systems."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P4-vscode-slash
+  article: skills-for-repeatable-work
+  sentence:
+    sv: "I VS Code dyker de färdigheter du kan starta själv upp när du skriver / i chatten"
+    en: "In VS Code the skills you can start yourself show up when you type / in the chat"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agent-customization/agent-skills
+  final_url: https://code.visualstudio.com/docs/agent-customization/agent-skills
+  quote: "If the skill appears in the / menu, run the skill yourself"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P4-vscode-disable
+  article: skills-for-repeatable-work
+  sentence:
+    sv: "Samma rad disable-model-invocation: true som i Claude Code gör att en färdighet bara startar när du startar den"
+    en: "the same disable-model-invocation: true line as in Claude Code makes a skill start only when you do"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agent-customization/agent-skills
+  final_url: https://code.visualstudio.com/docs/agent-customization/agent-skills
+  quote: "Set to true to require manual invocation through the / slash command only."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P4-vscode-create
+  article: skills-for-repeatable-work
+  sentence:
+    sv: "I chatten i VS Code kan du skriva /create-skill följt av en beskrivning"
+    en: "in the VS Code chat you can type /create-skill followed by a description"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agent-customization/agent-skills
+  final_url: https://code.visualstudio.com/docs/agent-customization/agent-skills
+  quote: "Enter /create-skill followed by a description to generate a skill."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P4-copilot-folders
+  article: skills-for-repeatable-work
+  sentence:
+    sv: "GitHub Copilot läser färdigheter för projektet från .github/skills/, .claude/skills/ och .agents/skills/."
+    en: "GitHub Copilot reads project skills from .github/skills/, .claude/skills/ and .agents/skills/."
+  vendor: GitHub
+  url: https://docs.github.com/en/copilot/concepts/customizations/agent-skills
+  final_url: https://docs.github.com/en/copilot/concepts/customizations/agent-skills
+  quote: "Project skills, stored in your repository (.github/skills, .claude/skills, or .agents/skills)"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P4-copilot-where
+  article: skills-for-repeatable-work
+  sentence:
+    sv: "De fungerar i VS Code, i Copilot CLI och i Copilots molnagent (cloud agent) på GitHub."
+    en: "They work in VS Code, in the Copilot CLI and in Copilot's cloud agent on GitHub."
+  vendor: GitHub
+  url: https://docs.github.com/en/copilot/concepts/customizations/agent-skills
+  final_url: https://docs.github.com/en/copilot/concepts/customizations/agent-skills
+  quote: "GitHub Copilot CLI. Copilot cloud agent and Copilot code review on GitHub.com. Agent mode in Visual Studio Code"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P4-standard-three
+  article: skills-for-repeatable-work
+  sentence:
+    sv: "beskriver samma tre steg"
+    en: "The Agent Skills standard describes the same three steps."
+  vendor: agentskills.io
+  url: https://agentskills.io/home
+  final_url: https://agentskills.io/home
+  quote: "Discovery: At startup, agents load only the name and description of each available skill … Activation: When a task matches a skill's description, the agent reads the full SKILL.md instructions into context. … Execution: The agent follows the instructions, optionally executing bundled code"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P4-standard-folder
+  article: skills-for-repeatable-work
+  sentence:
+    sv: "En färdighet är en mapp med en textfil som heter SKILL.md."
+    en: "A skill is a folder with a text file in it called SKILL.md."
+  vendor: agentskills.io
+  url: https://agentskills.io/home
+  final_url: https://agentskills.io/home
+  quote: "At its core, a skill is a folder containing a SKILL.md file."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P4-standard-bundle
+  article: skills-for-repeatable-work
+  sentence:
+    sv: "Bredvid den kan det ligga andra filer som instruktionerna hänvisar till, bland annat ett skript"
+    en: "Next to it there can be a script, a short program that does one fixed thing, and other files that the instructions refer to."
+  vendor: agentskills.io
+  url: https://agentskills.io/home
+  final_url: https://agentskills.io/home
+  quote: "Skills can also bundle scripts, reference materials, templates, and other resources."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P4-standard-meta
+  article: skills-for-repeatable-work
+  sentence:
+    sv: "Filen börjar med ett namn (name) och en beskrivning (description) och fortsätter med instruktionerna."
+    en: "The file begins with a name and a description and goes on with the instructions."
+  vendor: agentskills.io
+  url: https://agentskills.io/home
+  final_url: https://agentskills.io/home
+  quote: "This file includes metadata (name and description, at minimum) and instructions that tell an agent how to perform a specific task."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P4-standard-view
+  article: skills-for-repeatable-work
+  sentence:
+    sv: "Den har bara namn och beskrivning för varje färdighet framför sig."
+    en: "It keeps only the name and the description of each skill in view."
+  vendor: agentskills.io
+  url: https://agentskills.io/home
+  final_url: https://agentskills.io/home
+  quote: "At startup, agents load only the name and description of each available skill, just enough to know when it might be relevant."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P4-spec-description
+  article: skills-for-repeatable-work
+  sentence:
+    sv: "ger \"hjälper till med PDF:er\" (vår översättning) som exempel på en dålig beskrivning"
+    en: "gives \"Helps with PDFs.\" as its example of a poor description"
+  vendor: agentskills.io
+  url: https://agentskills.io/specification
+  final_url: https://agentskills.io/specification
+  quote: "Should describe both what the skill does and when to use it … Poor example: description: Helps with PDFs."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P4-guide-fragile
+  article: skills-for-repeatable-work
+  sentence:
+    sv: "När en åtgärd är ömtålig och måste göras likadant varje gång"
+    en: "Where an operation is fragile and must be done the same way each time"
+  vendor: Anthropic
+  url: https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices
+  final_url: https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices
+  quote: "Operations are fragile and error-prone … Consistency is critical"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P4-guide-reliable
+  article: skills-for-repeatable-work
+  sentence:
+    sv: "Ett sådant skript är mer tillförlitligt än kod som agenten skriver på stående fot."
+    en: "Such a script is more reliable than code the agent writes on the spot."
+  vendor: Anthropic
+  url: https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices
+  final_url: https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices
+  quote: "pre-made scripts offer advantages … Are more reliable than generated code"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P4-guide-run
+  article: skills-for-repeatable-work
+  sentence:
+    sv: "och köra det precis som det är"
+    en: "and run it as it stands"
+  vendor: Anthropic
+  url: https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices
+  final_url: https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices
+  quote: "Run exactly this script"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P4-codex-prefer
+  article: skills-for-repeatable-work
+  sentence:
+    sv: "Codex dokumentation säger att du ska föredra instruktioner framför skript om du inte behöver deterministiskt beteende eller externa verktyg."
+    en: "Codex's documentation says to prefer instructions over scripts unless you need deterministic behaviour or outside tools."
+  vendor: OpenAI
+  url: https://learn.chatgpt.com/docs/build-skills
+  final_url: https://learn.chatgpt.com/docs/build-skills
+  quote: "Prefer instructions over scripts unless you need deterministic behavior or external tooling."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P4-messages
+  article: skills-for-repeatable-work
+  sentence:
+    sv: "talar om vad som ska rättas innan skriptet körs igen, som guiden om skript i Agent Skills rekommenderar."
+    en: "tells it what to fix before it runs the script again, as the Agent Skills guide on scripts advises."
+  vendor: agentskills.io
+  url: https://agentskills.io/skill-creation/using-scripts
+  final_url: https://agentskills.io/skill-creation/using-scripts
+  quote: "the message directly shapes its next attempt … say what went wrong, what was expected, and what to try"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P4-codex-folder
+  article: skills-for-repeatable-work
+  sentence:
+    sv: "Codex letar där i varje mapp från den du startar i upp till projektets rot."
+    en: "Codex looks there in every directory from the one where you start up to the root of the repository."
+  vendor: OpenAI
+  url: https://learn.chatgpt.com/docs/build-skills
+  final_url: https://learn.chatgpt.com/docs/build-skills
+  quote: "Codex scans .agents/skills in every directory from your current working directory up to the repository root."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P4-codex-start
+  article: skills-for-repeatable-work
+  sentence:
+    sv: "Du startar en färdighet genom att skriva $ och dess namn eller köra /skills, men Codex kan också välja en utifrån beskrivningen."
+    en: "You start a skill by typing $ and its name, or by running /skills, and Codex can also choose one from its description."
+  vendor: OpenAI
+  url: https://learn.chatgpt.com/docs/build-skills
+  final_url: https://learn.chatgpt.com/docs/build-skills
+  quote: "In Codex CLI or the IDE extension, run /skills or type $ to mention a skill. … Implicit invocation: ChatGPT or Codex can choose a skill when your task matches the skill description."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P4-codex-yaml
+  article: skills-for-repeatable-work
+  sentence:
+    sv: "För att hindra Codex från att välja färdigheten själv lägger du en fil agents/openai.yaml i färdighetens mapp med de här raderna:"
+    en: "To stop Codex from choosing the skill by itself, add a file agents/openai.yaml to the skill's folder with these lines:"
+  vendor: OpenAI
+  url: https://learn.chatgpt.com/docs/build-skills
+  final_url: https://learn.chatgpt.com/docs/build-skills
+  quote: "allow_implicit_invocation (default: true): When false, Codex won't implicitly invoke the skill based on user prompt; explicit $skill invocation still works."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P4-codex-creator
+  article: skills-for-repeatable-work
+  sentence:
+    sv: "I Codex är det $skill-creator"
+    en: "In Codex that is $skill-creator"
+  vendor: OpenAI
+  url: https://learn.chatgpt.com/docs/build-skills
+  final_url: https://learn.chatgpt.com/docs/build-skills
+  quote: "If you want to describe the skill instead, use the built-in creator."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P4-same-format
+  article: skills-for-repeatable-work
+  sentence:
+    sv: "Alla tre följer samma format, Agent Skills"
+    en: "All three follow the same Agent Skills format"
+  vendor: OpenAI
+  url: https://learn.chatgpt.com/docs/build-skills
+  final_url: https://learn.chatgpt.com/docs/build-skills
+  quote: "Skills build on the open agent skills standard."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P4-claude-follows-standard
+  article: skills-for-repeatable-work
+  sentence:
+    sv: "så mappen och dess SKILL.md ser likadana ut i var och en."
+    en: "so the folder and its SKILL.md look the same in each."
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/skills
+  final_url: https://code.claude.com/docs/en/skills
+  quote: "Claude Code skills follow the Agent Skills open standard, which works across multiple AI tools."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P4-vscode-standard
+  article: skills-for-repeatable-work
+  sentence:
+    sv: "mappen och dess SKILL.md ser likadana ut i var och en."
+    en: "the folder and its SKILL.md look the same in each."
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agent-customization/agent-skills
+  final_url: https://code.visualstudio.com/docs/agent-customization/agent-skills
+  quote: "Agent Skills is an open standard that works across multiple AI agents, including GitHub Copilot in VS Code, GitHub Copilot CLI, the GitHub Copilot app, and the experimental OpenAI Codex integration."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P4-symlink-claude
+  article: skills-for-repeatable-work
+  sentence:
+    sv: "Både Claude Code och Codex följer en länk till en mapp"
+    en: "Both Claude Code and Codex follow a link to a folder"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/skills
+  final_url: https://code.claude.com/docs/en/skills
+  quote: "can be a symlink to a directory elsewhere on disk"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P4-symlink-codex
+  article: skills-for-repeatable-work
+  sentence:
+    sv: "Både Claude Code och Codex följer en länk till en mapp"
+    en: "Both Claude Code and Codex follow a link to a folder"
+  vendor: OpenAI
+  url: https://learn.chatgpt.com/docs/build-skills
+  final_url: https://learn.chatgpt.com/docs/build-skills
+  quote: "Codex supports symlinked skill folders and follows the symlink target when scanning these locations."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P4-sb-setup
+  article: skills-for-repeatable-work
+  sentence:
+    sv: "gav AI-agenter 87 uppgifter, var och en med tester som poängsätter resultatet."
+    en: "gave AI agents 87 tasks, each with tests that score the result."
+  vendor: arXiv
+  url: https://arxiv.org/html/2602.12670v4
+  final_url: https://arxiv.org/html/2602.12670v4
+  quote: "87 tasks across 8 domains paired with curated Skills and deterministic verifiers"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P4-sb-experts
+  article: skills-for-repeatable-work
+  sentence:
+    sv: "Varje uppgift kördes med och utan en färdighet som experter hade tagit fram för den sortens uppgift."
+    en: "Every task was run with and without a skill that experts had put together for that kind of task."
+  vendor: arXiv
+  url: https://arxiv.org/html/2602.12670v4
+  final_url: https://arxiv.org/html/2602.12670v4
+  quote: "Each task ships with a containerized environment, human-authored instruction, expert-curated Skills bundle"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P4-sb-gain
+  article: skills-for-repeatable-work
+  sentence:
+    sv: "klarade agenterna ungefär 34 uppgifter av 100 utan färdigheten och ungefär 50 med den."
+    en: "the agents passed about 34 tasks in 100 without the skill and about 50 with it."
+  vendor: arXiv
+  url: https://arxiv.org/html/2602.12670v4
+  final_url: https://arxiv.org/html/2602.12670v4
+  quote: "Curated Skills raise the average pass rate from 33.9% to 50.5%"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P4-sb-every
+  article: skills-for-repeatable-work
+  sentence:
+    sv: "Alla kombinationer förbättrades, men i mycket olika grad."
+    en: "Every combination improved, but by very different amounts."
+  vendor: arXiv
+  url: https://arxiv.org/html/2602.12670v4
+  final_url: https://arxiv.org/html/2602.12670v4
+  quote: "Every one of the 18 model–harness configurations improves with curated Skills"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P4-sb-self
+  article: skills-for-repeatable-work
+  sentence:
+    sv: "Tre av kombinationerna fick också skriva färdigheter åt sig själva innan de löste varje uppgift. Med de färdigheterna hamnade de under resultatet utan någon färdighet alls, alla tre."
+    en: "Three of the combinations also wrote skills for themselves before they solved each task. With those skills they fell below the result with no skill at all, in all three."
+  vendor: arXiv
+  url: https://arxiv.org/html/2602.12670v4
+  final_url: https://arxiv.org/html/2602.12670v4
+  quote: "Self-generated Skills land below the no-Skills baseline on all three configurations"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P4-sb-why
+  article: skills-for-repeatable-work
+  sentence:
+    sv: "Forskarna skriver att underskottet blandar textens kvalitet med andra effekter: agenten använde ofta aldrig färdigheten den hade skrivit och i en del körningar åt arbetet med att skriva den upp det som skulle ha gått till uppgiften."
+    en: "The paper says the shortfall mixes the quality of the text with other effects: the agent frequently never used the skill it had written, and in some runs writing it used up the effort meant for the task."
+  vendor: arXiv
+  url: https://arxiv.org/html/2602.12670v4
+  final_url: https://arxiv.org/html/2602.12670v4
+  quote: "its deficit mixes content quality with skill-discovery and creator/solver interference effects … generated packs frequently go unused by the solver, creator-side authoring can displace solver progress"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P4-sb-conclusion
+  article: skills-for-repeatable-work
+  sentence:
+    sv: "Forskarna drar själva slutsatsen att \"en färdighets effekt är alltså en empirisk egenskap hos en viss agentstack och inte en universell konstant\" (vår översättning)."
+    en: "The paper itself concludes that \"Skill efficacy is therefore an empirical property of a specific agent stack rather than a universal constant\"."
+  vendor: arXiv
+  url: https://arxiv.org/html/2602.12670v4
+  final_url: https://arxiv.org/html/2602.12670v4
+  quote: "Skill efficacy is therefore an empirical property of a specific agent stack rather than a universal constant."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P4-factory-proof
+  article: skills-for-repeatable-work
+  sentence:
+    sv: "fick varje arbetspaket ett eget beviskommando, ett kommando som går igenom eller inte"
+    en: "each work item got its own proof command, a command that passes or fails"
+  vendor: Addable Labs
+  url: https://addablelabs.se/blog/how-this-site-was-built-by-agents/
+  final_url: https://addablelabs.se/blog/how-this-site-was-built-by-agents/
+  quote: "The decomposition cut the plan into work items, each with its own proof command"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
