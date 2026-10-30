@@ -42,9 +42,9 @@ is the text it keeps in view: its instructions, the task it was given and what
 it has read. When the task is done it hands back a summary.
 
 A reviewer that starts fresh does not see the conversation, so it reads the code
-as a colleague who was not there would. The benefit is that it does not share
-the main agent's assumptions. The cost is that it does not know what the change
-is for, so your request should name the change and its purpose.
+as a colleague who did not take part in writing it would. The benefit is that it
+does not share the main agent's assumptions. The cost is that it does not know
+what the change is for, so your request should name the change and its purpose.
 
 In Claude Code a subagent starts with the same instruction files as the main
 agent, so the rules from part 2 reach it.

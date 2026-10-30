@@ -1282,7 +1282,7 @@
       "caption": "Vilket verktyg som läser vilken fil i ett projekts mappar, så som dokumentationen såg ut den 30 oktober 2026. Den närmaste filen har sista ordet."
     },
     "agent-handover": {
-      "title": "En huvudagent som har skrivit en ändring lämnar en granskningsuppgift till en granskare, en underagent. Granskaren har ett eget sammanhang och får läsa och söka men inte ändra filer eller köra kommandon. Den lämnar tillbaka synpunkter. Utvecklaren läser dem och bestämmer.",
+      "title": "En huvudagent som har skrivit en ändring lämnar en granskningsuppgift till en granskare, en subagent. Granskaren har ett eget sammanhang och får läsa och söka men inte ändra filer eller köra kommandon. Den lämnar tillbaka synpunkter. Utvecklaren läser dem och bestämmer.",
       "head": "Ett jobb som lämnas över",
       "main": {
         "label": "huvudagent",
@@ -1307,8 +1307,8 @@
       "caption": "Granskaren. Den har ett eget sammanhang, får läsa och söka men inte ändra filer eller köra kommandon och lämnar tillbaka text. Utvecklaren bestämmer vad som händer sedan."
     },
     "agent-file": {
-      "title": "En underagents fil i fyra delar. Namnet är vad du och huvudagenten kallar underagenten. Beskrivningen, inramad, är vad huvudagenten läser för att avgöra om en uppgift ska lämnas över. Raden tools anger vilka verktyg underagenten får använda. Instruktionerna är vad underagenten läser när den har fått uppgiften.",
-      "head": "Underagentens fil i fyra delar",
+      "title": "En subagents fil i fyra delar. Namnet är vad du och huvudagenten kallar subagenten. Beskrivningen, inramad, är vad huvudagenten läser för att avgöra om en uppgift ska lämnas över. Raden tools anger vilka verktyg subagenten får använda. Instruktionerna är vad subagenten läser när den har fått uppgiften.",
+      "head": "Subagentens fil i fyra delar",
       "parts": {
         "name": "name",
         "description": "description",
