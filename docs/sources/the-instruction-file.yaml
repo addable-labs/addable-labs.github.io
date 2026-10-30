@@ -18,8 +18,8 @@
 - id: S8-uncertain
   article: the-instruction-file
   sentence:
-    sv: "Det finns inte mycket som visar att en instruktionsfil hjälper"
-    en: "There is little evidence that an instruction file helps"
+    sv: "Det finns inte mycket som visar att en instruktionsfil ger bättre resultat"
+    en: "There is little evidence that an instruction file makes the results better"
   vendor: ETH Zurich (arXiv)
   url: https://arxiv.org/html/2602.11988v3
   final_url: https://arxiv.org/html/2602.11988v3
@@ -194,8 +194,8 @@
 - id: S2-dev
   article: the-instruction-file
   sentence:
-    sv: "Filer som utvecklarna själva hade skrivit höjde andelen lösta uppgifter med 2,4 % i genomsnitt"
-    en: "Files the developers had written themselves raised the share of tasks solved by 2.4% on average"
+    sv: "Filer som utvecklarna själva hade skrivit höjde andelen lösta uppgifter med 2,4 procentenheter i genomsnitt"
+    en: "Files the developers had written themselves raised the share of tasks solved by 2.4 percentage points on average"
   vendor: ETH Zurich (arXiv)
   url: https://arxiv.org/html/2602.11988v3
   final_url: https://arxiv.org/html/2602.11988v3
@@ -205,8 +205,8 @@
 - id: S3-generated
   article: the-instruction-file
   sentence:
-    sv: "Filer som en språkmodell hade skrivit sänkte andelen något."
-    en: "Files written by a language model lowered the share slightly."
+    sv: "Filer som en språkmodell hade skrivit sänkte andelen något i genomsnitt."
+    en: "Files written by a language model lowered the share slightly on average."
   vendor: ETH Zurich (arXiv)
   url: https://arxiv.org/html/2602.11988v3
   final_url: https://arxiv.org/html/2602.11988v3
@@ -216,8 +216,8 @@
 - id: S3-not-significant
   article: the-instruction-file
   sentence:
-    sv: "Ingen av skillnaderna i studien var säkerställd."
-    en: "None of the differences in the study was significant."
+    sv: "Jämfört med ingen fil alls var ingen av skillnaderna i andelen lösta uppgifter säkerställd."
+    en: "Compared with no file, none of the differences in the share of tasks solved was significant."
   vendor: ETH Zurich (arXiv)
   url: https://arxiv.org/html/2602.11988v3
   final_url: https://arxiv.org/html/2602.11988v3
@@ -227,19 +227,30 @@
 - id: S3-not-significant-b
   article: the-instruction-file
   sentence:
-    sv: "Ingen av skillnaderna i studien var säkerställd."
-    en: "None of the differences in the study was significant."
+    sv: "Jämfört med ingen fil alls var ingen av skillnaderna i andelen lösta uppgifter säkerställd."
+    en: "Compared with no file, none of the differences in the share of tasks solved was significant."
   vendor: ETH Zurich (arXiv)
   url: https://arxiv.org/html/2602.11988v3
   final_url: https://arxiv.org/html/2602.11988v3
   quote: "We observe that including context files does not significantly affect performance."
   retrieved: 2026-10-13
   last_checked: 2026-10-30
+- id: S3-hand-beats-generated
+  article: the-instruction-file
+  sentence:
+    sv: "Filer som utvecklarna skrev klarade sig säkerställt bättre än filer som en språkmodell skrev."
+    en: "Files the developers wrote did significantly better than files a language model wrote."
+  vendor: ETH Zurich (arXiv)
+  url: https://arxiv.org/html/2602.11988v3
+  final_url: https://arxiv.org/html/2602.11988v3
+  quote: "significantly outperforming LLM-generated ones"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
 - id: S3-generated-cost
   article: the-instruction-file
   sentence:
-    sv: "Alla filerna gjorde körningarna dyrare, med upp till ungefär en femtedel."
-    en: "All the files made the runs more expensive, by up to about a fifth."
+    sv: "Alla filerna gjorde körningarna dyrare, med ungefär en femtedel i genomsnitt."
+    en: "All the files made the runs more expensive, by about a fifth on average."
   vendor: ETH Zurich (arXiv)
   url: https://arxiv.org/html/2602.11988v3
   final_url: https://arxiv.org/html/2602.11988v3
@@ -249,8 +260,8 @@
 - id: S3-cost-all
   article: the-instruction-file
   sentence:
-    sv: "Alla filerna gjorde körningarna dyrare, med upp till ungefär en femtedel."
-    en: "All the files made the runs more expensive, by up to about a fifth."
+    sv: "Alla filerna gjorde körningarna dyrare, med ungefär en femtedel i genomsnitt."
+    en: "All the files made the runs more expensive, by about a fifth on average."
   vendor: ETH Zurich (arXiv)
   url: https://arxiv.org/html/2602.11988v3
   final_url: https://arxiv.org/html/2602.11988v3
@@ -260,12 +271,23 @@
 - id: S3-dev-cost
   article: the-instruction-file
   sentence:
-    sv: "Alla filerna gjorde körningarna dyrare, med upp till ungefär en femtedel."
-    en: "All the files made the runs more expensive, by up to about a fifth."
+    sv: "Alla filerna gjorde körningarna dyrare, med ungefär en femtedel i genomsnitt."
+    en: "All the files made the runs more expensive, by about a fifth on average."
   vendor: ETH Zurich (arXiv)
   url: https://arxiv.org/html/2602.11988v3
   final_url: https://arxiv.org/html/2602.11988v3
   quote: "developer-provided context files also increase the average number of steps and the cost"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: S3-cost-significant
+  article: the-instruction-file
+  sentence:
+    sv: "Ökningarna var säkerställda."
+    en: "Those rises were significant."
+  vendor: ETH Zurich (arXiv)
+  url: https://arxiv.org/html/2602.11988v3
+  final_url: https://arxiv.org/html/2602.11988v3
+  quote: "context files systematically and significantly increase the average number of steps and the cost required to solve instances"
   retrieved: 2026-10-30
   last_checked: 2026-10-30
 - id: S11-only-beyond-code
@@ -568,12 +590,34 @@
 - id: S5-overviews
   article: the-instruction-file
   sentence:
-    sv: "Forskarna fann att sådana översikter, fast populära, inte hjälpte."
-    en: "The researchers found that such overviews, although popular, did not help."
+    sv: "Forskarna fann att sådana översikter, fast populära, inte hjälpte i projekt som redan hade dokumentation."
+    en: "The researchers found that such overviews, although popular, did not help in projects that already had documentation."
   vendor: ETH Zurich (arXiv)
   url: https://arxiv.org/html/2602.11988v3
   final_url: https://arxiv.org/html/2602.11988v3
   quote: "repository overviews, although popular and recommended by model providers, are not helpful"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: S5-overviews-docs
+  article: the-instruction-file
+  sentence:
+    sv: "Forskarna fann att sådana översikter, fast populära, inte hjälpte i projekt som redan hade dokumentation."
+    en: "The researchers found that such overviews, although popular, did not help in projects that already had documentation."
+  vendor: ETH Zurich (arXiv)
+  url: https://arxiv.org/html/2602.11988v3
+  final_url: https://arxiv.org/html/2602.11988v3
+  quote: "we show that context files can act as effective overviews when no documentation is present"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: S5-overviews-none
+  article: the-instruction-file
+  sentence:
+    sv: "När forskarna tog bort all annan dokumentation hjälpte en fil som en språkmodell hade skrivit."
+    en: "When the researchers removed all other documentation, a file written by a language model did help."
+  vendor: ETH Zurich (arXiv)
+  url: https://arxiv.org/html/2602.11988v3
+  final_url: https://arxiv.org/html/2602.11988v3
+  quote: "where context files are the only source of documentation available, we find that LLM-generated context files not only consistently improve performance"
   retrieved: 2026-10-30
   last_checked: 2026-10-30
 - id: S6-pr
@@ -598,26 +642,59 @@
   quote: "is associated with a lower median runtime ($\\Delta 28.64$%)"
   retrieved: 2026-10-30
   last_checked: 2026-10-30
-- id: S6-same
+- id: S6-pr-def
   article: the-instruction-file
   sentence:
-    sv: "Agenterna slutförde uppgifterna ungefär lika ofta."
-    en: "The agents completed the tasks about as often."
-  vendor: arXiv
-  url: https://arxiv.org/abs/2601.20404
-  final_url: https://arxiv.org/abs/2601.20404
-  quote: "while maintaining a comparable task completion behavior"
+    sv: "tittade på 124 pull requests, alltså föreslagna ändringar i ett projekts kod"
+    en: "looked at 124 pull requests, which are proposed changes to a project's code"
+  vendor: GitHub
+  url: https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests
+  final_url: https://docs.github.com/en/pull-requests/reference/pull-requests
+  quote: "Pull requests are proposals to merge code changes into a project."
   retrieved: 2026-10-30
   last_checked: 2026-10-30
-- id: S6-no-better
+- id: S6-not-measured
   article: the-instruction-file
   sentence:
-    sv: "Där sparade filen tid men gav inte bättre svar."
-    en: "There the file saved time but gave no better answers."
+    sv: "Studien mätte inte om svaren blev bättre."
+    en: "The study did not measure whether the answers were better."
   vendor: arXiv
-  url: https://arxiv.org/abs/2601.20404
-  final_url: https://arxiv.org/abs/2601.20404
-  quote: "while maintaining a comparable task completion behavior"
+  url: https://arxiv.org/html/2601.20404v2
+  final_url: https://arxiv.org/html/2601.20404v2
+  quote: "A comprehensive evaluation of the output quality, e.g., the semantic correctness or the functional equivalence to the merged PR, is beyond the scope of this paper."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: S6-checked-50
+  article: the-instruction-file
+  sentence:
+    sv: "Forskarna granskade 50 av uppgifterna och fann riktiga kodändringar, inte avbrutna körningar."
+    en: "The researchers checked 50 of the tasks and found real code changes, not aborted runs."
+  vendor: arXiv
+  url: https://arxiv.org/html/2601.20404v2
+  final_url: https://arxiv.org/html/2601.20404v2
+  quote: "we randomly sampled 50 PR tasks and inspected the corresponding agent outputs"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: S6-checked-50-b
+  article: the-instruction-file
+  sentence:
+    sv: "Forskarna granskade 50 av uppgifterna och fann riktiga kodändringar, inte avbrutna körningar."
+    en: "The researchers checked 50 of the tasks and found real code changes, not aborted runs."
+  vendor: arXiv
+  url: https://arxiv.org/html/2601.20404v2
+  final_url: https://arxiv.org/html/2601.20404v2
+  quote: "non-empty, non-trivial code changes consistent with the intended task, rather than aborted runs or random edits"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: S6-not-worse
+  article: the-instruction-file
+  sentence:
+    sv: "Studien visar alltså att filen sparade tid, inte att den gjorde svaren bättre eller sämre."
+    en: "So the study shows that the file saved time, not that it made the answers better or worse."
+  vendor: arXiv
+  url: https://arxiv.org/html/2601.20404v2
+  final_url: https://arxiv.org/html/2601.20404v2
+  quote: "these metrics do not capture whether agent-produced changes are correct, maintainable, or aligned with developer intent"
   retrieved: 2026-10-30
   last_checked: 2026-10-30
 - id: H2-move
@@ -700,12 +777,34 @@
 - id: E1-overtrigger
   article: the-instruction-file
   sentence:
-    sv: "betoning som MUST med versaler, tillagd för att få en äldre modell att använda ett verktyg oftare, kan få en nyare modell att ta i för mycket"
-    en: "emphasis such as MUST in capitals, added to make an older model use a tool more often, may make a newer one overdo it"
+    sv: "två av de modeller den nämner kan använda ett verktyg för ofta om betoning som MUST med versaler lades till för att få en äldre modell att använda det oftare"
+    en: "two of the models it names may use a tool too often if emphasis such as MUST in capitals was added to make an older model use it more"
   vendor: Anthropic
   url: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices
   final_url: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices
   quote: "If your prompts were designed to reduce undertriggering on tools or skills, these models might now overtrigger."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: E1-two-models
+  article: the-instruction-file
+  sentence:
+    sv: "två av de modeller den nämner kan använda ett verktyg för ofta om betoning som MUST med versaler lades till för att få en äldre modell att använda det oftare"
+    en: "two of the models it names may use a tool too often if emphasis such as MUST in capitals was added to make an older model use it more"
+  vendor: Anthropic
+  url: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices
+  final_url: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices
+  quote: "are also more responsive to the system prompt than previous models"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: E1-fix
+  article: the-instruction-file
+  sentence:
+    sv: "Guidens råd är att mjuka upp hårda formuleringar."
+    en: "The guide's fix is to soften aggressive wording."
+  vendor: Anthropic
+  url: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices
+  final_url: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices
+  quote: "The fix is to soften any aggressive language."
   retrieved: 2026-10-30
   last_checked: 2026-10-30
 - id: E1-critical

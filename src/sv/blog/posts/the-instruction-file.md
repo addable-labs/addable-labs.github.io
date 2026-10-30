@@ -114,28 +114,36 @@ projektet. Rotfilen ser nu ut så här:
 
 ## Vad studierna visar
 
-Det finns inte mycket som visar att en instruktionsfil hjälper.
+Det finns inte mycket som visar att en instruktionsfil ger bättre resultat.
 [En studie från ETH Zürich](https://arxiv.org/html/2602.11988v3) lät AI-agenter
 lösa verkliga uppgifter med och utan instruktionsfil. Filer som utvecklarna
-själva hade skrivit höjde andelen lösta uppgifter med 2,4 % i genomsnitt.
+själva hade skrivit höjde andelen lösta uppgifter med 2,4 procentenheter i genomsnitt.
 
 Det är en liten vinst som studien inte kan skilja från slumpen. Forskare
-kallar en skillnad "statistiskt säkerställd" när slumpen är en osannolik
-förklaring till den, så ordet betyder inte att skillnaden är stor. Ingen av
-skillnaderna i studien var säkerställd.
+kallar en skillnad "statistiskt säkerställd" när den knappast skulle uppstå av
+en slump, så ordet betyder inte att skillnaden är stor. Jämfört med ingen fil
+alls var ingen av skillnaderna i andelen lösta uppgifter säkerställd. Filer som
+utvecklarna skrev klarade sig säkerställt bättre än filer som en språkmodell
+skrev.
 
-Filer som en språkmodell hade skrivit sänkte andelen något. Forskarna föreslår
+Filer som en språkmodell hade skrivit sänkte andelen något i genomsnitt. Forskarna föreslår
 att man tills vidare undviker filer som en språkmodell har skrivit.
 
-Alla filerna gjorde körningarna dyrare, med upp till ungefär en femtedel.
+Alla filerna gjorde körningarna dyrare, med ungefär en femtedel i genomsnitt.
+Ökningarna var säkerställda.
 
 Studien tittade också på översikter av projektet, som det stycke utvecklaren
-tog bort. Forskarna fann att sådana översikter, fast populära, inte hjälpte.
+tog bort. Forskarna fann att sådana översikter, fast populära, inte hjälpte i projekt som
+redan hade dokumentation. När forskarna tog bort all annan dokumentation hjälpte
+en fil som en språkmodell hade skrivit.
 
 [En annan, mindre studie](https://arxiv.org/abs/2601.20404) tittade på 124 pull
 requests, alltså föreslagna ändringar i ett projekts kod. En typisk körning med
-en AGENTS.md gick mer än en fjärdedel snabbare. Agenterna slutförde uppgifterna
-ungefär lika ofta. Där sparade filen tid men gav inte bättre svar.
+en AGENTS.md gick mer än en fjärdedel snabbare.
+
+Studien mätte inte om svaren blev bättre. Forskarna granskade 50 av uppgifterna
+och fann riktiga kodändringar, inte avbrutna körningar. Studien visar alltså att
+filen sparade tid, inte att den gjorde svaren bättre eller sämre.
 
 Forskarna bakom den första studien rekommenderar att en fil bara innehåller det
 agenten inte kan få fram ur koden. Det stämmer med filen i exemplet: kommandona
@@ -231,9 +239,11 @@ utkastet ska redigeras. Studien ovan är ett skäl att korta ner utkastet till
 kommandona och de få reglerna, eftersom genererade filer inte gav någon vinst
 men ökade kostnaden.
 
-När du byter till en nyare modell, läs filen igen: betoning som MUST med versaler,
-tillagd för att få en äldre modell att använda ett verktyg oftare, kan få en
-nyare modell att [ta i för mycket](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices).
+När du byter till en nyare modell, läs filen igen. I oktober 2026 står det i
+Anthropics [promptguide](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices)
+att två av de modeller den nämner kan använda ett verktyg för ofta om betoning
+som MUST med versaler lades till för att få en äldre modell att använda det
+oftare. Guidens råd är att mjuka upp hårda formuleringar.
 
 ## Vad som kommer härnäst
 

@@ -309,7 +309,7 @@ Brödtext i Markdown.
   300–1,500 for every later article, except the Gaimer article
   (`cleaning-up-gaimer`), which the founder allowed 1,850 on 26 September
   2026 so that it can tell the changes its first figure counts, and part 2 of
-  the series on AI agents (`the-instruction-file`), which he allowed 1,850 on
+  the series on AI agents (`the-instruction-file`), which he allowed 1,950 on
   30 October 2026 as a 5–10 minute read. The Swedish
   twin is not counted, and neither are the figures (captions and diagram
   labels) or the tables' cells: they are not prose.

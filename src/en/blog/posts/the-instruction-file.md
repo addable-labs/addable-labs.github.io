@@ -42,7 +42,7 @@ the project's top folder (the root):
 ```
 
 The lines under "Build and test" are commands the agent could not guess: how
-to install the project and how to test it. The rules are the few things that
+to install the dependencies and how to test it. The rules are the few things that
 cannot be read out of the code. One keeps the agent out of the `migrations/`
 folder, where the changes to the database are kept as files called
 migrations. Another keeps new outside code, called packages, from entering
@@ -115,31 +115,39 @@ whole project. The root file now looks like this:
 
 ## What the studies show
 
-There is little evidence that an instruction file helps.
+There is little evidence that an instruction file makes the results better.
 [A study from ETH Zurich](https://arxiv.org/html/2602.11988v3) had AI agents
 solve real-world tasks with and without an instruction file. Files the
-developers had written themselves raised the share of tasks solved by 2.4% on
-average.
+developers had written themselves raised the share of tasks solved by 2.4
+percentage points on average.
 
 That is a small gain that the study cannot tell from chance. Researchers call
-a difference "statistically significant" when chance is an unlikely
-explanation for it, so the word does not mean that the difference is large.
-None of the differences in the study was significant.
+a difference "statistically significant" when it would be unlikely to arise by
+chance alone, so the word does not mean that the difference is large. Compared
+with no file, none of the differences in the share of tasks solved was
+significant. Files the developers wrote did significantly better than files a
+language model wrote.
 
-Files written by a language model lowered the share slightly. The
+Files written by a language model lowered the share slightly on average. The
 researchers suggest leaving out files written by a language model for the time
 being.
 
-All the files made the runs more expensive, by up to about a fifth.
+All the files made the runs more expensive, by about a fifth on average.
+Those rises were significant.
 
 The study also looked at overviews of the project, like the section the
 developer cut. The researchers found that such overviews, although popular,
-did not help.
+did not help in projects that already had documentation. When the researchers
+removed all other documentation, a file written by a language model did help.
 
 [Another, smaller study](https://arxiv.org/abs/2601.20404) looked at 124 pull
 requests, which are proposed changes to a project's code. The typical run with
-an AGENTS.md took more than a quarter less time. The agents completed the
-tasks about as often. There the file saved time but gave no better answers.
+an AGENTS.md took more than a quarter less time.
+
+The study did not measure whether the answers were better. The researchers
+checked 50 of the tasks and found real code changes, not aborted runs. So the
+study shows that the file saved time, not that it made the answers better or
+worse.
 
 The researchers behind the first study advise putting in a file only what the
 agent cannot get from the code. That fits the file in the example: the
@@ -232,9 +240,11 @@ it, edit the draft: [Anthropic](https://code.claude.com/docs/en/memory) and
 study above is a reason to cut the draft down to the commands and the few
 rules, since generated files brought no gain and added cost.
 
-When you move to a newer model, read the file again: emphasis such as MUST in
-capitals, added to make an older model use a tool more often, may make a newer
-one [overdo it](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices).
+When you move to a newer model, read the file again. In October 2026
+Anthropic's [prompting guide](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices)
+says that two of the models it names may use a tool too often if emphasis such
+as MUST in capitals was added to make an older model use it more. The guide's
+fix is to soften aggressive wording.
 
 ## What comes next
 
