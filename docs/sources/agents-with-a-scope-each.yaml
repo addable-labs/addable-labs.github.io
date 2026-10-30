@@ -27,8 +27,8 @@
 - id: P3-claudemd
   article: agents-with-a-scope-each
   sentence:
-    sv: "I Claude Code startar en underagent ändå med samma instruktionsfiler som huvudagenten"
-    en: "In Claude Code a subagent still starts with the same instruction files as the main agent"
+    sv: "I Claude Code startar en underagent med samma instruktionsfiler som huvudagenten"
+    en: "In Claude Code a subagent starts with the same instruction files as the main agent"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/sub-agents
   final_url: https://code.claude.com/docs/en/sub-agents
@@ -38,8 +38,8 @@
 - id: P3-nohistory
   article: agents-with-a-scope-each
   sentence:
-    sv: "En granskare som börjar med rent bord läser koden utan den bakgrunden."
-    en: "A reviewer that starts fresh reads the code without that history."
+    sv: "En granskare som börjar med rent bord ser inte samtalet"
+    en: "A reviewer that starts fresh does not see the conversation"
   vendor: GitHub
   url: https://code.visualstudio.com/docs/agents/run/subagents
   final_url: https://code.visualstudio.com/docs/agents/run/subagents
@@ -49,12 +49,23 @@
 - id: P3-nohistory-cc
   article: agents-with-a-scope-each
   sentence:
-    sv: "En granskare som börjar med rent bord läser koden utan den bakgrunden."
-    en: "A reviewer that starts fresh reads the code without that history."
+    sv: "En granskare som börjar med rent bord ser inte samtalet"
+    en: "A reviewer that starts fresh does not see the conversation"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/sub-agents
   final_url: https://code.claude.com/docs/en/sub-agents
   quote: "Each subagent starts with a fresh, isolated context window. It doesn't see your conversation history"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P3-cost-fresh
+  article: agents-with-a-scope-each
+  sentence:
+    sv: "Kostnaden är att den inte vet vad ändringen är till för"
+    en: "The cost is that it does not know what the change is for"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/sub-agents
+  final_url: https://code.claude.com/docs/en/sub-agents
+  quote: "Claude composes a delegation message that summarizes the task, and the subagent works from there."
   retrieved: 2026-10-30
   last_checked: 2026-10-30
 - id: P3-name
@@ -489,8 +500,8 @@
 - id: P3-gh-first-example
   article: agents-with-a-scope-each
   sentence:
-    sv: "Dokumentationens eget första exempel på när du ska göra en anpassad agent är att begränsa en granskningsagent till verktyg som bara läser."
-    en: "The documentation's own first example of when to make a custom agent is to restrict a code review agent to read-only tools."
+    sv: "Ett av dokumentationens exempel på när du ska göra en anpassad agent är att begränsa en granskningsagent till verktyg som bara läser."
+    en: "One of the documentation's examples of when to make a custom agent is to restrict a code review agent to read-only tools."
   vendor: GitHub
   url: https://code.visualstudio.com/docs/agent-customization/custom-agents
   final_url: https://code.visualstudio.com/docs/agent-customization/custom-agents
@@ -599,8 +610,8 @@
 - id: P3-vsc-decide
   article: agents-with-a-scope-each
   sentence:
-    sv: "I VS Code kan huvudagenten också välja att lämna över utan att bli ombedd."
-    en: "In VS Code the main agent can also decide to hand over without being asked."
+    sv: "I VS Code kan huvudagenten välja att lämna över utan att bli ombedd."
+    en: "In VS Code the main agent can decide to hand over without being asked."
   vendor: GitHub
   url: https://code.visualstudio.com/docs/agents/run/subagents
   final_url: https://code.visualstudio.com/docs/agents/run/subagents

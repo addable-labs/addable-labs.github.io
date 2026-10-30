@@ -31,18 +31,24 @@ AI-agenten lägga till ett telefonnummer i registreringsformuläret. Agenten
 ändrar formuläret, lägger till en ny migrering (en fil som ändrar databasen)
 för kolumnen och kör testerna, som går igenom.
 
-Utvecklaren vill ha en andra läsare innan ändringen går in. Först kan det verka
-enklast att be samma agent granska sitt eget arbete, men den har fortfarande
-hela samtalet framför sig, med varje val den gjorde på vägen. En granskare som
-börjar med rent bord läser koden utan den bakgrunden.
+Utvecklaren vill ha en andra åsikt innan ändringen går in. Det som ligger
+närmast till hands är att be samma agent granska sitt eget arbete. Det är det
+svagare alternativet: agenten har hela samtalet framför sig, med varje val den
+gjorde på vägen, så den läser sin ändring genom sina egna resonemang och
+antaganden.
 
-En sådan andra agent kallas underagent (subagent): en AI-agent som en annan
-agent, huvudagenten, lämnar en uppgift till. Den arbetar i ett eget
-sammanhang (context), alltså den text den har framför sig: sina instruktioner,
-uppgiften den har fått och det den har läst. När uppgiften är klar lämnar den
-tillbaka en sammanfattning.
+Det andra alternativet är en egen granskare, en underagent (subagent): en
+AI-agent som en annan agent, huvudagenten, lämnar en uppgift till. Den arbetar i
+ett eget sammanhang (context), alltså den text den har framför sig: sina
+instruktioner, uppgiften den har fått och det den har läst. När uppgiften är
+klar lämnar den tillbaka en sammanfattning.
 
-I Claude Code startar en underagent ändå med samma instruktionsfiler som
+En granskare som börjar med rent bord ser inte samtalet och läser koden som en
+kollega som inte var med skulle göra. Fördelen är att den inte delar
+huvudagentens antaganden. Kostnaden är att den inte vet vad ändringen är till
+för, så din begäran bör ange ändringen och dess syfte.
+
+I Claude Code startar en underagent med samma instruktionsfiler som
 huvudagenten, så reglerna från del 2 når den.
 
 Granskaren i exemplet har ett enda jobb. Den läser de ändrade filer som
@@ -171,7 +177,7 @@ file, the line and what is wrong.
 
 **GitHub Copilot** läser agentfiler från `.github/agents/`, med namn som slutar
 på `.agent.md` eller `.md`. I VS Code är bara de verktyg som står i filen
-tillgängliga, om filen listar verktyg. Dokumentationens eget första exempel på
+tillgängliga, om filen listar verktyg. Ett av dokumentationens exempel på
 när du ska göra en anpassad agent är att begränsa en granskningsagent till
 verktyg som bara läser. Granskarens fil heter `.github/agents/reviewer.agent.md`
 och har den här raden i sitt huvud:
@@ -192,7 +198,7 @@ En rad i instruktionsfilen från del 2 ber agenten uppföra sig. Ett verktyg som
 agenten saknar går inte att missbruka: det är en gräns utanför modellen, av det
 slag som del 1 beskrev. [Del 7](#del-7) i serien tar upp den igen.
 
-Granskaren kan ändå ha fel. VS Codes dokumentation säger det rakt ut: separata
+Granskaren kan ha fel. VS Codes dokumentation säger det rakt ut: separata
 sammanhang "kan lyfta fram olika problem men garanterar inga opartiska eller
 korrekta slutsatser" (vår översättning). Läs synpunkterna och bestäm själv.
 
@@ -215,7 +221,7 @@ och inte instruktionerna, som läses först när agenten körs. Beskrivningen ä
 det som gör att agenten används alls. Instruktionerna spelar roll först när
 den används.
 
-De andra verktygen avgör på andra sätt. I VS Code kan huvudagenten också välja
+De andra verktygen avgör på andra sätt. I VS Code kan huvudagenten välja
 att lämna över utan att bli ombedd. Copilots molnagent på GitHub.com kan använda
 en anpassad agent på egen hand, utifrån uppgiften, om inte agentens fil stänger
 av det. Codex dokumentation kallar beskrivningen vägledning för människor om när

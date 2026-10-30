@@ -1304,7 +1304,7 @@
         "label": "du",
         "note": "läser och bestämmer"
       },
-      "caption": "Den påhittade granskaren. Den har ett eget sammanhang, får läsa och söka men inte ändra filer eller köra kommandon och lämnar tillbaka text. Utvecklaren bestämmer vad som händer sedan."
+      "caption": "Granskaren. Den har ett eget sammanhang, får läsa och söka men inte ändra filer eller köra kommandon och lämnar tillbaka text. Utvecklaren bestämmer vad som händer sedan."
     },
     "agent-file": {
       "title": "En agents fil i fyra delar. Namnet är vad du och huvudagenten kallar agenten. Beskrivningen, inramad, är vad huvudagenten läser för att avgöra om den ska lämna över en uppgift. Raden tools anger vad agenten får använda. Instruktionerna är vad den läser när den har fått uppgiften.",
@@ -1327,7 +1327,7 @@
         "tools": "det den får använda, inget annat",
         "instructions": "det den läser när den fått uppgiften"
       },
-      "caption": "Den påhittade granskarens fil i fyra delar. Den inramade delen, beskrivningen, är det huvudagenten läser när den avgör om den ska lämna över en uppgift."
+      "caption": "Granskarens fil i fyra delar. Den inramade delen, beskrivningen, är det huvudagenten läser när den avgör om den ska lämna över en uppgift."
     }
   },
   "games": {

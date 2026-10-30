@@ -31,18 +31,23 @@ add a phone number to the sign-up form. The agent changes the form, adds a new
 migration (a file that changes the database) for the column and runs the
 tests, which pass.
 
-The developer wants a second reader before the change goes in. The first idea is
-to ask the same agent to review its own work, but it still has the whole
-conversation in front of it, with every choice it made along the way. A reviewer
-that starts fresh reads the code without that history.
+The developer wants a second opinion before the change goes in. Asking the same
+agent to review its own work is the obvious route. It is the weaker one: the
+agent has the whole conversation in front of it, with every choice it made along
+the way, so it reads its change through its own reasoning and assumptions.
 
-Such a second agent is called a subagent: an AI agent that another agent, the
-main agent, hands a task to. It works in a context of its own, which is the
-text it keeps in view: its instructions, the task it was given and what it has
-read. When the task is done it hands back a summary.
+The other route is a separate reviewer, a subagent: an AI agent that another
+agent, the main agent, hands a task to. It works in a context of its own, which
+is the text it keeps in view: its instructions, the task it was given and what
+it has read. When the task is done it hands back a summary.
 
-In Claude Code a subagent still starts with the same instruction files as the
-main agent, so the rules from part 2 reach it.
+A reviewer that starts fresh does not see the conversation, so it reads the code
+as a colleague who was not there would. The benefit is that it does not share
+the main agent's assumptions. The cost is that it does not know what the change
+is for, so your request should name the change and its purpose.
+
+In Claude Code a subagent starts with the same instruction files as the main
+agent, so the rules from part 2 reach it.
 
 The reviewer in the example has one job. It reads the changed files the main
 agent names and writes its comments. It may not change a file, run a command
@@ -168,7 +173,7 @@ file, the line and what is wrong.
 
 **GitHub Copilot** reads agent files from `.github/agents/`, with names that end
 in `.agent.md` or `.md`. In VS Code, if the file lists tools, only those tools
-are available. The documentation's own first example of when to make a custom
+are available. One of the documentation's examples of when to make a custom
 agent is to restrict a code review agent to read-only tools. The reviewer's file
 is `.github/agents/reviewer.agent.md` and has this line in its header:
 
@@ -188,7 +193,7 @@ A line in the instruction file from part 2 asks the agent to behave. A tool
 the agent does not have cannot be misused: that is a limit outside the model,
 the kind part 1 described. [Part 7](#part-7) of the series comes back to it.
 
-The reviewer can still be wrong. VS Code's documentation puts it plainly:
+The reviewer can be wrong. VS Code's documentation puts it plainly:
 separate contexts "can surface different issues, but don't guarantee unbiased or correct conclusions".
 Read the comments and decide for yourself.
 
@@ -211,7 +216,7 @@ chooses on its own, and not the instructions, which load only when the agent
 runs. The description is what gets the agent used at all. The instructions
 matter only once it is.
 
-The other tools decide in other ways. In VS Code the main agent can also decide
+The other tools decide in other ways. In VS Code the main agent can decide
 to hand over without being asked. Copilot's cloud agent on GitHub.com can use a
 custom agent on its own, based on the task, unless the agent's file switches
 that off. Codex's documentation calls the description guidance for people on
