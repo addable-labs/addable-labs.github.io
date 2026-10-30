@@ -1282,8 +1282,8 @@
       "caption": "Vilket verktyg som läser vilken fil i ett projekts mappar, så som dokumentationen såg ut den 30 oktober 2026. Den närmaste filen har sista ordet."
     },
     "skill-folder": {
-      "title": "En färdighet som ett mappträd. Mappen release innehåller en SKILL.md och en mapp scripts med check-release.sh. I SKILL.md ligger namn och beskrivning framför agenten från start och instruktionerna läses när uppgiften kräver dem. Skriptet körs enligt instruktionerna och bara dess utskrift läses.",
-      "head": "Färdigheten release",
+      "title": "En skill som ett mappträd. Mappen release innehåller en SKILL.md och en mapp scripts med check-release.sh. I SKILL.md ligger namn och beskrivning framför agenten från start och instruktionerna läses när uppgiften kräver dem. Skriptet körs enligt instruktionerna och bara dess utskrift läses.",
+      "head": "Skillen release",
       "files": {
         "root": "release/",
         "skill": "SKILL.md",
@@ -1300,10 +1300,10 @@
         "run": "körs enligt instruktionerna",
         "output": "bara dess utskrift läses"
       },
-      "caption": "En färdighet är en mapp. Agenten har namn och beskrivning framför sig, läser instruktionerna när uppgiften kräver dem och kör skriptet enligt instruktionerna."
+      "caption": "En skill är en mapp. Agenten har namn och beskrivning framför sig, läser instruktionerna när uppgiften kräver dem och kör skriptet enligt instruktionerna."
     },
     "skill-locations": {
-      "title": "Tre mappar i ett projekt där färdigheter förvaras och verktygen som letar i var och en. Claude Code letar i .claude/skills. Codex letar i .agents/skills. GitHub Copilot letar i alla tre: .claude/skills, .agents/skills och .github/skills.",
+      "title": "Tre mappar i ett projekt där skills förvaras och verktygen som letar i var och en. Claude Code letar i .claude/skills. Codex letar i .agents/skills. GitHub Copilot letar i alla tre: .claude/skills, .agents/skills och .github/skills.",
       "head": "Var varje verktyg letar",
       "folders": {
         "claude": ".claude/skills/",
@@ -1315,8 +1315,8 @@
         "codex": "Codex",
         "copilot": "Copilot"
       },
-      "same": "Färdighetens mapp och dess SKILL.md är likadana i alla tre.",
-      "caption": "Projektmapparna där varje verktyg letar efter färdigheter, så som deras dokumentation såg ut den 30 oktober 2026."
+      "same": "Skillens mapp och dess SKILL.md är likadana i alla tre.",
+      "caption": "Projektmapparna där varje verktyg letar efter skills, så som deras dokumentation såg ut den 30 oktober 2026."
     }
   },
   "games": {
