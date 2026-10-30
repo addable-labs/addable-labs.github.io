@@ -311,7 +311,7 @@ Brödtext i Markdown.
   2026 so that it can tell the changes its first figure counts, and part 2 of
   the series on AI agents (`the-instruction-file`), which he allowed 2,030 on
   30 October 2026 as a 5–10 minute read, and part 3 of it
-  (`agents-with-a-scope-each`), which gets 2,080 on the same footing. The Swedish
+  (`agents-with-a-scope-each`), which gets 2,180 on the same footing. The Swedish
   twin is not counted, and neither are the figures (captions and diagram
   labels) or the tables' cells: they are not prose.
 - **Figures.** An article can carry custom SVG illustrations (REQ-008): put

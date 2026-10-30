@@ -16,9 +16,13 @@ seriens andra del, fick AI-agenten en kort textfil att läsa varje gång den
 startar. Hittills har en enda agent gjort allt arbete: den skriver koden, kör
 testerna och kontrollerar sitt eget resultat.
 
-Den här delen handlar om att lämna över ett jobb till en andra AI-agent. En
-agent som har ett eget jobb och bara de verktyg jobbet kräver är lättare att
-granska och lättare att lita på.
+Den här delen handlar om att lämna över ett jobb till en andra AI-agent, en
+med ett enda jobb och bara de verktyg jobbet kräver. Det kostar mer än en enda
+agent: att lämna över medför mer modellanvändning och mer samordning, så
+[VS Codes dokumentation](https://code.visualstudio.com/docs/agents/run/subagents)
+säger att en direkt begäran oftast räcker för en snabb sökning eller en liten
+ändring. En andra agent lönar sig för ett jobb som du upprepar, till exempel
+att få en färdig ändring granskad.
 
 ## En granskare som bara får läsa
 
@@ -38,9 +42,13 @@ sammanhang (context), alltså den text den har framför sig: sina instruktioner,
 uppgiften den har fått och det den har läst. När uppgiften är klar lämnar den
 tillbaka en sammanfattning.
 
-Granskaren i exemplet har ett enda jobb. Den läser de ändrade filerna och
-skriver sina synpunkter. Den får inte ändra någon fil, köra något kommando
-eller nå något annat system, så vad den än skriver är koden kvar som den var.
+I Claude Code startar en underagent ändå med samma instruktionsfiler som
+huvudagenten, så reglerna från del 2 når den.
+
+Granskaren i exemplet har ett enda jobb. Den läser de ändrade filer som
+huvudagenten nämner och skriver sina synpunkter. Den får inte ändra någon fil,
+köra något kommando eller nå något annat system, så vad den än skriver är
+koden kvar som den var.
 
 Utvecklaren läser synpunkterna och bestämmer vad som händer sedan.
 
@@ -66,11 +74,11 @@ Write your comments as a list, most serious first. For each one, give the
 file, the line and what is wrong.
 ```
 
-Namnet (`name`) är det du och huvudagenten kallar den. Beskrivningen
+Delen mellan de två raderna med streck är filens huvud (header). Namnet
+(`name`) är det du och huvudagenten kallar agenten. Beskrivningen
 (`description`) är det huvudagenten läser för att avgöra om den ska lämna
-över en uppgift. Raden `tools` anger vad agenten får använda. Texten under den
-andra raden med streck är agentens instruktioner, som den läser när den har
-fått en uppgift.
+över en uppgift. Raden `tools` anger vad agenten får använda. Under huvudet
+kommer agentens instruktioner, som den läser när den har fått en uppgift.
 
 Det finns fler inställningar, till exempel en egen modell för agenten, men
 de här fyra räcker för att börja.
@@ -79,47 +87,43 @@ de här fyra räcker för att börja.
 
 ## Skriv beskrivningen för huvudagenten
 
-Beskrivningen (`description`) är raden huvudagenten läser när den avgör om
-den ska lämna över en uppgift. Den går efter beskrivningen av din begäran,
-beskrivningarna av sina agenter och läget just då.
+När huvudagenten avgör om den ska lämna över en uppgift väger den tre saker:
+vad du ber om, vad varje agents beskrivning säger och hur läget ser ut just
+då, som
 [Claude Codes dokumentation](https://code.claude.com/docs/en/sub-agents)
-säger det och
+beskriver det.
+
 [VS Codes dokumentation](https://code.visualstudio.com/docs/agents/reference/custom-agent-file-reference)
-lägger till vad raden ska innehålla: vad agenten gör och när den ska användas.
+nämner två saker som beskrivningen ska innehålla: vad agenten gör och när den
+ska användas. En beskrivning som "Reviews code" säger bara det första.
+Beskrivningen i exemplet säger vad som granskas, när agenten ska användas och
+att den bara läser. Det är "när" som huvudagenten behöver mest: efter att kod
+har ändrats och innan arbetet kallas klart.
 
-En beskrivning som "Reviews code" säger vad agenten gör men inte när den ska
-få uppgiften. Beskrivningen i exemplet säger vad som granskas, när agenten ska
-användas och att den bara läser. Det är "när" som huvudagenten behöver mest:
-efter att kod har ändrats och innan arbetet kallas klart.
-
-Claude Code säger också att en fras som "use proactively" i beskrivningen
-uppmuntrar huvudagenten att lämna över utan att bli ombedd. Rådet är att skriva
-beskrivningar som pekar ut en enda agent.
-
-Håll beskrivningen kort. Huvudagenten har alla beskrivningar med sig hela
-tiden, medan agentens instruktioner läses först när agenten körs. Därför säger
-dokumentationen att detaljerna ska flyttas från beskrivningen till
-instruktionerna.
+Håll beskrivningen kort. I Claude Code har huvudagenten alla beskrivningar med
+sig, medan agentens instruktioner läses först när agenten körs. Lägg
+detaljerna i instruktionerna.
 
 ## Ge den bara de verktyg jobbet kräver
 
-Raden `tools` är det andra som gör granskaren lätt att lita på. I Claude Code
-är den en tillåtelselista (allowlist): agenten kan använda verktygen på
-listan och inga andra. Granskaren har `Read`, `Grep` och `Glob`, verktygen för
-att läsa och söka, så den kan inte ändra någon fil.
+Raden `tools` avgör vad granskaren kan göra. I Claude Code är den en lista över
+tillåtna verktyg (allowlist), vilket betyder att agenten kan använda verktygen
+på listan och inga andra. Granskaren har `Read`, `Grep` och `Glob`, verktygen
+för att läsa och söka, så den kan inte ändra någon fil.
 
-Utelämnar du raden ärver agenten alla verktyg en underagent kan ha, också
+Utelämnar du raden får agenten alla verktyg som en underagent kan få, också
 dem som ändrar filer. I
 [GitHubs anpassade agenter](https://docs.github.com/en/copilot/reference/custom-agents-configuration)
-(custom agents) är det likadant: ingen `tools`-rad betyder alla verktyg. En fil utan raden är
-alltså raka motsatsen till en gräns.
+(custom agents) är det likadant: ingen `tools`-rad betyder alla verktyg. En
+fil utan raden är raka motsatsen till en gräns.
 
 Anthropics eget exempel på en granskare ger agenten också `Bash`, verktyget
-för att köra kommandon, så att den kan köra `git diff` och se vad som har
-ändrats. Ett kommando kan
+för att köra kommandon, så att den kan köra `git diff`, kommandot som visar
+vad som har ändrats. Ett kommando kan
 [göra mer än att läsa](https://code.claude.com/docs/en/how-claude-code-works),
-så en granskare som bara ska läsa kan klara sig utan det. Priset är att
-huvudagenten måste nämna de ändrade filerna när den lämnar över uppgiften.
+så en granskare som bara ska läsa kan klara sig utan det. Utan `Bash` måste
+huvudagenten nämna de ändrade filerna när den lämnar över uppgiften, som den
+gör i exemplet.
 
 Börja med så få verktyg som jobbet går att göra med och lägg till ett när
 agenten visar sig behöva det. VS Codes dokumentation rekommenderar
@@ -134,19 +138,20 @@ vi skriver kan ha ändrats sedan dess.
 
 I **Claude Code** är en agent en Markdown-fil i `.claude/agents/` i projektet,
 eller i `~/.claude/agents/` för alla dina projekt. Du kan be Claude skriva
-filen åt dig. Skriver du @ och agentens namn ser Claude Code till att agenten
-körs för just den uppgiften. Verktyget har också en egen agent som
-bara läser, Explore, som det använder för att söka i koden.
+filen åt dig.
 
-I OpenAI:s **Codex** är en agent en TOML-fil i `.codex/agents/`, med ett namn,
-en beskrivning och agentens instruktioner. Codex
+I OpenAI:s **Codex** är en agent en TOML-fil i `.codex/agents/`. TOML är ett
+textformat för inställningar. Den här filen innehåller ett namn, en
+beskrivning och agentens instruktioner. Codex
 [lämnar över](https://learn.chatgpt.com/docs/agent-configuration/subagents)
 när du ber om det eller när AGENTS.md säger det, vilket gör filen från del 2
-till platsen där du anger när. Filen kan inte sätta sandlådan, som begränsar
-vad agenten kan röra, eller godkännandena, som avgör när den måste fråga,
-eftersom båda kommer från sessionen. Instruktioner i filen kan be en agent
-låta bli att ändra men skapar ingen egen sandlåda som bara läser, så välj
-behörighetsläge innan du ber Codex lämna över.
+till platsen där du anger när.
+
+Filen kan inte sätta agentens sandlåda, som begränsar vad agenten kan röra,
+eller dess godkännanden, som avgör när den måste fråga. Båda kommer från din
+Codex-session, alltså samtalet du för med Codex, så välj dess
+behörighetsinställningar innan du ber Codex lämna över. Raden "Do not edit
+files" i exemplet nedan är en begäran och ingen gräns.
 
 ```text
 name = "reviewer"
@@ -163,34 +168,34 @@ file, the line and what is wrong.
 slutar på `.agent.md`. I VS Code är bara de verktyg som står i filen
 tillgängliga, om filen listar verktyg. Dokumentationens eget första exempel på
 när du ska göra en anpassad agent är att begränsa en granskningsagent till
-verktyg som bara läser. För granskaren lyder raden:
+verktyg som bara läser. Granskarens fil heter `.github/agents/reviewer.agent.md`
+och har den här raden i sitt huvud:
 
 ```text
 tools: ['read', 'search']
 ```
 
-## Därför är en smal agent lättare att lita på
+## Vad gränsen ger dig och vad den inte ger
 
 Allt granskaren får göra står på några rader som går att läsa på en minut:
 den får läsa och söka och lämnar tillbaka text. När du läser synpunkterna
 behöver du inte också kontrollera vad den har ändrat, eftersom den inte kunde
-ändra något.
+ändra något. I Codex är gränsen sessionens sandlåda och inte agentens fil:
+raden "Do not edit files" där är bara en begäran.
 
-Det är skillnaden mot instruktionsfilen i del 2. En rad i den filen ber
-agenten uppföra sig, medan ett verktyg som agenten saknar inte går att
-missbruka. Det som aldrig får hända stoppas fortfarande utanför modellen, som
-del 1 beskrev. [Del 7](#del-7) i serien tar upp det igen.
+En rad i instruktionsfilen från del 2 ber agenten uppföra sig. Ett verktyg som
+agenten saknar går inte att missbruka: det är en gräns utanför modellen, av det
+slag som del 1 beskrev. [Del 7](#del-7) i serien tar upp den igen.
 
 Granskaren kan ändå ha fel. VS Codes dokumentation säger det rakt ut: separata
-sammanhang
-["kan lyfta fram olika problem men garanterar inga opartiska eller riktiga slutsatser"](https://code.visualstudio.com/docs/agents/run/subagents)
+sammanhang "kan lyfta fram olika problem men garanterar inga opartiska eller riktiga slutsatser"
 (vår översättning). Läs synpunkterna och bestäm själv.
 
-Fabriken bakom den här sajten delar upp arbetet på samma sätt. Som vi beskrev
-i [Därför driver vi en agentdriven mjukvarufabrik](/sv/blog/why-we-run-an-agent-run-factory/)
-är planerare, byggare och granskare olika agenter där. Granskningen går i
-flera spår. När sajten byggdes om i september hittade granskningen två fel som
-måste rättas i arbete som en annan agent hade gjort.
+I fabriken bakom den här sajten är planerare, byggare och granskare också
+olika agenter, som vi beskrev i
+[Därför driver vi en agentdriven mjukvarufabrik](/sv/blog/why-we-run-an-agent-run-factory/).
+När sajten byggdes om i september hittade granskningen två fel som måste
+rättas i arbete som en annan agent hade gjort.
 
 ## När agenten lämnar över på egen hand
 
@@ -198,49 +203,55 @@ I oktober 2026 säger Anthropics
 [promptguide](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices)
 att företagets senaste modeller lämnar arbete till underagenter på egen hand.
 De kan känna igen när en uppgift tjänar på en specialist och göra det utan att
-bli tillsagda. I VS Code kan huvudagenten
-[också välja att lämna över](https://code.visualstudio.com/docs/agents/run/subagents)
-utan att bli ombedd.
+bli tillsagda. I VS Code kan huvudagenten också välja att lämna över utan att
+bli ombedd.
 
-När agenten bestämmer själv är det beskrivningen den bestämmer efter. Det gör
-beskrivningen viktigare än instruktionerna under den: beskrivningen avgör om
-agenten används alls medan instruktionerna spelar roll först när den används.
+I Claude Code har huvudagenten beskrivningarna framför sig när den väljer själv
+och inte instruktionerna, som läses först när agenten körs. Beskrivningen är
+det som gör att agenten används alls. Instruktionerna spelar roll först när
+den används.
 
 Den nya risken är den motsatta, att huvudagenten lämnar över för ofta. Samma
 guide varnar för att en modell kan starta underagenter för att utforska kod
-när en vanlig sökning är snabbare och räcker. Varje underagent gör dessutom
-egna anrop, så arbetet kostar mer än samma jobb i en enda agent, som
-dokumentationen för Claude Code, Codex och VS Code var och en säger.
+när en vanlig sökning är snabbare och räcker. Varje onödig överlämning lägger
+till den kostnad som beskrevs i början av den här delen.
 
 En rad i instruktionsfilen från del 2 kan säga när det lönar sig att lämna
 över:
 
 ```text
-- Hand a finished change to the reviewer. Do small edits and lookups yourself.
+- Hand a finished change to the reviewer: it reads the change without your history.
+- Do small edits and lookups yourself: a hand-over costs more than it saves.
 ```
 
 ## När det går fel
 
-Lämnar huvudagenten inte över ber du om agenten vid namn:
+Om huvudagenten inte lämnar över, ber du om agenten vid namn:
 
 ```text
 Use the reviewer subagent to review the change in the sign-up form.
 ```
 
-Fungerar det men agenten aldrig väljs på egen hand ligger felet i
-beskrivningen. Skriv när agenten ska användas, som exemplet gör.
+I Claude Code fungerar det oftast. Skriver du @ och agentens namn ser Claude
+Code till att agenten körs för just den uppgiften.
 
-Fungerar det inte heller att nämna den vid namn, titta på filen. Claude Code
-hoppar över en fil som saknar beskrivning. I en chatt med VS Codes egen agent
-måste namnet skrivas exakt som i filen, med samma versaler. Verktyget Run
-Subagent måste också vara valt under Configure Tools.
+Om det fungerar att nämna agenten men huvudagenten aldrig väljer den på egen
+hand, ligger felet i beskrivningen. Skriv när agenten ska användas, som
+exemplet gör. I Claude Code uppmuntrar en fras som "use proactively" i
+beskrivningen huvudagenten att lämna över utan att bli ombedd. Claude Codes
+råd är att skriva beskrivningar som pekar ut en enda agent.
 
-Lämnar huvudagenten över för ofta gör du beskrivningen smalare och lägger till
-raden från förra avsnittet i din instruktionsfil.
+Om det inte hjälper att nämna den vid namn heller, titta på filen. Claude Code
+hoppar över en fil som saknar beskrivning. I VS Code måste namnet skrivas
+exakt som i filen, med samma versaler. Verktyget Run Subagent måste också vara
+valt under Configure Tools.
 
-Är synpunkterna ytliga har granskaren troligen börjat utan att veta vad den
-ska titta på. Den ser bara uppgiften den har fått, så skriv i din begäran
-vilken ändring som ska granskas och vad ändringen ska göra.
+Två fel går åt andra hållet. När huvudagenten lämnar över för ofta, gör du
+beskrivningen smalare och lägger till raden från förra avsnittet i din
+instruktionsfil. När synpunkterna är ytliga, har granskaren troligen börjat
+utan att veta vad den ska titta på: den ser bara uppgiften den har fått, så
+skriv i din begäran vilken ändring som ska granskas och vad ändringen ska
+göra.
 
 ## Börja litet
 
@@ -248,8 +259,9 @@ Välj ett jobb som du redan gör på samma sätt varje gång och som inte behöv
 hela samtalet. En granskning av en färdig ändring är ett bra första jobb,
 eftersom den går att göra genom att läsa.
 
-Be verktyget skriva agentfilen åt dig och läs den sedan. Ge agenten bara
-verktyg som läser, skriv beskrivningen som vad den gör och när den ska
+Be verktyget skriva agentfilen åt dig och lägg den i mappen för ditt verktyg,
+som avsnittet om verktygen anger. Läs den sedan och korta ner den: ge agenten
+bara verktyg som läser, skriv beskrivningen som vad den gör och när den ska
 användas och håll instruktionerna till några rader.
 
 Prova den på en färdig ändring. Nämn agenten vid namn i begäran första gången
