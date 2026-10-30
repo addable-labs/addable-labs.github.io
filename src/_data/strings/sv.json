@@ -1253,7 +1253,7 @@
       },
       "ifNone": "om det inte finns någon CLAUDE.md",
       "ifClaude": "om projektet har en CLAUDE.md",
-      "caption": "Vilka av projektets filer varje verktyg läser, så som dokumentationen såg ut den 13 oktober 2026."
+      "caption": "Vilka av projektets filer varje verktyg läser, så som dokumentationen såg ut den 30 oktober 2026."
     }
   },
   "games": {

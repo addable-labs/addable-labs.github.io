@@ -1253,7 +1253,7 @@
       },
       "ifNone": "if there is no CLAUDE.md",
       "ifClaude": "if the project has a CLAUDE.md",
-      "caption": "Which of the project's files each tool reads, as their documentation stood on 13 October 2026."
+      "caption": "Which of the project's files each tool reads, as their documentation stood on 30 October 2026."
     }
   },
   "games": {

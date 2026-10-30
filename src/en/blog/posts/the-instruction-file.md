@@ -11,77 +11,87 @@ aiGenerated: true                # AI produced this text
 humanReviewed: false             # no one has read it yet
 ---
 
-In [What makes a chat an AI agent](/blog/what-makes-a-chat-an-ai-agent/),
-the first part of the series, we showed a short AGENTS.md for a made-up web
-app. This part starts with what a newcomer wants to know first: whether to
-make such a file, what goes in it and how to keep it useful.
+In [From AI chat to agentic work](/blog/what-makes-a-chat-an-ai-agent/), the
+first part of this series, the instructions were one of the five parts of an
+AI agent: a text file in the project that the agent reads every time it
+starts. We showed a short one for a made-up web app.
 
-## Yes, make one, and keep it short
+If you are new to AI agents, you probably want to know three things. Should
+you make one? What goes in it first? And what do you do when the agent still
+gets something wrong? The short answer: yes, make one, write it yourself and
+keep it short. It does not have to be right on the first day. It grows from
+what the agent gets wrong, and it shrinks when a line is no longer needed.
 
-Anthropic describes CLAUDE.md, its version of the file, as
-[the place where you write down what you would otherwise re-explain](https://code.claude.com/docs/en/memory).
-The studies below find small, uncertain gains, but a short file is quick to
-write and saves explaining the same things again. So keep the effort small:
+We follow the web app from part 1 and its file through the article, first on
+the day it was written and then a few weeks later.
 
-1. Write it yourself, as AGENTS.md in the root of the project. Researchers at
-   ETH Zurich
-   [suggest leaving out files written by a language model for the time being](https://arxiv.org/html/2602.11988v3).
-2. Start with the commands for installing, building and testing. Anthropic
-   lists
-   [commands Claude cannot guess](https://code.claude.com/docs/en/best-practices)
-   first among what belongs in the file.
-3. Add the few rules the agent cannot work out from the code, each with its
-   reason, so that it
-   [makes better decisions in edge cases](https://code.visualstudio.com/docs/agent-customization/custom-instructions).
-4. Leave out overviews and descriptions of what each file does:
-   [the agent can find that out for itself](https://code.claude.com/docs/en/best-practices).
-5. Add a line when the agent
-   [makes the same mistake a second time](https://code.claude.com/docs/en/memory).
-   Cut a line when
-   [removing it would cause no mistakes](https://code.claude.com/docs/en/best-practices).
+## The file on the first day
 
-Claude Code
-[reads AGENTS.md too when there is no CLAUDE.md](https://code.claude.com/docs/en/memory).
-If there is one, that file can
-[import AGENTS.md](https://code.claude.com/docs/en/memory), as the section on
-several tools shows. The file at the end of the story is a starting
-point to copy.
+A made-up example: a developer starts a web app with a database and tests, and
+has an AI agent to help. The agent knows nothing about the project, so on the
+first day the developer writes down what a new colleague would need to know,
+and nothing more:
 
-## The same file a few weeks later
+```markdown
+# Instructions for AI agents
 
-Here is how the steps play out, in a made-up story. On the first day the
-developer's file looked like part 1's example and held little more than what
-it takes to get started. Then a database table needed a new column. The file
-said to change nothing in the `migrations/` folder, where the database
-changes live. The rule gave no reason and no alternative, so the agent left a
-loose SQL script in the project root.
+## Build and test
+- Install dependencies with `npm install`.
+- Run `npm test` before you say you are done.
 
-The developer rewrote the rule with both a reason and a way out: those
-files have already run in production, so add a new migration instead. Two
-weeks running, the agent ran all the tests after a one-line change, so
-the file got a line on how to run a single test file.
+## Rules
+- Write a test for every bug you fix.
+- Change nothing in the `migrations/` folder.
+- Ask before you add a new package.
+```
 
-The file had also gained a section on what each file in the project does.
-Then the developer asked of every line whether the agent would make mistakes
-without it, and that section failed: the agent reads the files itself, and
-Anthropic counts
-[file-by-file descriptions of the codebase](https://code.claude.com/docs/en/best-practices)
-among what does not belong in the file. It was cut.
+The lines under "Build and test" are commands the agent could not guess: how
+to install the project and how to test it.
+[Anthropic lists build and test commands among what belongs in the file](https://code.claude.com/docs/en/memory).
+The rules are the few things that cannot be read out of the code. One keeps
+the agent out of the `migrations/` folder, where the changes to the database
+are kept.
+
+## A rule needs its reason
+
+Then a database table needs a new column. The file says to change nothing in
+`migrations/`, but not why and not what to do instead. The agent leaves a
+loose SQL script in the root of the project.
+
+The developer rewrites the rule so that it has both a reason and a way out:
+those files have already run in production, so add a new migration instead.
+[VS Code's documentation](https://code.visualstudio.com/docs/agent-customization/custom-instructions)
+says that the agent makes better decisions in edge cases when the instructions
+explain why a convention exists.
+
+Two weeks in a row, the agent runs all the tests after a change of one line.
+The developer adds a line on how to run a single test file.
+[Anthropic's advice](https://code.claude.com/docs/en/memory) is to add a line
+when Claude makes the same mistake a second time.
+
+## What the agent finds on its own can go
+
+The file has also grown a section on what each file in the project does. The
+developer applies [Anthropic's test for what to write down](https://code.claude.com/docs/en/best-practices):
+could the agent find it by reading the code, and would it actually go and
+look? If both answers are yes, the line goes. The section fails the test and is
+cut.
 
 {% figure "file-before-after", "wide" %}
 
-The web client's tests are not part of `npm test`, so the `web/` folder got
-an AGENTS.md of its own, with one line that adds the web tests without
+## A folder that works differently gets a file of its own
+
+The web client's tests are not part of `npm test`. The `web/` folder gets an
+AGENTS.md of its own, with one line that adds the web tests without
 contradicting the root file:
 
 ```markdown
 - Also run `npm run test:web` before you say you are done.
 ```
 
-The `migrations/` rule stayed in the root file. It could have moved into an
-AGENTS.md in `migrations/`, but the tools read files in subfolders at
-different times, so a rule that must always hold is safest in the root. The
-root file then looked like this:
+The `migrations/` rule stays in the root file, because the tools read files in
+subfolders at different times and a rule that must always hold is safest
+there. The root file then looks like this:
 
 ```markdown
 # Instructions for AI agents
@@ -98,58 +108,37 @@ root file then looked like this:
 - Ask before you add a new package.
 ```
 
-A line in the file stops nothing: it asks and does not block.
-[One of Anthropic's own examples of a hook](https://code.claude.com/docs/en/best-practices),
-[a command the tool runs by itself](https://code.claude.com/docs/en/hooks-guide),
-blocks writes to the migrations folder. In nivå, our AI-fluency
-self-assessment, database migrations may only be added, never changed:
-the checks built before the features make sure a decision written down is
-respected, as we wrote in
-[Lessons from building nivå](/blog/lessons-from-building-niva/). Part 7 is
-about such blocks.
+## A line in the file stops nothing
 
-## Vendors ask for short files, but the evidence is thin
+A line in the file asks the agent; it does not stop it. In
+[nivå](https://erniva.se/), our AI-fluency self-assessment, database
+migrations may only be added, never changed. The checks built before the
+features make sure a decision written down is respected, as we wrote in
+[Lessons from building nivå](/blog/lessons-from-building-niva/).
 
-OpenAI
-[prefers a short, accurate AGENTS.md to a long file full of vague rules](https://learn.chatgpt.com/docs/learn/best-practices).
-GitHub's suggested prompt for having Copilot write its own instruction file
-[asks for no more than two pages](https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/add-custom-instructions/add-repository-instructions),
-and Codex
-[by default stops adding files once together they reach 32 KiB](https://learn.chatgpt.com/docs/agent-configuration/agents-md),
-about 32,000 characters.
+## The gains are small, the cost is clear
 
-The evidence that the file helps is thinner than the advice.
-[A study from ETH Zurich](https://arxiv.org/html/2602.11988v3) had AI
-agents solve real-world tasks with and without an instruction file. Files the developers had written
-themselves raised the share of tasks solved by 2.4% on average, while files
-written by a language model lowered it by 0.5% and 2% in the study's two
-sets of tasks. None of these differences is statistically significant, so
-the study cannot tell them from chance.
+Does the file help at all? [A study from ETH Zurich](https://arxiv.org/html/2602.11988v3)
+had AI agents solve real-world tasks with and without an instruction file.
+
+Files the developers had written themselves raised the share of tasks solved
+by 2.4% on average. Files written by a language model lowered it by 0.5% and
+2% in the study's two sets of tasks.
+
+None of these differences is statistically significant, so the study cannot
+tell them from chance. The researchers suggest leaving out files written by a
+language model for the time being.
 
 The cost is clearer. The generated files made the runs 20% and 23% more
-expensive, and that increase is significant. Even the hand-written files
-raised the cost, by at most 19%. Overviews of the project did not help,
-though the researchers note that model providers recommend them.
-
-[Another, smaller study of 124 pull requests](https://arxiv.org/abs/2601.20404)
-found that runs with an AGENTS.md had a 28.64% shorter median time and that
-the agents solved the tasks about as often. There the file saved time but
-gave no better answers.
-
-Claude Code and Codex can both draft a first version, but
-[Anthropic says to refine it with what Claude would not discover on its own](https://code.claude.com/docs/en/memory)
-and [OpenAI to edit the result to fit how the team works](https://learn.chatgpt.com/docs/learn/best-practices).
-That argues for writing it by hand, or editing a draft down to what the
-agent cannot find out for itself, and for expecting small, uncertain gains.
+expensive, and that increase is significant.
 
 ## Models change, and the file changes with them
 
 A file written for one model can be too loud for the next. In October 2026
 [Anthropic's prompting guide](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices)
 says that some newer models are more responsive to the system prompt, the
-tool's own instructions, so where one might have written
-"CRITICAL: You MUST use this tool when...", one can now write "Use this
-tool when...".
+tool's own instructions. Where you might have written "CRITICAL: You MUST use
+this tool when...", you can now write "Use this tool when...".
 
 Since 25 September 2026 Claude Code has
 [a command that looks for instructions written for older models](https://code.claude.com/docs/en/changelog):
@@ -158,62 +147,53 @@ Since 25 September 2026 Claude Code has
 /doctor prompt-audit
 ```
 
-The audit covers [AGENTS.md too](https://code.claude.com/docs/en/memory)
-and changes nothing until you ask.
+The audit covers [AGENTS.md too](https://code.claude.com/docs/en/memory) and
+changes nothing until you ask.
 
 ## One file for three tools
 
-With more than one tool, a single AGENTS.md in the root is enough, if each
-tool finds it. We describe the tools as their documentation stood on 13
-October 2026.
+With more than one tool in the project, one AGENTS.md in the root is enough if
+each tool finds it. We describe the tools as their documentation stood on 30
+October 2026, and what we say may have changed since.
 
 {% figure "which-tool-reads-what", "wide" %}
 
-[Codex reads AGENTS.md before doing any work](https://learn.chatgpt.com/docs/agent-configuration/agents-md).
-GitHub Copilot reads it too,
-[on GitHub](https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/add-custom-instructions/add-repository-instructions)
-and [in VS Code](https://code.visualstudio.com/docs/agent-customization/custom-instructions).
-Claude Code also reads AGENTS.md, but by default
-[only when there is no CLAUDE.md](https://code.claude.com/docs/en/memory).
-If there is one, that file can
-[import AGENTS.md](https://code.claude.com/docs/en/memory) with a single
-line:
+Claude Code reads AGENTS.md too, but by default
+[only when there is no CLAUDE.md](https://code.claude.com/docs/en/memory). If
+there is one, that file can
+[import AGENTS.md](https://code.claude.com/docs/en/memory) with a single line:
 
 ```text
 @AGENTS.md
 ```
 
-There is a trap: a personal CLAUDE.local.md
-[counts as a CLAUDE.md](https://code.claude.com/docs/en/memory), so by
-default whoever adds one stops their own Claude Code from reading
-AGENTS.md.
+There is a trap. A personal CLAUDE.local.md
+[counts as a CLAUDE.md](https://code.claude.com/docs/en/memory), so by default
+whoever adds one stops their own Claude Code from reading AGENTS.md.
 [Setting Project instructions to `claude-md-and-agents-md` in `/config` keeps AGENTS.md read](https://code.claude.com/docs/en/memory).
 
-GitHub Copilot also reads `.github/copilot-instructions.md` and sends the
-model
+[Codex reads AGENTS.md before doing any work](https://learn.chatgpt.com/docs/agent-configuration/agents-md).
+
+GitHub Copilot reads AGENTS.md too,
+[on GitHub](https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/add-custom-instructions/add-repository-instructions)
+and [in VS Code](https://code.visualstudio.com/docs/agent-customization/custom-instructions).
+It also reads `.github/copilot-instructions.md` and sends the model
 [all relevant instructions](https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/add-custom-instructions/add-repository-instructions).
-VS Code advises against
-[relying on a file order](https://code.visualstudio.com/docs/agent-customization/custom-instructions)
-when files contradict each other. So the rules belong in one place.
 
 Files in subfolders, like `web/AGENTS.md` in the example, are read at
 different times. Without a CLAUDE.md, Claude Code reads one
-[when it opens a file there](https://code.claude.com/docs/en/memory).
-Codex
+[when it opens a file there](https://code.claude.com/docs/en/memory). Codex
 [searches from the project root down to the folder it started in](https://learn.chatgpt.com/docs/agent-configuration/agents-md),
-so it reads the file in `web/` only when it starts in `web/` or below. In
-VS Code, files in subfolders are
-[experimental, off by default](https://code.visualstudio.com/docs/agent-customization/custom-instructions)
-for [its built-in agent](https://code.visualstudio.com/docs/agents/concepts/agent-harnesses).
-Rules that must hold everywhere stay in the root file.
+and in VS Code, Copilot
+[finds one as it works with files in that subfolder](https://code.visualstudio.com/docs/agent-customization/custom-instructions).
+What must hold everywhere stays in the root file, in one place.
 
-## The factory's rules sit in the files read first
+## Two rules from the factory
 
-The factory behind this site works the same way. In
-[Why we run an agent-run software factory](/blog/why-we-run-an-agent-run-factory/)
-we wrote that rules "are written in the files every session reads first" and
-counted "the rules of a shared machine" as our own contribution. Two of
-them, shortened and without names:
+The factory behind this site keeps its rules in the files every session reads
+first, as we wrote in
+[Why we run an agent-run software factory](/blog/why-we-run-an-agent-run-factory/).
+Two of them, shortened and without names:
 
 ```markdown
 - Never stop processes by a pattern: it also hits other agents'
@@ -224,10 +204,32 @@ them, shortened and without names:
 
 Both lines give their reason, and neither can be worked out from the code.
 
-Every line also has a price. In
-[A study of the mayor's context](/blog/what-the-mayors-context-costs/), the
-rules files our coordinating agent reads count as what goes to the model
-with every call, so a longer file costs more on every call.
+## Start small and let the file grow
 
-What is needed only sometimes belongs elsewhere: an agent with a job of its
-own in part 3, skills in part 4.
+Make the file in the root of the project, as an AGENTS.md, and write it
+yourself. If a tool drafts it for you, edit the draft: both
+[Anthropic](https://code.claude.com/docs/en/memory) and
+[OpenAI](https://learn.chatgpt.com/docs/learn/best-practices) say so. Begin
+with the commands to install, build and test, then add the few rules the agent
+cannot work out from the code, each with its reason. Leave out overviews and
+descriptions of what each file does.
+
+When the agent makes the same mistake a second time, add a line with its
+reason. When a line only says what the agent could find by reading the code,
+cut it. When you change model, read the file again.
+
+The evidence that the file helps is thin — the study above shows small,
+uncertain gains — and the tools' documentation keeps changing.
+
+## What comes next
+
+The working titles may change along the way.
+
+1. [From AI chat to agentic work](/blog/what-makes-a-chat-an-ai-agent/)
+2. The instruction file (this part)
+3. Agents with a scope each
+4. Skills that describe how something should be done
+5. The Model Context Protocol — a common way for agents to reach other systems
+6. Where the agent runs and who starts it
+7. Limits set in advance
+8. What has changed along the way — the latest models need less steering than earlier ones, but still some

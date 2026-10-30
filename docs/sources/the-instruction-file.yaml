@@ -1,240 +1,176 @@
 # The sources of "The instruction file, the first thing an AI agent reads" (both
 # languages): one entry per factual claim in the article, vendor and factory
 # claims alike, for the monthly check of the series' sources. Every quote was
-# taken from its page on 2026-10-12 or 2026-10-13. The two lines from the shared machine's
-# rules file rest on an unpublished file and have no entry.
+# taken from its page on the date in retrieved (2026-10-12, 2026-10-13 or
+# 2026-10-30) and checked again on the date in last_checked. The two lines from
+# the shared machine's rules file rest on an unpublished file and have no
+# entry.
 
-- id: R1-reexplain
-  article: the-instruction-file
-  sentence:
-    sv: "Anthropic beskriver CLAUDE.md, sin variant av filen, som stället där man skriver ner det man annars skulle förklara på nytt."
-    en: "Anthropic describes CLAUDE.md, its version of the file, as the place where you write down what you would otherwise re-explain."
-  vendor: Anthropic
-  url: https://code.claude.com/docs/en/memory
-  final_url: https://code.claude.com/docs/en/memory
-  quote: "Treat CLAUDE.md as the place you write down what you’d otherwise re-explain."
-  retrieved: 2026-10-13
-  last_checked: 2026-10-13
-- id: R1-saves
-  article: the-instruction-file
-  sentence:
-    sv: "en kort fil är snabb att skriva och sparar att man förklarar samma sak igen"
-    en: "a short file is quick to write and saves explaining the same things again"
-  vendor: Anthropic
-  url: https://code.claude.com/docs/en/memory
-  final_url: https://code.claude.com/docs/en/memory
-  quote: "Treat CLAUDE.md as the place you write down what you’d otherwise re-explain."
-  retrieved: 2026-10-13
-  last_checked: 2026-10-13
 - id: S4-omit
   article: the-instruction-file
   sentence:
-    sv: "Forskare vid ETH Zürich föreslår att man tills vidare undviker filer som en språkmodell har skrivit."
-    en: "Researchers at ETH Zurich suggest leaving out files written by a language model for the time being."
+    sv: "Forskarna föreslår att man tills vidare undviker filer som en språkmodell har skrivit."
+    en: "The researchers suggest leaving out files written by a language model for the time being."
   vendor: ETH Zurich (arXiv)
   url: https://arxiv.org/html/2602.11988v3
   final_url: https://arxiv.org/html/2602.11988v3
   quote: "We therefore suggest omitting LLM-generated context files for the time being"
   retrieved: 2026-10-12
-  last_checked: 2026-10-12
+  last_checked: 2026-10-30
 - id: S8-uncertain
   article: the-instruction-file
   sentence:
-    sv: "Studierna längre ned visar små och osäkra vinster"
-    en: "The studies below find small, uncertain gains"
+    sv: "studien ovan visar små och osäkra vinster"
+    en: "the study above shows small, uncertain gains"
   vendor: ETH Zurich (arXiv)
   url: https://arxiv.org/html/2602.11988v3
   final_url: https://arxiv.org/html/2602.11988v3
   quote: "while developer-written ones provide a marginal performance gain, neither statistically significant"
   retrieved: 2026-10-13
-  last_checked: 2026-10-13
+  last_checked: 2026-10-30
 - id: B1-commands
   article: the-instruction-file
   sentence:
-    sv: "Anthropic listar kommandon som Claude inte kan gissa först bland det som hör hemma i filen."
-    en: "Anthropic lists commands Claude cannot guess first among what belongs in the file."
+    sv: "Anthropic listar bygg- och testkommandon bland det som hör hemma i filen"
+    en: "Anthropic lists build and test commands among what belongs in the file"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/best-practices
   final_url: https://code.claude.com/docs/en/best-practices
-  quote: "Bash commands Claude can’t guess"
-  retrieved: 2026-10-13
-  last_checked: 2026-10-13
+  quote: "the exact test, typecheck, and lint commands, and how to run a single test file"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
 - id: B1-build
   article: the-instruction-file
   sentence:
-    sv: "Anthropic listar kommandon som Claude inte kan gissa först bland det som hör hemma i filen."
-    en: "Anthropic lists commands Claude cannot guess first among what belongs in the file."
+    sv: "Anthropic listar bygg- och testkommandon bland det som hör hemma i filen"
+    en: "Anthropic lists build and test commands among what belongs in the file"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/memory
   final_url: https://code.claude.com/docs/en/memory
   quote: "add instructions that apply to anyone working on the project: build and test commands"
-  retrieved: 2026-10-13
-  last_checked: 2026-10-13
-- id: B1-tests
-  article: the-instruction-file
-  sentence:
-    sv: "Anthropic listar kommandon som Claude inte kan gissa först bland det som hör hemma i filen."
-    en: "Anthropic lists commands Claude cannot guess first among what belongs in the file."
-  vendor: Anthropic
-  url: https://code.claude.com/docs/en/best-practices
-  final_url: https://code.claude.com/docs/en/best-practices
-  quote: "Testing instructions and preferred test runners"
-  retrieved: 2026-10-13
-  last_checked: 2026-10-13
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
 - id: V1-reason
   article: the-instruction-file
   sentence:
-    sv: "Lägg till de få regler som agenten inte kan läsa ut ur koden, var och en med sitt skäl, så att den fattar bättre beslut i gränsfall."
-    en: "Add the few rules the agent cannot work out from the code, each with its reason, so that it makes better decisions in edge cases."
+    sv: "säger att agenten fattar bättre beslut i gränsfall när instruktionerna förklarar varför en konvention finns"
+    en: "says that the agent makes better decisions in edge cases when the instructions explain why a convention exists"
   vendor: GitHub
   url: https://code.visualstudio.com/docs/agent-customization/custom-instructions
   final_url: https://code.visualstudio.com/docs/agent-customization/custom-instructions
   quote: "Include the reasoning behind rules."
   retrieved: 2026-10-12
-  last_checked: 2026-10-12
+  last_checked: 2026-10-30
 - id: V2-edge
   article: the-instruction-file
   sentence:
-    sv: "Lägg till de få regler som agenten inte kan läsa ut ur koden, var och en med sitt skäl, så att den fattar bättre beslut i gränsfall."
-    en: "Add the few rules the agent cannot work out from the code, each with its reason, so that it makes better decisions in edge cases."
+    sv: "säger att agenten fattar bättre beslut i gränsfall när instruktionerna förklarar varför en konvention finns"
+    en: "says that the agent makes better decisions in edge cases when the instructions explain why a convention exists"
   vendor: GitHub
   url: https://code.visualstudio.com/docs/agent-customization/custom-instructions
   final_url: https://code.visualstudio.com/docs/agent-customization/custom-instructions
   quote: "When instructions explain why a convention exists, the AI makes better decisions in edge cases."
   retrieved: 2026-10-12
-  last_checked: 2026-10-12
+  last_checked: 2026-10-30
 - id: B3-infer
   article: the-instruction-file
   sentence:
-    sv: "Lägg till de få regler som agenten inte kan läsa ut ur koden, var och en med sitt skäl, så att den fattar bättre beslut i gränsfall."
-    en: "Add the few rules the agent cannot work out from the code, each with its reason, so that it makes better decisions in edge cases."
+    sv: "Reglerna är de få saker som inte går att läsa ut ur koden."
+    en: "The rules are the few things that cannot be read out of the code."
   vendor: Anthropic
   url: https://code.claude.com/docs/en/best-practices
   final_url: https://code.claude.com/docs/en/best-practices
-  quote: "This gives Claude persistent context it can’t infer from code alone."
-  retrieved: 2026-10-13
-  last_checked: 2026-10-13
+  quote: "Only write down what Claude can’t find by reading the repo, or what it would otherwise spend time rediscovering every session."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
 - id: B4-exclude
   article: the-instruction-file
   sentence:
-    sv: "Utelämna översikter och beskrivningar av vad varje fil gör: agenten kan ta reda på det själv."
-    en: "Leave out overviews and descriptions of what each file does: the agent can find that out for itself."
+    sv: "Låt bli översikter och beskrivningar av vad varje fil gör."
+    en: "Leave out overviews and descriptions of what each file does."
   vendor: Anthropic
   url: https://code.claude.com/docs/en/best-practices
   final_url: https://code.claude.com/docs/en/best-practices
-  quote: "Anything Claude can figure out by reading code"
-  retrieved: 2026-10-13
-  last_checked: 2026-10-13
+  quote: "Could it find this by reading the code? Would it actually go and look? If both are yes, leave it out."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
 - id: C2-mistake
   article: the-instruction-file
   sentence:
-    sv: "Lägg till en rad när agenten gör samma misstag en andra gång."
-    en: "Add a line when the agent makes the same mistake a second time."
+    sv: "Anthropic råder till att lägga till en rad när Claude gör samma misstag en andra gång."
+    en: "Anthropic's advice is to add a line when Claude makes the same mistake a second time."
   vendor: Anthropic
   url: https://code.claude.com/docs/en/memory
   final_url: https://code.claude.com/docs/en/memory
   quote: "Claude makes the same mistake a second time"
   retrieved: 2026-10-12
-  last_checked: 2026-10-12
+  last_checked: 2026-10-30
+- id: C2-mistake-b
+  article: the-instruction-file
+  sentence:
+    sv: "När agenten gör samma misstag en andra gång lägger du till en rad, med sitt skäl."
+    en: "When the agent makes the same mistake a second time, add a line with its reason."
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/memory
+  final_url: https://code.claude.com/docs/en/memory
+  quote: "Claude makes the same mistake a second time"
+  retrieved: 2026-10-12
+  last_checked: 2026-10-30
 - id: O7-start
   article: the-instruction-file
   sentence:
-    sv: "Lägg till en rad när agenten gör samma misstag en andra gång."
-    en: "Add a line when the agent makes the same mistake a second time."
+    sv: "När agenten gör samma misstag en andra gång lägger du till en rad, med sitt skäl."
+    en: "When the agent makes the same mistake a second time, add a line with its reason."
   vendor: OpenAI
   url: https://learn.chatgpt.com/docs/learn/best-practices
   final_url: https://learn.chatgpt.com/docs/learn/best-practices
   quote: "Start with the basics, then add new rules only after you notice repeated mistakes."
   retrieved: 2026-10-13
-  last_checked: 2026-10-13
+  last_checked: 2026-10-30
 - id: C4-removing
   article: the-instruction-file
   sentence:
-    sv: "Stryk en rad när agenten inte skulle göra något misstag utan den."
-    en: "Cut a line when removing it would cause no mistakes."
+    sv: "Utvecklaren tillämpar Anthropics test för vad man ska skriva ner: kan agenten hitta det genom att läsa koden, och skulle den faktiskt gå och titta?"
+    en: "The developer applies Anthropic's test for what to write down: could the agent find it by reading the code, and would it actually go and look?"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/best-practices
   final_url: https://code.claude.com/docs/en/best-practices
-  quote: "For each line, ask: \"Would removing this cause Claude to make mistakes?\" If not, cut it."
-  retrieved: 2026-10-12
-  last_checked: 2026-10-12
-- id: C10-lone
+  quote: "A good test before you write anything down for Claude: Could it find this by reading the code? Would it actually go and look? If both are yes, leave it out."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: C4-removing-b
   article: the-instruction-file
   sentence:
-    sv: "Claude Code läser AGENTS.md också när det inte finns någon CLAUDE.md."
-    en: "Claude Code reads AGENTS.md too when there is no CLAUDE.md."
-  vendor: Anthropic
-  url: https://code.claude.com/docs/en/memory
-  final_url: https://code.claude.com/docs/en/memory
-  quote: "so a repository already set up for other coding agents works without adding a CLAUDE.md, an import, or a setting"
-  retrieved: 2026-10-13
-  last_checked: 2026-10-13
-- id: C13-answer
-  article: the-instruction-file
-  sentence:
-    sv: "Finns det en kan den filen importera AGENTS.md, som avsnittet om flera verktyg visar."
-    en: "If there is one, that file can import AGENTS.md, as the section on several tools shows."
-  vendor: Anthropic
-  url: https://code.claude.com/docs/en/memory
-  final_url: https://code.claude.com/docs/en/memory
-  quote: "Do this when your project also has a CLAUDE.md"
-  retrieved: 2026-10-13
-  last_checked: 2026-10-13
-- id: C3-file-by-file
-  article: the-instruction-file
-  sentence:
-    sv: "Anthropic räknar beskrivningar av kodbasen fil för fil till det som inte hör hemma i filen."
-    en: "Anthropic counts file-by-file descriptions of the codebase among what does not belong in the file."
+    sv: "När en rad bara säger det agenten kan hitta genom att läsa koden stryker du den."
+    en: "When a line only says what the agent could find by reading the code, cut it."
   vendor: Anthropic
   url: https://code.claude.com/docs/en/best-practices
   final_url: https://code.claude.com/docs/en/best-practices
-  quote: "File-by-file descriptions of the codebase"
-  retrieved: 2026-10-12
-  last_checked: 2026-10-12
-- id: C6-hook
-  article: the-instruction-file
-  sentence:
-    sv: "Ett av Anthropics egna exempel på en krok (hook), ett kommando som verktyget kör av sig självt, blockerar skrivningar till mappen med migreringar."
-    en: "One of Anthropic's own examples of a hook, a command the tool runs by itself, blocks writes to the migrations folder."
-  vendor: Anthropic
-  url: https://code.claude.com/docs/en/best-practices
-  final_url: https://code.claude.com/docs/en/best-practices
-  quote: "Write a hook that blocks writes to the migrations folder."
-  retrieved: 2026-10-12
-  last_checked: 2026-10-12
-- id: C6-hook-gloss
-  article: the-instruction-file
-  sentence:
-    sv: "Ett av Anthropics egna exempel på en krok (hook), ett kommando som verktyget kör av sig självt, blockerar skrivningar till mappen med migreringar."
-    en: "One of Anthropic's own examples of a hook, a command the tool runs by itself, blocks writes to the migrations folder."
-  vendor: Anthropic
-  url: https://code.claude.com/docs/en/hooks-guide
-  final_url: https://code.claude.com/docs/en/hooks-guide
-  quote: "Hooks are user-defined shell commands."
-  retrieved: 2026-10-13
-  last_checked: 2026-10-13
-- id: C6-hook-gloss-b
-  article: the-instruction-file
-  sentence:
-    sv: "Ett av Anthropics egna exempel på en krok (hook), ett kommando som verktyget kör av sig självt, blockerar skrivningar till mappen med migreringar."
-    en: "One of Anthropic's own examples of a hook, a command the tool runs by itself, blocks writes to the migrations folder."
-  vendor: Anthropic
-  url: https://code.claude.com/docs/en/hooks-guide
-  final_url: https://code.claude.com/docs/en/hooks-guide
-  quote: "certain actions always happen rather than relying on the LLM to choose to run them"
-  retrieved: 2026-10-13
-  last_checked: 2026-10-13
+  quote: "A good test before you write anything down for Claude: Could it find this by reading the code? Would it actually go and look? If both are yes, leave it out."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
 - id: C6-advisory
   article: the-instruction-file
   sentence:
-    sv: "En rad i filen hindrar ändå ingenting: den är en instruktion, inte en spärr."
-    en: "A line in the file stops nothing: it asks and does not block."
+    sv: "En rad i filen ber agenten om något men stoppar den inte."
+    en: "A line in the file asks the agent; it does not stop it."
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/memory
+  final_url: https://code.claude.com/docs/en/memory
+  quote: "Claude reads it and tries to follow it, but there’s no guarantee of strict compliance"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: C6-advisory-b
+  article: the-instruction-file
+  sentence:
+    sv: "En rad i filen ber agenten om något men stoppar den inte."
+    en: "A line in the file asks the agent; it does not stop it."
   vendor: Anthropic
   url: https://code.claude.com/docs/en/best-practices
   final_url: https://code.claude.com/docs/en/best-practices
-  quote: "Unlike CLAUDE.md instructions which are advisory, hooks are deterministic and guarantee the action happens."
-  retrieved: 2026-10-13
-  last_checked: 2026-10-13
+  quote: "A line like Always typecheck before you finish in this file works most of the time, not every time."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
 - id: F1-niva
   article: the-instruction-file
   sentence:
@@ -245,7 +181,7 @@
   final_url: https://addablelabs.se/blog/lessons-from-building-niva/
   quote: "database migrations are append-only"
   retrieved: 2026-10-13
-  last_checked: 2026-10-13
+  last_checked: 2026-10-30
 - id: F1-niva-sv
   article: the-instruction-file
   sentence:
@@ -256,7 +192,7 @@
   final_url: https://addablelabs.se/sv/blog/lessons-from-building-niva/
   quote: "databasmigreringar får bara läggas till, aldrig ändras"
   retrieved: 2026-10-13
-  last_checked: 2026-10-13
+  last_checked: 2026-10-30
 - id: F1-niva-what
   article: the-instruction-file
   sentence:
@@ -267,7 +203,7 @@
   final_url: https://addablelabs.se/blog/lessons-from-building-niva/
   quote: "is an AI fluency and AI adoption maturity"
   retrieved: 2026-10-13
-  last_checked: 2026-10-13
+  last_checked: 2026-10-30
 - id: F1-niva-what-sv
   article: the-instruction-file
   sentence:
@@ -278,84 +214,40 @@
   final_url: https://addablelabs.se/sv/blog/lessons-from-building-niva/
   quote: "är en självskattning av AI-kompetens och AI-mognad"
   retrieved: 2026-10-13
-  last_checked: 2026-10-13
+  last_checked: 2026-10-30
 - id: F2-niva-check
   article: the-instruction-file
   sentence:
-    sv: "testmiljön, som byggdes före funktionerna, ser till att ett nedskrivet beslut följs"
-    en: "the checks built before the features make sure a decision written down is respected"
+    sv: "Testmiljön, som byggdes före funktionerna, ser till att ett nedskrivet beslut följs"
+    en: "The checks built before the features make sure a decision written down is respected"
   vendor: Addable Labs
   url: https://addablelabs.se/blog/lessons-from-building-niva/
   final_url: https://addablelabs.se/blog/lessons-from-building-niva/
   quote: "a decision that is written down is a decision the harness makes sure is respected"
   retrieved: 2026-10-12
-  last_checked: 2026-10-12
+  last_checked: 2026-10-30
 - id: F2-niva-check-b
   article: the-instruction-file
   sentence:
-    sv: "testmiljön, som byggdes före funktionerna, ser till att ett nedskrivet beslut följs"
-    en: "the checks built before the features make sure a decision written down is respected"
+    sv: "Testmiljön, som byggdes före funktionerna, ser till att ett nedskrivet beslut följs"
+    en: "The checks built before the features make sure a decision written down is respected"
   vendor: Addable Labs
   url: https://addablelabs.se/blog/lessons-from-building-niva/
   final_url: https://addablelabs.se/blog/lessons-from-building-niva/
   quote: "Build the harness before the features."
   retrieved: 2026-10-12
-  last_checked: 2026-10-12
+  last_checked: 2026-10-30
 - id: F2-niva-check-sv
   article: the-instruction-file
   sentence:
-    sv: "testmiljön, som byggdes före funktionerna, ser till att ett nedskrivet beslut följs"
-    en: "the checks built before the features make sure a decision written down is respected"
+    sv: "Testmiljön, som byggdes före funktionerna, ser till att ett nedskrivet beslut följs"
+    en: "The checks built before the features make sure a decision written down is respected"
   vendor: Addable Labs
   url: https://addablelabs.se/sv/blog/lessons-from-building-niva/
   final_url: https://addablelabs.se/sv/blog/lessons-from-building-niva/
   quote: "ett beslut som är nedskrivet är ett beslut som testmiljön ser till att vi lever upp till"
   retrieved: 2026-10-13
-  last_checked: 2026-10-13
-- id: O1-short
-  article: the-instruction-file
-  sentence:
-    sv: "OpenAI föredrar en kort och korrekt AGENTS.md framför en lång fil full av vaga regler."
-    en: "OpenAI prefers a short, accurate AGENTS.md to a long file full of vague rules."
-  vendor: OpenAI
-  url: https://learn.chatgpt.com/docs/learn/best-practices
-  final_url: https://learn.chatgpt.com/docs/learn/best-practices
-  quote: "A short, accurate AGENTS.md is more useful than a long file full of vague rules."
-  retrieved: 2026-10-12
-  last_checked: 2026-10-12
-- id: G1-two-pages
-  article: the-instruction-file
-  sentence:
-    sv: "GitHubs föreslagna prompt för att låta Copilot skriva sin egen instruktionsfil ber om högst två sidor"
-    en: "GitHub's suggested prompt for having Copilot write its own instruction file asks for no more than two pages"
-  vendor: GitHub
-  url: https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/add-custom-instructions/add-repository-instructions
-  final_url: https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/add-custom-instructions/add-repository-instructions
-  quote: "Instructions must be no longer than 2 pages."
-  retrieved: 2026-10-12
-  last_checked: 2026-10-12
-- id: O3-32k
-  article: the-instruction-file
-  sentence:
-    sv: "Codex slutar som standard lägga till filer när de tillsammans når 32 KiB"
-    en: "Codex by default stops adding files once together they reach 32 KiB"
-  vendor: OpenAI
-  url: https://learn.chatgpt.com/docs/agent-configuration/agents-md
-  final_url: https://learn.chatgpt.com/docs/agent-configuration/agents-md
-  quote: "stops adding files once the combined size reaches the limit defined by project_doc_max_bytes (32 KiB by default)"
-  retrieved: 2026-10-12
-  last_checked: 2026-10-12
-- id: O3-32k-chars
-  article: the-instruction-file
-  sentence:
-    sv: "ungefär 32 000 tecken"
-    en: "about 32,000 characters"
-  vendor: OpenAI
-  url: https://learn.chatgpt.com/docs/agent-configuration/agents-md
-  final_url: https://learn.chatgpt.com/docs/agent-configuration/agents-md
-  quote: "stops adding files once the combined size reaches the limit defined by project_doc_max_bytes (32 KiB by default)"
-  retrieved: 2026-10-13
-  last_checked: 2026-10-13
+  last_checked: 2026-10-30
 - id: S1-eth
   article: the-instruction-file
   sentence:
@@ -366,7 +258,7 @@
   final_url: https://arxiv.org/html/2602.11988v3
   quote: "arXiv:2602.11988v3 [cs.SE] 29 Sep 2026"
   retrieved: 2026-10-12
-  last_checked: 2026-10-12
+  last_checked: 2026-10-30
 - id: S1-eth-b
   article: the-instruction-file
   sentence:
@@ -377,7 +269,7 @@
   final_url: https://arxiv.org/html/2602.11988v3
   quote: "Department of Computer Science Affiliation: ETH Zurich"
   retrieved: 2026-10-12
-  last_checked: 2026-10-12
+  last_checked: 2026-10-30
 - id: S2-dev
   article: the-instruction-file
   sentence:
@@ -388,18 +280,18 @@
   final_url: https://arxiv.org/html/2602.11988v3
   quote: "Developer-provided context files improve agent performance by"
   retrieved: 2026-10-12
-  last_checked: 2026-10-12
+  last_checked: 2026-10-30
 - id: S3-generated
   article: the-instruction-file
   sentence:
-    sv: "filer som en språkmodell hade skrivit sänkte den med 0,5 och 2 % i studiens två uppsättningar uppgifter"
-    en: "files written by a language model lowered it by 0.5% and 2% in the study's two sets of tasks"
+    sv: "Filer som en språkmodell hade skrivit sänkte den med 0,5 och 2 % i studiens två uppsättningar uppgifter"
+    en: "Files written by a language model lowered it by 0.5% and 2% in the study's two sets of tasks"
   vendor: ETH Zurich (arXiv)
   url: https://arxiv.org/html/2602.11988v3
   final_url: https://arxiv.org/html/2602.11988v3
   quote: "LLM-generated context files cause performance drops in 5 out of 8 settings across SWE-bench and CTXbench"
   retrieved: 2026-10-12
-  last_checked: 2026-10-12
+  last_checked: 2026-10-30
 - id: S3-not-significant
   article: the-instruction-file
   sentence:
@@ -410,7 +302,7 @@
   final_url: https://arxiv.org/html/2602.11988v3
   quote: "this indicates that they have no significant effect on performance"
   retrieved: 2026-10-13
-  last_checked: 2026-10-13
+  last_checked: 2026-10-30
 - id: S3-not-significant-b
   article: the-instruction-file
   sentence:
@@ -421,7 +313,7 @@
   final_url: https://arxiv.org/html/2602.11988v3
   quote: "We observe that including context files does not significantly affect performance."
   retrieved: 2026-10-13
-  last_checked: 2026-10-13
+  last_checked: 2026-10-30
 - id: S3-generated-cost
   article: the-instruction-file
   sentence:
@@ -432,7 +324,7 @@
   final_url: https://arxiv.org/html/2602.11988v3
   quote: "cost increase of 20% and 23% on average, respectively"
   retrieved: 2026-10-12
-  last_checked: 2026-10-12
+  last_checked: 2026-10-30
 - id: S3-cost-significant
   article: the-instruction-file
   sentence:
@@ -443,128 +335,62 @@
   final_url: https://arxiv.org/html/2602.11988v3
   quote: "leading to a significant (p-value < 0.001%) cost increase of 20% and 23% on average, respectively"
   retrieved: 2026-10-13
-  last_checked: 2026-10-13
-- id: S2-dev-cost
-  article: the-instruction-file
-  sentence:
-    sv: "Även de handskrivna filerna höjde kostnaden, med högst 19 %."
-    en: "Even the hand-written files raised the cost, by at most 19%."
-  vendor: ETH Zurich (arXiv)
-  url: https://arxiv.org/html/2602.11988v3
-  final_url: https://arxiv.org/html/2602.11988v3
-  quote: "developer-provided context files also increase the average number of steps and the cost, on average by … steps and at most 19%, respectively"
-  retrieved: 2026-10-13
-  last_checked: 2026-10-13
+  last_checked: 2026-10-30
 - id: D1-anthropic-init
   article: the-instruction-file
   sentence:
-    sv: "Claude Code och Codex kan båda skriva ett första utkast, men Anthropic rekommenderar att man förfinar det med sådant som Claude inte skulle hitta på egen hand och OpenAI att man redigerar resultatet så att det passar hur teamet arbetar."
-    en: "Claude Code and Codex can both draft a first version, but Anthropic says to refine it with what Claude would not discover on its own and OpenAI to edit the result to fit how the team works."
+    sv: "Låter du ett verktyg skriva ett utkast, redigera det: både Anthropic och OpenAI råder till det."
+    en: "If a tool drafts it for you, edit the draft: both Anthropic and OpenAI say so."
   vendor: Anthropic
   url: https://code.claude.com/docs/en/memory
   final_url: https://code.claude.com/docs/en/memory
   quote: "Run /init to generate a starting CLAUDE.md automatically."
   retrieved: 2026-10-13
-  last_checked: 2026-10-13
+  last_checked: 2026-10-30
 - id: D1-anthropic-refine
   article: the-instruction-file
   sentence:
-    sv: "Claude Code och Codex kan båda skriva ett första utkast, men Anthropic rekommenderar att man förfinar det med sådant som Claude inte skulle hitta på egen hand och OpenAI att man redigerar resultatet så att det passar hur teamet arbetar."
-    en: "Claude Code and Codex can both draft a first version, but Anthropic says to refine it with what Claude would not discover on its own and OpenAI to edit the result to fit how the team works."
+    sv: "Låter du ett verktyg skriva ett utkast, redigera det: både Anthropic och OpenAI råder till det."
+    en: "If a tool drafts it for you, edit the draft: both Anthropic and OpenAI say so."
   vendor: Anthropic
   url: https://code.claude.com/docs/en/memory
   final_url: https://code.claude.com/docs/en/memory
   quote: "Refine from there with instructions Claude wouldn’t discover on its own."
   retrieved: 2026-10-13
-  last_checked: 2026-10-13
+  last_checked: 2026-10-30
 - id: D2-openai-init
   article: the-instruction-file
   sentence:
-    sv: "Claude Code och Codex kan båda skriva ett första utkast, men Anthropic rekommenderar att man förfinar det med sådant som Claude inte skulle hitta på egen hand och OpenAI att man redigerar resultatet så att det passar hur teamet arbetar."
-    en: "Claude Code and Codex can both draft a first version, but Anthropic says to refine it with what Claude would not discover on its own and OpenAI to edit the result to fit how the team works."
+    sv: "Låter du ett verktyg skriva ett utkast, redigera det: både Anthropic och OpenAI råder till det."
+    en: "If a tool drafts it for you, edit the draft: both Anthropic and OpenAI say so."
   vendor: OpenAI
   url: https://learn.chatgpt.com/docs/learn/best-practices
   final_url: https://learn.chatgpt.com/docs/learn/best-practices
   quote: "The /init slash command in the CLI is the quick-start command to scaffold a starter AGENTS.md in the current directory."
   retrieved: 2026-10-13
-  last_checked: 2026-10-13
+  last_checked: 2026-10-30
 - id: D2-openai-edit
   article: the-instruction-file
   sentence:
-    sv: "Claude Code och Codex kan båda skriva ett första utkast, men Anthropic rekommenderar att man förfinar det med sådant som Claude inte skulle hitta på egen hand och OpenAI att man redigerar resultatet så att det passar hur teamet arbetar."
-    en: "Claude Code and Codex can both draft a first version, but Anthropic says to refine it with what Claude would not discover on its own and OpenAI to edit the result to fit how the team works."
+    sv: "Låter du ett verktyg skriva ett utkast, redigera det: både Anthropic och OpenAI råder till det."
+    en: "If a tool drafts it for you, edit the draft: both Anthropic and OpenAI say so."
   vendor: OpenAI
   url: https://learn.chatgpt.com/docs/learn/best-practices
   final_url: https://learn.chatgpt.com/docs/learn/best-practices
   quote: "you should edit the result to match how your team actually builds, tests, reviews, and ships code"
   retrieved: 2026-10-13
-  last_checked: 2026-10-13
+  last_checked: 2026-10-30
 - id: S7-backs
   article: the-instruction-file
   sentence:
-    sv: "Det talar för att skriva filen för hand – eller redigera ett utkast ned till det agenten inte kan ta reda på själv – och för att räkna med små och osäkra vinster."
-    en: "That argues for writing it by hand, or editing a draft down to what the agent cannot find out for itself, and for expecting small, uncertain gains."
+    sv: "Börja med kommandona för att installera, bygga och testa och lägg sedan till de få regler som agenten inte kan läsa ut ur koden, var och en med sitt skäl."
+    en: "Begin with the commands to install, build and test, then add the few rules the agent cannot work out from the code, each with its reason."
   vendor: ETH Zurich (arXiv)
   url: https://arxiv.org/html/2602.11988v3
   final_url: https://arxiv.org/html/2602.11988v3
   quote: "Human-written context files should only include instructions required for coding agents that are not already present in the README"
   retrieved: 2026-10-12
-  last_checked: 2026-10-12
-- id: S7-backs-b
-  article: the-instruction-file
-  sentence:
-    sv: "Det talar för att skriva filen för hand – eller redigera ett utkast ned till det agenten inte kan ta reda på själv – och för att räkna med små och osäkra vinster."
-    en: "That argues for writing it by hand, or editing a draft down to what the agent cannot find out for itself, and for expecting small, uncertain gains."
-  vendor: ETH Zurich (arXiv)
-  url: https://arxiv.org/html/2602.11988v3
-  final_url: https://arxiv.org/html/2602.11988v3
-  quote: "while developer-written ones provide a marginal performance gain, neither statistically significant"
-  retrieved: 2026-10-13
-  last_checked: 2026-10-13
-- id: S5-overviews
-  article: the-instruction-file
-  sentence:
-    sv: "Översikter av projektet hjälpte inte, trots att forskarna noterar att leverantörerna rekommenderar dem."
-    en: "Overviews of the project did not help, though the researchers note that model providers recommend them."
-  vendor: ETH Zurich (arXiv)
-  url: https://arxiv.org/html/2602.11988v3
-  final_url: https://arxiv.org/html/2602.11988v3
-  quote: "repository overviews, although popular and recommended by model providers, are not helpful"
-  retrieved: 2026-10-12
-  last_checked: 2026-10-12
-- id: S6-efficiency
-  article: the-instruction-file
-  sentence:
-    sv: "En annan, mindre studie av 124 pull requests fann att körningarna med en AGENTS.md hade 28,64 % kortare mediantid och att agenterna löste uppgifterna ungefär lika ofta."
-    en: "Another, smaller study of 124 pull requests found that runs with an AGENTS.md had a 28.64% shorter median time and that the agents solved the tasks about as often."
-  vendor: arXiv
-  url: https://arxiv.org/abs/2601.20404
-  final_url: https://arxiv.org/abs/2601.20404
-  quote: "We analyze 10 repositories and 124 pull requests"
-  retrieved: 2026-10-12
-  last_checked: 2026-10-12
-- id: S6-efficiency-b
-  article: the-instruction-file
-  sentence:
-    sv: "En annan, mindre studie av 124 pull requests fann att körningarna med en AGENTS.md hade 28,64 % kortare mediantid och att agenterna löste uppgifterna ungefär lika ofta."
-    en: "Another, smaller study of 124 pull requests found that runs with an AGENTS.md had a 28.64% shorter median time and that the agents solved the tasks about as often."
-  vendor: arXiv
-  url: https://arxiv.org/abs/2601.20404
-  final_url: https://arxiv.org/abs/2601.20404
-  quote: "is associated with a lower median runtime ($\\Delta 28.64$%)"
-  retrieved: 2026-10-12
-  last_checked: 2026-10-12
-- id: S6-efficiency-c
-  article: the-instruction-file
-  sentence:
-    sv: "En annan, mindre studie av 124 pull requests fann att körningarna med en AGENTS.md hade 28,64 % kortare mediantid och att agenterna löste uppgifterna ungefär lika ofta."
-    en: "Another, smaller study of 124 pull requests found that runs with an AGENTS.md had a 28.64% shorter median time and that the agents solved the tasks about as often."
-  vendor: arXiv
-  url: https://arxiv.org/abs/2601.20404
-  final_url: https://arxiv.org/abs/2601.20404
-  quote: "while maintaining a comparable task completion behavior"
-  retrieved: 2026-10-12
-  last_checked: 2026-10-12
+  last_checked: 2026-10-30
 - id: E1-responsive
   article: the-instruction-file
   sentence:
@@ -575,18 +401,18 @@
   final_url: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices
   quote: "are also more responsive to the system prompt than previous models"
   retrieved: 2026-10-12
-  last_checked: 2026-10-12
+  last_checked: 2026-10-30
 - id: E1-critical
   article: the-instruction-file
   sentence:
-    sv: "så där man tidigare skrev \"CRITICAL: You MUST use this tool when...\" kan man nu skriva \"Use this tool when...\""
-    en: "so where one might have written \"CRITICAL: You MUST use this tool when...\", one can now write \"Use this tool when...\""
+    sv: "Där man tidigare skrev \"CRITICAL: You MUST use this tool when...\" kan man nu skriva \"Use this tool when...\""
+    en: "Where you might have written \"CRITICAL: You MUST use this tool when...\", you can now write \"Use this tool when...\""
   vendor: Anthropic
   url: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices
   final_url: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices
-  quote: "Where you might have said \"CRITICAL: You MUST use this tool when...\", you can use more normal prompting like \"Use this tool when...\"."
-  retrieved: 2026-10-12
-  last_checked: 2026-10-12
+  quote: "Where you might have said “CRITICAL: You MUST use this tool when...,” you can use more normal prompting such as “Use this tool when...”"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
 - id: E1-sysprompt
   article: the-instruction-file
   sentence:
@@ -597,7 +423,7 @@
   final_url: https://code.claude.com/docs/en/glossary
   quote: "The instructions Claude Code sends ahead of your conversation on every request"
   retrieved: 2026-10-13
-  last_checked: 2026-10-13
+  last_checked: 2026-10-30
 - id: C8-audit-date
   article: the-instruction-file
   sentence:
@@ -608,7 +434,7 @@
   final_url: https://code.claude.com/docs/en/changelog
   quote: "Added /doctor prompt-audit (also /checkup prompt-audit) to audit your CLAUDE.md files, skills, agents and commands for prompting patterns written for older models"
   retrieved: 2026-10-12
-  last_checked: 2026-10-12
+  last_checked: 2026-10-30
 - id: C9-audit-what
   article: the-instruction-file
   sentence:
@@ -619,7 +445,7 @@
   final_url: https://code.claude.com/docs/en/memory
   quote: "By default, the audit covers your CLAUDE.md, CLAUDE.local.md, and AGENTS.md files"
   retrieved: 2026-10-13
-  last_checked: 2026-10-13
+  last_checked: 2026-10-30
 - id: C9-audit-nothing
   article: the-instruction-file
   sentence:
@@ -630,18 +456,18 @@
   final_url: https://code.claude.com/docs/en/memory
   quote: "nothing in your files changes until you ask Claude to apply them"
   retrieved: 2026-10-13
-  last_checked: 2026-10-13
+  last_checked: 2026-10-30
 - id: V7-shared
   article: the-instruction-file
   sentence:
-    sv: "Med flera verktyg räcker en AGENTS.md i roten, så länge varje verktyg hittar den."
-    en: "With more than one tool, a single AGENTS.md in the root is enough, if each tool finds it."
+    sv: "Med flera verktyg i projektet räcker en AGENTS.md i roten, så länge varje verktyg hittar den."
+    en: "With more than one tool in the project, one AGENTS.md in the root is enough if each tool finds it."
   vendor: GitHub
   url: https://code.visualstudio.com/docs/agent-customization/custom-instructions
   final_url: https://code.visualstudio.com/docs/agent-customization/custom-instructions
   quote: "If your team uses multiple harnesses, use a shared format that they all support when possible."
   retrieved: 2026-10-13
-  last_checked: 2026-10-13
+  last_checked: 2026-10-30
 - id: O4-reads
   article: the-instruction-file
   sentence:
@@ -652,40 +478,40 @@
   final_url: https://learn.chatgpt.com/docs/agent-configuration/agents-md
   quote: "Codex reads AGENTS.md files before doing any work."
   retrieved: 2026-10-12
-  last_checked: 2026-10-12
+  last_checked: 2026-10-30
 - id: G2-reads
   article: the-instruction-file
   sentence:
-    sv: "GitHub Copilot läser den också, både på GitHub och i VS Code."
-    en: "GitHub Copilot reads it too, on GitHub and in VS Code."
+    sv: "GitHub Copilot läser AGENTS.md också, både på GitHub och i VS Code."
+    en: "GitHub Copilot reads AGENTS.md too, on GitHub and in VS Code."
   vendor: GitHub
   url: https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/add-custom-instructions/add-repository-instructions
   final_url: https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/add-custom-instructions/add-repository-instructions
   quote: "You can create one or more AGENTS.md files, stored anywhere within the repository."
   retrieved: 2026-10-13
-  last_checked: 2026-10-13
+  last_checked: 2026-10-30
 - id: V8-supported
   article: the-instruction-file
   sentence:
-    sv: "GitHub Copilot läser den också, både på GitHub och i VS Code."
-    en: "GitHub Copilot reads it too, on GitHub and in VS Code."
+    sv: "GitHub Copilot läser AGENTS.md också, både på GitHub och i VS Code."
+    en: "GitHub Copilot reads AGENTS.md too, on GitHub and in VS Code."
   vendor: GitHub
   url: https://code.visualstudio.com/docs/agent-customization/custom-instructions
   final_url: https://code.visualstudio.com/docs/agent-customization/custom-instructions
-  quote: "It is supported by multiple harnesses, including Copilot and OpenAI Codex, and by the Local agent."
-  retrieved: 2026-10-13
-  last_checked: 2026-10-13
+  quote: "Multiple harnesses, including Copilot and OpenAI Codex, support it."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
 - id: C10-reads
   article: the-instruction-file
   sentence:
     sv: "Claude Code läser också AGENTS.md, men som standard bara när det inte finns någon CLAUDE.md"
-    en: "Claude Code also reads AGENTS.md, but by default only when there is no CLAUDE.md"
+    en: "Claude Code reads AGENTS.md too, but by default only when there is no CLAUDE.md"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/memory
   final_url: https://code.claude.com/docs/en/memory
   quote: "By default, Claude reads AGENTS.md only when you have no CLAUDE.md in your working directory or above it."
   retrieved: 2026-10-12
-  last_checked: 2026-10-12
+  last_checked: 2026-10-30
 - id: C13-import
   article: the-instruction-file
   sentence:
@@ -696,18 +522,18 @@
   final_url: https://code.claude.com/docs/en/memory
   quote: "you can still keep it as the one file every tool shares by putting an @AGENTS.md import in a CLAUDE.md next to it"
   retrieved: 2026-10-12
-  last_checked: 2026-10-12
+  last_checked: 2026-10-30
 - id: C11-local-counts
   article: the-instruction-file
   sentence:
-    sv: "en personlig CLAUDE.local.md räknas som en CLAUDE.md"
-    en: "a personal CLAUDE.local.md counts as a CLAUDE.md"
+    sv: "En personlig CLAUDE.local.md räknas som en CLAUDE.md"
+    en: "A personal CLAUDE.local.md counts as a CLAUDE.md"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/memory
   final_url: https://code.claude.com/docs/en/memory
   quote: "Because CLAUDE.local.md counts"
   retrieved: 2026-10-12
-  last_checked: 2026-10-12
+  last_checked: 2026-10-30
 - id: C12-local-stops
   article: the-instruction-file
   sentence:
@@ -718,7 +544,7 @@
   final_url: https://code.claude.com/docs/en/memory
   quote: "adding one to keep your own uncommitted instructions in a project that relies on AGENTS.md stops Claude from reading AGENTS.md for you"
   retrieved: 2026-10-12
-  last_checked: 2026-10-12
+  last_checked: 2026-10-30
 - id: C12-local-setting
   article: the-instruction-file
   sentence:
@@ -729,7 +555,7 @@
   final_url: https://code.claude.com/docs/en/memory
   quote: "Your CLAUDE.md and AGENTS.md files together"
   retrieved: 2026-10-12
-  last_checked: 2026-10-12
+  last_checked: 2026-10-30
 - id: C14-local-fix
   article: the-instruction-file
   sentence:
@@ -740,7 +566,7 @@
   final_url: https://code.claude.com/docs/en/memory
   quote: "To keep your CLAUDE.local.md and still have Claude read AGENTS.md, set Project instructions to claude-md-and-agents-md."
   retrieved: 2026-10-13
-  last_checked: 2026-10-13
+  last_checked: 2026-10-30
 - id: C14-local-fix-b
   article: the-instruction-file
   sentence:
@@ -751,62 +577,51 @@
   final_url: https://code.claude.com/docs/en/memory
   quote: "type /config in a Claude Code session to open the settings panel, then set Project instructions to one of these values"
   retrieved: 2026-10-13
-  last_checked: 2026-10-13
+  last_checked: 2026-10-30
 - id: G4-all
   article: the-instruction-file
   sentence:
-    sv: "GitHub Copilot läser också .github/copilot-instructions.md och tar med alla instruktioner som gäller"
-    en: "GitHub Copilot also reads .github/copilot-instructions.md and sends the model all relevant instructions"
+    sv: "Det läser dessutom .github/copilot-instructions.md och skickar alla instruktioner som gäller till modellen"
+    en: "It also reads .github/copilot-instructions.md and sends the model all relevant instructions"
   vendor: GitHub
   url: https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/add-custom-instructions/add-repository-instructions
   final_url: https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/add-custom-instructions/add-repository-instructions
   quote: "However, all sets of relevant instructions are provided to Copilot."
   retrieved: 2026-10-12
-  last_checked: 2026-10-12
+  last_checked: 2026-10-30
 - id: G4-all-b
   article: the-instruction-file
   sentence:
-    sv: "GitHub Copilot läser också .github/copilot-instructions.md och tar med alla instruktioner som gäller"
-    en: "GitHub Copilot also reads .github/copilot-instructions.md and sends the model all relevant instructions"
+    sv: "Det läser dessutom .github/copilot-instructions.md och skickar alla instruktioner som gäller till modellen"
+    en: "It also reads .github/copilot-instructions.md and sends the model all relevant instructions"
   vendor: GitHub
   url: https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/add-custom-instructions/add-repository-instructions
   final_url: https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/add-custom-instructions/add-repository-instructions
   quote: "Whenever possible, try to avoid providing conflicting sets of instructions."
   retrieved: 2026-10-12
-  last_checked: 2026-10-12
+  last_checked: 2026-10-30
 - id: G5-file
   article: the-instruction-file
   sentence:
-    sv: "GitHub Copilot läser också .github/copilot-instructions.md och tar med alla instruktioner som gäller"
-    en: "GitHub Copilot also reads .github/copilot-instructions.md and sends the model all relevant instructions"
+    sv: "Det läser dessutom .github/copilot-instructions.md och skickar alla instruktioner som gäller till modellen"
+    en: "It also reads .github/copilot-instructions.md and sends the model all relevant instructions"
   vendor: GitHub
   url: https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/add-custom-instructions/add-repository-instructions
   final_url: https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/add-custom-instructions/add-repository-instructions
   quote: "create a file named .github/copilot-instructions.md"
   retrieved: 2026-10-13
-  last_checked: 2026-10-13
-- id: V6-order
-  article: the-instruction-file
-  sentence:
-    sv: "VS Code avråder från att räkna med en viss ordning när filer säger emot varandra"
-    en: "VS Code advises against relying on a file order when files contradict each other"
-  vendor: GitHub
-  url: https://code.visualstudio.com/docs/agent-customization/custom-instructions
-  final_url: https://code.visualstudio.com/docs/agent-customization/custom-instructions
-  quote: "Do not depend on a file order or precedence rule to resolve conflicts because discovery and merge behavior can differ by harness."
-  retrieved: 2026-10-12
-  last_checked: 2026-10-12
+  last_checked: 2026-10-30
 - id: V5-cross
   article: the-instruction-file
   sentence:
-    sv: "GitHub Copilot läser den också, både på GitHub och i VS Code."
-    en: "GitHub Copilot reads it too, on GitHub and in VS Code."
+    sv: "GitHub Copilot läser AGENTS.md också, både på GitHub och i VS Code."
+    en: "GitHub Copilot reads AGENTS.md too, on GitHub and in VS Code."
   vendor: GitHub
   url: https://code.visualstudio.com/docs/agent-customization/custom-instructions
   final_url: https://code.visualstudio.com/docs/agent-customization/custom-instructions
   quote: "AGENTS.md is not specific to Codex. It is a cross-agent format"
   retrieved: 2026-10-12
-  last_checked: 2026-10-12
+  last_checked: 2026-10-30
 - id: C5-nested
   article: the-instruction-file
   sentence:
@@ -817,7 +632,7 @@
   final_url: https://code.claude.com/docs/en/memory
   quote: "a subdirectory's AGENTS.md, when Claude opens a file there with the Read tool"
   retrieved: 2026-10-12
-  last_checked: 2026-10-12
+  last_checked: 2026-10-30
 - id: C5-nested-b
   article: the-instruction-file
   sentence:
@@ -828,7 +643,7 @@
   final_url: https://code.claude.com/docs/en/memory
   quote: "When none count, here’s what Claude reads and how you can tell"
   retrieved: 2026-10-13
-  last_checked: 2026-10-13
+  last_checked: 2026-10-30
 - id: O2-stops
   article: the-instruction-file
   sentence:
@@ -839,18 +654,7 @@
   final_url: https://learn.chatgpt.com/docs/agent-configuration/agents-md
   quote: "Codex stops searching once it reaches your current directory"
   retrieved: 2026-10-12
-  last_checked: 2026-10-12
-- id: O5-root
-  article: the-instruction-file
-  sentence:
-    sv: "så filen i web/ läses bara när det startas i web/ eller i en mapp under den"
-    en: "so it reads the file in web/ only when it starts in web/ or below"
-  vendor: OpenAI
-  url: https://learn.chatgpt.com/docs/agent-configuration/agents-md
-  final_url: https://learn.chatgpt.com/docs/agent-configuration/agents-md
-  quote: "Starting at the project root (typically the Git root), Codex walks down to your current working directory."
-  retrieved: 2026-10-12
-  last_checked: 2026-10-12
+  last_checked: 2026-10-30
 - id: O5-root-b
   article: the-instruction-file
   sentence:
@@ -861,169 +665,37 @@
   final_url: https://learn.chatgpt.com/docs/agent-configuration/agents-md
   quote: "Starting at the project root (typically the Git root), Codex walks down to your current working directory."
   retrieved: 2026-10-13
-  last_checked: 2026-10-13
-- id: V3-experiment
+  last_checked: 2026-10-30
+- id: V10-nested
   article: the-instruction-file
   sentence:
-    sv: "I VS Code är filer i undermappar ett experiment, avstängt som standard för VS Codes inbyggda agent."
-    en: "In VS Code, files in subfolders are experimental, off by default for its built-in agent."
+    sv: "och i VS Code hittar Copilot en när det arbetar med filer i den undermappen"
+    en: "and in VS Code, Copilot finds one as it works with files in that subfolder"
   vendor: GitHub
   url: https://code.visualstudio.com/docs/agent-customization/custom-instructions
   final_url: https://code.visualstudio.com/docs/agent-customization/custom-instructions
-  quote: "Nested AGENTS.md files is experimental and might change or be removed."
-  retrieved: 2026-10-12
-  last_checked: 2026-10-12
-- id: V4-off
-  article: the-instruction-file
-  sentence:
-    sv: "I VS Code är filer i undermappar ett experiment, avstängt som standard för VS Codes inbyggda agent."
-    en: "In VS Code, files in subfolders are experimental, off by default for its built-in agent."
-  vendor: GitHub
-  url: https://code.visualstudio.com/docs/agent-customization/custom-instructions
-  final_url: https://code.visualstudio.com/docs/agent-customization/custom-instructions
-  quote: "For the Local agent, use the chat.useNestedAgentsMdFiles"
-  retrieved: 2026-10-12
-  last_checked: 2026-10-12
-- id: V4-off-b
-  article: the-instruction-file
-  sentence:
-    sv: "I VS Code är filer i undermappar ett experiment, avstängt som standard för VS Codes inbyggda agent."
-    en: "In VS Code, files in subfolders are experimental, off by default for its built-in agent."
-  vendor: GitHub
-  url: https://code.visualstudio.com/docs/agent-customization/custom-instructions
-  final_url: https://code.visualstudio.com/docs/agent-customization/custom-instructions
-  quote: "The setting is disabled by default."
-  retrieved: 2026-10-12
-  last_checked: 2026-10-12
-- id: V9-builtin
-  article: the-instruction-file
-  sentence:
-    sv: "I VS Code är filer i undermappar ett experiment, avstängt som standard för VS Codes inbyggda agent."
-    en: "In VS Code, files in subfolders are experimental, off by default for its built-in agent."
-  vendor: GitHub
-  url: https://code.visualstudio.com/docs/agents/concepts/agent-harnesses
-  final_url: https://code.visualstudio.com/docs/agents/concepts/agent-harnesses
-  quote: "The built-in VS Code extension-host harness."
-  retrieved: 2026-10-13
-  last_checked: 2026-10-13
+  quote: "As Copilot works with files in subfolders, it discovers AGENTS.md files along their directory paths."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
 - id: F4-read-first
   article: the-instruction-file
   sentence:
-    sv: "skrev vi att reglerna \"står i de filer varje session läser först\""
-    en: "we wrote that rules \"are written in the files every session reads first\""
+    sv: "har sina regler i de filer varje session läser först"
+    en: "keeps its rules in the files every session reads first"
   vendor: Addable Labs
   url: https://addablelabs.se/blog/why-we-run-an-agent-run-factory/
   final_url: https://addablelabs.se/blog/why-we-run-an-agent-run-factory/
   quote: "Rules are written in the files every session reads first."
   retrieved: 2026-10-12
-  last_checked: 2026-10-12
+  last_checked: 2026-10-30
 - id: F4-read-first-sv
   article: the-instruction-file
   sentence:
-    sv: "skrev vi att reglerna \"står i de filer varje session läser först\""
-    en: "we wrote that rules \"are written in the files every session reads first\""
+    sv: "har sina regler i de filer varje session läser först"
+    en: "keeps its rules in the files every session reads first"
   vendor: Addable Labs
   url: https://addablelabs.se/sv/blog/why-we-run-an-agent-run-factory/
   final_url: https://addablelabs.se/sv/blog/why-we-run-an-agent-run-factory/
   quote: "Reglerna står i de filer varje session läser först."
   retrieved: 2026-10-13
-  last_checked: 2026-10-13
-- id: F5-shared-machine
-  article: the-instruction-file
-  sentence:
-    sv: "\"reglerna för en delad maskin\" är vårt eget bidrag."
-    en: "counted \"the rules of a shared machine\" as our own contribution."
-  vendor: Addable Labs
-  url: https://addablelabs.se/blog/why-we-run-an-agent-run-factory/
-  final_url: https://addablelabs.se/blog/why-we-run-an-agent-run-factory/
-  quote: "Our own contribution so far is the mayor's prompt, limits on how many sessions one computer runs at once and the rules of a shared machine."
-  retrieved: 2026-10-12
-  last_checked: 2026-10-12
-- id: F5-shared-machine-sv
-  article: the-instruction-file
-  sentence:
-    sv: "\"reglerna för en delad maskin\" är vårt eget bidrag."
-    en: "counted \"the rules of a shared machine\" as our own contribution."
-  vendor: Addable Labs
-  url: https://addablelabs.se/sv/blog/why-we-run-an-agent-run-factory/
-  final_url: https://addablelabs.se/sv/blog/why-we-run-an-agent-run-factory/
-  quote: "Vårt eget bidrag hittills är borgmästarens prompt, gränser för hur många sessioner en dator kör samtidigt och reglerna för en delad maskin."
-  retrieved: 2026-10-13
-  last_checked: 2026-10-13
-- id: F6-start-up
-  article: the-instruction-file
-  sentence:
-    sv: "räknas de regelfiler som vår samordnande agent läser till det som skickas till modellen i varje anrop"
-    en: "the rules files our coordinating agent reads count as what goes to the model with every call"
-  vendor: Addable Labs
-  url: https://addablelabs.se/blog/what-the-mayors-context-costs/
-  final_url: https://addablelabs.se/blog/what-the-mayors-context-costs/
-  quote: "the rules files and Gas City's prompt for the mayor"
-  retrieved: 2026-10-12
-  last_checked: 2026-10-12
-- id: F6-start-up-sv
-  article: the-instruction-file
-  sentence:
-    sv: "räknas de regelfiler som vår samordnande agent läser till det som skickas till modellen i varje anrop"
-    en: "the rules files our coordinating agent reads count as what goes to the model with every call"
-  vendor: Addable Labs
-  url: https://addablelabs.se/sv/blog/what-the-mayors-context-costs/
-  final_url: https://addablelabs.se/sv/blog/what-the-mayors-context-costs/
-  quote: "regelfilerna och Gas Citys prompt för borgmästaren"
-  retrieved: 2026-10-13
-  last_checked: 2026-10-13
-- id: F7-every-call
-  article: the-instruction-file
-  sentence:
-    sv: "så en längre fil kostar mer vid varje anrop"
-    en: "so a longer file costs more on every call"
-  vendor: Addable Labs
-  url: https://addablelabs.se/blog/what-the-mayors-context-costs/
-  final_url: https://addablelabs.se/blog/what-the-mayors-context-costs/
-  quote: "The start-up content goes with every call, so it costs its size times the calls, not times the sessions"
-  retrieved: 2026-10-12
-  last_checked: 2026-10-12
-- id: F7-every-call-sv
-  article: the-instruction-file
-  sentence:
-    sv: "så en längre fil kostar mer vid varje anrop"
-    en: "so a longer file costs more on every call"
-  vendor: Addable Labs
-  url: https://addablelabs.se/sv/blog/what-the-mayors-context-costs/
-  final_url: https://addablelabs.se/sv/blog/what-the-mayors-context-costs/
-  quote: "Startinnehållet följer med varje anrop, så det kostar sin storlek gånger anropen, inte gånger sessionerna"
-  retrieved: 2026-10-13
-  last_checked: 2026-10-13
-- id: F8-mayor
-  article: the-instruction-file
-  sentence:
-    sv: "vår samordnande agent"
-    en: "our coordinating agent"
-  vendor: Addable Labs
-  url: https://addablelabs.se/blog/what-the-mayors-context-costs/
-  final_url: https://addablelabs.se/blog/what-the-mayors-context-costs/
-  quote: "The mayor, the agent that coordinates the factory behind this site"
-  retrieved: 2026-10-13
-  last_checked: 2026-10-13
-- id: F8-mayor-sv
-  article: the-instruction-file
-  sentence:
-    sv: "vår samordnande agent"
-    en: "our coordinating agent"
-  vendor: Addable Labs
-  url: https://addablelabs.se/sv/blog/what-the-mayors-context-costs/
-  final_url: https://addablelabs.se/sv/blog/what-the-mayors-context-costs/
-  quote: "Borgmästaren, agenten som samordnar fabriken bakom den här sajten"
-  retrieved: 2026-10-13
-  last_checked: 2026-10-13
-- id: C16-sometimes
-  article: the-instruction-file
-  sentence:
-    sv: "Det som bara behövs ibland hör hemma någon annanstans: en agent med ett eget jobb i del 3, färdigheter (skills) i del 4."
-    en: "What is needed only sometimes belongs elsewhere: an agent with a job of its own in part 3, skills in part 4."
-  vendor: Anthropic
-  url: https://code.claude.com/docs/en/best-practices
-  final_url: https://code.claude.com/docs/en/best-practices
-  quote: "For domain knowledge or workflows that are only relevant sometimes, use skills instead."
-  retrieved: 2026-10-13
-  last_checked: 2026-10-13
+  last_checked: 2026-10-30
