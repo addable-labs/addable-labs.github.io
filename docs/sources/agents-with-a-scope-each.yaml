@@ -1,0 +1,631 @@
+# The sources of "Give each AI agent a job of its own" (both languages): one
+# entry per factual claim about a tool, a vendor or the factory, for the monthly
+# check of the series' sources. Every quote was taken from its page on the date
+# in retrieved (2026-10-30) and checked again on the date in last_checked.
+- id: P3-context
+  article: agents-with-a-scope-each
+  sentence:
+    sv: "Den arbetar i ett eget sammanhang (context)"
+    en: "It works in a context of its own"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/sub-agents
+  final_url: https://code.claude.com/docs/en/sub-agents
+  quote: "Each subagent runs in its own context window with a custom system prompt, specific tool access, and independent permissions."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P3-summary
+  article: agents-with-a-scope-each
+  sentence:
+    sv: "När uppgiften är klar lämnar den tillbaka en sammanfattning."
+    en: "When the task is done it hands back a summary."
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/sub-agents
+  final_url: https://code.claude.com/docs/en/sub-agents
+  quote: "the subagent does that work in its own context and returns only the summary"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P3-nohistory
+  article: agents-with-a-scope-each
+  sentence:
+    sv: "En granskare som börjar från noll läser koden utan den bakgrunden."
+    en: "A reviewer that starts from nothing reads the code without that history."
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agents/run/subagents
+  final_url: https://code.visualstudio.com/docs/agents/run/subagents
+  quote: "A Local subagent doesn't inherit the main conversation history."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P3-name
+  article: agents-with-a-scope-each
+  sentence:
+    sv: "Namnet (name) är det du och huvudagenten kallar den."
+    en: "The name is what you and the main agent call it."
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/sub-agents
+  final_url: https://code.claude.com/docs/en/sub-agents
+  quote: "Unique identifier of at most 256 characters, such as `code-reviewer` or `reviewer-v2`."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P3-description-field
+  article: agents-with-a-scope-each
+  sentence:
+    sv: "Beskrivningen (description) är det huvudagenten läser för att avgöra om den ska lämna över en uppgift."
+    en: "The description is what the main agent reads to decide whether to hand a task over."
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/sub-agents
+  final_url: https://code.claude.com/docs/en/sub-agents
+  quote: "When Claude should delegate to this subagent"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P3-tools-field
+  article: agents-with-a-scope-each
+  sentence:
+    sv: "Raden tools anger vad agenten får använda."
+    en: "The tools line lists what the agent may use."
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/sub-agents
+  final_url: https://code.claude.com/docs/en/sub-agents
+  quote: "Tools the subagent can use"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P3-body
+  article: agents-with-a-scope-each
+  sentence:
+    sv: "Texten under den andra raden med streck är agentens instruktioner"
+    en: "The text under the second line of dashes is the agent's instructions"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/sub-agents
+  final_url: https://code.claude.com/docs/en/sub-agents
+  quote: "The body becomes the system prompt that guides the subagent's behavior."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P3-model
+  article: agents-with-a-scope-each
+  sentence:
+    sv: "till exempel en egen modell för agenten"
+    en: "such as a model of its own for the agent"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/sub-agents
+  final_url: https://code.claude.com/docs/en/sub-agents
+  quote: "The `model` field controls which model the subagent uses"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P3-weighs
+  article: agents-with-a-scope-each
+  sentence:
+    sv: "Den går efter beskrivningen av din begäran, beskrivningarna av sina agenter och läget just då"
+    en: "It goes by the description of your request, the descriptions of its agents and the situation at hand"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/sub-agents
+  final_url: https://code.claude.com/docs/en/sub-agents
+  quote: "Claude automatically delegates tasks based on the task description in your request, the `description` field in subagent configurations, and current context."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P3-when
+  article: agents-with-a-scope-each
+  sentence:
+    sv: "VS Codes dokumentation lägger till vad raden ska innehålla: vad agenten gör och när den ska användas."
+    en: "VS Code's documentation adds what the line should hold: what the agent does and when to use it."
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agents/reference/custom-agent-file-reference
+  final_url: https://code.visualstudio.com/docs/agents/reference/custom-agent-file-reference
+  quote: "What the agent does and when to use it."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P3-proactively
+  article: agents-with-a-scope-each
+  sentence:
+    sv: "en fras som \"use proactively\" i beskrivningen uppmuntrar huvudagenten att lämna över utan att bli ombedd"
+    en: "a phrase like \"use proactively\" in the description encourages the main agent to hand over without being asked"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/sub-agents
+  final_url: https://code.claude.com/docs/en/sub-agents
+  quote: "To encourage proactive delegation, include phrases like \"use proactively\" in your subagent's description field."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P3-single-out
+  article: agents-with-a-scope-each
+  sentence:
+    sv: "Rådet är att skriva beskrivningar som pekar ut en enda agent."
+    en: "Its advice is to write descriptions that single out one agent."
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/sub-agents
+  final_url: https://code.claude.com/docs/en/sub-agents
+  quote: "Write descriptions that single out one subagent"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P3-carries
+  article: agents-with-a-scope-each
+  sentence:
+    sv: "Huvudagenten har alla beskrivningar med sig hela tiden"
+    en: "The main agent carries every description with it"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/sub-agents
+  final_url: https://code.claude.com/docs/en/sub-agents
+  quote: "Those descriptions take up context, so keep them short."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P3-instructions-load
+  article: agents-with-a-scope-each
+  sentence:
+    sv: "agentens instruktioner läses först när agenten körs"
+    en: "the agent's instructions load only when the agent runs"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/sub-agents
+  final_url: https://code.claude.com/docs/en/sub-agents
+  quote: "move detail into each subagent's system prompt, which only loads when that subagent runs"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P3-allowlist
+  article: agents-with-a-scope-each
+  sentence:
+    sv: "I Claude Code är den en tillåtelselista (allowlist): agenten kan använda verktygen på listan och inga andra."
+    en: "In Claude Code it is an allowlist: the agent can use the tools on it and no others."
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/sub-agents
+  final_url: https://code.claude.com/docs/en/sub-agents
+  quote: "use the `tools` field as an allowlist"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P3-readonly-tools
+  article: agents-with-a-scope-each
+  sentence:
+    sv: "så den kan inte ändra någon fil"
+    en: "so it cannot edit a file"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/sub-agents
+  final_url: https://code.claude.com/docs/en/sub-agents
+  quote: "The subagent can't edit files, write files, or use any MCP tools"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P3-inherit
+  article: agents-with-a-scope-each
+  sentence:
+    sv: "Utelämnar du raden ärver agenten alla verktyg en underagent kan ha"
+    en: "Leave the line out and the agent inherits all the tools a subagent can have"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/sub-agents
+  final_url: https://code.claude.com/docs/en/sub-agents
+  quote: "Inherits every tool available to subagents if omitted."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P3-gh-all-tools
+  article: agents-with-a-scope-each
+  sentence:
+    sv: "(custom agents) är det likadant: ingen tools-rad betyder alla verktyg."
+    en: "In GitHub's custom agents it is the same: no tools line means all tools."
+  vendor: GitHub
+  url: https://docs.github.com/en/copilot/reference/custom-agents-configuration
+  final_url: https://docs.github.com/en/copilot/reference/custom-agents-configuration
+  quote: "If no tools are specified, all available tools are enabled"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P3-reviewer-bash
+  article: agents-with-a-scope-each
+  sentence:
+    sv: "Anthropics eget exempel på en granskare ger agenten också Bash, verktyget för att köra kommandon"
+    en: "Anthropic's own code reviewer example also gives the agent Bash, the tool for running commands"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/sub-agents
+  final_url: https://code.claude.com/docs/en/sub-agents
+  quote: "tools: Read, Grep, Glob, Bash"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P3-git-diff
+  article: agents-with-a-scope-each
+  sentence:
+    sv: "så att den kan köra git diff och se vad som har ändrats"
+    en: "so that it can run git diff and see what has changed"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/sub-agents
+  final_url: https://code.claude.com/docs/en/sub-agents
+  quote: "Run git diff to see recent changes"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P3-command
+  article: agents-with-a-scope-each
+  sentence:
+    sv: "Ett kommando kan göra mer än att läsa"
+    en: "A command can do more than read"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/how-claude-code-works
+  final_url: https://code.claude.com/docs/en/how-claude-code-works
+  quote: "If you can do it from the command line, Claude can too."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P3-least-privilege
+  article: agents-with-a-scope-each
+  sentence:
+    sv: "VS Codes dokumentation rekommenderar verktyg som bara läser för säkerhetskänsligt arbete"
+    en: "VS Code's documentation advises read-only tools for security-sensitive work"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agent-customization/custom-agents
+  final_url: https://code.visualstudio.com/docs/agent-customization/custom-agents
+  quote: "For security-sensitive workflows, create agents with read-only tools to prevent unintended modifications."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P3-least-privilege-name
+  article: agents-with-a-scope-each
+  sentence:
+    sv: "kallar målet principen om minsta behörighet (principle of least privilege)"
+    en: "calls the aim the principle of least privilege"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agent-customization/custom-agents
+  final_url: https://code.visualstudio.com/docs/agent-customization/custom-agents
+  quote: "follow the principle of least privilege"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P3-cc-file-project
+  article: agents-with-a-scope-each
+  sentence:
+    sv: "är en agent en Markdown-fil i .claude/agents/ i projektet"
+    en: "an agent is a Markdown file in .claude/agents/ in the project"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/sub-agents
+  final_url: https://code.claude.com/docs/en/sub-agents
+  quote: "Project subagents (`.claude/agents/`) are ideal for subagents specific to a codebase."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P3-cc-file-user
+  article: agents-with-a-scope-each
+  sentence:
+    sv: "eller i ~/.claude/agents/ för alla dina projekt"
+    en: "or in ~/.claude/agents/ for all your projects"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/sub-agents
+  final_url: https://code.claude.com/docs/en/sub-agents
+  quote: "User subagents (`~/.claude/agents/`) are personal subagents available in all your projects."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P3-cc-ask-claude
+  article: agents-with-a-scope-each
+  sentence:
+    sv: "Du kan be Claude skriva filen åt dig"
+    en: "You can ask Claude to write the file for you"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/sub-agents
+  final_url: https://code.claude.com/docs/en/sub-agents
+  quote: "To create one, ask Claude to write it for you"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P3-cc-mention
+  article: agents-with-a-scope-each
+  sentence:
+    sv: "Skriver du @ och agentens namn ser Claude Code till att agenten körs för just den uppgiften."
+    en: "typing @ and the agent's name makes sure it runs for that task"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/sub-agents
+  final_url: https://code.claude.com/docs/en/sub-agents
+  quote: "guarantees the subagent runs for one task"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P3-cc-explore
+  article: agents-with-a-scope-each
+  sentence:
+    sv: "Verktyget har också en egen agent som bara läser, Explore, som det använder för att söka i koden."
+    en: "The tool also has a read-only agent of its own, Explore, which it uses to search the code."
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/sub-agents
+  final_url: https://code.claude.com/docs/en/sub-agents
+  quote: "A fast, read-only agent optimized for searching and analyzing codebases."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P3-cx-file
+  article: agents-with-a-scope-each
+  sentence:
+    sv: "är en agent en TOML-fil i .codex/agents/, med ett namn, en beskrivning och agentens instruktioner"
+    en: "an agent is a TOML file in .codex/agents/, with a name, a description and the agent's instructions"
+  vendor: OpenAI
+  url: https://learn.chatgpt.com/docs/agent-configuration/subagents
+  final_url: https://learn.chatgpt.com/docs/agent-configuration/subagents
+  quote: "add standalone TOML files under `~/.codex/agents/` for personal agents or `.codex/agents/` for project-scoped agents"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P3-cx-required
+  article: agents-with-a-scope-each
+  sentence:
+    sv: "med ett namn, en beskrivning och agentens instruktioner"
+    en: "with a name, a description and the agent's instructions"
+  vendor: OpenAI
+  url: https://learn.chatgpt.com/docs/agent-configuration/subagents
+  final_url: https://learn.chatgpt.com/docs/agent-configuration/subagents
+  quote: "Every standalone custom agent file must define:"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P3-cx-asks
+  article: agents-with-a-scope-each
+  sentence:
+    sv: "Codex lämnar över när du ber om det eller när AGENTS.md säger det"
+    en: "Codex hands over when you ask or when the AGENTS.md says so"
+  vendor: OpenAI
+  url: https://learn.chatgpt.com/docs/agent-configuration/subagents
+  final_url: https://learn.chatgpt.com/docs/agent-configuration/subagents
+  quote: "Current local Codex releases delegate when you ask directly or when applicable `AGENTS.md` or skill instructions request it."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P3-cx-session
+  article: agents-with-a-scope-each
+  sentence:
+    sv: "Filen kan inte sätta sandlådan, som begränsar vad agenten kan röra, eller godkännandena, som avgör när den måste fråga, eftersom båda kommer från sessionen."
+    en: "The file cannot set the sandbox, which limits what the agent can touch, or the approvals, which decide when it must ask, because both come from the session."
+  vendor: OpenAI
+  url: https://learn.chatgpt.com/docs/agent-configuration/subagents
+  final_url: https://learn.chatgpt.com/docs/agent-configuration/subagents
+  quote: "Subagents inherit the parent turn's current sandbox and approval settings"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P3-cx-file-cant
+  article: agents-with-a-scope-each
+  sentence:
+    sv: "Filen kan inte sätta sandlådan"
+    en: "The file cannot set the sandbox"
+  vendor: OpenAI
+  url: https://learn.chatgpt.com/docs/agent-configuration/subagents
+  final_url: https://learn.chatgpt.com/docs/agent-configuration/subagents
+  quote: "A custom agent file can't replace those settings."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P3-cx-no-sandbox
+  article: agents-with-a-scope-each
+  sentence:
+    sv: "Instruktioner i filen kan be en agent låta bli att ändra men skapar ingen egen sandlåda som bara läser"
+    en: "Instructions in the file can ask an agent to avoid edits but do not create a separate read-only sandbox"
+  vendor: OpenAI
+  url: https://learn.chatgpt.com/docs/agent-configuration/subagents
+  final_url: https://learn.chatgpt.com/docs/agent-configuration/subagents
+  quote: "Custom agent instructions can ask an agent to avoid edits, but they don't create a separate read-only sandbox."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P3-cx-mode
+  article: agents-with-a-scope-each
+  sentence:
+    sv: "så välj behörighetsläge innan du ber Codex lämna över"
+    en: "so choose the permission mode before you ask Codex to hand over"
+  vendor: OpenAI
+  url: https://learn.chatgpt.com/docs/agent-configuration/subagents
+  final_url: https://learn.chatgpt.com/docs/agent-configuration/subagents
+  quote: "Choose the permission mode for the parent turn before you ask Codex to delegate work."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P3-gh-file
+  article: agents-with-a-scope-each
+  sentence:
+    sv: "GitHub Copilot läser agentfiler från .github/agents/, med namn som slutar på .agent.md"
+    en: "GitHub Copilot reads agent files from .github/agents/, with names that end in .agent.md"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agents/run/subagents
+  final_url: https://code.visualstudio.com/docs/agents/run/subagents
+  quote: "create .github/agents/codebase-researcher.agent.md in your workspace"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P3-gh-tools-list
+  article: agents-with-a-scope-each
+  sentence:
+    sv: "I VS Code är bara de verktyg som står i filen tillgängliga, om filen listar verktyg."
+    en: "In VS Code, if the file lists tools, only those tools are available."
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agent-customization/custom-agents
+  final_url: https://code.visualstudio.com/docs/agent-customization/custom-agents
+  quote: "If the agent specifies a tools list, only those tools are available."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P3-gh-first-example
+  article: agents-with-a-scope-each
+  sentence:
+    sv: "Dokumentationens eget första exempel på när du ska göra en anpassad agent är att begränsa en granskningsagent till verktyg som bara läser."
+    en: "The documentation's own first example of when to make a custom agent is to restrict a code review agent to read-only tools."
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agent-customization/custom-agents
+  final_url: https://code.visualstudio.com/docs/agent-customization/custom-agents
+  quote: "Restrict a code review agent to read-only tools and give it your team's review criteria."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P3-gh-aliases
+  article: agents-with-a-scope-each
+  sentence:
+    sv: "För granskaren lyder raden:"
+    en: "For the reviewer the line reads:"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agents/reference/custom-agent-file-reference
+  final_url: https://code.visualstudio.com/docs/agents/reference/custom-agent-file-reference
+  quote: "In Copilot, tools supports the built-in aliases execute, read, edit, search, agent, web, and todo."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P3-contexts-caveat
+  article: agents-with-a-scope-each
+  sentence:
+    sv: "kan lyfta fram olika problem men garanterar inga opartiska eller riktiga slutsatser"
+    en: "can surface different issues, but don't guarantee unbiased or correct conclusions"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agents/run/subagents
+  final_url: https://code.visualstudio.com/docs/agents/run/subagents
+  quote: "Separate contexts can surface different issues, but don't guarantee unbiased or correct conclusions."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P3-factory-roles
+  article: agents-with-a-scope-each
+  sentence:
+    sv: "är planerare, byggare och granskare olika agenter där"
+    en: "a planner, a builder and a reviewer are different agents there"
+  vendor: Addable Labs
+  url: https://addablelabs.se/blog/why-we-run-an-agent-run-factory/
+  final_url: https://addablelabs.se/blog/why-we-run-an-agent-run-factory/
+  quote: "Planner, builder and reviewer are different agents"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P3-factory-lanes
+  article: agents-with-a-scope-each
+  sentence:
+    sv: "Granskningen går i flera spår."
+    en: "The review runs in several lanes."
+  vendor: Addable Labs
+  url: https://addablelabs.se/blog/why-we-run-an-agent-run-factory/
+  final_url: https://addablelabs.se/blog/why-we-run-an-agent-run-factory/
+  quote: "and review runs in several lanes"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P3-factory-fixes
+  article: agents-with-a-scope-each
+  sentence:
+    sv: "hittade granskningen två fel som måste rättas i arbete som en annan agent hade gjort"
+    en: "the review found two required fixes in work that another agent had done"
+  vendor: Addable Labs
+  url: https://addablelabs.se/blog/why-we-run-an-agent-run-factory/
+  final_url: https://addablelabs.se/blog/why-we-run-an-agent-run-factory/
+  quote: "one implementation worker, in four sessions, worked through them in 22 commits; and three review lanes found two required fixes"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P3-factory-when
+  article: agents-with-a-scope-each
+  sentence:
+    sv: "När sajten byggdes om i september"
+    en: "When the site was rebuilt in September"
+  vendor: Addable Labs
+  url: https://addablelabs.se/blog/why-we-run-an-agent-run-factory/
+  final_url: https://addablelabs.se/blog/why-we-run-an-agent-run-factory/
+  quote: "The redesign of this site was the factory's second build. It began on 20 September 2026"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P3-latest-models
+  article: agents-with-a-scope-each
+  sentence:
+    sv: "att företagets senaste modeller lämnar arbete till underagenter på egen hand"
+    en: "says that its latest models hand work to subagents on their own"
+  vendor: Anthropic
+  url: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices
+  final_url: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices
+  quote: "Claude's latest models orchestrate subagents natively."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P3-unprompted
+  article: agents-with-a-scope-each
+  sentence:
+    sv: "göra det utan att bli tillsagda"
+    en: "do so without being told to"
+  vendor: Anthropic
+  url: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices
+  final_url: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices
+  quote: "do so proactively without requiring explicit instruction"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P3-vsc-decide
+  article: agents-with-a-scope-each
+  sentence:
+    sv: "I VS Code kan huvudagenten också välja att lämna över utan att bli ombedd."
+    en: "In VS Code the main agent can also decide to hand over without being asked."
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agents/run/subagents
+  final_url: https://code.visualstudio.com/docs/agents/run/subagents
+  quote: "The main agent can also decide to delegate without an explicit request."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P3-overuse
+  article: agents-with-a-scope-each
+  sentence:
+    sv: "en modell kan starta underagenter för att utforska kod när en vanlig sökning är snabbare och räcker"
+    en: "a model may start subagents to explore code when a plain search would be faster and enough"
+  vendor: Anthropic
+  url: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices
+  final_url: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices
+  quote: "the model might spawn subagents for code exploration when a direct grep call is faster and sufficient"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P3-cost-cc
+  article: agents-with-a-scope-each
+  sentence:
+    sv: "Varje underagent gör dessutom egna anrop"
+    en: "Each subagent also makes requests of its own"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/sub-agents
+  final_url: https://code.claude.com/docs/en/sub-agents
+  quote: "each subagent spends tokens of its own while it runs"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P3-cost-cx
+  article: agents-with-a-scope-each
+  sentence:
+    sv: "så arbetet kostar mer än samma jobb i en enda agent"
+    en: "so the work costs more than the same job in one agent"
+  vendor: OpenAI
+  url: https://learn.chatgpt.com/docs/agent-configuration/subagents
+  final_url: https://learn.chatgpt.com/docs/agent-configuration/subagents
+  quote: "subagent workflows consume more tokens than comparable single-agent runs"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P3-cost-vs
+  article: agents-with-a-scope-each
+  sentence:
+    sv: "som dokumentationen för Claude Code, Codex och VS Code var och en säger"
+    en: "as the documentation for Claude Code, Codex and VS Code each says"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agents/run/subagents
+  final_url: https://code.visualstudio.com/docs/agents/run/subagents
+  quote: "Delegation adds model usage and coordination, so consider the cost as well as the benefit of keeping intermediate work out of the main context."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P3-by-name
+  article: agents-with-a-scope-each
+  sentence:
+    sv: "ber du om agenten vid namn"
+    en: "ask for the agent by name"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/sub-agents
+  final_url: https://code.claude.com/docs/en/sub-agents
+  quote: "Name the subagent and Claude typically delegates"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P3-no-description
+  article: agents-with-a-scope-each
+  sentence:
+    sv: "Claude Code hoppar över en fil som saknar beskrivning."
+    en: "Claude Code skips a file that has no description."
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/sub-agents
+  final_url: https://code.claude.com/docs/en/sub-agents
+  quote: "A `name` but no `description`: Claude Code skips the file and writes the reason to the debug log."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P3-case
+  article: agents-with-a-scope-each
+  sentence:
+    sv: "måste namnet skrivas exakt som i filen, med samma versaler"
+    en: "the name must be written exactly as in the file, capitals included"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agents/run/subagents
+  final_url: https://code.visualstudio.com/docs/agents/run/subagents
+  quote: "Agent names are case-sensitive. Use the exact name from the custom agent definition."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P3-run-subagent
+  article: agents-with-a-scope-each
+  sentence:
+    sv: "Verktyget Run Subagent måste också vara valt under Configure Tools"
+    en: "the Run Subagent tool must be selected under Configure Tools"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agents/run/subagents
+  final_url: https://code.visualstudio.com/docs/agents/run/subagents
+  quote: "Select Configure Tools and make sure Run Subagent (agent/runSubagent) is selected."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P3-task-only
+  article: agents-with-a-scope-each
+  sentence:
+    sv: "Den ser bara uppgiften den har fått"
+    en: "It sees only the task it was given"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agents/run/subagents
+  final_url: https://code.visualstudio.com/docs/agents/run/subagents
+  quote: "A Local subagent doesn't inherit the main conversation history."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
+- id: P3-generate
+  article: agents-with-a-scope-each
+  sentence:
+    sv: "Be verktyget skriva agentfilen åt dig"
+    en: "Ask the tool to write the agent file for you"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agent-customization/custom-agents
+  final_url: https://code.visualstudio.com/docs/agent-customization/custom-agents
+  quote: "You can let an agent generate a custom agent for you based on a description."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-30
