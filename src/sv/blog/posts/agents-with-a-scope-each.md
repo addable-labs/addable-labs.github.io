@@ -2,7 +2,7 @@
 title: Ge varje AI-agent ett eget jobb
 description: Tredje delen i serien "Från AI-chatt till agentiskt arbete" – varför en AI-agent med ett enda jobb och bara de verktyg den behöver är lättare att granska och lita på, hur du skriver dess beskrivning och vad du gör först.
 image: cover.png                 # en PNG på 1200 × 630 i artikelns mediemapp
-imageAlt: En AI-agent, en grön cirkel, står vid ingången till ett projekt och läser en kort lapp på en stolpe innan den går in. Bakom dörröppningen ligger projektets mappar och filer.
+imageAlt: En AI-agent, en grön cirkel, håller en kort lapp med sitt jobb inuti en streckad grön ram runt en mapp i ett projekt. Bredvid ligger ett förstoringsglas, dess enda verktyg, och mappen den arbetar i. Projektets övriga mappar och filer ligger lugnt runt ramen.
 date: 2026-10-30
 category: ai-journey             # app-development | ai-journey
 translationKey: agents-with-a-scope-each

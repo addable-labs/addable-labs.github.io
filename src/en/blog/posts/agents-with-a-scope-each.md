@@ -2,7 +2,7 @@
 title: Give each AI agent a job of its own
 description: The third part of the series "From AI chat to agentic work" — why an AI agent with one job and only the tools it needs is easier to review and to trust, how to write its description and what to do first.
 image: cover.png                 # a 1200 × 630 PNG in the article's media directory
-imageAlt: An AI agent, a green circle, stands at the entrance of a project and reads a short note card on a post before it steps in. Behind the doorway lie the project's folders and files.
+imageAlt: An AI agent, a green circle, holds a short card with its job inside a dashed green frame around one folder of a project. Beside it lie a magnifying glass, its only tool, and the folder it works in. The project's other folders and files lie quiet around the frame.
 date: 2026-10-30
 category: ai-journey             # app-development | ai-journey
 translationKey: agents-with-a-scope-each
