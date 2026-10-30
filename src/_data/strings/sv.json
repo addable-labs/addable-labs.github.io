@@ -1282,7 +1282,7 @@
       "caption": "Vilket verktyg som läser vilken fil i ett projekts mappar, så som dokumentationen såg ut den 30 oktober 2026. Den närmaste filen har sista ordet."
     },
     "skill-folder": {
-      "title": "En färdighet som ett mappträd. Mappen release innehåller en SKILL.md och en mapp scripts med check-release.sh. I SKILL.md ligger namn och beskrivning alltid framför agenten och instruktionerna läses när uppgiften kräver dem. Skriptet körs enligt instruktionerna och bara dess utskrift läses.",
+      "title": "En färdighet som ett mappträd. Mappen release innehåller en SKILL.md och en mapp scripts med check-release.sh. I SKILL.md ligger namn och beskrivning framför agenten från start och instruktionerna läses när uppgiften kräver dem. Skriptet körs enligt instruktionerna och bara dess utskrift läses.",
       "head": "Färdigheten release",
       "files": {
         "root": "release/",
@@ -1295,7 +1295,7 @@
         "instructions": "instruktionerna"
       },
       "when": {
-        "always": "alltid framför agenten",
+        "always": "framför agenten från start",
         "needed": "läses när uppgiften kräver dem",
         "run": "körs enligt instruktionerna",
         "output": "bara dess utskrift läses"

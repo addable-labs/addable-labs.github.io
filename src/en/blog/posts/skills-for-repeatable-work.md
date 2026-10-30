@@ -67,8 +67,7 @@ description: Prepares a release of the web app. Checks that the version number a
 
 # Release
 
-1. Run the script `scripts/check-release.sh` in this skill's folder with `sh`.
-   The working directory must be the project's top folder.
+1. Run `sh scripts/check-release.sh` from this skill's folder.
 2. If it prints a problem, fix that and run it again. Go on only when it
    prints OK.
 3. Run `npm test`.
@@ -94,15 +93,24 @@ The first step of the skill runs a script. This is the script:
 # Checks that the version in package.json is the one the changelog
 # describes, and that no tag exists for it yet.
 
-version=$(node -p "require('./package.json').version")
-latest=$(grep -m1 '^## ' CHANGELOG.md | cut -d' ' -f2)
+top=$(git rev-parse --show-toplevel) || exit 1
+cd "$top" || exit 1
 
-if [ "$version" != "$latest" ]; then
-  echo "package.json says $version, but the changelog starts with $latest." >&2
+version=$(node -p "require('./package.json').version" 2>/dev/null)
+latest=$(grep -m1 '^## ' CHANGELOG.md 2>/dev/null | cut -d' ' -f2)
+
+if [ -z "$version" ] || [ -z "$latest" ]; then
+  echo "Could not read the version from package.json or the changelog." >&2
   exit 1
 fi
 
-if git rev-parse "v$version" >/dev/null 2>&1; then
+if [ "$version" != "$latest" ]; then
+  echo "package.json says $version, but the changelog starts with $latest." >&2
+  echo "Make them agree." >&2
+  exit 1
+fi
+
+if git rev-parse -q --verify "refs/tags/v$version" >/dev/null; then
   echo "Version $version is already tagged. Raise the version first." >&2
   exit 1
 fi
@@ -110,10 +118,15 @@ fi
 echo "OK: $version is ready to release."
 ```
 
-The script compares the version in `package.json` with the first heading of
-the changelog, then checks that git has no tag for the version yet. It expects
-the changelog's headings to look like `## 1.4.0`. If a check fails, it prints
-what is wrong and stops. If both pass, it prints OK.
+The script starts by moving to the project's top folder, which git can find from
+anywhere inside the project. It does not matter whether the agent starts the
+script from the skill's folder or from the top folder. Then it reads the version
+from `package.json` and the first heading of the changelog. If it cannot read
+one of them, it stops, so that a missing file is not mistaken for a pass.
+
+The script then compares the two and checks that git has no tag for the version
+yet. It expects the changelog's headings to look like `## 1.4.0`. If a check
+fails, it prints what is wrong and stops. If all of them pass, it prints OK.
 
 The script checks the same two things in the same way every time. A sentence
 in the SKILL.md such as "check that the changelog is up to date" leaves the
@@ -122,8 +135,8 @@ looks fine. A script has no such choice: it gives the same answer whatever the
 day and whichever model runs it.
 
 The script's messages are written for the agent as well: "package.json says
-1.5.0, but the changelog starts with 1.4.0" tells it what to fix before it
-runs the script again, as the Agent Skills guide on scripts
+1.3.1, but the changelog starts with 1.4.0. Make them agree." says what is wrong
+and what to do about it, as the Agent Skills guide on scripts
 [advises](https://agentskills.io/skill-creation/using-scripts).
 
 Some of the work is better left to instructions. How to word the changelog
@@ -138,7 +151,10 @@ Deterministic means that the same input always gives the same result.
 A script helps only when it runs: the agent has to choose the skill and follow
 its first step. What must never be skipped therefore needs a guard outside the
 skill, as a rule in the instruction file did in part 2: a test in the project,
-or a setting in the tool that blocks the step.
+or a setting in the tool that blocks the step. Claude Code's
+[documentation](https://code.claude.com/docs/en/skills) gives the same advice
+for a rule that must hold every time: move it into a hook, a command the tool
+runs by itself.
 
 ## A skill, an instruction or a request
 
@@ -164,7 +180,7 @@ A study called [SkillsBench](https://arxiv.org/html/2602.12670v4) gave AI agents
 without a skill that experts had put together for that kind of task.
 
 The agents were 18 combinations of a model and a tool. Averaged over all of
-them, they passed about 34 tasks in 100 without the skill and about 50 with it.
+them, they passed about 34 tasks in 100 without the skill and about 51 with it.
 
 Every combination passed more tasks with the skill, but the gain differed a
 lot: from about 4 more tasks in 100 to about 26 more. The paper marks a range
@@ -176,15 +192,21 @@ worse with the skill. In software engineering, the field of the release
 example, the gain was about 12 tasks in 100 against about 17 for all tasks.
 
 Three of the combinations also wrote skills for themselves before they solved
-each task. With those skills they passed 8 to 12 fewer tasks in 100 than with
-no skill at all. The paper says the shortfall mixes the quality of the text
-with other effects: the agent frequently never used the skill it had written,
-and in some runs writing it used up the effort meant for the task.
+each task. With those skills they passed 8 to 12 fewer tasks in 100 than with no
+skill at all.
+
+The paper says the shortfall mixes the quality of the text with other effects.
+In the runs the researchers examined, the written skills often went unused. In
+some runs writing them used up the effort meant for the task. A written skill
+that was used could also be confidently wrong.
 
 The study has limits. Its skills were picked for quality, which the paper calls
-"an optimistic scenario". Its tasks ran in a terminal. It did not separate what
-in a skill does the work: the paper names "steps, examples, code resources" as
-the parts that future work has to isolate. It does not show that a script helps
+"an optimistic scenario". Its tasks ran in a terminal.
+
+It did not separate what in a skill does the work: the paper names "steps,
+examples, code resources" as the parts that future work has to isolate. A skill
+also makes the context longer, so the paper says part of the gain could come
+from "more context" and not from the steps. It does not show that a script helps
 more than instructions do.
 
 The paper concludes that how much a skill helps depends on the particular
@@ -196,16 +218,18 @@ describe, and read what an agent wrote for you before you rely on it.
 We describe the tools as their documentation stood on 30 October 2026. What we
 say may have changed since. All three follow the same Agent Skills format, so
 the folder and its SKILL.md look the same in each. What differs is where the
-folder is kept.
+folder is kept and how you start a skill.
 
 In **Claude Code** a skill is a folder in `.claude/skills/` in the project, or
 in `~/.claude/skills/` for all your projects. You start the release skill by
 typing `/release`, and Claude can also load it by itself when your request
 matches the description.
 
-In OpenAI's **Codex** a skill is a folder in `.agents/skills/`. You start a
-skill by typing `$` and its name, or by running `/skills`. Codex can also choose
-one from its description.
+In OpenAI's **Codex** a skill is a folder in `.agents/skills/`. The
+[Codex CLI](https://learn.chatgpt.com/docs/cli) runs in a terminal and the
+[IDE extension](https://learn.chatgpt.com/docs/ide) in a code editor. In both
+you start a skill by typing `$` and its name, or by running `/skills`. Codex can
+also choose one from its description.
 
 **GitHub Copilot** reads project skills from
 [`.github/skills/`, `.claude/skills/` and `.agents/skills/`](https://docs.github.com/en/copilot/concepts/customizations/agent-skills).
@@ -228,9 +252,9 @@ ln -s ../../.agents/skills/release .claude/skills/release
 
 ## Check that it works
 
-Start a fresh chat and first see that the tool found the skill. In Claude
-Code, ask which skills are available. In Codex, run `/skills`. In VS Code, type
-`/` in the chat and look for the skill in the list.
+Start a fresh chat and first see that the tool found the skill. In Claude Code,
+ask which skills are available. In the Codex CLI or the IDE extension, run
+`/skills`. In VS Code, type `/` in the chat and look for the skill in the list.
 
 Then ask for the job in your own words, such as "Make a release". See whether
 the agent picks the skill. If it does not, start the skill by name. Either way,
@@ -245,9 +269,9 @@ skill with and without it.
 
 ## When it goes wrong
 
-If the agent does not use the skill, start it by name. When that works, the
-fault is in the description: add the words you use when you ask for the work.
-If the skill starts when it should not, make the description narrower.
+If the agent does not use the skill, start it by name. When that works, look at
+the description first: add the words you use when you ask for the work. If the
+skill starts when it should not, make the description narrower.
 
 A job that you want to start yourself can say so. Anthropic's example of such a
 skill is a deploy, where you do not want Claude deciding to deploy because your
@@ -273,7 +297,7 @@ In Claude Code, a skills folder you created while it was running needs
 
 If the agent skips steps late in a long conversation, put the most important
 steps first in the SKILL.md. When Claude Code summarises a long conversation to
-free room, it keeps only the start of each skill in use.
+free room, it keeps at most the start of each skill in use.
 
 If the script reports a problem, read its message and fix what it names. If it
 says OK when something is wrong, the fault is in the script: change the version
@@ -293,15 +317,17 @@ the steps you wrote down, a `name` and a `description` that says what the job is
 and when to use it.
 
 If you would rather not start from an empty file, ask the tool to draft the
-skill. In Codex that is `$skill-creator`, and in the VS Code chat you can type
-`/create-skill` followed by a description. Then read the draft and cut it down
-to what the job needs. The study above is a reason to test it before you rely
-on it.
+skill. In Codex that is `$skill-creator`, and in the VS Code chat, with Local
+selected in the chat view, you can type `/create-skill` followed by a
+description. Then read the draft and cut it down to what the job needs. The
+study above found that skills the agents wrote for themselves did worse than
+none, so test the draft before you rely on it.
 
 Move the part that must be exact into a script, and run it by hand once where it
-should pass and once where it should fail. Read any script before you let an
-agent run it, also one that came from somebody else. VS Code's documentation
-warns that skills can include scripts that run tools or reach other systems.
+should pass, once where it should fail and once without a file it needs. Read
+any script before you let an agent run it, also one that came from somebody
+else. VS Code's documentation warns that skills can include scripts that run
+tools or reach other systems.
 
 Try the skill on a real job in a fresh chat. Add the next skill only when this
 one has proved useful.

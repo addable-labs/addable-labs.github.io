@@ -69,8 +69,7 @@ description: Prepares a release of the web app. Checks that the version number a
 
 # Release
 
-1. Run the script `scripts/check-release.sh` in this skill's folder with `sh`.
-   The working directory must be the project's top folder.
+1. Run `sh scripts/check-release.sh` from this skill's folder.
 2. If it prints a problem, fix that and run it again. Go on only when it
    prints OK.
 3. Run `npm test`.
@@ -97,15 +96,24 @@ Färdighetens första steg kör ett skript. Så här ser skriptet ut:
 # Checks that the version in package.json is the one the changelog
 # describes, and that no tag exists for it yet.
 
-version=$(node -p "require('./package.json').version")
-latest=$(grep -m1 '^## ' CHANGELOG.md | cut -d' ' -f2)
+top=$(git rev-parse --show-toplevel) || exit 1
+cd "$top" || exit 1
 
-if [ "$version" != "$latest" ]; then
-  echo "package.json says $version, but the changelog starts with $latest." >&2
+version=$(node -p "require('./package.json').version" 2>/dev/null)
+latest=$(grep -m1 '^## ' CHANGELOG.md 2>/dev/null | cut -d' ' -f2)
+
+if [ -z "$version" ] || [ -z "$latest" ]; then
+  echo "Could not read the version from package.json or the changelog." >&2
   exit 1
 fi
 
-if git rev-parse "v$version" >/dev/null 2>&1; then
+if [ "$version" != "$latest" ]; then
+  echo "package.json says $version, but the changelog starts with $latest." >&2
+  echo "Make them agree." >&2
+  exit 1
+fi
+
+if git rev-parse -q --verify "refs/tags/v$version" >/dev/null; then
   echo "Version $version is already tagged. Raise the version first." >&2
   exit 1
 fi
@@ -113,11 +121,16 @@ fi
 echo "OK: $version is ready to release."
 ```
 
-Skriptet jämför versionen i `package.json` med den första rubriken i
-ändringsloggen och kontrollerar sedan att git inte har någon tagg för
+Skriptet börjar med att gå till projektets toppmapp, som git kan hitta var som
+helst inne i projektet. Det spelar ingen roll om agenten startar skriptet från
+färdighetens mapp eller från toppmappen. Sedan läser det versionen i
+`package.json` och den första rubriken i ändringsloggen. Kan det inte läsa någon
+av dem stannar det, så att en saknad fil inte tas för ett godkänt resultat.
+
+Därefter jämför skriptet de två och kontrollerar att git inte har någon tagg för
 versionen ännu. Det förväntar sig att rubrikerna i ändringsloggen ser ut som
 `## 1.4.0`. Misslyckas en kontroll skriver det ut vad som är fel och stannar.
-Går båda igenom skriver det ut OK.
+Går allt igenom skriver det ut OK.
 
 Skriptet gör samma två kontroller på samma sätt varje gång. En mening i
 SKILL.md som "kontrollera att ändringsloggen är uppdaterad" lämnar
@@ -125,9 +138,9 @@ kontrollen åt agenten, som kan titta på fel ställe eller bedöma att det ser 
 ut. Ett skript har inget sådant val: det ger samma svar oavsett dag och oavsett
 vilken modell som kör det.
 
-Skriptets meddelanden är skrivna för agenten också: "package.json says 1.5.0,
-but the changelog starts with 1.4.0" talar om vad som ska rättas innan skriptet
-körs igen, som guiden om skript i Agent Skills
+Skriptets meddelanden är skrivna för agenten också: "package.json says 1.3.1,
+but the changelog starts with 1.4.0. Make them agree." talar om vad som är fel
+och vad som ska göras, som guiden om skript i Agent Skills
 [rekommenderar](https://agentskills.io/skill-creation/using-scripts).
 
 En del av arbetet lämpar sig bättre för instruktioner. Hur en rad i
@@ -141,8 +154,11 @@ Deterministiskt betyder att samma indata alltid ger samma resultat.
 
 Ett skript hjälper bara när det körs: agenten måste välja färdigheten och följa
 det första steget. Det som aldrig får hoppas över behöver därför ett skydd
-utanför färdigheten, på samma sätt som en regel i instruktionsfilen i del 2:
-ett test i projektet eller en inställning i verktyget som stoppar steget.
+utanför färdigheten, på samma sätt som en regel i instruktionsfilen i del 2: ett
+test i projektet eller en inställning i verktyget som stoppar steget. Claude
+Codes [dokumentation](https://code.claude.com/docs/en/skills) ger samma råd för
+en regel som måste gälla varje gång: flytta den till en krok (hook), ett
+kommando som verktyget kör av sig självt.
 
 ## En färdighet, en instruktion eller en förfrågan
 
@@ -169,7 +185,7 @@ Varje uppgift kördes med och utan en färdighet som experter hade tagit fram f�
 den sortens uppgift.
 
 Agenterna var 18 kombinationer av en modell och ett verktyg. Som genomsnitt över
-alla klarade de ungefär 34 uppgifter av 100 utan färdigheten och ungefär 50 med
+alla klarade de ungefär 34 uppgifter av 100 utan färdigheten och ungefär 51 med
 den.
 
 Varje kombination klarade fler uppgifter med färdigheten, men vinsten skilde
@@ -185,17 +201,22 @@ för exemplet med releasen, var vinsten ungefär 12 uppgifter av 100 mot ungefä
 
 Tre av kombinationerna fick också skriva färdigheter åt sig själva innan de
 löste varje uppgift. Med de färdigheterna klarade de 8 till 12 färre uppgifter
-av 100 än utan någon färdighet alls. Forskarna skriver att underskottet blandar
-textens kvalitet med andra effekter: agenten använde ofta aldrig färdigheten den
-hade skrivit och i en del körningar gick kraften åt till att skriva
-färdigheten i stället för att lösa uppgiften.
+av 100 än utan någon färdighet alls.
+
+Forskarna skriver att underskottet blandar textens kvalitet med andra effekter.
+I de körningar de granskade användes de skrivna färdigheterna ofta inte alls. I
+en del körningar gick kraften åt till att skriva dem i stället för att lösa
+uppgiften. En skriven färdighet som användes kunde också vara tvärsäkert fel.
 
 Studien har gränser. Dess färdigheter var utvalda för sin kvalitet, vilket
 forskarna kallar "ett optimistiskt scenario" (vår översättning). Uppgifterna
-kördes i en terminal. Studien skilde inte ut vad i en färdighet som gör jobbet:
-forskarna nämner "steg, exempel, kodresurser" (vår översättning) som de delar
-som framtida arbete måste isolera. Den visar inte att ett skript hjälper mer än
-instruktioner.
+kördes i en terminal.
+
+Studien skilde inte ut vad i en färdighet som gör jobbet: forskarna nämner
+"steg, exempel, kodresurser" (vår översättning) som de delar som framtida arbete
+måste isolera. En färdighet gör också kontexten längre, så en del av vinsten kan
+enligt forskarna komma från "mer kontext" (vår översättning) och inte från
+stegen. Den visar inte att ett skript hjälper mer än instruktioner.
 
 Forskarna drar slutsatsen att hur mycket en färdighet hjälper beror på den
 enskilda kombinationen av modell och verktyg. Testa därför din färdighet, som
@@ -206,17 +227,19 @@ innan du litar på det.
 
 Vi beskriver verktygen så som deras dokumentation såg ut den 30 oktober 2026.
 Det vi skriver kan ha ändrats sedan dess. Alla tre följer samma format, Agent
-Skills, så mappen och dess SKILL.md ser likadana ut i var och en. Det som skiljer
-är var mappen ligger.
+Skills, så mappen och dess SKILL.md ser likadana ut i var och en. Det som
+skiljer är var mappen ligger och hur du startar en färdighet.
 
 I **Claude Code** är en färdighet en mapp i `.claude/skills/` i projektet eller
 i `~/.claude/skills/` för alla dina projekt. Du startar färdigheten release
 genom att skriva `/release`. Claude kan också läsa in den själv när din
 förfrågan passar beskrivningen.
 
-I OpenAI:s **Codex** är en färdighet en mapp i `.agents/skills/`. Du startar en
-färdighet genom att skriva `$` och dess namn eller köra `/skills`. Codex kan
-också välja en utifrån beskrivningen.
+I OpenAI:s **Codex** är en färdighet en mapp i `.agents/skills/`.
+[Codex CLI](https://learn.chatgpt.com/docs/cli) körs i en terminal och
+[IDE-tillägget](https://learn.chatgpt.com/docs/ide) i en kodredigerare. I båda
+startar du en färdighet genom att skriva `$` och dess namn eller köra `/skills`.
+Codex kan också välja en utifrån beskrivningen.
 
 **GitHub Copilot** läser färdigheter för projektet från
 [`.github/skills/`, `.claude/skills/` och `.agents/skills/`](https://docs.github.com/en/copilot/concepts/customizations/agent-skills).
@@ -240,8 +263,9 @@ ln -s ../../.agents/skills/release .claude/skills/release
 ## Kontrollera att den fungerar
 
 Börja en ny chatt och se först att verktyget har hittat färdigheten. I Claude
-Code frågar du vilka färdigheter som finns. I Codex kör du `/skills`. I VS Code
-skriver du `/` i chatten och letar efter färdigheten i listan.
+Code frågar du vilka färdigheter som finns. I Codex CLI eller i IDE-tillägget
+kör du `/skills`. I VS Code skriver du `/` i chatten och letar efter färdigheten
+i listan.
 
 Be sedan om jobbet med dina egna ord, som "Gör en release". Se om agenten väljer
 färdigheten. Gör den inte det, starta färdigheten med namn. Läs i vilket fall
@@ -256,8 +280,8 @@ testfall för en färdighet med och utan den.
 
 ## När det går fel
 
-Använder agenten inte färdigheten, starta den med namn. Fungerar det ligger
-felet i beskrivningen: lägg till orden du använder när du ber om arbetet.
+Använder agenten inte färdigheten, starta den med namn. Fungerar det, titta
+först på beskrivningen: lägg till orden du använder när du ber om arbetet.
 Startar färdigheten när den inte ska, gör beskrivningen smalare.
 
 Ett jobb som du vill starta själv kan säga det. Anthropics exempel på en sådan
@@ -286,7 +310,7 @@ upp en omstart.
 
 Hoppar agenten över steg sent i ett långt samtal, lägg de viktigaste stegen
 först i SKILL.md. När Claude Code sammanfattar ett långt samtal för att få plats
-behåller det bara början av varje färdighet som används.
+behåller det som mest början av varje färdighet som används.
 
 Rapporterar skriptet ett problem, läs dess meddelande och åtgärda det som det
 nämner. Säger det OK när något är fel ligger felet i skriptet: ändra versionen i
@@ -306,15 +330,17 @@ med de steg du skrev ner, ett `name` och en `description` som säger vad jobbet
 är och när färdigheten ska användas.
 
 Vill du inte börja med en tom fil kan du be verktyget skriva ett utkast. I Codex
-är det `$skill-creator`. I chatten i VS Code kan du skriva `/create-skill`
-följt av en beskrivning. Läs sedan utkastet och korta ner det till det jobbet
-behöver. Studien ovan är ett skäl att testa det innan du litar på det.
+är det `$skill-creator`. I chatten i VS Code kan du, med Local vald i chattvyn,
+skriva `/create-skill` följt av en beskrivning. Läs sedan utkastet och korta ner
+det till det jobbet behöver. Studien ovan visade att färdigheter som agenterna
+skrev åt sig själva gav sämre resultat än ingen färdighet, så testa utkastet
+innan du litar på det.
 
 Flytta det som måste bli exakt till ett skript och kör det för hand en gång där
-det ska gå igenom och en gång där det ska misslyckas. Läs varje skript innan du
-låter en agent köra det, också ett som kommer från någon annan. VS Codes
-dokumentation varnar för att färdigheter kan innehålla skript som kör verktyg
-eller når andra system.
+det ska gå igenom, en gång där det ska misslyckas och en gång utan en fil som
+det behöver. Läs varje skript innan du låter en agent köra det, också ett som
+kommer från någon annan. VS Codes dokumentation varnar för att färdigheter kan
+innehålla skript som kör verktyg eller når andra system.
 
 Prova färdigheten på ett riktigt jobb i en ny chatt. Lägg till nästa färdighet
 först när den här har visat sig användbar.
