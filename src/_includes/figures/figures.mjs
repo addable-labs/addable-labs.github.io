@@ -2031,7 +2031,27 @@ function fourThings(t, id, figureId) {
   return { caption: t.caption, panels: [{ title: t.title, head: t.head, height: 320, body }] };
 }
 
-export const FIGURES = { stages, gates, loop, assessment, team, harness, ledger, timeline, setup, build, words, bilingual, gauntlet, agents, critic, fleet, sources, merges, logos, connection, lifecycle, price, lock, "waiting-per-day": waitingPerDay, "chat-or-agent": chatOrAgent, "five-parts": fiveParts, "four-things": fourThings, "file-before-after": fileBeforeAfter, "which-tool-reads-what": whichToolReadsWhat, "file-hierarchy": fileHierarchy };
+// (28) Host, client and server of MCP — one panel: the host (the dashed box)
+// with one client for each server, a local server that the host starts on
+// the computer and a remote server reached by a web address.
+function mcpHostClientServer(t, id, figureId) {
+  const pid = `${figureId}-p1`;
+  const body = [
+    `<rect x="12" y="50" width="296" height="88" rx="10" class="fig-accent-stroke fig-dashed"/>`,
+    text(24, 68, fit(`${id}.host`, t.host, 272), "fig-note fig-ok fig-strong"),
+    card(24, 82, 128, `${id}.clientOne`, t.client, "ok"),
+    card(168, 82, 128, `${id}.clientTwo`, t.client, "ok"),
+    arrow(pid, 88, 140, 88, 184),
+    arrow(pid, 224, 140, 224, 184),
+    text(96, 166, fit(`${id}.startedBy`, t.startedBy, 120), "fig-note"),
+    text(232, 166, fit(`${id}.address`, t.address, 72), "fig-note"),
+    card(24, 186, 128, `${id}.local`, t.local),
+    card(168, 186, 128, `${id}.remote`, t.remote),
+  ].join("");
+  return { caption: t.caption, panels: [{ title: t.title, head: t.head, height: 246, body }] };
+}
+
+export const FIGURES = { stages, gates, loop, assessment, team, harness, ledger, timeline, setup, build, words, bilingual, gauntlet, agents, critic, fleet, sources, merges, logos, connection, lifecycle, price, lock, "waiting-per-day": waitingPerDay, "chat-or-agent": chatOrAgent, "five-parts": fiveParts, "four-things": fourThings, "file-before-after": fileBeforeAfter, "which-tool-reads-what": whichToolReadsWhat, "file-hierarchy": fileHierarchy, "mcp-host-client-server": mcpHostClientServer };
 
 /**
  * Render one figure as HTML: `<figure class="figure figure-inline|figure-wide">`

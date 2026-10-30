@@ -1312,6 +1312,26 @@
       "ifNoClaude": "if no CLAUDE.md",
       "inVsCode": "in VS Code",
       "caption": "Which tool reads which file in a project's folders, as their documentation stood on 30 October 2026. The closest file has the last word."
+    },
+    "mcp-host-client-server": {
+      "title": "A host, the AI application you talk to, drawn as a dashed box with two clients inside. One client connects to a local server that the host starts on your computer. The other connects to a remote server that is reached by a web address.",
+      "head": "Host, client and server",
+      "host": "Host — the AI application you talk to",
+      "client": {
+        "label": "Client",
+        "note": "for one server"
+      },
+      "startedBy": "started by the host",
+      "address": "web address",
+      "local": {
+        "label": "Local server",
+        "note": "on your computer"
+      },
+      "remote": {
+        "label": "Remote server",
+        "note": "somewhere else"
+      },
+      "caption": "The host keeps one client for each server, local or remote."
     }
   },
   "games": {

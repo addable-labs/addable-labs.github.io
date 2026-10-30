@@ -311,7 +311,8 @@ Brödtext i Markdown.
   2026 so that it can tell the changes its first figure counts, and parts 1 and 2 of
   the series on AI agents (`what-makes-a-chat-an-ai-agent`, 1,600, and
   `the-instruction-file`, 2,030), which he allowed in his reviews of 29–30
-  October 2026 (part 2 as a 5–10 minute read). The Swedish
+  October 2026 (part 2 as a 5–10 minute read), and part 5
+  (`mcp-reaching-your-systems`), which gets 2,300 on the same footing. The Swedish
   twin is not counted, and neither are the figures (captions and diagram
   labels) or the tables' cells: they are not prose.
 - **Figures.** An article can carry custom SVG illustrations (REQ-008): put
@@ -320,12 +321,12 @@ Brödtext i Markdown.
   reading measure with its caption beside it from 48 rem, under it below),
   or `{% figure "<id>", "wide" %}` for one that spans the whole container
   with its caption centred underneath. A figure is drawn by `src/_includes/figures/figures.mjs`
-  (`FIGURES` names the thirty: `stages`, `gates`, `loop`, `assessment`,
+  (`FIGURES` names the thirty-one: `stages`, `gates`, `loop`, `assessment`,
   `team`, `harness`, `ledger`, `timeline`, `setup`, `build`, `words`,
   `bilingual`, `gauntlet`, `agents`, `critic`, `fleet`, `sources`, `merges`,
   `logos`, `connection`, `lifecycle`, `price`, `lock`, `waiting-per-day`,
   `chat-or-agent`, `five-parts`, `four-things`, `file-before-after`,
-  `which-tool-reads-what`, `file-hierarchy`) and
+  `which-tool-reads-what`, `file-hierarchy`, `mcp-host-client-server`) and
   every word it shows — panel titles, labels, notes, the caption — comes
   from `figures.<id>` in the two strings files, so one drawing serves both
   languages; a label too long for its slot fails the
