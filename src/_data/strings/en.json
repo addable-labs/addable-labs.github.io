@@ -1282,7 +1282,7 @@
       "caption": "Which tool reads which file in a project's folders, as their documentation stood on 30 October 2026. The closest file has the last word."
     },
     "agent-handover": {
-      "title": "A main agent that has written a change hands a review task to a reviewer agent. The reviewer has a context of its own and may read and search, but may not edit files or run commands. It hands comments back, and the developer reads them and decides.",
+      "title": "A main agent that has written a change hands a review task to a reviewer subagent. The reviewer has a context of its own and may read and search, but may not edit files or run commands. It hands comments back, and the developer reads them and decides.",
       "head": "A job handed over",
       "main": {
         "label": "main agent",
@@ -1307,8 +1307,8 @@
       "caption": "The reviewer. It has a context of its own, may read and search but not edit files or run commands, and hands back text. The developer decides what happens next."
     },
     "agent-file": {
-      "title": "An agent's file in four parts. The name is what you and the main agent call the agent. The description, framed, is what the main agent reads to decide whether to hand a task over. The tools line lists what the agent may use. The instructions are what it reads once it has the task.",
-      "head": "The agent's file, in four parts",
+      "title": "A subagent's file in four parts. The name is what you and the main agent call the subagent. The description, framed, is what the main agent reads to decide whether to hand a task over. The tools line lists what tools the subagent may use. The instructions are what the subagent reads once it has the task.",
+      "head": "The subagent's file, in four parts",
       "parts": {
         "name": "name",
         "description": "description",
@@ -1324,10 +1324,10 @@
       "for": {
         "name": "what you and the main agent call it",
         "description": "what the main agent reads to decide",
-        "tools": "what it may use, and nothing else",
+        "tools": "what tools it may use, and no others",
         "instructions": "what it reads once it has the task"
       },
-      "caption": "The reviewer's file as four parts. The framed part, the description, is what the main agent reads when it decides whether to hand a task over."
+      "caption": "The reviewer's file as four parts. The framed part, the description, is what the main agent reads to decide whether to hand a task to the reviewer."
     }
   },
   "games": {

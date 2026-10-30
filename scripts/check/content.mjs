@@ -47,7 +47,7 @@
 //   - both seed articles exist in both languages, the seed articles are
 //     300–600 English words of prose and every later article 300–1,500, the
 //     Gaimer article alone 300–1,850 (the founder's call, 26 September 2026)
-//     and parts 2 and 3 of the series 300–2,030 and 300–2,370 (his call of 30 October 2026;
+//     and parts 2 and 3 of the series 300–2,030 and 300–2,320 (his call of 30 October 2026;
 //     the figures' captions and diagram labels are not prose and do not count,
 //     si-55iu, and neither do tables' cells), a draft shows "Draft"/"Utkast" on its page, in the listings
 //     and in the feeds of a local build and has no page at all in the
@@ -99,14 +99,14 @@ const ARTICLE_SLUG = "how-this-site-was-built-by-agents";
 // figure counts, the app's icon among them, and part 2 of the series on AI
 // agents (30 October 2026, we-644a4; "I am fine with a 5-10 minute read") to
 // 2,030, the 2,004 words of the text, and part 3 (we-2oziu, revised in
-// we-i0irb, we-71idz and we-vy2hw) to 2,370, the 2,354 words of its text; every other article keeps
+// we-i0irb, we-71idz, we-vy2hw and we-2l80w) to 2,320, the 2,308 words of its text; every other article keeps
 // 1,500.
 const SEED_ARTICLES = new Set([ARTICLE_SLUG, "lessons-from-building-niva"]);
 const WORD_RANGE = { seed: [300, 600], other: [300, 1500] };
 const WORD_CEILING = new Map([
   ["cleaning-up-gaimer", 1850],
   ["the-instruction-file", 2030],
-  ["agents-with-a-scope-each", 2370],
+  ["agents-with-a-scope-each", 2320],
 ]);
 
 async function page(relPath) {

@@ -60,11 +60,23 @@ Utvecklaren läser synpunkterna och bestämmer vad som händer sedan.
 
 {% figure "agent-handover", "wide" %}
 
-## Fyra delar i agentens fil
+Granskaren kan ha fel. VS Codes dokumentation säger det rakt ut: separata
+sammanhang "kan lyfta fram olika problem men garanterar inga opartiska eller
+korrekta slutsatser" (vår översättning).
 
-Granskaren beskrivs i en fil, ungefär som instruktionerna gjorde i del 2. Så
-här ser filen ut i Claude Code, som här är exemplet. De andra två verktygen
-har ungefär samma delar, som avsnittet om verktygen visar.
+I fabriken bakom den här sajten är planerare, byggare och granskare också
+olika agenter, som vi beskrev i
+[Därför driver vi en agentdriven mjukvarufabrik](/sv/blog/why-we-run-an-agent-run-factory/).
+När sajten byggdes om i september hittade granskningen två fel som måste
+rättas i arbete som en annan agent hade gjort.
+
+## Fyra delar i underagentens fil
+
+Granskaren beskrivs i en fil, ungefär som instruktionerna gjorde i
+[Instruktionsfilen, det första en AI-agent läser](/sv/blog/the-instruction-file/).
+Så här ser filen ut i Claude Code, som här är exemplet. Codex och GitHub Copilot
+bygger på samma idé med andra filnamn. De visas längre ner, i avsnittet om
+verktygen.
 
 ```text
 ---
@@ -80,88 +92,100 @@ Write your comments as a list, most serious first. For each one, give the
 file, the line and what is wrong.
 ```
 
-Delen mellan de två raderna med streck är filens huvud (header). Namnet
-(`name`) är det du och huvudagenten kallar agenten. Beskrivningen
-(`description`) är det huvudagenten läser för att avgöra om den ska lämna
-över en uppgift. Raden `tools` anger vad agenten får använda. Under huvudet
-kommer agentens instruktioner, som den läser när den har fått en uppgift.
+Delen överst, mellan de två raderna med streck, kallas frontmatter. Den
+innehåller underagentens inställningar. Namnet (`name`) är det du och
+huvudagenten kallar underagenten. Beskrivningen (`description`) är det
+huvudagenten läser för att avgöra om den ska lämna över en uppgift.
 
-Det finns fler inställningar, till exempel en egen modell för agenten, men
-de här fyra räcker för att börja.
+Raden `tools` anger vilka verktyg underagenten får använda. Under frontmatter
+kommer underagentens instruktioner, som den läser när den har fått en uppgift.
 
 {% figure "agent-file" %}
 
+I frontmatter kan det finnas andra konfigurationer, till exempel en egen modell
+för underagenten, men de här fyra räcker för att börja.
+
+När du väljer modell är en bra tumregel att anpassa den efter hur svårt jobbet
+är. Ett jobb som kräver omdöme, till exempel att granska kod, en plan eller en
+design, får en stark modell, medan ett tydligt jobb, till exempel att skriva kod
+utifrån en exakt beskrivning, kan gå till en liten och snabb modell. Görs det
+tvärtom kostar en stark modell mer än ett enkelt jobb kräver. En liten modell
+kan ge ett ytligt svar på ett svårt jobb.
+
+[Ansträngningsnivån (effort level)](https://code.claude.com/docs/en/model-config#adjust-effort-level)
+är en andra inställning som styr hur mycket modellen resonerar. Lägre nivå är
+snabbare och billigare för enkla uppgifter. Högre nivå ger djupare resonemang
+för svåra. Claude Code, Codex och Copilot i VS Code kan alla ställa in både
+modell och ansträngningsnivå i underagentens fil.
+
 ## Skriv beskrivningen för huvudagenten
 
-När huvudagenten avgör om den ska lämna över en uppgift väger den tre saker:
-vad du ber om, vad varje agents beskrivning säger och hur läget ser ut just
-då, som
-[Claude Codes dokumentation](https://code.claude.com/docs/en/sub-agents)
+När huvudagenten avgör om den ska lämna över en uppgift väger den tre saker: vad
+du ber om, vad varje underagents beskrivning säger och hur läget ser ut just då,
+som [Claude Codes dokumentation](https://code.claude.com/docs/en/sub-agents)
 beskriver det.
 
 [VS Codes dokumentation](https://code.visualstudio.com/docs/agents/reference/custom-agent-file-reference)
-nämner två saker som beskrivningen ska innehålla: vad agenten gör och när den
-ska användas. En beskrivning som "Reviews code" säger bara det första.
-Beskrivningen i exemplet säger vad som granskas, när agenten ska användas och
-att den bara läser. Det är "när" som huvudagenten behöver mest: efter att kod
-har ändrats och innan arbetet kallas klart.
+nämner två saker som beskrivningen ska innehålla: vad underagenten gör och när
+den ska användas. En beskrivning som "Reviews code" säger bara det första.
+Beskrivningen i exemplet säger vad som granskas, när underagenten ska användas
+och att den bara läser. Det är "när" som huvudagenten behöver mest: efter att
+kod har ändrats och innan arbetet kallas klart.
 
 Håll beskrivningen kort. I Claude Code har huvudagenten alla beskrivningar med
-sig, medan agentens instruktioner läses först när agenten körs. Lägg
+sig, medan underagentens instruktioner läses först när underagenten körs. Lägg
 detaljerna i instruktionerna.
 
 ## Ge den bara de verktyg jobbet kräver
 
-Raden `tools` avgör vad granskaren kan göra. I Claude Code är den en lista över
-tillåtna verktyg (allowlist), vilket betyder att agenten kan använda verktygen
-på listan och inga andra. Granskaren har `Read`, `Grep` och `Glob`, verktygen
-för att läsa och söka, så den
-[inte kan ändra någon fil](https://code.claude.com/docs/en/best-practices).
+I Claude Code är raden `tools` en lista över tillåtna verktyg (allowlist),
+vilket betyder att underagenten kan använda verktygen på listan och inga andra.
+Granskaren har `Read`, `Grep` och `Glob`, verktygen för att läsa och söka, så
+den [inte kan ändra någon fil](https://code.claude.com/docs/en/best-practices).
 
-Utelämnar du raden får agenten alla verktyg som en underagent kan få, också
+Utelämnar du raden får underagenten alla verktyg som en underagent kan få, också
 dem som ändrar filer. I
 [GitHubs anpassade agenter](https://docs.github.com/en/copilot/reference/custom-agents-configuration)
-(custom agents) är det likadant: ingen `tools`-rad betyder alla verktyg. En
-fil utan raden är raka motsatsen till en gräns.
+(custom agents) är det likadant: ingen `tools`-rad betyder alla verktyg.
 
-Exemplet på en granskare i Claude Codes dokumentation ger agenten också `Bash`,
-verktyget för att köra kommandon, så att den kan köra `git diff`, kommandot som
-visar vad som har ändrats. Ett kommando kan
+Exemplet på en granskare i Claude Codes dokumentation ger underagenten också
+`Bash`, verktyget för att köra kommandon, så att den kan köra `git diff`,
+kommandot som visar vad som har ändrats. Ett kommando kan
 [göra mer än att läsa](https://code.claude.com/docs/en/how-claude-code-works),
-så en granskare som bara ska läsa kan klara sig utan det. Utan `Bash` bör
+så en granskare som bara ska läsa bör inte ha verktyget `Bash`. Utan `Bash` bör
 huvudagenten nämna de ändrade filerna när den lämnar över uppgiften, som den gör
 i exemplet.
 
-Börja med så få verktyg som jobbet går att göra med och lägg till ett när
-agenten visar sig behöva det. VS Codes dokumentation rekommenderar
+Tumregeln är att börja med så få verktyg som jobbet går att göra med och lägga
+till ett när underagenten visar sig behöva det. VS Codes dokumentation
+rekommenderar
 [verktyg som bara läser för säkerhetskänsligt arbete](https://code.visualstudio.com/docs/agent-customization/custom-agents)
 och säger att verktygslistan i en agent som delas i ett repository ska följa
 principen om minsta behörighet (principle of least privilege), alltså att ge en
 agent bara den behörighet jobbet kräver.
+
+En rad i instruktionsfilen från del 2 ber en agent uppföra sig, medan ett
+verktyg den saknar inte går att missbruka: raden `tools` är en gräns utanför
+modellen, av det slag som del 1 beskrev. Behörigheter avgör vad en agent får
+ändra och när den måste fråga först. De är en egen inställning, som
+[del 7](#del-7) i serien tar upp.
 
 ## Claude Code, Codex och GitHub Copilot
 
 Verktygen beskriver vi så som dokumentationen såg ut den 30 oktober 2026. Det
 vi skriver kan ha ändrats sedan dess.
 
-I **Claude Code** är en agent en Markdown-fil i `.claude/agents/` i projektet,
-eller i `~/.claude/agents/` för alla dina projekt. Du kan be Claude skriva
-filen åt dig.
+I **Claude Code** är en underagent en Markdown-fil i `.claude/agents/` i
+projektet, eller i `~/.claude/agents/` för alla dina projekt.
 
-I OpenAI:s **Codex** är en agent en TOML-fil i `.codex/agents/`. TOML är ett
-textformat för inställningar. Den här filen innehåller ett namn, en beskrivning
-och agentens instruktioner. På din egen dator
-[lämnar Codex över](https://learn.chatgpt.com/docs/agent-configuration/subagents)
-när du ber om det eller när instruktioner som AGENTS.md säger det, vilket gör
-filen från del 2 till platsen där du anger när.
+I OpenAI:s **Codex** är en underagent en
+[TOML-fil](https://learn.chatgpt.com/docs/agent-configuration/subagents) i
+`.codex/agents/`. TOML är ett textformat för inställningar. Den här filen
+innehåller ett namn, en beskrivning och underagentens instruktioner.
 
-Filen kan inte sätta agentens sandlåda, som begränsar vad agenten kan röra,
-eller dess godkännanden, som avgör när den måste fråga. Båda kommer från din
-Codex-session, alltså samtalet du för med Codex, så välj dess
-behörighetsinställningar innan du ber Codex lämna över. Filen kan däremot
-begränsa agenten på andra sätt: dokumentationen listar inställningar, till
-exempel `features.shell_tool`, som du sätter till `false` för att minska vad en
-anpassad agent kan göra. Raden "Do not edit files" i exemplet nedan är en
+Filen kan begränsa underagenten med inställningar: dokumentationen listar några,
+till exempel `features.shell_tool`, som du sätter till `false` för att minska
+vad en anpassad agent kan göra. Raden "Do not edit files" i exemplet nedan är en
 begäran och ingen gräns.
 
 ```text
@@ -177,38 +201,14 @@ file, the line and what is wrong.
 
 **GitHub Copilot** läser agentfiler från `.github/agents/`, med namn som slutar
 på `.agent.md` eller `.md`. I VS Code är bara de verktyg som står i filen
-tillgängliga, om filen listar verktyg. Ett av dokumentationens exempel på
-när du ska göra en anpassad agent är att begränsa en granskningsagent till
-verktyg som bara läser. Granskarens fil heter `.github/agents/reviewer.agent.md`
-och har den här raden i sitt huvud:
+tillgängliga, om filen listar verktyg. Granskarens fil heter
+`.github/agents/reviewer.agent.md` och har den här raden i sin frontmatter:
 
 ```text
 tools: ['read', 'search']
 ```
 
-## Vad gränsen ger dig och vad den inte ger
-
-Allt granskaren får göra står på några rader som går att läsa på en minut:
-den får läsa och söka och lämnar tillbaka text. När du läser synpunkterna
-behöver du inte också kontrollera vad den har ändrat, eftersom den inte kunde
-ändra något. I Codex är gränsen sessionens sandlåda och inte agentens fil:
-raden "Do not edit files" där är bara en begäran.
-
-En rad i instruktionsfilen från del 2 ber agenten uppföra sig. Ett verktyg som
-agenten saknar går inte att missbruka: det är en gräns utanför modellen, av det
-slag som del 1 beskrev. [Del 7](#del-7) i serien tar upp den igen.
-
-Granskaren kan ha fel. VS Codes dokumentation säger det rakt ut: separata
-sammanhang "kan lyfta fram olika problem men garanterar inga opartiska eller
-korrekta slutsatser" (vår översättning). Läs synpunkterna och bestäm själv.
-
-I fabriken bakom den här sajten är planerare, byggare och granskare också
-olika agenter, som vi beskrev i
-[Därför driver vi en agentdriven mjukvarufabrik](/sv/blog/why-we-run-an-agent-run-factory/).
-När sajten byggdes om i september hittade granskningen två fel som måste
-rättas i arbete som en annan agent hade gjort.
-
-## När agenten lämnar över på egen hand
+## När huvudagenten lämnar över på egen hand
 
 I oktober 2026 säger Anthropics
 [promptguide](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices)
@@ -216,21 +216,19 @@ att företagets senaste modeller lämnar arbete till underagenter på egen hand.
 kan känna igen när en uppgift tjänar på en specialist och göra det utan att bli
 tillsagda.
 
-I Claude Code har huvudagenten beskrivningarna framför sig när den väljer själv
-och inte instruktionerna, som läses först när agenten körs. Beskrivningen är
-det som gör att agenten används alls. Instruktionerna spelar roll först när
-den används.
+De andra verktygen avgör på andra sätt. I VS Code kan huvudagenten välja att
+lämna över utan att bli ombedd. Copilots molnagent på GitHub.com kan använda en
+anpassad agent på egen hand, utifrån uppgiften, om inte den anpassade agentens
+fil stänger av det.
 
-De andra verktygen avgör på andra sätt. I VS Code kan huvudagenten välja
-att lämna över utan att bli ombedd. Copilots molnagent på GitHub.com kan använda
-en anpassad agent på egen hand, utifrån uppgiften, om inte agentens fil stänger
-av det. Codex dokumentation kallar beskrivningen vägledning för människor om när
-Codex ska använda agenten.
+På din egen dator lämnar Codex över när du ber om det eller när instruktioner
+som AGENTS.md säger det. Codex dokumentation kallar beskrivningen vägledning för människor om när
+Codex ska använda underagenten.
 
 Att lämna över på egen hand för med sig en risk: huvudagenten kan lämna över för
 ofta. Anthropics guide varnar också för att en modell kan starta underagenter
-för att utforska kod när en vanlig sökning är snabbare och räcker. Varje onödig
-överlämning lägger till den kostnad som beskrevs i början av den här delen.
+för att utforska kod när en vanlig sökning är snabbare och räcker. Det lägger
+till den kostnad som beskrevs i början av den här delen.
 
 En rad i instruktionsfilen från del 2 kan säga när det lönar sig att lämna
 över:
@@ -240,36 +238,45 @@ En rad i instruktionsfilen från del 2 kan säga när det lönar sig att lämna
 - Do small edits and lookups yourself: a hand-over costs more than it saves.
 ```
 
-## När det går fel
+## Felsökning
 
-Om huvudagenten inte lämnar över, ber du om agenten vid namn:
+Fyra saker kan gå fel:
+
+- Huvudagenten lämnar aldrig över på egen hand.
+- Det händer ingenting när du nämner underagenten i din begäran.
+- Huvudagenten lämnar över för ofta.
+- Granskarens synpunkter är ytliga.
+
+Om huvudagenten aldrig lämnar över på egen hand, ber du om underagenten vid
+namn:
 
 ```text
 Use the reviewer subagent to review the change in the sign-up form.
 ```
 
-I Claude Code fungerar det oftast. Skriver du @ och agentens namn ser Claude
-Code till att agenten körs för just den uppgiften.
+I Claude Code fungerar det oftast. Skriver du @ och underagentens namn ser
+Claude Code till att underagenten körs för just den uppgiften.
 
-Om det fungerar att nämna agenten men huvudagenten aldrig väljer den på egen
-hand, börja med beskrivningen: skriv när agenten ska användas, som exemplet gör.
-I Claude Code uppmuntrar en fras som "use proactively" i beskrivningen
-huvudagenten att lämna över utan att bli ombedd. Claude Codes råd är att skriva
-beskrivningar som pekar ut en enda agent.
+Om det fungerar att nämna underagenten men huvudagenten aldrig väljer den på
+egen hand, börja med beskrivningen: skriv när underagenten ska användas, som
+exemplet gör. I Claude Code uppmuntrar en fras som "use proactively" i
+beskrivningen huvudagenten att lämna över utan att bli ombedd. Claude Codes råd
+är att skriva beskrivningar som pekar ut en enda underagent.
 
 I Copilot är en andra orsak raden `disable-model-invocation: true` i filen, som
-hindrar huvudagenten från att välja agenten på egen hand.
+hindrar huvudagenten från att välja underagenten på egen hand.
 
-Om det inte hjälper att nämna den vid namn heller, titta på filen. Claude Code
-hoppar över en fil som saknar beskrivning. I VS Code måste namnet skrivas
-exakt som i filen, med samma versaler. Verktyget Run Subagent måste också vara
-valt under Configure Tools.
+Om det inte hjälper att nämna underagenten vid namn heller, titta på filen.
+Claude Code hoppar över en fil som saknar beskrivning. I VS Code måste namnet
+skrivas exakt som i filen, med samma versaler. Verktyget Run Subagent måste
+också vara valt under Configure Tools.
 
-Två fel går åt andra hållet. När huvudagenten lämnar över för ofta, gör du
-beskrivningen smalare och lägger till raden från förra avsnittet i din
-instruktionsfil. När synpunkterna är ytliga, har granskaren troligen börjat utan
-att veta vad den ska titta på: den ser inte samtalet, så skriv i din begäran
-vilken ändring som ska granskas och vad ändringen ska göra.
+När huvudagenten lämnar över för ofta, gör du beskrivningen smalare och lägger
+till raden från förra avsnittet i din instruktionsfil.
+
+När synpunkterna är ytliga har granskaren troligen börjat utan att veta vad den
+ska titta på. Skriv i din begäran vilken ändring som ska granskas och vad
+ändringen ska göra, som det första avsnittet sa.
 
 ## Börja litet
 
@@ -277,17 +284,16 @@ Välj ett jobb som du redan gör på samma sätt varje gång och som inte behöv
 hela samtalet. En granskning av en färdig ändring är ett bra första jobb,
 eftersom den går att göra genom att läsa.
 
-Be verktyget skriva agentfilen åt dig och lägg den i mappen för ditt verktyg,
-som avsnittet om verktygen anger. Läs den sedan och korta ner den: ge agenten
-bara verktyg som läser, skriv beskrivningen som vad den gör och när den ska
-användas och håll instruktionerna till några rader.
+Be verktyget skriva underagentens fil åt dig och lägg den i mappen för ditt
+verktyg, som avsnittet om verktygen anger. Läs den sedan och korta ner den: ge
+underagenten bara verktyg som läser, skriv beskrivningen som vad den gör och när
+den ska användas och håll instruktionerna till några rader.
 
-Prova den på en färdig ändring. Nämn agenten vid namn i begäran första gången
-och läs synpunkterna den lämnar tillbaka som du skulle läsa en kollegas.
+Prova den på en färdig ändring. Nämn underagenten vid namn i begäran första
+gången och läs synpunkterna den lämnar tillbaka som du skulle läsa en kollegas.
 
-Lägg till ett verktyg, eller en andra agent, först när den första har visat sig
-vara till nytta. Byter du till en nyare modell, läs beskrivningarna igen,
-eftersom modellen i Claude Code väljer efter dem.
+Lägg till ett verktyg, eller ytterligare en underagent, först när den första har
+visat sig vara till nytta.
 
 ## Vad som kommer härnäst
 

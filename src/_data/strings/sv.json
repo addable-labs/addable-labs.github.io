@@ -1282,7 +1282,7 @@
       "caption": "Vilket verktyg som läser vilken fil i ett projekts mappar, så som dokumentationen såg ut den 30 oktober 2026. Den närmaste filen har sista ordet."
     },
     "agent-handover": {
-      "title": "En huvudagent som har skrivit en ändring lämnar en granskningsuppgift till en granskaragent. Granskaren har ett eget sammanhang och får läsa och söka men inte ändra filer eller köra kommandon. Den lämnar tillbaka synpunkter. Utvecklaren läser dem och bestämmer.",
+      "title": "En huvudagent som har skrivit en ändring lämnar en granskningsuppgift till en granskare, en underagent. Granskaren har ett eget sammanhang och får läsa och söka men inte ändra filer eller köra kommandon. Den lämnar tillbaka synpunkter. Utvecklaren läser dem och bestämmer.",
       "head": "Ett jobb som lämnas över",
       "main": {
         "label": "huvudagent",
@@ -1307,8 +1307,8 @@
       "caption": "Granskaren. Den har ett eget sammanhang, får läsa och söka men inte ändra filer eller köra kommandon och lämnar tillbaka text. Utvecklaren bestämmer vad som händer sedan."
     },
     "agent-file": {
-      "title": "En agents fil i fyra delar. Namnet är vad du och huvudagenten kallar agenten. Beskrivningen, inramad, är vad huvudagenten läser för att avgöra om den ska lämna över en uppgift. Raden tools anger vad agenten får använda. Instruktionerna är vad den läser när den har fått uppgiften.",
-      "head": "Agentens fil i fyra delar",
+      "title": "En underagents fil i fyra delar. Namnet är vad du och huvudagenten kallar underagenten. Beskrivningen, inramad, är vad huvudagenten läser för att avgöra om en uppgift ska lämnas över. Raden tools anger vilka verktyg underagenten får använda. Instruktionerna är vad underagenten läser när den har fått uppgiften.",
+      "head": "Underagentens fil i fyra delar",
       "parts": {
         "name": "name",
         "description": "description",
@@ -1324,10 +1324,10 @@
       "for": {
         "name": "det du och huvudagenten kallar den",
         "description": "det huvudagenten läser för att välja",
-        "tools": "det den får använda, inget annat",
+        "tools": "vilka verktyg den får använda, inga andra",
         "instructions": "det den läser när den fått uppgiften"
       },
-      "caption": "Granskarens fil i fyra delar. Den inramade delen, beskrivningen, är det huvudagenten läser när den avgör om den ska lämna över en uppgift."
+      "caption": "Granskarens fil i fyra delar. Den inramade delen, beskrivningen, är det huvudagenten läser för att avgöra om en uppgift ska gå till granskaren."
     }
   },
   "games": {
