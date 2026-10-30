@@ -308,7 +308,9 @@ Brödtext i Markdown.
   built English article body: 300–600 for the two seed articles (REQ-006) and
   300–1,500 for every later article, except the Gaimer article
   (`cleaning-up-gaimer`), which the founder allowed 1,850 on 26 September
-  2026 so that it can tell the changes its first figure counts. The Swedish
+  2026 so that it can tell the changes its first figure counts, and part 2 of
+  the series on AI agents (`the-instruction-file`), which he allowed 1,850 on
+  30 October 2026 as a 5–10 minute read. The Swedish
   twin is not counted, and neither are the figures (captions and diagram
   labels) or the tables' cells: they are not prose.
 - **Figures.** An article can carry custom SVG illustrations (REQ-008): put

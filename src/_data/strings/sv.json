@@ -1238,7 +1238,7 @@
       "caption": "Den påhittade exempelfilen första dagen och några veckor senare. Historien och filen är påhittade."
     },
     "which-tool-reads-what": {
-      "title": "Tre verktyg och de filer de läser. Codex läser AGENTS.md. GitHub Copilot läser AGENTS.md och .github/copilot-instructions.md. Claude Code läser AGENTS.md också när det inte finns någon CLAUDE.md. Där det finns en importerar en enda rad i den, @AGENTS.md, den delade filen.",
+      "title": "Tre verktyg och de filer de läser. Codex läser AGENTS.md. GitHub Copilot läser AGENTS.md och .github/copilot-instructions.md. Claude Code läser AGENTS.md också när det inte finns någon CLAUDE.md. Där det finns en hämtar en enda rad i den, @AGENTS.md, in den delade filen.",
       "head": "Filer i projektet",
       "files": {
         "agents": "AGENTS.md",

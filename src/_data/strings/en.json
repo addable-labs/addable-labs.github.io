@@ -1238,7 +1238,7 @@
       "caption": "The made-up example file on its first day and a few weeks later. The story and the file are made up."
     },
     "which-tool-reads-what": {
-      "title": "Three tools and the files they read. Codex reads AGENTS.md. GitHub Copilot reads AGENTS.md and .github/copilot-instructions.md. Claude Code reads AGENTS.md too when there is no CLAUDE.md. Where there is one, a single line in it, @AGENTS.md, imports the shared file.",
+      "title": "Three tools and the files they read. Codex reads AGENTS.md. GitHub Copilot reads AGENTS.md and .github/copilot-instructions.md. Claude Code reads AGENTS.md too when there is no CLAUDE.md. Where there is one, a single line in it, @AGENTS.md, pulls in the shared file.",
       "head": "Files in the project",
       "files": {
         "agents": "AGENTS.md",

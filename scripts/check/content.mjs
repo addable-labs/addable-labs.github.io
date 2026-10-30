@@ -46,7 +46,8 @@
 //     image right under its summary, described in its imageAlt
 //   - both seed articles exist in both languages, the seed articles are
 //     300–600 English words of prose and every later article 300–1,500, the
-//     Gaimer article alone 300–1,850 (the founder's call, 26 September 2026;
+//     Gaimer article alone 300–1,850 (the founder's call, 26 September 2026)
+//     and part 2 of the series 300–1,850 (his call of 30 October 2026;
 //     the figures' captions and diagram labels are not prose and do not count,
 //     si-55iu, and neither do tables' cells), a draft shows "Draft"/"Utkast" on its page, in the listings
 //     and in the feeds of a local build and has no page at all in the
@@ -93,12 +94,17 @@ const ARTICLE_SLUG = "how-this-site-was-built-by-agents";
 // REQ-006 (AC-11): the two seed articles are 300–600 English words. Later
 // articles (the factory series, si-xcpc) get a floor against stubs and a
 // ceiling for a readable post: 300–1,500. The founder lifted the ceiling
-// for one article only (26 September 2026, si-y2zu): the Gaimer article may
+// for two articles only: the Gaimer article (26 September 2026, si-y2zu) may
 // run to 1,850, so that it can tell the significant changes its merges
-// figure counts, the app's icon among them; every other article keeps 1,500.
+// figure counts, the app's icon among them, and part 2 of the series on AI
+// agents (30 October 2026, we-644a4; "I am fine with a 5-10 minute read") to
+// 1,850, the 1,840 words of the text; every other article keeps 1,500.
 const SEED_ARTICLES = new Set([ARTICLE_SLUG, "lessons-from-building-niva"]);
 const WORD_RANGE = { seed: [300, 600], other: [300, 1500] };
-const WORD_CEILING = new Map([["cleaning-up-gaimer", 1850]]);
+const WORD_CEILING = new Map([
+  ["cleaning-up-gaimer", 1850],
+  ["the-instruction-file", 1850],
+]);
 
 async function page(relPath) {
   const file = path.join(out, relPath);
