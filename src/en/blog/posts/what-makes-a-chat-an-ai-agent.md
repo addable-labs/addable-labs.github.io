@@ -3,12 +3,12 @@ title: From AI chat to agentic work
 description: The first part of the series — what sets an AI agent apart from a chat with AI, the five parts the agent is made of and how they look in the factory behind this site.
 image: cover.png                 # a 1200 × 630 PNG in the article's media directory
 imageAlt: A developer seen from behind, split into two halves in front of two screens. The left half is grey and calmer, in front of a chat. The right half is green and active, one hand raised towards a screen with a graph of agents.
-date: 2026-10-06
+date: 2026-10-30
 category: ai-journey             # app-development | ai-journey
 translationKey: what-makes-a-chat-an-ai-agent
-draft: true                      # a draft — set false to publish it
+draft: false                     # published — set true to keep it out of the public build (see README)
 aiGenerated: true                # AI produced this text
-humanReviewed: false             # no one has read it yet
+humanReviewed: true              # a person has read it
 ---
 
 Addable Labs builds software largely with AI agents, and this site is built

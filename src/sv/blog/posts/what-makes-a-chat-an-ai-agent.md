@@ -3,12 +3,12 @@ title: Från AI-chatt till agentiskt arbete
 description: Första delen i serien – vad som skiljer en AI-agent från en chatt med AI, de fem delar agenten består av och hur de ser ut i fabriken bakom den här sajten.
 image: cover.png                 # en PNG på 1200 × 630 i artikelns mediemapp
 imageAlt: En utvecklare sedd bakifrån, delad i två halvor framför två skärmar. Den vänstra halvan är grå och lugnare framför en chatt. Den högra är grön och aktiv, med handen höjd mot en skärm med en graf av agenter.
-date: 2026-10-06
+date: 2026-10-30
 category: ai-journey             # app-development | ai-journey
 translationKey: what-makes-a-chat-an-ai-agent
-draft: true                      # ett utkast — sätt false för att publicera det
+draft: false                     # publicerad — sätt true för att hålla den utanför publika bygget (se README)
 aiGenerated: true                # AI har skrivit texten
-humanReviewed: false             # ingen har läst den ännu
+humanReviewed: true              # en person har läst den
 ---
 
 Addable Labs bygger mjukvara till stor del med AI-agenter och den här sajten
