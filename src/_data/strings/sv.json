@@ -1314,7 +1314,7 @@
       "caption": "Vilket verktyg som läser vilken fil i ett projekts mappar, så som dokumentationen såg ut den 30 oktober 2026. Den närmaste filen har sista ordet."
     },
     "what-goes-along": {
-      "title": "Två kolumner. Den högra, i grönt, rymmer det som är incheckat i repositoryt: instruktionsfilen CLAUDE.md, mappen med skills och projektets .mcp.json. En pil leder från den till en körning i molnet. Den vänstra rymmer det som bara finns på din dator: instruktionsfilen i din hemmapp, skills i din hemmapp, MCP-servrar som bara du har lagt till och inloggningar som AWS SSO. Ingen pil leder från den.",
+      "title": "Två kolumner. Den högra, i grönt, rymmer det som är committat till repositoryt: instruktionsfilen CLAUDE.md, mappen med skills och projektets .mcp.json. En pil leder från den till en körning i molnet. Den vänstra rymmer det som bara finns på din dator: instruktionsfilen i din hemmapp, skills i din hemmapp, MCP-servrar som bara du har lagt till och inloggningar som kräver en webbläsare. Ingen pil leder från den.",
       "head": "Det en molnkörning utgår från",
       "computer": "Bara på din dator",
       "repo": "I repositoryt",
@@ -1332,7 +1332,7 @@
       },
       "homeSignIn": {
         "label": "Inloggningar",
-        "note": "som AWS SSO"
+        "note": "kräver webbläsare"
       },
       "repoInstruction": {
         "label": "Instruktionsfil",
@@ -1351,7 +1351,7 @@
         "note": "utgår från en kopia"
       },
       "staysBehind": "blir kvar",
-      "caption": "Det en molnsession i Claude Code utgår från, så som dokumentationen listade det den 30 oktober 2026: det som är incheckat följer med, det som bara finns på din dator blir kvar."
+      "caption": "Det en molnsession i Claude Code utgår från, så som dokumentationen listade det den 30 oktober 2026: de tre filerna som är committade till repositoryt följer med (MCP-filen i en session med ett repository), det som bara finns på din dator blir kvar."
     }
   },
   "games": {

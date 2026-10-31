@@ -456,7 +456,7 @@ describe("content gate", () => {
     assert.match(output, /FAIL {2}blog\/why-we-run-an-agent-run-factory\/index\.html: \d+ words \(300–1500\)/);
   });
 
-  it("lets the Gaimer article run to 1,850 English words, part 1 of the series to 1,600, part 2 to 2,030 and part 6 to 2,650, and holds every other later article to 1,500 (the founder's calls, 26 September 2026, si-y2zu, and 29–30 October 2026, si-puxr, we-644a4 and we-1nih4)", async () => {
+  it("lets the Gaimer article run to 1,850 English words, part 1 of the series to 1,600, part 2 to 2,030 and part 6 to 2,150, and holds every other later article to 1,500 (the founder's calls, 26 September 2026, si-y2zu, and 29–30 October 2026, si-puxr, we-644a4, we-1nih4 and we-9v2mk)", async () => {
     // The real build: the Gaimer article and parts 1, 2 and 6 pass with more than 1,500
     // words, and every other later article is measured against 1,500.
     const real = runGate("content", built, undefined, { CHECK_QUIET: "0" });
@@ -472,29 +472,29 @@ describe("content gate", () => {
     assert.equal(partTwo?.max, 2030, real.output);
     assert.ok(partTwo.words > 1500, `part 2 has ${partTwo.words} words`);
     const partSix = measured.get("where-the-agent-runs");
-    assert.equal(partSix?.max, 2650, real.output);
+    assert.equal(partSix?.max, 2150, real.output);
     assert.ok(partSix.words > 1500, `part 6 has ${partSix.words} words`);
     const seeds = ["how-this-site-was-built-by-agents", "lessons-from-building-niva"];
     const later = [...measured].filter(([slug]) => slug !== "cleaning-up-gaimer" && slug !== "what-makes-a-chat-an-ai-agent" && slug !== "the-instruction-file" && slug !== "where-the-agent-runs" && !seeds.includes(slug));
     assert.ok(later.length >= 3, real.output);
     for (const [slug, { max }] of later) assert.equal(max, 1500, slug);
     // Each padded to its ceiling passes, and one word more fails: the Gaimer
-    // article at 1,850, part 1 at 1,600, part 2 at 2,030, part 6 at 2,650, every other later article at 1,500.
+    // article at 1,850, part 1 at 1,600, part 2 at 2,030, part 6 at 2,150, every other later article at 1,500.
     const filler = (count) => (html) => html.replace('<div class="article-body">', `<div class="article-body"><p>${"filler ".repeat(count).trim()}</p>`);
-    const padded = (extra) => Object.fromEntries([["cleaning-up-gaimer", 1850], ["what-makes-a-chat-an-ai-agent", 1600], ["the-instruction-file", 2030], ["where-the-agent-runs", 2650], ...later.map(([slug]) => [slug, 1500])].map(([slug, ceiling]) => [`blog/${slug}/index.html`, filler(ceiling + extra - measured.get(slug).words)]));
+    const padded = (extra) => Object.fromEntries([["cleaning-up-gaimer", 1850], ["what-makes-a-chat-an-ai-agent", 1600], ["the-instruction-file", 2030], ["where-the-agent-runs", 2150], ...later.map(([slug]) => [slug, 1500])].map(([slug, ceiling]) => [`blog/${slug}/index.html`, filler(ceiling + extra - measured.get(slug).words)]));
     const atCeiling = runGate("content", await withPageEdits("ceilings-at", padded(0)), undefined, { CHECK_QUIET: "0" });
     assert.equal(atCeiling.status, 0, atCeiling.output);
     assert.match(atCeiling.output, /^ok {4}blog\/cleaning-up-gaimer\/index\.html: 1850 words \(300–1850\)$/m);
     assert.match(atCeiling.output, /^ok {4}blog\/what-makes-a-chat-an-ai-agent\/index\.html: 1600 words \(300–1600\)$/m);
     assert.match(atCeiling.output, /^ok {4}blog\/the-instruction-file\/index\.html: 2030 words \(300–2030\)$/m);
-    assert.match(atCeiling.output, /^ok {4}blog\/where-the-agent-runs\/index\.html: 2650 words \(300–2650\)$/m);
+    assert.match(atCeiling.output, /^ok {4}blog\/where-the-agent-runs\/index\.html: 2150 words \(300–2150\)$/m);
     for (const [slug] of later) assert.match(atCeiling.output, new RegExp(`^ok {4}blog/${slug}/index\\.html: 1500 words \\(300–1500\\)$`, "m"));
     const past = runGate("content", await withPageEdits("ceilings-past", padded(1)));
     assert.equal(past.status, 1);
     assert.match(past.output, /^FAIL {2}blog\/cleaning-up-gaimer\/index\.html: 1851 words \(300–1850\)$/m);
     assert.match(past.output, /^FAIL {2}blog\/what-makes-a-chat-an-ai-agent\/index\.html: 1601 words \(300–1600\)$/m);
     assert.match(past.output, /^FAIL {2}blog\/the-instruction-file\/index\.html: 2031 words \(300–2030\)$/m);
-    assert.match(past.output, /^FAIL {2}blog\/where-the-agent-runs\/index\.html: 2651 words \(300–2650\)$/m);
+    assert.match(past.output, /^FAIL {2}blog\/where-the-agent-runs\/index\.html: 2151 words \(300–2150\)$/m);
     for (const [slug] of later) assert.match(past.output, new RegExp(`^FAIL {2}blog/${slug}/index\\.html: 1501 words \\(300–1500\\)$`, "m"));
     assert.match(past.output, new RegExp(`^FAIL content \\(${later.length + 4} problems\\)$`, "m"));
   });

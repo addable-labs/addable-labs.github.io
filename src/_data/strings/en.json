@@ -1314,7 +1314,7 @@
       "caption": "Which tool reads which file in a project's folders, as their documentation stood on 30 October 2026. The closest file has the last word."
     },
     "what-goes-along": {
-      "title": "Two columns. The right one, in green, holds what is committed to the repository: the instruction file CLAUDE.md, the skills folder and the project's .mcp.json. An arrow leads from it to a cloud run. The left one holds what is only on your computer: the instruction file in your home folder, the skills in your home folder, MCP servers added only for you and sign-ins like AWS SSO. No arrow leads from it.",
+      "title": "Two columns. The right one, in green, holds what is committed to the repository: the instruction file CLAUDE.md, the skills folder and the project's .mcp.json. An arrow leads from it to a cloud run. The left one holds what is only on your computer: the instruction file in your home folder, the skills in your home folder, MCP servers added only for you and sign-ins that need a browser. No arrow leads from it.",
       "head": "What a cloud run starts from",
       "computer": "Only on your computer",
       "repo": "In the repository",
@@ -1332,7 +1332,7 @@
       },
       "homeSignIn": {
         "label": "Sign-ins",
-        "note": "like AWS SSO"
+        "note": "that need a browser"
       },
       "repoInstruction": {
         "label": "Instruction file",
@@ -1351,7 +1351,7 @@
         "note": "starts from a copy"
       },
       "staysBehind": "stays behind",
-      "caption": "What a Claude Code cloud session starts from, as its documentation listed it on 30 October 2026: what is committed goes along, what is only on your computer stays behind."
+      "caption": "What a Claude Code cloud session starts from, as its documentation listed it on 30 October 2026: the three files committed to the repository go along (the MCP file in a session with one repository), what is only on your computer stays behind."
     }
   },
   "games": {
