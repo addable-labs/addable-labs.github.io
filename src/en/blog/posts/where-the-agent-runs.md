@@ -12,17 +12,17 @@ humanReviewed: false             # no one has read it yet
 ---
 
 In part 5 of this series, the AI agent got a way to reach systems outside your
-files, such as an issue tracker. So far you have started the agent yourself, in
-a chat or in the editor, and watched what it did.
+files, such as an issue tracker. So far you have started the agent yourself and
+followed its steps in the chat or the editor.
 
-This part is about the same agent working where nobody watches: started by a
-schedule or by something that happens in GitHub, or running on the vendor's
-computers instead of yours. Part 1,
+This part is about the same agent when it runs with nobody sitting beside it:
+started by a schedule or by something that happens in GitHub, or running on the
+vendor's computers instead of yours. Part 1,
 [From AI chat to agentic work](/blog/what-makes-a-chat-an-ai-agent/), said that
 an agent can run in an editor, in a terminal, in a CI job or on a schedule.
 
-Nobody watching also means nobody to answer the agent's questions, so a good
-first job to run on its own is one that can only read.
+When nobody is there, nobody can answer the agent's questions, so a good first
+job to run on its own is one that can only read.
 
 ## A summary nobody has to ask for
 
@@ -33,28 +33,28 @@ team's chat.
 
 The job changes nothing in the project. It only reads the history and writes a
 few lines, which makes it a safe first job to move out of the editor. We will
-run it as a CI job started by the clock. The summary will wait on a GitHub page.
-Sending it on to the team's chat is a later step.
+run it as a CI job that starts on a schedule. The summary will wait on a GitHub
+page. Sending it on to the team's chat is a later step.
 
 ## The same agent in five places
 
 A fifth place belongs with the four from part 1: the vendor's own cloud, where
 you start the agent and it runs on the vendor's computers.
 
-| Where it runs | Who starts it | Who is watching | Good for |
+| Where it runs | Who starts it | Who is there while it runs | Good for |
 | --- | --- | --- | --- |
 | In the editor | You | You, beside it | Asking and checking as you go |
 | In the terminal | You | You | The same, plus scripts |
 | In CI, when something happens | An event, such as a comment on a pull request | Nobody; you read the result later | Checks that run when something happens |
-| On a schedule | The clock | Nobody | The same job every morning |
+| On a schedule | The schedule | Nobody | The same job every morning |
 | In the vendor's cloud | You, from a browser or a phone | You, or nobody: it keeps running if you close your laptop | A long task that goes on while your laptop is closed |
 
-Our rule of thumb: start where you can watch, in the editor or the terminal.
-Move a job out when you ask for the same thing again and again and can judge the
-result by reading it. A job that must run by itself every morning belongs on a
-schedule. The vendor's cloud may be the easiest first try, since you start it
-from a browser and write no file. Give an unattended job no more than it needs.
-Do not let it act on text from people you do not know.
+Our rule of thumb: start where you can follow what the agent does, in the editor
+or the terminal. Move a job out when you ask for the same thing again and again
+and can judge the result by reading it. A job that must run by itself every
+morning belongs on a schedule. The vendor's cloud may be the easiest first try,
+since you start it from a browser and write no file. Give an unattended job no
+more than it needs. Do not let it act on text from people you do not know.
 
 ## What goes along to a run in the cloud
 
@@ -79,10 +79,10 @@ OpenAI's
 says the same of skills: the ones stored in the repository are available in
 cloud tasks, and personal skills from your computer are not synced.
 
-## When nobody is watching
+## When nobody is there
 
-In the editor, you are there to answer when the agent stops and asks. A job
-started by the clock has nobody to answer. By default, a job in
+In the editor, you are there to answer when the agent stops and asks. A job that
+starts on a schedule has nobody to answer. By default, a job in
 [Claude Code](https://code.claude.com/docs/en/permission-modes),
 [Codex](https://learn.chatgpt.com/docs/non-interactive-mode) and
 [GitHub Copilot](https://docs.github.com/en/copilot/how-tos/copilot-cli/automate-copilot-cli/run-cli-programmatically)
@@ -124,11 +124,11 @@ jobs:
 Read from the top:
 
 - `name` is what the repository's Actions tab shows for the job.
-- `on` says what starts it. `schedule` starts it from the clock.
+- `on` says what starts it. `schedule` starts it at fixed times.
   [`cron`](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows)
-  sets the time: `30 9 * * *` is 09:30 every day, in UTC (10:30 or 11:30 in
-  Sweden). `workflow_dispatch` adds the Run workflow button to GitHub, for
-  starting the job by hand.
+  sets them: `30 9 * * *` is 09:30 every day, in UTC (10:30 or 11:30 in Sweden).
+  `workflow_dispatch` adds the Run workflow button to GitHub, for starting the
+  job by hand.
 - `runs-on` picks the runner.
 - `timeout-minutes` makes GitHub cancel the job after ten minutes.
 - `permissions` sets what the job's `GITHUB_TOKEN` may do: here, only read the
@@ -139,12 +139,12 @@ Read from the top:
 In **Claude Code**, the
 [GitHub Action](https://code.claude.com/docs/en/github-actions) runs the agent
 in CI, either when someone mentions `@claude` in a comment or, with a prompt, on
-any GitHub event, such as the clock. It needs the Claude GitHub app installed on
-the repository, and a second line under `permissions`, `id-token: write`, which
-it uses to sign in to GitHub as that app. The step allows one GitHub MCP tool,
-`mcp__github__list_commits`, which lets Claude read the commits through GitHub's
-API. It is adapted from Anthropic's own example: we left out the issues and the
-model setting and wrote the prompt ourselves.
+any GitHub event, such as a schedule. It needs the Claude GitHub app installed
+on the repository, and a second line under `permissions`, `id-token: write`,
+which it uses to sign in to GitHub as that app. The step allows one GitHub MCP
+tool, `mcp__github__list_commits`, which lets Claude read the commits through
+GitHub's API. It is adapted from Anthropic's own example: we left out the issues
+and the model setting and wrote the prompt ourselves.
 
 ```text
       - uses: anthropics/claude-code-action@v1
@@ -247,10 +247,10 @@ refused. A plain-text prompt to Claude has no shell or GitHub access until the
 file grants the tools the prompt needs, so check which tools it needs and allow
 exactly those.
 
-If the run starts at another time than you expected, remember that the clock is
-UTC. GitHub also says that a schedule can be delayed when many workflows start
-at once, such as at the start of every hour, and advises another time of the
-hour. That is why the file uses 09:30.
+If the run starts at another time than you expected, remember that the times in
+a schedule are UTC. GitHub also says that a schedule can be delayed when many
+workflows start at once, such as at the start of every hour, and advises another
+time of the hour. That is why the file uses 09:30.
 
 If the run goes on for too long, the `timeout-minutes` line cancels it after ten
 minutes.

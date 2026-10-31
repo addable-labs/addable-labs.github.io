@@ -10,7 +10,7 @@
 - id: P6-part1-places
   article: where-the-agent-runs
   sentence:
-    sv: "sa att en agent kan köras i en editor, i en terminal, i ett CI-jobb eller på schema"
+    sv: "beskrev att en agent kan köras i en editor, i en terminal, i ett CI-jobb eller på schema"
     en: "said that an agent can run in an editor, in a terminal, in a CI job or on a schedule"
   vendor: Addable Labs
   url: https://addablelabs.se/blog/what-makes-a-chat-an-ai-agent/
@@ -130,7 +130,7 @@
 - id: P6-commit-available
   article: where-the-agent-runs
   sentence:
-    sv: "säger att det du committar till repot finns tillgängligt i sessionen och att det du bara har installerat eller konfigurerat på din egen maskin inte gör det"
+    sv: "beskriver att det du committar till repot finns tillgängligt i sessionen och att det du bara har installerat eller konfigurerat på din egen maskin inte gör det"
     en: "says that what you commit to the repository is available in the session, and that what you have installed or configured only on your own machine is not"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/cloud-environments
@@ -418,8 +418,8 @@
 - id: P6-cc-action
   article: where-the-agent-runs
   sentence:
-    sv: "kör GitHub Action agenten i CI, antingen när någon nämner @claude i en kommentar eller, med en prompt, vid vilken GitHub-händelse som helst, till exempel klockan"
-    en: "runs the agent in CI, either when someone mentions @claude in a comment or, with a prompt, on any GitHub event, such as the clock"
+    sv: "kör GitHub Action agenten i CI, antingen när någon nämner @claude i en kommentar eller, med en prompt, vid vilken GitHub-händelse som helst, till exempel ett schema"
+    en: "runs the agent in CI, either when someone mentions @claude in a comment or, with a prompt, on any GitHub event, such as a schedule"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/github-actions
   final_url: https://code.claude.com/docs/en/github-actions
@@ -430,8 +430,8 @@
 - id: P6-cc-action-cron
   article: where-the-agent-runs
   sentence:
-    sv: "kör GitHub Action agenten i CI, antingen när någon nämner @claude i en kommentar eller, med en prompt, vid vilken GitHub-händelse som helst, till exempel klockan"
-    en: "runs the agent in CI, either when someone mentions @claude in a comment or, with a prompt, on any GitHub event, such as the clock"
+    sv: "kör GitHub Action agenten i CI, antingen när någon nämner @claude i en kommentar eller, med en prompt, vid vilken GitHub-händelse som helst, till exempel ett schema"
+    en: "runs the agent in CI, either when someone mentions @claude in a comment or, with a prompt, on any GitHub event, such as a schedule"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/github-actions
   final_url: https://code.claude.com/docs/en/github-actions
@@ -814,8 +814,8 @@
 - id: P6-ts-utc
   article: where-the-agent-runs
   sentence:
-    sv: "kom ihåg att klockan är UTC"
-    en: "remember that the clock is UTC"
+    sv: "kom ihåg att tiderna i ett schema är UTC"
+    en: "remember that the times in a schedule are UTC"
   vendor: GitHub
   url: https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows
   final_url: https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows

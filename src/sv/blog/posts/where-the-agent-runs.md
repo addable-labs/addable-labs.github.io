@@ -12,18 +12,18 @@ humanReviewed: false             # ingen har läst den ännu
 ---
 
 I del 5 av serien fick AI-agenten ett sätt att nå system utanför dina filer,
-till exempel ett ärendesystem. Hittills har du startat agenten själv – i en
-chatt eller i editorn – och sett vad den gjorde.
+till exempel ett ärendesystem. Hittills har du startat agenten själv och följt
+dess steg i chatten eller i editorn.
 
-Den här delen handlar om samma agent när den arbetar där ingen tittar på:
+Den här delen handlar om samma agent när den körs utan att någon sitter bredvid:
 startad av ett schema eller av något som händer i GitHub, eller körd på
 leverantörens datorer i stället för dina. Del 1,
 [Från AI-chatt till agentiskt arbete](/sv/blog/what-makes-a-chat-an-ai-agent/),
-sa att en agent kan köras i en editor, i en terminal, i ett CI-jobb eller på
-schema.
+beskrev att en agent kan köras i en editor, i en terminal, i ett CI-jobb eller
+på schema.
 
-Att ingen tittar på betyder också att ingen kan svara på agentens frågor, så ett
-bra första jobb att låta köra på egen hand är ett som bara får läsa.
+När ingen är med kan ingen heller svara på agentens frågor. Därför är ett bra
+första jobb att låta köra på egen hand ett som bara får läsa.
 
 ## En sammanfattning som ingen behöver be om
 
@@ -34,7 +34,7 @@ teamets chatt.
 
 Jobbet ändrar ingenting i projektet. Det läser bara historiken och skriver några
 rader, vilket gör det till ett tryggt första jobb att flytta ut ur editorn. Vi
-kör det som ett CI-jobb som startas av klockan. Sammanfattningen får vänta på en
+kör det som ett CI-jobb som startar på schema. Sammanfattningen får vänta på en
 sida i GitHub. Att skicka den vidare till teamets chatt är ett senare steg.
 
 ## Samma agent på fem ställen
@@ -42,29 +42,29 @@ sida i GitHub. Att skicka den vidare till teamets chatt är ett senare steg.
 Ett femte ställe hör ihop med de fyra från del 1: leverantörens eget moln, där
 du startar agenten och den körs på leverantörens datorer.
 
-| Var den körs | Vem som startar den | Vem som tittar på | Passar för |
+| Var den körs | Vem som startar den | Vem som är med medan den körs | Passar för |
 | --- | --- | --- | --- |
 | I editorn | Du | Du, bredvid | Att fråga och kontrollera medan du jobbar |
 | I terminalen | Du | Du | Samma sak plus skript |
 | I CI, när något händer | En händelse, till exempel en kommentar på en pull request | Ingen – du läser resultatet efteråt | Kontroller som körs när något händer |
-| På schema | Klockan | Ingen | Samma jobb varje morgon |
+| På schema | Schemat | Ingen | Samma jobb varje morgon |
 | I leverantörens moln | Du, från en webbläsare eller en telefon | Du, eller ingen: den fortsätter köra om du stänger datorn | En lång uppgift som pågår medan datorn är stängd |
 
-Vår tumregel: börja där du kan titta på, i editorn eller terminalen. Flytta ut
-ett jobb när du ber om samma sak gång på gång och kan bedöma resultatet genom
-att läsa det. Ett jobb som ska köras av sig självt varje morgon hör hemma på ett
-schema. Leverantörens moln kan vara det enklaste första försöket, eftersom du
-startar det från en webbläsare och inte skriver någon fil. Ge ett obevakat jobb
-inte mer än det behöver. Låt det inte agera på text från personer du inte
-känner.
+Vår tumregel: börja där du kan följa vad agenten gör, i editorn eller
+terminalen. Flytta ut ett jobb när du ber om samma sak gång på gång och kan
+bedöma resultatet genom att läsa det. Ett jobb som ska köras av sig självt varje
+morgon hör hemma på ett schema. Leverantörens moln kan vara det enklaste första
+försöket, eftersom du startar det från en webbläsare och inte skriver någon fil.
+Ge ett obevakat jobb inte mer än det behöver. Låt det inte agera på text från
+personer du inte känner.
 
 ## Det som följer med till en körning i molnet
 
 En körning i leverantörens moln utgår från en kopia av ditt repo, inte från din
 dator. Ett CI-jobb har bara en kopia om ett av dess steg checkar ut repot.
 Anthropics [dokumentation](https://code.claude.com/docs/en/cloud-environments)
-säger att det du committar till repot finns tillgängligt i sessionen och att det
-du bara har installerat eller konfigurerat på din egen maskin inte gör det.
+beskriver att det du committar till repot finns tillgängligt i sessionen och att
+det du bara har installerat eller konfigurerat på din egen maskin inte gör det.
 
 I Claude Codes molnsessioner följer repots instruktionsfil från del 2 och dess
 skills från del 4 med, eftersom de är en del av kopian. Det gör också dess
@@ -77,13 +77,13 @@ konfiguration till repot.
 
 OpenAIs
 [dokumentation](https://learn.chatgpt.com/docs/environments/cloud-environments)
-säger detsamma om skills: de som ligger i repot finns tillgängliga i
+beskriver samma sak för skills: de som ligger i repot finns tillgängliga i
 molnuppgifter. Personliga skills från din dator synkas inte.
 
-## När ingen tittar på
+## När ingen är med
 
 I editorn finns du där och kan svara när agenten stannar och frågar. Ett jobb
-som startas av klockan har ingen som kan svara. Som standard kan ett jobb i
+som startar på schema har ingen som kan svara. Som standard kan ett jobb i
 [Claude Code](https://code.claude.com/docs/en/permission-modes),
 [Codex](https://learn.chatgpt.com/docs/non-interactive-mode) och
 [GitHub Copilot](https://docs.github.com/en/copilot/how-tos/copilot-cli/automate-copilot-cli/run-cli-programmatically)
@@ -124,9 +124,9 @@ jobs:
 Läst uppifrån:
 
 - `name` är det som fliken Actions i repot visar för jobbet.
-- `on` säger vad som startar det. `schedule` startar det från klockan.
+- `on` säger vad som startar det. `schedule` startar det vid fasta tider.
   [`cron`](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows)
-  anger tiden: `30 9 * * *` är 09:30 varje dag, i UTC (10:30 eller 11:30 i
+  anger dem: `30 9 * * *` är 09:30 varje dag, i UTC (10:30 eller 11:30 i
   Sverige). `workflow_dispatch` lägger till knappen Run workflow på GitHub, för
   att starta jobbet för hand.
 - `runs-on` väljer runnern.
@@ -138,10 +138,10 @@ Läst uppifrån:
 I **Claude Code** kör
 [GitHub Action](https://code.claude.com/docs/en/github-actions) agenten i CI,
 antingen när någon nämner `@claude` i en kommentar eller, med en prompt, vid
-vilken GitHub-händelse som helst, till exempel klockan. Den kräver att Claudes
-GitHub-app är installerad i repot. Jobbet behöver också en andra rad under
-`permissions`, `id-token: write`, som actionen använder för att logga in på
-GitHub som appen. Steget tillåter ett MCP-verktyg från GitHub,
+vilken GitHub-händelse som helst, till exempel ett schema. Den kräver att
+Claudes GitHub-app är installerad i repot. Jobbet behöver också en andra rad
+under `permissions`, `id-token: write`, som actionen använder för att logga in
+på GitHub som appen. Steget tillåter ett MCP-verktyg från GitHub,
 `mcp__github__list_commits`, som låter Claude läsa commits via GitHubs API. Det
 är anpassat från Anthropics eget exempel: vi har tagit bort ärendena och
 modellinställningen och skrivit prompten själva.
@@ -248,10 +248,10 @@ prompt som bara är text ger Claude ingen shell- eller GitHub-åtkomst förrän
 filen ger de verktyg som prompten behöver, så kontrollera vilka verktyg den
 behöver och tillåt exakt dem.
 
-Om körningen startar vid en annan tid än du väntade dig, kom ihåg att klockan är
-UTC. GitHub säger också att ett schema kan försenas när många workflows startar
-samtidigt, till exempel vid början av varje timme. GitHub rekommenderar en annan
-tid på timmen. Därför använder filen 09:30.
+Om körningen startar vid en annan tid än du väntade dig, kom ihåg att tiderna i
+ett schema är UTC. GitHub beskriver också att ett schema kan försenas när många
+workflows startar samtidigt, till exempel vid början av varje timme. GitHub
+rekommenderar en annan tid på timmen. Därför använder filen 09:30.
 
 Om körningen pågår för länge avbryter raden `timeout-minutes` den efter tio
 minuter.
