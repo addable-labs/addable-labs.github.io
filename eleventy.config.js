@@ -3,6 +3,7 @@ import { IdAttributePlugin } from "@11ty/eleventy";
 import rssPlugin from "@11ty/eleventy-plugin-rss";
 import { isOmitted, isScheduled, parseFrontMatter, siteNow, validateArticle, validateArticleDate } from "./scripts/lib/frontmatter.mjs";
 import { articleIsBuilt, gamePages, gameProblems, MEDIA_DIR, mediaSlugs, readGames, renderGames } from "./scripts/lib/games.mjs";
+import { highlight } from "./scripts/lib/highlight.mjs";
 import { articleImage, DEFAULT_IMAGE, IMAGE_HEIGHT, IMAGE_WIDTH, imageProblems } from "./scripts/lib/images.mjs";
 import { swedishNumbersOnOneLine } from "./scripts/lib/swedish-numbers.mjs";
 import { ARTICLE_PATH, byDateDescThenSlug, checkPageUrls } from "./scripts/lib/urls.mjs";
@@ -69,6 +70,11 @@ export default function (eleventyConfig) {
   // adding a direct dependency.
   eleventyConfig.amendLibrary("md", (md) => {
     md.set({ html: true, typographer: false });
+    // Code blocks (si-20k4): a fence with a language that scripts/lib/
+    // highlight.mjs knows (sh, markdown, yaml, json) gets span.tok-<kind>
+    // around its tokens, at build time. For ```text and any other tag it
+    // returns "" and markdown-it writes the block as it always did.
+    md.set({ highlight });
     // Tables (founder feedback 2026-09-24, si-t64i): each table comes
     // wrapped in div.table-scroll, which base.css makes a text block like a
     // paragraph, so the table starts on the text column's left edge and one

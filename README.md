@@ -350,6 +350,22 @@ Brödtext i Markdown.
   wide for the column scrolls inside that box instead of the page; the
   layout gate measures both. A short cell keeps a table narrow on a phone:
   the unit can go in the row label, as in `Median start (tokens)`.
+- **Code blocks.** Tag a fenced block with its language and the build
+  colours it (`scripts/lib/highlight.mjs`, at build time: the page gets
+  `<span class="tok-…">` and nothing else, no script, no inline style, no
+  request). The languages are `sh` (also `bash`, `zsh`, `shell`), `markdown`
+  (`md`; a YAML front matter between `---` lines is read as YAML), `yaml`
+  (`yml`) and `json`. Use `sh` for a script or a command, `markdown` for a
+  SKILL.md or an instruction file, `yaml` or `json` for a data file, and
+  `text` for everything that is not code: a prompt, a folder tree, a
+  quotation. A fence with `text`, with no language or with a language that is
+  not listed is written exactly as it was before this existed, with no
+  colour. The highlighter only colours: it refuses its own output unless the
+  tokens read back as exactly the code it was given. The colours are the
+  five `--color-code-*` tokens (comment, string, param, keyword, name),
+  light and dark, each checked as text on the code block's surface by the
+  contrast gate; a block scrolls inside its box on a phone as before. Use the
+  same tag in both language files.
 - **Games.** An article can play small games in its page, as the Gaimer
   article plays a Tetris, a Pong and a Space Invaders from before and after
   the cleanup.

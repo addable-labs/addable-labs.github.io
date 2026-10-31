@@ -103,10 +103,11 @@ accent text colour, preceded on the hero by a glowing dot.
 
 ## Palette and measured contrast
 
-Fifteen colour tokens live on `:root` in `src/assets/css/tokens.css`, the
-only stylesheet allowed to contain colour literals. Twelve carry a light and
+Twenty colour tokens live on `:root` in `src/assets/css/tokens.css`, the
+only stylesheet allowed to contain colour literals. Seventeen carry a light and
 a dark value through `light-dark()`, three are the same in both themes
-(*Theme mechanics* explains the structure).
+(*Theme mechanics* explains the structure). The last five rows are the
+syntax colours of code blocks in articles (`scripts/lib/highlight.mjs`).
 
 | Token | Light | Dark | Role |
 | --- | --- | --- | --- |
@@ -125,12 +126,17 @@ a dark value through `light-dark()`, three are the same in both themes
 | `--color-hairline` | `#D6DBD1` | `#242C33` | decorative rules only (excluded from the gate by name) |
 | `--color-focus` | `#A84600` | `#83F35D` | focus ring |
 | `--color-glow` | `rgba(131,243,93,0.22)` | `rgba(131,243,93,0.16)` | hero glow, shadows (decorative, alpha; excluded) |
+| `--color-code-comment` | `#5A6670` | `#8B97A3` | code blocks: comments, the `---` lines of a front matter, fences |
+| `--color-code-string` | `#8F4A00` | `#F0B36B` | code blocks: quoted strings, `inline code` in Markdown |
+| `--color-code-param` | `#0B5C84` | `#7CC6EA` | code blocks: `$variables`, `-flags`, `NAME=` |
+| `--color-code-keyword` | `#6A3FA6` | `#C4A8F5` | code blocks: `if`/`then`/`exit`, list markers, `true`/`null`, numbers |
+| `--color-code-name` | `#256B15` | `#83F35D` | code blocks: command names, YAML and JSON keys, Markdown headings (the link green) |
 
 Ratios are WCAG 2.2 contrast ratios computed by `scripts/lib/contrast.mjs`
-and printed by `pnpm check:contrast` (22 pairs, 43 evaluations over the two
-themes, measured 2026-09-21). Text pairs must reach 4.5:1 and UI pairs
-(borders, focus ring, the button edge) 3:1; every pair is above its
-threshold in both themes.
+and printed by `pnpm check:contrast` (27 pairs, 53 evaluations over the two
+themes, measured 2026-09-21; the five code pairs 2026-10-31). Text pairs
+must reach 4.5:1 and UI pairs (borders, focus ring, the button edge) 3:1;
+every pair is above its threshold in both themes.
 
 | Pair (foreground on background) | Kind | Light | Dark |
 | --- | --- | --- | --- |
@@ -144,6 +150,7 @@ threshold in both themes.
 | border on bg / surface / surface-2 | ui | 3.68 / 3.92 / 3.44 | 3.71 / 3.43 / 3.12 |
 | focus on bg / surface | ui | 5.57 / 5.93 | 13.78 / 12.72 |
 | accent-strong on accent (button edge) | ui | 6.61 (light only) | — |
+| code-comment / -string / -param / -keyword / -name on surface (code blocks) | text | 5.88 / 6.67 / 7.30 / 7.31 / 6.58 | 6.00 / 9.67 / 9.47 / 8.74 / 12.72 |
 
 Why these colours: the dark theme is the default look, so its background is
 a deep blue-black rather than pure black, with two lighter surfaces for
@@ -564,8 +571,8 @@ for anything read, `ui` for borders, rings and edges; `schemes: ["light"]`
 for a light-only pair) — a colour token in no pair fails the gate — or list
 it in `DECORATIVE` if it is never text and never the boundary of a control.
 Run `pnpm check:contrast` and copy the printed ratios into the tables above.
-A new token also moves the counts `tests/contrast.test.mjs` pins (22 pairs,
-43 evaluations, 15 tokens) and, for a decorative token, the test's list of
+A new token also moves the counts `tests/contrast.test.mjs` pins (27 pairs,
+53 evaluations, 20 tokens) and, for a decorative token, the test's list of
 skips; update them with the token, or `pnpm test` turns red.
 Colour literals in any stylesheet but `tokens.css` fail the gate. Three places
 repeat token values as literals and are changed by hand: the `theme-color`

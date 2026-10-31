@@ -169,14 +169,14 @@ describe("contrast gate", () => {
     return dir;
   }
 
-  it("passes on the real stylesheets with 43 pair lines and two skips (AC-06)", () => {
+  it("passes on the real stylesheets with 53 pair lines and two skips (AC-06)", () => {
     const { status, output } = runGate("contrast", "", SRC);
     assert.equal(status, 0, output);
     const lines = output.split("\n");
     const pairLines = lines.filter((line) => PAIR_LINE.test(line));
-    assert.equal(pairLines.length, 43, pairLines.join("\n"));
-    assert.equal(pairLines.filter((line) => line.startsWith("light")).length, 22);
-    assert.equal(pairLines.filter((line) => line.startsWith("dark")).length, 21);
+    assert.equal(pairLines.length, 53, pairLines.join("\n"));
+    assert.equal(pairLines.filter((line) => line.startsWith("light")).length, 27);
+    assert.equal(pairLines.filter((line) => line.startsWith("dark")).length, 26);
     assert.ok(pairLines.every((line) => / (text ≥ 4\.5:1|ui {3}≥ 3:1) {2}ok$/.test(line)), pairLines.join("\n"));
     // The primary-button edge pair is light-only (on dark the edge is the surface colour).
     const edge = pairLines.filter((line) => /--color-accent-strong {3}on --color-accent /.test(line));
@@ -192,7 +192,7 @@ describe("contrast gate", () => {
       ["--color-hairline", "--color-glow"],
     );
     assert.match(output, /tokens\.css {2}structure {2}dark on :root, light only under :root\[data-theme="light"\], every fallback equals its dark value, no prefers-color-scheme media query, no --color-\* outside :root {2}ok/);
-    assert.match(output, /checked 22 token pairs \(43 evaluations over 2 schemes\) and 15 colour tokens/);
+    assert.match(output, /checked 27 token pairs \(53 evaluations over 2 schemes\) and 20 colour tokens/);
     assert.match(output, /scanned for colour literals: src\/assets\/css\/base\.css, src\/assets\/css\/fonts\.css/);
     assert.match(output, /PASS contrast/);
   });

@@ -54,6 +54,13 @@ const PAIRS = [
   { fg: "--color-secondary-text", bg: "--color-bg", kind: "text" },
   { fg: "--color-secondary-text", bg: "--color-surface", kind: "text" },
   { fg: "--color-secondary-text", bg: "--color-surface-2", kind: "text" },
+  // Syntax highlighting: the five token kinds of a code block (si-20k4),
+  // drawn only on the surface, the background of `.article-body pre`.
+  { fg: "--color-code-comment", bg: "--color-surface", kind: "text" },
+  { fg: "--color-code-string", bg: "--color-surface", kind: "text" },
+  { fg: "--color-code-param", bg: "--color-surface", kind: "text" },
+  { fg: "--color-code-keyword", bg: "--color-surface", kind: "text" },
+  { fg: "--color-code-name", bg: "--color-surface", kind: "text" },
   // Dark text on the brand surfaces: primary button, skip link, orange
   // attention surfaces (REQ-006 "button text on brand surfaces", AC-06).
   { fg: "--color-on-accent", bg: "--color-accent", kind: "text" },
