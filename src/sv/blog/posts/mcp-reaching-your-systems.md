@@ -12,7 +12,7 @@ humanReviewed: false             # ingen har läst den ännu
 ---
 
 I del 4 av serien hamnade stegen för ett jobb i en skill, en mapp med en
-markdownfil som heter SKILL.md. Hittills har de instruktioner som AI-agenten
+markdown-fil som heter SKILL.md. Hittills har de instruktioner som AI-agenten
 läser vid starten varit filer på din egen dator: instruktionsfilen,
 subagenternas filer och skills.
 

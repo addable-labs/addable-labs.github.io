@@ -12,7 +12,7 @@ humanReviewed: false             # no one has read it yet
 ---
 
 In part 4 of this series, the steps for a job went into a skill, a folder with a
-Markdown file called SKILL.md in it. So far the instructions the AI agent reads
+markdown file called SKILL.md in it. So far the instructions the AI agent reads
 at the start have been files on your own computer: the instruction file, the
 subagents' files and the skills.
 
