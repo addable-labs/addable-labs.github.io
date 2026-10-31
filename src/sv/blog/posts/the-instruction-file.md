@@ -186,9 +186,9 @@ som misslyckas när en migrering som redan finns i projektet ändras. Agenten ka
 skriva testet åt dig om du ber den.
 
 Det andra sättet är en inställning i
-verktyget som blockerar ändringen. I Claude Code är en sådan inställning en så
-kallad [krok (hook)](https://code.claude.com/docs/en/hooks-guide), ett kommando
-som verktyget kör av sig självt. Anthropics eget exempel är en krok som
+verktyget som blockerar ändringen. I Claude Code är en sådan inställning en
+[hook](https://code.claude.com/docs/en/hooks-guide), ett kommando
+som verktyget kör av sig självt. Anthropics eget exempel är en hook som
 blockerar ändringar i mappen med migreringar. Du kan be Claude skriva den åt
 dig.
 
@@ -257,7 +257,7 @@ Arbetstitlarna kan ändras på vägen.
 1. [Från AI-chatt till agentiskt arbete](/sv/blog/what-makes-a-chat-an-ai-agent/)
 2. Instruktionsfilen (den här delen)
 3. [Ge varje AI-agent ett eget jobb](/sv/blog/agents-with-a-scope-each/)
-4. Skills, när arbetet ska göras likadant varje gång
+4. [Skills, när arbetet ska göras likadant varje gång](/sv/blog/skills-for-repeatable-work/)
 5. Model Context Protocol – ett gemensamt sätt för agenter att nå andra system
 6. Var agenten körs och vem som startar den
 7. <span id="del-7"></span>Gränser som sätts i förväg

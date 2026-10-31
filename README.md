@@ -308,10 +308,11 @@ Brödtext i Markdown.
   built English article body: 300–600 for the two seed articles (REQ-006) and
   300–1,500 for every later article, except the Gaimer article
   (`cleaning-up-gaimer`), which the founder allowed 1,850 on 26 September
-  2026 so that it can tell the changes its first figure counts, and parts 1, 2 and 3 of
+  2026 so that it can tell the changes its first figure counts, and parts 1, 2, 3 and 4 of
   the series on AI agents (`what-makes-a-chat-an-ai-agent`, 1,600,
-  `the-instruction-file`, 2,030, and `agents-with-a-scope-each`, 2,320), which he
-  allowed in his reviews of 29–31 October 2026 (parts 2 and 3 as a 5–10 minute
+  `the-instruction-file`, 2,030, `agents-with-a-scope-each`, 2,320, and
+  `skills-for-repeatable-work`, 3,000), which he
+  allowed in his reviews of 29–31 October 2026 (parts 2, 3 and 4 as a 5–10 minute
   read). The Swedish
   twin is not counted, and neither are the figures (captions and diagram
   labels) or the tables' cells: they are not prose.
@@ -321,12 +322,12 @@ Brödtext i Markdown.
   reading measure with its caption beside it from 48 rem, under it below),
   or `{% figure "<id>", "wide" %}` for one that spans the whole container
   with its caption centred underneath. A figure is drawn by `src/_includes/figures/figures.mjs`
-  (`FIGURES` names the thirty-two: `stages`, `gates`, `loop`, `assessment`,
+  (`FIGURES` names the thirty-four: `stages`, `gates`, `loop`, `assessment`,
   `team`, `harness`, `ledger`, `timeline`, `setup`, `build`, `words`,
   `bilingual`, `gauntlet`, `agents`, `critic`, `fleet`, `sources`, `merges`,
   `logos`, `connection`, `lifecycle`, `price`, `lock`, `waiting-per-day`,
   `chat-or-agent`, `five-parts`, `four-things`, `file-before-after`,
-  `which-tool-reads-what`, `file-hierarchy`, `agent-handover`, `agent-file`) and
+  `which-tool-reads-what`, `file-hierarchy`, `agent-handover`, `agent-file`, `skill-folder`, `skill-locations`) and
   every word it shows — panel titles, labels, notes, the caption — comes
   from `figures.<id>` in the two strings files, so one drawing serves both
   languages; a label too long for its slot fails the
@@ -621,7 +622,7 @@ after a `pnpm build`:
 | --- | --- | --- |
 | build | `pnpm build` | Eleventy builds the site; article front matter validated; every page has its counterpart; every page's URL is made of slugs, like `/blog/ai-journey/` or `/feed.xml`, no file name holds a date Eleventy would drop, no article is named `index.md`, no file sits in a subdirectory of `posts/` and every template in `posts/` is a `.md` file; every `{% figure %}` names a known figure, `inline` or `wide`, with `figures.<id>` in the page's strings file; every figure label fits its character budget and every count label, such as `242 agents`, has its number in digits; every article's image is in its media directory, a PNG of 1200 × 630 px of at most 300 KB with its two WebP copies, and so is the default image. |
 | links | `pnpm check:links` | Every internal `href`/`src` in pages, feeds and the sitemap resolves to a built file (`/x/` → `x/index.html`), fragments point at an id. External links are fetched with a 10 s timeout and reported as warnings only; `CHECK_OFFLINE=1` skips them. |
-| html | `pnpm check:html` | `html-validate` with the `recommended` and `a11y` presets (`.htmlvalidate.json`, inline styles forbidden), zero errors. |
+| html | `pnpm check:html` | `html-validate` with the `recommended` and `a11y` presets (`.htmlvalidate.json`, inline styles forbidden, a page title of at most 80 characters), zero errors. |
 | pages | `pnpm check:pages` | Per page: `header`/`nav`/`main`/`footer` once, one `h1`, no skipped heading levels, the skip link is the first focusable element, `html[lang]` matches the path, every `img` has `alt`/`width`/`height`, unique title, description, canonical, Open Graph tags, a link-preview image (`og:image` an absolute URL whose file is a PNG of 1200 × 630 px of at most 300 KB, with its type, size and alt text, and `twitter:card` `summary_large_image`), three `hreflang` alternates, the feed link, the language switch, scripts only from the site's origin, no cross-origin resource (font preloads and `@font-face` sources included), HTML + CSS ≤ 150 KB, and on both landing pages, every game page and every page that plays a game CSS + JavaScript ≤ 60 KB compressed. A game page, found by its path in `src/_data/games.json`, has `main` and no `header`, `nav` or `footer`, no skip link, no `hreflang` alternates and no language switch; every other rule holds for it. |
 | contrast | `pnpm check:contrast` | `src/assets/css/tokens.css` keeps its structure (dark by default, light only under the toggle's `[data-theme="light"]`, every fallback equal to its dark value, no OS media query, no token outside `:root`); every colour pair meets WCAG AA in both themes (4.5:1 text, 3:1 UI); no colour literal outside `tokens.css`. |
 | parity | `pnpm check:parity` | Every English page has its Swedish twin and vice versa, the feeds pair up, the strings files have identical keys with no empty values, pages pair one-to-one. A game page, in English like its game, has no twin and is named as left out. |

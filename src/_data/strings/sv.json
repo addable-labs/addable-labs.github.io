@@ -1360,6 +1360,43 @@
         "instructions": "det den läser när den fått uppgiften"
       },
       "caption": "Granskarens fil i fyra delar. Den inramade delen, beskrivningen, är det huvudagenten läser för att avgöra om en uppgift ska gå till granskaren."
+    },
+    "skill-folder": {
+      "title": "En skill som ett mappträd. Mappen release innehåller en SKILL.md och en mapp scripts med check-release.sh. I SKILL.md ligger namn och beskrivning framför agenten från start och instruktionerna läses när uppgiften kräver dem. Skriptet körs enligt instruktionerna och bara dess utskrift läses.",
+      "head": "Skillen release",
+      "files": {
+        "root": "release/",
+        "skill": "SKILL.md",
+        "scripts": "scripts/",
+        "check": "check-release.sh"
+      },
+      "parts": {
+        "nameDescription": "namn och beskrivning",
+        "instructions": "instruktionerna"
+      },
+      "when": {
+        "always": "framför agenten från start",
+        "needed": "läses när uppgiften kräver dem",
+        "run": "körs enligt instruktionerna",
+        "output": "bara dess utskrift läses"
+      },
+      "caption": "En skill är en mapp. Agenten har namn och beskrivning framför sig, läser instruktionerna när uppgiften kräver dem och kör skriptet enligt instruktionerna."
+    },
+    "skill-locations": {
+      "title": "Tre mappar i ett projekt där skills förvaras och verktygen som letar i var och en. Claude Code letar i .claude/skills. Codex letar i .agents/skills. GitHub Copilot letar i alla tre: .claude/skills, .agents/skills och .github/skills.",
+      "head": "Var varje verktyg letar",
+      "folders": {
+        "claude": ".claude/skills/",
+        "agents": ".agents/skills/",
+        "github": ".github/skills/"
+      },
+      "tools": {
+        "claude": "Claude Code",
+        "codex": "Codex",
+        "copilot": "Copilot"
+      },
+      "same": "Skillens mapp och dess SKILL.md är likadana i alla tre.",
+      "caption": "Projektmapparna där varje verktyg letar efter skills, så som deras dokumentation såg ut den 30 oktober 2026."
     }
   },
   "games": {

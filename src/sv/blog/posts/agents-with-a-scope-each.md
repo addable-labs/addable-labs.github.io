@@ -301,7 +301,7 @@ Arbetstitlarna kan ändras på vägen.
 1. [Från AI-chatt till agentiskt arbete](/sv/blog/what-makes-a-chat-an-ai-agent/)
 2. [Instruktionsfilen, det första en AI-agent läser](/sv/blog/the-instruction-file/)
 3. Ge varje AI-agent ett eget jobb (den här delen)
-4. Skills, när arbetet ska göras likadant varje gång
+4. [Skills, när arbetet ska göras likadant varje gång](/sv/blog/skills-for-repeatable-work/)
 5. Model Context Protocol – ett gemensamt sätt för agenter att nå andra system
 6. Var agenten körs och vem som startar den
 7. <span id="del-7"></span>Gränser som sätts i förväg

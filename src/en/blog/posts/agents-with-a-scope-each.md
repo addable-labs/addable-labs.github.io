@@ -298,7 +298,7 @@ The working titles may change along the way.
 1. [From AI chat to agentic work](/blog/what-makes-a-chat-an-ai-agent/)
 2. [The instruction file, the first thing an AI agent reads](/blog/the-instruction-file/)
 3. Give each AI agent a job of its own (this part)
-4. Skills, for work that must be done the same every time
+4. [Skills, for work that must be done the same way every time](/blog/skills-for-repeatable-work/)
 5. The Model Context Protocol — a common way for agents to reach other systems
 6. Where the agent runs and who starts it
 7. <span id="part-7"></span>Limits set in advance

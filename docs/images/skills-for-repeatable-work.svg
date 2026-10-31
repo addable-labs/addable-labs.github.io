@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <!-- The image of part 4 of the series, "skills-for-repeatable-work"
+       (si-kco4, 30 October 2026), in parts 1 and 2's style and palette: a
+       skill as a simple folder that holds one recipe card (a heading and
+       three steps) and a small gear, the script. Out of the folder come
+       three sheets in a row, each exactly the same shape and made the same
+       way (the dashed line over them is the one height they share). The
+       agent, part 1's motif (a green circle with a halo), stands beside the
+       folder and takes the card (the dashed arc). The subject sits inside
+       the central 630 x 630 square; nothing that matters is within 40 px of
+       an edge. -->
+  <defs>
+    <pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse" y="15">
+      <path d="M0 .5H30M.5 0V30" fill="none" stroke="#242C33"/>
+    </pattern>
+    <radialGradient id="fade" cx="600" cy="315" r="640" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff" stop-opacity=".95"/>
+      <stop offset=".6" stop-color="#fff" stop-opacity=".55"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </radialGradient>
+    <mask id="gridmask"><rect width="1200" height="630" fill="url(#fade)"/></mask>
+    <radialGradient id="glow" cx="600" cy="315" r="340" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#83F35D" stop-opacity=".09"/>
+      <stop offset="1" stop-color="#83F35D" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glow-card" cx="520" cy="320" r="230" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#83F35D" stop-opacity=".16"/>
+      <stop offset="1" stop-color="#83F35D" stop-opacity="0"/>
+    </radialGradient>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#626E79"/>
+    </marker>
+  </defs>
+
+  <rect width="1200" height="630" fill="#0B0E10"/>
+  <rect width="1200" height="630" fill="url(#grid)" mask="url(#gridmask)"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+  <rect width="1200" height="630" fill="url(#glow-card)"/>
+
+  <!-- The floor. -->
+  <path d="M300 484H900" stroke="#626E79" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- The skill: a folder, open at the top. Its back panel first. -->
+  <path d="M440 484V348a12 12 0 0 1 12-12H482l10 10H608a12 12 0 0 1 12 12V484Z" fill="#13181C" stroke="#A6B0BA" stroke-width="2.5" stroke-linejoin="round"/>
+
+  <!-- In it, the recipe card, tilted out toward the agent: a heading and
+       three steps. -->
+  <g transform="rotate(-8 511 400)">
+    <rect x="466" y="172" width="90" height="230" rx="11" fill="#13181C" stroke="#83F35D" stroke-width="3"/>
+    <rect x="486" y="194" width="42" height="12" rx="6" fill="#83F35D"/>
+    <g fill="#83F35D">
+      <circle cx="488" cy="240" r="6"/>
+      <circle cx="488" cy="274" r="6"/>
+      <circle cx="488" cy="308" r="6"/>
+    </g>
+    <g fill="#ECEFF1" fill-opacity=".7">
+      <rect x="502" y="236" width="38" height="8" rx="4"/>
+      <rect x="502" y="270" width="34" height="8" rx="4"/>
+      <rect x="502" y="304" width="26" height="8" rx="4"/>
+    </g>
+  </g>
+
+  <!-- And a small gear, the script. -->
+  <g transform="translate(589 352)">
+    <path d="M19.9 -5.0 L27.8 -3.5 L27.8 3.5 L19.9 5.0 L17.6 10.5 L22.1 17.2 L17.2 22.1 L10.5 17.6 L5.0 19.9 L3.5 27.8 L-3.5 27.8 L-5.0 19.9 L-10.5 17.6 L-17.2 22.1 L-22.1 17.2 L-17.6 10.5 L-19.9 5.0 L-27.8 3.5 L-27.8 -3.5 L-19.9 -5.0 L-17.6 -10.5 L-22.1 -17.2 L-17.2 -22.1 L-10.5 -17.6 L-5.0 -19.9 L-3.5 -27.8 L3.5 -27.8 L5.0 -19.9 L10.5 -17.6 L17.2 -22.1 L22.1 -17.2 L17.6 -10.5Z" fill="#1A2126" stroke="#A6B0BA" stroke-width="2.5" stroke-linejoin="round"/>
+    <circle r="8" fill="#13181C" stroke="#A6B0BA" stroke-width="2.5"/>
+  </g>
+
+  <!-- The folder's front panel. -->
+  <path d="M440 484V384a12 12 0 0 1 12-12H608a12 12 0 0 1 12 12V484Z" fill="#1A2126" stroke="#A6B0BA" stroke-width="2.5" stroke-linejoin="round"/>
+  <rect x="468" y="416" width="46" height="9" rx="4.5" fill="#626E79" fill-opacity=".55"/>
+
+  <!-- The agent takes the card. -->
+  <circle cx="350" cy="410" r="30" fill="#83F35D"/>
+  <circle cx="350" cy="410" r="46" fill="none" stroke="#83F35D" stroke-opacity=".35" stroke-width="3"/>
+  <ellipse cx="350" cy="484" rx="30" ry="5" fill="#626E79" fill-opacity=".45"/>
+  <path d="M440 262C400 264 374 298 364 354" fill="none" stroke="#626E79" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="2 9" marker-end="url(#arrow)"/>
+
+  <!-- Out of the folder come three sheets, each exactly the same. -->
+  <path d="M628 432H652" fill="none" stroke="#626E79" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="2 9" marker-end="url(#arrow)"/>
+  <path d="M652 380H894" fill="none" stroke="#626E79" stroke-opacity=".75" stroke-width="2" stroke-linecap="round" stroke-dasharray="5 9"/>
+  <rect x="664" y="380" width="62" height="104" rx="10" fill="#13181C" stroke="#83F35D" stroke-width="3"/>
+  <rect x="676" y="396" width="28" height="10" rx="5" fill="#83F35D"/>
+  <g fill="#ECEFF1" fill-opacity=".7">
+    <rect x="676" y="418" width="36" height="7" rx="3.5"/>
+    <rect x="676" y="434" width="36" height="7" rx="3.5"/>
+    <rect x="676" y="450" width="36" height="7" rx="3.5"/>
+    <rect x="676" y="466" width="22" height="7" rx="3.5"/>
+  </g>
+  <rect x="742" y="380" width="62" height="104" rx="10" fill="#13181C" stroke="#83F35D" stroke-width="3"/>
+  <rect x="754" y="396" width="28" height="10" rx="5" fill="#83F35D"/>
+  <g fill="#ECEFF1" fill-opacity=".7">
+    <rect x="754" y="418" width="36" height="7" rx="3.5"/>
+    <rect x="754" y="434" width="36" height="7" rx="3.5"/>
+    <rect x="754" y="450" width="36" height="7" rx="3.5"/>
+    <rect x="754" y="466" width="22" height="7" rx="3.5"/>
+  </g>
+  <rect x="820" y="380" width="62" height="104" rx="10" fill="#13181C" stroke="#83F35D" stroke-width="3"/>
+  <rect x="832" y="396" width="28" height="10" rx="5" fill="#83F35D"/>
+  <g fill="#ECEFF1" fill-opacity=".7">
+    <rect x="832" y="418" width="36" height="7" rx="3.5"/>
+    <rect x="832" y="434" width="36" height="7" rx="3.5"/>
+    <rect x="832" y="450" width="36" height="7" rx="3.5"/>
+    <rect x="832" y="466" width="22" height="7" rx="3.5"/>
+  </g>
+</svg>

@@ -2095,7 +2095,90 @@ function agentFile(t, id, figureId) {
   return { caption: t.caption, panels: [{ title: t.title, head: t.head, height: TOP + ROW * 4 + 16, body: parts.join("") }] };
 }
 
-export const FIGURES = { stages, gates, loop, assessment, team, harness, ledger, timeline, setup, build, words, bilingual, gauntlet, agents, critic, fleet, sources, merges, logos, connection, lifecycle, price, lock, "waiting-per-day": waitingPerDay, "chat-or-agent": chatOrAgent, "five-parts": fiveParts, "four-things": fourThings, "file-before-after": fileBeforeAfter, "which-tool-reads-what": whichToolReadsWhat, "file-hierarchy": fileHierarchy, "agent-handover": agentHandover, "agent-file": agentFile };
+// (32) A skill as a folder tree, in the cover's drawing: the skill's folder,
+// its SKILL.md with the two things the agent meets in it (the name and
+// description, always in view; the instructions, read when the task needs
+// them) and the scripts folder with the script, which is run when the
+// instructions say so and of which only the output is read. Each part carries
+// its "when" in words, not in a colour alone. File and folder names are the
+// same in both languages (the founder: no Swedish file names).
+function skillFolder(t, id, figureId) {
+  const RIGHT = WIDTH - 16;
+  const TREE = 28; // the top folder's stem
+  const KIDS = 54; // the stem of a folder one level down
+  const NAME1 = 70;
+  const NAME2 = 92;
+  const name = (x, y, key, value, slot) => text(x, y, fit(key, value, slot, "small"), "fig-label fig-small");
+  const note = (x, y, key, value, slot, cls = "fig-note") => text(x, y, fit(key, value, slot), cls);
+  const folder = (x, y, w = 16, h = 13) => `<path d="M${x} ${y + h}V${y}h6.5l2 3H${x + w}V${y + h}z" class="fig-node"/>`;
+  const file = (x, y) => `<rect x="${x}" y="${y}" width="12" height="16" rx="2.5" class="fig-node"/>`;
+  const branch = (d) => `<path d="${d}" class="fig-line"/>`;
+  const F = t.files;
+  const body = [
+    // The tree.
+    branch(`M${TREE} 67V183`),
+    ...[90, 183].map((y) => branch(`M${TREE} ${y}H44`)),
+    branch(`M${KIDS} 100V143`),
+    ...[111, 143].map((y) => branch(`M${KIDS} ${y}H68`)),
+    branch(`M${KIDS} 190V206H68`),
+    // The skill's folder.
+    folder(16, 50, 24, 17),
+    name(48, 63, `${id}.files.root`, F.root, RIGHT - 48),
+    // SKILL.md and the two things in it.
+    file(48, 82),
+    name(NAME1, 94, `${id}.files.skill`, F.skill, RIGHT - NAME1),
+    note(NAME1 + 4, 115, `${id}.parts.nameDescription`, t.parts.nameDescription, RIGHT - NAME1 - 4, "fig-note fig-strong"),
+    note(NAME1 + 4, 128, `${id}.when.always`, t.when.always, RIGHT - NAME1 - 4, "fig-note fig-ok fig-strong"),
+    note(NAME1 + 4, 147, `${id}.parts.instructions`, t.parts.instructions, RIGHT - NAME1 - 4, "fig-note fig-strong"),
+    note(NAME1 + 4, 160, `${id}.when.needed`, t.when.needed, RIGHT - NAME1 - 4),
+    // The scripts folder and its script.
+    folder(46, 176),
+    name(NAME1, 186, `${id}.files.scripts`, F.scripts, RIGHT - NAME1),
+    file(70, 198),
+    name(NAME2, 210, `${id}.files.check`, F.check, RIGHT - NAME2),
+    note(NAME2, 226, `${id}.when.run`, t.when.run, RIGHT - NAME2),
+    note(NAME2, 239, `${id}.when.output`, t.when.output, RIGHT - NAME2),
+  ].join("");
+  return { caption: t.caption, panels: [{ title: t.title, head: t.head, height: 256, body }] };
+}
+
+// (33) Where each tool looks for a project's skills — the three folders on
+// the left, a tick and the tool's name under each for every tool whose
+// documentation names the folder: Claude Code .claude/skills, Codex
+// .agents/skills, GitHub Copilot all three (30 October 2026). A line under
+// the rows says the skill itself is the same in all three. Folder and tool
+// names are the same in both languages.
+function skillLocations(t, id, figureId) {
+  const RIGHT = WIDTH - 16;
+  const NAME = 40;
+  const T = t.tools;
+  const folder = (x, y, w = 16, h = 13) => `<path d="M${x} ${y + h}V${y}h6.5l2 3H${x + w}V${y + h}z" class="fig-node"/>`;
+  const reads = (x, y, key, tools) => {
+    const parts = [];
+    let at = x;
+    for (const tool of tools) {
+      parts.push(check(at + 4.5, y - 3.2), text(at + 14, y, T[tool], "fig-note fig-strong"));
+      at += 14 + T[tool].length * ADVANCE.note + 12;
+    }
+    if (at - 12 > RIGHT) throw new Error(`Figure label "${key}" runs to ${round(at - 12)} units; at most ${RIGHT} fit its line`);
+    return parts.join("");
+  };
+  const rows = [
+    ["claude", ["claude", "copilot"]],
+    ["agents", ["codex", "copilot"]],
+    ["github", ["copilot"]],
+  ];
+  const parts = [];
+  rows.forEach(([key, tools], i) => {
+    const y = 52 + i * 46;
+    parts.push(folder(16, y), text(NAME, y + 10, fit(`${id}.folders.${key}`, t.folders[key], RIGHT - NAME, "small"), "fig-label fig-small"), reads(NAME, y + 28, `${id}.reads.${key}`, tools));
+  });
+  const same = wrap(`${id}.same`, t.same, WIDTH - 32, "note", 2);
+  same.forEach((line, n) => parts.push(text(16, 204 + n * 13, line, "fig-note")));
+  return { caption: t.caption, panels: [{ title: t.title, head: t.head, height: 204 + same.length * 13 + 6, body: parts.join("") }] };
+}
+
+export const FIGURES = { stages, gates, loop, assessment, team, harness, ledger, timeline, setup, build, words, bilingual, gauntlet, agents, critic, fleet, sources, merges, logos, connection, lifecycle, price, lock, "waiting-per-day": waitingPerDay, "chat-or-agent": chatOrAgent, "five-parts": fiveParts, "four-things": fourThings, "file-before-after": fileBeforeAfter, "which-tool-reads-what": whichToolReadsWhat, "file-hierarchy": fileHierarchy, "agent-handover": agentHandover, "agent-file": agentFile, "skill-folder": skillFolder, "skill-locations": skillLocations };
 
 /**
  * Render one figure as HTML: `<figure class="figure figure-inline|figure-wide">`

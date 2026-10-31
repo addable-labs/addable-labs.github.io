@@ -788,7 +788,7 @@
 - id: H3-block
   article: the-instruction-file
   sentence:
-    sv: "Anthropics eget exempel är en krok som blockerar ändringar i mappen med migreringar"
+    sv: "Anthropics eget exempel är en hook som blockerar ändringar i mappen med migreringar"
     en: "Anthropic's own example is a hook that blocks edits to the migrations folder"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/best-practices
@@ -799,7 +799,7 @@
 - id: H4-gloss
   article: the-instruction-file
   sentence:
-    sv: "I Claude Code är en sådan inställning en så kallad krok (hook), ett kommando som verktyget kör av sig självt"
+    sv: "I Claude Code är en sådan inställning en hook, ett kommando som verktyget kör av sig självt"
     en: "In Claude Code such a setting is a so-called hook, a command the tool runs by itself"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/hooks-guide
@@ -810,7 +810,7 @@
 - id: H4-gloss-b
   article: the-instruction-file
   sentence:
-    sv: "I Claude Code är en sådan inställning en så kallad krok (hook), ett kommando som verktyget kör av sig självt"
+    sv: "I Claude Code är en sådan inställning en hook, ett kommando som verktyget kör av sig självt"
     en: "In Claude Code such a setting is a so-called hook, a command the tool runs by itself"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/hooks-guide

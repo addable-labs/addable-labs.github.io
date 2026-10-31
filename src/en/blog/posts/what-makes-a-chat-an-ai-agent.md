@@ -203,7 +203,7 @@ The series takes the building blocks one at a time. The working titles may chang
 1. From AI chat to agentic work (this part)
 2. [The instruction file](/blog/the-instruction-file/)
 3. [Agents with a scope each](/blog/agents-with-a-scope-each/)
-4. Skills, for work that must be done the same every time
+4. [Skills, for work that must be done the same way every time](/blog/skills-for-repeatable-work/)
 5. The Model Context Protocol – a common way for agents to reach other systems
 6. Where the agent runs and who starts it
 7. <span id="part-7"></span>Limits set in advance
