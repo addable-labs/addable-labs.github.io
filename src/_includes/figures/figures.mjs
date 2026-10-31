@@ -30,12 +30,16 @@
 
 const WIDTH = 320;
 // The landscape view of a flow figure (si-05r9): a left-to-right drawing on a
-// viewBox this wide, shown from 64rem. base.css gives it at most FLOW_WIDTH ×
-// FLOW_SCALE / 16 rem, so its type never grows past FLOW_SCALE × its size;
-// below 64rem its place is taken by the stacked drawing, which is a normal
-// 320-unit panel. A test holds the two numbers and the CSS together.
+// viewBox this wide, shown from FLOW_FROM_REM rem. base.css gives it at most
+// FLOW_WIDTH × FLOW_SCALE / 16 rem, so its type never grows past FLOW_SCALE ×
+// its size; below FLOW_FROM_REM its place is taken by the stacked drawing,
+// which is a normal 320-unit panel. FLOW_FROM_REM is the smallest whole rem at
+// which a 13-unit label renders at 12 px (the layout gate's floor) with a
+// little to spare (the founder asked for 48 rem, where it is 11.5 px). A test
+// holds the three numbers and the CSS together.
 export const FLOW_WIDTH = 800;
 export const FLOW_SCALE = 1.1;
+export const FLOW_FROM_REM = 51;
 // The four type sizes the figures' text is set in, as base.css sets them
 // (.fig-label, .fig-small, .fig-note, .fig-head): the size in units and the
 // letter-spacing in em. A change to one there is a change here, or the
@@ -2056,7 +2060,7 @@ function fourThings(t, id, figureId) {
 //
 // Two views of one drawing (a panel is 320 units, and three routes with the
 // two end cards side by side do not fit that without shrinking the type):
-// the flow view, FLOW_WIDTH units wide and left to right, shown from 64rem,
+// the flow view, FLOW_WIDTH units wide and left to right, shown from 51rem,
 // and the stacked view, the 320-unit drawing from before, the agent app at the
 // top and the API at the bottom, shown below it. Both draw from the same
 // strings; base.css shows one and hides the other.
@@ -2192,7 +2196,7 @@ function mcpServerStack(t, id, pid) {
 // each limit, its own arrow at each: either limit stops it alone, and the foot
 // says so and that setting both covers a limit set wrongly (our own advice, as
 // the article says). The numbers in the rings are the article's "first" and
-// "second". Two views of one drawing, as in (30): left to right from 64rem,
+// "second". Two views of one drawing, as in (30): left to right from 51rem,
 // one under the other below.
 function readOnlyLimits(t, id, figureId) {
   const flow = `${figureId}-p1`;
@@ -2366,7 +2370,7 @@ export function renderFigure(id, { placement = "inline", strings }) {
   const figureId = `fig-${id}`;
   const captionId = `${figureId}-caption`;
   const { panels, caption } = draw(t, id, figureId);
-  // A figure with two views (a flow panel from 64rem, a stacked one below) has
+  // A figure with two views (a flow panel from 51rem, a stacked one below) has
   // the one panel row; base.css shows the view that fits. It is wide: the flow
   // view is wider than a panel may be on the measure.
   const views = panels.some((spec) => spec.view);

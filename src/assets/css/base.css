@@ -1853,11 +1853,17 @@ html:not(.js) .theme-toggle {
    agent app on one side and the system on the other, and the stacked
    320-unit panel the figure had before. Three lanes side by side do not fit
    320 units at the type's size, and a panel never shrinks its type, so below
-   64rem the stacked view is shown, as wide as any panel (24.5rem at most),
-   and from 64rem the flow view, at most 800 x 1.1 / 16 = 55rem, so a 13-unit
-   label is at most 14.3 px. The other view is display: none: a screen reader
-   meets one drawing, and the layout gate measures the one shown (FLOW_WIDTH
-   and FLOW_SCALE in figures.mjs; tests/figures.test.mjs holds the two). */
+   51rem the stacked view is shown, as wide as any panel (24.5rem at most),
+   and from 51rem the flow view, at most 800 x 1.1 / 16 = 55rem, so a 13-unit
+   label is at most 14.3 px. The flow view is the container less its two
+   gutters (4vw each) until the 55rem cap, so at 51rem (816 px) it is 751 px,
+   a scale of 0.94 and a 13-unit label of 12.2 px: the layout gate's floor of
+   12 px is met from 803 px, and the switch sits above that (the founder
+   asked for 48rem on 31 October 2026, si-pvb6, where a label is 11.5 px and
+   the gate fails). The other view is display: none: a screen reader meets
+   one drawing, and the layout gate measures the one shown (FLOW_WIDTH,
+   FLOW_SCALE and FLOW_FROM_REM in figures.mjs; tests/figures.test.mjs holds
+   the three). */
 .figure-panels-views {
   grid-template-columns: minmax(0, 1fr);
 }
@@ -1875,7 +1881,7 @@ html:not(.js) .theme-toggle {
   max-width: 55rem;
 }
 
-@media (min-width: 64rem) {
+@media (min-width: 51rem) {
   .figure-panel-stack {
     display: none;
   }
