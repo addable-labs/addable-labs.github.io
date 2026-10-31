@@ -59,6 +59,8 @@ AI-programmet. En fjärrserver (remote server) körs någon annanstans och nås 
 HTTP på en webbadress. Många fjärrservrar behöver veta vem du är. GitHubs server
 begär en personal access token som du skapar i GitHubs inställningar.
 
+{% figure "mcp-server" %}
+
 [MCP-dokumentationen](https://modelcontextprotocol.io/docs/2026-07-28/learn/server-concepts)
 nämner tre sorters saker som en server erbjuder. Den som spelar roll här är
 verktyg: åtgärder som agenten kan anropa, till exempel "lista ärendena". Vissa
@@ -103,6 +105,8 @@ agenterna den gömda instruktionen i 36,5 % av fallen.
 Utvecklaren kopplar in GitHubs egen MCP-server mot ett övningsrepo: ett privat
 repo med tre påhittade ärenden. Agenten ska bara kunna läsa ärendena. Två
 gränser som gäller samtidigt ser till det.
+
+{% figure "read-only-limits" %}
 
 Den första gränsen sitter på MCP-servern. GitHubs server har ett
 [read-only mode](https://github.com/github/github-mcp-server/blob/main/docs/server-configuration.md)

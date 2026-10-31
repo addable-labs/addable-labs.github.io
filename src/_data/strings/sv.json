@@ -1312,6 +1312,75 @@
       "ifNoClaude": "om CLAUDE.md saknas",
       "inVsCode": "i VS Code",
       "caption": "Vilket verktyg som läser vilken fil i ett projekts mappar, så som dokumentationen såg ut den 30 oktober 2026. Den närmaste filen har sista ordet."
+    },
+    "mcp-server": {
+      "title": "Var en MCP-server sitter. AI-programmet, till exempel Claude Code, Codex eller VS Code, anropar de verktyg som MCP-servern erbjuder: lista ärenden och läsa ett ärende, som bara läser, och skapa ett ärende, som ändrar saker. Servern anropar systemets eget API, här GitHubs API. AI-programmet når servern på ett av två sätt. En lokal server körs på din dator, startas av AI-programmet och nås via stdio. En fjärrserver körs någon annanstans och nås via HTTP på en webbadress, med tokenen i en header.",
+      "head": "Var MCP-servern sitter",
+      "agent": {
+        "label": "AI-program",
+        "note": "Claude Code, Codex, VS Code"
+      },
+      "local": {
+        "label": "lokal · stdio",
+        "note": "startas av AI-programmet på din dator"
+      },
+      "remote": {
+        "label": "fjärr · HTTP",
+        "note": "på en webbadress, token i en header"
+      },
+      "server": {
+        "label": "MCP-server",
+        "note": "erbjuder verktyg som agenten kan anropa"
+      },
+      "tools": {
+        "list": {
+          "label": "lista ärenden",
+          "kind": "läser"
+        },
+        "read": {
+          "label": "läsa ett ärende",
+          "kind": "läser"
+        },
+        "create": {
+          "label": "skapa ett ärende",
+          "kind": "ändrar"
+        }
+      },
+      "calls": "anropar API:et",
+      "api": {
+        "label": "GitHubs API",
+        "note": "systemets eget API"
+      },
+      "caption": "Var en MCP-server sitter mellan AI-programmet och systemets eget API, och de två sätten att nå den: en lokal server via stdio, en fjärrserver via HTTP med tokenen i en header."
+    },
+    "read-only-limits": {
+      "title": "De två gränserna på den första kopplingen, båda aktiva. AI-programmet läser ärendena via GitHubs MCP-server i read-only mode (den första gränsen; adressen slutar på /readonly), med en fine-grained token (den andra gränsen) bara för övningsrepot och Issues satt till read, mot det privata övningsrepot med dess tre påhittade ärenden. En läsning går igenom båda gränserna. En skrivning stoppas av varje gräns för sig: servern har inget verktyg som skriver och tokenen har ingen behörighet att skriva. Använder du båda täcks den som är fel satt.",
+      "head": "De två gränserna, båda aktiva",
+      "agent": {
+        "label": "AI-program",
+        "note": "läser ärendena"
+      },
+      "server": {
+        "label": "GitHubs MCP-server",
+        "mode": "read-only mode",
+        "address": "/readonly sist i adressen"
+      },
+      "token": {
+        "label": "Fine-grained token",
+        "repo": "bara övningsrepot",
+        "issues": "Issues: read"
+      },
+      "repo": {
+        "label": "Övningsrepo",
+        "kind": "privat",
+        "issues": "tre påhittade ärenden"
+      },
+      "passes": "läsning går igenom",
+      "write": "skrivning",
+      "stopped": "stoppas",
+      "alone": "Varje gräns stoppar en skrivning ensam.",
+      "both": "Använd båda: är en fel satt håller den andra.",
+      "caption": "De två gränserna på den första kopplingen som bara läser: MCP-servern i read-only mode och en token för övningsrepot med Issues satt till read. Var och en stoppar en skrivning ensam."
     }
   },
   "games": {

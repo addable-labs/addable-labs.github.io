@@ -2031,7 +2031,120 @@ function fourThings(t, id, figureId) {
   return { caption: t.caption, panels: [{ title: t.title, head: t.head, height: 320, body }] };
 }
 
-export const FIGURES = { stages, gates, loop, assessment, team, harness, ledger, timeline, setup, build, words, bilingual, gauntlet, agents, critic, fleet, sources, merges, logos, connection, lifecycle, price, lock, "waiting-per-day": waitingPerDay, "chat-or-agent": chatOrAgent, "five-parts": fiveParts, "four-things": fourThings, "file-before-after": fileBeforeAfter, "which-tool-reads-what": whichToolReadsWhat, "file-hierarchy": fileHierarchy };
+// (30) Where an MCP server sits — one panel, for developers: the agent app
+// calls the tools the MCP server offers, and the server calls the system's
+// own API (GitHub's). Between the app and the server two lanes, the two ways
+// to reach a server: a local one, started by the app and spoken to over
+// stdio, and a remote one, reached over HTTP at a web address with the token
+// in a header. In the server three of its tools, each with a word for what it
+// does (reads, changes), so the two read-only limits of the next figure have
+// something to stop. The tool names are plain words, not GitHub's own.
+function mcpServer(t, id, figureId) {
+  const pid = `${figureId}-p1`;
+  const LANE = 136;
+  const lane = (x, key) => {
+    const spec = t[key];
+    const at = x + 14;
+    const slot = x + LANE - 6 - at;
+    return [
+      arrow(pid, x + 6, 94, x + 6, 202),
+      text(at, 120, fit(`${id}.${key}.label`, spec.label, slot, "label"), "fig-label fig-strong"),
+      ...wrap(`${id}.${key}.note`, spec.note, slot, "note", 3).map((line, n) => text(at, 136 + n * 13, line, "fig-note")),
+    ].join("");
+  };
+  const tool = (y, key) => [
+    text(28, y, fit(`${id}.tools.${key}.label`, t.tools[key].label, 208, "small"), "fig-label fig-small"),
+    text(WIDTH - 28, y, fit(`${id}.tools.${key}.kind`, t.tools[key].kind, 60), key === "create" ? "fig-note fig-wait fig-strong" : "fig-note", "end"),
+  ].join("");
+  const body = [
+    card(16, 52, 288, `${id}.agent`, t.agent),
+    lane(16, "local"),
+    lane(168, "remote"),
+    `<rect x="16" y="204" width="288" height="104" rx="8" class="fig-node"/>`,
+    `<rect x="16" y="204" width="288" height="104" rx="8" class="fig-accent-stroke"/>`,
+    text(28, 224, fit(`${id}.server.label`, t.server.label, 264, "label"), "fig-label fig-strong"),
+    text(28, 238, fit(`${id}.server.note`, t.server.note, 264), "fig-note"),
+    `<line x1="28" y1="246" x2="${WIDTH - 28}" y2="246" class="fig-hair"/>`,
+    tool(262, "list"),
+    tool(278, "read"),
+    tool(294, "create"),
+    arrow(pid, 160, 310, 160, 338),
+    text(172, 328, fit(`${id}.calls`, t.calls, 132), "fig-note"),
+    card(16, 340, 288, `${id}.api`, t.api),
+  ].join("");
+  return { caption: t.caption, panels: [{ title: t.title, head: t.head, height: 396, body }] };
+}
+
+// (31) The two limits on the first, read-only connection — one panel: the
+// agent app, the MCP server in read-only mode (limit 1), the token for the
+// practice repo with Issues set to read (limit 2) and the practice repo with
+// its three made-up issues, down one line. A read passes both limits. On the
+// right edge of each limit a write (a dashed arrow) stops at the gate, its own
+// arrow at each: either limit stops it alone, and the foot says so and that
+// setting both covers a limit set wrongly (our own advice, as the article
+// says). The numbers in the rings are the article's "first" and "second".
+function readOnlyLimits(t, id, figureId) {
+  const pid = `${figureId}-p1`;
+  const CARD = 220;
+  const MID = 16 + CARD / 2;
+  const TEXT = 54;
+  const slot = CARD - TEXT - 6;
+  const note = (x, y, key, value, width = slot) => text(x, y, fit(key, value, width), "fig-note");
+  const frame = (y, height, accent = false) => [
+    `<rect x="16" y="${y}" width="${CARD}" height="${height}" rx="8" class="fig-node"/>`,
+    accent ? `<rect x="16" y="${y}" width="${CARD}" height="${height}" rx="8" class="fig-accent-stroke"/>` : "",
+  ].join("");
+  const ring = (y, n) => [`<circle cx="36" cy="${y}" r="9" class="fig-accent-stroke"/>`, text(36, y + 4, String(n), "fig-small fig-ok fig-strong", "middle")].join("");
+  // A write that stops at the gate on a limit's right edge, level with the limit's middle.
+  const stop = (y) => [
+    `<rect x="${16 + CARD - 2}" y="${y - 9}" width="4" height="18" rx="1" class="fig-gate"/>`,
+    arrow(pid, WIDTH - 16, y, 16 + CARD + 8, y, true),
+    text((16 + CARD + WIDTH - 16) / 2 + 3, y - 8, fit(`${id}.write`, t.write, 66), "fig-note", "middle"),
+    text((16 + CARD + WIDTH - 16) / 2 + 3, y + 17, fit(`${id}.stopped`, t.stopped, 66), "fig-note fig-wait fig-strong", "middle"),
+  ].join("");
+  // A tick and the words beside an arrow: the read gets through.
+  const passes = (y) => [check(MID + 12.5, y - 3.2), text(MID + 22, y, fit(`${id}.passes`, t.passes, WIDTH - 16 - MID - 22), "fig-note fig-strong")].join("");
+  const issue = (x, y) => `<circle cx="${x}" cy="${y}" r="5" class="fig-node"/><circle cx="${x}" cy="${y}" r="1.6" class="fig-dot"/>`;
+  const body = [
+    // The agent app.
+    frame(50, 38),
+    text(28, 68, fit(`${id}.agent.label`, t.agent.label, CARD - 24, "label"), "fig-label"),
+    note(28, 81, `${id}.agent.note`, t.agent.note, CARD - 24),
+    arrow(pid, MID, 90, MID, 106),
+    // Limit 1: the MCP server in read-only mode.
+    frame(108, 56, true),
+    ring(136, 1),
+    text(TEXT, 127, fit(`${id}.server.label`, t.server.label, slot, "label"), "fig-label fig-strong"),
+    note(TEXT, 141, `${id}.server.mode`, t.server.mode),
+    note(TEXT, 154, `${id}.server.address`, t.server.address),
+    stop(136),
+    arrow(pid, MID, 166, MID, 182),
+    passes(177),
+    // Limit 2: the token.
+    frame(184, 56, true),
+    ring(212, 2),
+    text(TEXT, 203, fit(`${id}.token.label`, t.token.label, slot, "label"), "fig-label fig-strong"),
+    note(TEXT, 217, `${id}.token.repo`, t.token.repo),
+    note(TEXT, 230, `${id}.token.issues`, t.token.issues),
+    stop(212),
+    arrow(pid, MID, 242, MID, 258),
+    passes(253),
+    // The practice repo and its three issues.
+    frame(260, 56),
+    text(28, 279, fit(`${id}.repo.label`, t.repo.label, CARD - 24, "label"), "fig-label fig-strong"),
+    note(28, 293, `${id}.repo.kind`, t.repo.kind, CARD - 24),
+    note(28, 306, `${id}.repo.issues`, t.repo.issues, CARD - 24),
+    issue(168, 284),
+    issue(184, 284),
+    issue(200, 284),
+    // The foot.
+    text(160, 340, fit(`${id}.alone`, t.alone, 288), "fig-note fig-strong", "middle"),
+    text(160, 354, fit(`${id}.both`, t.both, 288), "fig-note", "middle"),
+  ].join("");
+  return { caption: t.caption, panels: [{ title: t.title, head: t.head, height: 372, body }] };
+}
+
+export const FIGURES = { stages, gates, loop, assessment, team, harness, ledger, timeline, setup, build, words, bilingual, gauntlet, agents, critic, fleet, sources, merges, logos, connection, lifecycle, price, lock, "waiting-per-day": waitingPerDay, "chat-or-agent": chatOrAgent, "five-parts": fiveParts, "four-things": fourThings, "file-before-after": fileBeforeAfter, "which-tool-reads-what": whichToolReadsWhat, "file-hierarchy": fileHierarchy, "mcp-server": mcpServer, "read-only-limits": readOnlyLimits };
 
 /**
  * Render one figure as HTML: `<figure class="figure figure-inline|figure-wide">`

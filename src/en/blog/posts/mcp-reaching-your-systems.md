@@ -60,6 +60,8 @@ runs somewhere else and is reached over HTTP at a web address. Many remote
 servers need to know who you are, and GitHub's server asks for a personal access
 token that you make in GitHub's settings.
 
+{% figure "mcp-server" %}
+
 The
 [MCP documentation](https://modelcontextprotocol.io/docs/2026-07-28/learn/server-concepts)
 names three kinds of thing that a server offers. The one that matters here is
@@ -104,6 +106,8 @@ instruction in 36.5% of the cases.
 The developer connects GitHub's own MCP server to a practice repository: a
 private one with three made-up issues. The agent should only be able to read the
 issues. Two limits, both active at once, make sure of it.
+
+{% figure "read-only-limits" %}
 
 The first limit is on the MCP server. GitHub's server has a
 [read-only mode](https://github.com/github/github-mcp-server/blob/main/docs/server-configuration.md)
