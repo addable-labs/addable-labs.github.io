@@ -23,9 +23,8 @@ dig. Texten följer verktygens dokumentation så som den såg ut den 31 oktober 
 ## En begäran och en gräns
 
 Ett påhittat exempel: webbappen från de tidigare delarna har en mapp som heter
-`migrations/`. En migrering är en fil som ändrar databasens struktur. De här har
-redan körts i produktion, så ingen bör ändra dem. Instruktionsfilen från del 2
-har en rad om det:
+`migrations/`. Databasmigreringarna i den har redan körts i produktion, så ingen
+bör ändra dem. Instruktionsfilen från del 2 har en rad om det:
 
 ```text
 - Change nothing in the `migrations/` folder: those files have already
@@ -68,16 +67,15 @@ aldrig är tillåten. När ingen regel gäller avgör verktygets läge vem som s
 du eller, i vissa lägen, en andra modell. I Claude Code går en nekande regel
 före en tillåtande.
 
-Den andra är en krok (hook): ett kommando som verktyget kör av sig självt precis
-innan agenten använder ett verktyg, så att ditt eget skript kan titta på vad
-agenten är på väg att göra och säga nej.
+Den andra är en hook: ett kommando som verktyget kör av sig självt precis innan
+agenten använder ett verktyg, så att ditt eget skript kan titta på vad agenten
+är på väg att göra och säga nej.
 
-Den tredje är sandboxen. Den fungerar på ett annat sätt. Operativsystemet,
-programvaran som kör din dator, sätter ett staket runt ett kommando och de
-program det startar. Innanför staketet avgör inställningarna vilka filer
-kommandot kan ändra och vilka nätverksadresser det kan nå. Anthropics
-[sida](https://code.claude.com/docs/en/sandboxing) säger att sandboxen minskar
-risken men inte är en fullständig isoleringsgräns.
+Den tredje är sandboxen. Den fungerar på ett annat sätt. Operativsystemet sätter
+ett staket runt ett kommando och de program det startar. Innanför staketet avgör
+inställningarna vilka filer kommandot kan ändra och vilka nätverksadresser det
+kan nå. Anthropics [sida](https://code.claude.com/docs/en/sandboxing) säger att
+sandboxen minskar risken men inte är en fullständig isoleringsgräns.
 
 {% figure "limits-path" %}
 
@@ -89,10 +87,9 @@ ingen enskild kontroll täcker allt.
 ## Sätt upp exemplet
 
 Exemplet använder Claude Code i en terminal. Du behöver macOS, Linux eller
-Windows med [WSL2](https://learn.microsoft.com/en-us/windows/wsl/about), som kör
-Linux inuti Windows, eftersom skriptet är ett skalskript och sandboxen körs på
-macOS, Linux och WSL2. Du behöver också `jq`, ett litet program för att läsa
-JSON. Kontrollera att du har det:
+Windows med [WSL2](https://learn.microsoft.com/en-us/windows/wsl/about),
+eftersom skriptet är ett shellskript och sandboxen körs på macOS, Linux och
+WSL2. Du behöver också `jq`. Kontrollera att du har det:
 
 ```text
 jq --version
@@ -158,10 +155,10 @@ klassificeraren (classifier), åtgärderna i stället för dig.
 
 Den andra filen är skriptet som hooken kör. I inställningarna betyder
 `PreToolUse` precis innan ett verktyg används. `matcher: Bash` begränsar hooken
-till kommandon i terminalen. Du behöver inte läsa skriptet rad för rad. Det får
-kommandot som text och jämför det med två mönster. Vid träff skriver det ett
-meddelande till agenten och slutar med talet 2, vilket blockerar kommandot. I
-alla andra fall slutar det med 0, vilket släpper igenom kommandot. Spara det som
+till kommandon i terminalen. Skriptet läser händelsedata som JSON på stdin och
+jämför kommandot med två mönster. Vid träff skriver det ett meddelande till
+agenten och avslutas med kod 2, vilket blockerar kommandot. I alla andra fall
+avslutas det med kod 0, vilket släpper igenom kommandot. Spara det som
 `.claude/hooks/block-dangerous.sh`:
 
 ```text
@@ -180,8 +177,8 @@ exit 0
 
 Skriptets första rad blockerar varje kommando med ett meddelande om `jq` saknas.
 Gör skriptet körbart och testa det innan Claude Code kör det. Testet skickar ett
-påhittat kommando, som guiden till hooks gör. `echo $?` skriver ut talet som
-skriptet slutade med:
+påhittat kommando, som guiden till hooks gör. `echo $?` skriver ut koden som
+skriptet avslutades med:
 
 ```text
 chmod +x .claude/hooks/block-dangerous.sh
@@ -240,7 +237,7 @@ kan vara formulerade annorlunda än här. Det är filkontrollerna som räknas.
    stavningen, så Claude Code frågar bara dig. Svara nej. Nästa avsnitt
    förklarar varför.
 
-Visar `/sandbox` bara en flik som heter Dependencies saknas ett paket. Fliken
+Visar `/sandbox` bara en flik som heter Dependencies, saknas ett paket. Fliken
 säger vilket. På Linux och WSL2 behöver sandboxen `bubblewrap` och `socat`.
 Installera det som nämns, starta om Claude Code och kör `/sandbox` igen. Tills
 dess kör Claude Code som standard kommandon utan sandbox.
@@ -250,8 +247,8 @@ också. Vill du använda gränserna i ett riktigt projekt kopierar du de två
 filerna dit och committar dem. Finns `.claude/settings.json` redan lägger du in
 nycklarna i den filen. Anthropics
 [sida om inställningar](https://code.claude.com/docs/en/settings) säger att den
-filen ska committas så att alla som klonar repositoryt får samma behörigheter
-och hooks.
+filen ska committas så att alla som klonar repot får samma behörigheter och
+hooks.
 
 ## När en gräns släpper igenom något
 
@@ -280,7 +277,7 @@ tillåtande regel för kommandot, till exempel `npm test`, eller ta bort
 Codex har två reglage. Sandboxen begränsar vad det får röra. Godkännandepolicyn
 (approval policy) säger när det måste fråga dig. Vi har inte kört
 inställningarna för Codex och Copilot. Skapa `.codex/config.toml` i
-övningsmappen med den start som OpenAI
+övningsmappen med de startinställningar som OpenAI
 [rekommenderar](https://learn.chatgpt.com/docs/agent-approvals-security) för en
 mapp under versionshantering:
 
@@ -294,11 +291,11 @@ network_access = false
 
 Codex
 [läser den här filen](https://learn.chatgpt.com/docs/config-file/config-basic)
-bara för ett projekt det litar på, så frågar det om du litar på mappen svarar du
-ja. I kommandoradsversionen visar `/status` godkännandepolicyn och arbetsytans
-mappar. Kör steg 4 ovan och svara nej om Codex frågar om det får lämna
-sandboxen. Stegen 2, 3 och 5 kräver Claude Codes nekande regel och hook. Regler
-som förbjuder ett kommando ligger i en separat
+bara för ett projekt det litar på. Frågar det om du litar på mappen, svara ja. I
+kommandoradsversionen visar `/status` godkännandepolicyn och arbetsytans mappar.
+Kör steg 4 ovan och svara nej om Codex frågar om det får lämna sandboxen. Stegen
+2, 3 och 5 kräver Claude Codes nekande regel och hook. Regler som förbjuder ett
+kommando ligger i en separat
 [regelfil](https://learn.chatgpt.com/docs/agent-configuration/rules), som OpenAI
 markerar som experimentell.
 
@@ -336,16 +333,16 @@ Det här räcker för att börja. Tre saker till senare:
   för VS Code samt
   [`requirements.toml`](https://learn.chatgpt.com/docs/enterprise/managed-configuration)
   i Codex.
-- Projekt du inte litar på. Ett projekt kan ha med sina egna inställningar,
-  hooks och instruktioner. VS Code stänger av agenter i en arbetsyta som öppnats
-  i
+- Projekt du inte har skrivit själv. Ett projekt kan ha med sina egna
+  inställningar, hooks och instruktioner. VS Code stänger av agenter i en
+  arbetsyta som öppnats i
   [begränsat läge (restricted mode)](https://code.visualstudio.com/docs/editing/workspaces/workspace-trust).
   Codex kan starta med enbart läsning tills du litar på mappen. Claude Code
-  frågar först i en interaktiv session. En körning utan en person vid prompten,
-  som `claude -p`, frågar aldrig.
+  frågar först i en interaktiv session. En körning där ingen sitter vid
+  prompten, som `claude -p`, frågar aldrig.
 - Hooks som misslyckas. I Claude Code 2.1.295 eller senare blockerar
-  `"onFailure": "block"` bredvid `"type"` i hookens post när hooken inte kan
-  startas eller tar för lång tid.
+  `"onFailure": "block"` bredvid `"type"` i hookens definition när hooken inte
+  kan startas eller tar för lång tid.
 
 ## Vad som kommer härnäst
 

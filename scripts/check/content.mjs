@@ -102,7 +102,8 @@ const ARTICLE_SLUG = "how-this-site-was-built-by-agents";
 // problems", "I am fine with a 5-10 minute read") to 1,600 and 2,030, the 1,595
 // and 2,004 words of the texts he reviewed, and part 7 (31 October 2026,
 // we-fq1ll; "up to 3,000 words is fine") to 2,250 after its fresh read and fact
-// check (we-fsvdn), above its measured 2,206 words;
+// check (we-fsvdn), above its measured 2,206 words (2,173 after the pass for
+// developers, we-rz9d0);
 // every other article keeps 1,500.
 const SEED_ARTICLES = new Set([ARTICLE_SLUG, "lessons-from-building-niva"]);
 const WORD_RANGE = { seed: [300, 600], other: [300, 1500] };

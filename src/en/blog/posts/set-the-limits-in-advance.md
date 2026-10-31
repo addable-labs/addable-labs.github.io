@@ -22,9 +22,8 @@ place. The text follows the tools' documentation as it stood on 31 October 2026.
 ## A request and a limit
 
 A made-up example: the web app from the earlier parts has a `migrations/`
-folder. A migration is a file that changes the structure of the database, and
-these have already run in production, so nobody should edit them. The
-instruction file from part 2 has a line about it:
+folder. Its database migrations have already run in production, so nobody should
+edit them. The instruction file from part 2 has a line about it:
 
 ```text
 - Change nothing in the `migrations/` folder: those files have already
@@ -71,12 +70,11 @@ The second is a hook: a command that the tool runs by itself just before the
 agent uses a tool, so that your own script can look at what the agent is about
 to do and say no.
 
-The third is the sandbox, and it works in a different way. The operating system,
-the software that runs your computer, puts a fence around a command and the
-programs it starts. Inside the fence, the settings say which files the command
-can change and which network addresses it can reach. Anthropic's
-[page](https://code.claude.com/docs/en/sandboxing) says that the sandbox reduces
-risk but is not a complete isolation boundary.
+The third is the sandbox, and it works in a different way. The operating system
+puts a fence around a command and the programs it starts. Inside the fence, the
+settings say which files the command can change and which network addresses it
+can reach. Anthropic's [page](https://code.claude.com/docs/en/sandboxing) says
+that the sandbox reduces risk but is not a complete isolation boundary.
 
 {% figure "limits-path" %}
 
@@ -88,10 +86,9 @@ check covers everything.
 ## Set up the example
 
 The example uses Claude Code in a terminal. You need macOS, Linux or Windows
-with [WSL2](https://learn.microsoft.com/en-us/windows/wsl/about), which runs
-Linux inside Windows, because the script is a shell script and the sandbox runs
-on macOS, Linux and WSL2. You also need `jq`, a small program for reading JSON.
-Check that you have it:
+with [WSL2](https://learn.microsoft.com/en-us/windows/wsl/about), because the
+script is a shell script and the sandbox runs on macOS, Linux and WSL2. You also
+need `jq`. Check that you have it:
 
 ```text
 jq --version
@@ -155,11 +152,10 @@ model, the classifier, reviews the actions instead of you.
 
 The second file is the script the hook runs. In the settings, `PreToolUse` means
 just before a tool is used, and `matcher: Bash` limits the hook to shell
-commands. You do not need to read the script line by line. It gets the command
-as text and compares it with two patterns. A match prints a message for the
-agent and ends with the number 2, which blocks the command. Anything else ends
-with 0, which lets the command through. Save it as
-`.claude/hooks/block-dangerous.sh`:
+commands. The script reads the event data as JSON on stdin and compares the
+command with two patterns. A match prints a message for the agent and exits with
+code 2, which blocks the command. Anything else exits with code 0, which lets
+the command through. Save it as `.claude/hooks/block-dangerous.sh`:
 
 ```text
 #!/bin/bash
@@ -178,7 +174,7 @@ exit 0
 The first line of the script blocks every command with a message if `jq` is
 missing. Make the script executable and test it before Claude Code runs it. The
 test sends a made-up command, as the hooks guide does, and `echo $?` prints the
-number the script ended with:
+code the script exited with:
 
 ```text
 chmod +x .claude/hooks/block-dangerous.sh
@@ -276,7 +272,7 @@ without asking.
 Codex has two switches: the sandbox, which limits what it may touch, and the
 approval policy, which says when it must ask you. We have not run the Codex and
 Copilot settings. In the practice folder, create `.codex/config.toml` with the
-start that OpenAI
+starting settings that OpenAI
 [recommends](https://learn.chatgpt.com/docs/agent-approvals-security) for a
 folder under version control:
 

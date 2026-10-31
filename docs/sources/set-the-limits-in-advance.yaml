@@ -177,8 +177,8 @@
 - id: K-sandbox-os
   article: set-the-limits-in-advance
   sentence:
-    sv: "Operativsystemet, programvaran som kör din dator, sätter ett staket runt ett kommando och de program det startar"
-    en: "The operating system, the software that runs your computer, puts a fence around a command and the programs it starts"
+    sv: "Operativsystemet sätter ett staket runt ett kommando och de program det startar"
+    en: "The operating system puts a fence around a command and the programs it starts"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/sandboxing
   final_url: https://code.claude.com/docs/en/sandboxing
@@ -279,30 +279,6 @@
   url: https://code.claude.com/docs/en/sandboxing
   final_url: https://code.claude.com/docs/en/sandboxing
   quote: "The sandbox runs on macOS, Linux, and WSL2."
-  retrieved: 2026-10-31
-  last_checked: 2026-10-31
-
-- id: X-wsl
-  article: set-the-limits-in-advance
-  sentence:
-    sv: "WSL2, som kör Linux inuti Windows"
-    en: "WSL2, which runs Linux inside Windows"
-  vendor: Microsoft
-  url: https://learn.microsoft.com/en-us/windows/wsl/about
-  final_url: https://learn.microsoft.com/en-us/windows/wsl/about
-  quote: "Windows Subsystem for Linux (WSL) is a feature of Windows that allows you to run a Linux environment on your Windows machine"
-  retrieved: 2026-10-31
-  last_checked: 2026-10-31
-
-- id: X-jq-what
-  article: set-the-limits-in-advance
-  sentence:
-    sv: "Du behöver också jq, ett litet program för att läsa JSON"
-    en: "You also need jq, a small program for reading JSON"
-  vendor: Anthropic
-  url: https://code.claude.com/docs/en/hooks-guide
-  final_url: https://code.claude.com/docs/en/hooks-guide
-  quote: "The Bash examples on this page use `jq` for JSON parsing."
   retrieved: 2026-10-31
   last_checked: 2026-10-31
 
@@ -501,8 +477,8 @@
 - id: X-before-every
   article: set-the-limits-in-advance
   sentence:
-    sv: "Det får kommandot som text och jämför det med två mönster"
-    en: "It gets the command as text and compares it with two patterns"
+    sv: "Skriptet läser händelsedata som JSON på stdin och jämför kommandot med två mönster"
+    en: "The script reads the event data as JSON on stdin and compares the command with two patterns"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/hooks-guide
   final_url: https://code.claude.com/docs/en/hooks-guide
@@ -513,8 +489,8 @@
 - id: X-exit2
   article: set-the-limits-in-advance
   sentence:
-    sv: "Vid träff skriver det ett meddelande till agenten och slutar med talet 2, vilket blockerar kommandot"
-    en: "A match prints a message for the agent and ends with the number 2, which blocks the command"
+    sv: "Vid träff skriver det ett meddelande till agenten och avslutas med kod 2, vilket blockerar kommandot"
+    en: "A match prints a message for the agent and exits with code 2, which blocks the command"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/hooks-guide
   final_url: https://code.claude.com/docs/en/hooks-guide
@@ -525,8 +501,8 @@
 - id: X-stderr
   article: set-the-limits-in-advance
   sentence:
-    sv: "Vid träff skriver det ett meddelande till agenten och slutar med talet 2, vilket blockerar kommandot"
-    en: "A match prints a message for the agent and ends with the number 2, which blocks the command"
+    sv: "Vid träff skriver det ett meddelande till agenten och avslutas med kod 2, vilket blockerar kommandot"
+    en: "A match prints a message for the agent and exits with code 2, which blocks the command"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/hooks-guide
   final_url: https://code.claude.com/docs/en/hooks-guide
@@ -537,8 +513,8 @@
 - id: X-exit0
   article: set-the-limits-in-advance
   sentence:
-    sv: "I alla andra fall slutar det med 0, vilket släpper igenom kommandot"
-    en: "Anything else ends with 0, which lets the command through"
+    sv: "I alla andra fall avslutas det med kod 0, vilket släpper igenom kommandot"
+    en: "Anything else exits with code 0, which lets the command through"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/hooks
   final_url: https://code.claude.com/docs/en/hooks
@@ -657,7 +633,7 @@
 - id: C-deps-tab
   article: set-the-limits-in-advance
   sentence:
-    sv: "Visar /sandbox bara en flik som heter Dependencies saknas ett paket"
+    sv: "Visar /sandbox bara en flik som heter Dependencies, saknas ett paket"
     en: "If /sandbox shows only a Dependencies tab, a package is missing"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/sandboxing
@@ -717,7 +693,7 @@
 - id: C-commit-settings
   article: set-the-limits-in-advance
   sentence:
-    sv: "Anthropics sida om inställningar säger att den filen ska committas så att alla som klonar repositoryt får samma behörigheter och hooks"
+    sv: "Anthropics sida om inställningar säger att den filen ska committas så att alla som klonar repot får samma behörigheter och hooks"
     en: "Anthropic's page on settings says to commit that file so that everyone who clones the repository gets the same permissions and hooks"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/settings
@@ -837,8 +813,8 @@
 - id: T-codex-vc
   article: set-the-limits-in-advance
   sentence:
-    sv: "Skapa .codex/config.toml i övningsmappen med den start som OpenAI rekommenderar för en mapp under versionshantering"
-    en: "create .codex/config.toml with the start that OpenAI recommends for a folder under version control"
+    sv: "Skapa .codex/config.toml i övningsmappen med de startinställningar som OpenAI rekommenderar för en mapp under versionshantering"
+    en: "create .codex/config.toml with the starting settings that OpenAI recommends for a folder under version control"
   vendor: OpenAI
   url: https://learn.chatgpt.com/docs/agent-approvals-security
   final_url: https://learn.chatgpt.com/docs/agent-approvals-security
@@ -861,7 +837,7 @@
 - id: T-codex-trust-ask
   article: set-the-limits-in-advance
   sentence:
-    sv: "så frågar det om du litar på mappen svarar du ja"
+    sv: "Frågar det om du litar på mappen, svara ja"
     en: "if it asks whether you trust the folder, say yes"
   vendor: OpenAI
   url: https://learn.chatgpt.com/docs/agent-approvals-security
@@ -1113,7 +1089,7 @@
 - id: H-claude-asks
   article: set-the-limits-in-advance
   sentence:
-    sv: "Claude Code frågar först i en interaktiv session. En körning utan en person vid prompten, som claude -p, frågar aldrig"
+    sv: "Claude Code frågar först i en interaktiv session. En körning där ingen sitter vid prompten, som claude -p, frågar aldrig"
     en: "Claude Code asks first in an interactive session, though a run without a person at the prompt, such as claude -p, never asks"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/security
@@ -1125,7 +1101,7 @@
 - id: H-claude-p
   article: set-the-limits-in-advance
   sentence:
-    sv: "Claude Code frågar först i en interaktiv session. En körning utan en person vid prompten, som claude -p, frågar aldrig"
+    sv: "Claude Code frågar först i en interaktiv session. En körning där ingen sitter vid prompten, som claude -p, frågar aldrig"
     en: "Claude Code asks first in an interactive session, though a run without a person at the prompt, such as claude -p, never asks"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/security
@@ -1137,7 +1113,7 @@
 - id: G-on-failure
   article: set-the-limits-in-advance
   sentence:
-    sv: "I Claude Code 2.1.295 eller senare blockerar \"onFailure\": \"block\" bredvid \"type\" i hookens post när hooken inte kan startas eller tar för lång tid"
+    sv: "I Claude Code 2.1.295 eller senare blockerar \"onFailure\": \"block\" bredvid \"type\" i hookens definition när hooken inte kan startas eller tar för lång tid"
     en: "In Claude Code 2.1.295 or later, \"onFailure\": \"block\" next to \"type\" in a hook's entry blocks when the hook cannot start or times out"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/hooks
@@ -1149,7 +1125,7 @@
 - id: G-on-failure-start
   article: set-the-limits-in-advance
   sentence:
-    sv: "I Claude Code 2.1.295 eller senare blockerar \"onFailure\": \"block\" bredvid \"type\" i hookens post när hooken inte kan startas eller tar för lång tid"
+    sv: "I Claude Code 2.1.295 eller senare blockerar \"onFailure\": \"block\" bredvid \"type\" i hookens definition när hooken inte kan startas eller tar för lång tid"
     en: "In Claude Code 2.1.295 or later, \"onFailure\": \"block\" next to \"type\" in a hook's entry blocks when the hook cannot start or times out"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/hooks
