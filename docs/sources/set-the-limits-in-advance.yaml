@@ -1,0 +1,1383 @@
+# The sources of "Set the limits in advance" (both languages): one entry per
+# factual claim in the article about a vendor's page, for the monthly check of
+# the series' sources. Every quote was taken from its page on the date in
+# retrieved (31 October 2026) and checked again on the date in last_checked.
+# Not in the list: the two sentences about the factory's sessions (the mayor's
+# answer of 31 October 2026, no public page), the results of our own run of the
+# script and the order of limits in "Start small", which is our own advice.
+
+- id: L-enforced
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "behörighetsregler \"upprätthålls av Claude Code, inte av modellen\""
+    en: "permission rules \"are enforced by Claude Code, not by the model\""
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/permissions
+  final_url: https://code.claude.com/docs/en/permissions
+  quote: "Permission rules are enforced by Claude Code, not by the model."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: L-shape
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "Instruktioner \"påverkar vad Claude försöker göra men ändrar inte vad Claude Code tillåter\""
+    en: "Instructions \"shape what Claude tries to do, but they don't change what Claude Code allows\""
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/permissions
+  final_url: https://code.claude.com/docs/en/permissions
+  quote: "shape what Claude tries to do, but they don't change what Claude Code allows."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: L-vscode-instructions
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "säger att instruktioner vägleder modellen och inte är en tvingande gräns"
+    en: "says that instructions guide the model and are not an enforcement boundary"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agents/run/security
+  final_url: https://code.visualstudio.com/docs/agents/run/security
+  quote: "Instructions guide the model and are not an enforcement boundary."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: L-openai-pair
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "rekommenderar att AGENTS.md kombineras med infrastruktur som ser till att reglerna följs"
+    en: "advises pairing AGENTS.md with infrastructure that enforces its rules"
+  vendor: OpenAI
+  url: https://learn.chatgpt.com/docs/customization/overview
+  final_url: https://learn.chatgpt.com/docs/customization/overview
+  quote: "Pair AGENTS.md with infrastructure that enforces those rules"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: L-incident-log
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "listar tidigare fall ur företagets egen incidentlogg: att radera grenar på fjärrsidan utifrån en missförstådd instruktion, att ladda upp en ingenjörs GitHub-token till ett internt beräkningskluster och att försöka köra migreringar mot en produktionsdatabas"
+    en: "lists past cases from its own incident log: deleting remote git branches from a misinterpreted instruction, uploading an engineer's GitHub token to an internal compute cluster and attempting migrations against a production database"
+  vendor: Anthropic
+  url: https://www.anthropic.com/research/claude-code-auto-mode
+  final_url: https://www.anthropic.com/research/claude-code-auto-mode
+  quote: "Past examples include deleting remote git branches from a misinterpreted instruction, uploading an engineer's GitHub auth token to an internal compute cluster, and attempting migrations against a production database."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: L-incident-date
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "Anthropics inlägg från den 25 mars 2026"
+    en: "Anthropic's post of 25 March 2026"
+  vendor: Anthropic
+  url: https://www.anthropic.com/research/claude-code-auto-mode
+  final_url: https://www.anthropic.com/research/claude-code-auto-mode
+  quote: "We keep an internal incident log focused on agentic misbehaviors."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: L-overeager
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "Anthropic skriver att alla berodde på att modellen var överivrig"
+    en: "It says each was the model being overeager"
+  vendor: Anthropic
+  url: https://www.anthropic.com/research/claude-code-auto-mode
+  final_url: https://www.anthropic.com/research/claude-code-auto-mode
+  quote: "Each of these was the result of the model being overeager"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: K-deny-wins
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "I Claude Code går en nekande regel före en tillåtande"
+    en: "In Claude Code a deny rule wins over an allow rule"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/permissions
+  final_url: https://code.claude.com/docs/en/permissions
+  quote: "Rules are evaluated in order: deny, then ask, then allow. The first match in that order determines the outcome"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: K-hook
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "En hook är ett kommando som verktyget kör av sig självt vid en bestämd punkt, till exempel precis innan agenten använder ett verktyg"
+    en: "A hook is a command that the tool runs by itself at a set point, such as just before the agent uses a tool"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/hooks-guide
+  final_url: https://code.claude.com/docs/en/hooks-guide
+  quote: "Claude Code runs them at specific points in its lifecycle"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: K-hook-pre
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "En hook är ett kommando som verktyget kör av sig självt vid en bestämd punkt, till exempel precis innan agenten använder ett verktyg"
+    en: "A hook is a command that the tool runs by itself at a set point, such as just before the agent uses a tool"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/hooks
+  final_url: https://code.claude.com/docs/en/hooks
+  quote: "Before a tool call executes. Can block it"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: K-sandbox-os
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "Operativsystemet, programvaran som kör din dator, begränsar vilka filer och vilka nätverksadresser ett kommando och programmen det startar kan nå"
+    en: "The operating system, the software that runs your computer, restricts which files and which network addresses a command and the programs it starts can reach"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/sandboxing
+  final_url: https://code.claude.com/docs/en/sandboxing
+  quote: "The Bash sandbox is a boundary that the operating system enforces around the shell commands Claude runs on your machine."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: K-sandbox-reach
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "Operativsystemet, programvaran som kör din dator, begränsar vilka filer och vilka nätverksadresser ett kommando och programmen det startar kan nå"
+    en: "The operating system, the software that runs your computer, restricts which files and which network addresses a command and the programs it starts can reach"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/sandboxing
+  final_url: https://code.claude.com/docs/en/sandboxing
+  quote: "You set which files and network domains those commands can reach, and the limits apply to Bash, PowerShell, and Monitor commands and the processes they start."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: K-sandbox-no-ask
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "Det håller gränserna medan kommandot körs, så agenten behöver inte fråga om varje kommando"
+    en: "It applies the limits while the command runs, so the agent does not need to ask about each one"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/sandboxing
+  final_url: https://code.claude.com/docs/en/sandboxing
+  quote: "Because the operating system applies the limits while a command runs, Claude Code can run sandboxed commands without asking you to approve each one."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: K-order-hook
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "I Claude Code möter ett kommando först hooken och sedan behörighetsreglerna"
+    en: "In Claude Code a command meets the hook first, then the permission rules, and runs inside the sandbox if it is on"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/hooks-guide
+  final_url: https://code.claude.com/docs/en/hooks-guide
+  quote: "`PreToolUse` hooks fire before any permission-mode check, in every permission mode"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: K-order-sandbox
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "Det körs i sandboxen om den är på"
+    en: "In Claude Code a command meets the hook first, then the permission rules, and runs inside the sandbox if it is on"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/sandboxing
+  final_url: https://code.claude.com/docs/en/sandboxing
+  quote: "While the sandbox is on, the shell commands Claude runs start inside its boundary, and so do the processes they start."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: K-covers-shell
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "sandboxen täcker kommandon i terminalen"
+    en: "the sandbox covers commands in the terminal, and the figure lists what runs outside it"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/sandboxing
+  final_url: https://code.claude.com/docs/en/sandboxing
+  quote: "The sandbox covers shell commands only. Claude's file tools, MCP servers, and hooks run outside it."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: X-deny-every-mode
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "eftersom nekande regler gäller i alla lägen"
+    en: "because deny rules block in every mode"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/permission-modes
+  final_url: https://code.claude.com/docs/en/permission-modes
+  quote: "Deny rules block in every mode, including `bypassPermissions`."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: X-default-manual
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "eftersom default är det läge Claude Code kallar Manual"
+    en: "since default is the mode Claude Code calls Manual"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/permission-modes
+  final_url: https://code.claude.com/docs/en/permission-modes
+  quote: "Its config value is `default`, which is what hooks and SDK integrations use."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: X-regular-permissions
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "autoAllowBashIfSandboxed är false, vilket behåller frågorna för kommandon även när de körs i sandboxen"
+    en: "autoAllowBashIfSandboxed is false, which keeps the questions for commands even when they run inside the sandbox"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/sandboxing
+  final_url: https://code.claude.com/docs/en/sandboxing
+  quote: "All Bash commands go through the regular permission flow, even when sandboxed."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: X-auto-allow-default
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "autoAllowBashIfSandboxed är false, vilket behåller frågorna för kommandon även när de körs i sandboxen"
+    en: "autoAllowBashIfSandboxed is false, which keeps the questions for commands even when they run inside the sandbox"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/permissions
+  final_url: https://code.claude.com/docs/en/permissions
+  quote: "When you enable sandboxing and leave `autoAllowBashIfSandboxed` at its default of `true`, sandboxed Bash commands run without prompting"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: X-exit2
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "Slutkod 2 blockerar kommandot. Det skriptet skriver som felmeddelande går tillbaka till agenten"
+    en: "Exit code 2 blocks the command, and what the script writes as an error message goes back to the agent"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/hooks-guide
+  final_url: https://code.claude.com/docs/en/hooks-guide
+  quote: "exit 2 = block the action"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: X-stderr
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "Slutkod 2 blockerar kommandot. Det skriptet skriver som felmeddelande går tillbaka till agenten"
+    en: "Exit code 2 blocks the command, and what the script writes as an error message goes back to the agent"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/hooks-guide
+  final_url: https://code.claude.com/docs/en/hooks-guide
+  quote: "stderr becomes Claude's feedback"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: X-executable
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "gör det körbart med chmod +x"
+    en: "make it executable with chmod +x"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/hooks-guide
+  final_url: https://code.claude.com/docs/en/hooks-guide
+  quote: "Hook scripts must be executable for Claude Code to run them"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: X-jq
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "Det behöver också jq, ett litet program för att läsa JSON"
+    en: "It also needs jq, a small program for reading JSON"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/hooks-guide
+  final_url: https://code.claude.com/docs/en/hooks-guide
+  quote: "If you see \"jq: command not found\""
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: X-sample-input
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "med exempelindata från Anthropics guide till hooks"
+    en: "with the sample input from Anthropic's hooks guide"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/hooks-guide
+  final_url: https://code.claude.com/docs/en/hooks-guide
+  quote: "Test it manually by piping sample JSON"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: X-before-every
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "Verktyget startar det före varje kommando i terminalen och ger det kommandot som text"
+    en: "The tool starts it before every shell command and passes it the command as text"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/hooks
+  final_url: https://code.claude.com/docs/en/hooks
+  quote: "In addition to the common input fields, PreToolUse hooks receive `tool_name`, `tool_input`, and `tool_use_id`."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: D-os-claude
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "Sandboxen är den enda av de tre som operativsystemet själv tvingar fram"
+    en: "The sandbox is the only one of the three that the operating system enforces"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/sandboxing
+  final_url: https://code.claude.com/docs/en/sandboxing
+  quote: "The Bash sandbox is a boundary that the operating system enforces around the shell commands Claude runs on your machine."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: D-os-codex
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "Sandboxen är den enda av de tre som operativsystemet själv tvingar fram"
+    en: "The sandbox is the only one of the three that the operating system enforces"
+  vendor: OpenAI
+  url: https://learn.chatgpt.com/docs/agent-approvals-security
+  final_url: https://learn.chatgpt.com/docs/agent-approvals-security
+  quote: "Locally, Codex uses an OS-enforced sandbox that limits what it can touch"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: D-os-vscode
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "Sandboxen är den enda av de tre som operativsystemet själv tvingar fram"
+    en: "The sandbox is the only one of the three that the operating system enforces"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agents/concepts/trust-and-safety
+  final_url: https://code.visualstudio.com/docs/agents/concepts/trust-and-safety
+  quote: "enforcing boundaries at the OS level"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: D-notcovered-claude
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "Varje leverantörs sida säger vad den inte täcker"
+    en: "each vendor's page says what it does not cover"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/sandboxing
+  final_url: https://code.claude.com/docs/en/sandboxing
+  quote: "What runs outside the sandbox"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: D-notcovered-codex
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "Varje leverantörs sida säger vad den inte täcker"
+    en: "each vendor's page says what it does not cover"
+  vendor: OpenAI
+  url: https://learn.chatgpt.com/docs/agent-approvals-security
+  final_url: https://learn.chatgpt.com/docs/agent-approvals-security
+  quote: "It does not filter web search, app or connector tool calls, MCP server connections, browser or Computer Use activity"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: D-notcovered-vscode
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "Varje leverantörs sida säger vad den inte täcker"
+    en: "each vendor's page says what it does not cover"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agents/concepts/trust-and-safety
+  final_url: https://code.visualstudio.com/docs/agents/concepts/trust-and-safety
+  quote: "What sandboxing does not cover"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: D-files-claude-w
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "Skriver i projektmappen; läser det mesta på datorn"
+    en: "Writes in the project folder; reads most of the computer"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/sandboxing
+  final_url: https://code.claude.com/docs/en/sandboxing
+  quote: "The working directory, a per-user temp directory"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: D-files-claude-r
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "Skriver i projektmappen; läser det mesta på datorn"
+    en: "Writes in the project folder; reads most of the computer"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/sandboxing
+  final_url: https://code.claude.com/docs/en/sandboxing
+  quote: "Most of the machine, including credential files such as `~/.ssh` and `~/.aws/credentials`"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: D-files-codex
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "Skriver i arbetsytan och i tillfälliga mappar"
+    en: "Writes in the workspace and temporary folders"
+  vendor: OpenAI
+  url: https://learn.chatgpt.com/docs/agent-approvals-security
+  final_url: https://learn.chatgpt.com/docs/agent-approvals-security
+  quote: "The workspace includes the current directory and temporary directories like `/tmp`."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: D-files-vscode
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "Läser och skriver i arbetsmappen; läser utvecklingsverktygens mappar"
+    en: "Reads and writes in the working folder; reads developer-tool folders"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agents/run/agent-sandboxing
+  final_url: https://code.visualstudio.com/docs/agents/run/agent-sandboxing
+  quote: "The sandbox automatically grants read and write access to the current working directory."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: D-files-vscode-tools
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "Läser och skriver i arbetsmappen; läser utvecklingsverktygens mappar"
+    en: "Reads and writes in the working folder; reads developer-tool folders"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agents/run/agent-sandboxing
+  final_url: https://code.visualstudio.com/docs/agents/run/agent-sandboxing
+  quote: "It grants read access to tool directories on `PATH`, toolchain directories, developer-tool configuration and caches"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: D-net-claude
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "Stängt; tillåtna adresser börjar tomma"
+    en: "Closed; allowed addresses start empty"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/sandboxing
+  final_url: https://code.claude.com/docs/en/sandboxing
+  quote: "No direct route out. Connections go through a proxy on your machine that checks each host against your allowed domains, which start empty."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: D-net-codex
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "Nätverk Stängt; tillåtna adresser börjar tomma Av"
+    en: "Network Closed; allowed addresses start empty Off"
+  vendor: OpenAI
+  url: https://learn.chatgpt.com/docs/agent-approvals-security
+  final_url: https://learn.chatgpt.com/docs/agent-approvals-security
+  quote: "By default, the agent runs with network access turned off."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: D-net-vscode
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "Öppet, även när sandboxen är på"
+    en: "Open, even when the sandbox is on"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agents/run/agent-sandboxing
+  final_url: https://code.visualstudio.com/docs/agents/run/agent-sandboxing
+  quote: "Turning on sandboxing does not block outbound network access by default."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: D-cell-claude
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "Filverktyg, MCP-servrar och hooks"
+    en: "File tools, MCP servers and hooks"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/sandboxing
+  final_url: https://code.claude.com/docs/en/sandboxing
+  quote: "Claude's file tools, MCP servers, and hooks run outside it."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: D-cell-codex
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "Webbsökning, MCP-anslutningar och webbläsaranvändning filtreras inte"
+    en: "Web search, MCP connections and browser use are not filtered"
+  vendor: OpenAI
+  url: https://learn.chatgpt.com/docs/agent-approvals-security
+  final_url: https://learn.chatgpt.com/docs/agent-approvals-security
+  quote: "It does not filter web search, app or connector tool calls, MCP server connections, browser or Computer Use activity"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: D-cell-vscode
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "Inbyggda verktyg som inte startar någon process"
+    en: "Built-in tools that start no process"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agents/run/agent-sandboxing
+  final_url: https://code.visualstudio.com/docs/agents/run/agent-sandboxing
+  quote: "Built-in tools that don't start operating system processes use their own permission checks."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: D-anthropic-risk
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "säger att sandboxen \"minskar risken men är inte en fullständig isoleringsgräns\""
+    en: "says that the sandbox \"reduces risk but is not a complete isolation boundary\""
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/sandboxing
+  final_url: https://code.claude.com/docs/en/sandboxing
+  quote: "Sandboxing reduces risk but is not a complete isolation boundary."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: D-vscode-vm
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "säger att den inte är en virtuell maskin och inte en gräns mellan användarkonton"
+    en: "says that it is not a virtual machine or a user-account boundary"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agents/run/agent-sandboxing
+  final_url: https://code.visualstudio.com/docs/agents/run/agent-sandboxing
+  quote: "Sandboxing is not a virtual machine or user-account boundary"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: T-cc-auto
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "startar i auto mode i terminalen och i VS Code, sedan version 2.1.283"
+    en: "starts in auto mode in the terminal and in VS Code, since version 2.1.283"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/permission-modes
+  final_url: https://code.claude.com/docs/en/permission-modes
+  quote: "With Claude Code v2.1.283 or later, auto mode is the built-in starting permission mode for interactive terminal and VS Code sessions."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: T-cc-sandbox-off
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "Sandboxen är av"
+    en: "and the sandbox is off"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/sandboxing
+  final_url: https://code.claude.com/docs/en/sandboxing
+  quote: "The sandbox is off by default."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: T-classifier
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "I auto mode granskar en andra modell, klassificeraren (classifier), åtgärderna i stället för dig"
+    en: "In auto mode a second model, the classifier, reviews the actions instead of you"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/permission-modes
+  final_url: https://code.claude.com/docs/en/permission-modes
+  quote: "In auto mode, a second model, the classifier, reviews actions instead of you"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: T-17-honest
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "av 52 verkliga fall där agenten gjorde mer än den hade blivit ombedd släppte klassificeraren igenom 17 %, vilket Anthropic kallar \"det ärliga talet\""
+    en: "of 52 real cases where the agent did more than it was asked, the classifier let 17% through, which Anthropic calls \"the honest number\""
+  vendor: Anthropic
+  url: https://www.anthropic.com/research/claude-code-auto-mode
+  final_url: https://www.anthropic.com/research/claude-code-auto-mode
+  quote: "The 17% false-negative rate on real overeager actions is the honest number."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: T-17-n52
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "av 52 verkliga fall där agenten gjorde mer än den hade blivit ombedd släppte klassificeraren igenom 17 %, vilket Anthropic kallar \"det ärliga talet\""
+    en: "of 52 real cases where the agent did more than it was asked, the classifier let 17% through, which Anthropic calls \"the honest number\""
+  vendor: Anthropic
+  url: https://www.anthropic.com/research/claude-code-auto-mode
+  final_url: https://www.anthropic.com/research/claude-code-auto-mode
+  quote: "Real overeager n=52"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: T-aug-date
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "från inlägget den 7 augusti 2026"
+    en: "from the post of 7 August 2026"
+  vendor: Anthropic
+  url: https://claude.com/resources/articles/auto-mode-default-in-claude-code
+  final_url: https://claude.com/resources/articles/auto-mode-default-in-claude-code
+  quote: "August 7, 2026"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: T-ladder-1
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "listar stegen från strikt till självgående. De är läget Manual, sedan Manual med sandboxen i läget auto-allow – som kör kommandon i sandboxen utan att fråga – och sedan auto mode"
+    en: "lists the steps from strict to hands-off. They are Manual mode, then Manual mode with the sandbox in auto-allow mode, which runs commands inside the sandbox without asking, and then auto mode"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/permission-modes
+  final_url: https://code.claude.com/docs/en/permission-modes
+  quote: "Review every action yourself"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: T-ladder-2
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "listar stegen från strikt till självgående. De är läget Manual, sedan Manual med sandboxen i läget auto-allow – som kör kommandon i sandboxen utan att fråga – och sedan auto mode"
+    en: "lists the steps from strict to hands-off. They are Manual mode, then Manual mode with the sandbox in auto-allow mode, which runs commands inside the sandbox without asking, and then auto mode"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/permission-modes
+  final_url: https://code.claude.com/docs/en/permission-modes
+  quote: "Iterate locally with fewer prompts, without a classifier"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: T-ladder-3
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "listar stegen från strikt till självgående. De är läget Manual, sedan Manual med sandboxen i läget auto-allow – som kör kommandon i sandboxen utan att fråga – och sedan auto mode"
+    en: "lists the steps from strict to hands-off. They are Manual mode, then Manual mode with the sandbox in auto-allow mode, which runs commands inside the sandbox without asking, and then auto mode"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/permission-modes
+  final_url: https://code.claude.com/docs/en/permission-modes
+  quote: "Work hands-off in auto mode"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: T-autoallow-def
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "listar stegen från strikt till självgående. De är läget Manual, sedan Manual med sandboxen i läget auto-allow – som kör kommandon i sandboxen utan att fråga – och sedan auto mode"
+    en: "lists the steps from strict to hands-off. They are Manual mode, then Manual mode with the sandbox in auto-allow mode, which runs commands inside the sandbox without asking, and then auto mode"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/sandboxing
+  final_url: https://code.claude.com/docs/en/sandboxing
+  quote: "Claude Code approves a command automatically, with no prompt, when the command runs inside the sandbox."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: T-bypass
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "Bypass-läget är bara till för containrar och virtuella maskiner"
+    en: "The bypass mode is for containers and virtual machines only"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/permission-modes
+  final_url: https://code.claude.com/docs/en/permission-modes
+  quote: "Isolated containers and VMs only"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: T-autoallow-key
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "I exempelfilen tar du det andra steget genom att ta bort autoAllowBashIfSandboxed"
+    en: "In the example file, deleting autoAllowBashIfSandboxed takes the second step"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/permissions
+  final_url: https://code.claude.com/docs/en/permissions
+  quote: "leave `autoAllowBashIfSandboxed` at its default of `true`, sandboxed Bash commands run without prompting"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: T-permission-mode-flag
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "claude --permission-mode default startar strikt"
+    en: "claude --permission-mode default starts strict"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/permission-modes
+  final_url: https://code.claude.com/docs/en/permission-modes
+  quote: "Manual mode: `claude --permission-mode default`"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: T-sandbox-cmd
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "/sandbox visar sandboxens inställningar"
+    en: "/sandbox shows the sandbox settings"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/sandboxing
+  final_url: https://code.claude.com/docs/en/sandboxing
+  quote: "view the resolved sandbox settings"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: T-permissions-cmd
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "/permissions listar reglerna"
+    en: "/permissions lists the rules"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/permissions
+  final_url: https://code.claude.com/docs/en/permissions
+  quote: "The dialog lists all permission rules and the `settings.json` file each rule comes from."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: T-codex-two
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "en sandbox som begränsar vad Codex kan röra och en regel för godkännanden (approval policy) som avgör när det måste stanna och fråga dig"
+    en: "a sandbox that limits what Codex can touch, and an approval policy that decides when it must stop and ask you"
+  vendor: OpenAI
+  url: https://learn.chatgpt.com/docs/agent-approvals-security
+  final_url: https://learn.chatgpt.com/docs/agent-approvals-security
+  quote: "Locally, Codex uses an OS-enforced sandbox that limits what it can touch (typically to the current workspace), plus an approval policy that controls when it must stop and ask you before acting."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: T-codex-vc
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "I en mapp under versionshantering är den rekommenderade starten workspace-write med godkännande på begäran"
+    en: "In a folder under version control the recommended start is workspace-write with approval on request"
+  vendor: OpenAI
+  url: https://learn.chatgpt.com/docs/agent-approvals-security
+  final_url: https://learn.chatgpt.com/docs/agent-approvals-security
+  quote: "Version-controlled folders: `Auto` (workspace write + on-request approvals)"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: T-codex-other
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "I andra mappar är den read-only"
+    en: "In other folders it is read-only"
+  vendor: OpenAI
+  url: https://learn.chatgpt.com/docs/agent-approvals-security
+  final_url: https://learn.chatgpt.com/docs/agent-approvals-security
+  quote: "Non-version-controlled folders: `read-only`"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: T-codex-trust
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "som Codex läser för ett projekt bara när det litar på projektet"
+    en: "which Codex reads for a project only when it trusts the project"
+  vendor: OpenAI
+  url: https://learn.chatgpt.com/docs/config-file/config-basic
+  final_url: https://learn.chatgpt.com/docs/config-file/config-basic
+  quote: "Project config files: `.codex/config.toml`, ordered from the project root down to your current working directory (closest wins; trusted projects only)"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: T-codex-rules
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "styr vilka kommandon Codex får köra utanför sandboxen"
+    en: "controls which commands Codex may run outside the sandbox"
+  vendor: OpenAI
+  url: https://learn.chatgpt.com/docs/agent-configuration/rules
+  final_url: https://learn.chatgpt.com/docs/agent-configuration/rules
+  quote: "Use rules to control which commands Codex can run outside the sandbox."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: T-codex-forbid
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "En regel kan förbjuda ett kommando som git push"
+    en: "a rule can forbid a command such as git push"
+  vendor: OpenAI
+  url: https://learn.chatgpt.com/docs/agent-configuration/rules
+  final_url: https://learn.chatgpt.com/docs/agent-configuration/rules
+  quote: "Block the request without prompting."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: T-codex-exp
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "OpenAI markerar reglerna som experimentella"
+    en: "OpenAI marks rules as experimental"
+  vendor: OpenAI
+  url: https://learn.chatgpt.com/docs/agent-configuration/rules
+  final_url: https://learn.chatgpt.com/docs/agent-configuration/rules
+  quote: "Rules are experimental and may change."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: T-copilot-manual
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "startar i Manual permissions med sandboxen av"
+    en: "starts in Manual permissions with the sandbox off"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agents/run/approvals
+  final_url: https://code.visualstudio.com/docs/agents/run/approvals
+  quote: "Manual permissions (default)"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: T-copilot-sandbox
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "startar i Manual permissions med sandboxen av"
+    en: "starts in Manual permissions with the sandbox off"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agents/run/agent-sandboxing
+  final_url: https://code.visualstudio.com/docs/agents/run/agent-sandboxing
+  quote: "It accepts `off` or `on` and defaults to `off`."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: T-copilot-level
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "En behörighetsnivå (permission level) gäller för en session"
+    en: "A permission level applies to a session"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agents/run/approvals
+  final_url: https://code.visualstudio.com/docs/agents/run/approvals
+  quote: "Permission levels control how the agent handles approvals for the current chat session."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: T-copilot-levels-1
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "Manual permissions frågar om allt som inte är automatiskt godkänt, Assisted permissions låter en språkmodell bedöma varje anrop och Allow all hoppar över frågorna"
+    en: "Manual permissions asks about everything that is not auto-approved, Assisted permissions lets a language model judge each call, and Allow all skips the questions"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agents/run/approvals
+  final_url: https://code.visualstudio.com/docs/agents/run/approvals
+  quote: "Actions that are not auto-approved require your confirmation."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: T-copilot-levels-2
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "Manual permissions frågar om allt som inte är automatiskt godkänt, Assisted permissions låter en språkmodell bedöma varje anrop och Allow all hoppar över frågorna"
+    en: "Manual permissions asks about everything that is not auto-approved, Assisted permissions lets a language model judge each call, and Allow all skips the questions"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agents/run/approvals
+  final_url: https://code.visualstudio.com/docs/agents/run/approvals
+  quote: "Uses an LLM judge to assess each tool call."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: T-copilot-levels-3
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "Manual permissions frågar om allt som inte är automatiskt godkänt, Assisted permissions låter en språkmodell bedöma varje anrop och Allow all hoppar över frågorna"
+    en: "Manual permissions asks about everything that is not auto-approved, Assisted permissions lets a language model judge each call, and Allow all skips the questions"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agents/run/approvals
+  final_url: https://code.visualstudio.com/docs/agents/run/approvals
+  quote: "Runs all tool calls without confirmation."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: T-copilot-own-1
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "Terminalkommandon, verktyg, webbadresser och ändringar i känsliga filer har egna inställningar"
+    en: "Terminal commands, tools, URLs and edits to sensitive files have settings of their own"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agents/run/approvals
+  final_url: https://code.visualstudio.com/docs/agents/run/approvals
+  quote: "Which terminal commands run without confirmation"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: T-copilot-own-2
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "Terminalkommandon, verktyg, webbadresser och ändringar i känsliga filer har egna inställningar"
+    en: "Terminal commands, tools, URLs and edits to sensitive files have settings of their own"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agents/run/approvals
+  final_url: https://code.visualstudio.com/docs/agents/run/approvals
+  quote: "Which tools require confirmation before or after they run"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: T-copilot-own-3
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "Terminalkommandon, verktyg, webbadresser och ändringar i känsliga filer har egna inställningar"
+    en: "Terminal commands, tools, URLs and edits to sensitive files have settings of their own"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agents/run/approvals
+  final_url: https://code.visualstudio.com/docs/agents/run/approvals
+  quote: "Which URLs can be requested and which responses can enter the chat context"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: T-copilot-own-4
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "Terminalkommandon, verktyg, webbadresser och ändringar i känsliga filer har egna inställningar"
+    en: "Terminal commands, tools, URLs and edits to sensitive files have settings of their own"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agents/run/review-code-edits
+  final_url: https://code.visualstudio.com/docs/agents/run/review-code-edits
+  quote: "require a diff and approval for edits to sensitive files"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: T-copilot-settings-on
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "Inställningarna nedan slår på sandboxen och stänger dess nätverk"
+    en: "The settings below turn the sandbox on and close its network"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agents/run/agent-sandboxing
+  final_url: https://code.visualstudio.com/docs/agents/run/agent-sandboxing
+  quote: "It accepts `off` or `on` and defaults to `off`."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: T-copilot-settings-net
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "Inställningarna nedan slår på sandboxen och stänger dess nätverk"
+    en: "The settings below turn the sandbox on and close its network"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agents/run/agent-sandboxing
+  final_url: https://code.visualstudio.com/docs/agents/run/agent-sandboxing
+  quote: "Turning on sandboxing does not block outbound network access by default."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: T-copilot-edits
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "Den sista raden är anpassad från VS Codes eget exempel och frågar innan en ändring i en migrering eller i .env"
+    en: "The last line is adapted from VS Code's own example and asks before an edit to a migration or to .env"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agents/run/review-code-edits
+  final_url: https://code.visualstudio.com/docs/agents/run/review-code-edits
+  quote: "with glob patterns to require a diff and approval for edits to sensitive files"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: T-hooks-claude
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "Alla tre har hooks, men en hook som är skriven för ett verktyg går inte att flytta över oförändrad"
+    en: "All three have hooks, but a hook written for one tool does not carry over unchanged"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/hooks-guide
+  final_url: https://code.claude.com/docs/en/hooks-guide
+  quote: "Claude Code runs them at specific points in its lifecycle"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: T-hooks-codex
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "Alla tre har hooks, men en hook som är skriven för ett verktyg går inte att flytta över oförändrad"
+    en: "All three have hooks, but a hook written for one tool does not carry over unchanged"
+  vendor: OpenAI
+  url: https://learn.chatgpt.com/docs/hooks
+  final_url: https://learn.chatgpt.com/docs/hooks
+  quote: "Hooks are an extensibility framework for Codex."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: T-hooks-vscode
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "Alla tre har hooks, men en hook som är skriven för ett verktyg går inte att flytta över oförändrad"
+    en: "All three have hooks, but a hook written for one tool does not carry over unchanged"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agent-customization/hooks
+  final_url: https://code.visualstudio.com/docs/agent-customization/hooks
+  quote: "Hooks run custom actions at specific points in an agent's lifecycle."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: T-hooks-portable
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "VS Codes sida om hooks säger att namn på händelser och verktyg, argument och felbeteende kan skilja sig åt mellan verktyg"
+    en: "VS Code's page on hooks says that event names, tool names, arguments and error behaviour can differ between tools"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agent-customization/hooks
+  final_url: https://code.visualstudio.com/docs/agent-customization/hooks
+  quote: "Event naming can select a different payload, tool names and arguments can change, and output or error behavior can differ."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: T-hooks-portable-2
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "Alla tre har hooks, men en hook som är skriven för ett verktyg går inte att flytta över oförändrad"
+    en: "All three have hooks, but a hook written for one tool does not carry over unchanged"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agent-customization/hooks
+  final_url: https://code.visualstudio.com/docs/agent-customization/hooks
+  quote: "Sharing a hook file location does not establish runtime compatibility."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: C-gate-test
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "har varje grind ett test som visar att den fallerar när något avsiktligt görs fel"
+    en: "each gate has a test that proves it fails when something is deliberately broken"
+  vendor: Addable Labs
+  url: https://addablelabs.se/blog/how-this-site-was-built-by-agents/
+  final_url: https://addablelabs.se/blog/how-this-site-was-built-by-agents/
+  quote: "Each gate has a test proving that it fails when something is deliberately broken."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: C-probe
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "den kontroll som Anthropics sida föreslår"
+    en: "the check that Anthropic's page suggests"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/sandboxing
+  final_url: https://code.claude.com/docs/en/sandboxing
+  quote: "To check that the sandbox is working, ask Claude to run each line in the table."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: C-probe-error
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "ett fel som \"Operation not permitted\""
+    en: "an error such as \"Operation not permitted\""
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/sandboxing
+  final_url: https://code.claude.com/docs/en/sandboxing
+  quote: "Fails with `Operation not permitted` on macOS"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: C-hook-message
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "Hooken ska blockera det. Agenten får hookens meddelande"
+    en: "The hook should block it, and the agent gets the hook's message"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/hooks-guide
+  final_url: https://code.claude.com/docs/en/hooks-guide
+  quote: "Claude Code blocks the edit before it runs and passes the script's `Blocked:` message to Claude as feedback."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: G-rules-apply
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "Nekande regler för Read och Edit gäller för Claude Codes filverktyg, för omdirigeringar och för de filkommandon det känner igen, som cat och sed"
+    en: "Read and Edit deny rules apply to Claude Code's file tools, to the file commands it recognises, such as cat and sed, and to redirections"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/permissions
+  final_url: https://code.claude.com/docs/en/permissions
+  quote: "Read and Edit deny rules apply to Claude's built-in file tools, to file commands Claude Code recognizes in Bash"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: G-rules-not
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "De gäller inte, med Anthropics ord, för \"godtyckliga underprocesser som läser eller skriver filer indirekt, som ett Python- eller Node-skript som öppnar filer själv\""
+    en: "They do not apply, in Anthropic's words, to \"arbitrary subprocesses that read or write files indirectly, like a Python or Node script that opens files itself\""
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/permissions
+  final_url: https://code.claude.com/docs/en/permissions
+  quote: "arbitrary subprocesses that read or write files indirectly, like a Python or Node script that opens files itself"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: G-sandbox-merge
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "Claude Code lägger till sökvägarna från dina nekande regler i sandboxens egna listor"
+    en: "Claude Code adds the paths from your deny rules to the sandbox's own lists"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/permissions
+  final_url: https://code.claude.com/docs/en/permissions
+  quote: "Paths and domains from both sandbox settings and permission rules are"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: G-guardrail
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "säger att du ska se hooks \"som ett användbart skyddsräcke, inte en fullständig tvingande gräns\""
+    en: "says to treat hooks \"as a useful guardrail, not a complete enforcement boundary\""
+  vendor: OpenAI
+  url: https://learn.chatgpt.com/docs/hooks
+  final_url: https://learn.chatgpt.com/docs/hooks
+  quote: "Treat tool hooks as a useful guardrail, not a complete enforcement boundary."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: G-cause-exec
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "De vanligaste orsakerna är ett skript som inte är körbart, jq som saknas och ett värde i matcher med fel stor eller liten bokstav, eftersom det skiljer på dem"
+    en: "The usual causes are a script that is not executable, jq missing and a matcher in the wrong case, since matchers are case-sensitive"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/hooks-guide
+  final_url: https://code.claude.com/docs/en/hooks-guide
+  quote: "Hook scripts must be executable for Claude Code to run them"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: G-cause-jq
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "De vanligaste orsakerna är ett skript som inte är körbart, jq som saknas och ett värde i matcher med fel stor eller liten bokstav, eftersom det skiljer på dem"
+    en: "The usual causes are a script that is not executable, jq missing and a matcher in the wrong case, since matchers are case-sensitive"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/hooks-guide
+  final_url: https://code.claude.com/docs/en/hooks-guide
+  quote: "If you see \"jq: command not found\""
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: G-cause-case
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "De vanligaste orsakerna är ett skript som inte är körbart, jq som saknas och ett värde i matcher med fel stor eller liten bokstav, eftersom det skiljer på dem"
+    en: "The usual causes are a script that is not executable, jq missing and a matcher in the wrong case, since matchers are case-sensitive"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/hooks-guide
+  final_url: https://code.claude.com/docs/en/hooks-guide
+  quote: "Matchers are case-sensitive"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: G-fail-open
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "På de flesta händelser genomför Claude Code åtgärden ändå när en hook misslyckas eller tar för lång tid"
+    en: "On most events Claude Code still carries out the action when a hook fails or times out"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/hooks
+  final_url: https://code.claude.com/docs/en/hooks
+  quote: "On most events, when a hook fails or times out, Claude Code still carries out the action."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: G-on-failure
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "Lägg till \"onFailure\": \"block\" bredvid \"type\" i hookens post, i version 2.1.295 eller senare, så att ett misslyckande blockerar"
+    en: "Add \"onFailure\": \"block\" next to \"type\" in the hook's entry, in version 2.1.295 or later, to make a failure block"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/hooks
+  final_url: https://code.claude.com/docs/en/hooks
+  quote: "To block the action instead, set `\"onFailure\": \"block\"` on a `command` or `http` hook. Requires Claude Code v2.1.295 or later."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: G-codex-trust-hook
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "Codex hoppar över en hook tills du har granskat den och litar på den med /hooks"
+    en: "Codex skips a hook until you have reviewed and trusted it with /hooks"
+  vendor: OpenAI
+  url: https://learn.chatgpt.com/docs/hooks
+  final_url: https://learn.chatgpt.com/docs/hooks
+  quote: "new or changed hooks are marked for review and skipped until trusted"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: G-ask-allow
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "en tillåtande regel för kommandon du godkänner varje gång, som npm test, eller sandboxen i läget auto-allow, det andra steget ovan"
+    en: "an allow rule for the commands you approve every time, such as npm test, or the sandbox in auto-allow mode, the second step above"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/permissions
+  final_url: https://code.claude.com/docs/en/permissions
+  quote: "Allow rules let Claude Code use the specified tool without manual approval."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: G-ask-sandbox
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "en tillåtande regel för kommandon du godkänner varje gång, som npm test, eller sandboxen i läget auto-allow, det andra steget ovan"
+    en: "an allow rule for the commands you approve every time, such as npm test, or the sandbox in auto-allow mode, the second step above"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/permission-modes
+  final_url: https://code.claude.com/docs/en/permission-modes
+  quote: "Iterate locally with fewer prompts, without a classifier"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: G-default-mode-auto
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "Claude Code ignorerar \"auto\" och \"bypassPermissions\" som defaultMode i ett projekts .claude/settings.json"
+    en: "Claude Code ignores \"auto\" and \"bypassPermissions\" as defaultMode in a project's .claude/settings.json"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/permission-modes
+  final_url: https://code.claude.com/docs/en/permission-modes
+  quote: "If you set `\"auto\"` in `.claude/settings.json` or `.claude/settings.local.json`, the value doesn't take effect"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: G-default-mode-bypass
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "Claude Code ignorerar \"auto\" och \"bypassPermissions\" som defaultMode i ett projekts .claude/settings.json"
+    en: "Claude Code ignores \"auto\" and \"bypassPermissions\" as defaultMode in a project's .claude/settings.json"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/permission-modes
+  final_url: https://code.claude.com/docs/en/permission-modes
+  quote: "If you set `\"bypassPermissions\"` in those two files, it doesn't take effect either"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: G-trust-allow
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "Ett projekts tillåtande regler väntar tills du har sagt ja i dialogen om att lita på mappen"
+    en: "A project's allow rules wait until you accept the trust dialog for the folder"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/permissions
+  final_url: https://code.claude.com/docs/en/permissions
+  quote: "so Claude Code applies them only after you accept the"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: G-worktree
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "I VS Code använder en session som startats i en worktree, en separat arbetskopia av projektet, alltid Allow all, vad standardvalet än säger"
+    en: "In VS Code, a session started in a worktree, a separate working copy of the project, always uses Allow all, whatever the default says"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agents/run/approvals
+  final_url: https://code.visualstudio.com/docs/agents/run/approvals
+  quote: "Worktree sessions always use"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: G-untrusted
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "I Codex kan den avvecklade policyn untrusted för godkännanden hindra appen från att starta"
+    en: "In Codex, the retired approval policy untrusted can stop the app from starting"
+  vendor: OpenAI
+  url: https://learn.chatgpt.com/docs/agent-approvals-security
+  final_url: https://learn.chatgpt.com/docs/agent-approvals-security
+  quote: "The retired setting can prevent either client from starting."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: G-status-cc
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "/permissions i Claude Code listar reglerna och vilken fil var och en kommer från. /status i Codex listar mapparna som räknas som arbetsyta"
+    en: "/permissions in Claude Code lists the rules and where each comes from, and /status in Codex lists the folders that count as the workspace"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/permissions
+  final_url: https://code.claude.com/docs/en/permissions
+  quote: "The dialog lists all permission rules and the `settings.json` file each rule comes from."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: G-status-cx
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "/permissions i Claude Code listar reglerna och vilken fil var och en kommer från. /status i Codex listar mapparna som räknas som arbetsyta"
+    en: "/permissions in Claude Code lists the rules and where each comes from, and /status in Codex lists the folders that count as the workspace"
+  vendor: OpenAI
+  url: https://learn.chatgpt.com/docs/agent-approvals-security
+  final_url: https://learn.chatgpt.com/docs/agent-approvals-security
+  quote: "Use the `/status` command to see which directories are in the workspace"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: G-sandbox-unavailable
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "Claude Code kör kommandon utan sandbox om ett paket den behöver saknas eller plattformen inte stöds, som i Windows utan WSL2, om inte sandbox.failIfUnavailable är true"
+    en: "Claude Code runs commands without the sandbox if a package it needs is missing or the platform is unsupported, as on native Windows, unless sandbox.failIfUnavailable is true"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/sandboxing
+  final_url: https://code.claude.com/docs/en/sandboxing
+  quote: "By default, if the sandbox can't start because a dependency is missing or the platform is unsupported, Claude Code runs commands without sandboxing."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: G-sandbox-windows
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "Claude Code kör kommandon utan sandbox om ett paket den behöver saknas eller plattformen inte stöds, som i Windows utan WSL2, om inte sandbox.failIfUnavailable är true"
+    en: "Claude Code runs commands without the sandbox if a package it needs is missing or the platform is unsupported, as on native Windows, unless sandbox.failIfUnavailable is true"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/sandboxing
+  final_url: https://code.claude.com/docs/en/sandboxing
+  quote: "On native Windows, Claude Code runs commands unsandboxed."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: G-sandbox-fail-if
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "Claude Code kör kommandon utan sandbox om ett paket den behöver saknas eller plattformen inte stöds, som i Windows utan WSL2, om inte sandbox.failIfUnavailable är true"
+    en: "Claude Code runs commands without the sandbox if a package it needs is missing or the platform is unsupported, as on native Windows, unless sandbox.failIfUnavailable is true"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/sandboxing
+  final_url: https://code.claude.com/docs/en/sandboxing
+  quote: "To make Claude Code exit at startup instead, set"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: G-proxy
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "Claude Codes sida säger att vanlig ssh och de flesta databasdrivrutiner inte kan ansluta, inte ens till en tillåten värd"
+    en: "Claude Code's page says that plain ssh and most database drivers cannot connect, even to an allowed host"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/sandboxing
+  final_url: https://code.claude.com/docs/en/sandboxing
+  quote: "plain `ssh`, most database drivers, and similar tools can't connect, even to an allowed host"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: G-retry
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "Att köra just det kommandot utanför sandboxen tar bort skyddet för det"
+    en: "Running that one command outside the sandbox removes the protection for it"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/sandboxing
+  final_url: https://code.claude.com/docs/en/sandboxing
+  quote: "The unsandboxed retry is an escape hatch for commands that fail inside the sandbox"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: G-no-retry
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "sätt allowUnsandboxedCommands till false så att den enda vägen ut är inställningsfilen"
+    en: "set allowUnsandboxedCommands to false so that the only way out is the settings file"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/sandboxing
+  final_url: https://code.claude.com/docs/en/sandboxing
+  quote: "this command starts a sandboxed session in which Claude can't retry a blocked command outside the sandbox"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: H-managed-claude
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "Inställningar som ett team eller ett företag kan tvinga fram och som användare inte kan åsidosätta"
+    en: "Settings that a team or a company can force and that users cannot override"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/permissions
+  final_url: https://code.claude.com/docs/en/permissions
+  quote: "managed settings that user and project settings can't override"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: H-managed-codex
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "Inställningar som ett team eller ett företag kan tvinga fram och som användare inte kan åsidosätta"
+    en: "Settings that a team or a company can force and that users cannot override"
+  vendor: OpenAI
+  url: https://learn.chatgpt.com/docs/enterprise/managed-configuration
+  final_url: https://learn.chatgpt.com/docs/enterprise/managed-configuration
+  quote: "admin-enforced constraints that users can't override"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: H-managed-vscode
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "Inställningar som ett team eller ett företag kan tvinga fram och som användare inte kan åsidosätta"
+    en: "Settings that a team or a company can force and that users cannot override"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/enterprise/manage-ai-settings
+  final_url: https://code.visualstudio.com/docs/enterprise/manage-ai-settings
+  quote: "Organizations can govern AI features in VS Code through three management solutions"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: H-restricted
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "VS Code stänger av agenter i en arbetsyta som öppnats i begränsat läge (restricted mode)"
+    en: "VS Code turns agents off in a workspace opened in restricted mode"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/editing/workspaces/workspace-trust
+  final_url: https://code.visualstudio.com/docs/editing/workspaces/workspace-trust
+  quote: "Opening a workspace in restricted mode disables agents in that workspace."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: H-codex-readonly
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "Codex startar med enbart läsning tills du litar på mappen"
+    en: "Codex starts read-only until you trust the folder"
+  vendor: OpenAI
+  url: https://learn.chatgpt.com/docs/agent-approvals-security
+  final_url: https://learn.chatgpt.com/docs/agent-approvals-security
+  quote: "Codex may also start in `read-only` until you explicitly trust the working directory"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: H-claude-asks
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "Claude Code frågar först"
+    en: "Claude Code asks first"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/security
+  final_url: https://code.claude.com/docs/en/security
+  quote: "In an interactive session, Claude Code shows the workspace trust dialog when you start it in a folder you haven't trusted"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: H-containers
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "vilket är dit Anthropic säger att bypass-läget hör hemma"
+    en: "which is where Anthropic says the bypass mode belongs"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/permissions
+  final_url: https://code.claude.com/docs/en/permissions
+  quote: "Only use this mode in isolated environments like containers or VMs where Claude Code can't cause damage."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: H-profiles
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "Codex behörighetsprofiler (permission profiles)"
+    en: "Codex's permission profiles"
+  vendor: OpenAI
+  url: https://learn.chatgpt.com/docs/permissions
+  final_url: https://learn.chatgpt.com/docs/permissions
+  quote: "Permission profiles do not compose with the older sandbox settings."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: H-classifier-config
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "inställningarna för Claude Codes klassificerare"
+    en: "the settings for Claude Code's classifier"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/auto-mode-config
+  final_url: https://code.claude.com/docs/en/auto-mode-config
+  quote: "Use the `autoMode` settings block to tell that classifier which repos, buckets, and domains your organization trusts"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: H-rewrite
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "Vad hooks kan göra utöver att blockera, till exempel skriva om ett anrop"
+    en: "What hooks can do beyond blocking, such as rewriting a call"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/hooks
+  final_url: https://code.claude.com/docs/en/hooks
+  quote: "Modifies the tool's input parameters before execution."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+- id: S-openai-best
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "OpenAIs best practices rekommenderar det för den som är ny med kodagenter: håll godkännanden och sandbox stramt och lätta sedan på behörigheterna \"bara för betrodda repositories eller särskilda arbetsflöden när behovet är tydligt\""
+    en: "OpenAI's best practices advise it for anyone new to coding agents: keep approval and sandboxing tight, then loosen permissions \"only for trusted repos or specific workflows once the need is clear\""
+  vendor: OpenAI
+  url: https://learn.chatgpt.com/docs/learn/best-practices
+  final_url: https://learn.chatgpt.com/docs/learn/best-practices
+  quote: "If you're new to coding agents, start with the default permissions. Keep approval and sandboxing tight by default, then loosen permissions only for trusted repos or specific workflows once the need is clear."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31

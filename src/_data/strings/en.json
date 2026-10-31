@@ -1312,6 +1312,36 @@
       "ifNoClaude": "if no CLAUDE.md",
       "inVsCode": "in VS Code",
       "caption": "Which tool reads which file in a project's folders, as their documentation stood on 30 October 2026. The closest file has the last word."
+    },
+    "limits-path": {
+      "title": "The instruction file reaches the agent only. From the top, a command meets a hook first, then the permission rules and mode, which may ask you, and last the sandbox, which wraps the command itself. Below, three things run outside the sandbox: the agent's file tools, MCP servers and hooks.",
+      "head": "One command, the checks it meets",
+      "instruction": {
+        "label": "Instruction file",
+        "note": "only asks the agent"
+      },
+      "agent": {
+        "label": "The agent",
+        "note": "wants to act"
+      },
+      "hook": {
+        "label": "Hook",
+        "note": "your own script can say no"
+      },
+      "permissions": {
+        "label": "Permission rules and mode",
+        "note": "deny, ask or allow; may ask you"
+      },
+      "sandbox": "Sandbox: limits files and network",
+      "command": {
+        "label": "The command runs",
+        "note": "only where the sandbox allows"
+      },
+      "outside": "Runs outside the sandbox:",
+      "fileTools": "File tools",
+      "mcp": "MCP servers",
+      "hooks": "Hooks",
+      "caption": "The checks one command meets in Claude Code, in the order its documentation gives them on 30 October 2026. The sandbox covers commands in the terminal. The agent's file tools, MCP servers and hooks run outside it."
     }
   },
   "games": {

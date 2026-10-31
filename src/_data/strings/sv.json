@@ -1312,6 +1312,36 @@
       "ifNoClaude": "om CLAUDE.md saknas",
       "inVsCode": "i VS Code",
       "caption": "Vilket verktyg som läser vilken fil i ett projekts mappar, så som dokumentationen såg ut den 30 oktober 2026. Den närmaste filen har sista ordet."
+    },
+    "limits-path": {
+      "title": "Instruktionsfilen når bara agenten. Uppifrån och ned möter ett kommando först en hook, sedan behörighetsreglerna och läget – som kan fråga dig – och sist sandboxen, som omger själva kommandot. Längre ned finns tre saker som körs utanför sandboxen: agentens filverktyg, MCP-servrar och hooks.",
+      "head": "Ett kommando och kontrollerna",
+      "instruction": {
+        "label": "Instruktionsfil",
+        "note": "ber bara agenten"
+      },
+      "agent": {
+        "label": "Agenten",
+        "note": "vill göra något"
+      },
+      "hook": {
+        "label": "Hook",
+        "note": "ditt eget skript kan säga nej"
+      },
+      "permissions": {
+        "label": "Behörighetsregler och läge",
+        "note": "neka, fråga eller tillåta; kan fråga dig"
+      },
+      "sandbox": "Sandbox: begränsar filer och nätverk",
+      "command": {
+        "label": "Kommandot körs",
+        "note": "bara där sandboxen tillåter"
+      },
+      "outside": "Körs utanför sandboxen:",
+      "fileTools": "Filverktyg",
+      "mcp": "MCP-servrar",
+      "hooks": "Hooks",
+      "caption": "Kontrollerna som ett kommando möter i Claude Code, i den ordning dokumentationen anger dem den 30 oktober 2026. Sandboxen täcker kommandon i terminalen. Agentens filverktyg, MCP-servrar och hooks körs utanför den."
     }
   },
   "games": {

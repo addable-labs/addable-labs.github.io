@@ -2031,7 +2031,39 @@ function fourThings(t, id, figureId) {
   return { caption: t.caption, panels: [{ title: t.title, head: t.head, height: 320, body }] };
 }
 
-export const FIGURES = { stages, gates, loop, assessment, team, harness, ledger, timeline, setup, build, words, bilingual, gauntlet, agents, critic, fleet, sources, merges, logos, connection, lifecycle, price, lock, "waiting-per-day": waitingPerDay, "chat-or-agent": chatOrAgent, "five-parts": fiveParts, "four-things": fourThings, "file-before-after": fileBeforeAfter, "which-tool-reads-what": whichToolReadsWhat, "file-hierarchy": fileHierarchy };
+// (29) The checks one command meets in Claude Code — one panel: the
+// instruction file only asks the agent (top row); under the agent the path of
+// one command: the hook, the permission rules and mode (orange: they may ask
+// you), then the command inside the dashed sandbox box; below that, what runs
+// outside the sandbox. The order is the one Claude Code's documentation gives
+// on 30 October 2026 (PreToolUse hooks fire before any permission check).
+function limitsPath(t, id, figureId) {
+  const pid = `${figureId}-p1`;
+  const tag = (x, key) => [
+    `<rect x="${x}" y="332" width="92" height="26" rx="6" class="fig-node"/>`,
+    text(x + 46, 349.5, fit(`${id}.${key}`, t[key], 84, "small"), "fig-label fig-small", "middle"),
+  ].join("");
+  const body = [
+    card(16, 52, 136, `${id}.instruction`, t.instruction),
+    card(184, 52, 120, `${id}.agent`, t.agent, "ok"),
+    arrow(pid, 152, 72, 182, 72),
+    arrow(pid, 244, 94, 244, 112),
+    card(16, 114, 288, `${id}.hook`, t.hook),
+    arrow(pid, 160, 154, 160, 166),
+    card(16, 168, 288, `${id}.permissions`, t.permissions, "wait"),
+    arrow(pid, 160, 208, 160, 220),
+    `<rect x="12" y="222" width="296" height="74" rx="10" class="fig-accent-stroke fig-dashed"/>`,
+    text(24, 238, fit(`${id}.sandbox`, t.sandbox, 272), "fig-note fig-ok fig-strong"),
+    card(24, 246, 272, `${id}.command`, t.command),
+    text(16, 322, fit(`${id}.outside`, t.outside, 288), "fig-note fig-strong"),
+    tag(16, "fileTools"),
+    tag(114, "mcp"),
+    tag(212, "hooks"),
+  ].join("");
+  return { caption: t.caption, panels: [{ title: t.title, head: t.head, height: 374, body }] };
+}
+
+export const FIGURES = { stages, gates, loop, assessment, team, harness, ledger, timeline, setup, build, words, bilingual, gauntlet, agents, critic, fleet, sources, merges, logos, connection, lifecycle, price, lock, "waiting-per-day": waitingPerDay, "chat-or-agent": chatOrAgent, "five-parts": fiveParts, "four-things": fourThings, "file-before-after": fileBeforeAfter, "which-tool-reads-what": whichToolReadsWhat, "file-hierarchy": fileHierarchy, "limits-path": limitsPath };
 
 /**
  * Render one figure as HTML: `<figure class="figure figure-inline|figure-wide">`
