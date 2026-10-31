@@ -2031,7 +2031,26 @@ function fourThings(t, id, figureId) {
   return { caption: t.caption, panels: [{ title: t.title, head: t.head, height: 320, body }] };
 }
 
-export const FIGURES = { stages, gates, loop, assessment, team, harness, ledger, timeline, setup, build, words, bilingual, gauntlet, agents, critic, fleet, sources, merges, logos, connection, lifecycle, price, lock, "waiting-per-day": waitingPerDay, "chat-or-agent": chatOrAgent, "five-parts": fiveParts, "four-things": fourThings, "file-before-after": fileBeforeAfter, "which-tool-reads-what": whichToolReadsWhat, "file-hierarchy": fileHierarchy };
+// (29) What a Claude Code cloud session starts from — one panel: the files
+// that are only on the computer stay behind (left, plain), the files that are
+// committed to the repository go along (right, green) to the cloud run.
+function whatGoesAlong(t, id, figureId) {
+  const pid = `${figureId}-p1`;
+  const home = ["homeInstruction", "homeSkills", "homeMcp", "homeSignIn"];
+  const repo = ["repoInstruction", "repoSkills", "repoMcp"];
+  const body = [
+    text(16, 58, fit(`${id}.computer`, t.computer, 136), "fig-note fig-strong"),
+    text(168, 58, fit(`${id}.repo`, t.repo, 136), "fig-note fig-ok fig-strong"),
+    ...home.map((key, i) => card(16, 68 + i * 44, 136, `${id}.${key}`, t[key])),
+    ...repo.map((key, i) => card(168, 68 + i * 44, 136, `${id}.${key}`, t[key], "ok")),
+    arrow(pid, 236, 200, 236, 262),
+    card(168, 264, 136, `${id}.run`, t.run, "ok"),
+    text(84, 288, fit(`${id}.staysBehind`, t.staysBehind, 136), "fig-note", "middle"),
+  ].join("");
+  return { caption: t.caption, panels: [{ title: t.title, head: t.head, height: 322, body }] };
+}
+
+export const FIGURES = { stages, gates, loop, assessment, team, harness, ledger, timeline, setup, build, words, bilingual, gauntlet, agents, critic, fleet, sources, merges, logos, connection, lifecycle, price, lock, "waiting-per-day": waitingPerDay, "chat-or-agent": chatOrAgent, "five-parts": fiveParts, "four-things": fourThings, "file-before-after": fileBeforeAfter, "which-tool-reads-what": whichToolReadsWhat, "file-hierarchy": fileHierarchy, "what-goes-along": whatGoesAlong };
 
 /**
  * Render one figure as HTML: `<figure class="figure figure-inline|figure-wide">`

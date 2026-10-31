@@ -1312,6 +1312,46 @@
       "ifNoClaude": "if no CLAUDE.md",
       "inVsCode": "in VS Code",
       "caption": "Which tool reads which file in a project's folders, as their documentation stood on 30 October 2026. The closest file has the last word."
+    },
+    "what-goes-along": {
+      "title": "Two columns. The right one, in green, holds what is committed to the repository: the instruction file CLAUDE.md, the skills folder and the project's .mcp.json. An arrow leads from it to a cloud run. The left one holds what is only on your computer: the instruction file in your home folder, the skills in your home folder, MCP servers added only for you and sign-ins like AWS SSO. No arrow leads from it.",
+      "head": "What a cloud run starts from",
+      "computer": "Only on your computer",
+      "repo": "In the repository",
+      "homeInstruction": {
+        "label": "Instruction file",
+        "note": "~/.claude/CLAUDE.md"
+      },
+      "homeSkills": {
+        "label": "Skills",
+        "note": "~/.claude/skills"
+      },
+      "homeMcp": {
+        "label": "MCP servers",
+        "note": "added only for you"
+      },
+      "homeSignIn": {
+        "label": "Sign-ins",
+        "note": "like AWS SSO"
+      },
+      "repoInstruction": {
+        "label": "Instruction file",
+        "note": "CLAUDE.md"
+      },
+      "repoSkills": {
+        "label": "Skills",
+        "note": ".claude/skills"
+      },
+      "repoMcp": {
+        "label": "MCP file",
+        "note": ".mcp.json"
+      },
+      "run": {
+        "label": "A cloud run",
+        "note": "starts from a copy"
+      },
+      "staysBehind": "stays behind",
+      "caption": "What a Claude Code cloud session starts from, as its documentation listed it on 30 October 2026: what is committed goes along, what is only on your computer stays behind."
     }
   },
   "games": {

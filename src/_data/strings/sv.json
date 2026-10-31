@@ -1312,6 +1312,46 @@
       "ifNoClaude": "om CLAUDE.md saknas",
       "inVsCode": "i VS Code",
       "caption": "Vilket verktyg som läser vilken fil i ett projekts mappar, så som dokumentationen såg ut den 30 oktober 2026. Den närmaste filen har sista ordet."
+    },
+    "what-goes-along": {
+      "title": "Två kolumner. Den högra, i grönt, rymmer det som är incheckat i repositoryt: instruktionsfilen CLAUDE.md, mappen med skills och projektets .mcp.json. En pil leder från den till en körning i molnet. Den vänstra rymmer det som bara finns på din dator: instruktionsfilen i din hemmapp, skills i din hemmapp, MCP-servrar som bara du har lagt till och inloggningar som AWS SSO. Ingen pil leder från den.",
+      "head": "Det en molnkörning utgår från",
+      "computer": "Bara på din dator",
+      "repo": "I repositoryt",
+      "homeInstruction": {
+        "label": "Instruktionsfil",
+        "note": "~/.claude/CLAUDE.md"
+      },
+      "homeSkills": {
+        "label": "Skills",
+        "note": "~/.claude/skills"
+      },
+      "homeMcp": {
+        "label": "MCP-servrar",
+        "note": "bara för dig"
+      },
+      "homeSignIn": {
+        "label": "Inloggningar",
+        "note": "som AWS SSO"
+      },
+      "repoInstruction": {
+        "label": "Instruktionsfil",
+        "note": "CLAUDE.md"
+      },
+      "repoSkills": {
+        "label": "Skills",
+        "note": ".claude/skills"
+      },
+      "repoMcp": {
+        "label": "MCP-fil",
+        "note": ".mcp.json"
+      },
+      "run": {
+        "label": "En molnkörning",
+        "note": "utgår från en kopia"
+      },
+      "staysBehind": "blir kvar",
+      "caption": "Det en molnsession i Claude Code utgår från, så som dokumentationen listade det den 30 oktober 2026: det som är incheckat följer med, det som bara finns på din dator blir kvar."
     }
   },
   "games": {
