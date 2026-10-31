@@ -2,7 +2,7 @@
 title: Sätt gränserna i förväg
 description: Sjunde delen i serien "Från AI-chatt till agentiskt arbete" – skillnaden mellan att be en AI-agent uppföra sig och att stoppa den, de tre sorters gränser ett verktyg erbjuder, var varje verktyg börjar, vad du gör när en gräns släpper igenom något och vad du gör först.
 image: cover.png                 # en PNG på 1200 × 630 i artikelns mediemapp
-imageAlt: En AI-agent, en grön cirkel, står vid ingången till ett projekt och läser en kort lapp på en stolpe innan den går in. Bakom dörröppningen ligger projektets mappar och filer.
+imageAlt: En AI-agent, en grön cirkel, rör sig längs en prickad stig förbi en liten grå lapp på en stolpe. Lappen är en begäran och stoppar inte agenten. Till höger står en stängd grind i grön kontur, med ett hänglås, tvärs över stigen. Grinden är en gräns, och stigen tar slut vid den.
 date: 2026-10-30
 category: ai-journey             # app-development | ai-journey
 translationKey: set-the-limits-in-advance

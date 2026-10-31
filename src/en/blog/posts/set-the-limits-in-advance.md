@@ -2,7 +2,7 @@
 title: Set the limits in advance
 description: The seventh part of the series "From AI chat to agentic work" — the difference between asking an AI agent to behave and stopping it, the three kinds of limit a tool offers, where each tool starts, what to do when a limit lets something through and what to do first.
 image: cover.png                 # a 1200 × 630 PNG in the article's media directory
-imageAlt: An AI agent, a green circle, stands at the entrance of a project and reads a short note card on a post before it steps in. Behind the doorway lie the project's folders and files.
+imageAlt: An AI agent, a green circle, moves along a dotted path past a small grey note card on a post. The note is a request, and it does not stop the agent. To its right a closed gate in green outline, with a padlock, stands across the path. The gate is a limit, and the path ends at it.
 date: 2026-10-30
 category: ai-journey             # app-development | ai-journey
 translationKey: set-the-limits-in-advance

@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <!-- The image of "Set the limits in advance" (si-iugh, 31 October 2026), in
+       the style and palette of parts 1 and 2: a request against a limit.
+       Part 1's motif, a green circle with a halo, stands left of the middle.
+       Behind it a small note card on a post, dim grey: the request, which
+       the dotted path simply passes. In front of it, at the right, a closed
+       gate in green outline with a padlock across the path: the limit,
+       where the path ends. A note asks, a gate stops. The subject sits
+       inside the central 630 x 630 square; nothing that matters is within
+       40 px of an edge. -->
+  <defs>
+    <pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse" y="15">
+      <path d="M0 .5H30M.5 0V30" fill="none" stroke="#242C33"/>
+    </pattern>
+    <radialGradient id="fade" cx="600" cy="315" r="640" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff" stop-opacity=".95"/>
+      <stop offset=".6" stop-color="#fff" stop-opacity=".55"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </radialGradient>
+    <mask id="gridmask"><rect width="1200" height="630" fill="url(#fade)"/></mask>
+    <radialGradient id="glow" cx="600" cy="315" r="340" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#83F35D" stop-opacity=".09"/>
+      <stop offset="1" stop-color="#83F35D" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glow-gate" cx="822" cy="318" r="210" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#83F35D" stop-opacity=".18"/>
+      <stop offset="1" stop-color="#83F35D" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="trail" x1="300" y1="0" x2="580" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#626E79" stop-opacity=".55"/>
+      <stop offset="1" stop-color="#626E79" stop-opacity="1"/>
+    </linearGradient>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#626E79"/>
+    </marker>
+  </defs>
+
+  <rect width="1200" height="630" fill="#0B0E10"/>
+  <rect width="1200" height="630" fill="url(#grid)" mask="url(#gridmask)"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+  <rect width="1200" height="630" fill="url(#glow-gate)"/>
+
+  <!-- The floor. -->
+  <path d="M290 446H910" stroke="#626E79" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- The path: dim where it passes the note, it runs on to the gate and
+       stops there. -->
+  <path d="M306 420C420 432 640 432 746 410" fill="none" stroke="url(#trail)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="2 9" marker-end="url(#arrow)"/>
+
+  <!-- The request, left: a small note card on a post, in dim grey. -->
+  <path d="M352 362V446" stroke="#626E79" stroke-width="3" stroke-linecap="round"/>
+  <path d="M330 446H374" stroke="#626E79" stroke-width="3" stroke-linecap="round"/>
+  <rect x="304" y="246" width="96" height="116" rx="12" fill="#13181C" stroke="#A6B0BA" stroke-width="3"/>
+  <circle cx="352" cy="246" r="5" fill="#A6B0BA"/>
+  <rect x="322" y="272" width="46" height="11" rx="5.5" fill="#A6B0BA"/>
+  <g fill="#ECEFF1" fill-opacity=".6">
+    <rect x="322" y="296" width="62" height="9" rx="4.5"/>
+    <rect x="322" y="316" width="48" height="9" rx="4.5"/>
+    <rect x="322" y="336" width="56" height="9" rx="4.5"/>
+  </g>
+
+  <!-- The agent, left of the middle: part 1's green circle and its halo. -->
+  <circle cx="540" cy="350" r="30" fill="#83F35D"/>
+  <circle cx="540" cy="350" r="46" fill="none" stroke="#83F35D" stroke-opacity=".35" stroke-width="3"/>
+  <ellipse cx="540" cy="446" rx="30" ry="5" fill="#626E79" fill-opacity=".45"/>
+
+  <!-- The limit, right: a closed gate between two posts, in green outline,
+       with a padlock. -->
+  <rect x="778" y="226" width="88" height="184" fill="#13181C"/>
+  <path d="M800 226V410M822 226V410M844 226V410" stroke="#83F35D" stroke-opacity=".45" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M778 226H866M778 410H866" stroke="#83F35D" stroke-width="3" stroke-linecap="round"/>
+  <g fill="#1A2126" stroke="#83F35D" stroke-width="3" stroke-linejoin="round">
+    <rect x="762" y="186" width="16" height="260" rx="6"/>
+    <rect x="866" y="186" width="16" height="260" rx="6"/>
+  </g>
+  <rect x="794" y="290" width="56" height="56" rx="12" fill="#13181C" stroke="#83F35D" stroke-width="3"/>
+  <path d="M814 318v-6a8 8 0 0 1 16 0v6" fill="none" stroke="#83F35D" stroke-width="3.5" stroke-linecap="round"/>
+  <rect x="808" y="318" width="28" height="20" rx="5" fill="#83F35D"/>
+  <circle cx="822" cy="326" r="3" fill="#13181C"/>
+  <path d="M822 328V332" stroke="#13181C" stroke-width="2.5" stroke-linecap="round"/>
+</svg>
