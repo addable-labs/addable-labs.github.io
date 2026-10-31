@@ -61,7 +61,7 @@ servers need to know who you are, and GitHub's server asks for a personal access
 token that you make in GitHub's settings. The agent can also run `gh` in the
 terminal, or call GitHub's API itself.
 
-{% figure "mcp-server" %}
+{% figure "mcp-server", "wide" %}
 
 The
 [MCP documentation](https://modelcontextprotocol.io/docs/2026-07-28/learn/server-concepts)
@@ -108,7 +108,7 @@ The developer connects GitHub's own MCP server to a practice repository: a
 private one with three made-up issues. The agent should only be able to read the
 issues. Two limits, both active at once, make sure of it.
 
-{% figure "read-only-limits" %}
+{% figure "read-only-limits", "wide" %}
 
 The first limit is on the MCP server. GitHub's server has a
 [read-only mode](https://github.com/github/github-mcp-server/blob/main/docs/server-configuration.md)

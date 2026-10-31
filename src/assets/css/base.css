@@ -1848,6 +1848,43 @@ html:not(.js) .theme-toggle {
   text-wrap: balance;
 }
 
+/* A drawing in two views (si-05r9): the panel row of a wide figure holds a
+   flow panel, FLOW_WIDTH (800) units wide and drawn left to right with the
+   agent app on one side and the system on the other, and the stacked
+   320-unit panel the figure had before. Three lanes side by side do not fit
+   320 units at the type's size, and a panel never shrinks its type, so below
+   64rem the stacked view is shown, as wide as any panel (24.5rem at most),
+   and from 64rem the flow view, at most 800 x 1.1 / 16 = 55rem, so a 13-unit
+   label is at most 14.3 px. The other view is display: none: a screen reader
+   meets one drawing, and the layout gate measures the one shown (FLOW_WIDTH
+   and FLOW_SCALE in figures.mjs; tests/figures.test.mjs holds the two). */
+.figure-panels-views {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.figure-panels-views .figure-panel {
+  justify-self: center;
+}
+
+.figure-panel-stack {
+  max-width: 24.5rem;
+}
+
+.figure-panel-flow {
+  display: none;
+  max-width: 55rem;
+}
+
+@media (min-width: 64rem) {
+  .figure-panel-stack {
+    display: none;
+  }
+
+  .figure-panel-flow {
+    display: block;
+  }
+}
+
 .figure-inline {
   max-width: var(--measure);
 }
