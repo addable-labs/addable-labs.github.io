@@ -60,7 +60,7 @@ HTTP på en webbadress. Många fjärrservrar behöver veta vem du är. GitHubs s
 begär en personal access token som du skapar i GitHubs inställningar. Agenten
 kan också köra `gh` i terminalen, eller anropa GitHubs API själv.
 
-{% figure "mcp-server" %}
+{% figure "mcp-server", "wide" %}
 
 [MCP-dokumentationen](https://modelcontextprotocol.io/docs/2026-07-28/learn/server-concepts)
 nämner tre sorters saker som en server erbjuder. Den som spelar roll här är
@@ -107,7 +107,7 @@ Utvecklaren kopplar in GitHubs egen MCP-server mot ett övningsrepo: ett privat
 repo med tre påhittade ärenden. Agenten ska bara kunna läsa ärendena. Två
 gränser som gäller samtidigt ser till det.
 
-{% figure "read-only-limits" %}
+{% figure "read-only-limits", "wide" %}
 
 Den första gränsen sitter på MCP-servern. GitHubs server har ett
 [read-only mode](https://github.com/github/github-mcp-server/blob/main/docs/server-configuration.md)

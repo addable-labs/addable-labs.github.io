@@ -116,8 +116,10 @@ function measureArticle() {
   const figures = children
     .filter((el) => el.classList.contains("figure"))
     .map((el) => {
-      // Each panel's render scale: its box width over its viewBox width.
-      const scales = [...el.querySelectorAll("svg[viewBox]")].map((svg) => box(svg).width / svg.viewBox.baseVal.width);
+      // Each panel's render scale: its box width over its viewBox width. A
+      // figure with two views (flow from 64rem, stacked below; base.css) has
+      // one of them display: none, with no box: only the panels shown count.
+      const scales = [...el.querySelectorAll("svg[viewBox]")].filter((svg) => box(svg).width > 0).map((svg) => box(svg).width / svg.viewBox.baseVal.width);
       return {
         id: el.id,
         placement: el.classList.contains("figure-wide") ? "wide" : "inline",

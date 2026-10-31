@@ -29,6 +29,13 @@
 // figures are schematic — no real people, scores or screenshots.
 
 const WIDTH = 320;
+// The landscape view of a flow figure (si-05r9): a left-to-right drawing on a
+// viewBox this wide, shown from 64rem. base.css gives it at most FLOW_WIDTH ×
+// FLOW_SCALE / 16 rem, so its type never grows past FLOW_SCALE × its size;
+// below 64rem its place is taken by the stacked drawing, which is a normal
+// 320-unit panel. A test holds the two numbers and the CSS together.
+export const FLOW_WIDTH = 800;
+export const FLOW_SCALE = 1.1;
 // The four type sizes the figures' text is set in, as base.css sets them
 // (.fig-label, .fig-small, .fig-note, .fig-head): the size in units and the
 // letter-spacing in em. A change to one there is a change here, or the
@@ -137,20 +144,22 @@ function radar(cx, cy, r, count, series, rings = 3) {
  * to the right one, budgeted together as one line (MEASURED_LINES above), so
  * neither runs into the other or past a margin.
  */
-function panel({ id, captionId, height, title, head, headRight, body }) {
+function panel({ id, captionId, height, width = WIDTH, view, title, head, headRight, body }) {
   const H = height;
   const line = headRight ? `${head} ${headRight.value}` : head;
+  // The head is budgeted for the narrow panel even in the landscape view: the
+  // two views of a figure share one head, and the narrow one is the tighter.
   if (!MEASURED_LINES.includes(line)) fit(`${id}.head`, line, WIDTH - 32, "head");
   const parts = [
-    `<svg class="figure-panel" viewBox="0 0 ${WIDTH} ${H}" role="img" aria-labelledby="${id}-title ${captionId}">`,
+    `<svg class="figure-panel${view ? ` figure-panel-${view}` : ""}" viewBox="0 0 ${width} ${H}" role="img" aria-labelledby="${id}-title ${captionId}">`,
     `<title id="${id}-title">${esc(title)}</title>`,
     `<defs><pattern id="${id}-grid" width="24" height="24" patternUnits="userSpaceOnUse"><path d="M24 0H0v24" class="fig-grid"/></pattern>`,
     `<marker id="${id}-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0 0l8 4-8 4z" class="fig-arrowhead"/></marker></defs>`,
-    `<rect width="${WIDTH}" height="${H}" fill="url(#${id}-grid)"/>`,
+    `<rect width="${width}" height="${H}" fill="url(#${id}-grid)"/>`,
     text(16, 25, head, "fig-head"),
   ];
-  if (headRight) parts.push(text(WIDTH - 16, 25, headRight.value, `fig-head ${headRight.cls}`, "end"));
-  parts.push(`<line x1="0" y1="38" x2="${WIDTH}" y2="38" class="fig-hair"/>`, body, "</svg>");
+  if (headRight) parts.push(text(width - 16, 25, headRight.value, `fig-head ${headRight.cls}`, "end"));
+  parts.push(`<line x1="0" y1="38" x2="${width}" y2="38" class="fig-hair"/>`, body, "</svg>");
   return parts.join("");
 }
 
@@ -2031,21 +2040,106 @@ function fourThings(t, id, figureId) {
   return { caption: t.caption, panels: [{ title: t.title, head: t.head, height: 320, body }] };
 }
 
-// (30) Three ways to reach a system — one panel, for developers (si-th27,
-// widened by si-uutd after the founder's note of 31 October 2026): the agent
-// app at the top, GitHub's API at the bottom, and between them the three
-// routes the article names, one under the other and all ending in the same
-// API. Through an MCP server (the green frame, as it is the article's
-// subject): local over stdio or remote over HTTP, and the tools it offers,
-// each with a word for what it does (reads, changes), so the two read-only
-// limits of the next figure have something to stop. Through the CLI: the agent
-// app runs the system's command-line tool, gh, in the terminal. Directly: no
-// program in between, only a line, as the agent app calls the API itself with
-// an HTTP request and a token. A line down the left edge leaves the agent app
-// to each route, and a line down the right edge takes the three to the API.
-// The tool names are plain words, not GitHub's own.
+// (30) Three ways to reach a system — for developers (si-th27; the three
+// routes by si-uutd after the founder's note of 31 October 2026; left to right
+// by si-05r9 after his second note that day, "a system overview, not an
+// architecture diagram"). The agent app on one side, GitHub's API on the other
+// and between them the three routes the article names, one lane each, all
+// ending in the same API. Through an MCP server (the green frame, as it is the
+// article's subject): local over stdio or remote over HTTP, and the tools it
+// offers, each with a word for what it does (reads, changes), so the two
+// read-only limits of the next figure have something to stop. Through the CLI:
+// the agent app runs the system's command-line tool, gh, in the terminal.
+// Directly: no program in between, only a line, as the agent app calls the API
+// itself with an HTTP request and a token. The tool names are plain words, not
+// GitHub's own.
+//
+// Two views of one drawing (a panel is 320 units, and three routes with the
+// two end cards side by side do not fit that without shrinking the type):
+// the flow view, FLOW_WIDTH units wide and left to right, shown from 64rem,
+// and the stacked view, the 320-unit drawing from before, the agent app at the
+// top and the API at the bottom, shown below it. Both draw from the same
+// strings; base.css shows one and hides the other.
 function mcpServer(t, id, figureId) {
-  const pid = `${figureId}-p1`;
+  const flow = `${figureId}-p1`;
+  const stack = `${figureId}-p2`;
+  return {
+    caption: t.caption,
+    panels: [
+      { title: t.title, head: t.head, width: FLOW_WIDTH, height: 312, view: "flow", body: mcpServerFlow(t, id, flow) },
+      { title: t.title, head: t.head, height: 412, view: "stack", body: mcpServerStack(t, id, stack) },
+    ],
+  };
+}
+
+/** The tool rows of the MCP frame, in both views: a name, and what it does on the right. */
+function mcpTool(id, t, key, x, y, inner) {
+  return [
+    text(x, y, fit(`${id}.tools.${key}.label`, t.tools[key].label, inner - 66, "small"), "fig-label fig-small"),
+    text(x + inner, y, fit(`${id}.tools.${key}.kind`, t.tools[key].kind, 60), key === "create" ? "fig-note fig-wait fig-strong" : "fig-note", "end"),
+  ].join("");
+}
+
+// The flow view: the agent app and GitHub's API as tall cards at the two ends,
+// and each route a lane from one to the other at its own height. The cards
+// are as tall as the three lanes, so each lane's line leaves and enters at its
+// own height; there is no line down an edge. The direct route is the bare
+// line, with its words above it.
+function mcpServerFlow(t, id, pid) {
+  const W = FLOW_WIDTH;
+  const CARD_W = 200;
+  const CARD_Y = 54;
+  const CARD_H = 242;
+  const RIGHT_X = W - 16 - CARD_W;
+  const LEFT_EDGE = 16 + CARD_W;
+  const BOX_W = 240;
+  const BOX_X = (W - BOX_W) / 2;
+  const INNER = BOX_W - 24;
+  const TEXT_X = BOX_X + 12;
+  const MCP_Y = CARD_Y;
+  const CLI_Y = 176;
+  const DIRECT_Y = 280;
+  const frame = (y, height, accent = false) => [
+    `<rect x="${BOX_X}" y="${y}" width="${BOX_W}" height="${height}" rx="8" class="fig-node"/>`,
+    accent ? `<rect x="${BOX_X}" y="${y}" width="${BOX_W}" height="${height}" rx="8" class="fig-accent-stroke"/>` : "",
+  ].join("");
+  // The way into a box from the agent app, and out of it to the API.
+  const join = (y) => [`<line x1="${LEFT_EDGE}" y1="${y}" x2="${BOX_X}" y2="${y}" class="fig-line"/>`, arrow(pid, BOX_X + BOX_W, y, RIGHT_X - 1, y)].join("");
+  const end = (x, key, card) => [
+    `<rect x="${x}" y="${CARD_Y}" width="${CARD_W}" height="${CARD_H}" rx="8" class="fig-node"/>`,
+    text(x + CARD_W / 2, CARD_Y + CARD_H / 2 - 2, fit(`${key}.label`, card.label, CARD_W - 16, "label"), "fig-label", "middle"),
+    text(x + CARD_W / 2, CARD_Y + CARD_H / 2 + 14, fit(`${key}.note`, card.note, CARD_W - 16), "fig-note", "middle"),
+  ].join("");
+  const body = [
+    end(16, `${id}.agent`, t.agent),
+    end(RIGHT_X, `${id}.api`, t.api),
+    // Through an MCP server.
+    frame(MCP_Y, 104, true),
+    join(MCP_Y + 52),
+    text(TEXT_X, MCP_Y + 20, fit(`${id}.mcp.label`, t.mcp.label, INNER, "label"), "fig-label fig-strong"),
+    text(TEXT_X, MCP_Y + 34, fit(`${id}.mcp.note`, t.mcp.note, INNER), "fig-note"),
+    `<line x1="${TEXT_X}" y1="${MCP_Y + 42}" x2="${TEXT_X + INNER}" y2="${MCP_Y + 42}" class="fig-hair"/>`,
+    mcpTool(id, t, "list", TEXT_X, MCP_Y + 58, INNER),
+    mcpTool(id, t, "read", TEXT_X, MCP_Y + 74, INNER),
+    mcpTool(id, t, "create", TEXT_X, MCP_Y + 90, INNER),
+    // Through the CLI.
+    frame(CLI_Y, 48),
+    join(CLI_Y + 24),
+    text(TEXT_X, CLI_Y + 19, fit(`${id}.cli.label`, t.cli.label, INNER, "label"), "fig-label fig-strong"),
+    text(TEXT_X, CLI_Y + 33, fit(`${id}.cli.note`, t.cli.note, INNER), "fig-note"),
+    // Directly: no program in between, a line from card to card.
+    text(TEXT_X, DIRECT_Y - 27, fit(`${id}.direct.label`, t.direct.label, INNER, "label"), "fig-label fig-strong"),
+    text(TEXT_X, DIRECT_Y - 13, fit(`${id}.direct.note`, t.direct.note, INNER), "fig-note"),
+    arrow(pid, LEFT_EDGE, DIRECT_Y, RIGHT_X - 1, DIRECT_Y),
+  ].join("");
+  return body;
+}
+
+// The stacked view: one 320-unit panel, the agent app at the top, GitHub's API
+// at the bottom and the three routes between them one under the other. A line
+// down the left edge leaves the agent app to each route, and a line down the
+// right edge takes the three to the API.
+function mcpServerStack(t, id, pid) {
   const LEFT = 28;
   const RIGHT = 296;
   const BOX_X = 40;
@@ -2056,17 +2150,13 @@ function mcpServer(t, id, figureId) {
     `<rect x="${BOX_X}" y="${y}" width="${BOX_W}" height="${height}" rx="8" class="fig-node"/>`,
     accent ? `<rect x="${BOX_X}" y="${y}" width="${BOX_W}" height="${height}" rx="8" class="fig-accent-stroke"/>` : "",
   ].join("");
-  const tool = (y, key) => [
-    text(TEXT_X, y, fit(`${id}.tools.${key}.label`, t.tools[key].label, INNER - 66, "small"), "fig-label fig-small"),
-    text(TEXT_X + INNER, y, fit(`${id}.tools.${key}.kind`, t.tools[key].kind, 60), key === "create" ? "fig-note fig-wait fig-strong" : "fig-note", "end"),
-  ].join("");
   // The way into a box from the left edge, and out of it to the right edge.
   const join = (y) => [`<line x1="${LEFT}" y1="${y}" x2="${BOX_X}" y2="${y}" class="fig-line"/>`, arrow(pid, BOX_X + BOX_W, y, RIGHT, y)].join("");
   const MCP_Y = 106;
   const CLI_Y = 224;
   const DIRECT_Y = 320;
   const API_Y = 356;
-  const body = [
+  return [
     card(16, 50, 288, `${id}.agent`, t.agent),
     // The left edge, from the agent app to the lowest route.
     `<line x1="${LEFT}" y1="90" x2="${LEFT}" y2="${DIRECT_Y}" class="fig-line"/>`,
@@ -2078,9 +2168,9 @@ function mcpServer(t, id, figureId) {
     text(TEXT_X, MCP_Y + 20, fit(`${id}.mcp.label`, t.mcp.label, INNER, "label"), "fig-label fig-strong"),
     text(TEXT_X, MCP_Y + 34, fit(`${id}.mcp.note`, t.mcp.note, INNER), "fig-note"),
     `<line x1="${TEXT_X}" y1="${MCP_Y + 42}" x2="${TEXT_X + INNER}" y2="${MCP_Y + 42}" class="fig-hair"/>`,
-    tool(MCP_Y + 58, "list"),
-    tool(MCP_Y + 74, "read"),
-    tool(MCP_Y + 90, "create"),
+    mcpTool(id, t, "list", TEXT_X, MCP_Y + 58, INNER),
+    mcpTool(id, t, "read", TEXT_X, MCP_Y + 74, INNER),
+    mcpTool(id, t, "create", TEXT_X, MCP_Y + 90, INNER),
     // Through the CLI.
     frame(CLI_Y, 48),
     join(CLI_Y + 24),
@@ -2093,19 +2183,116 @@ function mcpServer(t, id, figureId) {
     // GitHub's API, where the three routes end.
     card(16, API_Y, 288, `${id}.api`, t.api),
   ].join("");
-  return { caption: t.caption, panels: [{ title: t.title, head: t.head, height: 412, body }] };
 }
 
-// (31) The two limits on the first, read-only connection — one panel: the
-// agent app, the MCP server in read-only mode (limit 1), the token for the
-// practice repo with Issues set to read (limit 2) and the practice repo with
-// its three made-up issues, down one line. A read passes both limits. On the
-// right edge of each limit a write (a dashed arrow) stops at the gate, its own
-// arrow at each: either limit stops it alone, and the foot says so and that
-// setting both covers a limit set wrongly (our own advice, as the article
-// says). The numbers in the rings are the article's "first" and "second".
+// (31) The two limits on the first, read-only connection: the agent app, the
+// MCP server in read-only mode (limit 1), the token for the practice repo with
+// Issues set to read (limit 2) and the practice repo with its three made-up
+// issues. A read passes both limits. A write (a dashed arrow) is stopped at
+// each limit, its own arrow at each: either limit stops it alone, and the foot
+// says so and that setting both covers a limit set wrongly (our own advice, as
+// the article says). The numbers in the rings are the article's "first" and
+// "second". Two views of one drawing, as in (30): left to right from 64rem,
+// one under the other below.
 function readOnlyLimits(t, id, figureId) {
-  const pid = `${figureId}-p1`;
+  const flow = `${figureId}-p1`;
+  const stack = `${figureId}-p2`;
+  return {
+    caption: t.caption,
+    panels: [
+      { title: t.title, head: t.head, width: FLOW_WIDTH, height: 268, view: "flow", body: readOnlyLimitsFlow(t, id, flow) },
+      { title: t.title, head: t.head, height: 372, view: "stack", body: readOnlyLimitsStack(t, id, stack) },
+    ],
+  };
+}
+
+/** A numbered ring, centred on (x, y): the article's "first" and "second" limit. */
+function limitRing(x, y, n) {
+  return [`<circle cx="${x}" cy="${y}" r="9" class="fig-accent-stroke"/>`, text(x, y + 4, String(n), "fig-small fig-ok fig-strong", "middle")].join("");
+}
+
+/** One of the practice repo's three made-up issues, centred on (x, y). */
+function issueDot(x, y) {
+  return `<circle cx="${x}" cy="${y}" r="5" class="fig-node"/><circle cx="${x}" cy="${y}" r="1.6" class="fig-dot"/>`;
+}
+
+// The flow view: the read runs along one line from the agent app through the
+// two limits to the practice repo; below the limits each write has a dashed
+// line of its own, from the agent app, round the limits before its own, up to
+// a gate on its own limit's lower edge. The line of the second limit passes
+// under the first, so neither depends on the other.
+function readOnlyLimitsFlow(t, id, pid) {
+  const W = FLOW_WIDTH;
+  const Y = 54;
+  const H = 92;
+  const AGENT_W = 124;
+  const BOX_W = 186;
+  const REPO_W = 158;
+  const GAP = Math.floor((W - 32 - AGENT_W - 2 * BOX_W - REPO_W) / 3);
+  const BOX_1 = 16 + AGENT_W + GAP;
+  const BOX_2 = BOX_1 + BOX_W + GAP;
+  const REPO_X = BOX_2 + BOX_W + GAP;
+  const MID = Y + 46;
+  const frame = (x, width, accent = false) => [
+    `<rect x="${x}" y="${Y}" width="${width}" height="${H}" rx="8" class="fig-node"/>`,
+    accent ? `<rect x="${x}" y="${Y}" width="${width}" height="${H}" rx="8" class="fig-accent-stroke"/>` : "",
+  ].join("");
+  const note = (x, y, key, value, width) => text(x, y, fit(key, value, width), "fig-note");
+  // A limit: its ring, its name, its two settings and the word that a read gets through.
+  const limit = (x, n, key, card, first, second) => [
+    frame(x, BOX_W, true),
+    limitRing(x + 20, Y + 24, n),
+    text(x + 36, Y + 28, fit(`${id}.${key}.label`, card.label, BOX_W - 44, "label"), "fig-label fig-strong"),
+    note(x + 12, Y + 46, `${id}.${key}.${first}`, card[first], BOX_W - 24),
+    note(x + 12, Y + 60, `${id}.${key}.${second}`, card[second], BOX_W - 24),
+    check(x + 17, Y + 76.8),
+    text(x + 27, Y + 80, fit(`${id}.passes`, t.passes, BOX_W - 35), "fig-note fig-strong"),
+  ].join("");
+  // A write: a dashed line out of the agent app's lower edge at `from`, down to
+  // `turn`, across to under its limit and up to the limit's lower edge, where a
+  // gate stops it; "a write" on the way, "stopped" beside the gate.
+  const write = (from, turn, box, writeAt) => {
+    const x = box + BOX_W / 2;
+    const bottom = Y + H;
+    return [
+      `<path d="M${from} ${bottom}V${turn}H${x}V${bottom + 8}" class="fig-line fig-dashed" marker-end="url(#${pid}-arrow)"/>`,
+      `<rect x="${x - 9}" y="${bottom - 2}" width="18" height="4" rx="1" class="fig-gate"/>`,
+      text(from + 8, turn - 5, fit(`${id}.write`, t.write, 66), "fig-note"),
+      text(x + 10, writeAt, fit(`${id}.stopped`, t.stopped, 66), "fig-note fig-wait fig-strong"),
+    ].join("");
+  };
+  return [
+    // The agent app.
+    frame(16, AGENT_W),
+    text(28, Y + 38, fit(`${id}.agent.label`, t.agent.label, AGENT_W - 20, "label"), "fig-label"),
+    note(28, Y + 54, `${id}.agent.note`, t.agent.note, AGENT_W - 20),
+    // The read, through the two limits to the practice repo.
+    arrow(pid, 16 + AGENT_W, MID, BOX_1 - 1, MID),
+    limit(BOX_1, 1, "server", t.server, "mode", "address"),
+    arrow(pid, BOX_1 + BOX_W, MID, BOX_2 - 1, MID),
+    limit(BOX_2, 2, "token", t.token, "repo", "issues"),
+    arrow(pid, BOX_2 + BOX_W, MID, REPO_X - 1, MID),
+    // The practice repo and its three issues.
+    frame(REPO_X, REPO_W),
+    text(REPO_X + 12, Y + 28, fit(`${id}.repo.label`, t.repo.label, REPO_W - 24, "label"), "fig-label fig-strong"),
+    note(REPO_X + 12, Y + 46, `${id}.repo.kind`, t.repo.kind, REPO_W - 24),
+    note(REPO_X + 12, Y + 60, `${id}.repo.issues`, t.repo.issues, REPO_W - 24),
+    issueDot(REPO_X + 18, Y + 77),
+    issueDot(REPO_X + 34, Y + 77),
+    issueDot(REPO_X + 50, Y + 77),
+    // The two writes, one dashed line each, each stopped at its own limit.
+    write(100, 176, BOX_1, 170),
+    write(52, 204, BOX_2, 184),
+    // The foot.
+    text(W / 2, 240, fit(`${id}.alone`, t.alone, 288), "fig-note fig-strong", "middle"),
+    text(W / 2, 254, fit(`${id}.both`, t.both, 288), "fig-note", "middle"),
+  ].join("");
+}
+
+// The stacked view: one 320-unit panel, the agent app, the MCP server in
+// read-only mode (limit 1), the token (limit 2) and the practice repo down one
+// line, with a write stopped at the right edge of each limit.
+function readOnlyLimitsStack(t, id, pid) {
   const CARD = 220;
   const MID = 16 + CARD / 2;
   const TEXT = 54;
@@ -2115,7 +2302,7 @@ function readOnlyLimits(t, id, figureId) {
     `<rect x="16" y="${y}" width="${CARD}" height="${height}" rx="8" class="fig-node"/>`,
     accent ? `<rect x="16" y="${y}" width="${CARD}" height="${height}" rx="8" class="fig-accent-stroke"/>` : "",
   ].join("");
-  const ring = (y, n) => [`<circle cx="36" cy="${y}" r="9" class="fig-accent-stroke"/>`, text(36, y + 4, String(n), "fig-small fig-ok fig-strong", "middle")].join("");
+  const ring = (y, n) => limitRing(36, y, n);
   // A write that stops at the gate on a limit's right edge, level with the limit's middle.
   const stop = (y) => [
     `<rect x="${16 + CARD - 2}" y="${y - 9}" width="4" height="18" rx="1" class="fig-gate"/>`,
@@ -2125,8 +2312,7 @@ function readOnlyLimits(t, id, figureId) {
   ].join("");
   // A tick and the words beside an arrow: the read gets through.
   const passes = (y) => [check(MID + 12.5, y - 3.2), text(MID + 22, y, fit(`${id}.passes`, t.passes, WIDTH - 16 - MID - 22), "fig-note fig-strong")].join("");
-  const issue = (x, y) => `<circle cx="${x}" cy="${y}" r="5" class="fig-node"/><circle cx="${x}" cy="${y}" r="1.6" class="fig-dot"/>`;
-  const body = [
+  return [
     // The agent app.
     frame(50, 38),
     text(28, 68, fit(`${id}.agent.label`, t.agent.label, CARD - 24, "label"), "fig-label"),
@@ -2155,14 +2341,13 @@ function readOnlyLimits(t, id, figureId) {
     text(28, 279, fit(`${id}.repo.label`, t.repo.label, CARD - 24, "label"), "fig-label fig-strong"),
     note(28, 293, `${id}.repo.kind`, t.repo.kind, CARD - 24),
     note(28, 306, `${id}.repo.issues`, t.repo.issues, CARD - 24),
-    issue(168, 284),
-    issue(184, 284),
-    issue(200, 284),
+    issueDot(168, 284),
+    issueDot(184, 284),
+    issueDot(200, 284),
     // The foot.
     text(160, 340, fit(`${id}.alone`, t.alone, 288), "fig-note fig-strong", "middle"),
     text(160, 354, fit(`${id}.both`, t.both, 288), "fig-note", "middle"),
   ].join("");
-  return { caption: t.caption, panels: [{ title: t.title, head: t.head, height: 372, body }] };
 }
 
 export const FIGURES = { stages, gates, loop, assessment, team, harness, ledger, timeline, setup, build, words, bilingual, gauntlet, agents, critic, fleet, sources, merges, logos, connection, lifecycle, price, lock, "waiting-per-day": waitingPerDay, "chat-or-agent": chatOrAgent, "five-parts": fiveParts, "four-things": fourThings, "file-before-after": fileBeforeAfter, "which-tool-reads-what": whichToolReadsWhat, "file-hierarchy": fileHierarchy, "mcp-server": mcpServer, "read-only-limits": readOnlyLimits };
@@ -2181,10 +2366,15 @@ export function renderFigure(id, { placement = "inline", strings }) {
   const figureId = `fig-${id}`;
   const captionId = `${figureId}-caption`;
   const { panels, caption } = draw(t, id, figureId);
+  // A figure with two views (a flow panel from 64rem, a stacked one below) has
+  // the one panel row; base.css shows the view that fits. It is wide: the flow
+  // view is wider than a panel may be on the measure.
+  const views = panels.some((spec) => spec.view);
+  if (views && placement !== "wide") throw new Error(`Figure "${id}": a figure with a flow view is placed "wide", not "${placement}"`);
   const svgs = panels.map((spec, i) => panel({ ...spec, id: `${figureId}-p${i + 1}`, captionId }));
   return [
     `<figure class="figure figure-${placement}" id="${figureId}">`,
-    `<div class="figure-panels figure-panels-${panels.length}">${svgs.join("")}</div>`,
+    `<div class="figure-panels ${views ? "figure-panels-views" : `figure-panels-${panels.length}`}">${svgs.join("")}</div>`,
     `<figcaption id="${captionId}">${esc(caption)}</figcaption>`,
     "</figure>",
   ].join("\n");
