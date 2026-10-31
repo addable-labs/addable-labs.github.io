@@ -5,6 +5,18 @@ import path from "node:path";
 import { parse } from "node-html-parser";
 import { fileToUrl, langFromPath } from "./site.mjs";
 
+/**
+ * Parse a page. node-html-parser keeps the inside of <pre> as raw text by
+ * default, so a highlighted code block (spans inside it, si-20k4) would
+ * read as its markup and the word count would take every tag and class name
+ * for words; <pre> is left out of blockTextElements (false would drop its
+ * content) and parsed like any other element. Script, style and noscript
+ * stay raw.
+ */
+export function parseHtml(html) {
+  return parse(html, { comment: false, blockTextElements: { script: true, noscript: true, style: true } });
+}
+
 /** Load one built page: { file, relPath, url, lang, size, html, doc }. */
 export async function loadPage(file, outDir, site) {
   const html = await readFile(file, "utf8");
@@ -16,7 +28,7 @@ export async function loadPage(file, outDir, site) {
     lang: langFromPath(relPath, site),
     size: Buffer.byteLength(html, "utf8"),
     html,
-    doc: parse(html, { comment: false }),
+    doc: parseHtml(html),
   };
 }
 

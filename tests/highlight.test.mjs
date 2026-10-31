@@ -9,6 +9,7 @@ import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { after, before, describe, it } from "node:test";
 import { auditTokens } from "../scripts/lib/contrast.mjs";
+import { parseHtml, text } from "../scripts/lib/html.mjs";
 import { highlight, KINDS, LANGUAGES, tokenize } from "../scripts/lib/highlight.mjs";
 import { buildSite, copyProject, IMAGE_FRONT_MATTER, ROOT, runHtmlValidate, tempDir, writeArticleImage } from "./helpers.mjs";
 
@@ -329,5 +330,12 @@ describe("the themes", () => {
     }
     const classes = new Set([...css.matchAll(/\.tok-([a-z-]+)/g)].map(([, kind]) => kind));
     assert.deepEqual([...classes].sort(), [...KINDS].sort());
+  });
+});
+
+describe("the gates' reading of a coloured block", () => {
+  it("takes the text of a <pre> with spans in it, not its markup (the content gate counts words from it)", () => {
+    const doc = parseHtml('<div class="article-body"><pre><code class="language-sh"><span class="tok-name">mkdir</span> <span class="tok-param">-p</span> a\n</code></pre></div>');
+    assert.equal(text(doc.querySelector("pre")), "mkdir -p a");
   });
 });

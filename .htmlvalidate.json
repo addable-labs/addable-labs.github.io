@@ -2,6 +2,7 @@
   "extends": ["html-validate:recommended", "html-validate:a11y"],
   "rules": {
     "require-sri": "off",
-    "no-inline-style": "error"
+    "no-inline-style": "error",
+    "long-title": ["error", { "maxlength": 80 }]
   }
 }

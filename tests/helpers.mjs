@@ -117,9 +117,13 @@ export function runGate(gate, out, src = SRC, env = {}) {
   return { status: result.status, output: `${result.stdout}${result.stderr}`, stdout: result.stdout, stderr: result.stderr };
 }
 
-/** Run html-validate on a directory of built pages. */
+/**
+ * Run html-validate on a directory of built pages, with the project's own
+ * config: a directory outside the project (a temp build) finds none by
+ * itself and would be read with the defaults, a title limit of 70 among them.
+ */
 export function runHtmlValidate(out) {
-  const result = spawnSync(process.execPath, [path.join(ROOT, "node_modules", "html-validate", "bin", "html-validate.mjs"), path.join(out, "**", "*.html")], {
+  const result = spawnSync(process.execPath, [path.join(ROOT, "node_modules", "html-validate", "bin", "html-validate.mjs"), "--config", path.join(ROOT, ".htmlvalidate.json"), path.join(out, "**", "*.html")], {
     cwd: ROOT,
     encoding: "utf8",
   });
