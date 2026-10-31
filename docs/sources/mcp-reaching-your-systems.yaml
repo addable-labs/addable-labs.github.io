@@ -9,13 +9,25 @@
 - id: P5-open-protocol
   article: mcp-reaching-your-systems
   sentence:
-    sv: "Model Context Protocol, förkortat MCP, ett öppet protokoll: ett överenskommet sätt för ett AI-program, till exempel Claude Code, Codex eller VS Code, att koppla upp sig mot ett system och använda det"
-    en: "Model Context Protocol, MCP for short, an open protocol: an agreed way for an agent app, such as Claude Code, Codex or VS Code, to connect to a system and use it"
+    sv: "Model Context Protocol, förkortat MCP, ett öppet protokoll: ett standardiserat sätt för ett AI-program, till exempel Claude Code, Codex eller VS Code, att koppla upp sig mot ett system och använda det"
+    en: "Model Context Protocol, MCP for short, an open protocol: a standard way for an agent app, such as Claude Code, Codex or VS Code, to connect to a system and use it"
   vendor: modelcontextprotocol.io
   url: https://modelcontextprotocol.io/specification/2026-07-28
   final_url: https://modelcontextprotocol.io/specification/2026-07-28
   quote: "(MCP) is an open protocol that enables seamless integration between LLM applications and external data sources and tools"
   retrieved: 2026-10-30
+  last_checked: 2026-10-31
+
+- id: P5-standard-way
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Model Context Protocol, förkortat MCP, ett öppet protokoll: ett standardiserat sätt för ett AI-program, till exempel Claude Code, Codex eller VS Code, att koppla upp sig mot ett system och använda det"
+    en: "Model Context Protocol, MCP for short, an open protocol: a standard way for an agent app, such as Claude Code, Codex or VS Code, to connect to a system and use it"
+  vendor: modelcontextprotocol.io
+  url: https://modelcontextprotocol.io/specification/2026-07-28
+  final_url: https://modelcontextprotocol.io/specification/2026-07-28
+  quote: "MCP provides a standardized way to connect LLMs with the context they need"
+  retrieved: 2026-10-31
   last_checked: 2026-10-31
 
 - id: P5-aaif-donated
@@ -69,8 +81,8 @@
 - id: P5-connect-when
   article: mcp-reaching-your-systems
   sentence:
-    sv: "Claude Codes dokumentation säger att du ska koppla in en server när du märker att du kopierar data från ett annat verktyg till chatten"
-    en: "Claude Code's documentation says to connect a server when you find yourself copying data into chat from another tool"
+    sv: "Claude Codes dokumentation säger att du ska koppla in en MCP-server när du märker att du kopierar data från ett annat verktyg till chatten"
+    en: "Claude Code's documentation says to connect an MCP server when you find yourself copying data into chat from another tool"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/mcp
   final_url: https://code.claude.com/docs/en/mcp
@@ -81,7 +93,7 @@
 - id: P5-cli-first
   article: mcp-reaching-your-systems
   sentence:
-    sv: "Claude Codes sida om bästa praxis säger att det oftast är det enklaste sättet in"
+    sv: "Claude Codes sida om bästa praxis säger att det oftast är det enklaste sättet att komma åt systemet"
     en: "Claude Code's best practices say it is usually the easiest way in"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/best-practices
@@ -105,8 +117,8 @@
 - id: P5-github-docs-limit
   article: mcp-reaching-your-systems
   sentence:
-    sv: "Vi använder GitHubs server här eftersom dess dokumentation visar hur man begränsar en koppling"
-    en: "We use GitHub's server here because its documentation shows how to limit a connection"
+    sv: "Vi använder GitHubs MCP-server här eftersom dess dokumentation visar hur man begränsar en koppling"
+    en: "We use GitHub's MCP server here because its documentation shows how to limit a connection"
   vendor: GitHub
   url: https://raw.githubusercontent.com/github/github-mcp-server/main/README.md
   final_url: https://raw.githubusercontent.com/github/github-mcp-server/main/README.md
@@ -117,19 +129,43 @@
 - id: P5-server-def
   article: mcp-reaching-your-systems
   sentence:
-    sv: "En MCP-server är ett program som står framför ett system – till exempel GitHub – och erbjuder agenten saker att göra där"
-    en: "An MCP server is a program that stands in front of a system, such as GitHub, and offers the agent things to do there"
+    sv: "En MCP-server är ett program som ger agenten ett API mot ett system, till exempel GitHub"
+    en: "An MCP server is a program that gives the agent an API to a system, such as GitHub"
   vendor: modelcontextprotocol.io
-  url: https://modelcontextprotocol.io/docs/2026-07-28/learn/architecture
-  final_url: https://modelcontextprotocol.io/docs/2026-07-28/learn/architecture
-  quote: "A program that provides context to MCP clients"
-  retrieved: 2026-10-30
+  url: https://modelcontextprotocol.io/docs/2026-07-28/learn/server-concepts
+  final_url: https://modelcontextprotocol.io/docs/2026-07-28/learn/server-concepts
+  quote: "MCP servers are programs that expose specific capabilities to AI applications through standardized protocol interfaces"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+
+- id: P5-server-in-front
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Den står framför systemets eget API. Dess verktyg kan anropa det"
+    en: "It sits in front of the system's own API. Its tools can call that API"
+  vendor: modelcontextprotocol.io
+  url: https://modelcontextprotocol.io/docs/2026-07-28/learn/server-concepts
+  final_url: https://modelcontextprotocol.io/docs/2026-07-28/learn/server-concepts
+  quote: "Tools can write to databases, call external APIs, modify files, or trigger other logic."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+
+- id: P5-connect-offers
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Att koppla in en MCP-server låter agenten använda allt som programmet erbjuder"
+    en: "Connecting an MCP server lets the agent use whatever that program offers"
+  vendor: modelcontextprotocol.io
+  url: https://modelcontextprotocol.io/docs/2026-07-28/learn/server-concepts
+  final_url: https://modelcontextprotocol.io/docs/2026-07-28/learn/server-concepts
+  quote: "MCP servers are programs that expose specific capabilities to AI applications"
+  retrieved: 2026-10-31
   last_checked: 2026-10-31
 
 - id: P5-local-server
   article: mcp-reaching-your-systems
   sentence:
-    sv: "En lokal server körs på din dator och startas av AI-programmet"
+    sv: "En lokal server (local server) körs på din dator och startas av AI-programmet"
     en: "A local server runs on your computer, started by the agent app"
   vendor: modelcontextprotocol.io
   url: https://modelcontextprotocol.io/specification/2026-07-28/basic/transports
@@ -141,8 +177,8 @@
 - id: P5-remote-server
   article: mcp-reaching-your-systems
   sentence:
-    sv: "En fjärrserver körs någon annanstans och nås via en webbadress"
-    en: "A remote server runs somewhere else and is reached by a web address"
+    sv: "En fjärrserver (remote server) körs någon annanstans och nås via HTTP på en webbadress"
+    en: "A remote server runs somewhere else and is reached over HTTP at a web address"
   vendor: modelcontextprotocol.io
   url: https://modelcontextprotocol.io/docs/2026-07-28/learn/architecture
   final_url: https://modelcontextprotocol.io/docs/2026-07-28/learn/architecture
@@ -165,8 +201,8 @@
 - id: P5-github-token-header
   article: mcp-reaching-your-systems
   sentence:
-    sv: "GitHubs server begär en token, en hemlig textsträng som fungerar som ett lösenord för program och som du skapar i GitHubs inställningar"
-    en: "GitHub's server asks for a token, a secret string that works like a password for programs and that you make in GitHub's settings"
+    sv: "GitHubs server begär en personal access token som du skapar i GitHubs inställningar"
+    en: "GitHub's server asks for a personal access token that you make in GitHub's settings"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/mcp
   final_url: https://code.claude.com/docs/en/mcp
@@ -174,23 +210,11 @@
   retrieved: 2026-10-31
   last_checked: 2026-10-31
 
-- id: P5-github-token-password
-  article: mcp-reaching-your-systems
-  sentence:
-    sv: "GitHubs server begär en token, en hemlig textsträng som fungerar som ett lösenord för program och som du skapar i GitHubs inställningar"
-    en: "GitHub's server asks for a token, a secret string that works like a password for programs and that you make in GitHub's settings"
-  vendor: GitHub
-  url: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens
-  final_url: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens
-  quote: "You can use a personal access token in place of a password when authenticating to GitHub in the command line or with the API."
-  retrieved: 2026-10-31
-  last_checked: 2026-10-31
-
 - id: P5-github-token-settings
   article: mcp-reaching-your-systems
   sentence:
-    sv: "GitHubs server begär en token, en hemlig textsträng som fungerar som ett lösenord för program och som du skapar i GitHubs inställningar"
-    en: "GitHub's server asks for a token, a secret string that works like a password for programs and that you make in GitHub's settings"
+    sv: "GitHubs server begär en personal access token som du skapar i GitHubs inställningar"
+    en: "GitHub's server asks for a personal access token that you make in GitHub's settings"
   vendor: GitHub
   url: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens
   final_url: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens
@@ -273,8 +297,8 @@
 - id: P5-local-runs-code
   article: mcp-reaching-your-systems
   sentence:
-    sv: "VS Codes dokumentation säger att lokala servrar kan köra kod på din maskin"
-    en: "VS Code's documentation says that local servers can run code on your machine"
+    sv: "En lokal MCP-server körs på din egen dator och kan därför köra kod där, som VS Codes dokumentation säger"
+    en: "A local MCP server runs on your own computer, so it can run code there, as VS Code's documentation says"
   vendor: GitHub
   url: https://code.visualstudio.com/docs/agent-customization/mcp-servers
   final_url: https://code.visualstudio.com/docs/agent-customization/mcp-servers
@@ -285,8 +309,8 @@
 - id: P5-listing-not-audit
   article: mcp-reaching-your-systems
   sentence:
-    sv: "En plats i en katalog är ingen kontroll: Claude Codes säkerhetssida säger att Anthropic inte säkerhetsgranskar eller förvaltar någon MCP-server"
-    en: "A listing in a directory is no check: Claude Code's security page says that Anthropic does not security-audit or manage any MCP server"
+    sv: "Att finnas i en katalog betyder inte att en server är säker. Claude Codes säkerhetssida säger att Anthropic inte säkerhetsgranskar eller förvaltar någon MCP-server"
+    en: "Being listed in a directory does not mean a server is safe. Claude Code's security page says that Anthropic does not security-audit or manage any MCP server"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/security
   final_url: https://code.claude.com/docs/en/security
@@ -294,11 +318,35 @@
   retrieved: 2026-10-30
   last_checked: 2026-10-31
 
+- id: P5-trust-decision-vscode
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Att koppla in en MCP-server är därför ett beslut om vad du litar på, ungefär som att installera ett program"
+    en: "So connecting an MCP server is a trust decision, like installing a program"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agent-customization/mcp-servers
+  final_url: https://code.visualstudio.com/docs/agent-customization/mcp-servers
+  quote: "Review the publisher, command or endpoint, and requested access before installing or starting a server."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+
+- id: P5-trust-decision-claude
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Att koppla in en MCP-server är därför ett beslut om vad du litar på, ungefär som att installera ett program"
+    en: "So connecting an MCP server is a trust decision, like installing a program"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/security
+  final_url: https://code.claude.com/docs/en/security
+  quote: "using MCP servers from providers that you trust"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+
 - id: P5-injection-term
   article: mcp-reaching-your-systems
   sentence:
-    sv: "En risk har ett namn som är bra att kunna: prompt injection"
-    en: "One risk has a name worth knowing: prompt injection"
+    sv: "Det finns en risk som har ett eget namn: prompt injection"
+    en: "One risk has a name of its own: prompt injection"
   vendor: GitHub
   url: https://code.visualstudio.com/docs/agents/run/security
   final_url: https://code.visualstudio.com/docs/agents/run/security
@@ -309,8 +357,8 @@
 - id: P5-injection-outputs
   article: mcp-reaching-your-systems
   sentence:
-    sv: "Text som agenten läser, till exempel ett ärende, en webbsida eller beskrivningen av ett serververktyg, kan innehålla instruktioner. Agenten kan följa dem som om du hade skrivit dem"
-    en: "Text that the agent reads, such as an issue, a web page or the description of a server tool, can contain instructions, and the agent may follow them as if you had written them"
+    sv: "Agenten läser mycket text, till exempel ett ärende, en webbsida eller beskrivningen av ett verktyg i en MCP-server. Instruktioner kan ligga gömda i den texten. Agenten kan följa dem som om du hade skrivit dem"
+    en: "The agent reads a lot of text, such as an issue, a web page or the description of an MCP server tool. Instructions can be hidden in that text. The agent may follow them as if you had written them"
   vendor: GitHub
   url: https://code.visualstudio.com/docs/agents/run/security
   final_url: https://code.visualstudio.com/docs/agents/run/security
@@ -321,8 +369,8 @@
 - id: P5-injection-descriptions
   article: mcp-reaching-your-systems
   sentence:
-    sv: "Text som agenten läser, till exempel ett ärende, en webbsida eller beskrivningen av ett serververktyg, kan innehålla instruktioner. Agenten kan följa dem som om du hade skrivit dem"
-    en: "Text that the agent reads, such as an issue, a web page or the description of a server tool, can contain instructions, and the agent may follow them as if you had written them"
+    sv: "Agenten läser mycket text, till exempel ett ärende, en webbsida eller beskrivningen av ett verktyg i en MCP-server. Instruktioner kan ligga gömda i den texten. Agenten kan följa dem som om du hade skrivit dem"
+    en: "The agent reads a lot of text, such as an issue, a web page or the description of an MCP server tool. Instructions can be hidden in that text. The agent may follow them as if you had written them"
   vendor: Chinese university group (arXiv)
   url: https://arxiv.org/html/2508.14925v2
   final_url: https://arxiv.org/html/2508.14925v2
@@ -333,8 +381,8 @@
 - id: P5-injection-override
   article: mcp-reaching-your-systems
   sentence:
-    sv: "Text som agenten läser, till exempel ett ärende, en webbsida eller beskrivningen av ett serververktyg, kan innehålla instruktioner. Agenten kan följa dem som om du hade skrivit dem"
-    en: "Text that the agent reads, such as an issue, a web page or the description of a server tool, can contain instructions, and the agent may follow them as if you had written them"
+    sv: "Agenten läser mycket text, till exempel ett ärende, en webbsida eller beskrivningen av ett verktyg i en MCP-server. Instruktioner kan ligga gömda i den texten. Agenten kan följa dem som om du hade skrivit dem"
+    en: "The agent reads a lot of text, such as an issue, a web page or the description of an MCP server tool. Instructions can be hidden in that text. The agent may follow them as if you had written them"
   vendor: GitHub
   url: https://code.visualstudio.com/docs/agents/run/security
   final_url: https://code.visualstudio.com/docs/agents/run/security
@@ -345,8 +393,8 @@
 - id: P5-mcptox-setup
   article: mcp-reaching-your-systems
   sentence:
-    sv: "lade forskare till ett verktyg med en gömd instruktion i beskrivningen bredvid verktygen från riktiga servrar"
-    en: "researchers added a tool with a hidden instruction in its description next to the tools of real servers"
+    sv: "De lade till ett verktyg med en gömd instruktion i beskrivningen bredvid verktygen från riktiga MCP-servrar"
+    en: "They added a tool with a hidden instruction in its description next to the tools of real MCP servers"
   vendor: Chinese university group (arXiv)
   url: https://arxiv.org/html/2508.14925v2
   final_url: https://arxiv.org/html/2508.14925v2
@@ -357,8 +405,8 @@
 - id: P5-mcptox-servers
   article: mcp-reaching-your-systems
   sentence:
-    sv: "lade forskare till ett verktyg med en gömd instruktion i beskrivningen bredvid verktygen från riktiga servrar"
-    en: "researchers added a tool with a hidden instruction in its description next to the tools of real servers"
+    sv: "De lade till ett verktyg med en gömd instruktion i beskrivningen bredvid verktygen från riktiga MCP-servrar"
+    en: "They added a tool with a hidden instruction in its description next to the tools of real MCP servers"
   vendor: Chinese university group (arXiv)
   url: https://arxiv.org/html/2508.14925v2
   final_url: https://arxiv.org/html/2508.14925v2
@@ -369,8 +417,8 @@
 - id: P5-mcptox-benchmark
   article: mcp-reaching-your-systems
   sentence:
-    sv: "I MCPTox, en samling testfall för agenter"
-    en: "In MCPTox, a set of test cases for agents"
+    sv: "Forskare mätte en variant av den här risken i MCPTox, en samling testfall för agenter"
+    en: "Researchers measured a version of this risk in MCPTox, a set of test cases for agents"
   vendor: Chinese university group (arXiv)
   url: https://arxiv.org/html/2508.14925v2
   final_url: https://arxiv.org/html/2508.14925v2
@@ -405,8 +453,8 @@
 - id: P5-must-consent
   article: mcp-reaching-your-systems
   sentence:
-    sv: "MCP:s specifikation, dokumentet som definierar protokollet, ber AI-programmet fråga dig innan ett serververktyg körs"
-    en: "MCP's specification, the document that defines the protocol, asks the agent app to check with you before a server tool runs"
+    sv: "MCP:s specifikation ber AI-programmet fråga dig innan ett verktyg i en MCP-server körs"
+    en: "MCP's specification asks the agent app to check with you before an MCP server tool runs"
   vendor: modelcontextprotocol.io
   url: https://modelcontextprotocol.io/specification/2026-07-28
   final_url: https://modelcontextprotocol.io/specification/2026-07-28
@@ -417,8 +465,8 @@
 - id: P5-should-human
   article: mcp-reaching-your-systems
   sentence:
-    sv: "MCP:s specifikation, dokumentet som definierar protokollet, ber AI-programmet fråga dig innan ett serververktyg körs"
-    en: "MCP's specification, the document that defines the protocol, asks the agent app to check with you before a server tool runs"
+    sv: "MCP:s specifikation ber AI-programmet fråga dig innan ett verktyg i en MCP-server körs"
+    en: "MCP's specification asks the agent app to check with you before an MCP server tool runs"
   vendor: modelcontextprotocol.io
   url: https://modelcontextprotocol.io/specification/2026-07-28/server/tools
   final_url: https://modelcontextprotocol.io/specification/2026-07-28/server/tools
@@ -429,24 +477,12 @@
 - id: P5-consent-flows
   article: mcp-reaching-your-systems
   sentence:
-    sv: "MCP:s specifikation, dokumentet som definierar protokollet, ber AI-programmet fråga dig innan ett serververktyg körs"
-    en: "MCP's specification, the document that defines the protocol, asks the agent app to check with you before a server tool runs"
+    sv: "MCP:s specifikation ber AI-programmet fråga dig innan ett verktyg i en MCP-server körs"
+    en: "MCP's specification asks the agent app to check with you before an MCP server tool runs"
   vendor: modelcontextprotocol.io
   url: https://modelcontextprotocol.io/specification/2026-07-28
   final_url: https://modelcontextprotocol.io/specification/2026-07-28
   quote: "implementors SHOULD … Build robust consent and authorization flows into their applications"
-  retrieved: 2026-10-31
-  last_checked: 2026-10-31
-
-- id: P5-spec-defines
-  article: mcp-reaching-your-systems
-  sentence:
-    sv: "MCP:s specifikation, dokumentet som definierar protokollet, ber AI-programmet fråga dig innan ett serververktyg körs"
-    en: "MCP's specification, the document that defines the protocol, asks the agent app to check with you before a server tool runs"
-  vendor: modelcontextprotocol.io
-  url: https://modelcontextprotocol.io/specification/2026-07-28
-  final_url: https://modelcontextprotocol.io/specification/2026-07-28
-  quote: "This specification defines the authoritative protocol requirements"
   retrieved: 2026-10-31
   last_checked: 2026-10-31
 
@@ -489,7 +525,7 @@
 - id: P5-token-repos
   article: mcp-reaching-your-systems
   sentence:
-    sv: "GitHubs fine-grained tokens kan begränsas till valda repositories och behörigheter"
+    sv: "GitHubs fine-grained tokens kan begränsas till valda repon och behörigheter"
     en: "GitHub's fine-grained tokens can be limited to chosen repositories and permissions"
   vendor: GitHub
   url: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens
@@ -501,7 +537,7 @@
 - id: P5-token-permissions
   article: mcp-reaching-your-systems
   sentence:
-    sv: "GitHubs fine-grained tokens kan begränsas till valda repositories och behörigheter"
+    sv: "GitHubs fine-grained tokens kan begränsas till valda repon och behörigheter"
     en: "GitHub's fine-grained tokens can be limited to chosen repositories and permissions"
   vendor: GitHub
   url: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens
@@ -513,7 +549,7 @@
 - id: P5-token-issues-read
   article: mcp-reaching-your-systems
   sentence:
-    sv: "Ge därför den här tokenen övningsrepositoryt och sätt Issues till read"
+    sv: "Ge därför den här tokenen övningsrepot och sätt Issues till read"
     en: "give this one the practice repository and set Issues to read"
   vendor: GitHub
   url: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens
@@ -525,7 +561,7 @@
 - id: P5-token-public
   article: mcp-reaching-your-systems
   sentence:
-    sv: "En token kan alltid läsa publika repositories"
+    sv: "En token kan alltid läsa publika repon"
     en: "A token can always read public repositories"
   vendor: GitHub
   url: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens
@@ -537,7 +573,7 @@
 - id: P5-token-public-meaning
   article: mcp-reaching-your-systems
   sentence:
-    sv: "Det du begränsar är skrivning och vilka privata repositories den ser"
+    sv: "Det du begränsar är skrivning och vilka privata repon den ser"
     en: "What you limit is writing, and which private repositories it can see"
   vendor: GitHub
   url: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens
@@ -549,7 +585,7 @@
 - id: P5-two-limits-own
   article: mcp-reaching-your-systems
   sentence:
-    sv: "Att sätta båda är vår egen rekommendation och inget påstående från GitHub: är en fel inställd håller den andra"
+    sv: "Att använda båda är vår egen rekommendation och inte något GitHub säger. Är den ena fel inställd håller den andra ändå"
     en: "Setting both is our own advice, not GitHub's: if one is set wrongly, the other still holds"
   vendor: GitHub
   url: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens
@@ -561,7 +597,7 @@
 - id: P5-practice-private
   article: mcp-reaching-your-systems
   sentence:
-    sv: "Ingen av dem hindrar agenten från att läsa en skadlig instruktion. Därför är övningsrepositoryt privat"
+    sv: "Ingen av dem hindrar agenten från att läsa en skadlig instruktion. Därför är övningsrepot privat"
     en: "Neither stops the agent from reading a harmful instruction, which is why the practice repository is private"
   vendor: GitHub
   url: https://code.visualstudio.com/docs/agents/run/security
@@ -597,8 +633,8 @@
 - id: P5-cc-add
   article: mcp-reaching-your-systems
   sentence:
-    sv: "I Claude Code lägger du till servern med ett kommando som körs i projektets toppmapp"
-    en: "In Claude Code you add the server with one command, run in the project's top folder"
+    sv: "I Claude Code lägger du till MCP-servern med ett kommando som körs i projektets toppmapp"
+    en: "In Claude Code you add the MCP server with one command, run in the project's top folder"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/mcp
   final_url: https://code.claude.com/docs/en/mcp
@@ -609,8 +645,8 @@
 - id: P5-cc-scope-project
   article: mcp-reaching-your-systems
   sentence:
-    sv: "Kommandot säger: en server som heter github, nådd via webben på adressen där GitHub kör den, sparad i det här projektet, med en header som bär tokenen"
-    en: "The command says: a server called github, reached over the web at the address where GitHub hosts it, saved in this project, with a header that carries the token"
+    sv: "Kommandot lägger till en server som heter github. Den nås över webben på adressen där GitHub kör den, sparas i det här projektet och får tokenen i en header"
+    en: "The command adds a server called github. It is reached over the web at the address where GitHub hosts it, is saved in this project and sends the token in a header"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/mcp-quickstart
   final_url: https://code.claude.com/docs/en/mcp-quickstart
@@ -621,8 +657,8 @@
 - id: P5-cc-header-token
   article: mcp-reaching-your-systems
   sentence:
-    sv: "Kommandot säger: en server som heter github, nådd via webben på adressen där GitHub kör den, sparad i det här projektet, med en header som bär tokenen"
-    en: "The command says: a server called github, reached over the web at the address where GitHub hosts it, saved in this project, with a header that carries the token"
+    sv: "Kommandot lägger till en server som heter github. Den nås över webben på adressen där GitHub kör den, sparas i det här projektet och får tokenen i en header"
+    en: "The command adds a server called github. It is reached over the web at the address where GitHub hosts it, is saved in this project and sends the token in a header"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/mcp
   final_url: https://code.claude.com/docs/en/mcp
@@ -633,8 +669,8 @@
 - id: P5-cc-hosted-by-github
   article: mcp-reaching-your-systems
   sentence:
-    sv: "Kommandot säger: en server som heter github, nådd via webben på adressen där GitHub kör den, sparad i det här projektet, med en header som bär tokenen"
-    en: "The command says: a server called github, reached over the web at the address where GitHub hosts it, saved in this project, with a header that carries the token"
+    sv: "Kommandot lägger till en server som heter github. Den nås över webben på adressen där GitHub kör den, sparas i det här projektet och får tokenen i en header"
+    en: "The command adds a server called github. It is reached over the web at the address where GitHub hosts it, is saved in this project and sends the token in a header"
   vendor: GitHub
   url: https://raw.githubusercontent.com/github/github-mcp-server/main/README.md
   final_url: https://raw.githubusercontent.com/github/github-mcp-server/main/README.md
@@ -753,7 +789,7 @@
 - id: P5-vs-share
   article: mcp-reaching-your-systems
   sentence:
-    sv: "VS Codes dokumentation anger den som sättet att dela en server med ett team som använder kompatibla Copilot-program"
+    sv: "VS Codes dokumentation beskriver den som sättet att dela en server med ett team som använder kompatibla Copilot-program"
     en: "VS Code's documentation names it as the way to share a server with a team that uses compatible Copilot apps"
   vendor: GitHub
   url: https://code.visualstudio.com/docs/agent-customization/mcp-servers
@@ -765,7 +801,7 @@
 - id: P5-vs-existing-file
   article: mcp-reaching-your-systems
   sentence:
-    sv: "Om du inte använde Claude Code skapar du filen för hand med innehållet ovan"
+    sv: "Om du inte har använt Claude Code skapar du filen för hand med innehållet ovan"
     en: "If you did not use Claude Code, create the file by hand with the content above"
   vendor: GitHub
   url: https://code.visualstudio.com/docs/agents/reference/mcp-configuration
@@ -885,7 +921,7 @@
 - id: P5-check-token-valid
   article: mcp-reaching-your-systems
   sentence:
-    sv: "kontrollera tokenen först: den kan vara fel, ha gått ut eller sakna åtkomst till repositoryt"
+    sv: "kontrollera tokenen först: den kan vara fel, ha gått ut eller sakna åtkomst till repot"
     en: "check the token first: it may be wrong, have expired or have no access to the repository"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/mcp
@@ -897,7 +933,7 @@
 - id: P5-check-token-failed
   article: mcp-reaching-your-systems
   sentence:
-    sv: "kontrollera tokenen först: den kan vara fel, ha gått ut eller sakna åtkomst till repositoryt"
+    sv: "kontrollera tokenen först: den kan vara fel, ha gått ut eller sakna åtkomst till repot"
     en: "check the token first: it may be wrong, have expired or have no access to the repository"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/mcp
@@ -1041,8 +1077,8 @@
 - id: P5-host-def
   article: mcp-reaching-your-systems
   sentence:
-    sv: "Host är AI-programmet och en client är den del av det som håller anslutningen till en server"
-    en: "The host is the AI application, and a client is the part of it that keeps the connection to one server"
+    sv: "Host är AI-programmet och en client är den del av det som håller anslutningen till en MCP-server"
+    en: "The host is the AI application, and a client is the part of it that keeps the connection to one MCP server"
   vendor: modelcontextprotocol.io
   url: https://modelcontextprotocol.io/docs/2026-07-28/learn/architecture
   final_url: https://modelcontextprotocol.io/docs/2026-07-28/learn/architecture
@@ -1053,8 +1089,8 @@
 - id: P5-client-def
   article: mcp-reaching-your-systems
   sentence:
-    sv: "Host är AI-programmet och en client är den del av det som håller anslutningen till en server"
-    en: "The host is the AI application, and a client is the part of it that keeps the connection to one server"
+    sv: "Host är AI-programmet och en client är den del av det som håller anslutningen till en MCP-server"
+    en: "The host is the AI application, and a client is the part of it that keeps the connection to one MCP server"
   vendor: modelcontextprotocol.io
   url: https://modelcontextprotocol.io/docs/2026-07-28/learn/architecture
   final_url: https://modelcontextprotocol.io/docs/2026-07-28/learn/architecture
@@ -1089,8 +1125,8 @@
 - id: P5-tool-search
   article: mcp-reaching-your-systems
   sentence:
-    sv: "Hur Claude Code läser in en servers verktygsdefinitioner först när de behövs, kallat tool search"
-    en: "How Claude Code loads a server's tool definitions only when they are needed, called tool search"
+    sv: "Hur Claude Code läser in en MCP-servers verktygsdefinitioner först när de behövs, kallat tool search"
+    en: "How Claude Code loads an MCP server's tool definitions only when they are needed, called tool search"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/mcp
   final_url: https://code.claude.com/docs/en/mcp
@@ -1101,8 +1137,8 @@
 - id: P5-own-provider
   article: mcp-reaching-your-systems
   sentence:
-    sv: "Använd en server från en leverantör du litar på, till exempel systemets egen"
-    en: "Use a server from a provider you trust, such as the system's own"
+    sv: "Använd en MCP-server från en leverantör du litar på, till exempel systemets egen"
+    en: "Use an MCP server from a provider you trust, such as the system's own"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/security
   final_url: https://code.claude.com/docs/en/security
@@ -1149,7 +1185,7 @@
 - id: P5-token-generate
   article: mcp-reaching-your-systems
   sentence:
-    sv: "Skapa en token bara för det repositoryt, med Issues satt till read"
+    sv: "Skapa en token bara för det repot, med Issues satt till read"
     en: "Generate a token for that repository only, with Issues set to read"
   vendor: GitHub
   url: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens
