@@ -1312,26 +1312,6 @@
       "ifNoClaude": "om CLAUDE.md saknas",
       "inVsCode": "i VS Code",
       "caption": "Vilket verktyg som läser vilken fil i ett projekts mappar, så som dokumentationen såg ut den 30 oktober 2026. Den närmaste filen har sista ordet."
-    },
-    "mcp-host-client-server": {
-      "title": "En värd (host), AI-programmet du pratar med, ritad som en streckad ruta med två klienter inuti. Den ena klienten är kopplad till en lokal server som värden startar på din dator. Den andra är kopplad till en fjärrserver som nås via en webbadress.",
-      "head": "Värd, klient och server",
-      "host": "Värd (host) – AI-programmet du pratar med",
-      "client": {
-        "label": "Klient",
-        "note": "för en server"
-      },
-      "startedBy": "startas av värden",
-      "address": "webbadress",
-      "local": {
-        "label": "Lokal server",
-        "note": "på din dator"
-      },
-      "remote": {
-        "label": "Fjärrserver",
-        "note": "på annan plats"
-      },
-      "caption": "Värden har en klient för varje server, lokal eller på distans."
     }
   },
   "games": {
