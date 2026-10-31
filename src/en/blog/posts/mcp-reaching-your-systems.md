@@ -58,7 +58,8 @@ GitHub. It sits in front of the system's own API. Its tools can call that API. A
 local server runs on your computer, started by the agent app. A remote server
 runs somewhere else and is reached over HTTP at a web address. Many remote
 servers need to know who you are, and GitHub's server asks for a personal access
-token that you make in GitHub's settings.
+token that you make in GitHub's settings. The agent can also run `gh` in the
+terminal, or call GitHub's API itself.
 
 {% figure "mcp-server" %}
 

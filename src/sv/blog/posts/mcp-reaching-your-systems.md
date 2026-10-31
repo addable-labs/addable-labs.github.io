@@ -57,7 +57,8 @@ exempel GitHub. Den står framför systemets eget API. Dess verktyg kan anropa
 det. En lokal server (local server) körs på din dator och startas av
 AI-programmet. En fjärrserver (remote server) körs någon annanstans och nås via
 HTTP på en webbadress. Många fjärrservrar behöver veta vem du är. GitHubs server
-begär en personal access token som du skapar i GitHubs inställningar.
+begär en personal access token som du skapar i GitHubs inställningar. Agenten
+kan också köra `gh` i terminalen, eller anropa GitHubs API själv.
 
 {% figure "mcp-server" %}
 

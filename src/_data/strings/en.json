@@ -1314,23 +1314,15 @@
       "caption": "Which tool reads which file in a project's folders, as their documentation stood on 30 October 2026. The closest file has the last word."
     },
     "mcp-server": {
-      "title": "Where an MCP server sits. The agent app, such as Claude Code, Codex or VS Code, calls the tools that the MCP server offers: list issues and read an issue, which only read, and create an issue, which changes things. The server calls the system's own API, GitHub's API here. The agent app reaches the server in one of two ways. A local server runs on your computer, started by the agent app, and is spoken to over stdio. A remote server runs somewhere else and is reached over HTTP at a web address, with the token in a header.",
-      "head": "Where the MCP server sits",
+      "title": "Three ways for the agent app, such as Claude Code, Codex or VS Code, to reach a system, here GitHub. All three end at GitHub's API. Through an MCP server, the agent app calls the tools that the server offers: list issues and read an issue, which only read, and create an issue, which changes things. A local server runs on your computer, started by the agent app, and is spoken to over stdio. A remote server runs somewhere else and is reached over HTTP at a web address, with the token in a header. Through the CLI, the agent app runs the command-line tool, here gh, in the terminal. Directly, the agent app calls the API itself with an HTTP request and a token.",
+      "head": "Three ways to reach a system",
       "agent": {
         "label": "Agent app",
         "note": "Claude Code, Codex, VS Code"
       },
-      "local": {
-        "label": "local · stdio",
-        "note": "started by the agent app on your computer"
-      },
-      "remote": {
-        "label": "remote · HTTP",
-        "note": "at a web address, token in a header"
-      },
-      "server": {
-        "label": "MCP server",
-        "note": "offers tools the agent can call"
+      "mcp": {
+        "label": "via an MCP server",
+        "note": "local (stdio) or remote (HTTP)"
       },
       "tools": {
         "list": {
@@ -1346,12 +1338,19 @@
           "kind": "changes"
         }
       },
-      "calls": "calls the API",
+      "cli": {
+        "label": "via the CLI",
+        "note": "the agent runs gh in the terminal"
+      },
+      "direct": {
+        "label": "via the API directly",
+        "note": "an HTTP request with a token"
+      },
       "api": {
         "label": "GitHub's API",
         "note": "the system's own API"
       },
-      "caption": "Where an MCP server sits between the agent app and the system's own API, and the two ways to reach it: a local server over stdio, a remote one over HTTP with the token in a header."
+      "caption": "Three ways for an agent app to reach the same system, here GitHub: through an MCP server, local over stdio or remote over HTTP, which offers tools that read or change things; through the system's command-line tool, here gh, run in the terminal; or by calling the system's own API directly with an HTTP request and a token. All three end at the same API."
     },
     "read-only-limits": {
       "title": "The two limits on the first connection, both active. The agent app reads the issues through GitHub's MCP server, in read-only mode (the first limit; the address ends in /readonly), with a fine-grained token (the second limit) for the practice repo only and Issues set to read, to the private practice repo with its three made-up issues. A read passes both limits. A write is stopped at each limit on its own: the server has no write tool, and the token has no write permission. Setting both covers one that is set wrongly.",

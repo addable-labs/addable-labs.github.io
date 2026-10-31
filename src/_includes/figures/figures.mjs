@@ -2031,48 +2031,69 @@ function fourThings(t, id, figureId) {
   return { caption: t.caption, panels: [{ title: t.title, head: t.head, height: 320, body }] };
 }
 
-// (30) Where an MCP server sits — one panel, for developers: the agent app
-// calls the tools the MCP server offers, and the server calls the system's
-// own API (GitHub's). Between the app and the server two lanes, the two ways
-// to reach a server: a local one, started by the app and spoken to over
-// stdio, and a remote one, reached over HTTP at a web address with the token
-// in a header. In the server three of its tools, each with a word for what it
-// does (reads, changes), so the two read-only limits of the next figure have
-// something to stop. The tool names are plain words, not GitHub's own.
+// (30) Three ways to reach a system — one panel, for developers (si-th27,
+// widened by si-uutd after the founder's note of 31 October 2026): the agent
+// app at the top, GitHub's API at the bottom, and between them the three
+// routes the article names, one under the other and all ending in the same
+// API. Through an MCP server (the green frame, as it is the article's
+// subject): local over stdio or remote over HTTP, and the tools it offers,
+// each with a word for what it does (reads, changes), so the two read-only
+// limits of the next figure have something to stop. Through the CLI: the agent
+// app runs the system's command-line tool, gh, in the terminal. Directly: no
+// program in between, only a line, as the agent app calls the API itself with
+// an HTTP request and a token. A line down the left edge leaves the agent app
+// to each route, and a line down the right edge takes the three to the API.
+// The tool names are plain words, not GitHub's own.
 function mcpServer(t, id, figureId) {
   const pid = `${figureId}-p1`;
-  const LANE = 136;
-  const lane = (x, key) => {
-    const spec = t[key];
-    const at = x + 14;
-    const slot = x + LANE - 6 - at;
-    return [
-      arrow(pid, x + 6, 94, x + 6, 202),
-      text(at, 120, fit(`${id}.${key}.label`, spec.label, slot, "label"), "fig-label fig-strong"),
-      ...wrap(`${id}.${key}.note`, spec.note, slot, "note", 3).map((line, n) => text(at, 136 + n * 13, line, "fig-note")),
-    ].join("");
-  };
+  const LEFT = 28;
+  const RIGHT = 296;
+  const BOX_X = 40;
+  const BOX_W = 240;
+  const INNER = BOX_W - 24;
+  const TEXT_X = BOX_X + 12;
+  const frame = (y, height, accent = false) => [
+    `<rect x="${BOX_X}" y="${y}" width="${BOX_W}" height="${height}" rx="8" class="fig-node"/>`,
+    accent ? `<rect x="${BOX_X}" y="${y}" width="${BOX_W}" height="${height}" rx="8" class="fig-accent-stroke"/>` : "",
+  ].join("");
   const tool = (y, key) => [
-    text(28, y, fit(`${id}.tools.${key}.label`, t.tools[key].label, 208, "small"), "fig-label fig-small"),
-    text(WIDTH - 28, y, fit(`${id}.tools.${key}.kind`, t.tools[key].kind, 60), key === "create" ? "fig-note fig-wait fig-strong" : "fig-note", "end"),
+    text(TEXT_X, y, fit(`${id}.tools.${key}.label`, t.tools[key].label, INNER - 66, "small"), "fig-label fig-small"),
+    text(TEXT_X + INNER, y, fit(`${id}.tools.${key}.kind`, t.tools[key].kind, 60), key === "create" ? "fig-note fig-wait fig-strong" : "fig-note", "end"),
   ].join("");
+  // The way into a box from the left edge, and out of it to the right edge.
+  const join = (y) => [`<line x1="${LEFT}" y1="${y}" x2="${BOX_X}" y2="${y}" class="fig-line"/>`, arrow(pid, BOX_X + BOX_W, y, RIGHT, y)].join("");
+  const MCP_Y = 106;
+  const CLI_Y = 224;
+  const DIRECT_Y = 320;
+  const API_Y = 356;
   const body = [
-    card(16, 52, 288, `${id}.agent`, t.agent),
-    lane(16, "local"),
-    lane(168, "remote"),
-    `<rect x="16" y="204" width="288" height="104" rx="8" class="fig-node"/>`,
-    `<rect x="16" y="204" width="288" height="104" rx="8" class="fig-accent-stroke"/>`,
-    text(28, 224, fit(`${id}.server.label`, t.server.label, 264, "label"), "fig-label fig-strong"),
-    text(28, 238, fit(`${id}.server.note`, t.server.note, 264), "fig-note"),
-    `<line x1="28" y1="246" x2="${WIDTH - 28}" y2="246" class="fig-hair"/>`,
-    tool(262, "list"),
-    tool(278, "read"),
-    tool(294, "create"),
-    arrow(pid, 160, 310, 160, 338),
-    text(172, 328, fit(`${id}.calls`, t.calls, 132), "fig-note"),
-    card(16, 340, 288, `${id}.api`, t.api),
+    card(16, 50, 288, `${id}.agent`, t.agent),
+    // The left edge, from the agent app to the lowest route.
+    `<line x1="${LEFT}" y1="90" x2="${LEFT}" y2="${DIRECT_Y}" class="fig-line"/>`,
+    // The right edge, from the first route down into the API.
+    arrow(pid, RIGHT, MCP_Y + 52, RIGHT, API_Y - 2),
+    // Through an MCP server.
+    frame(MCP_Y, 104, true),
+    join(MCP_Y + 52),
+    text(TEXT_X, MCP_Y + 20, fit(`${id}.mcp.label`, t.mcp.label, INNER, "label"), "fig-label fig-strong"),
+    text(TEXT_X, MCP_Y + 34, fit(`${id}.mcp.note`, t.mcp.note, INNER), "fig-note"),
+    `<line x1="${TEXT_X}" y1="${MCP_Y + 42}" x2="${TEXT_X + INNER}" y2="${MCP_Y + 42}" class="fig-hair"/>`,
+    tool(MCP_Y + 58, "list"),
+    tool(MCP_Y + 74, "read"),
+    tool(MCP_Y + 90, "create"),
+    // Through the CLI.
+    frame(CLI_Y, 48),
+    join(CLI_Y + 24),
+    text(TEXT_X, CLI_Y + 19, fit(`${id}.cli.label`, t.cli.label, INNER, "label"), "fig-label fig-strong"),
+    text(TEXT_X, CLI_Y + 33, fit(`${id}.cli.note`, t.cli.note, INNER), "fig-note"),
+    // Directly: no program in between, a line from edge to edge.
+    text(TEXT_X, DIRECT_Y - 27, fit(`${id}.direct.label`, t.direct.label, INNER, "label"), "fig-label fig-strong"),
+    text(TEXT_X, DIRECT_Y - 13, fit(`${id}.direct.note`, t.direct.note, INNER), "fig-note"),
+    arrow(pid, LEFT, DIRECT_Y, RIGHT - 1, DIRECT_Y),
+    // GitHub's API, where the three routes end.
+    card(16, API_Y, 288, `${id}.api`, t.api),
   ].join("");
-  return { caption: t.caption, panels: [{ title: t.title, head: t.head, height: 396, body }] };
+  return { caption: t.caption, panels: [{ title: t.title, head: t.head, height: 412, body }] };
 }
 
 // (31) The two limits on the first, read-only connection — one panel: the

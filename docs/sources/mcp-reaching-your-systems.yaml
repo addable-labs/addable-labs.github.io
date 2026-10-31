@@ -222,6 +222,66 @@
   retrieved: 2026-10-31
   last_checked: 2026-10-31
 
+- id: P5-gh-terminal
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Agenten kan också köra gh i terminalen, eller anropa GitHubs API själv"
+    en: "The agent can also run gh in the terminal, or call GitHub's API itself"
+  vendor: GitHub
+  url: https://cli.github.com/manual/
+  final_url: https://cli.github.com/manual/
+  quote: "GitHub CLI, or gh, is a command-line interface to GitHub for use in your terminal or your scripts."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+
+- id: P5-gh-agent-runs
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Agenten kan också köra gh i terminalen, eller anropa GitHubs API själv"
+    en: "The agent can also run gh in the terminal, or call GitHub's API itself"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/best-practices
+  final_url: https://code.claude.com/docs/en/best-practices
+  quote: "With `gh` installed and signed in, for example, Claude will open pull requests and read review comments without any explanation from you."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+
+- id: P5-gh-calls-api
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Agenten kan också köra gh i terminalen, eller anropa GitHubs API själv"
+    en: "The agent can also run gh in the terminal, or call GitHub's API itself"
+  vendor: GitHub
+  url: https://cli.github.com/manual/gh_api
+  final_url: https://cli.github.com/manual/gh_api
+  quote: "Makes an authenticated HTTP request to the GitHub API and prints the response."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+
+- id: P5-api-itself
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Agenten kan också köra gh i terminalen, eller anropa GitHubs API själv"
+    en: "The agent can also run gh in the terminal, or call GitHub's API itself"
+  vendor: GitHub
+  url: https://docs.github.com/en/rest/using-the-rest-api/getting-started-with-the-rest-api
+  final_url: https://docs.github.com/en/rest/using-the-rest-api/getting-started-with-the-rest-api
+  quote: "This article describes how to use the GitHub REST API with GitHub CLI, curl, or JavaScript."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+
+- id: P5-api-token
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Agenten kan också köra gh i terminalen, eller anropa GitHubs API själv"
+    en: "The agent can also run gh in the terminal, or call GitHub's API itself"
+  vendor: GitHub
+  url: https://docs.github.com/en/rest/using-the-rest-api/getting-started-with-the-rest-api
+  final_url: https://docs.github.com/en/rest/using-the-rest-api/getting-started-with-the-rest-api
+  quote: "To authenticate your request, you will need to provide an authentication token with the required scopes or permissions."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+
 - id: P5-three-kinds
   article: mcp-reaching-your-systems
   sentence:
