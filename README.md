@@ -339,9 +339,10 @@ Brödtext i Markdown.
   strings under `figures.<id>` in `en.json` and `sv.json`, and the two
   shortcode lines. A drawing can come in two views (`mcp-server` and
   `read-only-limits`, si-05r9): a flow panel, `FLOW_WIDTH` (800) units wide
-  and drawn left to right, shown from 64 rem at most 55 rem wide, and the
-  stacked 320-unit panel below that, so a 13-unit label never renders under
-  12 px; the drawing function returns both (`view: "flow"` and `"stack"`),
+  and drawn left to right, shown from 51 rem (`FLOW_FROM_REM`, the smallest
+  whole rem at which a 13-unit label reaches 12 px with a little to spare)
+  at most 55 rem wide, and the stacked 320-unit panel below that, so a
+  13-unit label never renders under 12 px; the drawing function returns both (`view: "flow"` and `"stack"`),
   from the same strings, `base.css` shows one and hides the other, and the
   figure is placed `"wide"` (the build fails for an inline one). Figures never
   reach the feeds (`withoutFigures` in the
