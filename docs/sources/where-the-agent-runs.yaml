@@ -10,7 +10,7 @@
 - id: P6-part1-places
   article: where-the-agent-runs
   sentence:
-    sv: "sa att en agent kan köras i en editor, i en terminal, i ett CI-jobb eller enligt ett schema"
+    sv: "sa att en agent kan köras i en editor, i en terminal, i ett CI-jobb eller på schema"
     en: "said that an agent can run in an editor, in a terminal, in a CI job or on a schedule"
   vendor: Addable Labs
   url: https://addablelabs.se/blog/what-makes-a-chat-an-ai-agent/
@@ -82,7 +82,7 @@
 - id: P6-clone-cloud
   article: where-the-agent-runs
   sentence:
-    sv: "En körning i leverantörens moln utgår från en kopia av ditt repository, inte från din dator"
+    sv: "En körning i leverantörens moln utgår från en kopia av ditt repo, inte från din dator"
     en: "A run in the vendor's cloud starts from a copy of your repository, not from your computer"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/cloud-environments
@@ -94,7 +94,7 @@
 - id: P6-clone-cloud-gh
   article: where-the-agent-runs
   sentence:
-    sv: "En körning i leverantörens moln utgår från en kopia av ditt repository, inte från din dator"
+    sv: "En körning i leverantörens moln utgår från en kopia av ditt repo, inte från din dator"
     en: "A run in the vendor's cloud starts from a copy of your repository, not from your computer"
   vendor: GitHub
   url: https://docs.github.com/en/copilot/concepts/security-governance-and-network-settings/about-cloud-sandboxes
@@ -106,7 +106,7 @@
 - id: P6-clone-ci
   article: where-the-agent-runs
   sentence:
-    sv: "Ett CI-jobb har bara en kopia om ett av dess steg checkar ut repositoryt"
+    sv: "Ett CI-jobb har bara en kopia om ett av dess steg checkar ut repot"
     en: "A CI job has a copy only if one of its steps checks the repository out"
   vendor: OpenAI
   url: https://learn.chatgpt.com/docs/github-action
@@ -118,7 +118,7 @@
 - id: P6-clone-ci-claude
   article: where-the-agent-runs
   sentence:
-    sv: "Ett CI-jobb har bara en kopia om ett av dess steg checkar ut repositoryt"
+    sv: "Ett CI-jobb har bara en kopia om ett av dess steg checkar ut repot"
     en: "A CI job has a copy only if one of its steps checks the repository out"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/github-actions
@@ -130,7 +130,7 @@
 - id: P6-commit-available
   article: where-the-agent-runs
   sentence:
-    sv: "säger att det du committar till repositoryt finns tillgängligt i sessionen och att det du bara har installerat eller konfigurerat på din egen maskin inte gör det"
+    sv: "säger att det du committar till repot finns tillgängligt i sessionen och att det du bara har installerat eller konfigurerat på din egen maskin inte gör det"
     en: "says that what you commit to the repository is available in the session, and that what you have installed or configured only on your own machine is not"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/cloud-environments
@@ -142,7 +142,7 @@
 - id: P6-cc-instruction-travels
   article: where-the-agent-runs
   sentence:
-    sv: "I Claude Codes molnsessioner följer repositoryts instruktionsfil från del 2 och dess skills från del 4 med, eftersom de är en del av kopian"
+    sv: "I Claude Codes molnsessioner följer repots instruktionsfil från del 2 och dess skills från del 4 med, eftersom de är en del av kopian"
     en: "In Claude Code's cloud sessions, the repository's instruction file from part 2 and its skills from part 4 go along, because they are part of the copy"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/cloud-environments
@@ -154,7 +154,7 @@
 - id: P6-cc-skills-travel
   article: where-the-agent-runs
   sentence:
-    sv: "I Claude Codes molnsessioner följer repositoryts instruktionsfil från del 2 och dess skills från del 4 med, eftersom de är en del av kopian"
+    sv: "I Claude Codes molnsessioner följer repots instruktionsfil från del 2 och dess skills från del 4 med, eftersom de är en del av kopian"
     en: "In Claude Code's cloud sessions, the repository's instruction file from part 2 and its skills from part 4 go along, because they are part of the copy"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/cloud-environments
@@ -166,8 +166,8 @@
 - id: P6-cc-mcp-travels
   article: where-the-agent-runs
   sentence:
-    sv: "Det gör också dess MCP-fil från del 5, i en session med ett repository"
-    en: "So does its MCP file from part 5, in a session with one repository"
+    sv: "Det gör också dess .mcp.json från del 5, i en session med ett repo"
+    en: "So does its .mcp.json from part 5, in a session with one repository"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/cloud-environments
   final_url: https://code.claude.com/docs/en/cloud-environments
@@ -178,8 +178,8 @@
 - id: P6-cc-home-instruction
   article: where-the-agent-runs
   sentence:
-    sv: "Versionerna i din hemmapp, servrarna som bara du har lagt till och inloggningar som kräver en webbläsare blir kvar."
-    en: "The versions in your home folder, the servers you added only for yourself and sign-ins that need a browser stay behind."
+    sv: "Versionerna i din hemmapp, MCP-servrarna som bara du har lagt till och inloggningar som kräver en webbläsare blir kvar."
+    en: "The versions in your home folder, the MCP servers you added only for yourself and sign-ins that need a browser stay behind."
   vendor: Anthropic
   url: https://code.claude.com/docs/en/cloud-environments
   final_url: https://code.claude.com/docs/en/cloud-environments
@@ -190,8 +190,8 @@
 - id: P6-cc-home-skills
   article: where-the-agent-runs
   sentence:
-    sv: "Versionerna i din hemmapp, servrarna som bara du har lagt till och inloggningar som kräver en webbläsare blir kvar."
-    en: "The versions in your home folder, the servers you added only for yourself and sign-ins that need a browser stay behind."
+    sv: "Versionerna i din hemmapp, MCP-servrarna som bara du har lagt till och inloggningar som kräver en webbläsare blir kvar."
+    en: "The versions in your home folder, the MCP servers you added only for yourself and sign-ins that need a browser stay behind."
   vendor: Anthropic
   url: https://code.claude.com/docs/en/cloud-environments
   final_url: https://code.claude.com/docs/en/cloud-environments
@@ -202,8 +202,8 @@
 - id: P6-cc-home-mcp
   article: where-the-agent-runs
   sentence:
-    sv: "Versionerna i din hemmapp, servrarna som bara du har lagt till och inloggningar som kräver en webbläsare blir kvar."
-    en: "The versions in your home folder, the servers you added only for yourself and sign-ins that need a browser stay behind."
+    sv: "Versionerna i din hemmapp, MCP-servrarna som bara du har lagt till och inloggningar som kräver en webbläsare blir kvar."
+    en: "The versions in your home folder, the MCP servers you added only for yourself and sign-ins that need a browser stay behind."
   vendor: Anthropic
   url: https://code.claude.com/docs/en/cloud-environments
   final_url: https://code.claude.com/docs/en/cloud-environments
@@ -214,8 +214,8 @@
 - id: P6-cc-signin-browser
   article: where-the-agent-runs
   sentence:
-    sv: "Versionerna i din hemmapp, servrarna som bara du har lagt till och inloggningar som kräver en webbläsare blir kvar."
-    en: "The versions in your home folder, the servers you added only for yourself and sign-ins that need a browser stay behind."
+    sv: "Versionerna i din hemmapp, MCP-servrarna som bara du har lagt till och inloggningar som kräver en webbläsare blir kvar."
+    en: "The versions in your home folder, the MCP servers you added only for yourself and sign-ins that need a browser stay behind."
   vendor: Anthropic
   url: https://code.claude.com/docs/en/cloud-environments
   final_url: https://code.claude.com/docs/en/cloud-environments
@@ -226,7 +226,7 @@
 - id: P6-commit-your-config
   article: where-the-agent-runs
   sentence:
-    sv: "Dokumentationens råd är att committa din egen konfiguration till repositoryt"
+    sv: "Dokumentationens råd är att committa din egen konfiguration till repot"
     en: "The documentation's advice is to commit your own configuration to the repository."
   vendor: Anthropic
   url: https://code.claude.com/docs/en/cloud-environments
@@ -238,7 +238,7 @@
 - id: P6-codex-skills-repo
   article: where-the-agent-runs
   sentence:
-    sv: "de som ligger i repositoryt finns tillgängliga i molnuppgifter"
+    sv: "de som ligger i repot finns tillgängliga i molnuppgifter"
     en: "the ones stored in the repository are available in cloud tasks, and personal skills from your computer are not synced"
   vendor: OpenAI
   url: https://learn.chatgpt.com/docs/environments/cloud-environments
@@ -295,22 +295,10 @@
   retrieved: 2026-10-30
   last_checked: 2026-10-31
 
-- id: P6-gha-ci
-  article: where-the-agent-runs
-  sentence:
-    sv: "GitHubs tjänst för CI"
-    en: "GitHub's service for CI"
-  vendor: GitHub
-  url: https://docs.github.com/en/actions/get-started/understand-github-actions
-  final_url: https://docs.github.com/en/actions/get-started/understand-github-actions
-  quote: "GitHub Actions is a continuous integration and continuous delivery (CI/CD) platform"
-  retrieved: 2026-10-31
-  last_checked: 2026-10-31
-
 - id: P6-gha-folder
   article: where-the-agent-runs
   sentence:
-    sv: "som ligger i repositoryts mapp .github/workflows"
+    sv: "som ligger i repots mapp .github/workflows"
     en: "kept in the repository's .github/workflows folder"
   vendor: GitHub
   url: https://docs.github.com/en/actions/get-started/understand-github-actions
@@ -319,10 +307,22 @@
   retrieved: 2026-10-31
   last_checked: 2026-10-31
 
+- id: P6-gha-yaml
+  article: where-the-agent-runs
+  sentence:
+    sv: "Ett jobb där beskrivs av en workflow-fil, en YAML-fil"
+    en: "A job there is described by a workflow file, a YAML file"
+  vendor: GitHub
+  url: https://docs.github.com/en/actions/get-started/understand-github-actions
+  final_url: https://docs.github.com/en/actions/get-started/understand-github-actions
+  quote: "Workflows are defined by a YAML file checked in to your repository"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+
 - id: P6-gha-name
   article: where-the-agent-runs
   sentence:
-    sv: "name är det som fliken Actions i repositoryt visar för jobbet"
+    sv: "name är det som fliken Actions i repot visar för jobbet"
     en: "name is what the repository's Actions tab shows for the job"
   vendor: GitHub
   url: https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax
@@ -334,8 +334,8 @@
 - id: P6-cron-utc
   article: where-the-agent-runs
   sentence:
-    sv: "30 9 * * * är 09:30 varje dag, i UTC, vilket är 10:30 eller 11:30 i Sverige"
-    en: "30 9 * * * is 09:30 every day, in UTC, which is 10:30 or 11:30 in Sweden"
+    sv: "30 9 * * * är 09:30 varje dag, i UTC (10:30 eller 11:30 i Sverige)"
+    en: "30 9 * * * is 09:30 every day, in UTC (10:30 or 11:30 in Sweden)"
   vendor: GitHub
   url: https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows
   final_url: https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows
@@ -358,12 +358,12 @@
 - id: P6-gha-runner
   article: where-the-agent-runs
   sentence:
-    sv: "runs-on väljer runnern, datorn som GitHub lånar ut åt jobbet under en körning"
-    en: "runs-on picks the runner, the computer that GitHub lends the job for one run"
+    sv: "runs-on väljer runnern"
+    en: "runs-on picks the runner"
   vendor: GitHub
-  url: https://docs.github.com/en/actions/concepts/runners/github-hosted-runners
-  final_url: https://docs.github.com/en/actions/concepts/runners/github-hosted-runners
-  quote: "GitHub offers hosted virtual machines to run workflows."
+  url: https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax
+  final_url: https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax
+  quote: "to define the type of machine to run the job on"
   retrieved: 2026-10-31
   last_checked: 2026-10-31
 
@@ -382,8 +382,8 @@
 - id: P6-permissions-token
   article: where-the-agent-runs
   sentence:
-    sv: "permissions säger vad jobbets GitHub-token får göra: här bara läsa repositoryt"
-    en: "permissions says what the job's GitHub token may do: here, only read the repository"
+    sv: "permissions anger vad jobbets GITHUB_TOKEN får göra: här bara läsa repot"
+    en: "permissions sets what the job's GITHUB_TOKEN may do: here, only read the repository"
   vendor: GitHub
   url: https://docs.github.com/en/copilot/how-tos/copilot-cli/automate-copilot-cli/automate-with-actions
   final_url: https://docs.github.com/en/copilot/how-tos/copilot-cli/automate-copilot-cli/automate-with-actions
@@ -394,8 +394,8 @@
 - id: P6-gha-checkout
   article: where-the-agent-runs
   sentence:
-    sv: "Det första steget kopierar repositoryt till runnern"
-    en: "The first step copies the repository onto the runner"
+    sv: "Det första steget checkar ut repot till runnern"
+    en: "The first step checks the repository out onto the runner"
   vendor: GitHub
   url: https://raw.githubusercontent.com/actions/checkout/main/README.md
   final_url: https://raw.githubusercontent.com/actions/checkout/main/README.md
@@ -407,7 +407,7 @@
   article: where-the-agent-runs
   sentence:
     sv: "fetch-depth: 0 hämtar hela historiken så att git log kan se gårdagens commits"
-    en: "fetch-depth: 0 brings the whole history, so that git log can see yesterday's commits"
+    en: "fetch-depth: 0 fetches the whole history, so that git log can see yesterday's commits"
   vendor: GitHub
   url: https://raw.githubusercontent.com/actions/checkout/main/README.md
   final_url: https://raw.githubusercontent.com/actions/checkout/main/README.md
@@ -442,7 +442,7 @@
 - id: P6-cc-app-installed
   article: where-the-agent-runs
   sentence:
-    sv: "Den kräver att Claudes GitHub-app är installerad i repositoryt"
+    sv: "Den kräver att Claudes GitHub-app är installerad i repot"
     en: "It needs the Claude GitHub app installed on the repository"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/github-actions
@@ -466,12 +466,12 @@
 - id: P6-cc-list-commits
   article: where-the-agent-runs
   sentence:
-    sv: "Steget tillåter ett GitHub-verktyg, mcp__github__list_commits, som låter Claude läsa commits via GitHubs API"
-    en: "The step allows one GitHub tool, mcp__github__list_commits, which lets Claude read the commits through GitHub's API"
+    sv: "Steget tillåter ett MCP-verktyg från GitHub, mcp__github__list_commits, som låter Claude läsa commits via GitHubs API"
+    en: "The step allows one GitHub MCP tool, mcp__github__list_commits, which lets Claude read the commits through GitHub's API"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/github-actions
   final_url: https://code.claude.com/docs/en/github-actions
-  quote: "Claude reads commits and issues through the GitHub API with those tools"
+  quote: "allow two GitHub MCP tools. Claude reads commits and issues through the GitHub API with those tools"
   retrieved: 2026-10-31
   last_checked: 2026-10-31
 
@@ -586,7 +586,7 @@
 - id: P6-copilot-neither-token
   article: where-the-agent-runs
   sentence:
-    sv: "Då kan ingen av tokens skriva till ditt repository, så kan git inte ändra det"
+    sv: "Då kan ingen av de två tokens skriva till ditt repo. Git kan alltså inte ändra det"
     en: "Then neither token can write to your repository, so git cannot change it"
   vendor: GitHub
   url: https://docs.github.com/en/copilot/how-tos/copilot-cli/automate-copilot-cli/automate-with-actions
@@ -622,7 +622,7 @@
 - id: P6-codex-key
   article: where-the-agent-runs
   sentence:
-    sv: "Att köra dem kräver en nyckel eller en token för verktyget och ett eget repository"
+    sv: "Att köra dem kräver en nyckel eller en token för verktyget och ett eget repo"
     en: "Running them takes a key or a token for the tool and a repository of our own"
   vendor: OpenAI
   url: https://learn.chatgpt.com/docs/github-action
@@ -790,7 +790,7 @@
 - id: P6-ts-app-installed
   article: where-the-agent-runs
   sentence:
-    sv: "kontrollera också att Claudes GitHub-app är installerad i repositoryt"
+    sv: "kontrollera också att Claudes GitHub-app är installerad i repot"
     en: "also check that the Claude GitHub app is installed on the repository"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/github-actions
@@ -802,7 +802,7 @@
 - id: P6-ts-no-shell
   article: where-the-agent-runs
   sentence:
-    sv: "En prompt med vanlig text till Claude har ingen shell- eller GitHub-åtkomst förrän filen ger de verktyg som prompten behöver"
+    sv: "En prompt som bara är text ger Claude ingen shell- eller GitHub-åtkomst förrän filen ger de verktyg som prompten behöver"
     en: "A plain-text prompt to Claude has no shell or GitHub access until the file grants the tools the prompt needs"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/github-actions
@@ -886,8 +886,8 @@
 - id: P6-adv-agentic-markdown
   article: where-the-agent-runs
   sentence:
-    sv: "automation skriven i Markdown"
-    en: "automation written in Markdown"
+    sv: "automation skriven i markdown"
+    en: "automation written in markdown"
   vendor: GitHub
   url: https://github.blog/changelog/2026-10-28-github-agentic-workflows-generally-available/
   final_url: https://github.blog/changelog/2026-10-28-github-agentic-workflows-generally-available/
@@ -910,7 +910,7 @@
 - id: P6-small-clear-outcome
   article: where-the-agent-runs
   sentence:
-    sv: "Välj ett jobb som körs utan en människa, upprepas och har ett resultat du kan kontrollera"
+    sv: "Välj ett jobb som körs utan att någon är med, som upprepas och som har ett resultat du kan kontrollera"
     en: "Choose a job that runs without a person, repeats and has a result you can check"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/routines
@@ -922,7 +922,7 @@
 - id: P6-secret-path
   article: where-the-agent-runs
   sentence:
-    sv: "Öppna repositoryts Settings, sedan Secrets and variables, sedan Actions och slutligen New repository secret"
+    sv: "Öppna repots Settings, sedan Secrets and variables, sedan Actions och slutligen New repository secret"
     en: "In the repository's Settings, open Secrets and variables, then Actions, then New repository secret"
   vendor: GitHub
   url: https://docs.github.com/en/actions/how-tos/write-workflows/choose-what-workflows-do/use-secrets
@@ -934,7 +934,7 @@
 - id: P6-install-github-app
   article: where-the-agent-runs
   sentence:
-    sv: "För Claude Code, installera också Claudes GitHub-app i repositoryt: actionens sida visar hur"
+    sv: "För Claude Code, installera också Claudes GitHub-app i repot: actionens sida visar hur"
     en: "For Claude Code, also install the Claude GitHub app on the repository: the action's page shows how"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/github-actions

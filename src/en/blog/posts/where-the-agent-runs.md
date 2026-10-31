@@ -19,10 +19,7 @@ This part is about the same agent working where nobody watches: started by a
 schedule or by something that happens in GitHub, or running on the vendor's
 computers instead of yours. Part 1,
 [From AI chat to agentic work](/blog/what-makes-a-chat-an-ai-agent/), said that
-an agent can run in an editor, in a terminal, in a CI job or on a schedule. CI,
-short for continuous integration, is a service that runs checks and jobs when
-something happens in a project, such as a new pull request: a proposed change
-that others review before it is added.
+an agent can run in an editor, in a terminal, in a CI job or on a schedule.
 
 Nobody watching also means nobody to answer the agent's questions, so a good
 first job to run on its own is one that can only read.
@@ -30,9 +27,9 @@ first job to run on its own is one that can only read.
 ## A summary nobody has to ask for
 
 A made-up example: the developer of the web app from the earlier parts wants a
-short summary of yesterday's commits ready every morning. A commit is one saved
-set of changes in the project's history. Today the developer opens the agent in
-the editor, asks for the summary and pastes it into the team's chat.
+short summary of yesterday's commits ready every morning. Today the developer
+opens the agent in the editor, asks for the summary and pastes it into the
+team's chat.
 
 The job changes nothing in the project. It only reads the history and writes a
 few lines, which makes it a safe first job to move out of the editor. We will
@@ -70,9 +67,9 @@ have installed or configured only on your own machine is not.
 
 In Claude Code's cloud sessions, the repository's instruction file from part 2
 and its skills from part 4 go along, because they are part of the copy. So does
-its MCP file from part 5, in a session with one repository. The versions in your
-home folder, the servers you added only for yourself and sign-ins that need a
-browser stay behind. The documentation's advice is to commit your own
+its `.mcp.json` from part 5, in a session with one repository. The versions in
+your home folder, the MCP servers you added only for yourself and sign-ins that
+need a browser stay behind. The documentation's advice is to commit your own
 configuration to the repository.
 
 {% figure "what-goes-along" %}
@@ -99,11 +96,11 @@ We describe the tools as their documentation stood on 30 October 2026. What we
 say may have changed since.
 
 All three can run in
-[GitHub Actions](https://docs.github.com/en/actions/get-started/understand-github-actions),
-GitHub's service for CI. A job there is described by a workflow file: a text
-file in YAML, a plain format for settings, kept in the repository's
-`.github/workflows` folder. The three jobs below share one file and differ in
-one step, so the file comes first, with a place left for the tool's step:
+[GitHub Actions](https://docs.github.com/en/actions/get-started/understand-github-actions).
+A job there is described by a workflow file, a YAML file kept in the
+repository's `.github/workflows` folder. The three jobs below share one file and
+differ in one step, so the file comes first, with a place left for the tool's
+step:
 
 ```text
 name: Daily summary
@@ -129,24 +126,22 @@ Read from the top:
 - `name` is what the repository's Actions tab shows for the job.
 - `on` says what starts it. `schedule` starts it from the clock.
   [`cron`](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows)
-  writes the time as minute and hour: `30 9 * * *` is 09:30 every day, in UTC,
-  which is 10:30 or 11:30 in Sweden. `workflow_dispatch` adds the Run workflow
-  button to GitHub, for starting the job by hand.
-- `runs-on` picks the runner, the computer that GitHub lends the job for one
-  run.
+  sets the time: `30 9 * * *` is 09:30 every day, in UTC (10:30 or 11:30 in
+  Sweden). `workflow_dispatch` adds the Run workflow button to GitHub, for
+  starting the job by hand.
+- `runs-on` picks the runner.
 - `timeout-minutes` makes GitHub cancel the job after ten minutes.
-- `permissions` says what the job's GitHub token may do: here, only read the
+- `permissions` sets what the job's `GITHUB_TOKEN` may do: here, only read the
   repository.
-- A `uses` line runs a ready-made step. `with` gives it settings. The first step
-  copies the repository onto the runner. `fetch-depth: 0` brings the whole
-  history, so that `git log` can see yesterday's commits.
+- The first step checks the repository out onto the runner. `fetch-depth: 0`
+  fetches the whole history, so that `git log` can see yesterday's commits.
 
 In **Claude Code**, the
 [GitHub Action](https://code.claude.com/docs/en/github-actions) runs the agent
 in CI, either when someone mentions `@claude` in a comment or, with a prompt, on
 any GitHub event, such as the clock. It needs the Claude GitHub app installed on
 the repository, and a second line under `permissions`, `id-token: write`, which
-it uses to sign in to GitHub as that app. The step allows one GitHub tool,
+it uses to sign in to GitHub as that app. The step allows one GitHub MCP tool,
 `mcp__github__list_commits`, which lets Claude read the commits through GitHub's
 API. It is adapted from Anthropic's own example: we left out the issues and the
 model setting and wrote the prompt ourselves.
@@ -213,22 +208,12 @@ and your organisation allow it.
 Try the prompt in an ordinary chat first. Then press Run workflow, as in the
 steps below. When the run is done, open it, open the job `summary` and read the
 log of the tool's step. For Codex, that is the last step, which prints the file.
-The answer is there: it should list yesterday's commits and nothing that is not
-there. Compare it with this command, run in the repository's folder:
+The answer is in the log. It should list yesterday's commits and no others.
+Compare it with this command, run in the repository's folder:
 
 ```text
 git log --since=yesterday --oneline
 ```
-
-
-
-
-
-
-
-
-
-
 
 
 ## What it costs
@@ -251,8 +236,7 @@ Five things can go wrong:
 
 If nothing appears under Actions, check where the file is. GitHub reads workflow
 files from the `.github/workflows` folder, and a schedule or a Run workflow
-button works only when the file is on the default branch, the main line of
-changes in the repository, usually called `main`.
+button works only when the file is on the default branch, usually `main`.
 
 If the run fails at the first step, open that step's log. Check that the secret
 exists and that its name is spelled exactly as in the file. For Claude Code,
@@ -275,15 +259,15 @@ minutes.
 
 The basics above are enough to start. Three things for later:
 
-- Jobs that change code. They leave a branch (a separate line of changes) or a
-  pull request. You read it before it counts. In the factory, a change goes live
-  only once the gates pass ([Why we run an agent-run software
+- Jobs that change code. They leave a branch or a pull request. You read it
+  before it counts. In the factory, a change goes live only once the gates pass
+  ([Why we run an agent-run software
   factory](/blog/why-we-run-an-agent-run-factory/)). Part 7 covers the
   permissions such a job needs.
 - Signing in from a workflow without a stored key, through workload identity
   federation, which Claude's action supports.
 - [GitHub Agentic Workflows](https://github.blog/changelog/2026-10-28-github-agentic-workflows-generally-available/):
-  automation written in Markdown, which runs with read-only permissions by
+  automation written in markdown, which runs with read-only permissions by
   default.
 
 ## Start small
@@ -304,9 +288,7 @@ write. If a later job must write, add that one tool and nothing else.
 
 2. Add the key as a secret. In the repository's Settings, open Secrets and
    variables, then Actions, then New repository secret, and give it the name the
-   file uses. A secret is a value that GitHub keeps outside the file and hands
-   to the job. Never paste the key into the file. The key is a secret string
-   from your account with the tool's vendor. For Copilot, use the token
+   file uses. Never paste the key into the file. For Copilot, use the token
    described above. For Claude Code, also install the Claude GitHub app on the
    repository: the action's page shows how.
 

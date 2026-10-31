@@ -19,11 +19,8 @@ Den här delen handlar om samma agent när den arbetar där ingen tittar på:
 startad av ett schema eller av något som händer i GitHub, eller körd på
 leverantörens datorer i stället för dina. Del 1,
 [Från AI-chatt till agentiskt arbete](/sv/blog/what-makes-a-chat-an-ai-agent/),
-sa att en agent kan köras i en editor, i en terminal, i ett CI-jobb eller enligt
-ett schema. CI, förkortning av continuous integration, är en tjänst som kör
-kontroller och jobb när något händer i ett projekt, till exempel när en ny pull
-request kommer in: en föreslagen ändring som andra granskar innan den läggs
-till.
+sa att en agent kan köras i en editor, i en terminal, i ett CI-jobb eller på
+schema.
 
 Att ingen tittar på betyder också att ingen kan svara på agentens frågor, så ett
 bra första jobb att låta köra på egen hand är ett som bara får läsa.
@@ -31,9 +28,9 @@ bra första jobb att låta köra på egen hand är ett som bara får läsa.
 ## En sammanfattning som ingen behöver be om
 
 Ett påhittat exempel: utvecklaren av webbappen från de tidigare delarna vill ha
-en kort sammanfattning av gårdagens commits färdig varje morgon. En commit är en
-sparad uppsättning ändringar i projektets historik. I dag öppnar utvecklaren
-agenten i editorn, ber om sammanfattningen och klistrar in den i teamets chatt.
+en kort sammanfattning av gårdagens commits färdig varje morgon. I dag öppnar
+utvecklaren agenten i editorn, ber om sammanfattningen och klistrar in den i
+teamets chatt.
 
 Jobbet ändrar ingenting i projektet. Det läser bara historiken och skriver några
 rader, vilket gör det till ett tryggt första jobb att flytta ut ur editorn. Vi
@@ -50,7 +47,7 @@ du startar agenten och den körs på leverantörens datorer.
 | I editorn | Du | Du, bredvid | Att fråga och kontrollera medan du jobbar |
 | I terminalen | Du | Du | Samma sak plus skript |
 | I CI, när något händer | En händelse, till exempel en kommentar på en pull request | Ingen – du läser resultatet efteråt | Kontroller som körs när något händer |
-| Enligt ett schema | Klockan | Ingen | Samma jobb varje morgon |
+| På schema | Klockan | Ingen | Samma jobb varje morgon |
 | I leverantörens moln | Du, från en webbläsare eller en telefon | Du, eller ingen: den fortsätter köra om du stänger datorn | En lång uppgift som pågår medan datorn är stängd |
 
 Vår tumregel: börja där du kan titta på, i editorn eller terminalen. Flytta ut
@@ -63,31 +60,30 @@ känner.
 
 ## Det som följer med till en körning i molnet
 
-En körning i leverantörens moln utgår från en kopia av ditt repository, inte
-från din dator. Ett CI-jobb har bara en kopia om ett av dess steg checkar ut
-repositoryt. Anthropics
-[dokumentation](https://code.claude.com/docs/en/cloud-environments) säger att
-det du committar till repositoryt finns tillgängligt i sessionen och att det du
-bara har installerat eller konfigurerat på din egen maskin inte gör det.
+En körning i leverantörens moln utgår från en kopia av ditt repo, inte från din
+dator. Ett CI-jobb har bara en kopia om ett av dess steg checkar ut repot.
+Anthropics [dokumentation](https://code.claude.com/docs/en/cloud-environments)
+säger att det du committar till repot finns tillgängligt i sessionen och att det
+du bara har installerat eller konfigurerat på din egen maskin inte gör det.
 
-I Claude Codes molnsessioner följer repositoryts instruktionsfil från del 2 och
-dess skills från del 4 med, eftersom de är en del av kopian. Det gör också dess
-MCP-fil från del 5, i en session med ett repository. Versionerna i din hemmapp,
-servrarna som bara du har lagt till och inloggningar som kräver en webbläsare
-blir kvar. Dokumentationens råd är att committa din egen konfiguration till
-repositoryt.
+I Claude Codes molnsessioner följer repots instruktionsfil från del 2 och dess
+skills från del 4 med, eftersom de är en del av kopian. Det gör också dess
+`.mcp.json` från del 5, i en session med ett repo. Versionerna i din hemmapp,
+MCP-servrarna som bara du har lagt till och inloggningar som kräver en
+webbläsare blir kvar. Dokumentationens råd är att committa din egen
+konfiguration till repot.
 
 {% figure "what-goes-along" %}
 
 OpenAIs
 [dokumentation](https://learn.chatgpt.com/docs/environments/cloud-environments)
-säger detsamma om skills: de som ligger i repositoryt finns tillgängliga i
+säger detsamma om skills: de som ligger i repot finns tillgängliga i
 molnuppgifter. Personliga skills från din dator synkas inte.
 
 ## När ingen tittar på
 
 I editorn finns du där och kan svara när agenten stannar och frågar. Ett jobb
-som startas av klockan har ingen att svara. Som standard kan ett jobb i
+som startas av klockan har ingen som kan svara. Som standard kan ett jobb i
 [Claude Code](https://code.claude.com/docs/en/permission-modes),
 [Codex](https://learn.chatgpt.com/docs/non-interactive-mode) och
 [GitHub Copilot](https://docs.github.com/en/copilot/how-tos/copilot-cli/automate-copilot-cli/run-cli-programmatically)
@@ -101,9 +97,8 @@ Vi beskriver verktygen så som deras dokumentation såg ut den 30 oktober 2026.
 Det vi skriver kan ha ändrats sedan dess.
 
 Alla tre kan köras i
-[GitHub Actions](https://docs.github.com/en/actions/get-started/understand-github-actions),
-GitHubs tjänst för CI. Ett jobb där beskrivs av en workflow-fil: en textfil i
-YAML, ett enkelt format för inställningar, som ligger i repositoryts mapp
+[GitHub Actions](https://docs.github.com/en/actions/get-started/understand-github-actions).
+Ett jobb där beskrivs av en workflow-fil, en YAML-fil som ligger i repots mapp
 `.github/workflows`. De tre jobben nedan delar en fil och skiljer sig åt i ett
 steg, så filen kommer först, med en plats kvar för verktygets steg:
 
@@ -128,28 +123,25 @@ jobs:
 
 Läst uppifrån:
 
-- `name` är det som fliken Actions i repositoryt visar för jobbet.
+- `name` är det som fliken Actions i repot visar för jobbet.
 - `on` säger vad som startar det. `schedule` startar det från klockan.
   [`cron`](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows)
-  skriver tiden som minut och timme: `30 9 * * *` är 09:30 varje dag, i UTC,
-  vilket är 10:30 eller 11:30 i Sverige. `workflow_dispatch` lägger till knappen
-  Run workflow på GitHub, för att starta jobbet för hand.
-- `runs-on` väljer runnern, datorn som GitHub lånar ut åt jobbet under en
-  körning.
+  anger tiden: `30 9 * * *` är 09:30 varje dag, i UTC (10:30 eller 11:30 i
+  Sverige). `workflow_dispatch` lägger till knappen Run workflow på GitHub, för
+  att starta jobbet för hand.
+- `runs-on` väljer runnern.
 - `timeout-minutes` får GitHub att avbryta jobbet efter tio minuter.
-- `permissions` säger vad jobbets GitHub-token får göra: här bara läsa
-  repositoryt.
-- En `uses`-rad kör ett färdigt steg. `with` ger steget inställningar. Det
-  första steget kopierar repositoryt till runnern. `fetch-depth: 0` hämtar hela
+- `permissions` anger vad jobbets `GITHUB_TOKEN` får göra: här bara läsa repot.
+- Det första steget checkar ut repot till runnern. `fetch-depth: 0` hämtar hela
   historiken så att `git log` kan se gårdagens commits.
 
 I **Claude Code** kör
 [GitHub Action](https://code.claude.com/docs/en/github-actions) agenten i CI,
 antingen när någon nämner `@claude` i en kommentar eller, med en prompt, vid
 vilken GitHub-händelse som helst, till exempel klockan. Den kräver att Claudes
-GitHub-app är installerad i repositoryt. Jobbet behöver också en andra rad under
+GitHub-app är installerad i repot. Jobbet behöver också en andra rad under
 `permissions`, `id-token: write`, som actionen använder för att logga in på
-GitHub som appen. Steget tillåter ett GitHub-verktyg,
+GitHub som appen. Steget tillåter ett MCP-verktyg från GitHub,
 `mcp__github__list_commits`, som låter Claude läsa commits via GitHubs API. Det
 är anpassat från Anthropics eget exempel: vi har tagit bort ärendena och
 modellinställningen och skrivit prompten själva.
@@ -186,8 +178,8 @@ Det här steget är anpassat från exemplet på GitHubs
 vi har kortat prompten och låter svaret gå till loggen i stället för till en
 fil. Flaggan `--allow-tool` tillåter git-kommandon. `--no-ask-user` hindrar
 Copilot från att ställa frågor. Tokenen är en fine-grained personal access token
-med behörigheten "Copilot Requests". Ge tokenen bara den behörigheten. Då kan
-ingen av tokens skriva till ditt repository, så kan git inte ändra det.
+med behörigheten "Copilot Requests". Ge den bara den behörigheten. Då kan ingen
+av de två tokens skriva till ditt repo. Git kan alltså inte ändra det.
 
 ```text
       - uses: actions/setup-node@v7
@@ -199,8 +191,8 @@ ingen av tokens skriva till ditt repository, så kan git inte ändra det.
 
 Vi har kontrollerat att varje fil är giltig YAML och att dess inställningar
 finns på verktygets sida, men vi har inte kört jobben. Att köra dem kräver en
-nyckel eller en token för verktyget och ett eget repository, så pröva dem först
-där inget beror på dem.
+nyckel eller en token för verktyget och ett eget repo, så pröva dem först där
+inget beror på dem.
 
 I leverantörens moln startar
 [`claude --cloud`](https://code.claude.com/docs/en/claude-code-on-the-web) en
@@ -216,22 +208,12 @@ organisation tillåter det.
 Prova prompten i en vanlig chatt först. Tryck sedan på Run workflow, som i
 stegen nedan. När körningen är klar öppnar du den, öppnar jobbet `summary` och
 läser loggen för verktygets steg. För Codex är det det sista steget, som skriver
-ut filen. Svaret finns där: det ska lista gårdagens commits och inget som inte
-finns där. Jämför med det här kommandot, som du kör i repositoryts mapp:
+ut filen. Svaret står i loggen. Det ska lista gårdagens commits och inga andra.
+Jämför med det här kommandot, som du kör i repots mapp:
 
 ```text
 git log --since=yesterday --oneline
 ```
-
-
-
-
-
-
-
-
-
-
 
 
 ## Vad det kostar
@@ -255,15 +237,14 @@ Fem saker kan gå fel:
 
 Om inget syns under Actions, kontrollera var filen ligger. GitHub läser
 workflow-filer från mappen `.github/workflows`. Ett schema eller knappen Run
-workflow fungerar bara när filen ligger på default branch, huvudlinjen av
-ändringar i repositoryt, oftast `main`.
+workflow fungerar bara när filen ligger på default branch, oftast `main`.
 
 Om körningen misslyckas i första steget, öppna det stegets logg. Kontrollera att
 secreten finns och att dess namn stavas exakt som i filen. För Claude Code,
-kontrollera också att Claudes GitHub-app är installerad i repositoryt.
+kontrollera också att Claudes GitHub-app är installerad i repot.
 
 Om körningen lyckas men svaret är tomt eller fel kan ett verktyg ha nekats. En
-prompt med vanlig text till Claude har ingen shell- eller GitHub-åtkomst förrän
+prompt som bara är text ger Claude ingen shell- eller GitHub-åtkomst förrän
 filen ger de verktyg som prompten behöver, så kontrollera vilka verktyg den
 behöver och tillåt exakt dem.
 
@@ -279,26 +260,26 @@ minuter.
 
 Grunderna ovan räcker för att börja. Tre saker till senare:
 
-- Jobb som ändrar kod. De lämnar en branch (en egen linje av ändringar) eller en
-  pull request. Du läser den innan den räknas. I fabriken publiceras en ändring
-  först när den klarat kvalitetsgrindarna ([Därför driver vi en agentdriven
+- Jobb som ändrar kod. De lämnar en branch eller en pull request. Du läser den
+  innan ändringen går vidare. I fabriken publiceras en ändring först när den
+  klarat kvalitetsgrindarna ([Därför driver vi en agentdriven
   mjukvarufabrik](/sv/blog/why-we-run-an-agent-run-factory/)). Del 7 går igenom
   de behörigheter ett sådant jobb behöver.
 - Inloggning från en workflow utan lagrad nyckel, med workload identity
   federation, som Claudes action stöder.
 - [GitHub Agentic Workflows](https://github.blog/changelog/2026-10-28-github-agentic-workflows-generally-available/):
-  automation skriven i Markdown, som körs med skrivskyddade behörigheter som
+  automation skriven i markdown, som körs med skrivskyddade behörigheter som
   standard.
 
 ## Börja litet
 
 Det här är vår egen rekommendation för ett första jobb. Välj ett jobb som körs
-utan en människa, upprepas och har ett resultat du kan kontrollera, till exempel
-sammanfattningen. Ge det ingen möjlighet att skriva. Om ett senare jobb måste
-skriva, lägg till just det verktyget och inget mer.
+utan att någon är med, som upprepas och som har ett resultat du kan kontrollera,
+till exempel sammanfattningen. Ge det ingen möjlighet att skriva. Om ett senare
+jobb måste skriva, lägg till just det verktyget och inget mer.
 
-1. Skapa en fil på den här sökvägen i ett privat repository med några commits
-   från i går, på default branch, oftast `main`:
+1. Skapa en fil på den här sökvägen i ett privat repo med några commits från i
+   går, på default branch, oftast `main`:
 
    ```text
    .github/workflows/daily-summary.yml
@@ -307,13 +288,11 @@ skriva, lägg till just det verktyget och inget mer.
    Fyll den med filen ovan och lägg verktygets steg på platsen för den sista
    raden.
 
-2. Lägg till nyckeln som en secret. Öppna repositoryts Settings, sedan Secrets
-   and variables, sedan Actions och slutligen New repository secret. Ge den det
-   namn som filen använder. En secret är ett värde som GitHub förvarar utanför
-   filen och ger till jobbet. Klistra aldrig in nyckeln i filen. Nyckeln är en
-   hemlig sträng från ditt konto hos verktygets leverantör. För Copilot använder
+2. Lägg till nyckeln som en secret. Öppna repots Settings, sedan Secrets and
+   variables, sedan Actions och slutligen New repository secret. Ge den det namn
+   som filen använder. Klistra aldrig in nyckeln i filen. För Copilot använder
    du tokenen som beskrevs ovan. För Claude Code, installera också Claudes
-   GitHub-app i repositoryt: actionens sida visar hur.
+   GitHub-app i repot: actionens sida visar hur.
 
 3. Öppna fliken Actions, välj Daily summary i listan och tryck på Run workflow.
 
