@@ -2,7 +2,7 @@
 title: Var AI-agenten körs och vem som startar den
 description: Sjätte delen i serien "Från AI-chatt till agentiskt arbete" – samma AI-agent på fem ställen, från editorn till ett schema och leverantörens moln, vad som följer med till en körning i molnet, vad som ändras när ingen tittar på och vad du gör först.
 image: cover.png                 # en PNG på 1200 × 630 i artikelns mediemapp
-imageAlt: En AI-agent, en grön cirkel, står vid ingången till ett projekt och läser en kort lapp på en stolpe innan den går in. Bakom dörröppningen ligger projektets mappar och filer.
+imageAlt: En AI-agent, en grön cirkel, arbetar på en liten arbetsbänk där ingen tittar på. Till vänster står en klocka med en grön visare som pekar på en morgontimme och startar den. Till höger väntar ett färdigt blad med resultatet och en bock, lysande grönt, på ett litet bord. Längst till höger står en tom stol i grått.
 date: 2026-10-30
 category: ai-journey             # app-development | ai-journey
 translationKey: where-the-agent-runs

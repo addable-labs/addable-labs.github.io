@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <!-- The image of "Where the AI agent runs and who starts it" (si-depu,
+       31 October 2026), in the style and palette of parts 1 and 2: the agent
+       at work where nobody watches. Part 1's motif, a green circle with a
+       halo, sits on a small, dim workbench in the middle. On its left a clock
+       stands for who starts it: one green hand at a morning hour, a dotted
+       path from the clock to the agent. On its right a result sheet lies
+       finished on its own small table, glowing green, reached by a dotted
+       path from the agent. At the far right a chair stands empty in dim
+       grey: nobody is watching. The subject sits inside the central
+       630 x 630 square; nothing that matters is within 40 px of an edge. -->
+  <defs>
+    <pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse" y="15">
+      <path d="M0 .5H30M.5 0V30" fill="none" stroke="#242C33"/>
+    </pattern>
+    <radialGradient id="fade" cx="600" cy="315" r="640" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff" stop-opacity=".95"/>
+      <stop offset=".6" stop-color="#fff" stop-opacity=".55"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </radialGradient>
+    <mask id="gridmask"><rect width="1200" height="630" fill="url(#fade)"/></mask>
+    <radialGradient id="glow" cx="600" cy="315" r="340" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#83F35D" stop-opacity=".09"/>
+      <stop offset="1" stop-color="#83F35D" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glow-sheet" cx="774" cy="300" r="210" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#83F35D" stop-opacity=".2"/>
+      <stop offset="1" stop-color="#83F35D" stop-opacity="0"/>
+    </radialGradient>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#626E79"/>
+    </marker>
+  </defs>
+
+  <rect width="1200" height="630" fill="#0B0E10"/>
+  <rect width="1200" height="630" fill="url(#grid)" mask="url(#gridmask)"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+  <rect width="1200" height="630" fill="url(#glow-sheet)"/>
+
+  <!-- The floor. -->
+  <path d="M290 440H910" stroke="#626E79" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- The clock on its post, left: a round face with one green hand at a
+       morning hour (eight). -->
+  <path d="M362 372V440" stroke="#626E79" stroke-width="3" stroke-linecap="round"/>
+  <rect x="304" y="256" width="116" height="116" rx="14" fill="#13181C" stroke="#626E79" stroke-width="3"/>
+  <circle cx="362" cy="314" r="40" fill="#0B0E10" stroke="#A6B0BA" stroke-width="2.5"/>
+  <g stroke="#626E79" stroke-width="2.5" stroke-linecap="round">
+    <path d="M362 279V287M362 341V349M327 314H335M389 314H397"/>
+  </g>
+  <g stroke="#626E79" stroke-width="2" stroke-linecap="round">
+    <path d="M379.5 283.7L376.5 288.9M392.3 296.5L387.1 299.5M392.3 331.5L387.1 328.5M379.5 344.3L376.5 339.1M344.5 344.3L347.5 339.1M331.7 331.5L336.9 328.5M331.7 296.5L336.9 299.5M344.5 283.7L347.5 288.9"/>
+  </g>
+  <path d="M362 314L343 325" stroke="#83F35D" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="362" cy="314" r="4.5" fill="#83F35D"/>
+
+  <!-- The small workbench in the middle, dim and quiet, and the agent on it
+       at work: a green circle with its halo. -->
+  <g opacity=".85">
+    <path d="M498 376V440M634 376V440" stroke="#626E79" stroke-width="3" stroke-linecap="round"/>
+    <rect x="476" y="362" width="180" height="14" rx="7" fill="#1A2126" stroke="#626E79" stroke-width="3"/>
+  </g>
+  <circle cx="566" cy="330" r="30" fill="#83F35D"/>
+  <circle cx="566" cy="330" r="46" fill="none" stroke="#83F35D" stroke-opacity=".35" stroke-width="3"/>
+  <ellipse cx="566" cy="362" rx="30" ry="5" fill="#626E79" fill-opacity=".45"/>
+
+  <!-- Started by the clock; the result waits: the two dotted paths. -->
+  <g fill="none" stroke="#626E79" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="2 9" marker-end="url(#arrow)">
+    <path d="M428 310C456 292 488 296 514 326"/>
+    <path d="M620 328C650 298 682 292 712 310"/>
+  </g>
+
+  <!-- The result, right: a finished sheet on its own small table. A heading,
+       a few short lines and a ticked circle, glowing green. -->
+  <g opacity=".85">
+    <path d="M732 392V440M810 392V440" stroke="#626E79" stroke-width="3" stroke-linecap="round"/>
+    <rect x="714" y="380" width="114" height="12" rx="6" fill="#1A2126" stroke="#626E79" stroke-width="3"/>
+  </g>
+  <rect x="726" y="220" width="96" height="160" rx="12" fill="#13181C" stroke="#83F35D" stroke-width="3"/>
+  <rect x="744" y="242" width="52" height="12" rx="6" fill="#83F35D"/>
+  <g fill="#ECEFF1" fill-opacity=".7">
+    <rect x="744" y="266" width="62" height="9" rx="4.5"/>
+    <rect x="744" y="286" width="48" height="9" rx="4.5"/>
+    <rect x="744" y="306" width="56" height="9" rx="4.5"/>
+    <rect x="744" y="326" width="40" height="9" rx="4.5"/>
+  </g>
+  <circle cx="796" cy="358" r="13" fill="#83F35D"/>
+  <path d="M790 358l4.5 4.5l8-8.5" fill="none" stroke="#0B0E10" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- The empty chair at the far right, in dim grey: nobody is watching. -->
+  <g opacity=".7" fill="none" stroke="#626E79" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M854 406V440M880 406V440"/>
+    <rect x="846" y="394" width="42" height="12" rx="6" fill="#1A2126"/>
+    <rect x="880" y="292" width="9" height="106" rx="4.5" fill="#1A2126"/>
+  </g>
+</svg>

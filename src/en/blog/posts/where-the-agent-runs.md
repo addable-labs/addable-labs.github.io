@@ -2,7 +2,7 @@
 title: Where the AI agent runs and who starts it
 description: The sixth part of the series "From AI chat to agentic work" — the same AI agent in five places, from the editor to a schedule and the vendor's cloud, what goes along to a run in the cloud, what changes when nobody is watching and what to do first.
 image: cover.png                 # a 1200 × 630 PNG in the article's media directory
-imageAlt: An AI agent, a green circle, stands at the entrance of a project and reads a short note card on a post before it steps in. Behind the doorway lie the project's folders and files.
+imageAlt: An AI agent, a green circle, works on a small workbench where nobody is watching. A clock with one green hand at a morning hour stands to its left and starts it. To its right a finished sheet with the result and a tick, glowing green, waits on a small table. At the far right an empty chair stands in grey.
 date: 2026-10-30
 category: ai-journey             # app-development | ai-journey
 translationKey: where-the-agent-runs
