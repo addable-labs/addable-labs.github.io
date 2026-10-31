@@ -500,8 +500,8 @@
 - id: P3-cc-file-project
   article: agents-with-a-scope-each
   sentence:
-    sv: "är en subagent en Markdown-fil i .claude/agents/ i projektet"
-    en: "a subagent is a Markdown file in .claude/agents/ in the project"
+    sv: "är en subagent en markdown-fil i .claude/agents/ i projektet"
+    en: "a subagent is a markdown file in .claude/agents/ in the project"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/sub-agents
   final_url: https://code.claude.com/docs/en/sub-agents

@@ -68,7 +68,7 @@ The model often runs on the vendor's servers: an agent can
 [change files locally while sending what it reads to a model in the cloud](https://code.visualstudio.com/docs/agents/overview),
 unless a local model is chosen.
 
-**The instructions** are a text file in the project that the agent reads at
+**The instructions** are a markdown file in the project that the agent reads at
 every start: how the project is built and tested, which rules apply and what
 to leave alone. [AGENTS.md](https://agents.md/) is an open format for such a
 file. It grew out of a collaboration that included OpenAI's Codex, among

@@ -13,7 +13,7 @@ humanReviewed: true              # a person has read it
 
 In [From AI chat to agentic work](/blog/what-makes-a-chat-an-ai-agent/), the
 first part of this series, the instructions were one of the five parts of an
-AI agent: a text file in the project that the agent reads every time it
+AI agent: a markdown file in the project that the agent reads every time it
 starts. We showed a short one for a made-up web app.
 
 If you use an AI agent in a project, make one. The agent can read your code
@@ -25,7 +25,7 @@ file tell it.
 A made-up example: a developer starts a web app with a database and tests,
 and has an AI agent to help. The agent knows nothing about the project, so on
 the first day the developer writes down what a new colleague would need to
-know, and nothing more. The result is a plain text file called AGENTS.md in
+know, and nothing more. The result is a markdown file called AGENTS.md in
 the project's top folder (the root):
 
 ```text
@@ -232,7 +232,7 @@ it works with files there.
 
 ## Start small
 
-To start, create a plain text file called AGENTS.md in the project's top
+To start, create a markdown file called AGENTS.md in the project's top
 folder. Begin with the commands to install, build and test, then add the few
 rules the agent cannot work out from the code, each with its reason. Leave out
 overviews and descriptions of what each file does.

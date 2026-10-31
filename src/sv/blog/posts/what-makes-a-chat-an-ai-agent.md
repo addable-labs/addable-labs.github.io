@@ -68,7 +68,7 @@ väljer nästa steg, men gör ingenting på egen hand – med Anthropics ord:
 [ändra filer lokalt och samtidigt skicka det den läser till en modell i molnet](https://code.visualstudio.com/docs/agents/overview),
 om man inte har valt en lokal modell.
 
-**Instruktionerna** är en textfil i projektet som agenten läser varje gång
+**Instruktionerna** är en markdown-fil i projektet som agenten läser varje gång
 den startar: hur projektet byggs och testas, vilka regler som gäller och
 vad den ska låta bli. [AGENTS.md](https://agents.md/) är ett öppet format
 för en sådan fil. Det växte fram ur ett samarbete där bland andra OpenAI:s

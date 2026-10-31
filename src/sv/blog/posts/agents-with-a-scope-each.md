@@ -12,7 +12,7 @@ humanReviewed: true              # en person har läst den
 ---
 
 I [Instruktionsfilen, det första en AI-agent läser](/sv/blog/the-instruction-file/),
-seriens andra del, fick AI-agenten en kort textfil att läsa varje gång den
+seriens andra del, fick AI-agenten en kort markdown-fil att läsa varje gång den
 startar. Hittills har en enda agent gjort allt arbete: den skriver koden, kör
 testerna och kontrollerar sitt eget resultat.
 
@@ -175,7 +175,7 @@ modellen, av det slag som del 1 beskrev. Behörigheter avgör vad en agent får
 Verktygen beskriver vi så som dokumentationen såg ut den 30 oktober 2026. Det
 vi skriver kan ha ändrats sedan dess.
 
-I **Claude Code** är en subagent en Markdown-fil i `.claude/agents/` i
+I **Claude Code** är en subagent en markdown-fil i `.claude/agents/` i
 projektet, eller i `~/.claude/agents/` för alla dina projekt.
 
 I OpenAI:s **Codex** är en subagent en

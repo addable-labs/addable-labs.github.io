@@ -30,8 +30,8 @@
 - id: P4-standard-folder
   article: skills-for-repeatable-work
   sentence:
-    sv: "En skill är en mapp med en textfil som heter SKILL.md."
-    en: "A skill is a folder with a text file in it called SKILL.md."
+    sv: "En skill är en mapp med en markdown-fil som heter SKILL.md."
+    en: "A skill is a folder with a markdown file in it called SKILL.md."
   vendor: agentskills.io
   url: https://agentskills.io/home
   final_url: https://agentskills.io/home

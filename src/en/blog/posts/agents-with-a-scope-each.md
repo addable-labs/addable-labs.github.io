@@ -12,7 +12,7 @@ humanReviewed: true              # a person has read it
 ---
 
 In [The instruction file, the first thing an AI agent reads](/blog/the-instruction-file/),
-the second part of this series, the AI agent got a short text file to read at
+the second part of this series, the AI agent got a short markdown file to read at
 every start. So far one agent has done all the work: it writes the code, runs
 the tests and checks its own result.
 
@@ -173,7 +173,7 @@ of the series comes back to.
 We describe the tools as their documentation stood on 30 October 2026. What we
 say may have changed since.
 
-In **Claude Code** a subagent is a Markdown file in `.claude/agents/` in the
+In **Claude Code** a subagent is a markdown file in `.claude/agents/` in the
 project, or in `~/.claude/agents/` for all your projects.
 
 In OpenAI's **Codex** a subagent is a

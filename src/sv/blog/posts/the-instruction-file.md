@@ -13,7 +13,7 @@ humanReviewed: true              # en person har läst den
 
 I [Från AI-chatt till agentiskt arbete](/sv/blog/what-makes-a-chat-an-ai-agent/),
 seriens första del, var instruktionerna en av de fem delarna i en AI-agent:
-en textfil i projektet som agenten läser varje gång den startar. Vi visade en
+en markdown-fil i projektet som agenten läser varje gång den startar. Vi visade en
 kort sådan fil för en påhittad webbapp.
 
 Använder du en AI-agent i ett projekt ska du skapa en sådan fil. Agenten kan
@@ -25,7 +25,7 @@ några rader i filen om.
 Ett påhittat exempel: en utvecklare startar en webbapp med en databas och
 tester och har en AI-agent som hjälp. Agenten vet ingenting om projektet, så
 första dagen skriver utvecklaren ner det en ny kollega skulle behöva veta – och
-inget mer. Resultatet är en vanlig textfil som heter AGENTS.md, i projektets
+inget mer. Resultatet är en markdown-fil som heter AGENTS.md, i projektets
 översta mapp (roten):
 
 ```text
@@ -233,7 +233,7 @@ undermapp när det arbetar med filer där.
 
 ## Börja litet
 
-Skapa en vanlig textfil som heter AGENTS.md i projektets översta mapp. Börja
+Skapa en markdown-fil som heter AGENTS.md i projektets översta mapp. Börja
 med kommandona för att installera, bygga och testa och lägg sedan till de få
 regler som agenten inte kan läsa ut ur koden, var och en med sitt skäl. Låt bli
 översikter och beskrivningar av vad varje fil gör.

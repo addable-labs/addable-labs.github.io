@@ -12,13 +12,13 @@ humanReviewed: true              # a person has read it
 ---
 
 In [The instruction file, the first thing an AI agent reads](/blog/the-instruction-file/),
-the second part of this series, the AI agent got a short text file to read at
+the second part of this series, the AI agent got a short markdown file to read at
 every start. That file says what the agent is responsible for and which job it
 is meant to do.
 
 Part 3 was about what the job is. This part is about how the job should be
 done, so that it is done the same way each time, for example when making a
-release. That belongs in a skill: a folder with a text file that says when and
+release. That belongs in a skill: a folder with a markdown file that says when and
 how to do the job, and often a small program, called a script, for the part that
 must be exact.
 
@@ -42,7 +42,7 @@ checklist or procedure into the chat.
 
 ## A skill is a folder
 
-A skill is a folder with a text file in it called SKILL.md. The file begins
+A skill is a folder with a markdown file in it called SKILL.md. The file begins
 with a `name` and a `description`, the two fields every skill needs, and goes on
 with the instructions. Other fields are optional; "Advanced skills" near the end
 describes them.

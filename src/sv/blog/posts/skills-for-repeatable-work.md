@@ -12,13 +12,13 @@ humanReviewed: true              # en person har läst den
 ---
 
 I [Instruktionsfilen, det första en AI-agent läser](/sv/blog/the-instruction-file/),
-seriens andra del, fick AI-agenten en kort textfil att läsa varje gång den
+seriens andra del, fick AI-agenten en kort markdown-fil att läsa varje gång den
 startar. Den filen säger vad agenten är ansvarig för och vilket jobb den ska
 göra.
 
 Del 3 handlade om vad jobbet är. Den här delen handlar om hur jobbet ska göras,
 så att det görs på samma sätt varje gång, till exempel när en ny version av
-appen släpps (en release). Det hör hemma i en skill: en mapp med en textfil som
+appen släpps (en release). Det hör hemma i en skill: en mapp med en markdown-fil som
 säger när och hur jobbet görs – och ofta ett litet program, ett skript, för det
 som måste bli exakt.
 
@@ -43,7 +43,7 @@ instruktioner, checklista eller arbetssätt i chatten.
 
 ## En skill är en mapp
 
-En skill är en mapp med en textfil som heter SKILL.md. Filen börjar med ett namn
+En skill är en mapp med en markdown-fil som heter SKILL.md. Filen börjar med ett namn
 (`name`) och en beskrivning (`description`) – de två fält som varje skill
 behöver – och fortsätter med instruktionerna. Andra fält är valfria; "Avancerade
 skills" nära slutet beskriver dem.
