@@ -312,7 +312,7 @@ Brödtext i Markdown.
   the series on AI agents (`what-makes-a-chat-an-ai-agent`, 1,600, and
   `the-instruction-file`, 2,030), which he allowed in his reviews of 29–30
   October 2026 (part 2 as a 5–10 minute read), and part 7
-  (`set-the-limits-in-advance`), which gets 2,700 on the same footing. The Swedish
+  (`set-the-limits-in-advance`), which gets 2,250 on the same footing. The Swedish
   twin is not counted, and neither are the figures (captions and diagram
   labels) or the tables' cells: they are not prose.
 - **Figures.** An article can carry custom SVG illustrations (REQ-008): put

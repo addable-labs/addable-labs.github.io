@@ -1314,7 +1314,7 @@
       "caption": "Which tool reads which file in a project's folders, as their documentation stood on 30 October 2026. The closest file has the last word."
     },
     "limits-path": {
-      "title": "The instruction file reaches the agent only. From the top, a command meets a hook first, then the permission rules and mode, which may ask you, and last the sandbox, which wraps the command itself. Below, three things run outside the sandbox: the agent's file tools, MCP servers and hooks.",
+      "title": "The instruction file reaches only the agent. From the top, a command meets the hook, then the permission rules and mode, then the sandbox. Below, some of what runs outside the sandbox: the agent's file tools, MCP servers and hooks.",
       "head": "One command, the checks it meets",
       "instruction": {
         "label": "Instruction file",
@@ -1337,11 +1337,11 @@
         "label": "The command runs",
         "note": "only where the sandbox allows"
       },
-      "outside": "Runs outside the sandbox:",
+      "outside": "Some of what runs outside the sandbox:",
       "fileTools": "File tools",
       "mcp": "MCP servers",
       "hooks": "Hooks",
-      "caption": "The checks one command meets in Claude Code, in the order its documentation gives them on 30 October 2026. The sandbox covers commands in the terminal. The agent's file tools, MCP servers and hooks run outside it."
+      "caption": "The checks one command meets in Claude Code, in the order its documentation gives them on 31 October 2026."
     }
   },
   "games": {

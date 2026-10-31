@@ -1,6 +1,6 @@
 ---
 title: Sätt gränserna i förväg
-description: Sjunde delen i serien "Från AI-chatt till agentiskt arbete" – skillnaden mellan att be en AI-agent uppföra sig och att stoppa den, de tre sorters gränser ett verktyg erbjuder, var varje verktyg börjar, vad du gör när en gräns släpper igenom något och vad du gör först.
+description: Sjunde delen i serien "Från AI-chatt till agentiskt arbete" – skillnaden mellan att be en AI-agent uppföra sig och att stoppa den, de tre sorters gränser ett verktyg erbjuder, en första uppsättning gränser att pröva i ett övningsprojekt och vad du gör när en gräns släpper igenom något.
 image: cover.png                 # en PNG på 1200 × 630 i artikelns mediemapp
 imageAlt: En AI-agent, en grön cirkel, står vid ingången till ett projekt och läser en kort lapp på en stolpe innan den går in. Bakom dörröppningen ligger projektets mappar och filer.
 date: 2026-10-30
@@ -10,92 +10,112 @@ draft: true                      # ett utkast — sätt false för att publicera
 aiGenerated: true                # AI har skrivit texten
 humanReviewed: false             # ingen har läst den ännu
 ---
-I del 6 av serien arbetade AI-agenten där ingen tittar på. Ett jobb kunde bara
-göra det som tillåtits innan det startade. Den här delen handlar om hur du
-bestämmer vad som är tillåtet, var agenten än körs.
+I del 6 arbetade agenten där ingen tittar på. Som standard kan ett jobb i
+[Claude Code](https://code.claude.com/docs/en/permission-modes),
+[Codex](https://learn.chatgpt.com/docs/non-interactive-mode) och
+[GitHub Copilot](https://docs.github.com/en/copilot/how-tos/copilot-cli/automate-copilot-cli/run-cli-programmatically)
+bara göra det som tillåtits innan det startade, så det första jobbet ska bara
+läsa.
 
-Hittills har det mesta du gett agenten varit en begäran. Instruktionsfilen från
-del 2 är text som agenten läser och oftast följer. En gräns är något annat:
-verktyget stoppar agenten oavsett vad den har bestämt.
-
-Ingen enskild gräns täcker allt, så en bra första uppsättning använder fler än
-en och börjar strikt.
+Den här delen går igenom hur du sätter de gränserna och vad mer som kan svara åt
+dig. Texten följer verktygens dokumentation så som den såg ut den 31 oktober 2026.
 
 ## En begäran och en gräns
 
-Ett påhittat exempel: utvecklaren av webbappen från de tidigare delarna har en
-mapp som heter `migrations/`, vars filer redan har körts i produktion.
-Instruktionsfilen från del 2 har en rad om den:
+Ett påhittat exempel: webbappen från de tidigare delarna har en mapp som heter
+`migrations/`. En migrering är en fil som ändrar databasens struktur. De här har
+redan körts i produktion, så ingen bör ändra dem. Instruktionsfilen från del 2
+har en rad om det:
 
 ```text
 - Change nothing in the `migrations/` folder: those files have already
   run in production. Add a new migration instead.
 ```
 
-Agenten läser raden varje gång den startar och följer den oftast. Anthropics
-[dokumentation](https://code.claude.com/docs/en/permissions) skiljer de två
-slagen av regler åt i två meningar. Instruktioner "påverkar vad Claude försöker
-göra men ändrar inte vad Claude Code tillåter", medan behörighetsregler
-"upprätthålls av Claude Code, inte av modellen" (vår översättning).
+Agenten
+[läser raden varje gång den startar](https://code.claude.com/docs/en/memory) och
+följer den oftast. När den missförstår raden eller har blivit vilseledd av text
+den har läst, som del 5 beskrev, finns det inget som stoppar den. Anthropics
+[dokumentation](https://code.claude.com/docs/en/permissions) säger skillnaden i
+två meningar. Instruktioner "påverkar vad Claude försöker göra men ändrar inte
+vad Claude Code tillåter", medan behörighetsregler "upprätthålls av Claude Code,
+inte av modellen" (vår översättning).
 
-[VS Codes dokumentation](https://code.visualstudio.com/docs/agents/run/security)
-säger att instruktioner vägleder modellen och inte är en tvingande gräns.
-[OpenAIs](https://learn.chatgpt.com/docs/customization/overview) rekommenderar
-att AGENTS.md kombineras med infrastruktur som ser till att reglerna följs.
+En gräns är en regel som något utanför instruktionsfilen kontrollerar. Del 2
+nämnde två sätt att få en: ett test i projektet och en inställning i verktyget.
+Den här delen handlar om inställningen.
 
-Raden brister när agenten missförstår den eller har blivit vilseledd av text den
-har läst, som del 5 beskrev. Anthropics
-[inlägg](https://www.anthropic.com/research/claude-code-auto-mode) från den 25
-mars 2026 listar tidigare fall ur företagets egen incidentlogg: att radera
-grenar på fjärrsidan utifrån en missförstådd instruktion, att ladda upp en
-ingenjörs GitHub-token till ett internt beräkningskluster och att försöka köra
-migreringar mot en produktionsdatabas. Anthropic skriver att alla berodde på att
-modellen var överivrig.
+## Börja strikt
 
-En gräns är en regel som verktyget kontrollerar innan agentens åtgärd sker. Del
-2 nämnde två sätt att få en: ett test i projektet och en inställning i
-verktyget. Den här delen handlar om inställningen.
+OpenAIs [best practices](https://learn.chatgpt.com/docs/learn/best-practices)
+säger åt den som är ny med kodagenter att hålla godkännanden och sandbox stramt
+och att lätta på behörigheterna bara för betrodda projekt eller särskilda
+arbetsflöden när behovet är tydligt.
 
-I fabriken bakom den här sajten har vi en av varje. Varje agent gör sina commits
-under en identitet som sätts i miljön för dess session, så agenten väljer den
-inte. En regel om att inte stoppa andra programs processer med ett kommando som
-utgår från deras namn är en rad i instruktionsfilen som ingenting kontrollerar
-att den följs.
+Vår rekommendation: gör så här i ett övningsprojekt. Låt verktyget fråga innan
+något ändras, slå på sandboxen, lägg till en nekande regel för det enda som
+aldrig får ändras och lägg till en hook sist, för ett kommando du kan namnge
+exakt. Exemplet nedan sätter alla fyra på en gång. I ditt eget projekt lägger du
+till dem en i taget och prövar var och en först.
 
 ## Tre sorters gränser
 
-Varje gång agenten vill göra något, till exempel köra ett kommando eller ändra
-en fil, avgör verktyget om det får ske. Verktygen erbjuder tre sorters gränser
-för det beslutet. De stoppar olika saker.
+Tre sorters gränser avgör om agenten får köra ett kommando eller ändra en fil.
 
-**Behörigheter (permissions)** är regler och lägen i verktygets inställningar.
-En regel säger att en åtgärd är tillåten, kräver ditt svar först eller aldrig är
-tillåten. Ett läge avgör vad som körs utan att fråga när ingen regel gäller. I
-Claude Code går en nekande regel före en tillåtande.
+Den första är behörighetsreglerna (permission rules), en lista i verktygets
+inställningar som säger att en åtgärd är tillåten, kräver ditt svar först eller
+aldrig är tillåten. När ingen regel gäller avgör verktygets läge vem som svarar:
+du eller, i vissa lägen, en andra modell. I Claude Code går en nekande regel
+före en tillåtande.
 
-En **hook** är ett kommando som verktyget kör av sig självt vid en bestämd
-punkt, till exempel precis innan agenten använder ett verktyg. Ditt eget skript
-tittar på vad agenten är på väg att göra och kan säga nej.
+Den andra är en krok (hook): ett kommando som verktyget kör av sig självt precis
+innan agenten använder ett verktyg, så att ditt eget skript kan titta på vad
+agenten är på väg att göra och säga nej.
 
-**Sandboxen** är en gräns av ett annat slag. Operativsystemet, programvaran som
-kör din dator, begränsar vilka filer och vilka nätverksadresser ett kommando och
-programmen det startar kan nå. Det håller gränserna medan kommandot körs, så
-agenten behöver inte fråga om varje kommando.
+Den tredje är sandboxen. Den fungerar på ett annat sätt. Operativsystemet,
+programvaran som kör din dator, sätter ett staket runt ett kommando och de
+program det startar. Innanför staketet avgör inställningarna vilka filer
+kommandot kan ändra och vilka nätverksadresser det kan nå. Anthropics
+[sida](https://code.claude.com/docs/en/sandboxing) säger att sandboxen minskar
+risken men inte är en fullständig isoleringsgräns.
 
 {% figure "limits-path" %}
 
-I Claude Code möter ett kommando först hooken och sedan behörighetsreglerna. Det
-körs i sandboxen om den är på. Varje kontroll täcker bara en del av det agenten
-kan göra: sandboxen täcker kommandon i terminalen. Figuren listar det som körs
-utanför den. Instruktionsfilen finns inte alls på vägen. Den når modellen och
-inget annat.
+Hooken kommer först eftersom den kan stoppa ett kommando innan någon regel
+läses. Sandboxen kommer sist eftersom den omger själva kommandot. Agentens
+filverktyg körs utanför sandboxen och följer i stället behörighetsreglerna, så
+ingen enskild kontroll täcker allt.
 
-## En första uppsättning gränser
+## Sätt upp exemplet
 
-Utvecklaren sätter upp gränserna för webbappen i Claude Code, som är exemplet
-här. Codex och GitHub Copilot kommer i avsnittet om verktygen. Två filer
-innehåller gränserna. Den första är `.claude/settings.json`. Den sätter
-behörigheterna, slår på sandboxen och registrerar en hook:
+Exemplet använder Claude Code i en terminal. Du behöver macOS, Linux eller
+Windows med [WSL2](https://learn.microsoft.com/en-us/windows/wsl/about), som kör
+Linux inuti Windows, eftersom skriptet är ett skalskript och sandboxen körs på
+macOS, Linux och WSL2. Du behöver också `jq`, ett litet program för att läsa
+JSON. Kontrollera att du har det:
+
+```text
+jq --version
+```
+
+Skriver kommandot ut ett fel installerar du `jq` med `brew install jq` på macOS
+eller `sudo apt-get install jq` på Debian och Ubuntu, som Anthropics
+[guide till hooks](https://code.claude.com/docs/en/hooks-guide) beskriver.
+
+Pröva i en mapp som inte spelar någon roll. De här kommandona skapar en med de
+två mappar som exemplet skyddar:
+
+```text
+mkdir limits-practice
+cd limits-practice
+git init
+mkdir -p .claude/hooks migrations build
+echo "create table users (id int);" > migrations/001.sql
+```
+
+Spara de två filerna nedan i den här mappen. Den första är
+`.claude/settings.json`: den sätter behörigheterna, slår på sandboxen och
+registrerar en hook.
 
 ```text
 {
@@ -121,23 +141,32 @@ behörigheterna, slår på sandboxen och registrerar en hook:
 }
 ```
 
-Agenten får köra testerna och titta på repositoryt utan att fråga. Den kan
-aldrig ändra en fil under `migrations/` eller läsa `.env`, eftersom nekande
-regler gäller i alla lägen. Allt som ändrar något och inte står på listan över
-tillåtna frågar först, eftersom `default` är det läge Claude Code kallar Manual.
-Sandboxen är på. Inställningen `autoAllowBashIfSandboxed` är false, vilket
-behåller frågorna för kommandon även när de körs i sandboxen.
+Varje regel anger ett verktyg och, inom parentes, vad den gäller. `*` står för
+vilken text som helst och `**` för vilket djup av mappar som helst, så
+`Edit(migrations/**)` gäller varje fil under `migrations/`.
+`defaultMode: default` gör att Claude Code frågar innan något ändras.
+`autoAllowBashIfSandboxed: false` gör att det frågar även för ett kommando i
+sandboxen.
 
-Del 2 nämnde en hook som blockerar ändringar i mappen med migreringar. En
-nekande regel gör samma sak med mindre att skriva, så hooken här sparas för
-kommandon. Den andra filen är skriptet som hooken kör. Verktyget startar det
-före varje kommando i terminalen och ger det kommandot som text. Slutkod 2
-blockerar kommandot. Det skriptet skriver som felmeddelande går tillbaka till
-agenten. Spara det som `.claude/hooks/block-dangerous.sh` och gör det körbart
-med `chmod +x`. Det behöver också `jq`, ett litet program för att läsa JSON.
+En nekande regel stoppar Claude Codes filverktyg från att ändra en fil under
+`migrations/` eller läsa `.env` i alla lägen. Den stoppar inte ett program som
+öppnar filer själv. Avsnittet efter kontrollerna säger vad som gör det.
+
+Utan raden `defaultMode` startar Claude Code i auto mode i terminalen, där auto
+mode finns tillgängligt. Sandboxen är av. I auto mode granskar en andra modell,
+klassificeraren (classifier), åtgärderna i stället för dig.
+
+Den andra filen är skriptet som hooken kör. I inställningarna betyder
+`PreToolUse` precis innan ett verktyg används. `matcher: Bash` begränsar hooken
+till kommandon i terminalen. Du behöver inte läsa skriptet rad för rad. Det får
+kommandot som text och jämför det med två mönster. Vid träff skriver det ett
+meddelande till agenten och slutar med talet 2, vilket blockerar kommandot. I
+alla andra fall slutar det med 0, vilket släpper igenom kommandot. Spara det som
+`.claude/hooks/block-dangerous.sh`:
 
 ```text
 #!/bin/bash
+command -v jq >/dev/null || { echo "jq is missing" >&2; exit 2; }
 INPUT=$(cat)
 COMMAND=$(echo "$INPUT" | jq -r '.tool_input.command // empty')
 
@@ -149,59 +178,111 @@ fi
 exit 0
 ```
 
-Vi körde skriptet i en tillfällig mapp med exempelindata från Anthropics
-[guide till hooks](https://code.claude.com/docs/en/hooks-guide). Det blockerade
-`rm -rf build` och `git push origin main --force` och släppte igenom `npm test`.
-Vi körde inte inställningsfilen i en riktig session. Vi kontrollerade dess
-nycklar mot Anthropics dokumentation så som den såg ut den 30 oktober 2026.
+Skriptets första rad blockerar varje kommando med ett meddelande om `jq` saknas.
+Gör skriptet körbart och testa det innan Claude Code kör det. Testet skickar ett
+påhittat kommando, som guiden till hooks gör. `echo $?` skriver ut talet som
+skriptet slutade med:
 
-## Vad sandboxen täcker
+```text
+chmod +x .claude/hooks/block-dangerous.sh
+echo '{"tool_name":"Bash","tool_input":{"command":"rm -rf build"}}' | .claude/hooks/block-dangerous.sh; echo $?
+```
 
-Sandboxen är den enda av de tre som operativsystemet själv tvingar fram. Varje
-leverantörs sida säger vad den inte täcker. Tabellen visar Claude Codes
-[sida](https://code.claude.com/docs/en/sandboxing), den för
-[Codex](https://learn.chatgpt.com/docs/sandboxing) och den för
-[VS Code](https://code.visualstudio.com/docs/agents/run/agent-sandboxing) så som
-de såg ut den 30 oktober 2026.
+Det ska skriva ut meddelandet "Blocked" och sedan 2. Vi körde skriptet med
+`rm -rf build`, `git push origin main --force` och `npm test`. Det blockerade de
+två första. Vi körde inte inställningsfilen i en riktig session.
 
-| | Claude Code | Codex | GitHub Copilot i VS Code |
-| --- | --- | --- | --- |
-| Filer | Skriver i projektmappen; läser det mesta på datorn | Skriver i arbetsytan och i tillfälliga mappar | Läser och skriver i arbetsmappen; läser utvecklingsverktygens mappar |
-| Nätverk | Stängt; tillåtna adresser börjar tomma | Av | Öppet, även när sandboxen är på |
-| Täcks inte | Filverktyg, MCP-servrar och hooks | Webbsökning, MCP-anslutningar och webbläsaranvändning filtreras inte | Inbyggda verktyg som inte startar någon process |
+Starta nu Claude Code från den här mappen med kommandot `claude`. Om det
+[frågar om du litar på mappen](https://code.claude.com/docs/en/security) svarar
+du ja: det är din egen övningsmapp.
 
-Anthropics sida säger att sandboxen "minskar risken men är inte en fullständig
-isoleringsgräns" (vår översättning). VS Codes säger att den inte är en virtuell
-maskin och inte en gräns mellan användarkonton.
+## Kontrollera att det fungerar
 
-## Claude Code, Codex och GitHub Copilot
+En gräns som ingen har prövat är en förhoppning. Ge Claude Code de här
+uppgifterna en i taget och kontrollera varje resultat själv i ett andra
+terminalfönster, eftersom agentens egna ord inte är något bevis. Meddelandena
+kan vara formulerade annorlunda än här. Det är filkontrollerna som räknas.
 
-Vi beskriver verktygen så som deras dokumentation såg ut den 30 oktober 2026.
-Det vi skriver kan ha ändrats sedan dess. De tre börjar inte på samma ställe.
+1. Skriv `/permissions` och sedan `/sandbox`. Du ska se dina tillåtande och
+   nekande regler och sandboxens inställningar.
 
-**Claude Code** startar i auto mode i terminalen och i VS Code, sedan version
-2.1.283. Sandboxen är av. I auto mode granskar en andra modell, klassificeraren
-(classifier), åtgärderna i stället för dig. Inlägget från den 25 mars 2026 mätte
-den: av 52 verkliga fall där agenten gjorde mer än den hade blivit ombedd
-släppte klassificeraren igenom 17 %, vilket Anthropic kallar "det ärliga talet"
-(vår översättning). Del 6 gav en annan siffra, från inlägget den 7 augusti 2026.
+2. Be den: "Lägg till en kommentar i migrations/001.sql." Den nekande regeln ska
+   säga nej. Erbjuder Claude Code att köra ett kommando i stället, svara nej.
+   Kontrollera att filen är oförändrad:
 
-Anthropics
-[sida om behörighetslägen (permission modes)](https://code.claude.com/docs/en/permission-modes)
-listar stegen från strikt till självgående. De är läget Manual, sedan Manual med
-sandboxen i läget auto-allow – som kör kommandon i sandboxen utan att fråga –
-och sedan auto mode. Bypass-läget är bara till för containrar och virtuella
-maskiner. I exempelfilen tar du det andra steget genom att ta bort
-`autoAllowBashIfSandboxed`. `claude --permission-mode default` startar strikt,
-`/sandbox` visar sandboxens inställningar och `/permissions` listar reglerna.
+   ```text
+   cat migrations/001.sql
+   ```
 
-**Codex** delar upp gränserna i två, som OpenAIs
-[dokumentation](https://learn.chatgpt.com/docs/agent-approvals-security)
-beskriver det: en sandbox som begränsar vad Codex kan röra och en regel för
-godkännanden (approval policy) som avgör när det måste stanna och fråga dig. I
-en mapp under versionshantering är den rekommenderade starten `workspace-write`
-med godkännande på begäran. I andra mappar är den `read-only`. Samma start,
-skriven som en fil:
+   Den ska fortfarande vara en rad.
+
+3. Be den: "Radera mappen build med rm -rf build." Hooken ska blockera det.
+   Agenten får hookens "Blocked"-meddelande. Kontrollera att mappen finns kvar:
+
+   ```text
+   ls -d build
+   ```
+
+4. Be den: "Kör touch ~/sandbox-probe", den kontroll som Anthropics sida
+   föreslår. Claude Code frågar först. Svara ja: den här gången är det
+   sandboxen, inte du, som ska stoppa det. Kommandot ska misslyckas med ett fel
+   som "Operation not permitted" på macOS eller "Read-only file system" på
+   Linux. Ber Claude då om att få köra det igen utanför sandboxen, svara nej.
+   Kontrollera:
+
+   ```text
+   ls ~/sandbox-probe
+   ```
+
+   Det ska stå att filen inte finns. Finns den, radera den och kör `/sandbox`.
+
+5. Be den: "Radera build med rm -fr build." Hooken känner inte igen den
+   stavningen, så Claude Code frågar bara dig. Svara nej. Nästa avsnitt
+   förklarar varför.
+
+Visar `/sandbox` bara en flik som heter Dependencies saknas ett paket. Fliken
+säger vilket. På Linux och WSL2 behöver sandboxen `bubblewrap` och `socat`.
+Installera det som nämns, starta om Claude Code och kör `/sandbox` igen. Tills
+dess kör Claude Code som standard kommandon utan sandbox.
+
+När du är klar raderar du övningsmappen. Finns `~/sandbox-probe` raderar du den
+också. Vill du använda gränserna i ett riktigt projekt kopierar du de två
+filerna dit och committar dem. Finns `.claude/settings.json` redan lägger du in
+nycklarna i den filen. Anthropics
+[sida om inställningar](https://code.claude.com/docs/en/settings) säger att den
+filen ska committas så att alla som klonar repositoryt får samma behörigheter
+och hooks.
+
+## När en gräns släpper igenom något
+
+Steg 5 visade det. `rm -fr build` betyder samma sak som `rm -rf build`, men
+skriptet letar bara efter den andra stavningen, så det släpper också igenom
+`rm -r -f build` och `git push -f`. En hook som matchar text stoppar det den
+listar och inget annat. Använd en hook för det du kan namnge exakt och lägg den
+verkliga gränsen i en nekande regel eller i sandboxen.
+
+Den nekande regeln har också ett hål. Den gäller Claude Codes egna filverktyg
+och de filkommandon det känner igen, som `cat` och `sed`, men inte ett skript
+som öppnar filer själv, till exempel ett Python-program. Sandboxen gör det, så
+slå på båda.
+
+Verkar hooken inte köras alls, upprepa testkommandot. De vanligaste orsakerna är
+ett skript som inte är körbart och en `matcher` med fel stor eller liten
+bokstav. En hook som misslyckas eller tar för lång tid blockerar inte som
+standard: på de flesta händelser genomför Claude Code åtgärden ändå.
+
+Slutligen: en fråga som du svarar ja på varje gång är ingen gräns. Gör då en
+tillåtande regel för kommandot, till exempel `npm test`, eller ta bort
+`autoAllowBashIfSandboxed` så att kommandon i sandboxen körs utan att fråga.
+
+## Om du använder Codex
+
+Codex har två reglage. Sandboxen begränsar vad det får röra. Godkännandepolicyn
+(approval policy) säger när det måste fråga dig. Vi har inte kört
+inställningarna för Codex och Copilot. Skapa `.codex/config.toml` i
+övningsmappen med den start som OpenAI
+[rekommenderar](https://learn.chatgpt.com/docs/agent-approvals-security) för en
+mapp under versionshantering:
 
 ```text
 approval_policy = "on-request"
@@ -211,23 +292,24 @@ sandbox_mode = "workspace-write"
 network_access = false
 ```
 
-Filen är `.codex/config.toml`, som Codex
-[läser för ett projekt](https://learn.chatgpt.com/docs/config-file/config-basic)
-bara när det litar på projektet. En separat
-[regelfil](https://learn.chatgpt.com/docs/agent-configuration/rules) styr vilka
-kommandon Codex får köra utanför sandboxen. En regel kan förbjuda ett kommando
-som `git push`. OpenAI markerar reglerna som experimentella.
+Codex
+[läser den här filen](https://learn.chatgpt.com/docs/config-file/config-basic)
+bara för ett projekt det litar på, så frågar det om du litar på mappen svarar du
+ja. I kommandoradsversionen visar `/status` godkännandepolicyn och arbetsytans
+mappar. Kör steg 4 ovan och svara nej om Codex frågar om det får lämna
+sandboxen. Stegen 2, 3 och 5 kräver Claude Codes nekande regel och hook. Regler
+som förbjuder ett kommando ligger i en separat
+[regelfil](https://learn.chatgpt.com/docs/agent-configuration/rules), som OpenAI
+markerar som experimentell.
 
-**GitHub Copilot** i VS Code startar i Manual permissions med sandboxen av. En
-[behörighetsnivå (permission level)](https://code.visualstudio.com/docs/agents/run/approvals)
-gäller för en session. Manual permissions frågar om allt som inte är automatiskt
-godkänt, Assisted permissions låter en språkmodell bedöma varje anrop och Allow
-all hoppar över frågorna. Terminalkommandon, verktyg, webbadresser och ändringar
-i känsliga filer har egna inställningar. Inställningarna nedan slår på sandboxen
-och stänger dess nätverk. Den sista raden är anpassad från
-[VS Codes eget exempel](https://code.visualstudio.com/docs/agents/run/review-code-edits)
-och frågar innan en ändring i en migrering eller i `.env`. Den förbjuder den
-inte.
+## Om du använder GitHub Copilot i VS Code
+
+Copilot-sessioner i VS Code startar i läget
+[Manual permissions](https://code.visualstudio.com/docs/agents/run/approvals) om
+inte en inställning eller din organisation säger något annat. Öppna
+kommandopaletten, välj
+[Preferences: Open User Settings (JSON)](https://code.visualstudio.com/docs/configure/settings)
+och lägg till de här raderna:
 
 ```text
 "chat.agent.sandbox.enabled": "on",
@@ -235,108 +317,18 @@ inte.
 "chat.tools.edits.autoApprove": { "**/*": true, "**/migrations/**": false, "**/.env": false }
 ```
 
-Alla tre har hooks, men en hook som är skriven för ett verktyg går inte att
-flytta över oförändrad. VS Codes
-[sida om hooks](https://code.visualstudio.com/docs/agent-customization/hooks)
-säger att namn på händelser och verktyg, argument och felbeteende kan skilja sig
-åt mellan verktyg. Vi har inte kört inställningarna för Codex och Copilot ovan.
-
-## Kontrollera att det fungerar
-
-En gräns som ingen har prövat är en förhoppning. I fabriken bakom den här sajten
-har varje grind ett test som visar att den fallerar när något avsiktligt görs
-fel, som
-[Så byggdes den här sajten av agenter](/sv/blog/how-this-site-was-built-by-agents/)
-beskriver. Pröva dina gränser på samma sätt, i en övningskopia av projektet:
-
-1. Kör `/permissions` och `/sandbox` för att se vilka regler och inställningar
-   som gäller.
-2. Be agenten lägga till en kommentar i en fil i `migrations/`. Den nekande
-   regeln ska stoppa det.
-3. Be den radera mappen `build` med `rm -rf build`. Hooken ska blockera det.
-   Agenten får hookens meddelande.
-4. Be den köra `touch ~/sandbox-probe`, den kontroll som Anthropics sida
-   föreslår. Du får en fråga först, så svara ja. Sandboxen ska sedan stoppa det
-   med ett fel som "Operation not permitted". Om filen dyker upp, radera den och
-   titta på `/sandbox`.
-5. Be den radera `build` med `rm -fr build`. Hooken släpper igenom just det här
-   kommandot, så du får en fråga i stället. Svara nej.
-
-Den femte är den som inte håller. Nästa avsnitt förklarar varför.
-
-## Felsökning
-
-Sex saker kan gå fel:
-
-- En nekande regel stoppar inte ett program som läser filer själv.
-- Hooken släpper igenom ett kommando.
-- Hooken körs inte eller misslyckas utan att blockera.
-- Du svarar ja på varje fråga.
-- En inställning gäller inte.
-- Sandboxen gör inte det du väntar dig.
-
-Om en nekande regel inte stoppar ett program som läser filer själv är regeln
-inte rätt lager för det. Nekande regler för Read och Edit gäller för Claude
-Codes filverktyg, för omdirigeringar och för de filkommandon det känner igen,
-som `cat` och `sed`. De gäller inte, med Anthropics ord, för "godtyckliga
-underprocesser som läser eller skriver filer indirekt, som ett Python- eller
-Node-skript som öppnar filer själv" (vår översättning). Sandboxen täcker de
-programmen. Claude Code lägger till sökvägarna från dina nekande regler i
-sandboxens egna listor, så slå på båda.
-
-Om hooken släpper igenom ett kommando, titta på hur kommandot är skrivet.
-`rm -fr build` betyder samma sak som `rm -rf build`. Skriptet ovan släpper
-igenom det, liksom `rm -r -f build` och `git push -f`. En hook som matchar text
-stoppar det den listar och inget annat. OpenAIs
-[sida om hooks](https://learn.chatgpt.com/docs/hooks) säger att du ska se hooks
-"som ett användbart skyddsräcke, inte en fullständig tvingande gräns" (vår
-översättning). Använd en hook för det du kan namnge exakt. Lägg den verkliga
-gränsen i en nekande regel eller i sandboxen.
-
-Om hooken inte körs, testa den på det sätt guiden till hooks gör, genom att
-skicka exempelindata till den:
-
-```text
-echo '{"tool_name":"Bash","tool_input":{"command":"rm -rf build"}}' | .claude/hooks/block-dangerous.sh; echo $?
-```
-
-Den ska skriva ut meddelandet och sedan 2. De vanligaste orsakerna är ett skript
-som inte är körbart, `jq` som saknas och ett värde i `matcher` med fel stor
-eller liten bokstav, eftersom det skiljer på dem. På de flesta händelser
-genomför Claude Code åtgärden ändå när en hook misslyckas eller tar för lång
-tid. Lägg till `"onFailure": "block"` bredvid `"type"` i hookens post, i version
-2.1.295 eller senare, så att ett misslyckande blockerar. Codex hoppar över en
-hook tills du har granskat den och litar på den med `/hooks`.
-
-Om du svarar ja på varje fråga är frågorna ingen gräns. Del 6 förklarade varför
-en fråga som människor svarar på utan att läsa är ett svagt skydd. Lösningen är
-att fråga mindre och bättre: en tillåtande regel för kommandon du godkänner
-varje gång, som `npm test`, eller sandboxen i läget auto-allow, det andra steget
-ovan, så att de frågor som blir kvar gäller det som korsar gränsen.
-
-Om en inställning inte gäller, ta reda på vilken som vinner. Claude Code
-ignorerar `"auto"` och `"bypassPermissions"` som `defaultMode` i ett projekts
-`.claude/settings.json`, så lägg dem i din egen `~/.claude/settings.json`. Ett
-projekts tillåtande regler väntar tills du har sagt ja i dialogen om att lita på
-mappen. I VS Code använder en session som startats i en worktree, en separat
-arbetskopia av projektet, alltid Allow all, vad standardvalet än säger. I Codex
-kan den avvecklade policyn `untrusted` för godkännanden hindra appen från att
-starta. `/permissions` i Claude Code listar reglerna och vilken fil var och en
-kommer från. `/status` i Codex listar mapparna som räknas som arbetsyta.
-
-Om sandboxen inte gör det du väntar dig, börja med om den körs alls. Claude Code
-kör kommandon utan sandbox om ett paket den behöver saknas eller plattformen
-inte stöds, som i Windows utan WSL2, om inte `sandbox.failIfUnavailable` är
-`true`. Ett kommando som inte går att köra i sandboxen är ofta ett verktyg som
-ignorerar dess proxyinställningar: Claude Codes sida säger att vanlig `ssh` och
-de flesta databasdrivrutiner inte kan ansluta, inte ens till en tillåten värd.
-Att köra just det kommandot utanför sandboxen tar bort skyddet för det. Tillåt
-den snävaste adressen, eller sätt `allowUnsandboxedCommands` till `false` så att
-den enda vägen ut är inställningsfilen.
+De två första raderna slår på sandboxen och stänger dess nätverk. Den tredje är
+anpassad från
+[VS Codes eget exempel](https://code.visualstudio.com/docs/agents/run/review-code-edits).
+I Manual permissions gör den att Copilot frågar innan det ändrar en migrering
+eller `.env`. Den förbjuder inte ändringen. Raderna gäller varje projekt du
+öppnar, så ta bort dem när du är klar. I en ny session visar
+[`/sandbox policy`](https://code.visualstudio.com/docs/agents/run/agent-sandboxing)
+om sandboxen är på.
 
 ## Avancerat
 
-Grunderna ovan räcker för att börja. Fem saker till senare:
+Det här räcker för att börja. Tre saker till senare:
 
 - Inställningar som ett team eller ett företag kan tvinga fram och som användare
   inte kan åsidosätta: managed settings i Claude Code, Copilots
@@ -344,34 +336,16 @@ Grunderna ovan räcker för att börja. Fem saker till senare:
   för VS Code samt
   [`requirements.toml`](https://learn.chatgpt.com/docs/enterprise/managed-configuration)
   i Codex.
-- Opålitliga repositories. Ett repository kan ha med sina egna inställningar,
+- Projekt du inte litar på. Ett projekt kan ha med sina egna inställningar,
   hooks och instruktioner. VS Code stänger av agenter i en arbetsyta som öppnats
   i
-  [begränsat läge (restricted mode)](https://code.visualstudio.com/docs/editing/workspaces/workspace-trust),
-  Codex startar med enbart läsning tills du litar på mappen och Claude Code
-  [frågar först](https://code.claude.com/docs/en/security).
-- Att köra hela sessionen i en container eller en virtuell maskin, vilket är dit
-  Anthropic säger att bypass-läget hör hemma.
-- Codex
-  [behörighetsprofiler (permission profiles)](https://learn.chatgpt.com/docs/permissions)
-  och [inställningarna](https://code.claude.com/docs/en/auto-mode-config) för
-  Claude Codes klassificerare.
-- Vad hooks kan göra utöver att blockera, till exempel
-  [skriva om ett anrop](https://code.claude.com/docs/en/hooks).
-
-## Börja litet
-
-Välj ett övningsprojekt och börja där verktyget är som striktast. OpenAIs
-[best practices](https://learn.chatgpt.com/docs/learn/best-practices)
-rekommenderar det för den som är ny med kodagenter: håll godkännanden och
-sandbox stramt och lätta sedan på behörigheterna "bara för betrodda repositories
-eller särskilda arbetsflöden när behovet är tydligt" (vår översättning).
-
-Lägg sedan till gränserna i den här ordningen. Först en tillåtande regel för de
-kommandon som bara läser och som du godkänner varje gång. Sedan sandboxen. Sedan
-en nekande regel för det som aldrig får ändras. Sist en hook, men bara för ett
-kommando du kan namnge exakt. Pröva var och en som i avsnittet ovan innan du
-lägger till nästa. Den ordningen är vår egen rekommendation.
+  [begränsat läge (restricted mode)](https://code.visualstudio.com/docs/editing/workspaces/workspace-trust).
+  Codex kan starta med enbart läsning tills du litar på mappen. Claude Code
+  frågar först i en interaktiv session. En körning utan en person vid prompten,
+  som `claude -p`, frågar aldrig.
+- Hooks som misslyckas. I Claude Code 2.1.295 eller senare blockerar
+  `"onFailure": "block"` bredvid `"type"` i hookens post när hooken inte kan
+  startas eller tar för lång tid.
 
 ## Vad som kommer härnäst
 
@@ -381,7 +355,7 @@ Arbetstitlarna kan ändras på vägen.
 2. [Instruktionsfilen, det första en AI-agent läser](/sv/blog/the-instruction-file/)
 3. Ge varje AI-agent ett eget jobb
 4. Skills, när arbetet ska göras likadant varje gång
-5. MCP, så når AI-agenten era andra system
+5. MCP, så når AI-agenten dina andra system
 6. Var AI-agenten körs och vem som startar den
 7. Sätt gränserna i förväg (den här delen)
 8. Mindre styrning för varje modell
