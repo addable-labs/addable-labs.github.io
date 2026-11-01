@@ -52,9 +52,9 @@ dessa tokens var cacheläsningar.
 
 Borgmästarens schemalagda kontroller kostade på samma sätt: Claude Codes sida
 om att [hantera kostnader](https://code.claude.com/docs/en/costs) påpekar att
-en schemalagd uppgift körs enligt sitt intervall även när sessionen är
-overksam och då skickar hela kontexten varje gång. Den 8 oktober tog de 18 %
-av borgmästarens tokens.
+en schemalagd uppgift inom sessionen körs enligt sitt intervall även när
+sessionen är overksam och då skickar hela kontexten varje gång. Den 8 oktober
+tog de 18 % av borgmästarens tokens.
 
 ## Intensiva dagar dolde vad väntan kostade
 

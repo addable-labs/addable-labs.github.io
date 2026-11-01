@@ -29,14 +29,14 @@
 - id: V2
   article: what-an-agent-costs-while-it-waits
   sentence:
-    sv: "Borgmästarens schemalagda kontroller kostade på samma sätt: Claude Codes sida om att hantera kostnader påpekar att en schemalagd uppgift körs enligt sitt intervall även när sessionen är overksam och då skickar hela kontexten varje gång."
-    en: "The mayor's scheduled checks cost the same way: Claude Code's page on managing costs notes that a scheduled task still runs while the session is idle, and that each run sends the whole context."
+    sv: "Borgmästarens schemalagda kontroller kostade på samma sätt: Claude Codes sida om att hantera kostnader påpekar att en schemalagd uppgift inom sessionen körs enligt sitt intervall även när sessionen är overksam och då skickar hela kontexten varje gång."
+    en: "The mayor's scheduled checks cost the same way: Claude Code's page on managing costs notes that a session-scoped scheduled task still runs while the session is idle, and that each run sends the whole context."
   vendor: Anthropic
   url: https://code.claude.com/docs/en/costs
   final_url: https://code.claude.com/docs/en/costs
-  quote: "a scheduled task fires on its interval even while the session is idle, sending your full context each time"
-  retrieved: 2026-10-11
-  last_checked: 2026-10-11
+  quote: "a session-scoped scheduled task fires on its interval even while the session is idle, sending your full context each time"
+  retrieved: 2026-11-01
+  last_checked: 2026-11-01
 - id: V3
   article: what-an-agent-costs-while-it-waits
   sentence:

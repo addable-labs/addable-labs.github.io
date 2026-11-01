@@ -48,9 +48,10 @@ each of those restarts cost twice the context in tokens. Nearly all of those
 tokens were read from the cache.
 
 The mayor's scheduled checks cost the same way: Claude Code's page on
-[managing costs](https://code.claude.com/docs/en/costs) notes that a scheduled
-task still runs while the session is idle, and that each run sends the whole
-context. On 8 October they took 18% of the mayor's tokens.
+[managing costs](https://code.claude.com/docs/en/costs) notes that a
+session-scoped scheduled task still runs while the session is idle, and that
+each run sends the whole context. On 8 October they took 18% of the mayor's
+tokens.
 
 ## Busy days hid what waiting cost
 
