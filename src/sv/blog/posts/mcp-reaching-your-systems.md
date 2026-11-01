@@ -69,7 +69,7 @@ verktyg läser bara och andra ändrar saker, till exempel "skapa ett ärende". D
 två andra sorterna, data att läsa och färdiga instruktioner, lämnar vi utanför
 här. Modellen avgör när ett serververktyg anropas.
 
-## Säkerhet: vad du litar på när du kopplar in en MCP-server
+## Säkerhetsaspekter
 
 Att koppla in en MCP-server låter agenten använda allt som programmet erbjuder.
 En lokal MCP-server körs på din egen dator och kan därför köra kod där, som VS

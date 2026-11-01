@@ -71,7 +71,7 @@ read, and some change things, such as "create an issue". The other two kinds,
 data to read and ready-made instructions, are left out here. The model decides
 when to call a server tool.
 
-## Security: what you trust when you connect an MCP server
+## Security considerations
 
 Connecting an MCP server lets the agent use whatever that program offers. A
 local MCP server runs on your own computer, so it can run code there, as VS
