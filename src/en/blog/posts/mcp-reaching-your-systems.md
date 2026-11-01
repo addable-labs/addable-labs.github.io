@@ -1,5 +1,5 @@
 ---
-title: MCP, how an AI agent reaches your other systems
+title: MCP, how an AI agent reaches other systems
 description: The fifth part of the series "From AI chat to agentic work" — what MCP is, how to make a first connection that can only read and what to do when it does not work.
 image: cover.png                 # a 1200 × 630 PNG in the article's media directory
 imageAlt: An AI agent, a green circle, is joined by one cable to an issue list, plugged into the list's socket. A small eye on the cable shows that the connection can only read. Set back to the right, a documentation page and a database, both grey, each have an empty socket and are not connected.
@@ -16,7 +16,7 @@ markdown file called SKILL.md in it. So far the instructions the AI agent reads
 at the start have been files on your own computer: the instruction file, the
 subagents' files and the skills.
 
-This part is about the systems outside those files, such as an issue tracker, a
+This part is about reaching other systems, such as an issue tracker, a
 documentation site or a database. The way in is the Model Context Protocol, MCP
 for short, an
 [open protocol](https://modelcontextprotocol.io/specification/2026-07-28): a
@@ -54,22 +54,22 @@ carries over to MCP servers with no CLI.
 ## What an MCP server offers
 
 An MCP server is a program that gives the agent an API to a system, such as
-GitHub. It sits in front of the system's own API. Its tools can call that API. A
-local server runs on your computer, started by the agent app. A remote server
-runs somewhere else and is reached over HTTP at a web address. Many remote
-servers need to know who you are, and GitHub's server asks for a personal access
+GitHub. It sits in front of the system's own API. Its tools can call that API.
+An MCP server can run locally on your computer or remotely, as GitHub does with
+its MCP server. Remote MCP servers are reached over HTTP at a web address, and
+many need to know who you are: GitHub's MCP server asks for a personal access
 token that you make in GitHub's settings. The agent can also run `gh` in the
 terminal, or call GitHub's API itself.
 
 {% figure "mcp-server", "wide" %}
 
-The
-[MCP documentation](https://modelcontextprotocol.io/docs/2026-07-28/learn/server-concepts)
-names three kinds of thing that a server offers. The one that matters here is
-tools: actions the agent can call, such as "list the issues". Some tools only
-read, and some change things, such as "create an issue". The other two kinds,
-data to read and ready-made instructions, are left out here. The model decides
-when to call a server tool.
+According to the
+[MCP documentation](https://modelcontextprotocol.io/docs/2026-07-28/learn/server-concepts),
+MCP offers three types of capability. The one that matters here is tools:
+actions the agent can call, such as "list the issues". Some tools only read, and
+some change things, such as "create an issue". The other two types, data to read
+and ready-made instructions, are left out here. The model decides when to call a
+tool.
 
 ## Security considerations
 
@@ -77,10 +77,10 @@ Connecting an MCP server lets the agent use whatever that program offers. A
 local MCP server runs on your own computer, so it can run code there, as VS
 Code's
 [documentation](https://code.visualstudio.com/docs/agent-customization/mcp-servers)
-says. Being listed in a directory does not mean a server is safe. Claude Code's
-[security page](https://code.claude.com/docs/en/security) says that Anthropic
-does not security-audit or manage any MCP server. So connecting an MCP server is
-a trust decision, like installing a program.
+says. Being listed in a directory does not mean an MCP server is safe. Claude
+Code's [security page](https://code.claude.com/docs/en/security) says that
+Anthropic does not security-audit or manage any MCP server. So connecting an MCP
+server is a trust decision, like installing a program.
 
 One risk has a name of its own:
 [prompt injection](https://code.visualstudio.com/docs/agents/run/security). The
@@ -110,10 +110,10 @@ issues. Two limits, both active at once, make sure of it.
 
 {% figure "read-only-limits", "wide" %}
 
-The first limit is on the MCP server. GitHub's server has a
+The first limit is on the MCP server. GitHub's MCP server has a
 [read-only mode](https://github.com/github/github-mcp-server/blob/main/docs/server-configuration.md)
 that disables its write tools even when they are explicitly requested. For the
-[remote server](https://github.com/github/github-mcp-server/blob/main/docs/remote-server.md)
+[remote MCP server](https://github.com/github/github-mcp-server/blob/main/docs/remote-server.md)
 you add `/readonly` to the end of the address.
 
 The second limit is on the token. GitHub's
@@ -128,7 +128,7 @@ still holds. Neither stops the agent from reading a harmful instruction, which
 is why the practice repository is private.
 
 At first, Claude Code and VS Code ask for your approval when the agent wants to
-use a server tool. Keep it that way while you watch what the agent does.
+use an MCP tool. Keep it that way while you watch what the agent does.
 [Part 7](#part-7) covers how to decide what may run without asking.
 
 ## Claude Code, Codex and GitHub Copilot
@@ -164,7 +164,7 @@ file holds the address and a header that names the variable:
 The token is not in the file, so the team can share it. The first time you open
 the project, Claude Code asks you to approve the server.
 
-In OpenAI's **Codex** the server goes into
+In OpenAI's **Codex** the MCP server goes into
 [`config.toml`](https://learn.chatgpt.com/docs/extend/mcp). Add this table to
 the end of `~/.codex/config.toml`, and keep what is already in the file:
 
@@ -178,8 +178,9 @@ In the table, `bearer_token_env_var` names the variable that holds the token.
 
 **GitHub Copilot** in VS Code reads a `.mcp.json` in the project's top folder,
 which VS Code calls the workspace root. VS Code's documentation names it as the
-way to share a server with a team that uses compatible Copilot apps. If you did
-not use Claude Code, create the file by hand with the content above. VS Code's
+way to share an MCP server with a team that uses compatible Copilot apps. If you
+did not use Claude Code, create the file by hand with the content above. VS
+Code's
 [configuration reference](https://code.visualstudio.com/docs/agents/reference/mcp-configuration)
 lets a header in that file refer to an environment variable with
 `${GITHUB_PAT}`.
@@ -213,7 +214,7 @@ Five things can go wrong:
 - The MCP server shows as failed.
 - The project's server never starts.
 - The configuration is not read.
-- There are too many server tools.
+- There are too many MCP tools.
 - The agent does something you did not ask for.
 
 If the server shows as failed, check the token first: it may be wrong, have
@@ -230,7 +231,7 @@ If the configuration is not read, look for a warning: Claude Code shows them in
 `claude mcp list` and in `/mcp`. A token pasted into the configuration with a
 trailing newline gets a warning about hidden whitespace.
 
-If there are too many server tools, remember that connected servers add their
+If there are too many MCP tools, remember that connected MCP servers add their
 tool names and instructions to the agent's context even when you are not using
 them, as Claude Code's best practices put it. Turn off the servers you do not
 need.
@@ -291,7 +292,7 @@ The working titles may change along the way.
 2. [The instruction file, the first thing an AI agent reads](/blog/the-instruction-file/)
 3. Give each AI agent a job of its own
 4. Skills, for work that must be done the same every time
-5. MCP, how an AI agent reaches your other systems (this part)
+5. MCP, how an AI agent reaches other systems (this part)
 6. Where the AI agent runs and who starts it
 7. <span id="part-7"></span>Set the limits in advance
 8. Less steering for every model

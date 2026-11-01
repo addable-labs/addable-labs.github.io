@@ -101,7 +101,7 @@ const ARTICLE_SLUG = "how-this-site-was-built-by-agents";
 // AI agents (29–30 October 2026, si-puxr and we-644a4; "the word count is no
 // problems", "I am fine with a 5-10 minute read") to 1,600 and 2,030, the 1,595
 // and 2,004 words of the texts he reviewed, and part 5 (30 October 2026,
-// we-oxckc; "up to 3,000 words is fine") to 2,050, above its 2,036; every other
+// we-oxckc; "up to 3,000 words is fine") to 2,050, above its 2,044; every other
 // article keeps 1,500.
 const SEED_ARTICLES = new Set([ARTICLE_SLUG, "lessons-from-building-niva"]);
 const WORD_RANGE = { seed: [300, 600], other: [300, 1500] };

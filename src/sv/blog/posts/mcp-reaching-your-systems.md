@@ -1,5 +1,5 @@
 ---
-title: MCP, så når AI-agenten dina andra system
+title: MCP, så når AI-agenten andra system
 description: Femte delen i serien "Från AI-chatt till agentiskt arbete" – vad MCP är, hur du gör en första koppling som bara får läsa och vad du gör när den inte fungerar.
 image: cover.png                 # en PNG på 1200 × 630 i artikelns mediemapp
 imageAlt: En AI-agent, en grön cirkel, är kopplad med en enda sladd till en ärendelista, instoppad i listans uttag. Ett litet öga på sladden visar att kopplingen bara får läsa. Längre bak till höger sitter en dokumentationssida och en databas, båda grå, var och en med ett tomt uttag och utan koppling.
@@ -16,9 +16,9 @@ markdown-fil som heter SKILL.md. Hittills har de instruktioner som AI-agenten
 läser vid starten varit filer på din egen dator: instruktionsfilen,
 subagenternas filer och skills.
 
-Den här delen handlar om systemen utanför de filerna, till exempel ett
-ärendesystem, en dokumentationssajt eller en databas. Vägen dit är Model Context
-Protocol, förkortat MCP, ett
+Den här delen handlar om att nå andra system, till exempel ett ärendesystem, en
+dokumentationssajt eller en databas. Vägen dit är Model Context Protocol,
+förkortat MCP, ett
 [öppet protokoll](https://modelcontextprotocol.io/specification/2026-07-28): ett
 standardiserat sätt för ett AI-program, till exempel Claude Code, Codex eller VS
 Code, att koppla upp sig mot ett system och använda det. Del 1,
@@ -54,20 +54,21 @@ begränsar en koppling. Samma idé gäller för MCP-servrar utan CLI.
 
 En MCP-server är ett program som ger agenten ett API mot ett system, till
 exempel GitHub. Den står framför systemets eget API. Dess verktyg kan anropa
-det. En lokal server (local server) körs på din dator och startas av
-AI-programmet. En fjärrserver (remote server) körs någon annanstans och nås via
-HTTP på en webbadress. Många fjärrservrar behöver veta vem du är. GitHubs server
-begär en personal access token som du skapar i GitHubs inställningar. Agenten
-kan också köra `gh` i terminalen, eller anropa GitHubs API själv.
+det. En MCP-server kan köras lokalt på din dator eller på distans, som GitHub
+gör med sin MCP-server. MCP-servrar på distans nås via HTTP på en webbadress.
+Många av dem behöver veta vem du är. GitHubs MCP-server begär en personal access
+token som du skapar i GitHubs inställningar. Agenten kan också köra `gh` i
+terminalen, eller anropa GitHubs API själv.
 
 {% figure "mcp-server", "wide" %}
 
+Enligt
 [MCP-dokumentationen](https://modelcontextprotocol.io/docs/2026-07-28/learn/server-concepts)
-nämner tre sorters saker som en server erbjuder. Den som spelar roll här är
-verktyg: åtgärder som agenten kan anropa, till exempel "lista ärendena". Vissa
-verktyg läser bara och andra ändrar saker, till exempel "skapa ett ärende". De
-två andra sorterna, data att läsa och färdiga instruktioner, lämnar vi utanför
-här. Modellen avgör när ett serververktyg anropas.
+erbjuder MCP tre typer av funktioner. Den typ som spelar roll här är verktyg:
+åtgärder som agenten kan anropa, till exempel "lista ärendena". Vissa verktyg
+läser bara och andra ändrar saker, till exempel "skapa ett ärende". De två andra
+typerna, data att läsa och färdiga instruktioner, lämnar vi utanför här. Det är
+modellen som avgör när ett verktyg anropas.
 
 ## Säkerhetsaspekter
 
@@ -75,11 +76,11 @@ Att koppla in en MCP-server låter agenten använda allt som programmet erbjuder
 En lokal MCP-server körs på din egen dator och kan därför köra kod där, som VS
 Codes
 [dokumentation](https://code.visualstudio.com/docs/agent-customization/mcp-servers)
-säger. Att finnas i en katalog betyder inte att en server är säker. Claude Codes
-[säkerhetssida](https://code.claude.com/docs/en/security) säger att Anthropic
-inte säkerhetsgranskar eller förvaltar någon MCP-server. Att koppla in en
-MCP-server är därför ett beslut om vad du litar på, ungefär som att installera
-ett program.
+säger. Att finnas i en katalog betyder inte att en MCP-server är säker. Claude
+Codes [säkerhetssida](https://code.claude.com/docs/en/security) säger att
+Anthropic inte säkerhetsgranskar eller förvaltar någon MCP-server. Att koppla in
+en MCP-server är därför ett beslut om vad du litar på, ungefär som att
+installera ett program.
 
 Det finns en risk som har ett eget namn:
 [prompt injection](https://code.visualstudio.com/docs/agents/run/security).
@@ -109,10 +110,10 @@ gränser som gäller samtidigt ser till det.
 
 {% figure "read-only-limits", "wide" %}
 
-Den första gränsen sitter på MCP-servern. GitHubs server har ett
+Den första gränsen sitter på MCP-servern. GitHubs MCP-server har ett
 [read-only mode](https://github.com/github/github-mcp-server/blob/main/docs/server-configuration.md)
 som stänger av serverns verktyg som skriver även när de uttryckligen begärs. För
-[fjärrservern](https://github.com/github/github-mcp-server/blob/main/docs/remote-server.md)
+[MCP-servern på distans](https://github.com/github/github-mcp-server/blob/main/docs/remote-server.md)
 lägger du till `/readonly` sist i adressen.
 
 Den andra gränsen sitter på tokenen. GitHubs
@@ -126,7 +127,7 @@ ena fel inställd håller den andra ändå. Ingen av dem hindrar agenten från a
 läsa en skadlig instruktion. Därför är övningsrepot privat.
 
 Till en början ber Claude Code och VS Code om ditt godkännande när agenten vill
-använda ett serververktyg. Låt det vara så medan du ser vad agenten gör.
+använda ett MCP-verktyg. Låt det vara så medan du ser vad agenten gör.
 [Del 7](#del-7) går igenom hur du bestämmer vad som får köras utan att fråga.
 
 ## Claude Code, Codex och GitHub Copilot
@@ -162,7 +163,7 @@ innehåller adressen och en header som anger variabelns namn:
 Tokenen finns inte i filen, så teamet kan dela den. Första gången du öppnar
 projektet ber Claude Code dig godkänna servern.
 
-I OpenAI:s **Codex** läggs servern i
+I OpenAI:s **Codex** läggs MCP-servern i
 [`config.toml`](https://learn.chatgpt.com/docs/extend/mcp). Lägg till den här
 tabellen sist i `~/.codex/config.toml` och behåll det som redan står i filen:
 
@@ -177,8 +178,9 @@ tokenen.
 
 **GitHub Copilot** i VS Code läser en `.mcp.json` i projektets toppmapp, som VS
 Code kallar workspace root. VS Codes dokumentation beskriver den som sättet att
-dela en server med ett team som använder kompatibla Copilot-program. Om du inte
-har använt Claude Code skapar du filen för hand med innehållet ovan. VS Codes
+dela en MCP-server med ett team som använder kompatibla Copilot-program. Om du
+inte har använt Claude Code skapar du filen för hand med innehållet ovan. VS
+Codes
 [konfigurationsreferens](https://code.visualstudio.com/docs/agents/reference/mcp-configuration)
 låter en header i den filen hänvisa till en miljövariabel med `${GITHUB_PAT}`.
 
@@ -212,7 +214,7 @@ Fem saker kan gå fel:
 - MCP-servern visas som misslyckad.
 - Projektets server startar aldrig.
 - Konfigurationen läses inte.
-- Det finns för många serververktyg.
+- Det finns för många MCP-verktyg.
 - Agenten gör något du inte bad om.
 
 Om servern visas som misslyckad, kontrollera tokenen först: den kan vara fel, ha
@@ -230,9 +232,9 @@ Om konfigurationen inte läses, leta efter en varning: Claude Code visar dem i
 `claude mcp list` och i `/mcp`. En token som klistrats in i konfigurationen med
 en radbrytning på slutet ger en varning om dolda mellanslag.
 
-Om det finns för många serververktyg, kom ihåg att anslutna servrar lägger sina
-verktygsnamn och instruktioner i agentens kontext även när du inte använder dem,
-som Claude Codes bästa praxis uttrycker det. Stäng av de servrar du inte
+Om det finns för många MCP-verktyg, kom ihåg att anslutna MCP-servrar lägger
+sina verktygsnamn och instruktioner i agentens kontext även när du inte använder
+dem, som Claude Codes bästa praxis uttrycker det. Stäng av de servrar du inte
 behöver.
 
 Om agenten gör något du inte bad om efter att ha läst ett ärende eller en sida,
@@ -290,7 +292,7 @@ Arbetstitlarna kan ändras på vägen.
 2. [Instruktionsfilen, det första en AI-agent läser](/sv/blog/the-instruction-file/)
 3. Ge varje AI-agent ett eget jobb
 4. Skills, när arbetet ska göras likadant varje gång
-5. MCP, så når AI-agenten dina andra system (den här delen)
+5. MCP, så når AI-agenten andra system (den här delen)
 6. Var AI-agenten körs och vem som startar den
 7. <span id="del-7"></span>Sätt gränserna i förväg
 8. Mindre styrning för varje modell

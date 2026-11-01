@@ -1314,7 +1314,7 @@
       "caption": "Vilket verktyg som läser vilken fil i ett projekts mappar, så som dokumentationen såg ut den 30 oktober 2026. Den närmaste filen har sista ordet."
     },
     "mcp-server": {
-      "title": "Tre sätt för AI-programmet, till exempel Claude Code, Codex eller VS Code, att nå ett system, här GitHub. Alla tre slutar i GitHubs API. Via en MCP-server anropar AI-programmet de verktyg som servern erbjuder: lista ärenden och läsa ett ärende, som bara läser, samt skapa ett ärende, som ändrar saker. En lokal server körs på din dator, startas av AI-programmet och nås via stdio. En fjärrserver körs någon annanstans och nås via HTTP på en webbadress, med tokenen i en header. Via CLI-verktyget kör AI-programmet kommandoradsverktyget, här gh, i terminalen. Direkt anropar AI-programmet API:et självt med ett HTTP-anrop och en token.",
+      "title": "Tre sätt för AI-programmet, till exempel Claude Code, Codex eller VS Code, att nå ett system, här GitHub. Alla tre slutar i GitHubs API. Via en MCP-server anropar AI-programmet de verktyg som MCP-servern erbjuder: lista ärenden och läsa ett ärende, som bara läser, samt skapa ett ärende, som ändrar saker. En lokal MCP-server körs på din dator, startas av AI-programmet och nås via stdio. En MCP-server på distans körs någon annanstans och nås via HTTP på en webbadress, med tokenen i en header. Via CLI-verktyget kör AI-programmet kommandoradsverktyget, här gh, i terminalen. Direkt anropar AI-programmet API:et självt med ett HTTP-anrop och en token.",
       "head": "Tre sätt att nå ett system",
       "agent": {
         "label": "AI-program",
@@ -1350,10 +1350,10 @@
         "label": "GitHubs API",
         "note": "systemets eget API"
       },
-      "caption": "Tre sätt för ett AI-program att nå samma system, här GitHub: via en MCP-server, lokal via stdio eller fjärr via HTTP, som erbjuder verktyg som läser eller ändrar saker; via systemets kommandoradsverktyg, här gh, som körs i terminalen; eller genom att anropa systemets eget API direkt med ett HTTP-anrop och en token. Alla tre slutar i samma API."
+      "caption": "Tre sätt för ett AI-program att nå samma system, här GitHub: via en MCP-server, lokal via stdio eller på distans via HTTP, som erbjuder verktyg som läser eller ändrar saker; via systemets kommandoradsverktyg, här gh, som körs i terminalen; eller genom att anropa systemets eget API direkt med ett HTTP-anrop och en token. Alla tre slutar i samma API."
     },
     "read-only-limits": {
-      "title": "De två gränserna på den första kopplingen, båda aktiva. AI-programmet läser ärendena via GitHubs MCP-server i read-only mode (den första gränsen; adressen slutar på /readonly), med en fine-grained token (den andra gränsen) bara för övningsrepot och Issues satt till read, mot det privata övningsrepot med dess tre påhittade ärenden. En läsning går igenom båda gränserna. En skrivning stoppas av varje gräns för sig: servern har inget verktyg som skriver och tokenen har ingen behörighet att skriva. Använder du båda täcks den som är fel satt.",
+      "title": "De två gränserna på den första kopplingen, båda aktiva. AI-programmet läser ärendena via GitHubs MCP-server i read-only mode (den första gränsen; adressen slutar på /readonly), med en fine-grained token (den andra gränsen) bara för övningsrepot och Issues satt till read, mot det privata övningsrepot med dess tre påhittade ärenden. En läsning går igenom båda gränserna. En skrivning stoppas av varje gräns för sig: MCP-servern har inget verktyg som skriver och tokenen har ingen behörighet att skriva. Använder du båda täcks den som är fel satt.",
       "head": "De två gränserna, båda aktiva",
       "agent": {
         "label": "AI-program",
