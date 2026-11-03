@@ -1314,11 +1314,11 @@
       "caption": "Vilket verktyg som läser vilken fil i ett projekts mappar, så som dokumentationen såg ut den 30 oktober 2026. Den närmaste filen har sista ordet."
     },
     "mcp-server": {
-      "title": "Tre sätt för AI-programmet, till exempel Claude Code, Codex eller VS Code, att nå ett system, här GitHub. Alla tre slutar i GitHubs API. Via en MCP-server anropar AI-programmet de verktyg som MCP-servern erbjuder: lista ärenden och läsa ett ärende, som bara läser, samt skapa ett ärende, som ändrar saker. En lokal MCP-server körs på din dator, startas av AI-programmet och nås via stdio. En MCP-server på distans körs någon annanstans och nås via HTTP på en webbadress, med tokenen i en header. Via CLI-verktyget kör AI-programmet kommandoradsverktyget, här gh, i terminalen. Direkt anropar AI-programmet API:et självt med ett HTTP-anrop och en token.",
+      "title": "Tre sätt för AI-programmet, till exempel Claude Code, Codex eller GitHub Copilot i VS Code, att nå ett system, här GitHub. Alla tre slutar i GitHubs API. Via en MCP-server anropar AI-programmet de verktyg som MCP-servern erbjuder: lista ärenden och läsa ett ärende, som bara läser, samt skapa ett ärende, som ändrar saker. En lokal MCP-server körs på din dator, startas av AI-programmet och nås via stdio. En MCP-server på distans körs någon annanstans och nås via HTTP på en webbadress, med tokenen i en header. Via CLI-verktyget kör AI-programmet kommandoradsverktyget, här gh, i terminalen. Direkt anropar AI-programmet API:et självt med ett HTTP-anrop och en token.",
       "head": "Tre sätt att nå ett system",
       "agent": {
         "label": "AI-program",
-        "note": "Claude Code, Codex, VS Code"
+        "note": "Claude Code, Codex, Copilot"
       },
       "mcp": {
         "label": "via en MCP-server",
