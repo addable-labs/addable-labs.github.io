@@ -70,24 +70,24 @@ tool.
 An agent can reach a system in three ways: through the system's command-line
 tool, by calling its API directly or through an MCP server. The table sets out
 what the official documentation says about each. A dash means that the
-documentation does not cover it. The rules and settings in the cells are Claude
-Code's.
+documentation we read does not cover it. The rules and settings in the cells are
+Claude Code's.
 
-| Function | Command-line tool (for example `gh`) | API called directly | MCP server |
+| Function | Command-line tool (for example `gh`) | API called directly (GitHub's REST API) | MCP server |
 | --- | --- | --- | --- |
 | Finding out what it can do | Pointing the agent at `--help` is enough for a tool it has not seen | The reference describes the method, path and parameters of every endpoint | The client sends a `tools/list` request and gets the tools, described with JSON Schema |
-| Limiting access | Permission rules match the command text, and the sandbox is off by default | A token acts as your identity, limited by the scopes you select | Rules can cover every tool of a server or one tool, and a server can offer a read-only mode |
-| What comes back | — | The response is JSON and typically holds more than you need | A tool can declare an output schema for structured results, and Claude Code warns when a tool's output exceeds 10,000 tokens |
-| Cost to the context | More context-efficient than MCP servers, because they add no per-tool listing | — | Tool names and instructions are in the context even when unused, and tool search defers the definitions |
-| Setup and upkeep | `gh` signs in once in the browser and stores the token in the system credential store | You send the token in the Authorization header and name the API version in a header | OAuth tokens are stored and refreshed automatically, and a server can change its tools while it is connected |
+| Limiting access | Permission rules match the command text, and the sandbox is off by default | A token acts as your identity, limited by the scopes you select | Rules can cover every tool of a server or one tool, and a server can offer a read-only mode. The sandbox does not cover MCP servers |
+| What comes back | `gh api` can narrow the output with `--jq` or a template | The response is JSON and typically holds more than you need | A tool can declare an output schema for structured results, and Claude Code warns when a tool's output exceeds 10,000 tokens |
+| Cost to the context | Still more context-efficient than MCP servers, even with tool search, because they add no per-tool listing | — | Tool names and instructions are in the context even when unused, and tool search defers the definitions |
+| Setup and upkeep | `gh auth login` signs in with a browser flow and stores the token in the system credential store, or in a plain text file if there is none | You send the token in the Authorization header and name the API version in a header | With OAuth the tokens are stored and refreshed automatically. A server can change its tools while it is connected |
 | Use in several agent apps | — | — | A server is not specific to one agent app, and some apps use a different file format than others |
-| What you see before it runs | The permission prompt shows what Claude Code is about to do | — | A human should always be able to deny a tool call, and the client should show the tool's inputs before the call |
-| Where it falls short | A command you approve can still write anywhere your user account can | Unauthenticated requests are limited to 60 an hour, and secondary limits can change without notice | Claude Code does not audit or manage MCP servers, and text a server returns can carry prompt injection |
+| What you see before it runs | The permission prompt shows what Claude Code is about to do | — | Claude Code asks before an MCP tool runs. The MCP specification adds that a human should always be able to deny a tool call, and that the client should show the tool's inputs before the call |
+| Where it falls short | A command you approve can still write anywhere your user account can | Requests are limited to 60 an hour without a token and 5,000 with one, and secondary limits can change without notice | Anthropic does not security-audit or manage any MCP server |
 
 Our recommendation follows the rule of thumb above. Try the system's
 command-line tool first. Take an MCP server when the system has no command-line
-tool or when you want to limit the agent to a few tools that only read. Call the
-API yourself when neither fits.
+tool or when you want the MCP server to offer only a few tools that only read.
+Call the API yourself when neither fits.
 
 ## Security considerations
 
@@ -114,46 +114,56 @@ any other.
 
 Three studies have measured parts of this risk.
 
-[MCPTox](https://arxiv.org/html/2508.14925v2) measured how robust agents are
-against tool poisoning: a hidden instruction in a tool's description. Its 1,348
-test cases are built on 353 tools from 45 real MCP servers. In each case a
+[MCPTox](https://arxiv.org/html/2508.14925v2) measured how robust language
+models are against tool poisoning: a hidden instruction in a tool's description.
+Its 1,348 test cases use 353 tools from 45 real MCP servers. In each case a
 poisoned tool sits next to the tools of a trusted MCP server. The attack
-succeeds when the agent calls a separate, legitimate tool to do what the
+succeeds when the model calls a separate, legitimate tool to do what the
 poisoned description asks. Across 20 model settings the attack succeeded in
-36.5% of the cases on average. The degree of vulnerability varied considerably
-between agents. The highest average was 72.8%. The agents rarely refused: the
-one that refused most rejected the attack in less than 3% of the cases. When an
-attack failed, the most common reason was that the agent ignored it and followed
-the user's original instruction. More capable models were often more vulnerable.
-The authors note that the attack texts came from a semi-automated process guided
-by paradigms that people defined.
+36.5% of the cases on average, counting two variants that start the hidden
+instruction with a hijacking prompt. The degree of vulnerability varied
+considerably between models, with averages from 5.1% to 72.8%. The models rarely
+refused: the one that refused most rejected the attack in less than 3% of the
+cases. When an attack failed, the most common reason was that the model ignored
+it and followed the user's original instruction. In 18.9% of the failures the
+model tried to call the poisoned tool. More capable models were often more
+vulnerable. The authors note that the attack texts came from a semi-automated
+process guided by human-defined paradigms.
 
 [MCP Security Bench](https://arxiv.org/html/2510.15994v2), accepted at ICLR
-2026, measures how well agents resist MCP-specific attacks in task planning,
+2026, measures how well models resist MCP-specific attacks in task planning,
 tool invocation and response handling. It ran 12 types of attack, 2,000 attack
-instances in all, against ten agents, with real tools run through MCP rather
-than simulated ones. An attack counted as successful when the attacker's
-objective was achieved in the workspace. The average success rate was 40.35%.
-The types differed a lot: the most effective reached an average of 76.5% and the
-least effective 14.62%. More capable agents were more vulnerable. The success
-rate fell as capability fell. The study also tested a detection-based defence,
-which improved the model's security but tended to over-reject and cause
-functional degradation. Its threat model has an attacker who can insert
-instructions into the external resources the agent uses.
+instances in all, against ten models, with real tools run through MCP, not
+simulated ones. An attack counted as successful when the attacker's objective
+was achieved in the workspace. The mean across the 12 types was 40.35%. The
+types differed a lot: the most effective reached an average of 76.5% and the
+least effective 14.62%. Models that completed more tasks were often more
+vulnerable. One of the ten completed many tasks and still resisted attacks
+moderately. The one detection-based defence it tested cut the average success
+rate from 40.35% to 28.69% and the share of completed tasks from 56.50% to
+48.91%. The authors say it tended to over-reject. Its threat model has an
+attacker who controls a malicious MCP server and can also put instructions into
+the external resources the agent uses.
 
 A [study of 583 open-source MCP servers](https://arxiv.org/html/2506.13538v5)
-looked at the code of the servers themselves. The authors analysed the servers
-with at least ten stars on GitHub. A static analysis tool found at least one
-security vulnerability in 7.2% of them. Half of those were credential exposure.
-An MCP-specific scanner, run on a random sample of 83 repositories of which 73
-could be scanned, flagged potential tool poisoning in 5.5% of the servers. No
-vulnerability was found in the official MCP servers. On development health, the
-servers had higher or equal median values than open-source and machine-learning
-baselines in 9 of 14 metrics. Code smells and bugs occurred at rates comparable
-to traditional open-source systems. The authors read the low share of
-vulnerabilities as more likely under-detection by current tools than an
-unusually secure ecosystem. They describe the scanner as being in early
-development and targeting one class of vulnerability.
+with at least ten stars on GitHub analysed the servers' code. A static analysis
+tool found at least one security vulnerability in 7.2% of them. Half of those
+were credential exposure. An MCP-specific scanner, run on a random sample of 83
+repositories of which 73 could be scanned, flagged potential tool poisoning in
+5.5% of those 73. The static analysis tool found no vulnerability in the 61
+official servers, which companies maintain for their own platforms. On
+development health the authors count 9 of 14 metrics with higher or equal median
+values than open-source and machine-learning baselines, though raw counts of
+stars, forks and size were lower, which the authors tie to the servers' young
+age. Critical or blocker-level code smells were found in 66% of the servers and
+bugs in 14.4%. The authors found the same kinds of smells and bugs as elsewhere.
+The authors read the low share of vulnerabilities as more likely under-detection
+by current tools than an unusually secure ecosystem. They describe the scanner
+as being in early development and targeting one class of vulnerability.
+
+The first two tested language models in the researchers' own set-ups, not agent
+apps such as Claude Code or Codex, and measured how often a planted attack
+works. None of the three says how likely an attack is on your connection.
 
 MCP's specification asks the agent app to check with you before an MCP server
 tool runs. It also says plainly that MCP itself cannot enforce this. Our own
@@ -278,9 +288,9 @@ Here are five problems that can come up with a first connection:
 If the MCP server shows as failed, check the token first: it may be wrong, have
 expired or have no access to the repository. In Claude Code, `/mcp` then shows
 the HTTP status the MCP server returned, such as a 401. The variable may also be
-set in another window than the one you started the agent app from. If
-`${GITHUB_PAT}` is not set, Claude Code warns and uses the variable name as the
-token instead.
+set in another window than the one you started the agent app from. If the
+variable behind `${GITHUB_PAT}` is not set, Claude Code warns and sends the text
+`${GITHUB_PAT}` unchanged in place of the token.
 
 If the project's MCP server never starts, the agent app is waiting for you to
 trust the project or to approve the MCP server. In Claude Code,
@@ -344,25 +354,25 @@ calls the AI application the host, for example Claude Code or VS Code. For each
 MCP server it connects to, the host creates an MCP client, a component that
 keeps a dedicated connection to that server.
 
-You meet both words in documentation and in error messages. Claude Code's
-documentation says that a server's setup instructions may be written for another
-MCP client and give no `claude mcp add` command. Then look in them for a URL, a
-launch command or a JSON block. A URL means the server is remote. A launch
-command means it runs on your machine. If an entry in `.mcp.json` declares an
-in-process server of type `sdk`, Claude Code skips it and shows a message that
-ends with `which only an SDK host application can register`. Only an SDK host
-application, such as an Agent SDK application or the desktop app, can register
-such a server.
+Claude Code's documentation says that a server's setup instructions may be
+written for another MCP client and give no `claude mcp add` command. Then look
+in them for a URL, a launch command or a JSON block. A URL means the server is
+remote. A launch command means it runs on your machine. If an entry in
+`.mcp.json` declares an in-process server of type `sdk`, Claude Code skips it
+and shows a message that ends with
+`which only an SDK host application can register`. Only an SDK host application,
+such as an Agent SDK application or the desktop app, can register such a server.
 
 ### Your own MCP server
 
 Our rule of thumb: write your own MCP server when the system has none
 ready-made, which is usually true of an internal system. The
 [MCP Registry](https://modelcontextprotocol.io/registry/about) is the official
-list of publicly accessible MCP servers, so check it first.
+list of publicly accessible MCP servers and does not support private ones, so
+for a public system check it first.
 
-Start with one small server that has one tool and only reads, as in the first
-connection above. The MCP project's
+Our advice: start with one small server that has one tool and only reads, as in
+the first connection above. The MCP project's
 [guide to building a server](https://modelcontextprotocol.io/docs/2026-07-28/develop/build-server)
 walks through one with two tools and connects it to a host. In Claude Code you
 can also let an official plugin help: Claude asks about your use case and
@@ -374,8 +384,8 @@ Claude Code's prompt:
 /mcp-server-dev:build-mcp-server
 ```
 
-A server that runs on your own computer is added as a local stdio server.
-Everything after `--` is the command that starts it:
+A server that Claude Code starts on your own computer is added as a local stdio
+server. Everything after `--` is the command that starts it:
 
 ```text
 claude mcp add --transport stdio my-server -- python server.py
@@ -390,7 +400,7 @@ Python and `console.log()` in TypeScript. Log to stderr instead.
 With OAuth you sign in to the MCP server in the browser instead of making a
 token. Claude Code
 [supports OAuth 2.0](https://code.claude.com/docs/en/mcp#authenticate-with-remote-mcp-servers)
-for remote MCP servers, stores the token securely and refreshes it
+for remote MCP servers over HTTP, stores the token securely and refreshes it
 automatically. Add the server without an `Authorization` header:
 
 ```text
@@ -400,37 +410,36 @@ claude mcp add --transport http my-server https://mcp.example.com/mcp
 Then run `/mcp` in Claude Code and follow the steps in your browser.
 `claude mcp login my-server` does the same from your shell. For a server that
 supports OAuth, Codex has `codex mcp login`. In VS Code a browser window opens
-the first time it connects, if an entry in the configuration has an `oauth`
-setting with a `clientId`.
+the first time it connects, if an entry in its own format (`.vscode/mcp.json`)
+has an `oauth` setting with a `clientId`.
 
-OAuth fits when the server supports it and you are at the keyboard. A token fits
-in the other cases. A local stdio server is not meant for the OAuth flow: the
-MCP
+In our view, OAuth fits when the server supports it and you are at the keyboard.
+A token fits in the other cases. A local stdio server is not meant for the OAuth
+flow: the MCP
 [specification](https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization)
-says that it should take its credentials from the environment instead. A session
-without a screen cannot start the sign-in either: for `claude -p`, sign in from
-an interactive session first. If an entry still has an `Authorization` header
-that the server rejects, Claude Code reports the connection as failed instead of
-falling back to OAuth, so remove the header. In this part, GitHub's remote MCP
-server takes a token. GitHub's
+says that it should take its credentials from the environment instead. A
+`claude -p` run has no `/mcp` panel and cannot start the sign-in either: sign in
+first from an interactive session or with `claude mcp login`. If an entry still
+has an `Authorization` header that the server rejects, Claude Code reports the
+connection as failed instead of falling back to OAuth, so remove the header. In
+Claude Code, GitHub's remote MCP server takes a token. GitHub's
 [installation guide for Claude Code](https://github.com/github/github-mcp-server/blob/main/docs/installation-guides/install-claude.md)
 shows an OAuth login for its local MCP server instead: the server opens a
 browser login on first use.
 
 ### Tool search in Claude Code
 
-[Troubleshooting](#troubleshooting) lists too many MCP tools as one of five
-problems. Claude Code's answer is
+Claude Code's answer to [too many MCP tools](#troubleshooting) is
 [tool search](https://code.claude.com/docs/en/mcp#scale-with-mcp-tool-search),
-which is on by default and needs no setup. It defers the tool definitions until
-Claude needs them, so only the tool names and the server instructions load when
-a session starts. Adding more MCP servers therefore has little effect on the
-context window. Claude Code sets no fixed limit on the number of tools per
-server. The practical limit is the context window.
+which is on by default with current models and needs no setup. It defers the
+tool definitions until Claude needs them, so only the tool names and the server
+instructions load when a session starts. Adding more MCP servers therefore has
+little effect on the context window. Claude Code sets no fixed limit on the
+number of tools per server. The practical limit is the context window.
 
 `/context` shows it: tools are labelled `(deferred)` or `(loaded on-demand)`. If
-Claude needs a few of a server's tools on every turn, set `alwaysLoad` to `true`
-in that server's entry:
+a server has few tools and Claude needs them all on every turn, set `alwaysLoad`
+to `true` in that server's entry. It applies to all of the server's tools:
 
 ```text
 {
