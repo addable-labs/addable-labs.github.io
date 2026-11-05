@@ -70,8 +70,8 @@ tool.
 An agent can reach a system in three ways: through the system's command-line
 tool, by calling its API directly or through an MCP server. The table sets out
 what the official documentation says about each. A dash means that the
-documentation we read does not cover it. The rules and settings in the cells are
-Claude Code's.
+documentation we read does not cover it, not that the answer is no. The rules
+and settings in the cells are Claude Code's.
 
 | Function | Command-line tool (for example `gh`) | API called directly (GitHub's REST API) | MCP server |
 | --- | --- | --- | --- |
@@ -83,6 +83,9 @@ Claude Code's.
 | Use in several agent apps | — | — | A server is not specific to one agent app, and some apps use a different file format than others |
 | What you see before it runs | The permission prompt shows what Claude Code is about to do | — | Claude Code asks before an MCP tool runs. The MCP specification adds that a human should always be able to deny a tool call, and that the client should show the tool's inputs before the call |
 | Where it falls short | A command you approve can still write anywhere your user account can | Requests are limited to 60 an hour without a token and 5,000 with one, and secondary limits can change without notice | Anthropic does not security-audit or manage any MCP server |
+
+Whichever way the agent reaches a system, the text it reads can carry prompt
+injection, which the next section describes.
 
 Our recommendation follows the rule of thumb above. Try the system's
 command-line tool first. Take an MCP server when the system has no command-line
@@ -137,13 +140,15 @@ instances in all, against ten models, with real tools run through MCP, not
 simulated ones. An attack counted as successful when the attacker's objective
 was achieved in the workspace. The mean across the 12 types was 40.35%. The
 types differed a lot: the most effective reached an average of 76.5% and the
-least effective 14.62%. Models that completed more tasks were often more
-vulnerable. One of the ten completed many tasks and still resisted attacks
-moderately. The one detection-based defence it tested cut the average success
-rate from 40.35% to 28.69% and the share of completed tasks from 56.50% to
-48.91%. The authors say it tended to over-reject. Its threat model has an
-attacker who controls a malicious MCP server and can also put instructions into
-the external resources the agent uses.
+least effective 14.62%. One type, retrieval injection, hides the instructions in
+data that a harmless tool returns, as in the issue example above. It averaged
+20%. Models that completed more tasks were often more vulnerable. One of the ten
+completed many tasks and still resisted attacks moderately. The one
+detection-based defence it tested cut the average success rate from 40.35% to
+28.69% and the share of completed tasks from 56.50% to 48.91%. The authors say
+it tended to over-reject. Its threat model has an attacker who controls a
+malicious MCP server and can also put instructions into the external resources
+the agent uses.
 
 A [study of 583 open-source MCP servers](https://arxiv.org/html/2506.13538v5)
 with at least ten stars on GitHub analysed the servers' code. A static analysis
@@ -151,15 +156,18 @@ tool found at least one security vulnerability in 7.2% of them. Half of those
 were credential exposure. An MCP-specific scanner, run on a random sample of 83
 repositories of which 73 could be scanned, flagged potential tool poisoning in
 5.5% of those 73. The static analysis tool found no vulnerability in the 61
-official servers, which companies maintain for their own platforms. On
-development health the authors count 9 of 14 metrics with higher or equal median
-values than open-source and machine-learning baselines, though raw counts of
-stars, forks and size were lower, which the authors tie to the servers' young
-age. Critical or blocker-level code smells were found in 66% of the servers and
-bugs in 14.4%. The authors found the same kinds of smells and bugs as elsewhere.
-The authors read the low share of vulnerabilities as more likely under-detection
-by current tools than an unusually secure ecosystem. They describe the scanner
-as being in early development and targeting one class of vulnerability.
+official servers, which companies maintain for their own platforms. The authors
+suggest that official servers being smaller and more actively maintained may be
+a key reason. On development health the authors count 9 of 14 metrics with
+higher or equal median values than open-source and machine-learning baselines,
+though raw counts of stars, forks, commits and size were lower. The authors note
+that the open-source baselines often reflect mature repositories with multi-year
+histories, while the servers are on average less than six months old. Critical
+or blocker-level code smells were found in 66% of the servers and bugs in 14.4%.
+The authors found the same kinds of smells and bugs as elsewhere. The authors
+read the low share of vulnerabilities as more likely under-detection by current
+tools than an unusually secure ecosystem. They describe the scanner as being in
+early development and targeting one class of vulnerability.
 
 The first two tested language models in the researchers' own set-ups, not agent
 apps such as Claude Code or Codex, and measured how often a planted attack
@@ -384,6 +392,13 @@ Claude Code's prompt:
 /mcp-server-dev:build-mcp-server
 ```
 
+If the first command fails with
+`Marketplace "claude-plugins-official" not found`, add the marketplace with
+`/plugin marketplace add anthropics/claude-plugins-official` and run the install
+again. If the message says that the plugin is not found in the marketplace,
+refresh the catalog with `/plugin marketplace update claude-plugins-official`
+and try again.
+
 A server that Claude Code starts on your own computer is added as a local stdio
 server. Everything after `--` is the command that starts it:
 
@@ -411,18 +426,32 @@ Then run `/mcp` in Claude Code and follow the steps in your browser.
 `claude mcp login my-server` does the same from your shell. For a server that
 supports OAuth, Codex has `codex mcp login`. In VS Code a browser window opens
 the first time it connects, if an entry in its own format (`.vscode/mcp.json`)
-has an `oauth` setting with a `clientId`.
+has an `oauth` setting with a `clientId`. VS Code's reference says that the
+`oauth` fields apply to that format, and that the `.mcp.json` format used above
+has a separate schema.
 
 In our view, OAuth fits when the server supports it and you are at the keyboard.
 A token fits in the other cases. A local stdio server is not meant for the OAuth
 flow: the MCP
 [specification](https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization)
-says that it should take its credentials from the environment instead. A
-`claude -p` run has no `/mcp` panel and cannot start the sign-in either: sign in
-first from an interactive session or with `claude mcp login`. If an entry still
-has an `Authorization` header that the server rejects, Claude Code reports the
-connection as failed instead of falling back to OAuth, so remove the header. In
-Claude Code, GitHub's remote MCP server takes a token. GitHub's
+says that it should take its credentials from the environment instead.
+
+A `claude -p` run has no `/mcp` panel and cannot start the sign-in either: sign
+in first from an interactive session or with `claude mcp login`. Without a local
+browser, for example over SSH, `claude mcp login` prints an address to open on
+your own computer. Paste the full redirect address from your browser's address
+bar back at the prompt. That needs an interactive terminal: connect with
+`ssh -t`.
+
+If an entry still has an `Authorization` header that the server rejects, Claude
+Code reports the connection as failed instead of falling back to OAuth, so check
+that the token is valid for the MCP endpoint or, to use OAuth, remove the
+header.
+
+In Claude Code, GitHub's remote MCP server takes a token. Whether it can use
+OAuth depends on the host app: GitHub's
+[README](https://github.com/github/github-mcp-server/blob/main/README.md) shows
+it for VS Code 1.101 or later. GitHub's
 [installation guide for Claude Code](https://github.com/github/github-mcp-server/blob/main/docs/installation-guides/install-claude.md)
 shows an OAuth login for its local MCP server instead: the server opens a
 browser login on first use.
@@ -435,7 +464,9 @@ which is on by default with current models and needs no setup. It defers the
 tool definitions until Claude needs them, so only the tool names and the server
 instructions load when a session starts. Adding more MCP servers therefore has
 little effect on the context window. Claude Code sets no fixed limit on the
-number of tools per server. The practical limit is the context window.
+number of tools per server. The practical limit is the context window. Claude
+Code loads all MCP tools upfront on earlier models and on Microsoft Foundry
+deployments hosted on Azure, which reject tool search.
 
 `/context` shows it: tools are labelled `(deferred)` or `(loaded on-demand)`. If
 a server has few tools and Claude needs them all on every turn, set `alwaysLoad`

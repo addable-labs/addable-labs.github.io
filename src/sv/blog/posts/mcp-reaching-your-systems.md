@@ -71,8 +71,8 @@ modellen som avgör när ett verktyg anropas.
 En agent kan nå ett system på tre sätt: genom systemets kommandoradsverktyg,
 genom att anropa dess API direkt eller genom en MCP-server. Tabellen visar vad
 den officiella dokumentationen säger om var och en. Ett tankstreck betyder att
-dokumentationen vi läst inte tar upp det. Reglerna och inställningarna i
-cellerna gäller Claude Code.
+dokumentationen vi läst inte tar upp det, inte att svaret är nej. Reglerna och
+inställningarna i cellerna gäller Claude Code.
 
 | Funktion | Kommandoradsverktyg (till exempel `gh`) | API direkt (GitHubs REST-API) | MCP-server |
 | --- | --- | --- | --- |
@@ -84,6 +84,9 @@ cellerna gäller Claude Code.
 | Användning i flera AI-program | – | – | En server är inte specifik för ett AI-program. Vissa program använder ett annat filformat än andra |
 | Vad du ser innan det körs | Behörighetsfrågan visar vad Claude Code ska göra | – | Claude Code frågar innan ett MCP-verktyg körs. Dessutom säger MCP-specifikationen att en människa alltid ska kunna neka ett verktygsanrop och att klienten ska visa verktygets indata före anropet |
 | Där det brister | Ett kommando du godkänner kan ändå skriva överallt där ditt användarkonto kan | Begäranden är begränsade till 60 i timmen utan token och 5 000 med token. Sekundära gränser kan ändras utan förvarning | Anthropic säkerhetsgranskar eller förvaltar ingen MCP-server |
+
+Oavsett hur agenten når ett system kan texten den läser innehålla prompt
+injection, vilket nästa avsnitt beskriver.
 
 Vår rekommendation följer tumregeln ovan. Pröva systemets kommandoradsverktyg
 först. Ta en MCP-server när systemet saknar kommandoradsverktyg eller när du
@@ -140,14 +143,16 @@ av attack, sammanlagt 2 000 attackinstanser, mot tio modeller, med riktiga
 verktyg som kördes via MCP i stället för simulerade. En attack räknades som
 lyckad när angriparens mål uppnåddes i arbetsytan. Medelvärdet över de 12
 typerna var 40,35 %. Typerna skilde sig mycket åt: den mest effektiva nådde i
-genomsnitt 76,5 % och den minst effektiva 14,62 %. Modeller som slutförde fler
-uppgifter var ofta mer sårbara. En av de tio slutförde många uppgifter och stod
-ändå måttligt emot attacker. Det enda detektionsbaserade försvaret som testades
-sänkte den genomsnittliga andelen lyckade attacker från 40,35 % till 28,69 % och
-andelen slutförda uppgifter från 56,50 % till 48,91 %. Författarna säger att det
-tenderade att avvisa för mycket. Dess hotmodell har en angripare som styr en
-skadlig MCP-server och som också kan lägga in instruktioner i de externa
-resurser som agenten använder.
+genomsnitt 76,5 % och den minst effektiva 14,62 %. En typ, retrieval injection,
+gömmer instruktionerna i data som ett harmlöst verktyg returnerar, som i
+ärendeexemplet ovan. Den hade ett genomsnitt på 20 %. Modeller som slutförde
+fler uppgifter var ofta mer sårbara. En av de tio slutförde många uppgifter och
+stod ändå måttligt emot attacker. Det enda detektionsbaserade försvaret som
+testades sänkte den genomsnittliga andelen lyckade attacker från 40,35 % till
+28,69 % och andelen slutförda uppgifter från 56,50 % till 48,91 %. Författarna
+säger att det tenderade att avvisa för mycket. Dess hotmodell har en angripare
+som styr en skadlig MCP-server och som också kan lägga in instruktioner i de
+externa resurser som agenten använder.
 
 En
 [studie av 583 MCP-servrar med öppen källkod](https://arxiv.org/html/2506.13538v5)
@@ -157,10 +162,13 @@ gällde exponerade inloggningsuppgifter. En MCP-specifik skanner, som kördes p�
 ett slumpmässigt urval om 83 repon varav 73 kunde skannas, flaggade möjlig tool
 poisoning i 5,5 % av dessa 73. Verktyget för statisk analys hittade ingen
 säkerhetsbrist i de 61 officiella servrarna, som företag underhåller för sina
-egna plattformar. När det gäller utvecklingens hälsa räknar författarna 9 av 14
-mått med högre eller lika höga medianvärden än baslinjerna för öppen källkod och
-maskininlärning, även om råa antal stjärnor, forks och storlek var lägre, vilket
-författarna kopplar till att servrarna är unga. Kritiska eller blockerande
+egna plattformar. Författarna föreslår att en viktig orsak kan vara att de
+officiella servrarna är mindre och mer aktivt underhållna. När det gäller
+utvecklingens hälsa räknar författarna 9 av 14 mått med högre eller lika höga
+medianvärden än baslinjerna för öppen källkod och maskininlärning, även om råa
+antal stjärnor, forks, commits och storlek var lägre. Författarna påpekar att
+baslinjerna för öppen källkod ofta speglar mogna repon med flera års historik,
+medan servrarna i genomsnitt är yngre än sex månader. Kritiska eller blockerande
 kodlukter fanns i 66 % av servrarna och buggar i 14,4 %. Författarna fann samma
 slags kodlukter och buggar som i annan programvara. Författarna tolkar den låga
 andelen sårbarheter som mer sannolikt beroende på att dagens verktyg missar
@@ -391,6 +399,14 @@ en lokal stdio-server. Skriv de här två kommandona i Claude Codes prompt:
 /mcp-server-dev:build-mcp-server
 ```
 
+Om det första kommandot misslyckas med
+`Marketplace "claude-plugins-official" not found`, lägger du till
+pluginkatalogen (marketplace) med
+`/plugin marketplace add anthropics/claude-plugins-official` och kör
+installationen igen. Om meddelandet i stället säger att pluginet inte finns i
+katalogen, uppdaterar du katalogen med
+`/plugin marketplace update claude-plugins-official` och försöker igen.
+
 En server som Claude Code startar på din egen dator läggs till som en lokal
 stdio-server. Allt efter `--` är kommandot som startar den:
 
@@ -419,19 +435,32 @@ Kör sedan `/mcp` i Claude Code och följ stegen i webbläsaren.
 `claude mcp login my-server` gör samma sak från skalet. För en server som stöder
 OAuth har Codex `codex mcp login`. I VS Code öppnas ett webbläsarfönster första
 gången det ansluter, om en post i dess eget format (`.vscode/mcp.json`) har
-inställningen `oauth` med en `clientId`.
+inställningen `oauth` med en `clientId`. VS Codes referens säger att
+`oauth`-fälten gäller det formatet och att `.mcp.json`-formatet som används ovan
+har ett eget schema.
 
 Enligt oss passar OAuth när servern stöder det och du sitter vid tangentbordet.
 En token passar i de andra fallen. En lokal stdio-server är inte tänkt för
 OAuth-flödet:
 [specifikationen](https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization)
 för MCP säger att den i stället ska hämta sina inloggningsuppgifter från miljön.
+
 En `claude -p`-körning har ingen `/mcp`-panel och kan inte heller starta
 inloggningen: logga först in från en interaktiv session eller med
-`claude mcp login`. Har en post fortfarande en `Authorization`-header som
-servern avvisar, rapporterar Claude Code att kopplingen misslyckats i stället
-för att falla tillbaka på OAuth. Ta därför bort headern. I Claude Code tar
-GitHubs MCP-server på distans en token. GitHubs
+`claude mcp login`. Utan lokal webbläsare, till exempel över SSH, skriver
+`claude mcp login` ut en adress som du öppnar på din egen dator. Klistra in hela
+omdirigeringsadressen från webbläsarens adressfält vid prompten. Det kräver en
+interaktiv terminal: anslut med `ssh -t`.
+
+Har en post fortfarande en `Authorization`-header som servern avvisar,
+rapporterar Claude Code att kopplingen misslyckats i stället för att falla
+tillbaka på OAuth. Kontrollera därför att tokenen gäller för MCP-endpointen
+eller, för att använda OAuth, ta bort headern.
+
+I Claude Code tar GitHubs MCP-server på distans en token. Om den kan använda
+OAuth beror på AI-programmet: GitHubs
+[README](https://github.com/github/github-mcp-server/blob/main/README.md) visar
+det för VS Code 1.101 eller senare. GitHubs
 [installationsguide för Claude Code](https://github.com/github/github-mcp-server/blob/main/docs/installation-guides/install-claude.md)
 visar i stället en OAuth-inloggning för den lokala MCP-servern: servern öppnar
 en webbläsarinloggning första gången den används.
@@ -445,6 +474,8 @@ Den skjuter upp verktygens definitioner tills Claude behöver dem, så bara
 verktygsnamnen och serverns instruktioner läses in när en session startar. Fler
 MCP-servrar påverkar därför kontextfönstret lite. Claude Code sätter ingen fast
 gräns för antalet verktyg per server. Den praktiska gränsen är kontextfönstret.
+Claude Code läser in alla MCP-verktyg i förväg på äldre modeller och på
+Microsoft Foundry-driftsättningar som körs på Azure och avvisar tool search.
 
 `/context` visar det: verktygen är märkta `(deferred)` eller
 `(loaded on-demand)`. Har en server få verktyg och behöver Claude dem alla i

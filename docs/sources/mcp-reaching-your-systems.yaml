@@ -1567,6 +1567,30 @@
   retrieved: 2026-11-05
   last_checked: 2026-11-05
 
+- id: P5-adv-plugin-fail-marketplace
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Om det första kommandot misslyckas med Marketplace \"claude-plugins-official\" not found, lägger du till pluginkatalogen (marketplace) med /plugin marketplace add anthropics/claude-plugins-official och kör installationen igen"
+    en: "If the first command fails with Marketplace \"claude-plugins-official\" not found, add the marketplace with /plugin marketplace add anthropics/claude-plugins-official and run the install again"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/mcp
+  final_url: https://code.claude.com/docs/en/mcp
+  quote: "`Marketplace \"claude-plugins-official\" not found`: add the marketplace with `/plugin marketplace add anthropics/claude-plugins-official`, then retry the install."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-plugin-fail-catalog
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Om meddelandet i stället säger att pluginet inte finns i katalogen, uppdaterar du katalogen med /plugin marketplace update claude-plugins-official och försöker igen"
+    en: "If the message says that the plugin is not found in the marketplace, refresh the catalog with /plugin marketplace update claude-plugins-official and try again"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/mcp
+  final_url: https://code.claude.com/docs/en/mcp
+  quote: "your local copy of the marketplace catalog may be out of date. Refresh it with `/plugin marketplace update claude-plugins-official`, then retry the install."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
 - id: P5-adv-stdio-local
   article: mcp-reaching-your-systems
   sentence:
@@ -1795,6 +1819,42 @@
   retrieved: 2026-11-05
   last_checked: 2026-11-05
 
+- id: P5-adv-oauth-vscode-fields
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "VS Codes referens säger att oauth-fälten gäller det formatet och att .mcp.json-formatet som används ovan har ett eget schema"
+    en: "VS Code's reference says that the oauth fields apply to that format, and that the .mcp.json format used above has a separate schema"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agents/reference/mcp-configuration
+  final_url: https://code.visualstudio.com/docs/agents/reference/mcp-configuration
+  quote: "The `oauth` fields above apply to the VS Code format."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-oauth-vscode-portable
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "VS Codes referens säger att oauth-fälten gäller det formatet och att .mcp.json-formatet som används ovan har ett eget schema"
+    en: "VS Code's reference says that the oauth fields apply to that format, and that the .mcp.json format used above has a separate schema"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agents/reference/mcp-configuration
+  final_url: https://code.visualstudio.com/docs/agents/reference/mcp-configuration
+  quote: "The portable Copilot format uses a separate schema with a top-level `mcpServers` object."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-oauth-vscode-portable-file
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "VS Codes referens säger att oauth-fälten gäller det formatet och att .mcp.json-formatet som används ovan har ett eget schema"
+    en: "VS Code's reference says that the oauth fields apply to that format, and that the .mcp.json format used above has a separate schema"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agents/reference/mcp-configuration
+  final_url: https://code.visualstudio.com/docs/agents/reference/mcp-configuration
+  quote: "The portable Copilot format is stored in `.mcp.json` at the root of your workspace"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
 - id: P5-adv-oauth-fits
   article: mcp-reaching-your-systems
   sentence:
@@ -1843,15 +1903,51 @@
   retrieved: 2026-11-05
   last_checked: 2026-11-05
 
-- id: P5-adv-oauth-rejected
+- id: P5-adv-oauth-ssh
   article: mcp-reaching-your-systems
   sentence:
-    sv: "Har en post fortfarande en Authorization-header som servern avvisar, rapporterar Claude Code att kopplingen misslyckats i stället för att falla tillbaka på OAuth. Ta därför bort headern"
-    en: "If an entry still has an Authorization header that the server rejects, Claude Code reports the connection as failed instead of falling back to OAuth, so remove the header"
+    sv: "Utan lokal webbläsare, till exempel över SSH, skriver claude mcp login ut en adress som du öppnar på din egen dator"
+    en: "Without a local browser, for example over SSH, claude mcp login prints an address to open on your own computer"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/mcp
   final_url: https://code.claude.com/docs/en/mcp
-  quote: "If you configured `headers.Authorization` for the server and the server rejects that header, Claude Code reports the connection as failed instead of falling back to OAuth."
+  quote: "`claude mcp login` detects when no local browser is available, such as during an SSH session or on Linux without a display server, and prints the authorization URL instead of trying to open a browser. Open the URL on your local machine"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-oauth-paste
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Klistra in hela omdirigeringsadressen från webbläsarens adressfält vid prompten"
+    en: "Paste the full redirect address from your browser's address bar back at the prompt"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/mcp
+  final_url: https://code.claude.com/docs/en/mcp
+  quote: "then paste the full redirect URL from your browser's address bar back at the prompt"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-oauth-tty
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Det kräver en interaktiv terminal: anslut med ssh -t"
+    en: "That needs an interactive terminal: connect with ssh -t"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/mcp
+  final_url: https://code.claude.com/docs/en/mcp
+  quote: "The command needs an interactive terminal for the paste step, so connect with `ssh -t`."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-oauth-rejected
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Har en post fortfarande en Authorization-header som servern avvisar, rapporterar Claude Code att kopplingen misslyckats i stället för att falla tillbaka på OAuth. Kontrollera därför att tokenen gäller för MCP-endpointen eller, för att använda OAuth, ta bort headern"
+    en: "If an entry still has an Authorization header that the server rejects, Claude Code reports the connection as failed instead of falling back to OAuth, so check that the token is valid for the MCP endpoint or, to use OAuth, remove the header"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/mcp
+  final_url: https://code.claude.com/docs/en/mcp
+  quote: "If you configured `headers.Authorization` for the server and the server rejects that header, Claude Code reports the connection as failed instead of falling back to OAuth. Check that the token is valid for the MCP endpoint, or remove the header to use the OAuth flow."
   retrieved: 2026-11-05
   last_checked: 2026-11-05
 
@@ -1864,6 +1960,42 @@
   url: https://code.claude.com/docs/en/mcp
   final_url: https://code.claude.com/docs/en/mcp
   quote: "GitHub's remote MCP server authenticates with a GitHub personal access token passed as a header"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-oauth-host-app
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Om den kan använda OAuth beror på AI-programmet: GitHubs README visar det för VS Code 1.101 eller senare"
+    en: "Whether it can use OAuth depends on the host app: GitHub's README shows it for VS Code 1.101 or later"
+  vendor: GitHub
+  url: https://raw.githubusercontent.com/github/github-mcp-server/main/README.md
+  final_url: https://raw.githubusercontent.com/github/github-mcp-server/main/README.md
+  quote: "Each MCP host application needs to configure a GitHub App or OAuth App to support remote access via OAuth."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-oauth-host-vscode
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Om den kan använda OAuth beror på AI-programmet: GitHubs README visar det för VS Code 1.101 eller senare"
+    en: "Whether it can use OAuth depends on the host app: GitHub's README shows it for VS Code 1.101 or later"
+  vendor: GitHub
+  url: https://raw.githubusercontent.com/github/github-mcp-server/main/README.md
+  final_url: https://raw.githubusercontent.com/github/github-mcp-server/main/README.md
+  quote: "Make sure you're using … for remote MCP and OAuth support."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-oauth-host-vscode-version
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Om den kan använda OAuth beror på AI-programmet: GitHubs README visar det för VS Code 1.101 eller senare"
+    en: "Whether it can use OAuth depends on the host app: GitHub's README shows it for VS Code 1.101 or later"
+  vendor: GitHub
+  url: https://raw.githubusercontent.com/github/github-mcp-server/main/README.md
+  final_url: https://raw.githubusercontent.com/github/github-mcp-server/main/README.md
+  quote: "VS Code (version 1.101 or greater)"
   retrieved: 2026-11-05
   last_checked: 2026-11-05
 
@@ -1948,6 +2080,42 @@
   url: https://code.claude.com/docs/en/mcp
   final_url: https://code.claude.com/docs/en/mcp
   quote: "Claude Code doesn't impose a fixed per-server tool cap; the practical limit is your context window budget."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-ts-earlier
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Claude Code läser in alla MCP-verktyg i förväg på äldre modeller och på Microsoft Foundry-driftsättningar som körs på Azure och avvisar tool search"
+    en: "Claude Code loads all MCP tools upfront on earlier models and on Microsoft Foundry deployments hosted on Azure, which reject tool search"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/mcp
+  final_url: https://code.claude.com/docs/en/mcp
+  quote: "On earlier models, Claude Code loads all MCP tools upfront"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-ts-foundry
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Claude Code läser in alla MCP-verktyg i förväg på äldre modeller och på Microsoft Foundry-driftsättningar som körs på Azure och avvisar tool search"
+    en: "Claude Code loads all MCP tools upfront on earlier models and on Microsoft Foundry deployments hosted on Azure, which reject tool search"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/mcp
+  final_url: https://code.claude.com/docs/en/mcp
+  quote: "Tool search isn't supported on Microsoft Foundry … deployments hosted on Azure"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-ts-foundry-upfront
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Claude Code läser in alla MCP-verktyg i förväg på äldre modeller och på Microsoft Foundry-driftsättningar som körs på Azure och avvisar tool search"
+    en: "Claude Code loads all MCP tools upfront on earlier models and on Microsoft Foundry deployments hosted on Azure, which reject tool search"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/mcp
+  final_url: https://code.claude.com/docs/en/mcp
+  quote: "which reject it server-side: Claude Code detects the rejection and loads MCP tools upfront for that deployment instead."
   retrieved: 2026-11-05
   last_checked: 2026-11-05
 
@@ -2395,6 +2563,30 @@
   retrieved: 2026-11-05
   last_checked: 2026-11-05
 
+- id: P5-st-msb-ri-def
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "En typ, retrieval injection, gömmer instruktionerna i data som ett harmlöst verktyg returnerar, som i ärendeexemplet ovan"
+    en: "One type, retrieval injection, hides the instructions in data that a harmless tool returns, as in the issue example above"
+  vendor: MSB authors (arXiv)
+  url: https://arxiv.org/html/2510.15994v2
+  final_url: https://arxiv.org/html/2510.15994v2
+  quote: "its malicious instructions originate from the poisoned database, whereas the tool itself remains benign"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-st-msb-ri-avg
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Den hade ett genomsnitt på 20 %"
+    en: "It averaged 20%"
+  vendor: MSB authors (arXiv)
+  url: https://arxiv.org/html/2510.15994v2
+  final_url: https://arxiv.org/html/2510.15994v2
+  quote: "such as PI with an average ASR of 20.21% and RI with 20%"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
 - id: P5-st-msb-capable
   article: mcp-reaching-your-systems
   sentence:
@@ -2623,11 +2815,23 @@
   retrieved: 2026-11-05
   last_checked: 2026-11-05
 
+- id: P5-st-hasan-official-reason
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Författarna föreslår att en viktig orsak kan vara att de officiella servrarna är mindre och mer aktivt underhållna"
+    en: "The authors suggest that official servers being smaller and more actively maintained may be a key reason"
+  vendor: Hasan et al. (arXiv)
+  url: https://arxiv.org/html/2506.13538v5
+  final_url: https://arxiv.org/html/2506.13538v5
+  quote: "we posit that official MCP servers being smaller and more actively maintained might be a key reason behind the lack of easily detectable vulnerabilities"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
 - id: P5-st-hasan-health
   article: mcp-reaching-your-systems
   sentence:
-    sv: "När det gäller utvecklingens hälsa räknar författarna 9 av 14 mått med högre eller lika höga medianvärden än baslinjerna för öppen källkod och maskininlärning, även om råa antal stjärnor, forks och storlek var lägre, vilket författarna kopplar till att servrarna är unga"
-    en: "On development health the authors count 9 of 14 metrics with higher or equal median values than open-source and machine-learning baselines, though raw counts of stars, forks and size were lower, which the authors tie to the servers' young age"
+    sv: "När det gäller utvecklingens hälsa räknar författarna 9 av 14 mått med högre eller lika höga medianvärden än baslinjerna för öppen källkod och maskininlärning, även om råa antal stjärnor, forks, commits och storlek var lägre"
+    en: "On development health the authors count 9 of 14 metrics with higher or equal median values than open-source and machine-learning baselines, though raw counts of stars, forks, commits and size were lower"
   vendor: Hasan et al. (arXiv)
   url: https://arxiv.org/html/2506.13538v5
   final_url: https://arxiv.org/html/2506.13538v5
@@ -2638,20 +2842,20 @@
 - id: P5-st-hasan-raw-lower
   article: mcp-reaching-your-systems
   sentence:
-    sv: "även om råa antal stjärnor, forks och storlek var lägre, vilket författarna kopplar till att servrarna är unga"
-    en: "though raw counts of stars, forks and size were lower, which the authors tie to the servers' young age"
+    sv: "även om råa antal stjärnor, forks, commits och storlek var lägre"
+    en: "though raw counts of stars, forks, commits and size were lower"
   vendor: Hasan et al. (arXiv)
   url: https://arxiv.org/html/2506.13538v5
   final_url: https://arxiv.org/html/2506.13538v5
-  quote: "the median star count and fork count of MCP Servers are lower than the baselines. However, the MCP protocol was introduced only six months ago"
+  quote: "the median star count and fork count of MCP Servers are lower than the baselines"
   retrieved: 2026-11-05
   last_checked: 2026-11-05
 
 - id: P5-st-hasan-raw-size
   article: mcp-reaching-your-systems
   sentence:
-    sv: "även om råa antal stjärnor, forks och storlek var lägre, vilket författarna kopplar till att servrarna är unga"
-    en: "though raw counts of stars, forks and size were lower, which the authors tie to the servers' young age"
+    sv: "även om råa antal stjärnor, forks, commits och storlek var lägre"
+    en: "though raw counts of stars, forks, commits and size were lower"
   vendor: Hasan et al. (arXiv)
   url: https://arxiv.org/html/2506.13538v5
   final_url: https://arxiv.org/html/2506.13538v5
@@ -2659,15 +2863,27 @@
   retrieved: 2026-11-05
   last_checked: 2026-11-05
 
-- id: P5-st-hasan-age
+- id: P5-st-hasan-raw-commits
   article: mcp-reaching-your-systems
   sentence:
-    sv: "även om råa antal stjärnor, forks och storlek var lägre, vilket författarna kopplar till att servrarna är unga"
-    en: "though raw counts of stars, forks and size were lower, which the authors tie to the servers' young age"
+    sv: "även om råa antal stjärnor, forks, commits och storlek var lägre"
+    en: "though raw counts of stars, forks, commits and size were lower"
   vendor: Hasan et al. (arXiv)
   url: https://arxiv.org/html/2506.13538v5
   final_url: https://arxiv.org/html/2506.13538v5
-  quote: "while MCP servers are, on average, less than six months old"
+  quote: "Median Total Commit Count 36.3 608.0"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-st-hasan-age
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Författarna påpekar att baslinjerna för öppen källkod ofta speglar mogna repon med flera års historik, medan servrarna i genomsnitt är yngre än sex månader"
+    en: "The authors note that the open-source baselines often reflect mature repositories with multi-year histories, while the servers are on average less than six months old"
+  vendor: Hasan et al. (arXiv)
+  url: https://arxiv.org/html/2506.13538v5
+  final_url: https://arxiv.org/html/2506.13538v5
+  quote: "metrics for general OSS projects often reflect mature repositories with multi-year histories, while MCP servers are, on average, less than six months old"
   retrieved: 2026-11-05
   last_checked: 2026-11-05
 
@@ -3256,6 +3472,42 @@
   url: https://code.claude.com/docs/en/security
   final_url: https://code.claude.com/docs/en/security
   quote: "does not security-audit or manage any MCP server"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-cmp-injection-any-vsc
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Oavsett hur agenten når ett system kan texten den läser innehålla prompt injection, vilket nästa avsnitt beskriver"
+    en: "Whichever way the agent reaches a system, the text it reads can carry prompt injection, which the next section describes"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agents/run/security
+  final_url: https://code.visualstudio.com/docs/agents/run/security
+  quote: "AI systems are vulnerable to prompt injection attacks where malicious content in tool outputs influences the AI's behavior and decision-making."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-cmp-injection-any-tools
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Oavsett hur agenten når ett system kan texten den läser innehålla prompt injection, vilket nästa avsnitt beskriver"
+    en: "Whichever way the agent reaches a system, the text it reads can carry prompt injection, which the next section describes"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agents/run/security
+  final_url: https://code.visualstudio.com/docs/agents/run/security
+  quote: "an MCP tool or the fetch tool might unsuspectingly retrieve data from a website that has user-generated content"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-cmp-injection-any-cc
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Oavsett hur agenten når ett system kan texten den läser innehålla prompt injection, vilket nästa avsnitt beskriver"
+    en: "Whichever way the agent reaches a system, the text it reads can carry prompt injection, which the next section describes"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/security
+  final_url: https://code.claude.com/docs/en/security
+  quote: "Prompt injection is a technique where an attacker attempts to override or manipulate an AI assistant's instructions by inserting malicious text."
   retrieved: 2026-11-05
   last_checked: 2026-11-05
 
