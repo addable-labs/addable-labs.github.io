@@ -11,7 +11,8 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { describe, it } from "node:test";
-import { FIGURES, MEASURED_LINES, renderFigure, TYPE } from "../src/_includes/figures/figures.mjs";
+import { FIGURES, FLOW_FROM_REM, FLOW_SCALE, FLOW_WIDTH, MEASURED_LINES, renderFigure, TYPE } from "../src/_includes/figures/figures.mjs";
+import { LABEL_MIN_PX, LABEL_UNITS } from "../scripts/lib/layout-report.mjs";
 import { SRC } from "./helpers.mjs";
 
 const CSS = await readFile(path.join(SRC, "assets", "css", "base.css"), "utf8");
@@ -160,6 +161,102 @@ describe("a panel's head line (si-di5e)", () => {
       const [{ lang, id, key, head }] = rows;
       const strings = replaced(lang, id, head, `${head}s`);
       assert.throws(() => renderFigure(id, { placement: "wide", strings }), /is 42 characters; at most 40 fit/, `${lang}: ${key} one character longer`);
+    }
+  });
+});
+
+describe("a drawing in two views (si-05r9)", () => {
+  // mcp-server and read-only-limits are drawn twice from one set of strings: a
+  // flow view, left to right on FLOW_WIDTH units and shown from FLOW_FROM_REM, and the
+  // stacked 320-unit panel they had before, shown below it.
+  const TWO_VIEWS = ["mcp-server", "read-only-limits"];
+  const SIZE_CLASS = [["fig-head", "head"], ["fig-small", "small"], ["fig-label", "label"], ["fig-note", "note"]];
+
+  /** Every <text> of a panel's body: its left and right ends in units, from the type table and the anchor. */
+  function textExtents(body) {
+    return [...body.matchAll(/<text x="([\d.-]+)" y="[\d.-]+" class="([^"]*)"(?: text-anchor="(\w+)")?>([^<]*)<\/text>/g)].map(([, x, cls, anchor = "start", content]) => {
+      const [, size] = SIZE_CLASS.find(([name]) => cls.split(" ").includes(name));
+      const advance = TYPE[size].size * (MONO + TYPE[size].spacing);
+      const width = content.length * advance;
+      const left = anchor === "start" ? Number(x) : anchor === "middle" ? Number(x) - width / 2 : Number(x) - width;
+      return { content, left, right: left + width };
+    });
+  }
+
+  it("draws the flow view FLOW_WIDTH wide and the stacked view as an ordinary panel, one after the other, with the same words", () => {
+    for (const lang of ["en", "sv"]) {
+      for (const id of TWO_VIEWS) {
+        const { panels, caption } = FIGURES[id](STRINGS[lang].figures[id], id, `fig-${id}`);
+        assert.deepEqual(panels.map((panel) => panel.view), ["flow", "stack"], `${lang}: ${id}`);
+        assert.equal(panels[0].width, FLOW_WIDTH);
+        assert.equal(panels[1].width, undefined, "the stacked view is the 320-unit default");
+        assert.equal(panels[0].title, panels[1].title);
+        assert.equal(panels[0].head, panels[1].head);
+        assert.equal(caption, STRINGS[lang].figures[id].caption);
+        const words = (body) => new Set(textExtents(body).map((item) => item.content));
+        assert.deepEqual(words(panels[0].body), words(panels[1].body), `${lang}: ${id} says the same in both views`);
+      }
+    }
+  });
+
+  it("shows the flow view from FLOW_FROM_REM at most FLOW_WIDTH x FLOW_SCALE / 16 rem wide, and the stacked view below it at most as wide as any panel", () => {
+    assert.equal(FLOW_WIDTH, 800);
+    assert.equal(FLOW_SCALE, 1.1);
+    assert.equal(FLOW_FROM_REM, 51);
+    const maxWidth = (selector) => rule(selector).match(/max-width:\s*([\d.]+)rem/)[1];
+    assert.equal(Number(maxWidth(".figure-panel-flow")), Math.round(((FLOW_WIDTH * FLOW_SCALE) / 16) * 1000) / 1000);
+    assert.equal(maxWidth(".figure-panel-stack"), "24.5");
+    assert.match(rule(".figure-panel-flow"), /display:\s*none/);
+    assert.match(CSS, new RegExp(`@media \\(min-width: ${FLOW_FROM_REM}rem\\) \\{\\s*\\.figure-panel-stack \\{\\s*display: none;\\s*\\}\\s*\\.figure-panel-flow \\{\\s*display: block;\\s*\\}\\s*\\}`));
+  });
+
+  it("switches to the flow view only where a 13-unit label renders at 12 px, the layout gate's floor, at every width from there (the gate measures five widths, so the widths between are held here)", async () => {
+    // The flow panel is the container less its two gutters, up to the cap of
+    // its own rule, and the gutter is clamp(1rem, 4vw, 2.5rem) (tokens.css). At
+    // a root size of 16 px a viewport of v px gives the panel
+    // min(cap, v - 2 x clamp(16, 0.04 v, 40)) px, and the label is LABEL_UNITS
+    // x that / FLOW_WIDTH.
+    const TOKENS = await readFile(path.join(SRC, "assets", "css", "tokens.css"), "utf8");
+    assert.match(TOKENS, /--gutter:\s*clamp\(1rem, 4vw, 2\.5rem\);/, "the gutter this test computes with");
+    const cap = Number(rule(".figure-panel-flow").match(/max-width:\s*([\d.]+)rem/)[1]) * 16;
+    const labelPx = (viewport) => (LABEL_UNITS * Math.min(cap, viewport - 2 * Math.min(Math.max(16, 0.04 * viewport), 40))) / FLOW_WIDTH;
+    for (let viewport = FLOW_FROM_REM * 16; viewport <= 1920; viewport += 1) {
+      assert.ok(labelPx(viewport) >= LABEL_MIN_PX, `a ${viewport} px window shows the flow view with a 13-unit label at ${Math.round(labelPx(viewport) * 100) / 100} px, below ${LABEL_MIN_PX} px`);
+    }
+    // And FLOW_FROM_REM is the smallest whole rem that does so: a rem lower would not.
+    assert.ok(labelPx((FLOW_FROM_REM - 1) * 16) < LABEL_MIN_PX, `${FLOW_FROM_REM - 1}rem would do, so FLOW_FROM_REM is not the smallest`);
+  });
+
+  it("draws every text of both views inside its panel, in both languages", () => {
+    for (const lang of ["en", "sv"]) {
+      for (const id of TWO_VIEWS) {
+        const { panels } = FIGURES[id](STRINGS[lang].figures[id], id, `fig-${id}`);
+        for (const { view, width = WIDTH, body } of panels) {
+          const items = textExtents(body);
+          assert.ok(items.length > 10, `${lang}: ${id} ${view} has its texts`);
+          for (const { content, left, right } of items) {
+            assert.ok(left >= MARGIN - 8 && right <= width - MARGIN + 8, `${lang}: ${id} ${view}: "${content}" is drawn from ${left} to ${right} on a ${width}-unit panel`);
+          }
+        }
+      }
+    }
+  });
+
+  it("gives the two panels ids of their own, so the arrowheads of one never serve the other", () => {
+    const html = renderFigure("mcp-server", { placement: "wide", strings: STRINGS.en });
+    assert.match(html, /<div class="figure-panels figure-panels-views">/);
+    const ids = [...html.matchAll(/ id="([^"]+)"/g)].map(([, id]) => id);
+    assert.equal(new Set(ids).size, ids.length, "every id appears once");
+    assert.equal((html.match(/marker-end="url\(#fig-mcp-server-p1-arrow\)"/g) ?? []).length > 0, true);
+    assert.equal((html.match(/marker-end="url\(#fig-mcp-server-p2-arrow\)"/g) ?? []).length > 0, true);
+    assert.equal(html.match(/<svg class="figure-panel figure-panel-flow"/g).length, 1);
+    assert.equal(html.match(/<svg class="figure-panel figure-panel-stack"/g).length, 1);
+  });
+
+  it("is placed wide: the flow view is wider than a panel may be on the measure", () => {
+    for (const id of TWO_VIEWS) {
+      assert.throws(() => renderFigure(id, { placement: "inline", strings: STRINGS.en }), new RegExp(`^Error: Figure "${id}": a figure with a flow view is placed "wide", not "inline"$`));
+      assert.doesNotThrow(() => renderFigure(id, { placement: "wide", strings: STRINGS.en }));
     }
   });
 });

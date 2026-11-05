@@ -308,12 +308,13 @@ Brödtext i Markdown.
   built English article body: 300–600 for the two seed articles (REQ-006) and
   300–1,500 for every later article, except the Gaimer article
   (`cleaning-up-gaimer`), which the founder allowed 1,850 on 26 September
-  2026 so that it can tell the changes its first figure counts, and parts 1, 2, 3 and 4 of
+  2026 so that it can tell the changes its first figure counts, and parts 1, 2, 3, 4 and 5 of
   the series on AI agents (`what-makes-a-chat-an-ai-agent`, 1,600,
-  `the-instruction-file`, 2,030, `agents-with-a-scope-each`, 2,320, and
-  `skills-for-repeatable-work`, 3,000), which he
-  allowed in his reviews of 29–31 October 2026 (parts 2, 3 and 4 as a 5–10 minute
-  read). The Swedish
+  `the-instruction-file`, 2,030, `agents-with-a-scope-each`, 2,320,
+  `skills-for-repeatable-work`, 3,000, and `mcp-reaching-your-systems`,
+  3,820), which he allowed in his reviews of 29–31 October and 3–5 November
+  2026 (parts 2, 3 and 4 as a 5–10 minute read; for part 5 a longer read is
+  fine when a topic needs it). The Swedish
   twin is not counted, and neither are the figures (captions and diagram
   labels) or the tables' cells: they are not prose.
 - **Figures.** An article can carry custom SVG illustrations (REQ-008): put
@@ -322,12 +323,13 @@ Brödtext i Markdown.
   reading measure with its caption beside it from 48 rem, under it below),
   or `{% figure "<id>", "wide" %}` for one that spans the whole container
   with its caption centred underneath. A figure is drawn by `src/_includes/figures/figures.mjs`
-  (`FIGURES` names the thirty-four: `stages`, `gates`, `loop`, `assessment`,
+  (`FIGURES` names the thirty-six: `stages`, `gates`, `loop`, `assessment`,
   `team`, `harness`, `ledger`, `timeline`, `setup`, `build`, `words`,
   `bilingual`, `gauntlet`, `agents`, `critic`, `fleet`, `sources`, `merges`,
   `logos`, `connection`, `lifecycle`, `price`, `lock`, `waiting-per-day`,
   `chat-or-agent`, `five-parts`, `four-things`, `file-before-after`,
-  `which-tool-reads-what`, `file-hierarchy`, `agent-handover`, `agent-file`, `skill-folder`, `skill-locations`) and
+  `which-tool-reads-what`, `file-hierarchy`, `agent-handover`, `agent-file`, `skill-folder`, `skill-locations`, `mcp-server`,
+  `read-only-limits`) and
   every word it shows — panel titles, labels, notes, the caption — comes
   from `figures.<id>` in the two strings files, so one drawing serves both
   languages; a label too long for its slot fails the
@@ -337,7 +339,15 @@ Brödtext i Markdown.
   one line with a space between them, so neither runs into the other or
   past a margin. Adding a figure means one drawing function, its
   strings under `figures.<id>` in `en.json` and `sv.json`, and the two
-  shortcode lines. Figures never reach the feeds (`withoutFigures` in the
+  shortcode lines. A drawing can come in two views (`mcp-server` and
+  `read-only-limits`, si-05r9): a flow panel, `FLOW_WIDTH` (800) units wide
+  and drawn left to right, shown from 51 rem (`FLOW_FROM_REM`, the smallest
+  whole rem at which a 13-unit label reaches 12 px with a little to spare)
+  at most 55 rem wide, and the stacked 320-unit panel below that, so a
+  13-unit label never renders under 12 px; the drawing function returns both (`view: "flow"` and `"stack"`),
+  from the same strings, `base.css` shows one and hides the other, and the
+  figure is placed `"wide"` (the build fails for an inline one). Figures never
+  reach the feeds (`withoutFigures` in the
   feed templates), and the layout gate measures every article page: the
   centred 44 rem measure, no horizontal scroll, wide figures across the
   body and inline figures on the measure with the caption beside the
@@ -629,7 +639,7 @@ after a `pnpm build`:
 | feeds | `pnpm check:feeds` | Both feeds are well-formed RSS 2.0 with absolute links, exactly the language's listed articles — never one dated after today, and never a draft unless this is a development build — draft labels, items that carry the prose only (no `<figure>`), and every page links its feed. |
 | content | `pnpm check:content` | The facts the site must state: one `h1` in the hero, the primary call to action linking the apps section (`#apps`), the nivå button honouring `site.nivaUrl`, the three service headings, the apps in data order, each with exactly the links it calls for in its action row — "Repository" to a public repository or "Website" to the public page of a product whose repository is private, then "Article" to the article about the app where it names one the build lists — and an entry with neither unlinked, the trust section's phrase, founder, article link and proof link, the latest-writing cards — the newest three, in the blog index's order — the founding month on the about page and the founder's name in its lead's first sentence and nowhere else in its main content, not even without its accents or in capitals; on every page the footer's address, the company line with the organisation number and the registered seat, the language switches, the toggle and the feed link (a game page, the game alone, is named as left out); every GitHub repository named in a page, a feed, the sitemap or a text file one of the public repositories the site may link (`PUBLIC_REPOS` in `scripts/lib/apps.mjs`, an allow-list); every page's link preview showing its own image — an article's its own, described in its `imageAlt`, every other page the default image — every card its article's image with `alt=""`, and every article page its image under its summary, loaded at once; article lengths and draft labels; that each blog index lists exactly the listed articles of its language and each category page those of its category, newest first, and none of another category; that an article dated after today is built but listed in neither its language's blog index nor its feed; and that a draft is listed and built in a development build but has no page at all in the published one. The pinned facts are the constants at the top of `scripts/check/content.mjs`. |
 | lighthouse | `pnpm check:lighthouse` | Serves `_site/` locally, runs Lighthouse 13 (mobile configuration) in headless Chrome on `/`, `/sv/`, `/about/`, `/blog/`, a category page, an article and `/404.html`: Performance, Accessibility, Best Practices and SEO each ≥ 95 and cumulative layout shift ≤ 0.1, one line per page. A page whose only problem is Performance < 95 is measured twice more and the median of its three Performance scores decides (its line shows the median, then the three: `performance 96 (85, 97, 96)`); in CI the lines also go to the run's summary page. A page whose Chrome is lost is measured again, once, in a new Chrome, and a second failure is one `FAIL` line naming the page and the cause; these lines go to the summary page too. |
-| layout | `pnpm check:layout` | Renders `/` and `/sv/` at 360, 768, 1024, 1280 and 1920 px in headless Chrome and measures the balanced cards: every service and app title one line, cards in a row equal in height with their "What you get" heading / summary tops and action rows aligned (± 1 px), every chip row one line. Renders `/blog/`, `/sv/blog/` and in each language the category page that lists the most articles at the same widths, and measures every list of article cards — on those pages, on both landing pages and under every article: the cards in a row equal in height with each part (image, metadata, title, description) starting at the same top (± 1 px), and one card to a row below 768 px, two from 768 px and three from 1024 px, the last row that many or fewer. Renders every article page at the same widths and measures the article layout: no horizontal scroll, every text block at most 44 rem wide, centred in the body and on one shared left edge, every wide figure across the body, every inline figure on the measure and centred with its panel 20–24.5 rem wide and its caption beside the panel from 768 px (top-aligned, after the gap) and under it below, every panel rendered so a 13-unit label is at least 12 px, every table starting on the text column's left edge and nothing of it past the column's right edge but what scrolls inside its own box, every block of games across the body with its versions side by side from 768 px and stacked below, every screen of a game at 4:3, and the article's image under its summary, across the text column, at 1200:630. A page whose Chrome is lost at one width is measured again, once, at that width in a new Chrome, and a second failure is one `FAIL` line naming the page, the width and the cause. `LAYOUT_DUMP=<file>` writes the raw measurements (the source of `tests/fixtures/layout/article.json`, `tables.json`, `games.json`, `image.json` and `posts.json`). |
+| layout | `pnpm check:layout` | Renders `/` and `/sv/` at 360, 768, 1024, 1280 and 1920 px in headless Chrome and measures the balanced cards: every service and app title one line, cards in a row equal in height with their "What you get" heading / summary tops and action rows aligned (± 1 px), every chip row one line. Renders `/blog/`, `/sv/blog/` and in each language the category page that lists the most articles at the same widths, and measures every list of article cards — on those pages, on both landing pages and under every article: the cards in a row equal in height with each part (image, metadata, title, description) starting at the same top (± 1 px), and one card to a row below 768 px, two from 768 px and three from 1024 px, the last row that many or fewer. Renders every article page at the same widths and measures the article layout: no horizontal scroll, every text block at most 44 rem wide, centred in the body and on one shared left edge, every wide figure across the body, every inline figure on the measure and centred with its panel 20–24.5 rem wide and its caption beside the panel from 768 px (top-aligned, after the gap) and under it below, every panel shown rendered so a 13-unit label is at least 12 px (a figure with two views has the other one `display: none`), every table starting on the text column's left edge and nothing of it past the column's right edge but what scrolls inside its own box, every block of games across the body with its versions side by side from 768 px and stacked below, every screen of a game at 4:3, and the article's image under its summary, across the text column, at 1200:630. A page whose Chrome is lost at one width is measured again, once, at that width in a new Chrome, and a second failure is one `FAIL` line naming the page, the width and the cause. `LAYOUT_DUMP=<file>` writes the raw measurements (the source of `tests/fixtures/layout/article.json`, `tables.json`, `games.json`, `image.json` and `posts.json`). |
 
 **Chrome.** The last two gates need Google Chrome (or Chromium). They find
 it through `chrome-launcher`, or through `CHROME_PATH` if set (the

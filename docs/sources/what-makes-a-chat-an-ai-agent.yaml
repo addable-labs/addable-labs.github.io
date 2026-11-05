@@ -246,17 +246,6 @@
   quote: "is an open-source standard for connecting AI applications to external systems"
   retrieved: 2026-10-30
   last_checked: 2026-10-30
-- id: M1b
-  article: what-makes-a-chat-an-ai-agent
-  sentence:
-    sv: "Model Context Protocol – ett gemensamt sätt för agenter att nå andra system"
-    en: "The Model Context Protocol – a common way for agents to reach other systems"
-  vendor: Model Context Protocol
-  url: https://modelcontextprotocol.io/
-  final_url: https://modelcontextprotocol.io/docs/2026-07-28/getting-started/intro
-  quote: "MCP (Model Context Protocol) is an open-source standard for connecting AI applications to external systems."
-  retrieved: 2026-10-30
-  last_checked: 2026-10-30
 - id: C6
   article: what-makes-a-chat-an-ai-agent
   sentence:

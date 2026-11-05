@@ -1,0 +1,3608 @@
+# The sources of "MCP, how an AI agent reaches other systems" (both
+# languages): one entry per factual claim about a tool, a vendor, a study or
+# the standard, for the monthly check of the series' sources. Every quote was
+# taken from its page on the date in retrieved (2026-10-30) and checked again
+# on the date in last_checked. Advice that is our own (the two limits kept
+# together, the three rules of thumb for a first connection, the order of the
+# steps, the choice of the practice repository) has the nearest vendor quote and
+# is marked as ours in the article.
+
+- id: P5-open-protocol
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Model Context Protocol, förkortat MCP, ett öppet protokoll: ett standardiserat sätt för ett AI-program, till exempel Claude Code, Codex eller GitHub Copilot i VS Code, att koppla upp sig mot ett system och använda det"
+    en: "Model Context Protocol, MCP for short, an open protocol: a standard way for an agent app, such as Claude Code, Codex or GitHub Copilot in VS Code, to connect to a system and use it"
+  vendor: modelcontextprotocol.io
+  url: https://modelcontextprotocol.io/specification/2026-07-28
+  final_url: https://modelcontextprotocol.io/specification/2026-07-28
+  quote: "(MCP) is an open protocol that enables seamless integration between LLM applications and external data sources and tools"
+  retrieved: 2026-10-30
+  last_checked: 2026-11-03
+
+- id: P5-standard-way
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Model Context Protocol, förkortat MCP, ett öppet protokoll: ett standardiserat sätt för ett AI-program, till exempel Claude Code, Codex eller GitHub Copilot i VS Code, att koppla upp sig mot ett system och använda det"
+    en: "Model Context Protocol, MCP for short, an open protocol: a standard way for an agent app, such as Claude Code, Codex or GitHub Copilot in VS Code, to connect to a system and use it"
+  vendor: modelcontextprotocol.io
+  url: https://modelcontextprotocol.io/specification/2026-07-28
+  final_url: https://modelcontextprotocol.io/specification/2026-07-28
+  quote: "MCP provides a standardized way to connect LLMs with the context they need"
+  retrieved: 2026-10-31
+  last_checked: 2026-11-03
+
+- id: P5-connect-instead-of-paste
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Agenten behöver ett sätt att koppla sig till GitHubs ärendehanteringssystem. En MCP-koppling är lösningen på det"
+    en: "The agent needs a way to connect to GitHub's issue tracker, and an MCP connection is the solution to that"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/mcp
+  final_url: https://code.claude.com/docs/en/mcp
+  quote: "Connect a server when you find yourself copying data into chat from another tool, like an issue tracker or a monitoring dashboard. Once connected, Claude can read and act on that system directly instead of working from what you paste."
+  retrieved: 2026-10-30
+  last_checked: 2026-11-03
+
+- id: P5-connect-github-server
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Agenten behöver ett sätt att koppla sig till GitHubs ärendehanteringssystem. En MCP-koppling är lösningen på det"
+    en: "The agent needs a way to connect to GitHub's issue tracker, and an MCP connection is the solution to that"
+  vendor: GitHub
+  url: https://raw.githubusercontent.com/github/github-mcp-server/main/README.md
+  final_url: https://raw.githubusercontent.com/github/github-mcp-server/main/README.md
+  quote: "The GitHub MCP Server connects AI tools directly to GitHub's platform."
+  retrieved: 2026-11-03
+  last_checked: 2026-11-03
+
+- id: P5-connect-when
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Claude Codes dokumentation säger att du ska koppla in en MCP-server när du märker att du kopierar data från ett annat verktyg till chatten"
+    en: "Claude Code's documentation says to connect an MCP server when you find yourself copying data into chat from another tool"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/mcp
+  final_url: https://code.claude.com/docs/en/mcp
+  quote: "Connect a server when you find yourself copying data into chat from another tool, like an issue tracker or a monitoring dashboard."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+
+- id: P5-cli-first
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Claude Codes sida om bästa praxis säger att det oftast är det enklaste sättet att komma åt systemet"
+    en: "Claude Code's best practices say it is usually the easiest way in"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/best-practices
+  final_url: https://code.claude.com/docs/en/best-practices
+  quote: "If that system has a CLI, that's usually the easiest way in."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-31
+
+- id: P5-gh-example
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "För GitHub är det gh"
+    en: "For GitHub that is gh"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/best-practices
+  final_url: https://code.claude.com/docs/en/best-practices
+  quote: "With `gh` installed and signed in, for example, Claude will open pull requests and read review comments without any explanation from you."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-31
+
+- id: P5-github-docs-limit
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Vi använder GitHubs MCP-server här eftersom dess dokumentation visar hur man begränsar en koppling"
+    en: "We use GitHub's MCP server here because its documentation shows how to limit a connection"
+  vendor: GitHub
+  url: https://raw.githubusercontent.com/github/github-mcp-server/main/README.md
+  final_url: https://raw.githubusercontent.com/github/github-mcp-server/main/README.md
+  quote: "To run the server in read-only mode, you can use the `--read-only` flag."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-31
+
+- id: P5-server-def
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "En MCP-server är ett program som ger agenten ett API mot ett system, till exempel GitHub"
+    en: "An MCP server is a program that gives the agent an API to a system, such as GitHub"
+  vendor: modelcontextprotocol.io
+  url: https://modelcontextprotocol.io/docs/2026-07-28/learn/server-concepts
+  final_url: https://modelcontextprotocol.io/docs/2026-07-28/learn/server-concepts
+  quote: "MCP servers are programs that expose specific capabilities to AI applications through standardized protocol interfaces"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+
+- id: P5-server-in-front
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Den står framför systemets eget API. Dess verktyg kan anropa det"
+    en: "It sits in front of the system's own API. Its tools can call that API"
+  vendor: modelcontextprotocol.io
+  url: https://modelcontextprotocol.io/docs/2026-07-28/learn/server-concepts
+  final_url: https://modelcontextprotocol.io/docs/2026-07-28/learn/server-concepts
+  quote: "Tools can write to databases, call external APIs, modify files, or trigger other logic."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+
+- id: P5-connect-offers
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Att koppla in en MCP-server låter agenten använda allt som programmet erbjuder"
+    en: "Connecting an MCP server lets the agent use whatever that program offers"
+  vendor: modelcontextprotocol.io
+  url: https://modelcontextprotocol.io/docs/2026-07-28/learn/server-concepts
+  final_url: https://modelcontextprotocol.io/docs/2026-07-28/learn/server-concepts
+  quote: "MCP servers are programs that expose specific capabilities to AI applications"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+
+- id: P5-local-server
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "En MCP-server kan köras lokalt på din dator eller på distans, som GitHub gör med sin MCP-server"
+    en: "An MCP server can run locally on your computer or remotely, as GitHub does with its MCP server"
+  vendor: modelcontextprotocol.io
+  url: https://modelcontextprotocol.io/specification/2026-07-28/basic/transports
+  final_url: https://modelcontextprotocol.io/specification/2026-07-28/basic/transports
+  quote: "messages over the standard streams of a client-launched subprocess"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-31
+
+- id: P5-github-hosts-remote
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "En MCP-server kan köras lokalt på din dator eller på distans, som GitHub gör med sin MCP-server"
+    en: "An MCP server can run locally on your computer or remotely, as GitHub does with its MCP server"
+  vendor: GitHub
+  url: https://raw.githubusercontent.com/github/github-mcp-server/main/README.md
+  final_url: https://raw.githubusercontent.com/github/github-mcp-server/main/README.md
+  quote: "The remote GitHub MCP Server is hosted by GitHub"
+  retrieved: 2026-11-01
+  last_checked: 2026-11-01
+
+- id: P5-remote-server
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "MCP-servrar på distans nås via HTTP på en webbadress"
+    en: "Remote MCP servers are reached over HTTP at a web address"
+  vendor: modelcontextprotocol.io
+  url: https://modelcontextprotocol.io/docs/2026-07-28/learn/architecture
+  final_url: https://modelcontextprotocol.io/docs/2026-07-28/learn/architecture
+  quote: "This transport enables remote server communication and supports standard HTTP authentication methods including bearer tokens, API keys, and custom headers."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-31
+
+- id: P5-remote-auth
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "MCP-servrar på distans nås via HTTP på en webbadress. Många av dem behöver veta vem du är"
+    en: "Remote MCP servers are reached over HTTP at a web address, and many need to know who you are"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/mcp
+  final_url: https://code.claude.com/docs/en/mcp
+  quote: "Many cloud-based MCP servers require authentication."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+
+- id: P5-github-token-header
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "GitHubs MCP-server begär en personal access token som du skapar i GitHubs inställningar"
+    en: "GitHub's MCP server asks for a personal access token that you make in GitHub's settings"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/mcp
+  final_url: https://code.claude.com/docs/en/mcp
+  quote: "GitHub's remote MCP server authenticates with a GitHub personal access token passed as a header."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+
+- id: P5-github-token-settings
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "GitHubs MCP-server begär en personal access token som du skapar i GitHubs inställningar"
+    en: "GitHub's MCP server asks for a personal access token that you make in GitHub's settings"
+  vendor: GitHub
+  url: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens
+  final_url: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens
+  quote: "click your profile picture, then click Settings"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+
+- id: P5-gh-terminal
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Agenten kan också köra gh i terminalen, eller anropa GitHubs API själv"
+    en: "The agent can also run gh in the terminal, or call GitHub's API itself"
+  vendor: GitHub
+  url: https://cli.github.com/manual/
+  final_url: https://cli.github.com/manual/
+  quote: "GitHub CLI, or gh, is a command-line interface to GitHub for use in your terminal or your scripts."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+
+- id: P5-gh-agent-runs
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Agenten kan också köra gh i terminalen, eller anropa GitHubs API själv"
+    en: "The agent can also run gh in the terminal, or call GitHub's API itself"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/best-practices
+  final_url: https://code.claude.com/docs/en/best-practices
+  quote: "With `gh` installed and signed in, for example, Claude will open pull requests and read review comments without any explanation from you."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+
+- id: P5-gh-calls-api
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Agenten kan också köra gh i terminalen, eller anropa GitHubs API själv"
+    en: "The agent can also run gh in the terminal, or call GitHub's API itself"
+  vendor: GitHub
+  url: https://cli.github.com/manual/gh_api
+  final_url: https://cli.github.com/manual/gh_api
+  quote: "Makes an authenticated HTTP request to the GitHub API and prints the response."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+
+- id: P5-api-itself
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Agenten kan också köra gh i terminalen, eller anropa GitHubs API själv"
+    en: "The agent can also run gh in the terminal, or call GitHub's API itself"
+  vendor: GitHub
+  url: https://docs.github.com/en/rest/using-the-rest-api/getting-started-with-the-rest-api
+  final_url: https://docs.github.com/en/rest/using-the-rest-api/getting-started-with-the-rest-api
+  quote: "This article describes how to use the GitHub REST API with GitHub CLI, curl, or JavaScript."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+
+- id: P5-api-token
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Agenten kan också köra gh i terminalen, eller anropa GitHubs API själv"
+    en: "The agent can also run gh in the terminal, or call GitHub's API itself"
+  vendor: GitHub
+  url: https://docs.github.com/en/rest/using-the-rest-api/getting-started-with-the-rest-api
+  final_url: https://docs.github.com/en/rest/using-the-rest-api/getting-started-with-the-rest-api
+  quote: "To authenticate your request, you will need to provide an authentication token with the required scopes or permissions."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+
+- id: P5-three-kinds
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Enligt MCP-dokumentationen erbjuder MCP tre typer av funktioner"
+    en: "According to the MCP documentation, MCP offers three types of capability"
+  vendor: modelcontextprotocol.io
+  url: https://modelcontextprotocol.io/docs/2026-07-28/learn/server-concepts
+  final_url: https://modelcontextprotocol.io/docs/2026-07-28/learn/server-concepts
+  quote: "Servers provide functionality through three building blocks"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-31
+
+- id: P5-tools-def
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Den typ som spelar roll här är verktyg: åtgärder som agenten kan anropa, till exempel \"lista ärendena\""
+    en: "The one that matters here is tools: actions the agent can call, such as \"list the issues\""
+  vendor: modelcontextprotocol.io
+  url: https://modelcontextprotocol.io/docs/2026-07-28/learn/server-concepts
+  final_url: https://modelcontextprotocol.io/docs/2026-07-28/learn/server-concepts
+  quote: "Functions that your LLM can actively call"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+
+- id: P5-tools-change
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Vissa verktyg läser bara och andra ändrar saker, till exempel \"skapa ett ärende\""
+    en: "Some tools only read, and some change things, such as \"create an issue\""
+  vendor: modelcontextprotocol.io
+  url: https://modelcontextprotocol.io/docs/2026-07-28/learn/server-concepts
+  final_url: https://modelcontextprotocol.io/docs/2026-07-28/learn/server-concepts
+  quote: "Tools can write to databases, call external APIs, modify files, or trigger other logic."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-31
+
+- id: P5-tools-model-decides
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Det är modellen som avgör när ett verktyg anropas"
+    en: "The model decides when to call a tool"
+  vendor: modelcontextprotocol.io
+  url: https://modelcontextprotocol.io/docs/2026-07-28/learn/server-concepts
+  final_url: https://modelcontextprotocol.io/docs/2026-07-28/learn/server-concepts
+  quote: "Functions that your LLM can actively call, and decides when to use them based on user requests."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-31
+
+- id: P5-local-runs-code
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "En lokal MCP-server körs på din egen dator och kan därför köra kod där, som VS Codes dokumentation säger"
+    en: "A local MCP server runs on your own computer, so it can run code there, as VS Code's documentation says"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agent-customization/mcp-servers
+  final_url: https://code.visualstudio.com/docs/agent-customization/mcp-servers
+  quote: "Local MCP servers can run code on your machine"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-31
+
+- id: P5-catalogue-registry
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "MCP-servrar listas i kataloger, ungefär som appar i en appbutik"
+    en: "MCP servers are listed in catalogues, a bit like apps in an app store"
+  vendor: modelcontextprotocol.io
+  url: https://modelcontextprotocol.io/registry/about
+  final_url: https://modelcontextprotocol.io/registry/about
+  quote: "The MCP Registry is the official centralized metadata repository for publicly accessible MCP servers"
+  retrieved: 2026-11-03
+  last_checked: 2026-11-03
+
+- id: P5-catalogue-hubs
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "MCP-servrar listas i kataloger, ungefär som appar i en appbutik"
+    en: "MCP servers are listed in catalogues, a bit like apps in an app store"
+  vendor: Hasan et al. (arXiv)
+  url: https://arxiv.org/html/2506.13538v5
+  final_url: https://arxiv.org/html/2506.13538v5
+  quote: "MCP registries, e.g., Smithery (smithery, 2025), Glama (AI, 2025a), or Cloudflare Workers (Cloudflare, 2025), serve as centralized hubs for discovering and deploying MCP servers."
+  retrieved: 2026-11-03
+  last_checked: 2026-11-03
+
+- id: P5-catalogue-open
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "I en del av dem kan i princip vem som helst publicera en MCP-server"
+    en: "In some of them anyone can in principle publish an MCP server"
+  vendor: modelcontextprotocol.io
+  url: https://modelcontextprotocol.io/registry/moderation-policy
+  final_url: https://modelcontextprotocol.io/registry/moderation-policy
+  quote: "Generally, we believe in keeping the registry open and pushing moderation to subregistries."
+  retrieved: 2026-11-03
+  last_checked: 2026-11-03
+
+- id: P5-catalogue-publish
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "I en del av dem kan i princip vem som helst publicera en MCP-server"
+    en: "In some of them anyone can in principle publish an MCP server"
+  vendor: modelcontextprotocol.io
+  url: https://modelcontextprotocol.io/registry/about
+  final_url: https://modelcontextprotocol.io/registry/about
+  quote: "Server developers can publish their server's metadata to the registry as long as the server's installation method is publicly available"
+  retrieved: 2026-11-03
+  last_checked: 2026-11-03
+
+- id: P5-catalogue-moderation
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Att en MCP-server finns i en sådan katalog betyder därför inte att någon har granskat den eller att den är säker"
+    en: "Being in such a catalogue therefore does not mean that someone has reviewed an MCP server or that it is safe"
+  vendor: modelcontextprotocol.io
+  url: https://modelcontextprotocol.io/registry/moderation-policy
+  final_url: https://modelcontextprotocol.io/registry/moderation-policy
+  quote: "The MCP Registry does not make guarantees about moderation, and consumers should assume minimal-to-no moderation."
+  retrieved: 2026-11-03
+  last_checked: 2026-11-03
+
+- id: P5-catalogue-scanning
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Att en MCP-server finns i en sådan katalog betyder därför inte att någon har granskat den eller att den är säker"
+    en: "Being in such a catalogue therefore does not mean that someone has reviewed an MCP server or that it is safe"
+  vendor: modelcontextprotocol.io
+  url: https://modelcontextprotocol.io/registry/about
+  final_url: https://modelcontextprotocol.io/registry/about
+  quote: "The MCP Registry focuses on namespace authentication and metadata hosting, while relying on the broader ecosystem for security scanning of actual server code."
+  retrieved: 2026-11-03
+  last_checked: 2026-11-03
+
+- id: P5-catalogue-review
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Att en MCP-server finns i en sådan katalog betyder därför inte att någon har granskat den eller att den är säker"
+    en: "Being in such a catalogue therefore does not mean that someone has reviewed an MCP server or that it is safe"
+  vendor: Hasan et al. (arXiv)
+  url: https://arxiv.org/html/2506.13538v5
+  final_url: https://arxiv.org/html/2506.13538v5
+  quote: "While some registries implement basic review processes (e.g., isolated manual testing or simple pull requests), these are often limited to infrastructure setup or package-level scans."
+  retrieved: 2026-11-03
+  last_checked: 2026-11-03
+
+- id: P5-listing-not-audit
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Claude Codes säkerhetssida säger att Anthropic inte säkerhetsgranskar eller förvaltar någon MCP-server"
+    en: "Claude Code's security page says that Anthropic does not security-audit or manage any MCP server"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/security
+  final_url: https://code.claude.com/docs/en/security
+  quote: "Anthropic reviews connectors against its listing criteria before adding them to the Anthropic Directory, but does not security-audit or manage any MCP server."
+  retrieved: 2026-10-30
+  last_checked: 2026-11-03
+
+- id: P5-trust-decision-vscode
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Att koppla in en MCP-server är därför ett beslut om vad du litar på, ungefär som att installera ett program"
+    en: "So connecting an MCP server is a trust decision, like installing a program"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agent-customization/mcp-servers
+  final_url: https://code.visualstudio.com/docs/agent-customization/mcp-servers
+  quote: "Review the publisher, command or endpoint, and requested access before installing or starting a server."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+
+- id: P5-trust-decision-claude
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Att koppla in en MCP-server är därför ett beslut om vad du litar på, ungefär som att installera ett program"
+    en: "So connecting an MCP server is a trust decision, like installing a program"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/security
+  final_url: https://code.claude.com/docs/en/security
+  quote: "using MCP servers from providers that you trust"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+
+- id: P5-injection-term
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Det finns en viktig risk vi vill lyfta fram: prompt injection"
+    en: "There is one important risk we want to highlight: prompt injection"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agents/run/security
+  final_url: https://code.visualstudio.com/docs/agents/run/security
+  quote: "AI systems are vulnerable to prompt injection attacks"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+
+- id: P5-injection-outputs
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Agenten läser mycket text, till exempel ett ärende, en webbsida eller beskrivningen av ett verktyg i en MCP-server. Instruktioner kan ligga gömda i den texten. Agenten kan följa dem som om du hade skrivit dem"
+    en: "The agent reads a lot of text, such as an issue, a web page or the description of an MCP server tool. Instructions can be hidden in that text. The agent may follow them as if you had written them"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agents/run/security
+  final_url: https://code.visualstudio.com/docs/agents/run/security
+  quote: "AI systems are vulnerable to prompt injection attacks where malicious content in tool outputs influences the AI's behavior and decision-making."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-31
+
+- id: P5-injection-descriptions
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Agenten läser mycket text, till exempel ett ärende, en webbsida eller beskrivningen av ett verktyg i en MCP-server. Instruktioner kan ligga gömda i den texten. Agenten kan följa dem som om du hade skrivit dem"
+    en: "The agent reads a lot of text, such as an issue, a web page or the description of an MCP server tool. Instructions can be hidden in that text. The agent may follow them as if you had written them"
+  vendor: Chinese university group (arXiv)
+  url: https://arxiv.org/html/2508.14925v2
+  final_url: https://arxiv.org/html/2508.14925v2
+  quote: "malicious instructions are embedded within a tool’s metadata without execution"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-31
+
+- id: P5-injection-override
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Agenten läser mycket text, till exempel ett ärende, en webbsida eller beskrivningen av ett verktyg i en MCP-server. Instruktioner kan ligga gömda i den texten. Agenten kan följa dem som om du hade skrivit dem"
+    en: "The agent reads a lot of text, such as an issue, a web page or the description of an MCP server tool. Instructions can be hidden in that text. The agent may follow them as if you had written them"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agents/run/security
+  final_url: https://code.visualstudio.com/docs/agents/run/security
+  quote: "these instructions can override the agent's original task and cause it to perform malicious actions"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+
+- id: P5-must-consent
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "MCP:s specifikation ber AI-programmet fråga dig innan ett verktyg i en MCP-server körs"
+    en: "MCP's specification asks the agent app to check with you before an MCP server tool runs"
+  vendor: modelcontextprotocol.io
+  url: https://modelcontextprotocol.io/specification/2026-07-28
+  final_url: https://modelcontextprotocol.io/specification/2026-07-28
+  quote: "Hosts must obtain explicit user consent before invoking any tool"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-31
+
+- id: P5-should-human
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "MCP:s specifikation ber AI-programmet fråga dig innan ett verktyg i en MCP-server körs"
+    en: "MCP's specification asks the agent app to check with you before an MCP server tool runs"
+  vendor: modelcontextprotocol.io
+  url: https://modelcontextprotocol.io/specification/2026-07-28/server/tools
+  final_url: https://modelcontextprotocol.io/specification/2026-07-28/server/tools
+  quote: "there SHOULD always be a human in the loop with the ability to deny tool invocations"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-31
+
+- id: P5-consent-flows
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "MCP:s specifikation ber AI-programmet fråga dig innan ett verktyg i en MCP-server körs"
+    en: "MCP's specification asks the agent app to check with you before an MCP server tool runs"
+  vendor: modelcontextprotocol.io
+  url: https://modelcontextprotocol.io/specification/2026-07-28
+  final_url: https://modelcontextprotocol.io/specification/2026-07-28
+  quote: "implementors SHOULD … Build robust consent and authorization flows into their applications"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+
+- id: P5-cannot-enforce
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Den säger också öppet att MCP självt inte kan tvinga fram det"
+    en: "It also says plainly that MCP itself cannot enforce this"
+  vendor: modelcontextprotocol.io
+  url: https://modelcontextprotocol.io/specification/2026-07-28
+  final_url: https://modelcontextprotocol.io/specification/2026-07-28
+  quote: "While MCP itself cannot enforce these security principles at the protocol level"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-31
+
+- id: P5-read-only-mode
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "GitHubs MCP-server har ett read-only mode som stänger av MCP-serverns verktyg som skriver även när de uttryckligen begärs"
+    en: "GitHub's MCP server has a read-only mode that disables its write tools even when they are explicitly requested"
+  vendor: GitHub
+  url: https://raw.githubusercontent.com/github/github-mcp-server/main/docs/server-configuration.md
+  final_url: https://raw.githubusercontent.com/github/github-mcp-server/main/docs/server-configuration.md
+  quote: "read-only mode acts as a strict security filter that takes precedence over any other configuration, by disabling write tools even when explicitly requested"
+  retrieved: 2026-10-30
+  last_checked: 2026-11-03
+
+- id: P5-readonly-url
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "För MCP-servern på distans lägger du till /readonly sist i adressen"
+    en: "For the remote MCP server you add /readonly to the end of the address"
+  vendor: GitHub
+  url: https://raw.githubusercontent.com/github/github-mcp-server/main/docs/remote-server.md
+  final_url: https://raw.githubusercontent.com/github/github-mcp-server/main/docs/remote-server.md
+  quote: "Add `/readonly` to the end of any URL to restrict the tools in the toolset to only those that enable read access."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-31
+
+- id: P5-token-repos
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "GitHubs fine-grained tokens kan begränsas till valda repon och behörigheter"
+    en: "GitHub's fine-grained tokens can be limited to chosen repositories and permissions"
+  vendor: GitHub
+  url: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens
+  final_url: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens
+  quote: "under the Selected repositories dropdown, select the repositories that you want the token to access"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-31
+
+- id: P5-token-permissions
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "GitHubs fine-grained tokens kan begränsas till valda repon och behörigheter"
+    en: "GitHub's fine-grained tokens can be limited to chosen repositories and permissions"
+  vendor: GitHub
+  url: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens
+  final_url: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens
+  quote: "select which permissions to grant the token"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-31
+
+- id: P5-token-issues-read
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Ge därför den här tokenen övningsrepot och sätt Issues till read"
+    en: "give this one the practice repository and set Issues to read"
+  vendor: GitHub
+  url: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens
+  final_url: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens
+  quote: "Issues read"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-31
+
+- id: P5-token-public
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "En token kan alltid läsa publika repon"
+    en: "A token can always read public repositories"
+  vendor: GitHub
+  url: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens
+  final_url: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens
+  quote: "Tokens always include read-only access to all public repositories on GitHub."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-31
+
+- id: P5-token-public-meaning
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Det du begränsar är skrivning och vilka privata repon den ser"
+    en: "What you limit is writing, and which private repositories it can see"
+  vendor: GitHub
+  url: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens
+  final_url: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens
+  quote: "Tokens always include read-only access to all public repositories on GitHub."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-31
+
+- id: P5-two-limits-own
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Att använda båda är vår egen rekommendation och inte något GitHub säger. Om den ena är fel inställd håller den andra ändå"
+    en: "Setting both is our own advice, not GitHub's: if one is set wrongly, the other still holds"
+  vendor: GitHub
+  url: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens
+  final_url: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens
+  quote: "You should choose the minimal repository access that meets your needs."
+  retrieved: 2026-10-31
+  last_checked: 2026-11-03
+
+- id: P5-practice-private
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Ingen av dem hindrar agenten från att läsa en skadlig instruktion. Därför är övningsrepot privat"
+    en: "Neither stops the agent from reading a harmful instruction, which is why the practice repository is private"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agents/run/security
+  final_url: https://code.visualstudio.com/docs/agents/run/security
+  quote: "AI systems are vulnerable to prompt injection attacks where malicious content in tool outputs influences the AI's behavior and decision-making."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+
+- id: P5-vs-approval
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Claude Code och GitHub Copilot ber om ditt godkännande när agenten vill använda ett MCP-verktyg"
+    en: "Claude Code and GitHub Copilot ask for your approval when the agent wants to use an MCP tool"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agents/run/security
+  final_url: https://code.visualstudio.com/docs/agents/run/security
+  quote: "MCP tool invocations require explicit user approval, which you can grant at different scopes: session-level for temporary access, workspace-level for project-specific trust, or user-level for broader permissions."
+  retrieved: 2026-10-30
+  last_checked: 2026-11-03
+
+- id: P5-cc-approval-default
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Claude Code och GitHub Copilot ber om ditt godkännande när agenten vill använda ett MCP-verktyg"
+    en: "Claude Code and GitHub Copilot ask for your approval when the agent wants to use an MCP tool"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/permissions
+  final_url: https://code.claude.com/docs/en/permissions
+  quote: "Prompts for permission on first use of each tool."
+  retrieved: 2026-10-31
+  last_checked: 2026-11-03
+
+- id: P5-vs-advice-leave-prompt
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Vårt råd: låt det vara så till en början, så du ser vad agenten gör"
+    en: "Our advice: leave it that way at first, so you can see what the agent does"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/permissions
+  final_url: https://code.claude.com/docs/en/permissions
+  quote: "A permission prompt shows what Claude is about to do, followed by your options."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-cc-add
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "I Claude Code lägger du till MCP-servern med ett kommando som körs i projektets toppmapp"
+    en: "In Claude Code you add the MCP server with one command, run in the project's top folder"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/mcp
+  final_url: https://code.claude.com/docs/en/mcp
+  quote: "generate a new fine-grained token with access to the repositories you want Claude to work with, then add the server"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+
+- id: P5-cc-scope-project
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Kommandot lägger till en MCP-server som heter github. Den nås över webben på adressen där GitHub kör den, sparas i det här projektet och får tokenen i en header"
+    en: "The command adds an MCP server called github. It is reached over the web at the address where GitHub hosts it, is saved in this project and sends the token in a header"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/mcp-quickstart
+  final_url: https://code.claude.com/docs/en/mcp-quickstart
+  quote: "or `--scope project` to share it with teammates"
+  retrieved: 2026-10-30
+  last_checked: 2026-11-03
+
+- id: P5-cc-header-token
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Kommandot lägger till en MCP-server som heter github. Den nås över webben på adressen där GitHub kör den, sparas i det här projektet och får tokenen i en header"
+    en: "The command adds an MCP server called github. It is reached over the web at the address where GitHub hosts it, is saved in this project and sends the token in a header"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/mcp
+  final_url: https://code.claude.com/docs/en/mcp
+  quote: "GitHub's remote MCP server authenticates with a GitHub personal access token passed as a header."
+  retrieved: 2026-10-31
+  last_checked: 2026-11-03
+
+- id: P5-cc-hosted-by-github
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Kommandot lägger till en MCP-server som heter github. Den nås över webben på adressen där GitHub kör den, sparas i det här projektet och får tokenen i en header"
+    en: "The command adds an MCP server called github. It is reached over the web at the address where GitHub hosts it, is saved in this project and sends the token in a header"
+  vendor: GitHub
+  url: https://raw.githubusercontent.com/github/github-mcp-server/main/README.md
+  final_url: https://raw.githubusercontent.com/github/github-mcp-server/main/README.md
+  quote: "The remote GitHub MCP Server is hosted by GitHub"
+  retrieved: 2026-10-31
+  last_checked: 2026-11-03
+
+- id: P5-cc-single-quotes
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "De enkla citattecknen behövs: de hindrar terminalen från att byta ut ${GITHUB_PAT} mot själva tokenen"
+    en: "The single quotes matter: they stop your terminal from replacing ${GITHUB_PAT} with the token itself"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/mcp
+  final_url: https://code.claude.com/docs/en/mcp
+  quote: "Claude Code supports environment variable expansion in `.mcp.json` files, allowing teams to share configurations while maintaining flexibility for machine-specific paths and sensitive values like API keys."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+
+- id: P5-cc-mcp-json
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Kommandot skriver en fil som heter .mcp.json i projektets toppmapp"
+    en: "The command writes a file called .mcp.json in the project's top folder"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/mcp
+  final_url: https://code.claude.com/docs/en/mcp
+  quote: "Project-scoped servers enable team collaboration by storing configurations in a `.mcp.json` file at your project's root directory."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-31
+
+- id: P5-cc-env-expansion
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Filen innehåller adressen och en header som anger variabelns namn"
+    en: "The file holds the address and a header that names the variable"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/mcp
+  final_url: https://code.claude.com/docs/en/mcp
+  quote: "Claude Code supports environment variable expansion in `.mcp.json` files, allowing teams to share configurations while maintaining flexibility for machine-specific paths and sensitive values like API keys."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-31
+
+- id: P5-cc-mcp-json-commit
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Tokenen finns inte i filen, så teamet kan dela den"
+    en: "The token is not in the file, so the team can share it"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/mcp
+  final_url: https://code.claude.com/docs/en/mcp
+  quote: "To share the server with your team instead, add `--scope project`, or add the entry under `mcpServers` in `.mcp.json` at your project root and commit it."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+
+- id: P5-cc-approve
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Första gången du öppnar projektet ber Claude Code dig godkänna MCP-servern"
+    en: "The first time you open the project, Claude Code asks you to approve the MCP server"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/mcp
+  final_url: https://code.claude.com/docs/en/mcp
+  quote: "For security reasons, Claude Code prompts for approval in interactive sessions before using project-scoped servers from `.mcp.json` files."
+  retrieved: 2026-10-30
+  last_checked: 2026-11-03
+
+- id: P5-codex-config
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "I OpenAI:s Codex läggs MCP-servern i config.toml"
+    en: "In OpenAI's Codex the MCP server goes into config.toml"
+  vendor: OpenAI
+  url: https://learn.chatgpt.com/docs/extend/mcp
+  final_url: https://learn.chatgpt.com/docs/extend/mcp
+  quote: "Codex stores MCP configuration in `config.toml` alongside other Codex configuration settings."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-31
+
+- id: P5-codex-path
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Lägg till den här tabellen sist i ~/.codex/config.toml"
+    en: "Add this table to the end of ~/.codex/config.toml"
+  vendor: OpenAI
+  url: https://learn.chatgpt.com/docs/extend/mcp
+  final_url: https://learn.chatgpt.com/docs/extend/mcp
+  quote: "By default this is `~/.codex/config.toml`"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+
+- id: P5-codex-bearer
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "I tabellen anger bearer_token_env_var namnet på variabeln som innehåller tokenen"
+    en: "In the table, bearer_token_env_var names the variable that holds the token"
+  vendor: OpenAI
+  url: https://learn.chatgpt.com/docs/extend/mcp
+  final_url: https://learn.chatgpt.com/docs/extend/mcp
+  quote: "`bearer_token_env_var` (optional): Environment variable name for a bearer token to send in `Authorization`."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+
+- id: P5-vs-mcp-json
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "GitHub Copilot i VS Code läser en .mcp.json i projektets toppmapp, som VS Code kallar workspace root"
+    en: "GitHub Copilot in VS Code reads a .mcp.json in the project's top folder, which VS Code calls the workspace root"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agents/reference/mcp-configuration
+  final_url: https://code.visualstudio.com/docs/agents/reference/mcp-configuration
+  quote: "The portable Copilot format is stored in `.mcp.json` at the root of your workspace"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-31
+
+- id: P5-vs-portable-shape
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Skapa filen för hand med samma innehåll som i exemplet ovan"
+    en: "Create the file by hand with the same content as the example above"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agents/reference/mcp-configuration
+  final_url: https://code.visualstudio.com/docs/agents/reference/mcp-configuration
+  quote: "The portable Copilot format is stored in `.mcp.json` at the root of your workspace or in `$COPILOT_HOME/mcp-config.json` for your user, with `~/.copilot/mcp-config.json` as the fallback location."
+  retrieved: 2026-11-03
+  last_checked: 2026-11-03
+
+- id: P5-vs-existing-file
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Skapa filen för hand med samma innehåll som i exemplet ovan"
+    en: "Create the file by hand with the same content as the example above"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agents/reference/mcp-configuration
+  final_url: https://code.visualstudio.com/docs/agents/reference/mcp-configuration
+  quote: "It defines servers in a top-level `mcpServers` object."
+  retrieved: 2026-10-30
+  last_checked: 2026-11-03
+
+- id: P5-vs-portable-servers
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Skapa filen för hand med samma innehåll som i exemplet ovan"
+    en: "Create the file by hand with the same content as the example above"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agent-customization/mcp-servers
+  final_url: https://code.visualstudio.com/docs/agent-customization/mcp-servers
+  quote: "Portable files use a top-level `mcpServers` object."
+  retrieved: 2026-11-03
+  last_checked: 2026-11-03
+
+- id: P5-vs-code-format
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Det är inte .vscode/mcp.json, som har ett annat format"
+    en: "It is not .vscode/mcp.json, which has a different format"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agents/reference/mcp-configuration
+  final_url: https://code.visualstudio.com/docs/agents/reference/mcp-configuration
+  quote: "The VS Code format is stored in `.vscode/mcp.json` in your workspace or in your user profile."
+  retrieved: 2026-11-03
+  last_checked: 2026-11-03
+
+- id: P5-vs-code-servers
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Det är inte .vscode/mcp.json, som har ett annat format"
+    en: "It is not .vscode/mcp.json, which has a different format"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agent-customization/mcp-servers
+  final_url: https://code.visualstudio.com/docs/agent-customization/mcp-servers
+  quote: "The VS Code format uses `servers`."
+  retrieved: 2026-11-03
+  last_checked: 2026-11-03
+
+- id: P5-vs-header-env
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "VS Codes konfigurationsreferens låter en header i filen hänvisa till en miljövariabel med ${GITHUB_PAT}"
+    en: "VS Code's configuration reference lets a header in the file refer to an environment variable with ${GITHUB_PAT}"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agents/reference/mcp-configuration
+  final_url: https://code.visualstudio.com/docs/agents/reference/mcp-configuration
+  quote: "HTTP servers can use them in header values."
+  retrieved: 2026-10-30
+  last_checked: 2026-11-03
+
+- id: P5-vs-header-syntax
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "VS Codes konfigurationsreferens låter en header i filen hänvisa till en miljövariabel med ${GITHUB_PAT}"
+    en: "VS Code's configuration reference lets a header in the file refer to an environment variable with ${GITHUB_PAT}"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agents/reference/mcp-configuration
+  final_url: https://code.visualstudio.com/docs/agents/reference/mcp-configuration
+  quote: "Use `${NAME}` to reference a value"
+  retrieved: 2026-10-30
+  last_checked: 2026-11-03
+
+- id: P5-cc-list-connected
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Raden för github ska säga Connected"
+    en: "The line for github should say Connected"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/mcp
+  final_url: https://code.claude.com/docs/en/mcp
+  quote: "shows a health status next to each server it lists, such as `✔ Connected`"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+
+- id: P5-codex-list
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Codex: codex mcp list"
+    en: "Codex: codex mcp list"
+  vendor: OpenAI
+  url: https://learn.chatgpt.com/docs/extend/mcp
+  final_url: https://learn.chatgpt.com/docs/extend/mcp
+  quote: "Run `codex mcp list` to see configured servers."
+  retrieved: 2026-10-31
+  last_checked: 2026-11-03
+
+- id: P5-vs-list
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "GitHub Copilot i VS Code: kör MCP: List Servers från Command Palette"
+    en: "GitHub Copilot in VS Code: run MCP: List Servers from the Command Palette"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agents/run/manage-mcp-servers
+  final_url: https://code.visualstudio.com/docs/agents/run/manage-mcp-servers
+  quote: "run MCP: List Servers from the Command Palette"
+  retrieved: 2026-10-31
+  last_checked: 2026-11-03
+
+- id: P5-vs-expand
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Öppna verktygsanropet som agenten gjorde: det ska komma från MCP-servern github och returnera ärendets text, inte ett fel"
+    en: "Open the tool call the agent made: it should come from the MCP server github and return the text of the issue, not an error"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agent-customization/mcp-servers
+  final_url: https://code.visualstudio.com/docs/agent-customization/mcp-servers
+  quote: "Expand the tool call in the conversation. Check that it belongs to the server you added and inspect its returned output."
+  retrieved: 2026-10-31
+  last_checked: 2026-11-03
+
+- id: P5-vs-plausible
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Ett svar som låter bra bevisar ingenting, så titta på verktygsanropet"
+    en: "A good-sounding answer proves nothing, so look at the tool call"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agent-customization/mcp-servers
+  final_url: https://code.visualstudio.com/docs/agent-customization/mcp-servers
+  quote: "A plausible answer alone isn't sufficient."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-31
+
+- id: P5-readonly-no-write-tool
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Det ska inte gå: MCP-servern på adressen /readonly har inget verktyg för att skapa ärenden. Tokenen får inte heller skriva ärenden"
+    en: "It should fail: the MCP server at the /readonly address has no tool for creating an issue. The token has no permission to write issues"
+  vendor: GitHub
+  url: https://raw.githubusercontent.com/github/github-mcp-server/main/README.md
+  final_url: https://raw.githubusercontent.com/github/github-mcp-server/main/README.md
+  quote: "This will only offer read-only tools, preventing any modifications to repositories, issues, pull requests, etc."
+  retrieved: 2026-10-30
+  last_checked: 2026-11-03
+
+- id: P5-token-no-write
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Det ska inte gå: MCP-servern på adressen /readonly har inget verktyg för att skapa ärenden. Tokenen får inte heller skriva ärenden"
+    en: "It should fail: the MCP server at the /readonly address has no tool for creating an issue. The token has no permission to write issues"
+  vendor: GitHub
+  url: https://docs.github.com/en/rest/issues/issues
+  final_url: https://docs.github.com/en/rest/issues/issues
+  quote: "Fine-grained access tokens for \"Create an issue\" … The fine-grained token must have the following permission set: \"Issues\" repository permissions (write)"
+  retrieved: 2026-11-03
+  last_checked: 2026-11-03
+
+- id: P5-gh-another-way
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Utöver MCP-servern kan agenten köra GitHubs kommandoradsverktyg gh i terminalen om du är inloggad i det"
+    en: "Besides the MCP server, the agent can run GitHub's command-line tool gh in the terminal if you are signed in to it"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/best-practices
+  final_url: https://code.claude.com/docs/en/best-practices
+  quote: "With `gh` installed and signed in, for example, Claude will open pull requests and read review comments without any explanation from you."
+  retrieved: 2026-10-31
+  last_checked: 2026-11-03
+
+- id: P5-gh-signed-in
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Utöver MCP-servern kan agenten köra GitHubs kommandoradsverktyg gh i terminalen om du är inloggad i det"
+    en: "Besides the MCP server, the agent can run GitHub's command-line tool gh in the terminal if you are signed in to it"
+  vendor: GitHub
+  url: https://cli.github.com/manual/gh_auth_login
+  final_url: https://cli.github.com/manual/gh_auth_login
+  quote: "Authenticate with a GitHub host."
+  retrieved: 2026-11-03
+  last_checked: 2026-11-03
+
+- id: P5-readonly-not-gh
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Adressen /readonly gäller inte för gh"
+    en: "The /readonly address does not cover gh"
+  vendor: GitHub
+  url: https://raw.githubusercontent.com/github/github-mcp-server/main/docs/remote-server.md
+  final_url: https://raw.githubusercontent.com/github/github-mcp-server/main/docs/remote-server.md
+  quote: "Add `/readonly` to the end of any URL to restrict the tools in the toolset to only those that enable read access."
+  retrieved: 2026-11-03
+  last_checked: 2026-11-03
+
+- id: P5-see-tool-call
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Skapas ett ärende ändå, öppna verktygsanropet och se hur det gjordes"
+    en: "If an issue is created anyway, open the tool call to see how it was done"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agent-customization/mcp-servers
+  final_url: https://code.visualstudio.com/docs/agent-customization/mcp-servers
+  quote: "Expand the tool call in the conversation. Check that it belongs to the server you added and inspect its returned output."
+  retrieved: 2026-11-03
+  last_checked: 2026-11-03
+
+- id: P5-readonly-check
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Kom anropet från MCP-servern github har skrivskyddet inte fungerat: stoppa och kontrollera att adressen slutar på /readonly. Kom det från gh var det inte MCP-servern som släppte igenom det"
+    en: "If the call came from the MCP server github, the read-only limit has failed: stop and check that the address ends in /readonly. If it came from gh, the MCP server did not let it through"
+  vendor: GitHub
+  url: https://raw.githubusercontent.com/github/github-mcp-server/main/docs/remote-server.md
+  final_url: https://raw.githubusercontent.com/github/github-mcp-server/main/docs/remote-server.md
+  quote: "Add `/readonly` to the end of any URL to restrict the tools in the toolset to only those that enable read access."
+  retrieved: 2026-11-03
+  last_checked: 2026-11-03
+
+- id: P5-check-token-valid
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "kontrollera tokenen först: den kan vara fel, ha gått ut eller sakna åtkomst till repot"
+    en: "check the token first: it may be wrong, have expired or have no access to the repository"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/mcp
+  final_url: https://code.claude.com/docs/en/mcp
+  quote: "Check that the token is valid for the MCP endpoint"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+
+- id: P5-check-token-failed
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "kontrollera tokenen först: den kan vara fel, ha gått ut eller sakna åtkomst till repot"
+    en: "check the token first: it may be wrong, have expired or have no access to the repository"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/mcp
+  final_url: https://code.claude.com/docs/en/mcp
+  quote: "Claude Code reports the connection as failed instead of falling back to OAuth"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+
+- id: P5-mcp-status
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "I Claude Code visar /mcp då den HTTP-status som MCP-servern svarade med, till exempel 401"
+    en: "In Claude Code, /mcp then shows the HTTP status the MCP server returned, such as a 401"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/mcp
+  final_url: https://code.claude.com/docs/en/mcp
+  quote: "A server with bad credentials shows an ✘ instead, and its failure detail includes the HTTP status the server returned, such as a 401."
+  retrieved: 2026-10-31
+  last_checked: 2026-11-03
+
+- id: P5-env-window
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Variabeln kan också vara satt i ett annat fönster än det du startade AI-programmet från"
+    en: "The variable may also be set in another window than the one you started the agent app from"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agents/reference/mcp-configuration
+  final_url: https://code.visualstudio.com/docs/agents/reference/mcp-configuration
+  quote: "Provide credentials in the environment of the host that runs or connects to the server, not only in an unrelated terminal"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+
+- id: P5-unset-var
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Om variabeln bakom ${GITHUB_PAT} inte är satt varnar Claude Code och skickar texten ${GITHUB_PAT} oförändrad i stället för tokenen"
+    en: "If the variable behind ${GITHUB_PAT} is not set, Claude Code warns and sends the text ${GITHUB_PAT} unchanged in place of the token"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/mcp
+  final_url: https://code.claude.com/docs/en/mcp
+  quote: "If a referenced environment variable isn't set and has no default value, the config still loads: Claude Code reports a missing-variable warning for that server in `claude mcp list` output and uses the unexpanded `${VAR}` text as-is."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-pending-claude
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "väntar AI-programmet på att du ska lita på projektet eller godkänna MCP-servern"
+    en: "the agent app is waiting for you to trust the project or to approve the MCP server"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/mcp
+  final_url: https://code.claude.com/docs/en/mcp
+  quote: "a project-scoped server from `.mcp.json` that you haven't approved yet"
+  retrieved: 2026-10-30
+  last_checked: 2026-11-03
+
+- id: P5-pending-vscode
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "väntar AI-programmet på att du ska lita på projektet eller godkänna MCP-servern"
+    en: "the agent app is waiting for you to trust the project or to approve the MCP server"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agents/run/manage-mcp-servers
+  final_url: https://code.visualstudio.com/docs/agents/run/manage-mcp-servers
+  quote: "Restricted mode prevents these servers from starting."
+  retrieved: 2026-10-30
+  last_checked: 2026-11-03
+
+- id: P5-pending-list
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "I Claude Code visar claude mcp list \"Pending approval\" bredvid en sådan MCP-server"
+    en: "In Claude Code, claude mcp list shows \"Pending approval\" next to such an MCP server"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/mcp
+  final_url: https://code.claude.com/docs/en/mcp
+  quote: "Pending approval (run `claude` to approve)"
+  retrieved: 2026-10-31
+  last_checked: 2026-11-03
+
+- id: P5-warnings-where
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Claude Code visar dem i claude mcp list och i /mcp"
+    en: "Claude Code shows them in claude mcp list and in /mcp"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/mcp
+  final_url: https://code.claude.com/docs/en/mcp
+  quote: "Claude Code shows the warning in `claude mcp list` output and in `/mcp`"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-31
+
+- id: P5-context
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "anslutna MCP-servrar lägger sina verktygsnamn och instruktioner i agentens kontext även när du inte använder dem, som Claude Codes bästa praxis uttrycker det"
+    en: "connected MCP servers add their tool names and instructions to the agent's context even when you are not using them, as Claude Code's best practices put it"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/best-practices
+  final_url: https://code.claude.com/docs/en/best-practices
+  quote: "Connected servers add their tool names and instructions to the context even when you're not using them"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-31
+
+- id: P5-turn-off
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Stäng av de MCP-servrar du inte behöver"
+    en: "Turn off the MCP servers you do not need"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/best-practices
+  final_url: https://code.claude.com/docs/en/best-practices
+  quote: "so it's worth turning off the ones you don't need"
+  retrieved: 2026-10-30
+  last_checked: 2026-11-03
+
+- id: P5-toolsearch-defers
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Claude Code skjuter också upp verktygens fullständiga definitioner tills de behövs, vilket kallas tool search"
+    en: "Claude Code also defers the full tool definitions until they are needed, which is called tool search"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/mcp
+  final_url: https://code.claude.com/docs/en/mcp
+  quote: "Tool search keeps MCP context usage low by deferring tool definitions until Claude needs them."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-cause-instructions
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Orsaken kan vara instruktioner i texten den läste"
+    en: "The cause may be instructions in the text it read"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agents/run/security
+  final_url: https://code.visualstudio.com/docs/agents/run/security
+  quote: "these instructions can override the agent's original task and cause it to perform malicious actions"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-31
+
+- id: P5-own-provider
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Använd en MCP-server från en leverantör du litar på, till exempel systemets egen"
+    en: "Use an MCP server from a provider you trust, such as the system's own"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/security
+  final_url: https://code.claude.com/docs/en/security
+  quote: "We encourage either writing your own MCP servers or using MCP servers from providers that you trust."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-31
+
+- id: P5-first-read-only
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Låt inte den första MCP-servern ändra något"
+    en: "Do not let the first MCP server change anything"
+  vendor: GitHub
+  url: https://raw.githubusercontent.com/github/github-mcp-server/main/README.md
+  final_url: https://raw.githubusercontent.com/github/github-mcp-server/main/README.md
+  quote: "This will only offer read-only tools, preventing any modifications to repositories, issues, pull requests, etc."
+  retrieved: 2026-10-31
+  last_checked: 2026-11-03
+
+- id: P5-no-token-in-file
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Klistra aldrig in tokenen i en fil eller i chatten"
+    en: "Never paste the token into a file or the chat"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agents/reference/mcp-configuration
+  final_url: https://code.visualstudio.com/docs/agents/reference/mcp-configuration
+  quote: "Do not commit tokens, passwords, or populated authentication headers."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+
+- id: P5-token-path
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Öppna Settings i GitHub, sedan Developer settings och Fine-grained tokens"
+    en: "In GitHub, open Settings, then Developer settings, then Fine-grained tokens"
+  vendor: GitHub
+  url: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens
+  final_url: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens
+  quote: "In the left sidebar, click Developer settings. In the left sidebar, under Personal access tokens, click Fine-grained tokens."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+
+- id: P5-token-generate
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Skapa en token bara för det repot, med Issues satt till read"
+    en: "Generate a token for that repository only, with Issues set to read"
+  vendor: GitHub
+  url: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens
+  final_url: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens
+  quote: "Under Repository access, select which repositories you want the token to access."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+
+- id: P5-same-window
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Starta AI-programmet från samma fönster, för variabeln finns bara där"
+    en: "Start your agent app from this same window, because the variable exists only in it"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/configure/command-line
+  final_url: https://code.visualstudio.com/docs/configure/command-line
+  quote: "If this is the first VS Code instance, environment variables are inherited from the parent process."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+
+- id: P5-vs-close-first
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "För VS Code: stäng det först och starta det sedan från det här fönstret med code ., som samma sida visar hur man installerar på macOS"
+    en: "For VS Code, close it first and then start it from this window with code ., which the same page shows how to install on macOS"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/configure/command-line
+  final_url: https://code.visualstudio.com/docs/configure/command-line
+  quote: "If this is not the first VS Code instance, environment variables are inherited from the already running VS Code instance."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+
+- id: P5-vs-code-dot
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "För VS Code: stäng det först och starta det sedan från det här fönstret med code ., som samma sida visar hur man installerar på macOS"
+    en: "For VS Code, close it first and then start it from this window with code ., which the same page shows how to install on macOS"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/configure/command-line
+  final_url: https://code.visualstudio.com/docs/configure/command-line
+  quote: "navigate to your project folder and type `code .`"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+
+- id: P5-vs-code-macos
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "För VS Code: stäng det först och starta det sedan från det här fönstret med code ., som samma sida visar hur man installerar på macOS"
+    en: "For VS Code, close it first and then start it from this window with code ., which the same page shows how to install on macOS"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/configure/command-line
+  final_url: https://code.visualstudio.com/docs/configure/command-line
+  quote: "On macOS, first run Shell Command: Install 'code' and optionally 'copilot' commands in PATH"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+
+- id: P5-real-project
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Gå vidare till det riktiga projektet först när ärendena där skrivs av personer du litar på"
+    en: "Move to your real project only when the issues there are written by people you trust"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agents/run/security
+  final_url: https://code.visualstudio.com/docs/agents/run/security
+  quote: "AI systems are vulnerable to prompt injection attacks where malicious content in tool outputs influences the AI's behavior and decision-making."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+
+- id: P5-adv-host-claude
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "MCP-dokumentationen kallar AI-programmet för host, till exempel Claude Code eller VS Code"
+    en: "The MCP documentation calls the AI application the host, for example Claude Code or VS Code"
+  vendor: modelcontextprotocol.io
+  url: https://modelcontextprotocol.io/docs/2026-07-28/learn/architecture
+  final_url: https://modelcontextprotocol.io/docs/2026-07-28/learn/architecture
+  quote: "an MCP host — an AI application like Claude Code or Claude Desktop"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-host-vscode
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "MCP-dokumentationen kallar AI-programmet för host, till exempel Claude Code eller VS Code"
+    en: "The MCP documentation calls the AI application the host, for example Claude Code or VS Code"
+  vendor: modelcontextprotocol.io
+  url: https://modelcontextprotocol.io/docs/2026-07-28/learn/architecture
+  final_url: https://modelcontextprotocol.io/docs/2026-07-28/learn/architecture
+  quote: "Visual Studio Code acts as an MCP host."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-client-each
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "För varje MCP-server som hosten ansluter till skapar den en MCP client, en komponent som håller en egen koppling till just den servern"
+    en: "For each MCP server it connects to, the host creates an MCP client, a component that keeps a dedicated connection to that server"
+  vendor: modelcontextprotocol.io
+  url: https://modelcontextprotocol.io/docs/2026-07-28/learn/architecture
+  final_url: https://modelcontextprotocol.io/docs/2026-07-28/learn/architecture
+  quote: "The MCP host accomplishes this by creating one MCP client for each MCP server. Each MCP client maintains a dedicated connection with its corresponding MCP server."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-client-component
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "För varje MCP-server som hosten ansluter till skapar den en MCP client, en komponent som håller en egen koppling till just den servern"
+    en: "For each MCP server it connects to, the host creates an MCP client, a component that keeps a dedicated connection to that server"
+  vendor: modelcontextprotocol.io
+  url: https://modelcontextprotocol.io/docs/2026-07-28/learn/architecture
+  final_url: https://modelcontextprotocol.io/docs/2026-07-28/learn/architecture
+  quote: "MCP Client: A component that maintains a connection to an MCP server"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-other-client
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Claude Codes dokumentation säger att installationsanvisningen för en server kan vara skriven för en annan MCP client och sakna kommandot claude mcp add"
+    en: "Claude Code's documentation says that a server's setup instructions may be written for another MCP client and give no claude mcp add command"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/mcp
+  final_url: https://code.claude.com/docs/en/mcp
+  quote: "a server's setup instructions may be written for Claude Desktop, Cursor, or another MCP client and give no `claude mcp add` command"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-look-for
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Leta då i anvisningen efter en URL, ett startkommando eller ett JSON-block"
+    en: "Then look in them for a URL, a launch command or a JSON block"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/mcp
+  final_url: https://code.claude.com/docs/en/mcp
+  quote: "look in those instructions for a URL, a launch command, or a JSON block"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-url-remote
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "En URL betyder att servern körs på distans"
+    en: "A URL means the server is remote"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/mcp
+  final_url: https://code.claude.com/docs/en/mcp
+  quote: "A URL such as `https://mcp.example.com/mcp`: the server is remote."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-launch-local
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Ett startkommando betyder att den körs på din dator"
+    en: "A launch command means it runs on your machine"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/mcp
+  final_url: https://code.claude.com/docs/en/mcp
+  quote: "the server runs on your machine"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-sdk-skip
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Om en post i .mcp.json anger en server av typen sdk som körs i samma process, hoppar Claude Code över den och visar ett meddelande som slutar på which only an SDK host application can register"
+    en: "If an entry in .mcp.json declares an in-process server of type sdk, Claude Code skips it and shows a message that ends with which only an SDK host application can register"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/mcp
+  final_url: https://code.claude.com/docs/en/mcp
+  quote: "Claude Code skips a `\"type\": \"sdk\"` entry in `.mcp.json`"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-sdk-message
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Om en post i .mcp.json anger en server av typen sdk som körs i samma process, hoppar Claude Code över den och visar ett meddelande som slutar på which only an SDK host application can register"
+    en: "If an entry in .mcp.json declares an in-process server of type sdk, Claude Code skips it and shows a message that ends with which only an SDK host application can register"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/mcp
+  final_url: https://code.claude.com/docs/en/mcp
+  quote: "which only an SDK host application can register"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-sdk-who
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Bara ett SDK host-program, till exempel ett program byggt med Agent SDK eller skrivbordsappen, kan registrera en sådan server"
+    en: "Only an SDK host application, such as an Agent SDK application or the desktop app, can register such a server"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/mcp
+  final_url: https://code.claude.com/docs/en/mcp
+  quote: "Only an SDK host application, such as an Agent SDK application or the desktop app, can register an in-process `\"type\": \"sdk\"` server."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-own-rule
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Vår tumregel: skriv en egen MCP-server när systemet saknar en färdig, vilket ett internt system oftast gör"
+    en: "Our rule of thumb: write your own MCP server when the system has none ready-made, which is usually true of an internal system"
+  vendor: modelcontextprotocol.io
+  url: https://modelcontextprotocol.io/registry/about
+  final_url: https://modelcontextprotocol.io/registry/about
+  quote: "The MCP Registry is the official centralized metadata repository for publicly accessible MCP servers"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-registry-first
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "MCP Registry är den officiella listan över MCP-servrar som är allmänt tillgängliga och har inte stöd för privata servrar, så för ett offentligt system tittar du där först"
+    en: "The MCP Registry is the official list of publicly accessible MCP servers and does not support private ones, so for a public system check it first"
+  vendor: modelcontextprotocol.io
+  url: https://modelcontextprotocol.io/registry/about
+  final_url: https://modelcontextprotocol.io/registry/about
+  quote: "The MCP Registry is the official centralized metadata repository for publicly accessible MCP servers"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-registry-private
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "MCP Registry är den officiella listan över MCP-servrar som är allmänt tillgängliga och har inte stöd för privata servrar, så för ett offentligt system tittar du där först"
+    en: "The MCP Registry is the official list of publicly accessible MCP servers and does not support private ones, so for a public system check it first"
+  vendor: modelcontextprotocol.io
+  url: https://modelcontextprotocol.io/registry/about
+  final_url: https://modelcontextprotocol.io/registry/about
+  quote: "The MCP Registry does not support private servers."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-start-small
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Vårt råd: börja med en liten server med ett enda verktyg som bara läser, som i den första kopplingen ovan"
+    en: "Our advice: start with one small server that has one tool and only reads, as in the first connection above"
+  vendor: GitHub
+  url: https://raw.githubusercontent.com/github/github-mcp-server/main/README.md
+  final_url: https://raw.githubusercontent.com/github/github-mcp-server/main/README.md
+  quote: "This will only offer read-only tools, preventing any modifications to repositories, issues, pull requests, etc."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-guide-two-tools
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "MCP-projektets guide för att bygga en server går igenom en server med två verktyg och kopplar den till en host"
+    en: "The MCP project's guide to building a server walks through one with two tools and connects it to a host"
+  vendor: modelcontextprotocol.io
+  url: https://modelcontextprotocol.io/docs/2026-07-28/develop/build-server
+  final_url: https://modelcontextprotocol.io/docs/2026-07-28/develop/build-server
+  quote: "We'll build a server that exposes two tools: `get_alerts` and `get_forecast`. Then we'll connect the server to an MCP host"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-plugin
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "I Claude Code kan du också låta ett officiellt plugin hjälpa till: Claude frågar om ditt användningsfall och skapar ett skelett för en server på distans över HTTP eller en lokal stdio-server"
+    en: "In Claude Code you can also let an official plugin help: Claude asks about your use case and scaffolds a remote HTTP or local stdio server"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/mcp
+  final_url: https://code.claude.com/docs/en/mcp
+  quote: "You can also have Claude scaffold a server for you with the official"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-plugin-asks
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "I Claude Code kan du också låta ett officiellt plugin hjälpa till: Claude frågar om ditt användningsfall och skapar ett skelett för en server på distans över HTTP eller en lokal stdio-server"
+    en: "In Claude Code you can also let an official plugin help: Claude asks about your use case and scaffolds a remote HTTP or local stdio server"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/mcp
+  final_url: https://code.claude.com/docs/en/mcp
+  quote: "Claude asks about your use case and scaffolds a remote HTTP or local stdio server."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-plugin-commands
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Skriv de här två kommandona i Claude Codes prompt"
+    en: "Enter these two commands at Claude Code's prompt"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/mcp
+  final_url: https://code.claude.com/docs/en/mcp
+  quote: "start Claude Code by running `claude`, then enter this at its prompt"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-plugin-fail-marketplace
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Om det första kommandot misslyckas med Marketplace \"claude-plugins-official\" not found, lägger du till pluginkatalogen (marketplace) med /plugin marketplace add anthropics/claude-plugins-official och kör installationen igen"
+    en: "If the first command fails with Marketplace \"claude-plugins-official\" not found, add the marketplace with /plugin marketplace add anthropics/claude-plugins-official and run the install again"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/mcp
+  final_url: https://code.claude.com/docs/en/mcp
+  quote: "`Marketplace \"claude-plugins-official\" not found`: add the marketplace with `/plugin marketplace add anthropics/claude-plugins-official`, then retry the install."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-plugin-fail-catalog
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Om meddelandet i stället säger att pluginet inte finns i katalogen, uppdaterar du katalogen med /plugin marketplace update claude-plugins-official och försöker igen"
+    en: "If the message says that the plugin is not found in the marketplace, refresh the catalog with /plugin marketplace update claude-plugins-official and try again"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/mcp
+  final_url: https://code.claude.com/docs/en/mcp
+  quote: "your local copy of the marketplace catalog may be out of date. Refresh it with `/plugin marketplace update claude-plugins-official`, then retry the install."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-plugin-refresh-missing
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Om uppdateringen säger att katalogen inte hittas, lägger du till den som ovan"
+    en: "If the refresh says that the marketplace is not found, add it as above"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/mcp
+  final_url: https://code.claude.com/docs/en/mcp
+  quote: "`Marketplace \"claude-plugins-official\" not found`: add the marketplace with `/plugin marketplace add anthropics/claude-plugins-official`, then retry the install."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-stdio-local
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "En server som Claude Code startar på din egen dator läggs till som en lokal stdio-server"
+    en: "A server that Claude Code starts on your own computer is added as a local stdio server"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/mcp
+  final_url: https://code.claude.com/docs/en/mcp
+  quote: "Stdio servers run as local processes on your machine."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-dashdash
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Allt efter -- är kommandot som startar den"
+    en: "Everything after -- is the command that starts it"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/mcp
+  final_url: https://code.claude.com/docs/en/mcp
+  quote: "separates Claude's own options, such as `--transport`, `--env`, and `--scope`, from the command and arguments that run the server"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-stdout
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Allt som skrivs till stdout i en stdio-server får servern att sluta fungera, eftersom det skadar JSON-RPC-meddelandena. Guiden varnar för det"
+    en: "In a stdio server, anything written to stdout breaks the server, because it corrupts the JSON-RPC messages, as the guide warns"
+  vendor: modelcontextprotocol.io
+  url: https://modelcontextprotocol.io/docs/2026-07-28/develop/build-server
+  final_url: https://modelcontextprotocol.io/docs/2026-07-28/develop/build-server
+  quote: "Writing to stdout will corrupt the JSON-RPC messages and break your server."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-print
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Det gäller print() i Python och console.log() i TypeScript"
+    en: "That includes print() in Python and console.log() in TypeScript"
+  vendor: modelcontextprotocol.io
+  url: https://modelcontextprotocol.io/docs/2026-07-28/develop/build-server
+  final_url: https://modelcontextprotocol.io/docs/2026-07-28/develop/build-server
+  quote: "The `print()` function writes to stdout by default, so keep it out of a STDIO server entirely."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-consolelog
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Det gäller print() i Python och console.log() i TypeScript"
+    en: "That includes print() in Python and console.log() in TypeScript"
+  vendor: modelcontextprotocol.io
+  url: https://modelcontextprotocol.io/docs/2026-07-28/develop/build-server
+  final_url: https://modelcontextprotocol.io/docs/2026-07-28/develop/build-server
+  quote: "Never use `console.log()`, as it writes to standard output (stdout) by default."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-stderr-python
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Logga till stderr i stället"
+    en: "Log to stderr instead"
+  vendor: modelcontextprotocol.io
+  url: https://modelcontextprotocol.io/docs/2026-07-28/develop/build-server
+  final_url: https://modelcontextprotocol.io/docs/2026-07-28/develop/build-server
+  quote: "Use the standard library `logging` module, which writes to stderr."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-stderr-ts
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Logga till stderr i stället"
+    en: "Log to stderr instead"
+  vendor: modelcontextprotocol.io
+  url: https://modelcontextprotocol.io/docs/2026-07-28/develop/build-server
+  final_url: https://modelcontextprotocol.io/docs/2026-07-28/develop/build-server
+  quote: "Use `console.error()` which writes to stderr"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-oauth-browser
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Med OAuth loggar du in på MCP-servern i webbläsaren i stället för att skapa en token"
+    en: "With OAuth you sign in to the MCP server in the browser instead of making a token"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/mcp
+  final_url: https://code.claude.com/docs/en/mcp
+  quote: "Then follow the steps in your browser to log in."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-oauth-supports
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Claude Code stöder OAuth 2.0 för MCP-servrar på distans över HTTP, sparar tokenen säkert och förnyar den automatiskt"
+    en: "Claude Code supports OAuth 2.0 for remote MCP servers over HTTP, stores the token securely and refreshes it automatically"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/mcp
+  final_url: https://code.claude.com/docs/en/mcp
+  quote: "Many cloud-based MCP servers require authentication. Claude Code supports OAuth 2.0 for secure connections."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-oauth-stored
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Claude Code stöder OAuth 2.0 för MCP-servrar på distans över HTTP, sparar tokenen säkert och förnyar den automatiskt"
+    en: "Claude Code supports OAuth 2.0 for remote MCP servers over HTTP, stores the token securely and refreshes it automatically"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/mcp
+  final_url: https://code.claude.com/docs/en/mcp
+  quote: "Authentication tokens are stored securely and refreshed automatically"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-oauth-http
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Claude Code stöder OAuth 2.0 för MCP-servrar på distans över HTTP, sparar tokenen säkert och förnyar den automatiskt"
+    en: "Claude Code supports OAuth 2.0 for remote MCP servers over HTTP, stores the token securely and refreshes it automatically"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/mcp
+  final_url: https://code.claude.com/docs/en/mcp
+  quote: "OAuth authentication works with HTTP servers"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-oauth-noheader
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Lägg till servern utan Authorization-header"
+    en: "Add the server without an Authorization header"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/mcp
+  final_url: https://code.claude.com/docs/en/mcp
+  quote: "remove the header to use the OAuth flow"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-oauth-mcp
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Kör sedan /mcp i Claude Code och följ stegen i webbläsaren"
+    en: "Then run /mcp in Claude Code and follow the steps in your browser"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/mcp
+  final_url: https://code.claude.com/docs/en/mcp
+  quote: "Then follow the steps in your browser to log in."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-oauth-login
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "claude mcp login my-server gör samma sak från skalet"
+    en: "claude mcp login my-server does the same from your shell"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/mcp
+  final_url: https://code.claude.com/docs/en/mcp
+  quote: "runs a configured server's OAuth flow directly from your shell"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-oauth-codex
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "För en server som stöder OAuth har Codex codex mcp login"
+    en: "For a server that supports OAuth, Codex has codex mcp login"
+  vendor: OpenAI
+  url: https://learn.chatgpt.com/docs/extend/mcp
+  final_url: https://learn.chatgpt.com/docs/extend/mcp
+  quote: "For a server that supports OAuth, run `codex mcp login"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-oauth-vscode
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "I VS Code öppnas ett webbläsarfönster första gången det ansluter, om en post i dess eget format (.vscode/mcp.json) har inställningen oauth med en clientId"
+    en: "In VS Code a browser window opens the first time it connects, if an entry in its own format (.vscode/mcp.json) has an oauth setting with a clientId"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agents/reference/mcp-configuration
+  final_url: https://code.visualstudio.com/docs/agents/reference/mcp-configuration
+  quote: "When `oauth` is configured, VS Code handles the OAuth flow automatically. A browser window opens for authorization on the first connection to the server."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-oauth-clientid
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "I VS Code öppnas ett webbläsarfönster första gången det ansluter, om en post i dess eget format (.vscode/mcp.json) har inställningen oauth med en clientId"
+    en: "In VS Code a browser window opens the first time it connects, if an entry in its own format (.vscode/mcp.json) has an oauth setting with a clientId"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agents/reference/mcp-configuration
+  final_url: https://code.visualstudio.com/docs/agents/reference/mcp-configuration
+  quote: "The OAuth client ID to use when authenticating with the server."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-oauth-vscode-format
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "I VS Code öppnas ett webbläsarfönster första gången det ansluter, om en post i dess eget format (.vscode/mcp.json) har inställningen oauth med en clientId"
+    en: "In VS Code a browser window opens the first time it connects, if an entry in its own format (.vscode/mcp.json) has an oauth setting with a clientId"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agents/reference/mcp-configuration
+  final_url: https://code.visualstudio.com/docs/agents/reference/mcp-configuration
+  quote: "The `oauth` fields above apply to the VS Code format."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-oauth-vscode-file
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "I VS Code öppnas ett webbläsarfönster första gången det ansluter, om en post i dess eget format (.vscode/mcp.json) har inställningen oauth med en clientId"
+    en: "In VS Code a browser window opens the first time it connects, if an entry in its own format (.vscode/mcp.json) has an oauth setting with a clientId"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agents/reference/mcp-configuration
+  final_url: https://code.visualstudio.com/docs/agents/reference/mcp-configuration
+  quote: "The VS Code format is stored in `.vscode/mcp.json` in your workspace"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-oauth-vscode-fields
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "VS Codes referens säger att oauth-fälten gäller det formatet och att .mcp.json-formatet som används ovan har ett eget schema"
+    en: "VS Code's reference says that the oauth fields apply to that format, and that the .mcp.json format used above has a separate schema"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agents/reference/mcp-configuration
+  final_url: https://code.visualstudio.com/docs/agents/reference/mcp-configuration
+  quote: "The `oauth` fields above apply to the VS Code format."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-oauth-vscode-portable
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "VS Codes referens säger att oauth-fälten gäller det formatet och att .mcp.json-formatet som används ovan har ett eget schema"
+    en: "VS Code's reference says that the oauth fields apply to that format, and that the .mcp.json format used above has a separate schema"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agents/reference/mcp-configuration
+  final_url: https://code.visualstudio.com/docs/agents/reference/mcp-configuration
+  quote: "The portable Copilot format uses a separate schema with a top-level `mcpServers` object."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-oauth-vscode-portable-file
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "VS Codes referens säger att oauth-fälten gäller det formatet och att .mcp.json-formatet som används ovan har ett eget schema"
+    en: "VS Code's reference says that the oauth fields apply to that format, and that the .mcp.json format used above has a separate schema"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agents/reference/mcp-configuration
+  final_url: https://code.visualstudio.com/docs/agents/reference/mcp-configuration
+  quote: "The portable Copilot format is stored in `.mcp.json` at the root of your workspace"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-oauth-fits
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Enligt oss passar OAuth när servern stöder det och du sitter vid tangentbordet. En token passar i de andra fallen"
+    en: "In our view, OAuth fits when the server supports it and you are at the keyboard. A token fits in the other cases"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/mcp
+  final_url: https://code.claude.com/docs/en/mcp
+  quote: "Many cloud-based MCP servers require authentication. Claude Code supports OAuth 2.0 for secure connections."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-oauth-stdio
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "En lokal stdio-server är inte tänkt för OAuth-flödet: specifikationen för MCP säger att den i stället ska hämta sina inloggningsuppgifter från miljön"
+    en: "A local stdio server is not meant for the OAuth flow: the MCP specification says that it should take its credentials from the environment instead"
+  vendor: modelcontextprotocol.io
+  url: https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization
+  final_url: https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization
+  quote: "Implementations using an STDIO transport SHOULD NOT follow this specification, and instead retrieve credentials from the environment."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-oauth-nopanel
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "En claude -p-körning har ingen /mcp-panel och kan inte heller starta inloggningen: logga först in från en interaktiv session eller med claude mcp login"
+    en: "A claude -p run has no /mcp panel and cannot start the sign-in either: sign in first from an interactive session or with claude mcp login"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/mcp
+  final_url: https://code.claude.com/docs/en/mcp
+  quote: "A `claude -p` or Agent SDK run has no `/mcp` panel, so Claude Code can't run the OAuth flow there."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-oauth-interactive
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "En claude -p-körning har ingen /mcp-panel och kan inte heller starta inloggningen: logga först in från en interaktiv session eller med claude mcp login"
+    en: "A claude -p run has no /mcp panel and cannot start the sign-in either: sign in first from an interactive session or with claude mcp login"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/mcp
+  final_url: https://code.claude.com/docs/en/mcp
+  quote: "complete the sign-in from an interactive session first: run `/mcp` in the session, or `claude mcp login"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-oauth-ssh
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Utan lokal webbläsare, till exempel över SSH, skriver claude mcp login ut en adress som du öppnar på din egen dator"
+    en: "Without a local browser, for example over SSH, claude mcp login prints an address to open on your own computer"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/mcp
+  final_url: https://code.claude.com/docs/en/mcp
+  quote: "`claude mcp login` detects when no local browser is available, such as during an SSH session or on Linux without a display server, and prints the authorization URL instead of trying to open a browser. Open the URL on your local machine"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-oauth-paste
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Klistra in hela omdirigeringsadressen från webbläsarens adressfält vid prompten"
+    en: "Paste the full redirect address from your browser's address bar back at the prompt"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/mcp
+  final_url: https://code.claude.com/docs/en/mcp
+  quote: "then paste the full redirect URL from your browser's address bar back at the prompt"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-oauth-tty
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Det kräver en interaktiv terminal: anslut med ssh -t"
+    en: "That needs an interactive terminal: connect with ssh -t"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/mcp
+  final_url: https://code.claude.com/docs/en/mcp
+  quote: "The command needs an interactive terminal for the paste step, so connect with `ssh -t`."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-oauth-rejected
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Har en post fortfarande en Authorization-header som servern avvisar, rapporterar Claude Code att kopplingen misslyckats i stället för att falla tillbaka på OAuth. Kontrollera därför att tokenen gäller för MCP-endpointen eller, för att använda OAuth, ta bort headern"
+    en: "If an entry still has an Authorization header that the server rejects, Claude Code reports the connection as failed instead of falling back to OAuth, so check that the token is valid for the MCP endpoint or, to use OAuth, remove the header"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/mcp
+  final_url: https://code.claude.com/docs/en/mcp
+  quote: "If you configured `headers.Authorization` for the server and the server rejects that header, Claude Code reports the connection as failed instead of falling back to OAuth. Check that the token is valid for the MCP endpoint, or remove the header to use the OAuth flow."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-oauth-github-token
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "I Claude Code tar GitHubs MCP-server på distans en token"
+    en: "In Claude Code, GitHub's remote MCP server takes a token"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/mcp
+  final_url: https://code.claude.com/docs/en/mcp
+  quote: "GitHub's remote MCP server authenticates with a GitHub personal access token passed as a header"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-oauth-host-app
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Om den kan använda OAuth beror på AI-programmet: GitHubs README visar det för VS Code 1.101 eller senare"
+    en: "Whether it can use OAuth depends on the host app: GitHub's README shows it for VS Code 1.101 or later"
+  vendor: GitHub
+  url: https://raw.githubusercontent.com/github/github-mcp-server/main/README.md
+  final_url: https://raw.githubusercontent.com/github/github-mcp-server/main/README.md
+  quote: "Each MCP host application needs to configure a GitHub App or OAuth App to support remote access via OAuth."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-oauth-host-vscode
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Om den kan använda OAuth beror på AI-programmet: GitHubs README visar det för VS Code 1.101 eller senare"
+    en: "Whether it can use OAuth depends on the host app: GitHub's README shows it for VS Code 1.101 or later"
+  vendor: GitHub
+  url: https://raw.githubusercontent.com/github/github-mcp-server/main/README.md
+  final_url: https://raw.githubusercontent.com/github/github-mcp-server/main/README.md
+  quote: "Make sure you're using … for remote MCP and OAuth support."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-oauth-host-vscode-version
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Om den kan använda OAuth beror på AI-programmet: GitHubs README visar det för VS Code 1.101 eller senare"
+    en: "Whether it can use OAuth depends on the host app: GitHub's README shows it for VS Code 1.101 or later"
+  vendor: GitHub
+  url: https://raw.githubusercontent.com/github/github-mcp-server/main/README.md
+  final_url: https://raw.githubusercontent.com/github/github-mcp-server/main/README.md
+  quote: "VS Code (version 1.101 or greater)"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-oauth-github-local
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "GitHubs installationsguide för Claude Code visar i stället en OAuth-inloggning för den lokala MCP-servern: servern öppnar en webbläsarinloggning första gången den används"
+    en: "GitHub's installation guide for Claude Code shows an OAuth login for its local MCP server instead: the server opens a browser login on first use"
+  vendor: GitHub
+  url: https://raw.githubusercontent.com/github/github-mcp-server/main/docs/installation-guides/install-claude.md
+  final_url: https://raw.githubusercontent.com/github/github-mcp-server/main/docs/installation-guides/install-claude.md
+  quote: "Log in with OAuth instead of a token."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-oauth-github-browser
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "GitHubs installationsguide för Claude Code visar i stället en OAuth-inloggning för den lokala MCP-servern: servern öppnar en webbläsarinloggning första gången den används"
+    en: "GitHub's installation guide for Claude Code shows an OAuth login for its local MCP server instead: the server opens a browser login on first use"
+  vendor: GitHub
+  url: https://raw.githubusercontent.com/github/github-mcp-server/main/docs/installation-guides/install-claude.md
+  final_url: https://raw.githubusercontent.com/github/github-mcp-server/main/docs/installation-guides/install-claude.md
+  quote: "the server opens a browser login on first use"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-ts-default
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Claude Codes svar på för många MCP-verktyg är tool search, som är på som standard med aktuella modeller och inte kräver någon inställning"
+    en: "Claude Code's answer to too many MCP tools is tool search, which is on by default with current models and needs no setup"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/mcp
+  final_url: https://code.claude.com/docs/en/mcp
+  quote: "Tool search is enabled by default: MCP tools are deferred and discovered on demand."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-ts-models
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Claude Codes svar på för många MCP-verktyg är tool search, som är på som standard med aktuella modeller och inte kräver någon inställning"
+    en: "Claude Code's answer to too many MCP tools is tool search, which is on by default with current models and needs no setup"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/mcp
+  final_url: https://code.claude.com/docs/en/mcp
+  quote: "On earlier models, Claude Code loads all MCP tools upfront"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-ts-defers
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Den skjuter upp verktygens definitioner tills Claude behöver dem, så bara verktygsnamnen och serverns instruktioner läses in när en session startar"
+    en: "It defers the tool definitions until Claude needs them, so only the tool names and the server instructions load when a session starts"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/mcp
+  final_url: https://code.claude.com/docs/en/mcp
+  quote: "Tool search keeps MCP context usage low by deferring tool definitions until Claude needs them. Only tool names and server instructions load at session start"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-ts-little
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Fler MCP-servrar påverkar därför kontextfönstret lite"
+    en: "Adding more MCP servers therefore has little effect on the context window"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/mcp
+  final_url: https://code.claude.com/docs/en/mcp
+  quote: "so adding more MCP servers has minimal impact on your context window"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-ts-nocap
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Claude Code sätter ingen fast gräns för antalet verktyg per server. Den praktiska gränsen är kontextfönstret"
+    en: "Claude Code sets no fixed limit on the number of tools per server. The practical limit is the context window"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/mcp
+  final_url: https://code.claude.com/docs/en/mcp
+  quote: "Claude Code doesn't impose a fixed per-server tool cap; the practical limit is your context window budget."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-ts-earlier
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Claude Code läser in alla MCP-verktyg i förväg, till exempel på äldre modeller och på Microsoft Foundry-driftsättningar som körs på Azure och avvisar tool search"
+    en: "Claude Code loads all MCP tools upfront, for example on earlier models and on Microsoft Foundry deployments hosted on Azure, which reject tool search"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/mcp
+  final_url: https://code.claude.com/docs/en/mcp
+  quote: "On earlier models, Claude Code loads all MCP tools upfront"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-ts-foundry
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Claude Code läser in alla MCP-verktyg i förväg, till exempel på äldre modeller och på Microsoft Foundry-driftsättningar som körs på Azure och avvisar tool search"
+    en: "Claude Code loads all MCP tools upfront, for example on earlier models and on Microsoft Foundry deployments hosted on Azure, which reject tool search"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/mcp
+  final_url: https://code.claude.com/docs/en/mcp
+  quote: "Tool search isn't supported on Microsoft Foundry … deployments hosted on Azure"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-ts-foundry-upfront
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Claude Code läser in alla MCP-verktyg i förväg, till exempel på äldre modeller och på Microsoft Foundry-driftsättningar som körs på Azure och avvisar tool search"
+    en: "Claude Code loads all MCP tools upfront, for example on earlier models and on Microsoft Foundry deployments hosted on Azure, which reject tool search"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/mcp
+  final_url: https://code.claude.com/docs/en/mcp
+  quote: "which reject it server-side: Claude Code detects the rejection and loads MCP tools upfront for that deployment instead."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-ts-context
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "/context visar det: verktygen är märkta (deferred) eller (loaded on-demand)"
+    en: "/context shows it: tools are labelled (deferred) or (loaded on-demand)"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/mcp
+  final_url: https://code.claude.com/docs/en/mcp
+  quote: "labels tools `(deferred)` or `(loaded on-demand)`"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-ts-alwaysload
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Har en server få verktyg och behöver Claude dem alla i varje omgång, sätt alwaysLoad till true i serverns post. Det gäller alla serverns verktyg"
+    en: "If a server has few tools and Claude needs them all on every turn, set alwaysLoad to true in that server's entry. It applies to all of the server's tools"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/mcp
+  final_url: https://code.claude.com/docs/en/mcp
+  quote: "If a server's tools should always be visible to Claude without a search step, set `alwaysLoad` to `true` in that server's configuration. The server's tools then load into context regardless of the `ENABLE_TOOL_SEARCH` setting."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-ts-alwaysload-few
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Har en server få verktyg och behöver Claude dem alla i varje omgång, sätt alwaysLoad till true i serverns post. Det gäller alla serverns verktyg"
+    en: "If a server has few tools and Claude needs them all on every turn, set alwaysLoad to true in that server's entry. It applies to all of the server's tools"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/mcp
+  final_url: https://code.claude.com/docs/en/mcp
+  quote: "Use this for a small number of tools that Claude needs on every turn"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-ts-env
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Miljövariabeln ENABLE_TOOL_SEARCH ändrar regeln"
+    en: "The environment variable ENABLE_TOOL_SEARCH changes the rule"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/mcp
+  final_url: https://code.claude.com/docs/en/mcp
+  quote: "Control tool search behavior with the `ENABLE_TOOL_SEARCH` environment variable"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-ts-false
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "false läser in alla MCP-verktyg i förväg"
+    en: "false loads all MCP tools upfront"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/mcp
+  final_url: https://code.claude.com/docs/en/mcp
+  quote: "All MCP tools loaded upfront, no deferral"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-ts-auto-n
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "auto:5 läser in dem i förväg så länge deras definitioner tar mindre än 5 % av kontextfönstret. Från 5 % skjuts de upp"
+    en: "auto:5 loads them upfront while their definitions take less than 5% of the context window. From 5% on, they are deferred"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/mcp
+  final_url: https://code.claude.com/docs/en/mcp
+  quote: "Threshold mode with a custom percentage, where `N` is 0-100. For example, `auto:5` for 5%"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-adv-ts-auto-rule
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "auto:5 läser in dem i förväg så länge deras definitioner tar mindre än 5 % av kontextfönstret. Från 5 % skjuts de upp"
+    en: "auto:5 loads them upfront while their definitions take less than 5% of the context window. From 5% on, they are deferred"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/mcp
+  final_url: https://code.claude.com/docs/en/mcp
+  quote: "Tools that would otherwise be deferred load upfront while their definitions total under 10% of the context window. At 10% or more, tool search turns on"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-st-mcptox-measure
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "MCPTox mätte hur robusta språkmodeller är mot tool poisoning: en gömd instruktion i ett verktygs beskrivning"
+    en: "MCPTox measured how robust language models are against tool poisoning: a hidden instruction in a tool's description"
+  vendor: Chinese university group (arXiv)
+  url: https://arxiv.org/html/2508.14925v2
+  final_url: https://arxiv.org/html/2508.14925v2
+  quote: "We introduce MCPTox, the first benchmark to systematically evaluate agent robustness against Tool Poisoning in realistic MCP settings."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-st-mcptox-hidden
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "MCPTox mätte hur robusta språkmodeller är mot tool poisoning: en gömd instruktion i ett verktygs beskrivning"
+    en: "MCPTox measured how robust language models are against tool poisoning: a hidden instruction in a tool's description"
+  vendor: Chinese university group (arXiv)
+  url: https://arxiv.org/html/2508.14925v2
+  final_url: https://arxiv.org/html/2508.14925v2
+  quote: "malicious instructions are embedded within a tool’s metadata without execution"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-st-mcptox-cases
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Dess 1 348 testfall bygger på 353 verktyg från 45 riktiga MCP-servrar"
+    en: "Its 1,348 test cases use 353 tools from 45 real MCP servers"
+  vendor: Chinese university group (arXiv)
+  url: https://arxiv.org/html/2508.14925v2
+  final_url: https://arxiv.org/html/2508.14925v2
+  quote: "MCPTox is constructed upon 45 live, real-world MCP servers and 353 authentic tools. To achieve this, we design three distinct attack templates to generate a comprehensive suite of 1348 malicious test cases"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-st-mcptox-setup
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "I varje fall står ett förgiftat verktyg bredvid verktygen från en betrodd MCP-server"
+    en: "In each case a poisoned tool sits next to the tools of a trusted MCP server"
+  vendor: Chinese university group (arXiv)
+  url: https://arxiv.org/html/2508.14925v2
+  final_url: https://arxiv.org/html/2508.14925v2
+  quote: "This setup simulates a realistic scenario where an agent is connected to both a trusted MCP server and a malicious one."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-st-mcptox-success
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Attacken lyckas när modellen anropar ett separat, legitimt verktyg för att göra det som den förgiftade beskrivningen ber om"
+    en: "The attack succeeds when the model calls a separate, legitimate tool to do what the poisoned description asks"
+  vendor: Chinese university group (arXiv)
+  url: https://arxiv.org/html/2508.14925v2
+  final_url: https://arxiv.org/html/2508.14925v2
+  quote: "Success: The agent is manipulated into calling a separate, legitimate tool to complete the malicious action specified in the poisoned tool’s description."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-st-mcptox-settings
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Över 20 modellinställningar lyckades attacken i genomsnitt i 36,5 % av fallen"
+    en: "Across 20 model settings the attack succeeded in 36.5% of the cases on average"
+  vendor: Chinese university group (arXiv)
+  url: https://arxiv.org/html/2508.14925v2
+  final_url: https://arxiv.org/html/2508.14925v2
+  quote: "Totally, 20 distinct model settings were used for the evaluation."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-st-mcptox-average
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Över 20 modellinställningar lyckades attacken i genomsnitt i 36,5 % av fallen"
+    en: "Across 20 model settings the attack succeeded in 36.5% of the cases on average"
+  vendor: Chinese university group (arXiv)
+  url: https://arxiv.org/html/2508.14925v2
+  final_url: https://arxiv.org/html/2508.14925v2
+  quote: "with an average ASR for all model settings was 36.5%"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-st-mcptox-pooled
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "med två varianter inräknade där den gömda instruktionen inleds med en uppmaning som försöker ta över styrningen"
+    en: "counting two variants that start the hidden instruction with a hijacking prompt"
+  vendor: Chinese university group (arXiv)
+  url: https://arxiv.org/html/2508.14925v2
+  final_url: https://arxiv.org/html/2508.14925v2
+  quote: "we prepended the malicious instruction in the tool’s description with classic hijacking prompts"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-st-mcptox-pooled-avg
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "med två varianter inräknade där den gömda instruktionen inleds med en uppmaning som försöker ta över styrningen"
+    en: "counting two variants that start the hidden instruction with a hijacking prompt"
+  vendor: Chinese university group (arXiv)
+  url: https://arxiv.org/html/2508.14925v2
+  final_url: https://arxiv.org/html/2508.14925v2
+  quote: "Base Setting Enhanced Setting 1 Enhanced Setting 2 Avg."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-st-mcptox-vary
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Sårbarheten varierade avsevärt mellan modellerna, med genomsnitt från 5,1 % till 72,8 %"
+    en: "The degree of vulnerability varied considerably between models, with averages from 5.1% to 72.8%"
+  vendor: Chinese university group (arXiv)
+  url: https://arxiv.org/html/2508.14925v2
+  final_url: https://arxiv.org/html/2508.14925v2
+  quote: "Notably, the degree of vulnerability varies considerably among the different agents."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-st-mcptox-highest
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Sårbarheten varierade avsevärt mellan modellerna, med genomsnitt från 5,1 % till 72,8 %"
+    en: "The degree of vulnerability varied considerably between models, with averages from 5.1% to 72.8%"
+  vendor: Chinese university group (arXiv)
+  url: https://arxiv.org/html/2508.14925v2
+  final_url: https://arxiv.org/html/2508.14925v2
+  quote: "with extremely high average ASRs of 72.8% and 70.2%, respectively."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-st-mcptox-lowest
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Sårbarheten varierade avsevärt mellan modellerna, med genomsnitt från 5,1 % till 72,8 %"
+    en: "The degree of vulnerability varied considerably between models, with averages from 5.1% to 72.8%"
+  vendor: Chinese university group (arXiv)
+  url: https://arxiv.org/html/2508.14925v2
+  final_url: https://arxiv.org/html/2508.14925v2
+  quote: "4.4 0.6 12.2 5.1"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-st-mcptox-refuse-abstract
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Modellerna vägrade sällan: den som vägrade oftast avvisade attacken i färre än 3 % av fallen"
+    en: "The models rarely refused: the one that refused most rejected the attack in less than 3% of the cases"
+  vendor: Chinese university group (arXiv)
+  url: https://arxiv.org/html/2508.14925v2
+  final_url: https://arxiv.org/html/2508.14925v2
+  quote: "agents rarely refuse these attacks, with the highest refused rate … less than 3%"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-st-mcptox-refuse-body
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Modellerna vägrade sällan: den som vägrade oftast avvisade attacken i färre än 3 % av fallen"
+    en: "The models rarely refused: the one that refused most rejected the attack in less than 3% of the cases"
+  vendor: Chinese university group (arXiv)
+  url: https://arxiv.org/html/2508.14925v2
+  final_url: https://arxiv.org/html/2508.14925v2
+  quote: "and even it rejected the attack in less than 3% of cases"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-st-mcptox-ignored
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "När en attack misslyckades var den vanligaste orsaken att modellen ignorerade den och följde användarens ursprungliga instruktion"
+    en: "When an attack failed, the most common reason was that the model ignored it and followed the user's original instruction"
+  vendor: Chinese university group (arXiv)
+  url: https://arxiv.org/html/2508.14925v2
+  final_url: https://arxiv.org/html/2508.14925v2
+  quote: "while the most common failure mode was Ignored"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-st-mcptox-ignored-def
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "När en attack misslyckades var den vanligaste orsaken att modellen ignorerade den och följde användarens ursprungliga instruktion"
+    en: "When an attack failed, the most common reason was that the model ignored it and followed the user's original instruction"
+  vendor: Chinese university group (arXiv)
+  url: https://arxiv.org/html/2508.14925v2
+  final_url: https://arxiv.org/html/2508.14925v2
+  quote: "Failure - Ignored: The response completely follows the user’s original instruction."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-st-mcptox-direct
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "I 18,9 % av misslyckandena försökte modellen anropa det förgiftade verktyget"
+    en: "In 18.9% of the failures the model tried to call the poisoned tool"
+  vendor: Chinese university group (arXiv)
+  url: https://arxiv.org/html/2508.14925v2
+  final_url: https://arxiv.org/html/2508.14925v2
+  quote: "a significant portion (18.9%) of failures still fell into the Direct Execution category"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-st-mcptox-direct-def
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "I 18,9 % av misslyckandena försökte modellen anropa det förgiftade verktyget"
+    en: "In 18.9% of the failures the model tried to call the poisoned tool"
+  vendor: Chinese university group (arXiv)
+  url: https://arxiv.org/html/2508.14925v2
+  final_url: https://arxiv.org/html/2508.14925v2
+  quote: "Failure - Direct Execution: The agent is manipulated by the poisoned description, but it attempts to call the poisoned tool itself rather than a legitimate one."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-st-mcptox-capable
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Mer kapabla modeller var ofta mer sårbara"
+    en: "More capable models were often more vulnerable"
+  vendor: Chinese university group (arXiv)
+  url: https://arxiv.org/html/2508.14925v2
+  final_url: https://arxiv.org/html/2508.14925v2
+  quote: "more capable models (such as larger models or when reasoning is enabled) often lead to higher vulnerability."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-st-mcptox-limit
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Författarna noterar att attacktexterna kom från en halvautomatisk process som följde attackmönster som människor definierat"
+    en: "The authors note that the attack texts came from a semi-automated process that followed attack patterns defined by people"
+  vendor: Chinese university group (arXiv)
+  url: https://arxiv.org/html/2508.14925v2
+  final_url: https://arxiv.org/html/2508.14925v2
+  quote: "The attack payloads in MCPTox are generated using a semi-automated process guided by human-defined paradigms."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-st-mcptox-paradigms
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Författarna noterar att attacktexterna kom från en halvautomatisk process som följde attackmönster som människor definierat"
+    en: "The authors note that the attack texts came from a semi-automated process that followed attack patterns defined by people"
+  vendor: Chinese university group (arXiv)
+  url: https://arxiv.org/html/2508.14925v2
+  final_url: https://arxiv.org/html/2508.14925v2
+  quote: "To comprehensively evaluate different triggering methods and attack behaviors, we define three distinct attack paradigms (Table 1)."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-st-msb-accepted
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "MCP Security Bench, antagen vid ICLR 2026, mäter hur väl modeller står emot MCP-specifika attacker vid uppgiftsplanering, verktygsanrop och hantering av svar"
+    en: "MCP Security Bench, accepted at ICLR 2026, measures how well models resist MCP-specific attacks in task planning, tool invocation and response handling"
+  vendor: MSB authors (arXiv)
+  url: https://arxiv.org/abs/2510.15994
+  final_url: https://arxiv.org/abs/2510.15994
+  quote: "Accepted by ICLR 2026"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-st-msb-measures
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "MCP Security Bench, antagen vid ICLR 2026, mäter hur väl modeller står emot MCP-specifika attacker vid uppgiftsplanering, verktygsanrop och hantering av svar"
+    en: "MCP Security Bench, accepted at ICLR 2026, measures how well models resist MCP-specific attacks in task planning, tool invocation and response handling"
+  vendor: MSB authors (arXiv)
+  url: https://arxiv.org/html/2510.15994v2
+  final_url: https://arxiv.org/html/2510.15994v2
+  quote: "an end-to-end evaluation suite that systematically measures how well LLM agents resist MCP-specific attacks throughout the full tool-use pipeline: task planning, tool invocation, and response handling"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-st-msb-instances
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Studien körde 12 typer av attack, sammanlagt 2 000 attackinstanser, mot tio modeller, med riktiga verktyg som kördes via MCP i stället för simulerade"
+    en: "It ran 12 types of attack, 2,000 attack instances in all, against ten models, with real tools run through MCP, not simulated ones"
+  vendor: MSB authors (arXiv)
+  url: https://arxiv.org/html/2510.15994v2
+  final_url: https://arxiv.org/html/2510.15994v2
+  quote: "We evaluate ten popular LLM agents across 10 domains and 405 tools, producing 2,000 attack instances."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-st-msb-real
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Studien körde 12 typer av attack, sammanlagt 2 000 attackinstanser, mot tio modeller, med riktiga verktyg som kördes via MCP i stället för simulerade"
+    en: "It ran 12 types of attack, 2,000 attack instances in all, against ten models, with real tools run through MCP, not simulated ones"
+  vendor: MSB authors (arXiv)
+  url: https://arxiv.org/html/2510.15994v2
+  final_url: https://arxiv.org/html/2510.15994v2
+  quote: "an evaluation harness that executes attacks by running real tools (both benign and malicious) via MCP rather than simulation"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-st-msb-types
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Studien körde 12 typer av attack, sammanlagt 2 000 attackinstanser, mot tio modeller, med riktiga verktyg som kördes via MCP i stället för simulerade"
+    en: "It ran 12 types of attack, 2,000 attack instances in all, against ten models, with real tools run through MCP, not simulated ones"
+  vendor: MSB authors (arXiv)
+  url: https://arxiv.org/html/2510.15994v2
+  final_url: https://arxiv.org/html/2510.15994v2
+  quote: "MSB establishes a taxonomy of 12 attack types"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-st-msb-asr
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "En attack räknades som lyckad när angriparens mål uppnåddes i den miljö där agenten arbetade"
+    en: "An attack counted as successful when the attacker's objective was achieved in the environment where the agent worked"
+  vendor: MSB authors (arXiv)
+  url: https://arxiv.org/html/2510.15994v2
+  final_url: https://arxiv.org/html/2510.15994v2
+  quote: "Attack Success Rate (ASR): the fraction of attack instances where the attacker’s objective is achieved."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-st-msb-workspace
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "En attack räknades som lyckad när angriparens mål uppnåddes i den miljö där agenten arbetade"
+    en: "An attack counted as successful when the attacker's objective was achieved in the environment where the agent worked"
+  vendor: MSB authors (arXiv)
+  url: https://arxiv.org/html/2510.15994v2
+  final_url: https://arxiv.org/html/2510.15994v2
+  quote: "The environment defines the workspace in which the agent operates."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-st-msb-state
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Det avgjorde författarna oftast genom att undersöka miljöns tillstånd, till exempel om känsliga data hade ändrats"
+    en: "The authors usually judged this by examining the state of that environment, for example whether sensitive data had been modified"
+  vendor: MSB authors (arXiv)
+  url: https://arxiv.org/html/2510.15994v2
+  final_url: https://arxiv.org/html/2510.15994v2
+  quote: "We evaluate whether the attacker’s objective has been achieved by examining the environmental state within the workspace (e.g., inspecting whether the sensitive data has been modified)"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-st-msb-state-example
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Det avgjorde författarna oftast genom att undersöka miljöns tillstånd, till exempel om känsliga data hade ändrats"
+    en: "The authors usually judged this by examining the state of that environment, for example whether sensitive data had been modified"
+  vendor: MSB authors (arXiv)
+  url: https://arxiv.org/html/2510.15994v2
+  final_url: https://arxiv.org/html/2510.15994v2
+  quote: "Check whether the phone number in ’file_name.txt’ has been changed to 0123456789."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-st-msb-average
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Medelvärdet över de 12 typerna var 40,35 %"
+    en: "The mean across the 12 types was 40.35%"
+  vendor: MSB authors (arXiv)
+  url: https://arxiv.org/html/2510.15994v2
+  final_url: https://arxiv.org/html/2510.15994v2
+  quote: "All attack methods demonstrate effectiveness, with an overall average ASR of 40.35%."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-st-msb-most
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Typerna skilde sig mycket åt: den mest effektiva nådde i genomsnitt 76,5 % och den minst effektiva 14,62 %"
+    en: "The types differed a lot: the most effective reached an average of 76.5% and the least effective 14.62%"
+  vendor: MSB authors (arXiv)
+  url: https://arxiv.org/html/2510.15994v2
+  final_url: https://arxiv.org/html/2510.15994v2
+  quote: "The impact of OP is the most pronounced, achieving the highest average ASR of 76.5%."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-st-msb-least
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Typerna skilde sig mycket åt: den mest effektiva nådde i genomsnitt 76,5 % och den minst effektiva 14,62 %"
+    en: "The types differed a lot: the most effective reached an average of 76.5% and the least effective 14.62%"
+  vendor: MSB authors (arXiv)
+  url: https://arxiv.org/html/2510.15994v2
+  final_url: https://arxiv.org/html/2510.15994v2
+  quote: "In contrast, NC-FE performs the least effectively, with an average ASR of 14.62%."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-st-msb-ri-def
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "En typ, retrieval injection, gömmer instruktionerna i data som ett harmlöst verktyg returnerar, som i ärendeexemplet ovan"
+    en: "One type, retrieval injection, hides the instructions in data that a harmless tool returns, as in the issue example above"
+  vendor: MSB authors (arXiv)
+  url: https://arxiv.org/html/2510.15994v2
+  final_url: https://arxiv.org/html/2510.15994v2
+  quote: "its malicious instructions originate from the poisoned database, whereas the tool itself remains benign"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-st-msb-ri-avg
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Den hade ett genomsnitt på 20 %"
+    en: "It averaged 20%"
+  vendor: MSB authors (arXiv)
+  url: https://arxiv.org/html/2510.15994v2
+  final_url: https://arxiv.org/html/2510.15994v2
+  quote: "such as PI with an average ASR of 20.21% and RI with 20%"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-st-msb-capable
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Modeller som slutförde fler uppgifter var ofta mer sårbara"
+    en: "Models that completed more tasks were often more vulnerable"
+  vendor: MSB authors (arXiv)
+  url: https://arxiv.org/html/2510.15994v2
+  final_url: https://arxiv.org/html/2510.15994v2
+  quote: "More capable models tend to be more vulnerable to attacks"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-st-msb-capable-pua
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Modeller som slutförde fler uppgifter var ofta mer sårbara"
+    en: "Models that completed more tasks were often more vulnerable"
+  vendor: MSB authors (arXiv)
+  url: https://arxiv.org/html/2510.15994v2
+  final_url: https://arxiv.org/html/2510.15994v2
+  quote: "LLMs with higher utility, owing to their superior tool-use and instruction-following abilities, exhibit higher ASR. For example, … achieves both the highest ASR and PUA."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-st-msb-pua-def
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Modeller som slutförde fler uppgifter var ofta mer sårbara"
+    en: "Models that completed more tasks were often more vulnerable"
+  vendor: MSB authors (arXiv)
+  url: https://arxiv.org/html/2510.15994v2
+  final_url: https://arxiv.org/html/2510.15994v2
+  quote: "Performance Under Attack (PUA): the fraction of user tasks completed in an adversarial environment."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-st-msb-exception
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "En av de tio slutförde många uppgifter och stod ändå måttligt emot attacker"
+    en: "One of the ten completed many tasks and still resisted attacks moderately"
+  vendor: MSB authors (arXiv)
+  url: https://arxiv.org/html/2510.15994v2
+  final_url: https://arxiv.org/html/2510.15994v2
+  quote: "… achieves a high user task completion rate while maintaining a moderate level of attack resistance"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-st-msb-defence
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Det enda detektionsbaserade försvaret som testades sänkte den genomsnittliga andelen lyckade attacker från 40,35 % till 28,69 % och andelen slutförda uppgifter från 56,50 % till 48,91 %"
+    en: "The one detection-based defence the study tested cut the average success rate from 40.35% to 28.69% and the share of completed tasks from 56.50% to 48.91%"
+  vendor: MSB authors (arXiv)
+  url: https://arxiv.org/html/2510.15994v2
+  final_url: https://arxiv.org/html/2510.15994v2
+  quote: "MCIP is a detection-based approach"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-st-msb-defence-numbers
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Det enda detektionsbaserade försvaret som testades sänkte den genomsnittliga andelen lyckade attacker från 40,35 % till 28,69 % och andelen slutförda uppgifter från 56,50 % till 48,91 %"
+    en: "The one detection-based defence the study tested cut the average success rate from 40.35% to 28.69% and the share of completed tasks from 56.50% to 48.91%"
+  vendor: MSB authors (arXiv)
+  url: https://arxiv.org/html/2510.15994v2
+  final_url: https://arxiv.org/html/2510.15994v2
+  quote: "Average 40.35% 28.69% 56.50% 48.91%"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-st-msb-overreject
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Författarna säger att det tenderade att avvisa för mycket"
+    en: "The authors say it tended to over-reject"
+  vendor: MSB authors (arXiv)
+  url: https://arxiv.org/html/2510.15994v2
+  final_url: https://arxiv.org/html/2510.15994v2
+  quote: "While this defense improves the model’s security, it also tends to over-reject and cause functional degradation"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-st-msb-threat
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Studiens hotmodell (threat model) har en angripare som styr en skadlig MCP-server och som också kan lägga in instruktioner i de externa resurser som agenten använder"
+    en: "The study's threat model has an attacker who controls a malicious MCP server and can also put instructions into the external resources the agent uses"
+  vendor: MSB authors (arXiv)
+  url: https://arxiv.org/html/2510.15994v2
+  final_url: https://arxiv.org/html/2510.15994v2
+  quote: "The attacker has white-box privileges on external resources and can insert covert attack instructions into those external resources"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-st-msb-threat-server
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Studiens hotmodell (threat model) har en angripare som styr en skadlig MCP-server och som också kan lägga in instruktioner i de externa resurser som agenten använder"
+    en: "The study's threat model has an attacker who controls a malicious MCP server and can also put instructions into the external resources the agent uses"
+  vendor: MSB authors (arXiv)
+  url: https://arxiv.org/html/2510.15994v2
+  final_url: https://arxiv.org/html/2510.15994v2
+  quote: "The attacker can deploy a malicious MCP server that they fully control, including all tools hosted on that server."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-st-hasan-code
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "En studie av 583 MCP-servrar med öppen källkod med minst tio stjärnor på GitHub granskade serverernas kod"
+    en: "A study of 583 open-source MCP servers with at least ten stars on GitHub analysed the servers' code"
+  vendor: Hasan et al. (arXiv)
+  url: https://arxiv.org/html/2506.13538v5
+  final_url: https://arxiv.org/html/2506.13538v5
+  quote: "Given the scale of our dataset (583 repositories), we develop an automated workflow that (i) clones the target repository from GitHub; (ii) analyzes it using a Docker-based SonarQube CLI setup"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-st-hasan-stars
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "En studie av 583 MCP-servrar med öppen källkod med minst tio stjärnor på GitHub granskade serverernas kod"
+    en: "A study of 583 open-source MCP servers with at least ten stars on GitHub analysed the servers' code"
+  vendor: Hasan et al. (arXiv)
+  url: https://arxiv.org/html/2506.13538v5
+  final_url: https://arxiv.org/html/2506.13538v5
+  quote: "we exclude MCP server repositories with fewer than ten stars, resulting in a collection of 583 MCP servers."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-st-hasan-vuln
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Ett verktyg för statisk analys hittade minst en säkerhetsbrist i 7,2 % av dem"
+    en: "A static analysis tool found at least one security vulnerability in 7.2% of them"
+  vendor: Hasan et al. (arXiv)
+  url: https://arxiv.org/html/2506.13538v5
+  final_url: https://arxiv.org/html/2506.13538v5
+  quote: "7.2% of MCP server repositories contain at least one security vulnerability, with half of these affected by credential exposure."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-st-hasan-cred
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Hälften av dem gällde exponerade inloggningsuppgifter"
+    en: "Half of those were credential exposure"
+  vendor: Hasan et al. (arXiv)
+  url: https://arxiv.org/html/2506.13538v5
+  final_url: https://arxiv.org/html/2506.13538v5
+  quote: "7.2% of MCP server repositories contain at least one security vulnerability, with half of these affected by credential exposure."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-st-hasan-sample
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "En MCP-specifik skanner, som kördes på ett slumpmässigt urval om 83 repon varav 73 kunde skannas, flaggade möjlig tool poisoning i 5,5 % av dessa 73"
+    en: "An MCP-specific scanner, run on a random sample of 83 repositories of which 73 could be scanned, flagged potential tool poisoning in 5.5% of those 73"
+  vendor: Hasan et al. (arXiv)
+  url: https://arxiv.org/html/2506.13538v5
+  final_url: https://arxiv.org/html/2506.13538v5
+  quote: "We randomly select these 83 repositories without replacement"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-st-hasan-73
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "En MCP-specifik skanner, som kördes på ett slumpmässigt urval om 83 repon varav 73 kunde skannas, flaggade möjlig tool poisoning i 5,5 % av dessa 73"
+    en: "An MCP-specific scanner, run on a random sample of 83 repositories of which 73 could be scanned, flagged potential tool poisoning in 5.5% of those 73"
+  vendor: Hasan et al. (arXiv)
+  url: https://arxiv.org/html/2506.13538v5
+  final_url: https://arxiv.org/html/2506.13538v5
+  quote: "13 additional MCP servers were scanned successfully, bringing the total to 73"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-st-hasan-poison
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "En MCP-specifik skanner, som kördes på ett slumpmässigt urval om 83 repon varav 73 kunde skannas, flaggade möjlig tool poisoning i 5,5 % av dessa 73"
+    en: "An MCP-specific scanner, run on a random sample of 83 repositories of which 73 could be scanned, flagged potential tool poisoning in 5.5% of those 73"
+  vendor: Hasan et al. (arXiv)
+  url: https://arxiv.org/html/2506.13538v5
+  final_url: https://arxiv.org/html/2506.13538v5
+  quote: "we still detect potential tool poisoning in 5.5% of MCP servers"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-st-hasan-official
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Verktyget för statisk analys hittade ingen säkerhetsbrist i de 61 officiella servrarna, som företag underhåller för sina egna plattformar"
+    en: "The static analysis tool found no vulnerability in the 61 official servers, which companies maintain for their own platforms"
+  vendor: Hasan et al. (arXiv)
+  url: https://arxiv.org/html/2506.13538v5
+  final_url: https://arxiv.org/html/2506.13538v5
+  quote: "The traditional vulnerability scanner SonarQube cannot detect any vulnerabilities in official MCP servers."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-st-hasan-official-def
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Verktyget för statisk analys hittade ingen säkerhetsbrist i de 61 officiella servrarna, som företag underhåller för sina egna plattformar"
+    en: "The static analysis tool found no vulnerability in the 61 official servers, which companies maintain for their own platforms"
+  vendor: Hasan et al. (arXiv)
+  url: https://arxiv.org/html/2506.13538v5
+  final_url: https://arxiv.org/html/2506.13538v5
+  quote: "Official Integrations: MCP servers maintained by organizations that build production-ready integrations for their platforms."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-st-hasan-official-61
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Verktyget för statisk analys hittade ingen säkerhetsbrist i de 61 officiella servrarna, som företag underhåller för sina egna plattformar"
+    en: "The static analysis tool found no vulnerability in the 61 official servers, which companies maintain for their own platforms"
+  vendor: Hasan et al. (arXiv)
+  url: https://arxiv.org/html/2506.13538v5
+  final_url: https://arxiv.org/html/2506.13538v5
+  quote: "Total 61 184 338 583"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-st-hasan-official-reason
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Författarna föreslår att en viktig orsak kan vara att de officiella servrarna är mindre och mer aktivt underhållna"
+    en: "The authors suggest that official servers being smaller and more actively maintained may be a key reason"
+  vendor: Hasan et al. (arXiv)
+  url: https://arxiv.org/html/2506.13538v5
+  final_url: https://arxiv.org/html/2506.13538v5
+  quote: "we posit that official MCP servers being smaller and more actively maintained might be a key reason behind the lack of easily detectable vulnerabilities"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-st-hasan-health
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "När det gäller utvecklingens hälsa räknar författarna 9 av 14 mått med minst lika höga medianvärden som jämförelsevärdena (baselines) för öppen källkod och maskininlärning, även om råa antal stjärnor, forks, commits och storlek var lägre"
+    en: "On development health the authors count 9 of 14 metrics with higher or equal median values than open-source and machine-learning baselines, though raw counts of stars, forks, commits and size were lower"
+  vendor: Hasan et al. (arXiv)
+  url: https://arxiv.org/html/2506.13538v5
+  final_url: https://arxiv.org/html/2506.13538v5
+  quote: "MCP servers demonstrate higher or equal median values in 9 out of 14 key development and community metrics in comparison to OSS and ML baselines"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-st-hasan-raw-lower
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "även om råa antal stjärnor, forks, commits och storlek var lägre"
+    en: "though raw counts of stars, forks, commits and size were lower"
+  vendor: Hasan et al. (arXiv)
+  url: https://arxiv.org/html/2506.13538v5
+  final_url: https://arxiv.org/html/2506.13538v5
+  quote: "the median star count and fork count of MCP Servers are lower than the baselines"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-st-hasan-raw-size
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "även om råa antal stjärnor, forks, commits och storlek var lägre"
+    en: "though raw counts of stars, forks, commits and size were lower"
+  vendor: Hasan et al. (arXiv)
+  url: https://arxiv.org/html/2506.13538v5
+  final_url: https://arxiv.org/html/2506.13538v5
+  quote: "Median Lines Of Code 925.2 21,168.0"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-st-hasan-raw-commits
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "även om råa antal stjärnor, forks, commits och storlek var lägre"
+    en: "though raw counts of stars, forks, commits and size were lower"
+  vendor: Hasan et al. (arXiv)
+  url: https://arxiv.org/html/2506.13538v5
+  final_url: https://arxiv.org/html/2506.13538v5
+  quote: "Median Total Commit Count 36.3 608.0"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-st-hasan-age
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Författarna påpekar att jämförelsevärdena för öppen källkod ofta speglar mogna repon med flera års historik, medan servrarna i genomsnitt är yngre än sex månader"
+    en: "The authors note that the open-source baselines often reflect mature repositories with multi-year histories, while the servers are on average less than six months old"
+  vendor: Hasan et al. (arXiv)
+  url: https://arxiv.org/html/2506.13538v5
+  final_url: https://arxiv.org/html/2506.13538v5
+  quote: "metrics for general OSS projects often reflect mature repositories with multi-year histories, while MCP servers are, on average, less than six months old"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-st-hasan-smells
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Kritiska eller blockerande \"code smells\" (strukturella problem i koden som gör den svårare att läsa och utveckla vidare) fanns i 66 % av servrarna och buggar i 14,4 %"
+    en: "Critical or blocker-level \"code smells\" (structural issues in the code that make it harder to read and develop further) were found in 66% of the servers and bugs in 14.4%"
+  vendor: Hasan et al. (arXiv)
+  url: https://arxiv.org/html/2506.13538v5
+  final_url: https://arxiv.org/html/2506.13538v5
+  quote: "66% of MCP servers contain at least one critical or blocker-level code smell"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-st-hasan-smell-def
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Kritiska eller blockerande \"code smells\" (strukturella problem i koden som gör den svårare att läsa och utveckla vidare) fanns i 66 % av servrarna och buggar i 14,4 %"
+    en: "Critical or blocker-level \"code smells\" (structural issues in the code that make it harder to read and develop further) were found in 66% of the servers and bugs in 14.4%"
+  vendor: Hasan et al. (arXiv)
+  url: https://arxiv.org/html/2506.13538v5
+  final_url: https://arxiv.org/html/2506.13538v5
+  quote: "code smells, e.g., structural issues that hinder code readability and evolution"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-st-hasan-bugs
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Kritiska eller blockerande \"code smells\" (strukturella problem i koden som gör den svårare att läsa och utveckla vidare) fanns i 66 % av servrarna och buggar i 14,4 %"
+    en: "Critical or blocker-level \"code smells\" (structural issues in the code that make it harder to read and develop further) were found in 66% of the servers and bugs in 14.4%"
+  vendor: Hasan et al. (arXiv)
+  url: https://arxiv.org/html/2506.13538v5
+  final_url: https://arxiv.org/html/2506.13538v5
+  quote: "We identify nine distinct bug categories affecting 14.4% of MCP servers"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-st-hasan-same-smells
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Författarna fann samma slags \"code smells\" och buggar som i annan programvara"
+    en: "The authors found the same kinds of \"code smells\" and bugs as elsewhere"
+  vendor: Hasan et al. (arXiv)
+  url: https://arxiv.org/html/2506.13538v5
+  final_url: https://arxiv.org/html/2506.13538v5
+  quote: "All high-frequency code smells from traditional and ML systems also appear in MCP servers"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-st-hasan-same-bugs
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Författarna fann samma slags \"code smells\" och buggar som i annan programvara"
+    en: "The authors found the same kinds of \"code smells\" and bugs as elsewhere"
+  vendor: Hasan et al. (arXiv)
+  url: https://arxiv.org/html/2506.13538v5
+  final_url: https://arxiv.org/html/2506.13538v5
+  quote: "We identify nine distinct bug categories affecting 14.4% of MCP servers, all of which have been studied before in Java, Python or JavaScript ecosystems"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-st-hasan-underdetect
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Författarna tolkar den låga andelen sårbarheter som mer sannolikt beroende på att dagens verktyg missar sårbarheter än på ett ovanligt säkert ekosystem"
+    en: "The authors read the low share of vulnerabilities as more likely under-detection by current tools than an unusually secure ecosystem"
+  vendor: Hasan et al. (arXiv)
+  url: https://arxiv.org/html/2506.13538v5
+  final_url: https://arxiv.org/html/2506.13538v5
+  quote: "This low prevalence suggests an unusually secure ecosystem or, more likely, an under-detection problem rooted in the limitations of current tools."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-st-hasan-scanner
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "De beskriver skannern som ett verktyg i ett tidigt utvecklingsskede som bara täcker en klass av sårbarheter"
+    en: "They describe the scanner as being in early development and targeting one class of vulnerability"
+  vendor: Hasan et al. (arXiv)
+  url: https://arxiv.org/html/2506.13538v5
+  final_url: https://arxiv.org/html/2506.13538v5
+  quote: "existing MCP-specific tools like mcp-scan remain in early development stages and currently target only one class of vulnerability (tool poisoning), with limited reliability and coverage."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-limits-mcptox
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "De två första testade språkmodeller i forskarnas egna uppsättningar, inte AI-program som Claude Code eller Codex"
+    en: "The first two tested language models in the researchers' own set-ups, not agent apps such as Claude Code or Codex"
+  vendor: Chinese university group (arXiv)
+  url: https://arxiv.org/html/2508.14925v2
+  final_url: https://arxiv.org/html/2508.14925v2
+  quote: "We construct our MCP pipeline using the open-source code from (Model Context Protocol 2024), adopting its system prompt without modification."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-limits-msb
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "De två första testade språkmodeller i forskarnas egna uppsättningar, inte AI-program som Claude Code eller Codex"
+    en: "The first two tested language models in the researchers' own set-ups, not agent apps such as Claude Code or Codex"
+  vendor: MSB authors (arXiv)
+  url: https://arxiv.org/html/2510.15994v2
+  final_url: https://arxiv.org/html/2510.15994v2
+  quote: "We evaluate 10 LLM agents with system prompt given in Fig. 6"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-limits-planted-msb
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "De mätte hur ofta en utplacerad attack lyckas"
+    en: "and measured how often a planted attack works"
+  vendor: MSB authors (arXiv)
+  url: https://arxiv.org/html/2510.15994v2
+  final_url: https://arxiv.org/html/2510.15994v2
+  quote: "Attack Success Rate (ASR): the fraction of attack instances where the attacker’s objective is achieved."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-limits-planted-mcptox
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "De mätte hur ofta en utplacerad attack lyckas"
+    en: "and measured how often a planted attack works"
+  vendor: Chinese university group (arXiv)
+  url: https://arxiv.org/html/2508.14925v2
+  final_url: https://arxiv.org/html/2508.14925v2
+  quote: "our ASR is calculated as the number of successful attacks divided by the total number of valid outputs"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-limits-likelihood
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Ingen av de tre säger hur sannolik en attack är mot din koppling"
+    en: "None of the three says how likely an attack is on your connection"
+  vendor: MSB authors (arXiv)
+  url: https://arxiv.org/abs/2510.15994
+  final_url: https://arxiv.org/abs/2510.15994
+  quote: "MSB provides a practical baseline for researchers and practitioners to study, compare, and harden MCP agents."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-st-ours
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Vår egen slutsats, som ingen av studierna drar, är att börja med en koppling som bara får läsa, som i nästa avsnitt"
+    en: "Our own conclusion, which none of the studies draws, is to start with a connection that can only read, as in the next section"
+  vendor: GitHub
+  url: https://raw.githubusercontent.com/github/github-mcp-server/main/README.md
+  final_url: https://raw.githubusercontent.com/github/github-mcp-server/main/README.md
+  quote: "This will only offer read-only tools, preventing any modifications to repositories, issues, pull requests, etc."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-cmp-help
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Det räcker att peka agenten på --help för ett verktyg den inte sett förut"
+    en: "Pointing the agent at --help is enough for a tool it has not seen"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/best-practices
+  final_url: https://code.claude.com/docs/en/best-practices
+  quote: "For a CLI it hasn't seen before, pointing it at `--help` is enough."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-cmp-reference
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Referensen beskriver metod, sökväg och parametrar för varje endpoint"
+    en: "The reference describes the method, path and parameters of every endpoint"
+  vendor: GitHub
+  url: https://docs.github.com/en/rest/using-the-rest-api/getting-started-with-the-rest-api
+  final_url: https://docs.github.com/en/rest/using-the-rest-api/getting-started-with-the-rest-api
+  quote: "The REST API reference documentation describes the HTTP method, path, and parameters for every endpoint."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-cmp-toolslist
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Klienten skickar en tools/list-begäran och får verktygen, beskrivna med JSON Schema"
+    en: "The client sends a tools/list request and gets the tools, described with JSON Schema"
+  vendor: modelcontextprotocol.io
+  url: https://modelcontextprotocol.io/specification/2026-07-28/server/tools
+  final_url: https://modelcontextprotocol.io/specification/2026-07-28/server/tools
+  quote: "To discover available tools, clients send a `tools/list` request."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-cmp-jsonschema
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Klienten skickar en tools/list-begäran och får verktygen, beskrivna med JSON Schema"
+    en: "The client sends a tools/list request and gets the tools, described with JSON Schema"
+  vendor: modelcontextprotocol.io
+  url: https://modelcontextprotocol.io/docs/2026-07-28/learn/server-concepts
+  final_url: https://modelcontextprotocol.io/docs/2026-07-28/learn/server-concepts
+  quote: "MCP uses JSON Schema for validation."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-cmp-bashrules
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Behörighetsregler matchar kommandots text. Sandboxen är avstängd som standard"
+    en: "Permission rules match the command text, and the sandbox is off by default"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/permissions
+  final_url: https://code.claude.com/docs/en/permissions
+  quote: "Bash rules match the whole command text, with `*` standing in for any text."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-cmp-sandbox-off
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Behörighetsregler matchar kommandots text. Sandboxen är avstängd som standard"
+    en: "Permission rules match the command text, and the sandbox is off by default"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/sandboxing
+  final_url: https://code.claude.com/docs/en/sandboxing
+  quote: "The sandbox is off by default."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-cmp-token-scopes
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "En token agerar som din identitet, begränsad av de behörigheter du väljer"
+    en: "A token acts as your identity, limited by the scopes you select"
+  vendor: GitHub
+  url: https://docs.github.com/en/rest/authentication/authenticating-to-the-rest-api
+  final_url: https://docs.github.com/en/rest/authentication/authenticating-to-the-rest-api
+  quote: "Personal access tokens act as your identity (limited by the scopes or permissions you selected) when you make requests to the REST API."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-cmp-mcp-rules-all
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Regler kan gälla alla verktyg i en server eller ett enda verktyg. En server kan erbjuda ett skrivskyddat läge"
+    en: "Rules can cover every tool of a server or one tool, and a server can offer a read-only mode"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/permissions
+  final_url: https://code.claude.com/docs/en/permissions
+  quote: "To match every tool from an MCP server, write"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-cmp-mcp-rules-one
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Regler kan gälla alla verktyg i en server eller ett enda verktyg. En server kan erbjuda ett skrivskyddat läge"
+    en: "Rules can cover every tool of a server or one tool, and a server can offer a read-only mode"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/permissions
+  final_url: https://code.claude.com/docs/en/permissions
+  quote: "To match one tool, write its full name"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-cmp-mcp-readonly
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Regler kan gälla alla verktyg i en server eller ett enda verktyg. En server kan erbjuda ett skrivskyddat läge"
+    en: "Rules can cover every tool of a server or one tool, and a server can offer a read-only mode"
+  vendor: GitHub
+  url: https://raw.githubusercontent.com/github/github-mcp-server/main/README.md
+  final_url: https://raw.githubusercontent.com/github/github-mcp-server/main/README.md
+  quote: "This will only offer read-only tools, preventing any modifications to repositories, issues, pull requests, etc."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-cmp-sandbox-mcp
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Sandboxen omfattar inte MCP-servrar"
+    en: "The sandbox does not cover MCP servers"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/sandboxing
+  final_url: https://code.claude.com/docs/en/sandboxing
+  quote: "The sandbox covers shell commands only. Claude's file tools, MCP servers, and hooks run outside it."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-cmp-json
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Svaret är JSON och innehåller oftast mer än du behöver"
+    en: "The response is JSON and typically holds more than you need"
+  vendor: GitHub
+  url: https://docs.github.com/en/rest/using-the-rest-api/getting-started-with-the-rest-api
+  final_url: https://docs.github.com/en/rest/using-the-rest-api/getting-started-with-the-rest-api
+  quote: "Unless otherwise specified, the response body is in JSON format."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-cmp-more-than-needed
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Svaret är JSON och innehåller oftast mer än du behöver"
+    en: "The response is JSON and typically holds more than you need"
+  vendor: GitHub
+  url: https://docs.github.com/en/rest/using-the-rest-api/getting-started-with-the-rest-api
+  final_url: https://docs.github.com/en/rest/using-the-rest-api/getting-started-with-the-rest-api
+  quote: "the REST API typically returns more information than you need"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-cmp-gh-api-jq
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "gh api kan begränsa utdata med --jq eller en mall"
+    en: "gh api can narrow the output with --jq or a template"
+  vendor: GitHub
+  url: https://cli.github.com/manual/gh_api
+  final_url: https://cli.github.com/manual/gh_api
+  quote: "Query to select values from the response using jq syntax"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-cmp-gh-api-template
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "gh api kan begränsa utdata med --jq eller en mall"
+    en: "gh api can narrow the output with --jq or a template"
+  vendor: GitHub
+  url: https://cli.github.com/manual/gh_api
+  final_url: https://cli.github.com/manual/gh_api
+  quote: "Format JSON output using a Go template"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-cmp-outputschema
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Ett verktyg kan ange ett utdataschema för strukturerade resultat. Claude Code varnar när ett verktygs utdata överstiger 10 000 tokens"
+    en: "A tool can declare an output schema for structured results, and Claude Code warns when a tool's output exceeds 10,000 tokens"
+  vendor: modelcontextprotocol.io
+  url: https://modelcontextprotocol.io/specification/2026-07-28/server/tools
+  final_url: https://modelcontextprotocol.io/specification/2026-07-28/server/tools
+  quote: "Tools may also provide an output schema for validation of structured results."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-cmp-10000
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Ett verktyg kan ange ett utdataschema för strukturerade resultat. Claude Code varnar när ett verktygs utdata överstiger 10 000 tokens"
+    en: "A tool can declare an output schema for structured results, and Claude Code warns when a tool's output exceeds 10,000 tokens"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/mcp
+  final_url: https://code.claude.com/docs/en/mcp
+  quote: "Claude Code displays a warning when any MCP tool output exceeds 10,000 tokens"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-cmp-cli-context
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Fortfarande mer kontexteffektiva än MCP-servrar, även med tool search, eftersom de inte lägger till någon lista över verktyg"
+    en: "Still more context-efficient than MCP servers, even with tool search, because they add no per-tool listing"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/costs
+  final_url: https://code.claude.com/docs/en/costs
+  quote: "are still more context-efficient than MCP servers because they don't add any per-tool listing"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-cmp-cli-context-deferred
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Fortfarande mer kontexteffektiva än MCP-servrar, även med tool search, eftersom de inte lägger till någon lista över verktyg"
+    en: "Still more context-efficient than MCP servers, even with tool search, because they add no per-tool listing"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/costs
+  final_url: https://code.claude.com/docs/en/costs
+  quote: "MCP tool definitions are deferred by default, so only tool names and server instructions enter context until Claude uses a specific tool."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-cmp-mcp-context
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Verktygsnamn och instruktioner ligger i kontexten även när de inte används. Med tool search skjuts definitionerna upp"
+    en: "Tool names and instructions are in the context even when unused, and tool search defers the definitions"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/best-practices
+  final_url: https://code.claude.com/docs/en/best-practices
+  quote: "Connected servers add their tool names and instructions to the context even when you're not using them"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-cmp-mcp-toolsearch
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Verktygsnamn och instruktioner ligger i kontexten även när de inte används. Med tool search skjuts definitionerna upp"
+    en: "Tool names and instructions are in the context even when unused, and tool search defers the definitions"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/mcp
+  final_url: https://code.claude.com/docs/en/mcp
+  quote: "Tool search keeps MCP context usage low by deferring tool definitions until Claude needs them."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-cmp-gh-login
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "gh auth login loggar in via webbläsaren och sparar tokenen i systemets inloggningslager eller i en vanlig textfil om det saknas eller inte går att använda"
+    en: "gh auth login signs in with a browser flow and stores the token in the system credential store, or in a plain text file if there is none or it cannot be used"
+  vendor: GitHub
+  url: https://cli.github.com/manual/gh_auth_login
+  final_url: https://cli.github.com/manual/gh_auth_login
+  quote: "The default authentication mode is a web-based browser flow. After completion, an authentication token will be stored securely in the system credential store. If a credential store is not found or there is an issue using it gh will fallback to writing the token to a plain text file."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-cmp-auth-header
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Du skickar tokenen i Authorization-headern och anger API-versionen i en header"
+    en: "You send the token in the Authorization header and name the API version in a header"
+  vendor: GitHub
+  url: https://docs.github.com/en/rest/authentication/authenticating-to-the-rest-api
+  final_url: https://docs.github.com/en/rest/authentication/authenticating-to-the-rest-api
+  quote: "you can authenticate your request by sending the token in the Authorization header of your request"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-cmp-api-version
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Du skickar tokenen i Authorization-headern och anger API-versionen i en header"
+    en: "You send the token in the Authorization header and name the API version in a header"
+  vendor: GitHub
+  url: https://docs.github.com/en/rest/using-the-rest-api/getting-started-with-the-rest-api
+  final_url: https://docs.github.com/en/rest/using-the-rest-api/getting-started-with-the-rest-api
+  quote: "You should use this header to specify a version of the REST API to use for your request."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-cmp-oauth-stored
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Med OAuth sparas och förnyas tokens automatiskt"
+    en: "With OAuth the tokens are stored and refreshed automatically"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/mcp
+  final_url: https://code.claude.com/docs/en/mcp
+  quote: "Authentication tokens are stored securely and refreshed automatically"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-cmp-list-changed
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "En server kan ändra sina verktyg medan den är ansluten"
+    en: "A server can change its tools while it is connected"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/mcp
+  final_url: https://code.claude.com/docs/en/mcp
+  quote: "An MCP server can change the tools, prompts, or resources it offers while connected and send a `list_changed` notification."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-cmp-not-specific
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "En server är inte specifik för ett AI-program. Vissa program använder ett annat filformat än andra"
+    en: "A server is not specific to one agent app, and some apps use a different file format than others"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/mcp
+  final_url: https://code.claude.com/docs/en/mcp
+  quote: "MCP servers aren't specific to Claude Code"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-cmp-format
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "En server är inte specifik för ett AI-program. Vissa program använder ett annat filformat än andra"
+    en: "A server is not specific to one agent app, and some apps use a different file format than others"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agent-customization/mcp-servers
+  final_url: https://code.visualstudio.com/docs/agent-customization/mcp-servers
+  quote: "Portable files use a top-level `mcpServers` object. The VS Code format uses `servers`."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-cmp-prompt
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Behörighetsfrågan visar vad Claude Code ska göra"
+    en: "The permission prompt shows what Claude Code is about to do"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/permissions
+  final_url: https://code.claude.com/docs/en/permissions
+  quote: "A permission prompt shows what Claude is about to do, followed by your options."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-cmp-cc-asks
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Som standard frågar Claude Code innan ett MCP-verktyg körs"
+    en: "By default, Claude Code asks before an MCP tool runs"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/permissions
+  final_url: https://code.claude.com/docs/en/permissions
+  quote: "Prompts for permission on first use of each tool."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-cmp-human
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Dessutom säger MCP-specifikationen att en människa alltid ska kunna neka ett verktygsanrop och att klienten ska visa verktygets indata före anropet"
+    en: "The MCP specification adds that a human should always be able to deny a tool call, and that the client should show the tool's inputs before the call"
+  vendor: modelcontextprotocol.io
+  url: https://modelcontextprotocol.io/specification/2026-07-28/server/tools
+  final_url: https://modelcontextprotocol.io/specification/2026-07-28/server/tools
+  quote: "always be a human in the loop with the ability to deny tool invocations"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-cmp-show-inputs
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Dessutom säger MCP-specifikationen att en människa alltid ska kunna neka ett verktygsanrop och att klienten ska visa verktygets indata före anropet"
+    en: "The MCP specification adds that a human should always be able to deny a tool call, and that the client should show the tool's inputs before the call"
+  vendor: modelcontextprotocol.io
+  url: https://modelcontextprotocol.io/specification/2026-07-28/server/tools
+  final_url: https://modelcontextprotocol.io/specification/2026-07-28/server/tools
+  quote: "Show tool inputs to the user before calling the server, to avoid malicious or accidental data exfiltration"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-cmp-approved-write
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Ett kommando du godkänner kan ändå skriva överallt där ditt användarkonto kan"
+    en: "A command you approve can still write anywhere your user account can"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/security
+  final_url: https://code.claude.com/docs/en/security
+  quote: "so a Bash command you approve can still write anywhere your user account can"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-cmp-rate-60
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Begäranden är begränsade till 60 i timmen utan token och 5 000 med en personal access token"
+    en: "Requests are limited to 60 an hour without a token and 5,000 with a personal access token"
+  vendor: GitHub
+  url: https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api
+  final_url: https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api
+  quote: "The primary rate limit for unauthenticated requests is 60 requests per hour."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-cmp-rate-5000
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Begäranden är begränsade till 60 i timmen utan token och 5 000 med en personal access token"
+    en: "Requests are limited to 60 an hour without a token and 5,000 with a personal access token"
+  vendor: GitHub
+  url: https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api
+  final_url: https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api
+  quote: "You can use a personal access token to make API requests. Additionally, you can authorize a GitHub App or OAuth app, which can then make API requests on your behalf. All of these requests count towards your personal rate limit of 5,000 requests per hour."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-cmp-rate-secondary
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Sekundära gränser kan ändras utan förvarning"
+    en: "secondary limits can change without notice"
+  vendor: GitHub
+  url: https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api
+  final_url: https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api
+  quote: "These secondary rate limits are subject to change without notice."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-cmp-no-audit
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Anthropic säkerhetsgranskar eller förvaltar ingen MCP-server"
+    en: "Anthropic does not security-audit or manage any MCP server"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/security
+  final_url: https://code.claude.com/docs/en/security
+  quote: "does not security-audit or manage any MCP server"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-cmp-injection-any-vsc
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Oavsett hur agenten når ett system kan texten den läser innehålla prompt injection, vilket nästa avsnitt beskriver"
+    en: "Whichever way the agent reaches a system, the text it reads can carry prompt injection, which the next section describes"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agents/run/security
+  final_url: https://code.visualstudio.com/docs/agents/run/security
+  quote: "AI systems are vulnerable to prompt injection attacks where malicious content in tool outputs influences the AI's behavior and decision-making."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-cmp-injection-any-tools
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Oavsett hur agenten når ett system kan texten den läser innehålla prompt injection, vilket nästa avsnitt beskriver"
+    en: "Whichever way the agent reaches a system, the text it reads can carry prompt injection, which the next section describes"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agents/run/security
+  final_url: https://code.visualstudio.com/docs/agents/run/security
+  quote: "an MCP tool or the fetch tool might unsuspectingly retrieve data from a website that has user-generated content"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-cmp-injection-any-cc
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Oavsett hur agenten når ett system kan texten den läser innehålla prompt injection, vilket nästa avsnitt beskriver"
+    en: "Whichever way the agent reaches a system, the text it reads can carry prompt injection, which the next section describes"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/security
+  final_url: https://code.claude.com/docs/en/security
+  quote: "Prompt injection is a technique where an attacker attempts to override or manipulate an AI assistant's instructions by inserting malicious text."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-cmp-ours-cli
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Vår rekommendation följer tumregeln ovan. Pröva systemets kommandoradsverktyg först. Ta en MCP-server när systemet saknar kommandoradsverktyg eller när du vill att MCP-servern bara ska erbjuda några få verktyg som bara läser. Anropa API:et själv när inget av de två passar"
+    en: "Our recommendation follows the rule of thumb above. Try the system's command-line tool first. Take an MCP server when the system has no command-line tool or when you want the MCP server to offer only a few tools that only read. Call the API yourself when neither fits"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/best-practices
+  final_url: https://code.claude.com/docs/en/best-practices
+  quote: "If that system has a CLI, that's usually the easiest way in."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-cmp-ours-mcp
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Vår rekommendation följer tumregeln ovan. Pröva systemets kommandoradsverktyg först. Ta en MCP-server när systemet saknar kommandoradsverktyg eller när du vill att MCP-servern bara ska erbjuda några få verktyg som bara läser. Anropa API:et själv när inget av de två passar"
+    en: "Our recommendation follows the rule of thumb above. Try the system's command-line tool first. Take an MCP server when the system has no command-line tool or when you want the MCP server to offer only a few tools that only read. Call the API yourself when neither fits"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/best-practices
+  final_url: https://code.claude.com/docs/en/best-practices
+  quote: "For systems without a CLI, there's"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05

@@ -47,8 +47,8 @@
 //   - both seed articles exist in both languages, the seed articles are
 //     300–600 English words of prose and every later article 300–1,500, the
 //     Gaimer article alone 300–1,850 (the founder's call, 26 September 2026)
-//     and parts 1, 2, 3 and 4 of the series 300–1,600, 300–2,030, 300–2,320 and 300–3,000 (his calls of
-//     29–31 October 2026;
+//     and parts 1, 2, 3, 4 and 5 of the series 300–1,600, 300–2,030, 300–2,320, 300–3,000 and 300–3,820 (his calls of
+//     29–31 October 2026 and 3–5 November 2026;
 //     the figures' captions and diagram labels are not prose and do not count,
 //     si-55iu, and neither do tables' cells), a draft shows "Draft"/"Utkast" on its page, in the listings
 //     and in the feeds of a local build and has no page at all in the
@@ -103,7 +103,25 @@ const ARTICLE_SLUG = "how-this-site-was-built-by-agents";
 // and 2,004 words of the texts he reviewed, and part 3 (we-2oziu, revised in
 // we-i0irb, we-71idz, we-vy2hw and we-2l80w) to 2,320, the 2,308 words of its
 // text, and part 4 (skills-for-repeatable-work, we-hmwn1, revised in we-t3iqq,
-// we-ym21w and we-48y5j) to 3,000, the 2,965 it has; every other article keeps 1,500.
+// we-ym21w and we-48y5j) to 3,000, the 2,965 it has;
+// and part 5 (30 October 2026,
+// we-oxckc; "up to 3,000 words is fine") to 2,050 and, once the founder's third
+// review round (3 November 2026, we-o64ik) moved its studies into the security
+// section and added the terms and steps he asked for, to 2,100, above its
+// 2,098, and, once he had said (3 and 5 November 2026, we-ej62o) that a longer
+// read is fine and that no topic should be left hanging, and the mayor had
+// allowed up to 3,500 for the least number that fits (5 November 2026), when
+// the Advanced section was written out, the three studies were set out in
+// full and the comparison of command-line tool, API and MCP server was added,
+// to 3,350, above its 3,334, and, once the fact checker's findings on it were applied
+// (5 November 2026, we-m84i7), to 3,500, the most the mayor allowed then, above
+// its 3,494, and, once the founder's rule of 5 November 2026 (a word limit is a
+// guide, depth over surface, no topic left hanging) had the mayor lift that
+// ceiling and the items left out for words were added (we-fyhmn), to 3,750,
+// above its 3,746, and, once the founder's comments on review page version 13
+// and the second fact check (5 November 2026, we-q3cjj) had the studies' terms
+// explained and some claims narrowed, to 3,820, above its 3,810; every other
+// article keeps 1,500.
 const SEED_ARTICLES = new Set([ARTICLE_SLUG, "lessons-from-building-niva"]);
 const WORD_RANGE = { seed: [300, 600], other: [300, 1500] };
 const WORD_CEILING = new Map([
@@ -112,6 +130,7 @@ const WORD_CEILING = new Map([
   ["the-instruction-file", 2030],
   ["agents-with-a-scope-each", 2320],
   ["skills-for-repeatable-work", 3000],
+  ["mcp-reaching-your-systems", 3820],
 ]);
 
 async function page(relPath) {

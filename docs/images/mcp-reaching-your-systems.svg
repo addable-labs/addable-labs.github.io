@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <!-- The image of part 5 of the series, "mcp-reaching-your-systems"
+       (si-8nyc, 31 October 2026), in the style and palette of parts 1 to 4:
+       an agent reaching out to the systems around the project, on a leash.
+       The agent, part 1's motif (a green circle with a halo), stands at the
+       left. One clean cable runs from it to a plug in the socket of one
+       small box, an issue list, lit green; a round tag on the cable carries
+       an eye, because this connection can only read. Set back behind that
+       box sit two quiet grey ones, a documentation page and a database
+       drum, each with a socket and nothing in it: not connected. The
+       subject sits inside the central 630 x 630 square; nothing that
+       matters is within 40 px of an edge. -->
+  <defs>
+    <pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse" y="15">
+      <path d="M0 .5H30M.5 0V30" fill="none" stroke="#242C33"/>
+    </pattern>
+    <radialGradient id="fade" cx="600" cy="315" r="640" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff" stop-opacity=".95"/>
+      <stop offset=".6" stop-color="#fff" stop-opacity=".55"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </radialGradient>
+    <mask id="gridmask"><rect width="1200" height="630" fill="url(#fade)"/></mask>
+    <radialGradient id="glow" cx="600" cy="315" r="340" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#83F35D" stop-opacity=".09"/>
+      <stop offset="1" stop-color="#83F35D" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glow-link" cx="560" cy="315" r="230" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#83F35D" stop-opacity=".16"/>
+      <stop offset="1" stop-color="#83F35D" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="#0B0E10"/>
+  <rect width="1200" height="630" fill="url(#grid)" mask="url(#gridmask)"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+  <rect width="1200" height="630" fill="url(#glow-link)"/>
+
+  <!-- The subject, drawn on a 500 x 394 px sheet and scaled up, so that it
+       fills the central square and stays readable at card size. -->
+  <g transform="translate(600 315) scale(1.16) translate(-596 -315)">
+
+  <!-- Behind: two quiet systems, set back, each with a socket and nothing
+       in it. A documentation page above, a database drum below. -->
+  <g opacity=".85">
+    <rect x="716" y="118" width="130" height="100" rx="12" fill="#13181C" stroke="#626E79" stroke-opacity=".8" stroke-width="2.5"/>
+    <rect x="716" y="151" width="16" height="34" rx="5" fill="#0B0E10" stroke="#626E79" stroke-width="2.5"/>
+    <path d="M724 160V162M724 174V176" stroke="#626E79" stroke-width="3" stroke-linecap="round"/>
+    <g fill="#1A2126" stroke="#626E79" stroke-width="2.5" stroke-linejoin="round">
+      <path d="M776 140h22l14 14v40a4 4 0 0 1-4 4h-32a4 4 0 0 1-4-4v-50a4 4 0 0 1 4-4z"/>
+      <path d="M798 140v10a4 4 0 0 0 4 4h10" fill="none"/>
+    </g>
+    <g fill="#626E79" fill-opacity=".55">
+      <rect x="781" y="165" width="26" height="7" rx="3.5"/>
+      <rect x="781" y="178" width="26" height="7" rx="3.5"/>
+    </g>
+
+    <rect x="716" y="412" width="130" height="100" rx="12" fill="#13181C" stroke="#626E79" stroke-opacity=".8" stroke-width="2.5"/>
+    <rect x="716" y="445" width="16" height="34" rx="5" fill="#0B0E10" stroke="#626E79" stroke-width="2.5"/>
+    <path d="M724 454V456M724 468V470" stroke="#626E79" stroke-width="3" stroke-linecap="round"/>
+    <g fill="none" stroke="#626E79" stroke-width="2.5" stroke-linejoin="round">
+      <path d="M766 442v40a24 9 0 0 0 48 0v-40" fill="#1A2126"/>
+      <ellipse cx="790" cy="442" rx="24" ry="9" fill="#1A2126"/>
+      <path d="M766 456a24 9 0 0 0 48 0M766 469a24 9 0 0 0 48 0"/>
+    </g>
+  </g>
+
+  <!-- In front: the system the agent is connected to, an issue list, lit.
+       Its socket holds the plug. -->
+  <rect x="600" y="250" width="160" height="130" rx="14" fill="#13181C" stroke="#83F35D" stroke-width="3"/>
+  <rect x="600" y="298" width="16" height="34" rx="5" fill="#0B0E10" stroke="#83F35D" stroke-width="2.5"/>
+  <g fill="none" stroke="#83F35D" stroke-width="2.5">
+    <circle cx="646" cy="282" r="7"/>
+    <circle cx="646" cy="315" r="7"/>
+    <circle cx="646" cy="348" r="7"/>
+  </g>
+  <g fill="#83F35D">
+    <circle cx="646" cy="282" r="2.6"/>
+    <circle cx="646" cy="315" r="2.6"/>
+    <circle cx="646" cy="348" r="2.6"/>
+  </g>
+  <g fill="#ECEFF1" fill-opacity=".7">
+    <rect x="668" y="277.5" width="64" height="9" rx="4.5"/>
+    <rect x="668" y="310.5" width="76" height="9" rx="4.5"/>
+    <rect x="668" y="343.5" width="52" height="9" rx="4.5"/>
+  </g>
+
+  <!-- The cable from the agent to the plug, with a little slack, and the
+       tag on it: an eye, because the connection only reads. -->
+  <path d="M422 315C452 315 462 352 494 352C526 352 536 315 566 315" fill="none" stroke="#83F35D" stroke-width="3" stroke-linecap="round"/>
+  <rect x="566" y="301" width="26" height="28" rx="6" fill="#1A2126" stroke="#83F35D" stroke-width="3"/>
+  <path d="M592 308H606M592 322H606" stroke="#83F35D" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="494" cy="352" r="24" fill="#13181C" stroke="#83F35D" stroke-width="3"/>
+  <path d="M478 352Q494 337 510 352Q494 367 478 352Z" fill="none" stroke="#ECEFF1" stroke-width="3" stroke-linejoin="round"/>
+  <circle cx="494" cy="352" r="4.6" fill="#83F35D"/>
+
+  <!-- The agent. -->
+  <circle cx="392" cy="315" r="30" fill="#83F35D"/>
+  <circle cx="392" cy="315" r="46" fill="none" stroke="#83F35D" stroke-opacity=".35" stroke-width="3"/>
+  </g>
+</svg>

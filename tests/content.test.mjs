@@ -456,8 +456,8 @@ describe("content gate", () => {
     assert.match(output, /FAIL {2}blog\/why-we-run-an-agent-run-factory\/index\.html: \d+ words \(300–1500\)/);
   });
 
-  it("lets the Gaimer article run to 1,850 English words, part 1 of the series to 1,600, part 2 to 2,030, part 3 to 2,320 and part 4 to 3,000, and holds every other later article to 1,500 (the founder's calls, 26 September 2026, si-y2zu, and 29–30 October 2026, si-puxr and we-644a4)", async () => {
-    // The real build: the Gaimer article and parts 1, 2, 3 and 4 pass with more than 1,500
+  it("lets the Gaimer article run to 1,850 English words, part 1 of the series to 1,600, part 2 to 2,030, part 3 to 2,320, part 4 to 3,000 and part 5 to 3,820, and holds every other later article to 1,500 (the founder's calls, 26 September 2026, si-y2zu, 29–31 October 2026, si-puxr, we-644a4 and we-oxckc, and 3–5 November 2026, we-ej62o, we-m84i7, we-fyhmn and we-q3cjj)", async () => {
+    // The real build: the Gaimer article and parts 1, 2, 3, 4 and 5 pass with more than 1,500
     // words, and every other later article is measured against 1,500.
     const real = runGate("content", built, undefined, { CHECK_QUIET: "0" });
     assert.equal(real.status, 0, real.output);
@@ -477,14 +477,17 @@ describe("content gate", () => {
     const partFour = measured.get("skills-for-repeatable-work");
     assert.equal(partFour?.max, 3000, real.output);
     assert.ok(partFour.words > 1500, `part 4 has ${partFour.words} words`);
+    const partFive = measured.get("mcp-reaching-your-systems");
+    assert.equal(partFive?.max, 3820, real.output);
+    assert.ok(partFive.words > 1500, `part 5 has ${partFive.words} words`);
     const seeds = ["how-this-site-was-built-by-agents", "lessons-from-building-niva"];
-    const later = [...measured].filter(([slug]) => slug !== "cleaning-up-gaimer" && slug !== "what-makes-a-chat-an-ai-agent" && slug !== "the-instruction-file" && slug !== "agents-with-a-scope-each" && slug !== "skills-for-repeatable-work" && !seeds.includes(slug));
+    const later = [...measured].filter(([slug]) => slug !== "cleaning-up-gaimer" && slug !== "what-makes-a-chat-an-ai-agent" && slug !== "the-instruction-file" && slug !== "agents-with-a-scope-each" && slug !== "skills-for-repeatable-work" && slug !== "mcp-reaching-your-systems" && !seeds.includes(slug));
     assert.ok(later.length >= 3, real.output);
     for (const [slug, { max }] of later) assert.equal(max, 1500, slug);
     // Each padded to its ceiling passes, and one word more fails: the Gaimer
-    // article at 1,850, part 1 at 1,600, part 2 at 2,030, part 3 at 2,320, part 4 at 3,000, every other later article at 1,500.
+    // article at 1,850, part 1 at 1,600, part 2 at 2,030, part 3 at 2,320, part 4 at 3,000, part 5 at 3,820, every other later article at 1,500.
     const filler = (count) => (html) => html.replace('<div class="article-body">', `<div class="article-body"><p>${"filler ".repeat(count).trim()}</p>`);
-    const padded = (extra) => Object.fromEntries([["cleaning-up-gaimer", 1850], ["what-makes-a-chat-an-ai-agent", 1600], ["the-instruction-file", 2030], ["agents-with-a-scope-each", 2320], ["skills-for-repeatable-work", 3000], ...later.map(([slug]) => [slug, 1500])].map(([slug, ceiling]) => [`blog/${slug}/index.html`, filler(ceiling + extra - measured.get(slug).words)]));
+    const padded = (extra) => Object.fromEntries([["cleaning-up-gaimer", 1850], ["what-makes-a-chat-an-ai-agent", 1600], ["the-instruction-file", 2030], ["agents-with-a-scope-each", 2320], ["skills-for-repeatable-work", 3000], ["mcp-reaching-your-systems", 3820], ...later.map(([slug]) => [slug, 1500])].map(([slug, ceiling]) => [`blog/${slug}/index.html`, filler(ceiling + extra - measured.get(slug).words)]));
     const atCeiling = runGate("content", await withPageEdits("ceilings-at", padded(0)), undefined, { CHECK_QUIET: "0" });
     assert.equal(atCeiling.status, 0, atCeiling.output);
     assert.match(atCeiling.output, /^ok {4}blog\/cleaning-up-gaimer\/index\.html: 1850 words \(300–1850\)$/m);
@@ -492,6 +495,7 @@ describe("content gate", () => {
     assert.match(atCeiling.output, /^ok {4}blog\/the-instruction-file\/index\.html: 2030 words \(300–2030\)$/m);
     assert.match(atCeiling.output, /^ok {4}blog\/agents-with-a-scope-each\/index\.html: 2320 words \(300–2320\)$/m);
     assert.match(atCeiling.output, /^ok {4}blog\/skills-for-repeatable-work\/index\.html: 3000 words \(300–3000\)$/m);
+    assert.match(atCeiling.output, /^ok {4}blog\/mcp-reaching-your-systems\/index\.html: 3820 words \(300–3820\)$/m);
     for (const [slug] of later) assert.match(atCeiling.output, new RegExp(`^ok {4}blog/${slug}/index\\.html: 1500 words \\(300–1500\\)$`, "m"));
     const past = runGate("content", await withPageEdits("ceilings-past", padded(1)));
     assert.equal(past.status, 1);
@@ -500,8 +504,9 @@ describe("content gate", () => {
     assert.match(past.output, /^FAIL {2}blog\/the-instruction-file\/index\.html: 2031 words \(300–2030\)$/m);
     assert.match(past.output, /^FAIL {2}blog\/agents-with-a-scope-each\/index\.html: 2321 words \(300–2320\)$/m);
     assert.match(past.output, /^FAIL {2}blog\/skills-for-repeatable-work\/index\.html: 3001 words \(300–3000\)$/m);
+    assert.match(past.output, /^FAIL {2}blog\/mcp-reaching-your-systems\/index\.html: 3821 words \(300–3820\)$/m);
     for (const [slug] of later) assert.match(past.output, new RegExp(`^FAIL {2}blog/${slug}/index\\.html: 1501 words \\(300–1500\\)$`, "m"));
-    assert.match(past.output, new RegExp(`^FAIL content \\(${later.length + 5} problems\\)$`, "m"));
+    assert.match(past.output, new RegExp(`^FAIL content \\(${later.length + 6} problems\\)$`, "m"));
   });
 
   it("fails a link preview that shows another page's image, a card without its article's image, and an article image that is lazy, above the title or described otherwise (si-awlu)", async () => {
@@ -578,6 +583,7 @@ describe("content gate", () => {
 // same front matter the build reads (si-absd), so an article whose date
 // changes moves in both alike: only this table, written by hand, notices.
 const ARTICLES = [
+  ["/blog/mcp-reaching-your-systems/", "2026-11-05"],
   ["/blog/agents-with-a-scope-each/", "2026-10-31"],
   ["/blog/skills-for-repeatable-work/", "2026-10-31"],
   ["/blog/the-instruction-file/", "2026-10-30"],

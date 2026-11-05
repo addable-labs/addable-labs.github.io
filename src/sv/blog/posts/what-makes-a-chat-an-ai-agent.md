@@ -204,7 +204,7 @@ Serien tar byggstenarna en i taget. Arbetstitlarna kan ändras på vägen.
 2. [Instruktionsfilen](/sv/blog/the-instruction-file/)
 3. [Agenter med var sitt ansvarsområde](/sv/blog/agents-with-a-scope-each/)
 4. [Skills, när arbetet ska göras likadant varje gång](/sv/blog/skills-for-repeatable-work/)
-5. Model Context Protocol – ett gemensamt sätt för agenter att nå andra system
+5. [MCP, så når AI-agenten andra system](/sv/blog/mcp-reaching-your-systems/)
 6. Var agenten körs och vem som startar den
 7. <span id="del-7"></span>Gränser som sätts i förväg
 8. Vad som har ändrats på vägen – [de senaste modellerna behöver mindre styrning än de förra](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices), men fortfarande en del
