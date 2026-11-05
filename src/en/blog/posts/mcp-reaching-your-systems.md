@@ -79,10 +79,10 @@ and settings in the cells are Claude Code's.
 | Limiting access | Permission rules match the command text, and the sandbox is off by default | A token acts as your identity, limited by the scopes you select | Rules can cover every tool of a server or one tool, and a server can offer a read-only mode. The sandbox does not cover MCP servers |
 | What comes back | `gh api` can narrow the output with `--jq` or a template | The response is JSON and typically holds more than you need | A tool can declare an output schema for structured results, and Claude Code warns when a tool's output exceeds 10,000 tokens |
 | Cost to the context | Still more context-efficient than MCP servers, even with tool search, because they add no per-tool listing | — | Tool names and instructions are in the context even when unused, and tool search defers the definitions |
-| Setup and upkeep | `gh auth login` signs in with a browser flow and stores the token in the system credential store, or in a plain text file if there is none | You send the token in the Authorization header and name the API version in a header | With OAuth the tokens are stored and refreshed automatically. A server can change its tools while it is connected |
+| Setup and upkeep | `gh auth login` signs in with a browser flow and stores the token in the system credential store, or in a plain text file if there is none or it cannot be used | You send the token in the Authorization header and name the API version in a header | With OAuth the tokens are stored and refreshed automatically. A server can change its tools while it is connected |
 | Use in several agent apps | — | — | A server is not specific to one agent app, and some apps use a different file format than others |
-| What you see before it runs | The permission prompt shows what Claude Code is about to do | — | Claude Code asks before an MCP tool runs. The MCP specification adds that a human should always be able to deny a tool call, and that the client should show the tool's inputs before the call |
-| Where it falls short | A command you approve can still write anywhere your user account can | Requests are limited to 60 an hour without a token and 5,000 with one, and secondary limits can change without notice | Anthropic does not security-audit or manage any MCP server |
+| What you see before it runs | The permission prompt shows what Claude Code is about to do | — | By default, Claude Code asks before an MCP tool runs. The MCP specification adds that a human should always be able to deny a tool call, and that the client should show the tool's inputs before the call |
+| Where it falls short | A command you approve can still write anywhere your user account can | Requests are limited to 60 an hour without a token and 5,000 with a personal access token, and secondary limits can change without notice | Anthropic does not security-audit or manage any MCP server |
 
 Whichever way the agent reaches a system, the text it reads can carry prompt
 injection, which the next section describes.
@@ -106,7 +106,7 @@ that it is safe. Claude Code's
 does not security-audit or manage any MCP server. So connecting an MCP server is
 a trust decision, like installing a program.
 
-One risk has a name of its own:
+There is one important risk we want to highlight:
 [prompt injection](https://code.visualstudio.com/docs/agents/run/security). The
 agent reads a lot of text, such as an issue, a web page or the description of an
 MCP server tool. Instructions can be hidden in that text. The agent may follow
@@ -131,24 +131,26 @@ cases. When an attack failed, the most common reason was that the model ignored
 it and followed the user's original instruction. In 18.9% of the failures the
 model tried to call the poisoned tool. More capable models were often more
 vulnerable. The authors note that the attack texts came from a semi-automated
-process guided by human-defined paradigms.
+process that followed attack patterns defined by people.
 
 [MCP Security Bench](https://arxiv.org/html/2510.15994v2), accepted at ICLR
 2026, measures how well models resist MCP-specific attacks in task planning,
 tool invocation and response handling. It ran 12 types of attack, 2,000 attack
 instances in all, against ten models, with real tools run through MCP, not
 simulated ones. An attack counted as successful when the attacker's objective
-was achieved in the workspace. The mean across the 12 types was 40.35%. The
+was achieved in the environment where the agent worked. The authors usually
+judged this by examining the state of that environment, for example whether
+sensitive data had been modified. The mean across the 12 types was 40.35%. The
 types differed a lot: the most effective reached an average of 76.5% and the
 least effective 14.62%. One type, retrieval injection, hides the instructions in
 data that a harmless tool returns, as in the issue example above. It averaged
 20%. Models that completed more tasks were often more vulnerable. One of the ten
 completed many tasks and still resisted attacks moderately. The one
-detection-based defence it tested cut the average success rate from 40.35% to
-28.69% and the share of completed tasks from 56.50% to 48.91%. The authors say
-it tended to over-reject. Its threat model has an attacker who controls a
-malicious MCP server and can also put instructions into the external resources
-the agent uses.
+detection-based defence the study tested cut the average success rate from
+40.35% to 28.69% and the share of completed tasks from 56.50% to 48.91%. The
+authors say it tended to over-reject. The study's threat model has an attacker
+who controls a malicious MCP server and can also put instructions into the
+external resources the agent uses.
 
 A [study of 583 open-source MCP servers](https://arxiv.org/html/2506.13538v5)
 with at least ten stars on GitHub analysed the servers' code. A static analysis
@@ -163,11 +165,12 @@ higher or equal median values than open-source and machine-learning baselines,
 though raw counts of stars, forks, commits and size were lower. The authors note
 that the open-source baselines often reflect mature repositories with multi-year
 histories, while the servers are on average less than six months old. Critical
-or blocker-level code smells were found in 66% of the servers and bugs in 14.4%.
-The authors found the same kinds of smells and bugs as elsewhere. The authors
-read the low share of vulnerabilities as more likely under-detection by current
-tools than an unusually secure ecosystem. They describe the scanner as being in
-early development and targeting one class of vulnerability.
+or blocker-level "code smells" (structural issues in the code that make it
+harder to read and develop further) were found in 66% of the servers and bugs in
+14.4%. The authors found the same kinds of "code smells" and bugs as elsewhere.
+The authors read the low share of vulnerabilities as more likely under-detection
+by current tools than an unusually secure ecosystem. They describe the scanner
+as being in early development and targeting one class of vulnerability.
 
 The first two tested language models in the researchers' own set-ups, not agent
 apps such as Claude Code or Codex, and measured how often a planted attack
@@ -204,8 +207,8 @@ still holds. Neither stops the agent from reading a harmful instruction, which
 is why the practice repository is private.
 
 Claude Code and GitHub Copilot ask for your approval when the agent wants to use
-an MCP tool. Leave it that way at first, so you can see what the agent does.
-[Part 7](#part-7) covers how to decide what may run without asking.
+an MCP tool. Our advice: leave it that way at first, so you can see what the
+agent does. [Part 7](#part-7) covers how to decide what may run without asking.
 
 ## Claude Code, Codex and GitHub Copilot
 
@@ -397,7 +400,8 @@ If the first command fails with
 `/plugin marketplace add anthropics/claude-plugins-official` and run the install
 again. If the message says that the plugin is not found in the marketplace,
 refresh the catalog with `/plugin marketplace update claude-plugins-official`
-and try again.
+and try again. If the refresh says that the marketplace is not found, add it as
+above.
 
 A server that Claude Code starts on your own computer is added as a local stdio
 server. Everything after `--` is the command that starts it:
@@ -465,8 +469,8 @@ tool definitions until Claude needs them, so only the tool names and the server
 instructions load when a session starts. Adding more MCP servers therefore has
 little effect on the context window. Claude Code sets no fixed limit on the
 number of tools per server. The practical limit is the context window. Claude
-Code loads all MCP tools upfront on earlier models and on Microsoft Foundry
-deployments hosted on Azure, which reject tool search.
+Code loads all MCP tools upfront, for example on earlier models and on Microsoft
+Foundry deployments hosted on Azure, which reject tool search.
 
 `/context` shows it: tools are labelled `(deferred)` or `(loaded on-demand)`. If
 a server has few tools and Claude needs them all on every turn, set `alwaysLoad`
@@ -494,8 +498,8 @@ The working titles may change along the way.
 
 1. [From AI chat to agentic work](/blog/what-makes-a-chat-an-ai-agent/)
 2. [The instruction file, the first thing an AI agent reads](/blog/the-instruction-file/)
-3. Give each AI agent a job of its own
-4. Skills, for work that must be done the same every time
+3. [Give each AI agent a job of its own](/blog/agents-with-a-scope-each/)
+4. [Skills, for work that must be done the same way every time](/blog/skills-for-repeatable-work/)
 5. MCP, how an AI agent reaches other systems (this part)
 6. Where the AI agent runs and who starts it
 7. <span id="part-7"></span>Set the limits in advance

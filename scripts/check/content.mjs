@@ -47,7 +47,7 @@
 //   - both seed articles exist in both languages, the seed articles are
 //     300–600 English words of prose and every later article 300–1,500, the
 //     Gaimer article alone 300–1,850 (the founder's call, 26 September 2026)
-//     and parts 1, 2 and 5 of the series 300–1,600, 300–2,030 and 300–3,750
+//     and parts 1, 2 and 5 of the series 300–1,600, 300–2,030 and 300–3,820
 //     (his calls of 29–30 October 2026;
 //     the figures' captions and diagram labels are not prose and do not count,
 //     si-55iu, and neither do tables' cells), a draft shows "Draft"/"Utkast" on its page, in the listings
@@ -114,14 +114,17 @@ const ARTICLE_SLUG = "how-this-site-was-built-by-agents";
 // its 3,494, and, once the founder's rule of 5 November 2026 (a word limit is a
 // guide, depth over surface, no topic left hanging) had the mayor lift that
 // ceiling and the items left out for words were added (we-fyhmn), to 3,750,
-// above its 3,746; every other article keeps 1,500.
+// above its 3,746, and, once the founder's comments on review page version 13
+// and the second fact check (5 November 2026, we-q3cjj) had the studies' terms
+// explained and some claims narrowed, to 3,820, above its 3,810; every other
+// article keeps 1,500.
 const SEED_ARTICLES = new Set([ARTICLE_SLUG, "lessons-from-building-niva"]);
 const WORD_RANGE = { seed: [300, 600], other: [300, 1500] };
 const WORD_CEILING = new Map([
   ["cleaning-up-gaimer", 1850],
   ["what-makes-a-chat-an-ai-agent", 1600],
   ["the-instruction-file", 2030],
-  ["mcp-reaching-your-systems", 3750],
+  ["mcp-reaching-your-systems", 3820],
 ]);
 
 async function page(relPath) {

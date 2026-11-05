@@ -80,10 +80,10 @@ inställningarna i cellerna gäller Claude Code.
 | Begränsa åtkomst | Behörighetsregler matchar kommandots text. Sandboxen är avstängd som standard | En token agerar som din identitet, begränsad av de behörigheter du väljer | Regler kan gälla alla verktyg i en server eller ett enda verktyg. En server kan erbjuda ett skrivskyddat läge. Sandboxen omfattar inte MCP-servrar |
 | Vad du får tillbaka | `gh api` kan begränsa utdata med `--jq` eller en mall | Svaret är JSON och innehåller oftast mer än du behöver | Ett verktyg kan ange ett utdataschema för strukturerade resultat. Claude Code varnar när ett verktygs utdata överstiger 10 000 tokens |
 | Kostnad för kontexten | Fortfarande mer kontexteffektiva än MCP-servrar, även med tool search, eftersom de inte lägger till någon lista över verktyg | – | Verktygsnamn och instruktioner ligger i kontexten även när de inte används. Med tool search skjuts definitionerna upp |
-| Installation och underhåll | `gh auth login` loggar in via webbläsaren och sparar tokenen i systemets inloggningslager eller i en vanlig textfil om det saknas | Du skickar tokenen i Authorization-headern och anger API-versionen i en header | Med OAuth sparas och förnyas tokens automatiskt. En server kan ändra sina verktyg medan den är ansluten |
+| Installation och underhåll | `gh auth login` loggar in via webbläsaren och sparar tokenen i systemets inloggningslager eller i en vanlig textfil om det saknas eller inte går att använda | Du skickar tokenen i Authorization-headern och anger API-versionen i en header | Med OAuth sparas och förnyas tokens automatiskt. En server kan ändra sina verktyg medan den är ansluten |
 | Användning i flera AI-program | – | – | En server är inte specifik för ett AI-program. Vissa program använder ett annat filformat än andra |
-| Vad du ser innan det körs | Behörighetsfrågan visar vad Claude Code ska göra | – | Claude Code frågar innan ett MCP-verktyg körs. Dessutom säger MCP-specifikationen att en människa alltid ska kunna neka ett verktygsanrop och att klienten ska visa verktygets indata före anropet |
-| Där det brister | Ett kommando du godkänner kan ändå skriva överallt där ditt användarkonto kan | Begäranden är begränsade till 60 i timmen utan token och 5 000 med token. Sekundära gränser kan ändras utan förvarning | Anthropic säkerhetsgranskar eller förvaltar ingen MCP-server |
+| Vad du ser innan det körs | Behörighetsfrågan visar vad Claude Code ska göra | – | Som standard frågar Claude Code innan ett MCP-verktyg körs. Dessutom säger MCP-specifikationen att en människa alltid ska kunna neka ett verktygsanrop och att klienten ska visa verktygets indata före anropet |
+| Där det brister | Ett kommando du godkänner kan ändå skriva överallt där ditt användarkonto kan | Begäranden är begränsade till 60 i timmen utan token och 5 000 med en personal access token. Sekundära gränser kan ändras utan förvarning | Anthropic säkerhetsgranskar eller förvaltar ingen MCP-server |
 
 Oavsett hur agenten når ett system kan texten den läser innehålla prompt
 injection, vilket nästa avsnitt beskriver.
@@ -108,7 +108,7 @@ inte säkerhetsgranskar eller förvaltar någon MCP-server. Att koppla in en
 MCP-server är därför ett beslut om vad du litar på, ungefär som att installera
 ett program.
 
-Det finns en risk som har ett eget namn:
+Det finns en viktig risk vi vill lyfta fram:
 [prompt injection](https://code.visualstudio.com/docs/agents/run/security).
 Agenten läser mycket text, till exempel ett ärende, en webbsida eller
 beskrivningen av ett verktyg i en MCP-server. Instruktioner kan ligga gömda i
@@ -133,7 +133,7 @@ färre än 3 % av fallen. När en attack misslyckades var den vanligaste orsaken
 att modellen ignorerade den och följde användarens ursprungliga instruktion. I
 18,9 % av misslyckandena försökte modellen anropa det förgiftade verktyget. Mer
 kapabla modeller var ofta mer sårbara. Författarna noterar att attacktexterna
-kom från en halvautomatisk process som styrdes av paradigm som människor
+kom från en halvautomatisk process som följde attackmönster som människor
 definierat.
 
 [MCP Security Bench](https://arxiv.org/html/2510.15994v2), antagen vid ICLR
@@ -141,18 +141,20 @@ definierat.
 uppgiftsplanering, verktygsanrop och hantering av svar. Studien körde 12 typer
 av attack, sammanlagt 2 000 attackinstanser, mot tio modeller, med riktiga
 verktyg som kördes via MCP i stället för simulerade. En attack räknades som
-lyckad när angriparens mål uppnåddes i arbetsytan. Medelvärdet över de 12
-typerna var 40,35 %. Typerna skilde sig mycket åt: den mest effektiva nådde i
-genomsnitt 76,5 % och den minst effektiva 14,62 %. En typ, retrieval injection,
-gömmer instruktionerna i data som ett harmlöst verktyg returnerar, som i
-ärendeexemplet ovan. Den hade ett genomsnitt på 20 %. Modeller som slutförde
-fler uppgifter var ofta mer sårbara. En av de tio slutförde många uppgifter och
-stod ändå måttligt emot attacker. Det enda detektionsbaserade försvaret som
-testades sänkte den genomsnittliga andelen lyckade attacker från 40,35 % till
-28,69 % och andelen slutförda uppgifter från 56,50 % till 48,91 %. Författarna
-säger att det tenderade att avvisa för mycket. Dess hotmodell har en angripare
-som styr en skadlig MCP-server och som också kan lägga in instruktioner i de
-externa resurser som agenten använder.
+lyckad när angriparens mål uppnåddes i den miljö där agenten arbetade. Det
+avgjorde författarna oftast genom att undersöka miljöns tillstånd, till exempel
+om känsliga data hade ändrats. Medelvärdet över de 12 typerna var 40,35 %.
+Typerna skilde sig mycket åt: den mest effektiva nådde i genomsnitt 76,5 % och
+den minst effektiva 14,62 %. En typ, retrieval injection, gömmer instruktionerna
+i data som ett harmlöst verktyg returnerar, som i ärendeexemplet ovan. Den hade
+ett genomsnitt på 20 %. Modeller som slutförde fler uppgifter var ofta mer
+sårbara. En av de tio slutförde många uppgifter och stod ändå måttligt emot
+attacker. Det enda detektionsbaserade försvaret som testades sänkte den
+genomsnittliga andelen lyckade attacker från 40,35 % till 28,69 % och andelen
+slutförda uppgifter från 56,50 % till 48,91 %. Författarna säger att det
+tenderade att avvisa för mycket. Studiens hotmodell (threat model) har en
+angripare som styr en skadlig MCP-server och som också kan lägga in
+instruktioner i de externa resurser som agenten använder.
 
 En
 [studie av 583 MCP-servrar med öppen källkod](https://arxiv.org/html/2506.13538v5)
@@ -164,16 +166,18 @@ poisoning i 5,5 % av dessa 73. Verktyget för statisk analys hittade ingen
 säkerhetsbrist i de 61 officiella servrarna, som företag underhåller för sina
 egna plattformar. Författarna föreslår att en viktig orsak kan vara att de
 officiella servrarna är mindre och mer aktivt underhållna. När det gäller
-utvecklingens hälsa räknar författarna 9 av 14 mått med högre eller lika höga
-medianvärden än baslinjerna för öppen källkod och maskininlärning, även om råa
-antal stjärnor, forks, commits och storlek var lägre. Författarna påpekar att
-baslinjerna för öppen källkod ofta speglar mogna repon med flera års historik,
-medan servrarna i genomsnitt är yngre än sex månader. Kritiska eller blockerande
-kodlukter fanns i 66 % av servrarna och buggar i 14,4 %. Författarna fann samma
-slags kodlukter och buggar som i annan programvara. Författarna tolkar den låga
-andelen sårbarheter som mer sannolikt beroende på att dagens verktyg missar
-sårbarheter än på ett ovanligt säkert ekosystem. De beskriver skannern som ett
-verktyg i ett tidigt utvecklingsskede som bara täcker en klass av sårbarheter.
+utvecklingens hälsa räknar författarna 9 av 14 mått med minst lika höga
+medianvärden som jämförelsevärdena (baselines) för öppen källkod och
+maskininlärning, även om råa antal stjärnor, forks, commits och storlek var
+lägre. Författarna påpekar att jämförelsevärdena för öppen källkod ofta speglar
+mogna repon med flera års historik, medan servrarna i genomsnitt är yngre än sex
+månader. Kritiska eller blockerande "code smells" (strukturella problem i koden
+som gör den svårare att läsa och utveckla vidare) fanns i 66 % av servrarna och
+buggar i 14,4 %. Författarna fann samma slags "code smells" och buggar som i
+annan programvara. Författarna tolkar den låga andelen sårbarheter som mer
+sannolikt beroende på att dagens verktyg missar sårbarheter än på ett ovanligt
+säkert ekosystem. De beskriver skannern som ett verktyg i ett tidigt
+utvecklingsskede som bara täcker en klass av sårbarheter.
 
 De två första testade språkmodeller i forskarnas egna uppsättningar, inte
 AI-program som Claude Code eller Codex. De mätte hur ofta en utplacerad attack
@@ -210,8 +214,9 @@ ena är fel inställd håller den andra ändå. Ingen av dem hindrar agenten fr�
 läsa en skadlig instruktion. Därför är övningsrepot privat.
 
 Claude Code och GitHub Copilot ber om ditt godkännande när agenten vill använda
-ett MCP-verktyg. Låt det vara så till en början, så du ser vad agenten gör.
-[Del 7](#del-7) går igenom hur du bestämmer vad som får köras utan att fråga.
+ett MCP-verktyg. Vårt råd: låt det vara så till en början, så du ser vad agenten
+gör. [Del 7](#del-7) går igenom hur du bestämmer vad som får köras utan att
+fråga.
 
 ## Claude Code, Codex och GitHub Copilot
 
@@ -405,7 +410,8 @@ pluginkatalogen (marketplace) med
 `/plugin marketplace add anthropics/claude-plugins-official` och kör
 installationen igen. Om meddelandet i stället säger att pluginet inte finns i
 katalogen, uppdaterar du katalogen med
-`/plugin marketplace update claude-plugins-official` och försöker igen.
+`/plugin marketplace update claude-plugins-official` och försöker igen. Om
+uppdateringen säger att katalogen inte hittas, lägger du till den som ovan.
 
 En server som Claude Code startar på din egen dator läggs till som en lokal
 stdio-server. Allt efter `--` är kommandot som startar den:
@@ -474,8 +480,9 @@ Den skjuter upp verktygens definitioner tills Claude behöver dem, så bara
 verktygsnamnen och serverns instruktioner läses in när en session startar. Fler
 MCP-servrar påverkar därför kontextfönstret lite. Claude Code sätter ingen fast
 gräns för antalet verktyg per server. Den praktiska gränsen är kontextfönstret.
-Claude Code läser in alla MCP-verktyg i förväg på äldre modeller och på
-Microsoft Foundry-driftsättningar som körs på Azure och avvisar tool search.
+Claude Code läser in alla MCP-verktyg i förväg, till exempel på äldre modeller
+och på Microsoft Foundry-driftsättningar som körs på Azure och avvisar tool
+search.
 
 `/context` visar det: verktygen är märkta `(deferred)` eller
 `(loaded on-demand)`. Har en server få verktyg och behöver Claude dem alla i
@@ -504,8 +511,8 @@ Arbetstitlarna kan ändras på vägen.
 
 1. [Från AI-chatt till agentiskt arbete](/sv/blog/what-makes-a-chat-an-ai-agent/)
 2. [Instruktionsfilen, det första en AI-agent läser](/sv/blog/the-instruction-file/)
-3. Ge varje AI-agent ett eget jobb
-4. Skills, när arbetet ska göras likadant varje gång
+3. [Ge varje AI-agent ett eget jobb](/sv/blog/agents-with-a-scope-each/)
+4. [Skills, när arbetet ska göras likadant varje gång](/sv/blog/skills-for-repeatable-work/)
 5. MCP, så når AI-agenten andra system (den här delen)
 6. Var AI-agenten körs och vem som startar den
 7. <span id="del-7"></span>Sätt gränserna i förväg

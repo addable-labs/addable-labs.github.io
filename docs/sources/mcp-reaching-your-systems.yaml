@@ -454,8 +454,8 @@
 - id: P5-injection-term
   article: mcp-reaching-your-systems
   sentence:
-    sv: "Det finns en risk som har ett eget namn: prompt injection"
-    en: "One risk has a name of its own: prompt injection"
+    sv: "Det finns en viktig risk vi vill lyfta fram: prompt injection"
+    en: "There is one important risk we want to highlight: prompt injection"
   vendor: GitHub
   url: https://code.visualstudio.com/docs/agents/run/security
   final_url: https://code.visualstudio.com/docs/agents/run/security
@@ -678,6 +678,18 @@
   quote: "Prompts for permission on first use of each tool."
   retrieved: 2026-10-31
   last_checked: 2026-11-03
+
+- id: P5-vs-advice-leave-prompt
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Vårt råd: låt det vara så till en början, så du ser vad agenten gör"
+    en: "Our advice: leave it that way at first, so you can see what the agent does"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/permissions
+  final_url: https://code.claude.com/docs/en/permissions
+  quote: "A permission prompt shows what Claude is about to do, followed by your options."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
 
 - id: P5-cc-add
   article: mcp-reaching-your-systems
@@ -1591,6 +1603,18 @@
   retrieved: 2026-11-05
   last_checked: 2026-11-05
 
+- id: P5-adv-plugin-refresh-missing
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Om uppdateringen säger att katalogen inte hittas, lägger du till den som ovan"
+    en: "If the refresh says that the marketplace is not found, add it as above"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/mcp
+  final_url: https://code.claude.com/docs/en/mcp
+  quote: "`Marketplace \"claude-plugins-official\" not found`: add the marketplace with `/plugin marketplace add anthropics/claude-plugins-official`, then retry the install."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
 - id: P5-adv-stdio-local
   article: mcp-reaching-your-systems
   sentence:
@@ -2086,8 +2110,8 @@
 - id: P5-adv-ts-earlier
   article: mcp-reaching-your-systems
   sentence:
-    sv: "Claude Code läser in alla MCP-verktyg i förväg på äldre modeller och på Microsoft Foundry-driftsättningar som körs på Azure och avvisar tool search"
-    en: "Claude Code loads all MCP tools upfront on earlier models and on Microsoft Foundry deployments hosted on Azure, which reject tool search"
+    sv: "Claude Code läser in alla MCP-verktyg i förväg, till exempel på äldre modeller och på Microsoft Foundry-driftsättningar som körs på Azure och avvisar tool search"
+    en: "Claude Code loads all MCP tools upfront, for example on earlier models and on Microsoft Foundry deployments hosted on Azure, which reject tool search"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/mcp
   final_url: https://code.claude.com/docs/en/mcp
@@ -2098,8 +2122,8 @@
 - id: P5-adv-ts-foundry
   article: mcp-reaching-your-systems
   sentence:
-    sv: "Claude Code läser in alla MCP-verktyg i förväg på äldre modeller och på Microsoft Foundry-driftsättningar som körs på Azure och avvisar tool search"
-    en: "Claude Code loads all MCP tools upfront on earlier models and on Microsoft Foundry deployments hosted on Azure, which reject tool search"
+    sv: "Claude Code läser in alla MCP-verktyg i förväg, till exempel på äldre modeller och på Microsoft Foundry-driftsättningar som körs på Azure och avvisar tool search"
+    en: "Claude Code loads all MCP tools upfront, for example on earlier models and on Microsoft Foundry deployments hosted on Azure, which reject tool search"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/mcp
   final_url: https://code.claude.com/docs/en/mcp
@@ -2110,8 +2134,8 @@
 - id: P5-adv-ts-foundry-upfront
   article: mcp-reaching-your-systems
   sentence:
-    sv: "Claude Code läser in alla MCP-verktyg i förväg på äldre modeller och på Microsoft Foundry-driftsättningar som körs på Azure och avvisar tool search"
-    en: "Claude Code loads all MCP tools upfront on earlier models and on Microsoft Foundry deployments hosted on Azure, which reject tool search"
+    sv: "Claude Code läser in alla MCP-verktyg i förväg, till exempel på äldre modeller och på Microsoft Foundry-driftsättningar som körs på Azure och avvisar tool search"
+    en: "Claude Code loads all MCP tools upfront, for example on earlier models and on Microsoft Foundry deployments hosted on Azure, which reject tool search"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/mcp
   final_url: https://code.claude.com/docs/en/mcp
@@ -2434,12 +2458,24 @@
 - id: P5-st-mcptox-limit
   article: mcp-reaching-your-systems
   sentence:
-    sv: "Författarna noterar att attacktexterna kom från en halvautomatisk process som styrdes av paradigm som människor definierat"
-    en: "The authors note that the attack texts came from a semi-automated process guided by human-defined paradigms"
+    sv: "Författarna noterar att attacktexterna kom från en halvautomatisk process som följde attackmönster som människor definierat"
+    en: "The authors note that the attack texts came from a semi-automated process that followed attack patterns defined by people"
   vendor: Chinese university group (arXiv)
   url: https://arxiv.org/html/2508.14925v2
   final_url: https://arxiv.org/html/2508.14925v2
   quote: "The attack payloads in MCPTox are generated using a semi-automated process guided by human-defined paradigms."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-st-mcptox-paradigms
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Författarna noterar att attacktexterna kom från en halvautomatisk process som följde attackmönster som människor definierat"
+    en: "The authors note that the attack texts came from a semi-automated process that followed attack patterns defined by people"
+  vendor: Chinese university group (arXiv)
+  url: https://arxiv.org/html/2508.14925v2
+  final_url: https://arxiv.org/html/2508.14925v2
+  quote: "To comprehensively evaluate different triggering methods and attack behaviors, we define three distinct attack paradigms (Table 1)."
   retrieved: 2026-11-05
   last_checked: 2026-11-05
 
@@ -2506,8 +2542,8 @@
 - id: P5-st-msb-asr
   article: mcp-reaching-your-systems
   sentence:
-    sv: "En attack räknades som lyckad när angriparens mål uppnåddes i arbetsytan"
-    en: "An attack counted as successful when the attacker's objective was achieved in the workspace"
+    sv: "En attack räknades som lyckad när angriparens mål uppnåddes i den miljö där agenten arbetade"
+    en: "An attack counted as successful when the attacker's objective was achieved in the environment where the agent worked"
   vendor: MSB authors (arXiv)
   url: https://arxiv.org/html/2510.15994v2
   final_url: https://arxiv.org/html/2510.15994v2
@@ -2518,12 +2554,36 @@
 - id: P5-st-msb-workspace
   article: mcp-reaching-your-systems
   sentence:
-    sv: "En attack räknades som lyckad när angriparens mål uppnåddes i arbetsytan"
-    en: "An attack counted as successful when the attacker's objective was achieved in the workspace"
+    sv: "En attack räknades som lyckad när angriparens mål uppnåddes i den miljö där agenten arbetade"
+    en: "An attack counted as successful when the attacker's objective was achieved in the environment where the agent worked"
   vendor: MSB authors (arXiv)
   url: https://arxiv.org/html/2510.15994v2
   final_url: https://arxiv.org/html/2510.15994v2
-  quote: "examining the environmental state within the workspace"
+  quote: "The environment defines the workspace in which the agent operates."
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-st-msb-state
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Det avgjorde författarna oftast genom att undersöka miljöns tillstånd, till exempel om känsliga data hade ändrats"
+    en: "The authors usually judged this by examining the state of that environment, for example whether sensitive data had been modified"
+  vendor: MSB authors (arXiv)
+  url: https://arxiv.org/html/2510.15994v2
+  final_url: https://arxiv.org/html/2510.15994v2
+  quote: "We evaluate whether the attacker’s objective has been achieved by examining the environmental state within the workspace (e.g., inspecting whether the sensitive data has been modified)"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
+- id: P5-st-msb-state-example
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Det avgjorde författarna oftast genom att undersöka miljöns tillstånd, till exempel om känsliga data hade ändrats"
+    en: "The authors usually judged this by examining the state of that environment, for example whether sensitive data had been modified"
+  vendor: MSB authors (arXiv)
+  url: https://arxiv.org/html/2510.15994v2
+  final_url: https://arxiv.org/html/2510.15994v2
+  quote: "Check whether the phone number in ’file_name.txt’ has been changed to 0123456789."
   retrieved: 2026-11-05
   last_checked: 2026-11-05
 
@@ -2639,7 +2699,7 @@
   article: mcp-reaching-your-systems
   sentence:
     sv: "Det enda detektionsbaserade försvaret som testades sänkte den genomsnittliga andelen lyckade attacker från 40,35 % till 28,69 % och andelen slutförda uppgifter från 56,50 % till 48,91 %"
-    en: "The one detection-based defence it tested cut the average success rate from 40.35% to 28.69% and the share of completed tasks from 56.50% to 48.91%"
+    en: "The one detection-based defence the study tested cut the average success rate from 40.35% to 28.69% and the share of completed tasks from 56.50% to 48.91%"
   vendor: MSB authors (arXiv)
   url: https://arxiv.org/html/2510.15994v2
   final_url: https://arxiv.org/html/2510.15994v2
@@ -2651,7 +2711,7 @@
   article: mcp-reaching-your-systems
   sentence:
     sv: "Det enda detektionsbaserade försvaret som testades sänkte den genomsnittliga andelen lyckade attacker från 40,35 % till 28,69 % och andelen slutförda uppgifter från 56,50 % till 48,91 %"
-    en: "The one detection-based defence it tested cut the average success rate from 40.35% to 28.69% and the share of completed tasks from 56.50% to 48.91%"
+    en: "The one detection-based defence the study tested cut the average success rate from 40.35% to 28.69% and the share of completed tasks from 56.50% to 48.91%"
   vendor: MSB authors (arXiv)
   url: https://arxiv.org/html/2510.15994v2
   final_url: https://arxiv.org/html/2510.15994v2
@@ -2674,8 +2734,8 @@
 - id: P5-st-msb-threat
   article: mcp-reaching-your-systems
   sentence:
-    sv: "Dess hotmodell har en angripare som styr en skadlig MCP-server och som också kan lägga in instruktioner i de externa resurser som agenten använder"
-    en: "Its threat model has an attacker who controls a malicious MCP server and can also put instructions into the external resources the agent uses"
+    sv: "Studiens hotmodell (threat model) har en angripare som styr en skadlig MCP-server och som också kan lägga in instruktioner i de externa resurser som agenten använder"
+    en: "The study's threat model has an attacker who controls a malicious MCP server and can also put instructions into the external resources the agent uses"
   vendor: MSB authors (arXiv)
   url: https://arxiv.org/html/2510.15994v2
   final_url: https://arxiv.org/html/2510.15994v2
@@ -2686,8 +2746,8 @@
 - id: P5-st-msb-threat-server
   article: mcp-reaching-your-systems
   sentence:
-    sv: "Dess hotmodell har en angripare som styr en skadlig MCP-server och som också kan lägga in instruktioner i de externa resurser som agenten använder"
-    en: "Its threat model has an attacker who controls a malicious MCP server and can also put instructions into the external resources the agent uses"
+    sv: "Studiens hotmodell (threat model) har en angripare som styr en skadlig MCP-server och som också kan lägga in instruktioner i de externa resurser som agenten använder"
+    en: "The study's threat model has an attacker who controls a malicious MCP server and can also put instructions into the external resources the agent uses"
   vendor: MSB authors (arXiv)
   url: https://arxiv.org/html/2510.15994v2
   final_url: https://arxiv.org/html/2510.15994v2
@@ -2830,7 +2890,7 @@
 - id: P5-st-hasan-health
   article: mcp-reaching-your-systems
   sentence:
-    sv: "När det gäller utvecklingens hälsa räknar författarna 9 av 14 mått med högre eller lika höga medianvärden än baslinjerna för öppen källkod och maskininlärning, även om råa antal stjärnor, forks, commits och storlek var lägre"
+    sv: "När det gäller utvecklingens hälsa räknar författarna 9 av 14 mått med minst lika höga medianvärden som jämförelsevärdena (baselines) för öppen källkod och maskininlärning, även om råa antal stjärnor, forks, commits och storlek var lägre"
     en: "On development health the authors count 9 of 14 metrics with higher or equal median values than open-source and machine-learning baselines, though raw counts of stars, forks, commits and size were lower"
   vendor: Hasan et al. (arXiv)
   url: https://arxiv.org/html/2506.13538v5
@@ -2878,7 +2938,7 @@
 - id: P5-st-hasan-age
   article: mcp-reaching-your-systems
   sentence:
-    sv: "Författarna påpekar att baslinjerna för öppen källkod ofta speglar mogna repon med flera års historik, medan servrarna i genomsnitt är yngre än sex månader"
+    sv: "Författarna påpekar att jämförelsevärdena för öppen källkod ofta speglar mogna repon med flera års historik, medan servrarna i genomsnitt är yngre än sex månader"
     en: "The authors note that the open-source baselines often reflect mature repositories with multi-year histories, while the servers are on average less than six months old"
   vendor: Hasan et al. (arXiv)
   url: https://arxiv.org/html/2506.13538v5
@@ -2890,8 +2950,8 @@
 - id: P5-st-hasan-smells
   article: mcp-reaching-your-systems
   sentence:
-    sv: "Kritiska eller blockerande kodlukter fanns i 66 % av servrarna och buggar i 14,4 %"
-    en: "Critical or blocker-level code smells were found in 66% of the servers and bugs in 14.4%"
+    sv: "Kritiska eller blockerande \"code smells\" (strukturella problem i koden som gör den svårare att läsa och utveckla vidare) fanns i 66 % av servrarna och buggar i 14,4 %"
+    en: "Critical or blocker-level \"code smells\" (structural issues in the code that make it harder to read and develop further) were found in 66% of the servers and bugs in 14.4%"
   vendor: Hasan et al. (arXiv)
   url: https://arxiv.org/html/2506.13538v5
   final_url: https://arxiv.org/html/2506.13538v5
@@ -2899,11 +2959,23 @@
   retrieved: 2026-11-05
   last_checked: 2026-11-05
 
+- id: P5-st-hasan-smell-def
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Kritiska eller blockerande \"code smells\" (strukturella problem i koden som gör den svårare att läsa och utveckla vidare) fanns i 66 % av servrarna och buggar i 14,4 %"
+    en: "Critical or blocker-level \"code smells\" (structural issues in the code that make it harder to read and develop further) were found in 66% of the servers and bugs in 14.4%"
+  vendor: Hasan et al. (arXiv)
+  url: https://arxiv.org/html/2506.13538v5
+  final_url: https://arxiv.org/html/2506.13538v5
+  quote: "code smells, e.g., structural issues that hinder code readability and evolution"
+  retrieved: 2026-11-05
+  last_checked: 2026-11-05
+
 - id: P5-st-hasan-bugs
   article: mcp-reaching-your-systems
   sentence:
-    sv: "Kritiska eller blockerande kodlukter fanns i 66 % av servrarna och buggar i 14,4 %"
-    en: "Critical or blocker-level code smells were found in 66% of the servers and bugs in 14.4%"
+    sv: "Kritiska eller blockerande \"code smells\" (strukturella problem i koden som gör den svårare att läsa och utveckla vidare) fanns i 66 % av servrarna och buggar i 14,4 %"
+    en: "Critical or blocker-level \"code smells\" (structural issues in the code that make it harder to read and develop further) were found in 66% of the servers and bugs in 14.4%"
   vendor: Hasan et al. (arXiv)
   url: https://arxiv.org/html/2506.13538v5
   final_url: https://arxiv.org/html/2506.13538v5
@@ -2914,8 +2986,8 @@
 - id: P5-st-hasan-same-smells
   article: mcp-reaching-your-systems
   sentence:
-    sv: "Författarna fann samma slags kodlukter och buggar som i annan programvara"
-    en: "The authors found the same kinds of smells and bugs as elsewhere"
+    sv: "Författarna fann samma slags \"code smells\" och buggar som i annan programvara"
+    en: "The authors found the same kinds of \"code smells\" and bugs as elsewhere"
   vendor: Hasan et al. (arXiv)
   url: https://arxiv.org/html/2506.13538v5
   final_url: https://arxiv.org/html/2506.13538v5
@@ -2926,8 +2998,8 @@
 - id: P5-st-hasan-same-bugs
   article: mcp-reaching-your-systems
   sentence:
-    sv: "Författarna fann samma slags kodlukter och buggar som i annan programvara"
-    en: "The authors found the same kinds of smells and bugs as elsewhere"
+    sv: "Författarna fann samma slags \"code smells\" och buggar som i annan programvara"
+    en: "The authors found the same kinds of \"code smells\" and bugs as elsewhere"
   vendor: Hasan et al. (arXiv)
   url: https://arxiv.org/html/2506.13538v5
   final_url: https://arxiv.org/html/2506.13538v5
@@ -3286,8 +3358,8 @@
 - id: P5-cmp-gh-login
   article: mcp-reaching-your-systems
   sentence:
-    sv: "gh auth login loggar in via webbläsaren och sparar tokenen i systemets inloggningslager eller i en vanlig textfil om det saknas"
-    en: "gh auth login signs in with a browser flow and stores the token in the system credential store, or in a plain text file if there is none"
+    sv: "gh auth login loggar in via webbläsaren och sparar tokenen i systemets inloggningslager eller i en vanlig textfil om det saknas eller inte går att använda"
+    en: "gh auth login signs in with a browser flow and stores the token in the system credential store, or in a plain text file if there is none or it cannot be used"
   vendor: GitHub
   url: https://cli.github.com/manual/gh_auth_login
   final_url: https://cli.github.com/manual/gh_auth_login
@@ -3382,8 +3454,8 @@
 - id: P5-cmp-cc-asks
   article: mcp-reaching-your-systems
   sentence:
-    sv: "Claude Code frågar innan ett MCP-verktyg körs"
-    en: "Claude Code asks before an MCP tool runs"
+    sv: "Som standard frågar Claude Code innan ett MCP-verktyg körs"
+    en: "By default, Claude Code asks before an MCP tool runs"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/permissions
   final_url: https://code.claude.com/docs/en/permissions
@@ -3430,8 +3502,8 @@
 - id: P5-cmp-rate-60
   article: mcp-reaching-your-systems
   sentence:
-    sv: "Begäranden är begränsade till 60 i timmen utan token och 5 000 med token"
-    en: "Requests are limited to 60 an hour without a token and 5,000 with one"
+    sv: "Begäranden är begränsade till 60 i timmen utan token och 5 000 med en personal access token"
+    en: "Requests are limited to 60 an hour without a token and 5,000 with a personal access token"
   vendor: GitHub
   url: https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api
   final_url: https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api
@@ -3442,8 +3514,8 @@
 - id: P5-cmp-rate-5000
   article: mcp-reaching-your-systems
   sentence:
-    sv: "Begäranden är begränsade till 60 i timmen utan token och 5 000 med token"
-    en: "Requests are limited to 60 an hour without a token and 5,000 with one"
+    sv: "Begäranden är begränsade till 60 i timmen utan token och 5 000 med en personal access token"
+    en: "Requests are limited to 60 an hour without a token and 5,000 with a personal access token"
   vendor: GitHub
   url: https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api
   final_url: https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api
