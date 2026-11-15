@@ -178,10 +178,10 @@ svaret i en fil som den sista raden skriver ut.
 Det här steget är anpassat från exemplet på GitHubs
 [sida om att automatisera det med Actions](https://docs.github.com/en/copilot/how-tos/copilot-cli/automate-copilot-cli/automate-with-actions):
 vi har kortat prompten och låter svaret gå till loggen i stället för till en
-fil. Flaggan `--allow-tool` tillåter git-kommandon. `--no-ask-user` hindrar
-Copilot från att ställa frågor. Tokenen är en fine-grained personal access token
-med behörigheten "Copilot Requests". Ge den bara den behörigheten. Då kan ingen
-av de två tokens skriva till ditt repo. Git kan alltså inte ändra det.
+fil. Flaggan `--allow-tool` tillåter git-kommandon. `--no-ask-user` stänger av
+Copilots frågeprompt. Tokenen är en fine-grained personal access token med
+behörigheten "Copilot Requests". Ge den bara den behörigheten. Då kan ingen av
+de två tokens skriva till ditt repo. Git kan alltså inte ändra det.
 
 ```text
       - uses: actions/setup-node@v7

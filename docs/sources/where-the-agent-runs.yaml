@@ -598,12 +598,12 @@
 - id: P6-copilot-no-ask-user
   article: where-the-agent-runs
   sentence:
-    sv: "--no-ask-user hindrar Copilot från att ställa frågor"
-    en: "--no-ask-user stops Copilot from asking questions"
+    sv: "--no-ask-user stänger av Copilots frågeprompt"
+    en: "--no-ask-user turns off Copilot's interactive question prompt"
   vendor: GitHub
   url: https://docs.github.com/en/copilot/how-tos/copilot-cli/automate-copilot-cli/run-cli-programmatically
   final_url: https://docs.github.com/en/copilot/how-tos/copilot-cli/automate-copilot-cli/run-cli-programmatically
-  quote: "Use --no-ask-user to prevent the agent from attempting to ask clarifying questions."
+  quote: "Use --no-ask-user to turn off the interactive clarifying-question prompt, since there's no user available to respond to it in an automated run."
   retrieved: 2026-10-30
   last_checked: 2026-10-31
 

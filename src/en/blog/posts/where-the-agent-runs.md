@@ -178,10 +178,10 @@ its answer in a file that the last line prints.
 exits. This step is adapted from the example on GitHub's
 [page about automating it with Actions](https://docs.github.com/en/copilot/how-tos/copilot-cli/automate-copilot-cli/automate-with-actions):
 we shortened the prompt and let the answer go to the log instead of a file. The
-`--allow-tool` flag allows git commands, and `--no-ask-user` stops Copilot from
-asking questions. The token is a fine-grained personal access token with the
-"Copilot Requests" permission. Give it that one permission. Then neither token
-can write to your repository, so git cannot change it.
+`--allow-tool` flag allows git commands, and `--no-ask-user` turns off Copilot's
+interactive question prompt. The token is a fine-grained personal access token
+with the "Copilot Requests" permission. Give it that one permission. Then
+neither token can write to your repository, so git cannot change it.
 
 ```text
       - uses: actions/setup-node@v7
