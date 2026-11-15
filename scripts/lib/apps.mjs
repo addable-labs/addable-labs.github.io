@@ -14,20 +14,22 @@
 
 /** The founder's list of entries minus the two investing tools removed in
     feedback round 1 (si-yp2x), in grid order. */
-export const APP_KEYS = ["niva", "notesage", "ashlands", "gaimer"];
+export const APP_KEYS = ["fluentor", "notesage", "ashlands", "gaimer"];
 
 /** Private repositories: never linked (REQ-011 honesty rule). Their url
-    is null, or the public page of the product when there is one — nivå's
-    since si-gyc4 — and never a page on GitHub, so the card says "Website",
-    not "Repository". */
-export const PRIVATE_APP_KEYS = ["niva"];
+    is null, or the public page of the product when there is one —
+    Fluentor's, one page per language (si-wpwe) — and never a page on
+    GitHub, so the card says "Website", not "Repository". The data of such an
+    entry may name no repository and cite no source (si-yfsk): this
+    repository is public, and a private one is not named in it. */
+export const PRIVATE_APP_KEYS = ["fluentor"];
 
 /** The three services (REQ-010; the third card is the experiments card since
     feedback round 1); every entry's theme is one of them. */
 export const THEME_KEYS = ["ai-apps", "ai-adoption", "experiments"];
 
 /** Status keys the site labels (strings.portfolioStatus) and styles (chip-<key>). */
-export const STATUS_KEYS = ["in-development", "open-source-mit", "experiment", "private"];
+export const STATUS_KEYS = ["in-preview", "open-source-mit", "experiment", "private"];
 
 /** The founder-confirmed wording of the `private` label, asserted verbatim
     because it is longer than the status-label band.
@@ -255,6 +257,13 @@ const isText = (value) => typeof value === "string" && value.trim() !== "";
 const isMap = (value) => value !== null && typeof value === "object" && !Array.isArray(value);
 const quote = (value) => JSON.stringify(value);
 
+/** The page an entry links in a language (si-wpwe): its `url` when that is a
+    string or null, and for an entry with one page per language, whose `url`
+    is an object keyed by language code, the page of that language. */
+export function entryUrl(entry, lang) {
+  return isMap(entry?.url) ? entry.url[lang] : entry?.url;
+}
+
 /**
  * Validate the apps data against the strings of every language.
  * @param {object} options
@@ -307,26 +316,41 @@ export function validateApps({
     const name = isText(key) ? key : "(entry without key)";
     if (!isText(key)) problems.push(`${name}: key must be a non-empty string`);
     if (!themes.includes(entry?.theme)) problems.push(`${name}: theme ${quote(entry?.theme)} is not one of ${themes.join(", ")}`);
-    if (!isText(entry?.repo)) problems.push(`${name}: repo must be "owner/name"`);
-    if (!(entry?.url === null || isText(entry?.url))) problems.push(`${name}: url must be null or a string`);
-    if (!/^\d{4}-\d{2}-\d{2}$/.test(entry?.source?.retrieved ?? "")) problems.push(`${name}: source.retrieved must be a YYYY-MM-DD date`);
+    // A private entry may name no repository and cite no source (si-yfsk):
+    // this repository is public, and what is private is not named in it. One
+    // that does is held to the same rules as any other entry.
+    const isPrivate = privateKeys.includes(key);
+    const namesNoRepo = isPrivate && entry?.repo === undefined;
+    if (!namesNoRepo && !isText(entry?.repo)) problems.push(`${name}: repo must be "owner/name"`);
+    // A url is null, a string, or one page per language: an object with
+    // exactly the languages as keys and a string for each (si-wpwe).
+    const perLanguage = isMap(entry?.url);
+    const urlShapeOk = entry?.url === null || isText(entry?.url) || (perLanguage && languages.every((lang) => isText(entry.url[lang])) && Object.keys(entry.url).length === languages.length);
+    if (!urlShapeOk) problems.push(`${name}: url must be null, a string or an object with a string for each of ${languages.join(", ")}`);
+    const urls = perLanguage ? (urlShapeOk ? languages.map((lang) => entry.url[lang]) : []) : [entry?.url];
     // The sources the entry's facts come from: its README and, for a fact the
     // README does not state, an optional second file (the Ashlands evaluation
     // report, si-9qlz). Each is a file in the entry's own repository, a
     // private entry's too (si-nepq): the site links neither, and a source
     // names no repository the entry does not already name. Like publicRepo(),
-    // the match ignores case.
+    // the match ignores case. A private entry that names no repository has no
+    // `source` either (si-yfsk): a file would name the repository it is in.
     const own = isText(entry?.repo) ? entry.repo : "<owner>/<name>";
-    const sourceFile = (field, value) => {
-      const [, owner, repoName] = (isText(value) && value.match(GITHUB_FILE_URL)) || [];
-      if (!owner) {
-        problems.push(`${name}: source.${field} must be the URL of a file in the entry's own repository, ${PUBLIC_URL_PREFIX}${own}/blob/<branch>/<path>, got ${quote(value)}`);
-      } else if (`${owner}/${repoName}`.toLowerCase() !== own.toLowerCase()) {
-        problems.push(`${name}: source.${field} ${quote(value)} is in ${owner}/${repoName}, not in the entry's own repository ${quote(own)}`);
-      }
-    };
-    sourceFile("readme", entry?.source?.readme);
-    if (entry?.source?.report !== undefined) sourceFile("report", entry.source.report);
+    if (namesNoRepo) {
+      if (entry?.source !== undefined) problems.push(`${name}: a private entry that names no repository cites no source: remove "source", or name the repository in "repo"`);
+    } else {
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(entry?.source?.retrieved ?? "")) problems.push(`${name}: source.retrieved must be a YYYY-MM-DD date`);
+      const sourceFile = (field, value) => {
+        const [, owner, repoName] = (isText(value) && value.match(GITHUB_FILE_URL)) || [];
+        if (!owner) {
+          problems.push(`${name}: source.${field} must be the URL of a file in the entry's own repository, ${PUBLIC_URL_PREFIX}${own}/blob/<branch>/<path>, got ${quote(value)}`);
+        } else if (`${owner}/${repoName}`.toLowerCase() !== own.toLowerCase()) {
+          problems.push(`${name}: source.${field} ${quote(value)} is in ${owner}/${repoName}, not in the entry's own repository ${quote(own)}`);
+        }
+      };
+      sourceFile("readme", entry?.source?.readme);
+      if (entry?.source?.report !== undefined) sourceFile("report", entry.source.report);
+    }
     // An optional article about the app (founder request 2026-09-23,
     // si-3hpa): the file name of a post, without .md, which the card links
     // in the page's language — so it must be a post in every language, or
@@ -344,7 +368,7 @@ export function validateApps({
     if (!statuses.includes(entry?.status)) {
       problems.push(`${name}: unknown status ${quote(entry?.status)} (known: ${statuses.join(", ")})`);
     }
-    if (privateKeys.includes(key)) {
+    if (isPrivate) {
       // The url is null or an https:// page off https://github.com/, a URL a
       // browser can open. It names no GitHub repository in any spelling
       // githubRepos() reads — www.github.com, GitHub.com, a subdomain, a
@@ -358,14 +382,16 @@ export function validateApps({
       // its own on www.github.com (RESERVED_NAMES), a gist's file on
       // gist.githubusercontent.com — is refused too (si-qtwy). A url gets
       // the message of the first of these rules it breaks, only.
-      const host = isText(entry.url) ? hostOf(entry.url) : undefined;
-      const repos = isText(entry.url) ? [...new Set(githubRepos(entry.url))] : [];
-      if (entry.url !== null && !(isText(entry.url) && entry.url.startsWith("https://") && host !== undefined && !entry.url.startsWith(PUBLIC_URL_PREFIX))) {
-        problems.push(`${name}: private repository must not be linked — url is null or the product's public https:// page, never ${PUBLIC_URL_PREFIX} (got ${quote(entry.url)})`);
-      } else if (repos.length > 0) {
-        problems.push(`${name}: private repository must not be linked — url is null or the product's public https:// page, never one that names a GitHub repository (got ${quote(entry.url)}, which names ${repos.map((repo) => `github.com/${repo}`).join(" and ")})`);
-      } else if (host !== undefined && GITHUB_HOSTS.some((github) => host === github || host.endsWith(`.${github}`))) {
-        problems.push(`${name}: private repository must not be linked — url is null or the product's public https:// page, never one on a GitHub host (got ${quote(entry.url)}, which is on ${host})`);
+      for (const url of urls) {
+        const host = isText(url) ? hostOf(url) : undefined;
+        const repos = isText(url) ? [...new Set(githubRepos(url))] : [];
+        if (url !== null && !(isText(url) && url.startsWith("https://") && host !== undefined && !url.startsWith(PUBLIC_URL_PREFIX))) {
+          problems.push(`${name}: private repository must not be linked — url is null or the product's public https:// page, never ${PUBLIC_URL_PREFIX} (got ${quote(url)})`);
+        } else if (repos.length > 0) {
+          problems.push(`${name}: private repository must not be linked — url is null or the product's public https:// page, never one that names a GitHub repository (got ${quote(url)}, which names ${repos.map((repo) => `github.com/${repo}`).join(" and ")})`);
+        } else if (host !== undefined && GITHUB_HOSTS.some((github) => host === github || host.endsWith(`.${github}`))) {
+          problems.push(`${name}: private repository must not be linked — url is null or the product's public https:// page, never one on a GitHub host (got ${quote(url)}, which is on ${host})`);
+        }
       }
     } else if (keys.includes(key)) {
       // A public entry links its repository: one the site may link

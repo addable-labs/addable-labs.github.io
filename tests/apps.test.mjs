@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { before, describe, it } from "node:test";
-import { APP_KEYS, BANDS, NON_REPOSITORY_HOSTS, PRIVATE_APP_KEYS, PRIVATE_STATUS_LABEL, PUBLIC_REPOS, RESERVED_NAMES, STATUS_KEYS, THEME_KEYS, githubRepos, publicRepo, validateApps } from "../scripts/lib/apps.mjs";
+import { APP_KEYS, BANDS, NON_REPOSITORY_HOSTS, PRIVATE_APP_KEYS, PRIVATE_STATUS_LABEL, PUBLIC_REPOS, RESERVED_NAMES, STATUS_KEYS, THEME_KEYS, entryUrl, githubRepos, publicRepo, validateApps } from "../scripts/lib/apps.mjs";
 import { loadSite, loadStrings, readArticleSources } from "../scripts/lib/site.mjs";
 import { SRC } from "./helpers.mjs";
 
@@ -67,35 +67,61 @@ describe("apps data and copy (REQ-011, REQ-025; AC-11, AC-12, AC-30)", () => {
     assert.ok(!problems.some((p) => p.startsWith("en: portfolio.newapp")), problems.join("\n"));
   });
 
-  it("never links a private repository — nivå links its public page instead — and links the public ones to github.com (si-gyc4)", () => {
+  it("never links a private repository — Fluentor links its public page instead — and links the public ones to github.com (si-gyc4)", () => {
     for (const entry of data) {
-      if (PRIVATE_APP_KEYS.includes(entry.key)) assert.ok(entry.url === null || !entry.url.startsWith("https://github.com/"), `${entry.key} is private`);
-      else assert.match(entry.url, /^https:\/\/github\.com\//, `${entry.key} links its repository`);
+      for (const lang of site.languages.codes) {
+        const url = entryUrl(entry, lang);
+        if (PRIVATE_APP_KEYS.includes(entry.key)) assert.ok(url === null || !url.startsWith("https://github.com/"), `${entry.key} is private (${lang})`);
+        else assert.match(url, /^https:\/\/github\.com\//, `${entry.key} links its repository (${lang})`);
+      }
     }
-    assert.equal(data.find((entry) => entry.key === "niva").url, "https://erniva.se/");
+    assert.deepEqual(data.find((entry) => entry.key === "fluentor").url, { en: "https://fluentor.se/en/", sv: "https://fluentor.se/sv/" });
     const linked = copy();
-    linked.data.find((entry) => entry.key === "niva").url = "https://github.com/example-org/private-app";
-    assert.ok(problemsOf(linked).some((p) => /^niva: private repository must not be linked/.test(p)), problemsOf(linked).join("\n"));
+    linked.data.find((entry) => entry.key === "fluentor").url = "https://github.com/example-org/private-app";
+    assert.ok(problemsOf(linked).some((p) => /^fluentor: private repository must not be linked/.test(p)), problemsOf(linked).join("\n"));
     // Without a public page a private entry is unlinked, as before si-gyc4.
     const noPage = copy();
-    noPage.data.find((entry) => entry.key === "niva").url = null;
+    noPage.data.find((entry) => entry.key === "fluentor").url = null;
     assert.deepEqual(problemsOf(noPage), []);
     const unlinked = copy();
     unlinked.data.find((entry) => entry.key === "notesage").url = null;
     assert.ok(problemsOf(unlinked).some((p) => /^notesage: public entry needs a https:\/\/github\.com\/ URL/.test(p)), problemsOf(unlinked).join("\n"));
   });
 
+  it("takes a private entry's url as one page per language, an object with a string for each language, and holds each page to the same rules (si-wpwe)", () => {
+    const fluentor = data.find((entry) => entry.key === "fluentor");
+    assert.equal(entryUrl(fluentor, "en"), "https://fluentor.se/en/");
+    assert.equal(entryUrl(fluentor, "sv"), "https://fluentor.se/sv/");
+    // A string is the page of every language, null the page of none.
+    assert.equal(entryUrl({ url: "https://github.com/example-org/app" }, "sv"), "https://github.com/example-org/app");
+    assert.equal(entryUrl({ url: null }, "en"), null);
+    const withUrl = (url) => {
+      const input = copy();
+      input.data.find((entry) => entry.key === "fluentor").url = url;
+      return problemsOf(input);
+    };
+    assert.deepEqual(withUrl({ en: "https://fluentor.se/en/", sv: "https://fluentor.se/sv/" }), []);
+    assert.deepEqual(withUrl("https://fluentor.se/en/"), []);
+    // A page for each language, no more and no fewer, each a string.
+    const shape = "fluentor: url must be null, a string or an object with a string for each of en, sv";
+    for (const url of [{ en: "https://fluentor.se/en/" }, { en: "https://fluentor.se/en/", sv: "https://fluentor.se/sv/", de: "https://fluentor.se/de/" }, { en: "https://fluentor.se/en/", sv: null }, { en: "https://fluentor.se/en/", sv: "" }]) {
+      assert.deepEqual(withUrl(url), [shape], JSON.stringify(url));
+    }
+    // Each page is held to the rules, and one that breaks them is named with its own address.
+    assert.deepEqual(withUrl({ en: "https://fluentor.se/en/", sv: "https://github.com/example-org/private-app" }), ['fluentor: private repository must not be linked — url is null or the product\'s public https:// page, never https://github.com/ (got "https://github.com/example-org/private-app")']);
+  });
+
   it("refuses a private entry's url that names a GitHub repository in any spelling of github.com, not only on https://github.com/ (si-i5uk)", () => {
     const withUrl = (url) => {
       const input = copy();
-      input.data.find((entry) => entry.key === "niva").url = url;
+      input.data.find((entry) => entry.key === "fluentor").url = url;
       return problemsOf(input);
     };
-    const refused = (url, repo) => `niva: private repository must not be linked — url is null or the product's public https:// page, never one that names a GitHub repository (got ${JSON.stringify(url)}, which names github.com/${repo})`;
-    // nivå's own repository on www.github.com, read from the data so that no
-    // test spells it: an https:// page off https://github.com/, so only
-    // githubRepos() sees the repository.
-    const own = data.find((entry) => entry.key === "niva").repo;
+    const refused = (url, repo) => `fluentor: private repository must not be linked — url is null or the product's public https:// page, never one that names a GitHub repository (got ${JSON.stringify(url)}, which names github.com/${repo})`;
+    // A private repository on www.github.com (a made-up one: the data names no
+    // private repository, si-yfsk): an https:// page off https://github.com/,
+    // so only githubRepos() sees the repository.
+    const own = "example-org/private-app";
     assert.deepEqual(withUrl(`https://www.github.com/${own}`), [refused(`https://www.github.com/${own}`, own)]);
     // The other spellings githubRepos() reads, as the content gate does: the
     // host in another case, a subdomain, a ".git" suffix, a repository in the
@@ -105,24 +131,24 @@ describe("apps data and copy (REQ-011, REQ-025; AC-11, AC-12, AC-30)", () => {
       ["https://GitHub.com/example-org/private-app", "example-org/private-app"],
       ["https://gist.github.com/example-org/private-app", "example-org/private-app"],
       ["https://www.github.com/example-org/private-app.git", "example-org/private-app"],
-      ["https://erniva.se/?from=github.com/example-org/private-app", "example-org/private-app"],
+      ["https://fluentor.se/en/?from=github.com/example-org/private-app", "example-org/private-app"],
       ["https://www.github.com/addable-labs/gaimer", "addable-labs/gaimer"],
     ]) {
       assert.deepEqual(withUrl(url), [refused(url, repo)], url);
     }
     // A url on https://github.com/ gets the message it had, and only that one.
-    assert.deepEqual(withUrl("https://github.com/example-org/private-app"), ['niva: private repository must not be linked — url is null or the product\'s public https:// page, never https://github.com/ (got "https://github.com/example-org/private-app")']);
-    // nivå's own page still passes.
-    assert.deepEqual(withUrl("https://erniva.se/"), []);
+    assert.deepEqual(withUrl("https://github.com/example-org/private-app"), ['fluentor: private repository must not be linked — url is null or the product\'s public https:// page, never https://github.com/ (got "https://github.com/example-org/private-app")']);
+    // Fluentor's own page still passes.
+    assert.deepEqual(withUrl("https://fluentor.se/en/"), []);
   });
 
   it("refuses a private entry's url on any of GitHub's hosts, whether or not it names a repository — with a port, on raw.githubusercontent.com, an owner's page — and a string that is no URL (si-qtwy)", () => {
     const withUrl = (url) => {
       const input = copy();
-      input.data.find((entry) => entry.key === "niva").url = url;
+      input.data.find((entry) => entry.key === "fluentor").url = url;
       return problemsOf(input);
     };
-    const refused = (url, host) => `niva: private repository must not be linked — url is null or the product's public https:// page, never one on a GitHub host (got ${JSON.stringify(url)}, which is on ${host})`;
+    const refused = (url, host) => `fluentor: private repository must not be linked — url is null or the product's public https:// page, never one on a GitHub host (got ${JSON.stringify(url)}, which is on ${host})`;
     // githubRepos() reads no repository in any of these — each names an
     // owner, a gist or a codespace — so the content gate does not see one in
     // the built site either: only the host refuses them. A port, the raw
@@ -138,7 +164,7 @@ describe("apps data and copy (REQ-011, REQ-025; AC-11, AC-12, AC-30)", () => {
       ["https://www.github.com/example-org", "www.github.com"],
       ["https://GitHub.com:8443/example-org", "github.com"],
       ["https://GITHUB.COM./example-org", "github.com"],
-      ["https://erniva.se@github.com/example-org", "github.com"],
+      ["https://fluentor.se@github.com/example-org", "github.com"],
       ["https://gist.github.com/example-org", "gist.github.com"],
       ["https://gist.githubusercontent.com/example-org/0123456789abcdef/raw/notes.md", "gist.githubusercontent.com"],
       ["https://github.dev/example-org", "github.dev"],
@@ -150,7 +176,7 @@ describe("apps data and copy (REQ-011, REQ-025; AC-11, AC-12, AC-30)", () => {
     // A string no browser opens is no page, so the first rule refuses it: a
     // port out of range, a host with escaped slashes in it.
     for (const url of ["https://github.com:99999/example-org/private-app", "https://github.com%2Fexample-org%2Fprivate-app"]) {
-      assert.deepEqual(withUrl(url), [`niva: private repository must not be linked — url is null or the product's public https:// page, never https://github.com/ (got ${JSON.stringify(url)})`], url);
+      assert.deepEqual(withUrl(url), [`fluentor: private repository must not be linked — url is null or the product's public https:// page, never https://github.com/ (got ${JSON.stringify(url)})`], url);
     }
     // A host that only looks like one of GitHub's is another site, and its
     // page passes.
@@ -233,8 +259,8 @@ describe("apps data and copy (REQ-011, REQ-025; AC-11, AC-12, AC-30)", () => {
     it(`reads the repository in a url ${how}, ${url}, and refuses it as a private entry's url, naming the repository (${bead})`, () => {
       assert.deepEqual(githubRepos(url), ["example-org/private-app"]);
       const input = copy();
-      input.data.find((entry) => entry.key === "niva").url = url;
-      assert.deepEqual(problemsOf(input), [`niva: private repository must not be linked — url is null or the product's public https:// page, never one that names a GitHub repository (got ${JSON.stringify(url)}, which names github.com/example-org/private-app)`]);
+      input.data.find((entry) => entry.key === "fluentor").url = url;
+      assert.deepEqual(problemsOf(input), [`fluentor: private repository must not be linked — url is null or the product's public https:// page, never one that names a GitHub repository (got ${JSON.stringify(url)}, which names github.com/example-org/private-app)`]);
     });
   }
 
@@ -291,8 +317,8 @@ describe("apps data and copy (REQ-011, REQ-025; AC-11, AC-12, AC-30)", () => {
     }
     assert.deepEqual(githubRepos(`${page} and https://github.com/example-org/private-app`), ["example-org/private-app"]);
     const input = copy();
-    input.data.find((entry) => entry.key === "niva").url = page;
-    assert.deepEqual(problemsOf(input), [`niva: private repository must not be linked — url is null or the product's public https:// page, never one on a GitHub host (got ${JSON.stringify(page)}, which is on docs.github.com)`]);
+    input.data.find((entry) => entry.key === "fluentor").url = page;
+    assert.deepEqual(problemsOf(input), [`fluentor: private repository must not be linked — url is null or the product's public https:// page, never one on a GitHub host (got ${JSON.stringify(page)}, which is on docs.github.com)`]);
   });
 
   // GitHub's own sites whose paths name pages, never a repository
@@ -326,8 +352,8 @@ describe("apps data and copy (REQ-011, REQ-025; AC-11, AC-12, AC-30)", () => {
       }
       assert.deepEqual(githubRepos(`${page} and https://github.com/example-org/private-app`), ["example-org/private-app"]);
       const input = copy();
-      input.data.find((entry) => entry.key === "niva").url = page;
-      assert.deepEqual(problemsOf(input), [`niva: private repository must not be linked — url is null or the product's public https:// page, never one on a GitHub host (got ${JSON.stringify(page)}, which is on ${host})`]);
+      input.data.find((entry) => entry.key === "fluentor").url = page;
+      assert.deepEqual(problemsOf(input), [`fluentor: private repository must not be linked — url is null or the product's public https:// page, never one on a GitHub host (got ${JSON.stringify(page)}, which is on ${host})`]);
     });
   }
 
@@ -418,8 +444,8 @@ describe("apps data and copy (REQ-011, REQ-025; AC-11, AC-12, AC-30)", () => {
       assert.deepEqual(githubRepos(`https://github.com${page} and https://github.com/example-org/private-app`), ["example-org/private-app"]);
       const url = `https://www.github.com${page}`;
       const input = copy();
-      input.data.find((entry) => entry.key === "niva").url = url;
-      assert.deepEqual(problemsOf(input), [`niva: private repository must not be linked — url is null or the product's public https:// page, never one on a GitHub host (got ${JSON.stringify(url)}, which is on www.github.com)`]);
+      input.data.find((entry) => entry.key === "fluentor").url = url;
+      assert.deepEqual(problemsOf(input), [`fluentor: private repository must not be linked — url is null or the product's public https:// page, never one on a GitHub host (got ${JSON.stringify(url)}, which is on www.github.com)`]);
     });
   }
 
@@ -575,21 +601,57 @@ describe("apps data and copy (REQ-011, REQ-025; AC-11, AC-12, AC-30)", () => {
       input.data.find((entry) => entry.key === key).source.readme = readme;
       return problemsOf(input);
     };
-    // nivå's README is in its own repository though the repository is private:
-    // the site links no source.
-    const niva = data.find((entry) => entry.key === "niva");
-    assert.ok(niva.source.readme.startsWith(`https://github.com/${niva.repo}/blob/`), niva.source.readme);
     // Its own repository written in another case passes.
     assert.deepEqual(withReadme("notesage", "https://github.com/peterblenessy/NoteSage/blob/main/README.md"), []);
-    // A README in another repository fails, even one the site may link, and
-    // a private entry's too.
-    for (const [key, readme, repo] of [
-      ["notesage", "https://github.com/addable-labs/gaimer/blob/main/README.md", "addable-labs/gaimer"],
-      ["niva", "https://github.com/example-org/private-app/blob/main/README.md", "example-org/private-app"],
-    ]) {
-      const own = data.find((entry) => entry.key === key).repo;
-      assert.deepEqual(withReadme(key, readme), [`${key}: source.readme ${JSON.stringify(readme)} is in ${repo}, not in the entry's own repository ${JSON.stringify(own)}`]);
-    }
+    // A README in another repository fails, even one the site may link.
+    const readme = "https://github.com/addable-labs/gaimer/blob/main/README.md";
+    assert.deepEqual(withReadme("notesage", readme), [`notesage: source.readme ${JSON.stringify(readme)} is in addable-labs/gaimer, not in the entry's own repository "PeterBlenessy/notesage"`]);
+    // A private entry that names its repository holds its README to it too,
+    // though the site links neither (a made-up repository: the real private
+    // entry names none, si-yfsk).
+    const privateWith = (repo, readme) => {
+      const input = copy();
+      Object.assign(input.data.find((entry) => entry.key === "fluentor"), { repo, source: { readme, retrieved: "2026-11-15" } });
+      return problemsOf(input);
+    };
+    assert.deepEqual(privateWith("example-org/private-app", "https://github.com/example-org/private-app/blob/main/README.md"), []);
+    assert.deepEqual(privateWith("example-org/private-app", "https://github.com/Example-Org/Private-App/blob/main/README.md"), []);
+    const other = "https://github.com/example-org/other-app/blob/main/README.md";
+    assert.deepEqual(privateWith("example-org/private-app", other), [`fluentor: source.readme ${JSON.stringify(other)} is in example-org/other-app, not in the entry's own repository "example-org/private-app"`]);
+  });
+
+  it("takes a private entry that names no repository and cites no source, as Fluentor's does, and holds every other entry to a repository and a source (si-yfsk)", () => {
+    // The real entry: nothing in the data names the private repository.
+    const fluentor = data.find((entry) => entry.key === "fluentor");
+    assert.ok(PRIVATE_APP_KEYS.includes("fluentor"));
+    assert.equal("repo" in fluentor, false);
+    assert.equal("source" in fluentor, false);
+    assert.deepEqual(problemsOf({ data, strings, articles }), []);
+    // A source with no repository fails: a file would name the repository it is in.
+    const withSource = copy();
+    withSource.data.find((entry) => entry.key === "fluentor").source = { readme: "https://github.com/example-org/private-app/blob/main/README.md", retrieved: "2026-11-15" };
+    assert.deepEqual(problemsOf(withSource), ['fluentor: a private entry that names no repository cites no source: remove "source", or name the repository in "repo"']);
+    // A repository with no source fails, as it did.
+    const noSource = copy();
+    noSource.data.find((entry) => entry.key === "fluentor").repo = "example-org/private-app";
+    assert.deepEqual(problemsOf(noSource), [
+      "fluentor: source.retrieved must be a YYYY-MM-DD date",
+      'fluentor: source.readme must be the URL of a file in the entry\'s own repository, https://github.com/example-org/private-app/blob/<branch>/<path>, got undefined',
+    ]);
+    // A repository that is no text fails, and a public entry needs one.
+    const empty = copy();
+    empty.data.find((entry) => entry.key === "fluentor").repo = "";
+    assert.ok(problemsOf(empty).includes('fluentor: repo must be "owner/name"'), problemsOf(empty).join("\n"));
+    const publicNoRepo = copy();
+    delete publicNoRepo.data.find((entry) => entry.key === "notesage").repo;
+    assert.ok(problemsOf(publicNoRepo).includes('notesage: repo must be "owner/name"'), problemsOf(publicNoRepo).join("\n"));
+    const noSources = copy();
+    delete noSources.data.find((entry) => entry.key === "notesage").source;
+    assert.ok(problemsOf(noSources).includes("notesage: source.retrieved must be a YYYY-MM-DD date"), problemsOf(noSources).join("\n"));
+    // A private entry is held to the url rules all the same, with no repository.
+    const linked = copy();
+    linked.data.find((entry) => entry.key === "fluentor").url = "https://github.com/example-org/private-app";
+    assert.ok(problemsOf(linked).some((p) => /^fluentor: private repository must not be linked/.test(p)), problemsOf(linked).join("\n"));
   });
 
   it("fails a source.readme that is no URL of a file on github.com, naming the URL it needs (si-nepq)", () => {
@@ -603,11 +665,12 @@ describe("apps data and copy (REQ-011, REQ-025; AC-11, AC-12, AC-30)", () => {
     }
   });
 
-  it("names the article about the app where there is one — Ashlands, nivå and Gaimer — and fails an article that is not a post in both languages (si-3hpa)", () => {
+  it("names the article about the app where there is one — Ashlands and Gaimer — and fails an article that is not a post in both languages (si-3hpa)", () => {
     // The founder's request of 2026-09-23: an app with an article links it,
     // by the post's file name (Gaimer's since its article went public,
-    // si-enrh); the others name none.
-    assert.deepEqual(Object.fromEntries(data.map((entry) => [entry.key, entry.article])), { niva: "lessons-from-building-niva", notesage: undefined, ashlands: "ashlands-what-one-prompt-built", gaimer: "cleaning-up-gaimer" });
+    // si-enrh); the others name none — Fluentor's article is a draft
+    // (si-wpwe).
+    assert.deepEqual(Object.fromEntries(data.map((entry) => [entry.key, entry.article])), { fluentor: undefined, notesage: undefined, ashlands: "ashlands-what-one-prompt-built", gaimer: "cleaning-up-gaimer" });
     for (const lang of site.languages.codes) {
       assert.ok(strings[lang].portfolio.articleLink, `${lang}: portfolio.articleLink`);
     }
@@ -687,8 +750,8 @@ describe("apps data and copy (REQ-011, REQ-025; AC-11, AC-12, AC-30)", () => {
       assert.ok(Math.max(...lengths) <= Math.min(...lengths) * BANDS.ratio, `${lang}: ${lengths.join(", ")}`);
     }
     const uneven = copy();
-    uneven.strings.sv.portfolio.niva.summary += " " + uneven.strings.sv.portfolio.niva.summary;
-    assert.ok(problemsOf(uneven).some((p) => /^sv: app summaries are outside the 25 % band: .* portfolio\.niva\.summary is \d+$/.test(p)), problemsOf(uneven).join("\n"));
+    uneven.strings.sv.portfolio.fluentor.summary += " " + uneven.strings.sv.portfolio.fluentor.summary;
+    assert.ok(problemsOf(uneven).some((p) => /^sv: app summaries are outside the 25 % band: .* portfolio\.fluentor\.summary is \d+$/.test(p)), problemsOf(uneven).join("\n"));
   });
 
   it("keeps service titles within 20 characters, texts within a 45 % band and 2–4 gets items per service", () => {

@@ -22,19 +22,18 @@ what is it built on?
 
 ## What one agent and one person could not do
 
-nivå, the product behind [Lessons from building
-nivå](/blog/lessons-from-building-niva/), was built the other way round: one
-coding agent and one person, 480 commits in 26 days, every one co-authored
-by the agent. That setup does not start from nothing. A file of working
-agreements, four written routines — review, gates, deploys and content
-changes — eighteen notes the agent keeps for itself, ten of them things we
-have corrected, a progress log with an entry per session and 105 recorded
-decisions carry the work from one session to the next.
+Fluentor, our product, was built the other way round: one coding agent and
+one person, 480 commits in 26 days, every one co-authored by the agent. That
+setup does not start from nothing. A file of working agreements, four
+written routines — review, gates, deploys and content changes — eighteen
+notes the agent keeps for itself, ten of them things we have corrected, a
+progress log with an entry per session and 105 recorded decisions carry the
+work from one session to the next.
 
 What that setup cannot do is talk to anyone but us. On 12 September, with
-four agents on one computer, each on its own project, we had the nivå agent
-write a message we could carry to the other three by hand, and pasted it
-into the rules file every agent on the machine reads first. Every task
+four agents on one computer, each on its own project, we had the Fluentor
+agent write a message we could carry to the other three by hand, and pasted
+it into the rules file every agent on the machine reads first. Every task
 starts with us, and when two sessions need to know about each other, we
 carry the message. That does not scale to agents that plan, build, review
 and publish while we do something else, and it keeps us in details we do not

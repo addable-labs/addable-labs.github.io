@@ -38,7 +38,7 @@ Dark-first with a warm cast: background `#0F1113`, text `#E7E5DF` (warm
 off-white), muted `#A3A099`. Green is used as a *rule*: the underline of
 every link (thickens on hover), the current-nav underline, the numbers, the
 status dots of shipped projects and the single filled primary button. Orange
-only marks attention (draft chip, "in development"). Light theme: paper
+only marks attention (draft chip, "in preview"). Light theme: paper
 `#F6F5F1`, ink `#17191B`, the same darkened brand variants for text. Borders
 meet 3:1; the hairlines between rows are decorative.
 

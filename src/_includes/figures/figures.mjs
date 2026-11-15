@@ -24,8 +24,8 @@
 // build naming the key, like the front-matter validator, so a longer Swedish
 // translation cannot overflow its panel silently.
 //
-// The values in the charts of the nivå figures (levels, cells, bars) are
-// deliberately made-up shapes: the product is in development and the
+// The values in the charts of the Fluentor figures (levels, cells, bars) are
+// deliberately made-up shapes: the product is in preview and the
 // figures are schematic — no real people, scores or screenshots.
 
 const WIDTH = 320;
@@ -572,8 +572,9 @@ function build(t, id, figureId) {
 
 // Two more, one per earlier article (founder request 2026-09-22, si-ubr3):
 // documents against code for the site-build article, and two languages, one
-// key set, one test for the nivå article. Both draw only what the articles
-// say; the nivå one is schematic (abstract bars, no real strings).
+// key set, one test for the Fluentor article. Both draw only what the
+// articles say; the Fluentor one is schematic (abstract bars, no real
+// strings).
 
 /** The digits of a count string ("6,900", "6 900") as a number; throws naming the key when there are none. */
 function count(key, value) {

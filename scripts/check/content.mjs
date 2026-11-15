@@ -6,9 +6,10 @@
 //   - both landing pages: exactly one h1, inside the hero; the primary CTA
 //     promotes the existing apps — a.button-primary in the hero links the
 //     #apps section (founder feedback round 1, si-yp2x; before that it was a
-//     mailto: with a subject); the secondary CTA honours site.nivaUrl (the
-//     URL when set, otherwise an honest early-access mailto: with the
-//     hero.nivaEarlyAccess label); three service headings equal to
+//     mailto: with a subject); the secondary CTA honours site.fluentorUrl (the
+//     URL of the page's language when set, otherwise an honest
+//     register-interest mailto: with the hero.fluentorInterest label);
+//     three service headings equal to
 //     the strings; the apps grid renders every data entry in order with its
 //     name and status label and exactly the links it calls for, in its
 //     action row: its url, "Repository" to a public repository and "Website"
@@ -64,7 +65,7 @@
 
 import { readFile } from "node:fs/promises";
 import path from "node:path";
-import { PUBLIC_REPOS, PUBLIC_URL_PREFIX, githubRepos, publicRepo } from "../lib/apps.mjs";
+import { PUBLIC_REPOS, PUBLIC_URL_PREFIX, entryUrl, githubRepos, publicRepo } from "../lib/apps.mjs";
 import { gamePagePaths } from "../lib/games.mjs";
 import { attr, loadPage, text } from "../lib/html.mjs";
 import { DEFAULT_IMAGE } from "../lib/images.mjs";
@@ -88,9 +89,9 @@ const FACTORY_PHRASE = { en: "agent-run software factory", sv: "agentdriven mjuk
 const COMPANY = { en: "Addable Labs AB · Org.nr 559602-2615 · Registered office: Eslöv", sv: "Addable Labs AB · Org.nr 559602-2615 · Säte: Eslöv" };
 // REQ-012 (AC-13): "AI-native" or its Swedish rendering ("AI-nativt").
 const AI_NATIVE = { en: "AI-native", sv: "AI-nativ" };
-// REQ-009 (AC-09): while site.nivaUrl is null the secondary CTA is
-// an early-access mailto: whose subject says so in the page's language.
-const EARLY_ACCESS_SUBJECT = { en: /access/i, sv: /tillgång/i };
+// REQ-009 (AC-09): while site.fluentorUrl is null the secondary CTA is
+// a register-interest mailto: whose subject says so in the page's language.
+const INTEREST_SUBJECT = { en: /interest/i, sv: /intresse/i };
 const ARTICLE_SLUG = "how-this-site-was-built-by-agents";
 // REQ-006 (AC-11): the two seed articles are 300–600 English words. Later
 // articles (the factory series, si-xcpc) get a floor against stubs and a
@@ -189,14 +190,15 @@ for (const lang of site.languages.codes) {
   // The button's text is the label plus the decorative, aria-hidden arrow.
   const primaryLabel = text(primary).replace(/→$/, "").trim();
   report.check(primary !== null && primary !== undefined && primaryHref === "#apps" && doc.querySelector("#apps") !== null && primaryLabel === strings[lang].hero.ctaPrimary, `${rel}: primary CTA is "${strings[lang].hero.ctaPrimary}" linking #apps`);
-  // REQ-009 (AC-09): the secondary CTA honours site.nivaUrl.
+  // REQ-009 (AC-09): the secondary CTA honours site.fluentorUrl, the page of
+  // the page's language (si-wpwe).
   const secondary = hero?.querySelector("a.button-secondary");
   const secondaryHref = attr(secondary, "href") ?? "";
-  if (site.nivaUrl) {
-    report.check(secondary && secondaryHref === site.nivaUrl && text(secondary) === strings[lang].hero.nivaLink, `${rel}: secondary CTA links site.nivaUrl (${site.nivaUrl}) as "${strings[lang].hero.nivaLink}"`);
+  if (site.fluentorUrl) {
+    report.check(secondary && secondaryHref === site.fluentorUrl[lang] && text(secondary) === strings[lang].hero.fluentorLink, `${rel}: secondary CTA links site.fluentorUrl.${lang} (${site.fluentorUrl[lang]}) as "${strings[lang].hero.fluentorLink}"`);
   } else {
-    const honest = secondary && secondaryHref.startsWith("mailto:hello@addablelabs.se?subject=") && EARLY_ACCESS_SUBJECT[lang].test(mailtoSubject(secondaryHref)) && text(secondary) === strings[lang].hero.nivaEarlyAccess;
-    report.check(honest, `${rel}: secondary CTA is an early-access mailto: labelled "${strings[lang].hero.nivaEarlyAccess}" while site.nivaUrl is null`);
+    const honest = secondary && secondaryHref.startsWith("mailto:hello@addablelabs.se?subject=") && INTEREST_SUBJECT[lang].test(mailtoSubject(secondaryHref)) && text(secondary) === strings[lang].hero.fluentorInterest;
+    report.check(honest, `${rel}: secondary CTA is a register-interest mailto: labelled "${strings[lang].hero.fluentorInterest}" while site.fluentorUrl is null`);
   }
 
   // REQ-010 (AC-10): three service headings equal to the strings.
@@ -233,9 +235,10 @@ for (const lang of site.languages.codes) {
     // link's text is its label and then its decorative, aria-hidden arrow:
     // ↗ for a link that leaves the site, → for one that stays on it.
     const wanted = [];
-    if (app.url !== null) {
-      const repository = app.url.startsWith(PUBLIC_URL_PREFIX);
-      wanted.push({ what: repository ? "its repository" : "its public page", href: app.url, label: strings[lang].portfolio[repository ? "repoLink" : "siteLink"], arrow: "↗" });
+    const url = entryUrl(app, lang);
+    if (url !== null) {
+      const repository = url.startsWith(PUBLIC_URL_PREFIX);
+      wanted.push({ what: repository ? "its repository" : "its public page", href: url, label: strings[lang].portfolio[repository ? "repoLink" : "siteLink"], arrow: "↗" });
     }
     if (app.article !== undefined) {
       const article = articles.find((item) => item.slug === app.article);

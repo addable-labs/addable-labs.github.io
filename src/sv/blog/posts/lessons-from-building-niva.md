@@ -6,7 +6,7 @@ imageAlt: "Fem påståenden, nivå ett till fem, där ett är valt, blir ett rad
 date: 2026-09-23
 category: ai-journey             # app-development | ai-journey
 translationKey: lessons-from-building-niva
-draft: false                     # publicerad — sätt true för att hålla den utanför publika bygget
+draft: true                      # ett utkast — sätt false för att publicera det
 aiGenerated: true                # AI har skrivit texten
 humanReviewed: false             # true när en person har läst den
 ---

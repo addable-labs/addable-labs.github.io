@@ -93,7 +93,7 @@ describe("layout report evaluation (AC-30)", () => {
 
 describe("layout report evaluation — article measure and figures (si-55iu, centred 2026-09-22)", () => {
   // Real measurements: the first article at 1024 and at 360 (everything
-  // stacked, the panels at the body's width), the nivå article at 1920 (two
+  // stacked, the panels at the body's width), the lessons article at 1920 (two
   // inline figures with the caption beside the panel, a wide three-panel
   // figure across the body).
   let article;

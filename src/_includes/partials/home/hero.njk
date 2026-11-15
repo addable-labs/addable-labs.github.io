@@ -3,11 +3,12 @@
     "AI-powered" keeps it on one line), the lead, the primary CTA — since
     feedback round 1 an anchor to the apps section (#apps in apps.njk), the
     site promotes what exists rather than "Start a project" — and the
-    secondary CTA for nivå: while
-    site.nivaUrl is null it is an honest early-access mailto:, once the
-    founder sets the URL it links there and reads "nivå" with no template
-    change — just the name (si-jqrf), which misleads no one while nivå is
-    not yet open to everyone and needs no change when it opens.
+    secondary CTA for Fluentor (si-wpwe): while
+    site.fluentorUrl is null it is an honest register-interest mailto:, once
+    the founder sets the URLs it links the one of the page's language and
+    reads "Fluentor" with no template change — just the name (si-jqrf),
+    which misleads no one while people are let in in rounds and needs no
+    change when that ends.
     Then the proof line and the console: an honest log of this
     factory's build stages, every line a string, rendered as a three-column
     subgrid (stage | text | state) with the caret on the last line. It carries
@@ -17,6 +18,7 @@
     :nth-child rules in base.css. -#}
 {%- set hero = strings[lang].hero -%}
 {%- set console = strings[lang].console -%}
+{%- set fluentorUrl = site.fluentorUrl[lang] if site.fluentorUrl else null -%}
 <section class="hero" aria-labelledby="hero-title">
   <div class="hero-glow" aria-hidden="true"></div>
   <div class="container hero-grid">
@@ -26,10 +28,10 @@
       <p class="lead reveal">{{ hero.lead }}</p>
       <p class="cta-row reveal">
         <a class="button button-primary" href="#apps">{{ hero.ctaPrimary }}<span class="arrow" aria-hidden="true">→</span></a>
-        {%- if site.nivaUrl %}
-        <a class="button button-secondary" href="{{ site.nivaUrl }}">{{ hero.nivaLink }}</a>
+        {%- if fluentorUrl %}
+        <a class="button button-secondary" href="{{ fluentorUrl }}">{{ hero.fluentorLink }}</a>
         {%- else %}
-        <a class="button button-secondary" href="{{ hero.nivaEarlyAccessSubject | mailtoSubject }}">{{ hero.nivaEarlyAccess }}</a>
+        <a class="button button-secondary" href="{{ hero.fluentorInterestSubject | mailtoSubject }}">{{ hero.fluentorInterest }}</a>
         {%- endif %}
       </p>
       <ul class="proof-list reveal">

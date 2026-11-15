@@ -55,10 +55,15 @@ describe("content gate", () => {
     // passing on none: the apps grid's, in a page, and the font's, in its
     // licence file (si-vwu8).
     assert.match(output, /ok {4}every GitHub repository the site names is one of the public repositories it may link: [^\n]*\baddable-labs\/ashlands\b[^\n]*\bJetBrains\/JetBrainsMono\b/);
-    // Ashlands and nivå link their articles beside their own links, in the
-    // page's language (si-3hpa), each from the day it is dated (si-x0js).
+    // Ashlands links its article beside its own link, in the page's language
+    // (si-3hpa), from the day it is dated (si-x0js). Fluentor's entry names
+    // no article (its own is a draft, si-wpwe), so its card links its public
+    // page alone, the one of the page's language.
     assert.match(output, cardArticleLine("index.html", "Ashlands", "/blog/ashlands-what-one-prompt-built/", "Article"));
-    assert.match(output, cardArticleLine("sv/index.html", "nivå", "/sv/blog/lessons-from-building-niva/", "Artikel"));
+    assert.match(output, /ok {4}index\.html: Fluentor entry has one link, its public page, and no other/);
+    assert.match(output, /ok {4}index\.html: Fluentor entry links its public page \(https:\/\/fluentor\.se\/en\/\) through a\.app-action labelled "Website ↗", first in its action row/);
+    assert.match(output, /ok {4}sv\/index\.html: Fluentor entry has one link, its public page, and no other/);
+    assert.match(output, /ok {4}sv\/index\.html: Fluentor entry links its public page \(https:\/\/fluentor\.se\/sv\/\) through a\.app-action labelled "Webbplats ↗", first in its action row/);
     // Gaimer's entry names no article, so its card links its repository
     // alone; an article the entry names later joins it on its day.
     const { article } = JSON.parse(await readFile(path.join(SRC, "_data", "portfolio.json"), "utf8")).find((entry) => entry.key === "gaimer");
@@ -157,47 +162,40 @@ describe("content gate", () => {
     assert.match(output, /ok {4}sv\/about\/index\.html: lead's first sentence names Péter Blénessy/);
   });
 
-  it("fails when the nivå card links more than its public page and its article, or calls the page \"Repository\" (REQ-011; si-gyc4, si-3hpa)", async () => {
-    // The repository is private and the product is not: the page, labelled
-    // as a website, then the article about nivå from the day it is dated
-    // (si-x0js), and nothing else.
-    const twice = await withLandingEdit("niva-linked", (html) => html.replace(/(<h3 class="app-name portfolio-name"[^>]*>)nivå(<\/h3>)/, '$1<a href="https://example.com/niva">nivå</a>$2'));
+  it("fails when the Fluentor card links more than its public page, calls the page \"Repository\" or links the other language's page (REQ-011; si-gyc4, si-wpwe)", async () => {
+    // The repository is private and the product is not: the page of the
+    // page's language, labelled as a website, and nothing else. Fluentor's
+    // article is a draft (si-wpwe), and the entry names none.
+    const twice = await withLandingEdit("fluentor-linked", (html) => html.replace(/(<h3 class="app-name portfolio-name"[^>]*>)Fluentor(<\/h3>)/, '$1<a href="https://example.com/fluentor">Fluentor</a>$2'));
     const linked = runGate("content", twice);
     assert.equal(linked.status, 1);
-    const links = listedToday("/blog/lessons-from-building-niva/") ? "two links, its public page and its article" : "one link, its public page";
-    assert.match(linked.output, new RegExp(`FAIL {2}index\\.html: nivå entry has ${links}, and no other`));
-    const repository = await withLandingEdit("niva-repository", (html) => html.replace('href="https://erniva.se/">Website<span', 'href="https://erniva.se/">Repository<span'));
+    assert.match(linked.output, /FAIL {2}index\.html: Fluentor entry has one link, its public page, and no other/);
+    const repository = await withLandingEdit("fluentor-repository", (html) => html.replace('href="https://fluentor.se/en/">Website<span', 'href="https://fluentor.se/en/">Repository<span'));
     const labelled = runGate("content", repository);
     assert.equal(labelled.status, 1);
-    assert.match(labelled.output, /FAIL {2}index\.html: nivå entry links its public page \(https:\/\/erniva\.se\/\) through a\.app-action labelled "Website ↗", first in its action row/);
+    assert.match(labelled.output, /FAIL {2}index\.html: Fluentor entry links its public page \(https:\/\/fluentor\.se\/en\/\) through a\.app-action labelled "Website ↗", first in its action row/);
+    // The Swedish card links the Swedish page: the English one fails it.
+    const english = await withPageEdits("fluentor-language", { "sv/index.html": (html) => html.replace('href="https://fluentor.se/sv/">Webbplats<span', 'href="https://fluentor.se/en/">Webbplats<span') });
+    const wrong = runGate("content", english);
+    assert.equal(wrong.status, 1);
+    assert.match(wrong.output, /FAIL {2}sv\/index\.html: Fluentor entry links its public page \(https:\/\/fluentor\.se\/sv\/\) through a\.app-action labelled "Webbplats ↗", first in its action row/);
   });
 
   it("fails when an app card's article link is missing, wears the arrow of a link that leaves the site or links the other language's article (si-3hpa)", async () => {
     // Each edit needs a card's link to its article, which the card carries
     // only while the build lists the article (si-x0js). The edits of a card
     // whose article is dated after today are left out, and the gate is
-    // expected to say that card links its article nowhere.
-    const niva = listedToday("/blog/lessons-from-building-niva/");
+    // expected to say that card links its article nowhere. Fluentor's card
+    // links none since its article became a draft (si-wpwe).
     const ashlands = listedToday("/blog/ashlands-what-one-prompt-built/");
     const edits = {};
-    if (niva || ashlands) {
-      edits["index.html"] = (html) => {
-        let edited = html;
-        if (niva) edited = edited.replace(/\n\s*<a class="app-action" href="\/blog\/lessons-from-building-niva\/">Article<span class="arrow" aria-hidden="true">→<\/span><\/a>/, "");
-        if (ashlands) edited = edited.replace('href="/blog/ashlands-what-one-prompt-built/">Article<span class="arrow" aria-hidden="true">→', 'href="/blog/ashlands-what-one-prompt-built/">Article<span class="arrow" aria-hidden="true">↗');
-        return edited;
-      };
+    if (ashlands) {
+      edits["index.html"] = (html) => html.replace('href="/blog/ashlands-what-one-prompt-built/">Article<span class="arrow" aria-hidden="true">→', 'href="/blog/ashlands-what-one-prompt-built/">Article<span class="arrow" aria-hidden="true">↗');
+      edits["sv/index.html"] = (html) => html.replace('<a class="app-action" href="/sv/blog/ashlands-what-one-prompt-built/">', '<a class="app-action" href="/blog/ashlands-what-one-prompt-built/">');
     }
-    if (ashlands) edits["sv/index.html"] = (html) => html.replace('<a class="app-action" href="/sv/blog/ashlands-what-one-prompt-built/">', '<a class="app-action" href="/blog/ashlands-what-one-prompt-built/">');
     const broken = await withPageEdits("article-links", edits);
     const { status, output } = runGate("content", broken);
-    assert.equal(status, niva || ashlands ? 1 : 0, output);
-    if (niva) {
-      assert.match(output, /FAIL {2}index\.html: nivå entry links its article \(\/blog\/lessons-from-building-niva\/\) through a\.app-action labelled "Article →", second in its action row/);
-      assert.match(output, /FAIL {2}index\.html: nivå entry has two links, its public page and its article, and no other/);
-    } else {
-      assert.match(output, cardArticleLine("index.html", "nivå", "/blog/lessons-from-building-niva/", "Article"));
-    }
+    assert.equal(status, ashlands ? 1 : 0, output);
     if (ashlands) {
       assert.match(output, /FAIL {2}index\.html: Ashlands entry links its article \(\/blog\/ashlands-what-one-prompt-built\/\) through a\.app-action labelled "Article →", second in its action row/);
       assert.match(output, /FAIL {2}sv\/index\.html: Ashlands entry links its article \(\/sv\/blog\/ashlands-what-one-prompt-built\/\) through a\.app-action labelled "Artikel →", second in its action row/);
@@ -216,11 +214,16 @@ describe("content gate", () => {
     assert.match(output, /FAIL {2}index\.html: primary CTA is "See what we have built" linking #apps/);
   });
 
-  it("fails when the secondary CTA still asks for early access while site.nivaUrl is set (REQ-009; si-gyc4)", async () => {
-    const broken = await withLandingEdit("niva-early", (html) => html.replace('href="https://erniva.se/">nivå</a>', 'href="mailto:hello@addablelabs.se?subject=Early%20access%20to%20niv%C3%A5">Get early access to nivå</a>'));
+  it("fails when the secondary CTA asks to register interest, or links the other language's page, while site.fluentorUrl is set (REQ-009; si-gyc4, si-wpwe)", async () => {
+    const broken = await withLandingEdit("fluentor-interest", (html) => html.replace('href="https://fluentor.se/en/">Fluentor</a>', 'href="mailto:hello@addablelabs.se?subject=Interest%20in%20Fluentor">Register interest in Fluentor</a>'));
     const { status, output } = runGate("content", broken);
     assert.equal(status, 1);
-    assert.match(output, /FAIL {2}index\.html: secondary CTA links site\.nivaUrl \(https:\/\/erniva\.se\/\) as "nivå"/);
+    assert.match(output, /FAIL {2}index\.html: secondary CTA links site\.fluentorUrl\.en \(https:\/\/fluentor\.se\/en\/\) as "Fluentor"/);
+    // The Swedish page's button links the Swedish page.
+    const english = await withPageEdits("fluentor-cta-language", { "sv/index.html": (html) => html.replace('class="button button-secondary" href="https://fluentor.se/sv/"', 'class="button button-secondary" href="https://fluentor.se/en/"') });
+    const wrong = runGate("content", english);
+    assert.equal(wrong.status, 1);
+    assert.match(wrong.output, /FAIL {2}sv\/index\.html: secondary CTA links site\.fluentorUrl\.sv \(https:\/\/fluentor\.se\/sv\/\) as "Fluentor"/);
   });
 
   it("fails when the trust section links a URL containing \"factory\" (REQ-012)", async () => {
@@ -577,7 +580,7 @@ describe("content gate", () => {
 // own is listed here like any other article; the production order below
 // leaves it out, and the cases below write the fixture drafts they need. Add
 // a line when an article is added, with its date: an article of the real tree
-// can be scheduled too (nivå until 2026-09-23, si-gyc4), and it joins the
+// can be scheduled too (one was until 2026-09-23, si-gyc4), and it joins the
 // index on its day — the daily rebuild runs this suite on every one of them.
 // The content gate holds each blog index to the order it works out from the
 // same front matter the build reads (si-absd), so an article whose date
@@ -727,7 +730,7 @@ describe("scheduled posts", () => {
     builtSrc = path.join(project, "src");
     await writeArticlePair(project, "scheduled-tomorrow", utcDate(1), "Dated tomorrow", "Daterad i morgon");
     // The one dated today links the one dated tomorrow, as the factory
-    // article links the nivå article the day before it is listed (si-gyc4):
+    // article links a scheduled one the day before it is listed (si-gyc4):
     // unlisted, not secret, so the link is allowed and the feeds carry it in
     // the item's content.
     await writeArticlePair(project, "published-today", utcDate(0), "Dated today", "Daterad i dag", { linkTo: "scheduled-tomorrow" });
@@ -1175,6 +1178,9 @@ describe("app card articles", () => {
   }
 
   const LANDINGS = [[["index.html"], ""], [["sv", "index.html"], "/sv"]];
+  // Fluentor's card links its public page, the one of the page's language, and
+  // no article: Fluentor's article is a draft (si-wpwe).
+  const FLUENTOR = { "": "https://fluentor.se/en/", "/sv": "https://fluentor.se/sv/" };
 
   it("links an article from its card in a local build while it is listed, a draft included, and never one dated after today", async () => {
     // The real tree's Ashlands article, from the day it is dated (si-x0js).
@@ -1184,18 +1190,16 @@ describe("app card articles", () => {
       assert.deepEqual(links.Gaimer, ["https://github.com/addable-labs/gaimer", `${prefix}/blog/app-draft/`], page.join("/"));
       assert.deepEqual(links.Notesage, ["https://github.com/PeterBlenessy/notesage"], page.join("/"));
       assert.deepEqual(links.Ashlands, ["https://github.com/addable-labs/ashlands", ...ashlands.map((url) => `${prefix}${url}`)], page.join("/"));
+      assert.deepEqual(links.Fluentor, [FLUENTOR[prefix]], page.join("/"));
     }
   });
 
   it("links no draft from a card in the production build", async () => {
-    // The real tree's nivå article, from the day it is dated and while it is
-    // no draft (si-x0js).
-    const niva = listedToday("/blog/lessons-from-building-niva/", { production: true }) ? ["/blog/lessons-from-building-niva/"] : [];
     for (const [page, prefix] of LANDINGS) {
       const links = await cardLinks(prod, ...page);
       assert.deepEqual(links.Gaimer, ["https://github.com/addable-labs/gaimer"], page.join("/"));
       assert.deepEqual(links.Notesage, ["https://github.com/PeterBlenessy/notesage"], page.join("/"));
-      assert.deepEqual(links.nivå, ["https://erniva.se/", ...niva.map((url) => `${prefix}${url}`)], page.join("/"));
+      assert.deepEqual(links.Fluentor, [FLUENTOR[prefix]], page.join("/"));
     }
   });
 

@@ -1,12 +1,9 @@
 [
   {
-    "key": "niva",
+    "key": "fluentor",
     "theme": "ai-adoption",
-    "repo": "addable-labs/niva",
-    "url": "https://erniva.se/",
-    "article": "lessons-from-building-niva",
-    "status": "in-development",
-    "source": { "readme": "https://github.com/addable-labs/niva/blob/main/README.md", "retrieved": "2026-09-20" }
+    "url": { "en": "https://fluentor.se/en/", "sv": "https://fluentor.se/sv/" },
+    "status": "in-preview"
   },
   {
     "key": "notesage",

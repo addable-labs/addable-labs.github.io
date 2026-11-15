@@ -49,7 +49,7 @@ rows, was fixed the same evening (shared four-column subgrid on
 services and apps cards must be *balanced* — one-line titles, descriptions
 of equal length, "What you get" at the same height, links bottom-aligned,
 cards that do not change design with their content; the apps grid lists
-exactly six projects — nivå, Notesage, marketdata-api, Compound, Ashlands,
+exactly six projects — Fluentor, Notesage, marketdata-api, Compound, Ashlands,
 Gaimer — and not the other public repositories; and dark is the default. At
 the plan gate (21:44 CEST) he confirmed dark "regardless of host settings",
 the status labels of marketdata-api and Compound, and that the about page's

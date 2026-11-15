@@ -29,9 +29,9 @@
     "title": "We build AI-⁠powered apps and help teams put AI to work.",
     "lead": "Addable Labs ships AI-powered products — largely built by AI agents with a person in charge — and helps companies and teams become fluent with AI, from assessment to adoption.",
     "ctaPrimary": "See what we have built",
-    "nivaEarlyAccess": "Get early access to nivå",
-    "nivaEarlyAccessSubject": "Early access to nivå",
-    "nivaLink": "nivå",
+    "fluentorInterest": "Register interest in Fluentor",
+    "fluentorInterestSubject": "Interest in Fluentor",
+    "fluentorLink": "Fluentor",
     "proof": {
       "agents": "Agent-built, human-directed",
       "open": "Open source where it can be",
@@ -92,14 +92,14 @@
     },
     "ai-adoption": {
       "title": "AI adoption",
-      "text": "Find out where your people stand with AI, then move them: nivå self-assessments, a guide to the next level, and what we learn adopting AI ourselves, shared as we go.",
+      "text": "Find out where your people stand with AI, then move them: Fluentor self-assessments, a guide to the next level, and what we learn adopting AI ourselves, shared as we go.",
       "getsHeading": "What you get",
       "gets": {
         "baseline": "A fluency baseline per person and per team",
         "experience": "Experience and articles from our own AI adoption, shared as we learn",
         "guide": "A guide to the next level for each person and the team"
       },
-      "cta": "Visit nivå"
+      "cta": "Visit Fluentor"
     },
     "experiments": {
       "title": "AI experiments",
@@ -116,12 +116,12 @@
   "apps": {
     "eyebrow": "Apps and products",
     "heading": "What we have built",
-    "lead": "Four projects, from open-source apps to a product in development. Status is stated as each repository states it."
+    "lead": "Four projects, from open-source apps to a product in preview. Status is stated as each repository states it."
   },
   "portfolio": {
-    "niva": {
-      "name": "nivå",
-      "summary": "AI fluency and adoption maturity self-assessment for individuals and teams: levels, a radar chart, a maturity index and team heatmaps."
+    "fluentor": {
+      "name": "Fluentor",
+      "summary": "Your AI journey, with Fluentor as mentor. In five minutes you see where you stand with AI in your work. Free for individuals. We let people in in rounds."
     },
     "notesage": {
       "name": "Notesage",
@@ -141,7 +141,7 @@
     "articleLink": "Article"
   },
   "portfolioStatus": {
-    "in-development": "in development",
+    "in-preview": "in preview",
     "open-source-mit": "open source · MIT",
     "experiment": "experiment"
   },

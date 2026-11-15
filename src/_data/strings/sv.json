@@ -29,9 +29,9 @@
     "title": "Vi bygger AI-⁠drivna appar och hjälper team att få AI att göra nytta.",
     "lead": "Addable Labs levererar AI-drivna produkter – till stor del byggda av AI-agenter med en person som är ansvarig för arbetet – och hjälper företag och team att bli trygga med AI, från kartläggning till införande.",
     "ctaPrimary": "Se vad vi har byggt",
-    "nivaEarlyAccess": "Få tidig tillgång till nivå",
-    "nivaEarlyAccessSubject": "Tidig tillgång till nivå",
-    "nivaLink": "nivå",
+    "fluentorInterest": "Anmäl intresse för Fluentor",
+    "fluentorInterestSubject": "Intresse för Fluentor",
+    "fluentorLink": "Fluentor",
     "proof": {
       "agents": "Byggt av agenter, styrt av en människa",
       "open": "Öppen källkod där det går",
@@ -92,14 +92,14 @@
     },
     "ai-adoption": {
       "title": "AI-införande",
-      "text": "Ta reda på var dina medarbetare står med AI och ta dem sedan vidare: nivå-självskattningar, en guide till nästa nivå och våra egna lärdomar av att införa AI, som vi delar med oss av längs vägen.",
+      "text": "Ta reda på var dina medarbetare står med AI och ta dem sedan vidare: Fluentor-självskattningar, en guide till nästa nivå och våra egna lärdomar av att införa AI, som vi delar med oss av längs vägen.",
       "getsHeading": "Det här får du",
       "gets": {
         "baseline": "En kompetensbaslinje per person och per team",
         "experience": "Erfarenheter och artiklar från vårt eget AI-införande, delade i takt med att vi lär oss",
         "guide": "En guide till nästa nivå för varje person och för teamet"
       },
-      "cta": "Besök nivå"
+      "cta": "Besök Fluentor"
     },
     "experiments": {
       "title": "AI-experiment",
@@ -116,12 +116,12 @@
   "apps": {
     "eyebrow": "Appar och produkter",
     "heading": "Det vi har byggt",
-    "lead": "Fyra projekt, från appar med öppen källkod till en produkt under utveckling. Statusen är den som varje kodförråd själv anger."
+    "lead": "Fyra projekt, från appar med öppen källkod till en produkt i förhandsversion. Statusen är den som varje kodförråd själv anger."
   },
   "portfolio": {
-    "niva": {
-      "name": "nivå",
-      "summary": "Självskattning av AI-kompetens och AI-mognad för individer och team: nivåer, ett radardiagram, ett mognadsindex och värmekartor för team."
+    "fluentor": {
+      "name": "Fluentor",
+      "summary": "Din AI-resa, med Fluentor som mentor. På fem minuter ser du var du står med AI i ditt arbete. Gratis för dig som enskild. Vi släpper in användare i omgångar."
     },
     "notesage": {
       "name": "Notesage",
@@ -141,7 +141,7 @@
     "articleLink": "Artikel"
   },
   "portfolioStatus": {
-    "in-development": "under utveckling",
+    "in-preview": "förhandsversion",
     "open-source-mit": "öppen källkod · MIT",
     "experiment": "experiment"
   },

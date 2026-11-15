@@ -7,14 +7,16 @@
     ai-apps / ai-adoption / experiments — THEME_KEYS in scripts/lib/apps.mjs —
     so the apps data keeps validating; experiments replaced investing in
     founder feedback round 1, si-yp2x); the AI-powered apps card acts through
-    the #apps anchor, the AI adoption card through nivå's public page
-    (site.nivaUrl, since si-gyc4 — #apps while it is null) and the
+    the #apps anchor, the AI adoption card through Fluentor's public page in
+    the page's language (site.fluentorUrl, si-wpwe — #apps while it is
+    null) and the
     experiments card through the blog index of the page's language. An action
     that leaves the site wears ↗ instead of →, like the app cards' links. The
     copy bands (title ≤ 20 characters, texts within a 45 % band) are asserted
     by tests/apps.test.mjs. -#}
 {%- set services = strings[lang].services -%}
-{%- set actions = { "ai-apps": "#apps", "ai-adoption": site.nivaUrl or "#apps", "experiments": langPrefix + "/blog/" } -%}
+{%- set fluentorUrl = site.fluentorUrl[lang] if site.fluentorUrl else null -%}
+{%- set actions = { "ai-apps": "#apps", "ai-adoption": fluentorUrl or "#apps", "experiments": langPrefix + "/blog/" } -%}
 <section id="services" class="section" aria-labelledby="services-title">
   <div class="container">
     <div class="section-head reveal">

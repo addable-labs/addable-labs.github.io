@@ -114,12 +114,12 @@ describe("the images of the articles and the pages (si-awlu)", () => {
   it("names each fault, one line each: a missing, mis-sized, heavy or false image, a missing or mis-sized WebP copy, and the default image's", async () => {
     const src = await copySources("faults");
     const media = (slug, file) => path.join(src, MEDIA_DIR, slug, file);
-    const [ashlands, gaimer, built, niva, context, factory] = ["ashlands-what-one-prompt-built", "cleaning-up-gaimer", "how-this-site-was-built-by-agents", "lessons-from-building-niva", "what-the-mayors-context-costs", "why-we-run-an-agent-run-factory"];
+    const [ashlands, gaimer, built, lessons, context, factory] = ["ashlands-what-one-prompt-built", "cleaning-up-gaimer", "how-this-site-was-built-by-agents", "lessons-from-building-niva", "what-the-mayors-context-costs", "why-we-run-an-agent-run-factory"];
     const heavy = makePng(1200, 630, { noise: true });
     await writeFile(media(ashlands, "cover.png"), heavy);
     await cp(media(gaimer, "cover-1200.webp"), media(gaimer, "cover-600.webp"));
     await rm(media(built, "cover.png"));
-    await cp(media(niva, "cover-1200.webp"), media(niva, "cover.png"));
+    await cp(media(lessons, "cover-1200.webp"), media(lessons, "cover.png"));
     await rm(media(context, "cover-600.webp"));
     await writeFile(media(factory, "cover.png"), makePng(1200, 600));
     await writeFile(path.join(src, DEFAULT_IMAGE), makePng(1200, 628));
@@ -127,7 +127,7 @@ describe("the images of the articles and the pages (si-awlu)", () => {
       `src/media/${ashlands}/cover.png is ${(heavy.length / 1024).toFixed(1)} KB, over 300.0 KB`,
       `src/media/${gaimer}/cover-600.webp is 1200 × 630 px, not 600 × 315`,
       `src/en/blog/posts/${built}.md: its image src/media/${built}/cover.png is missing`,
-      `src/media/${niva}/cover.png is not a PNG`,
+      `src/media/${lessons}/cover.png is not a PNG`,
       `src/media/${context}/cover-600.webp is missing (the 600 px WebP copy of cover.png)`,
       `src/media/${factory}/cover.png is 1200 × 600 px, not 1200 × 630`,
       "src/assets/img/share.png is 1200 × 628 px, not 1200 × 630",
@@ -182,7 +182,7 @@ describe("the images of the articles and the pages (si-awlu)", () => {
 });
 
 describe("a draft's image is only in the development build (C14)", () => {
-  // The nivå article is a draft in a copy of the project, whatever its front
+  // The lessons article is a draft in a copy of the project, whatever its front
   // matter says in the repository, and it plays no game: its media directory
   // holds its image and nothing else.
   const SLUG = "lessons-from-building-niva";

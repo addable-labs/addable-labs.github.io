@@ -516,12 +516,15 @@ one-liner in both strings files and its key in the curated list `APP_KEYS`
 - `theme` is `ai-apps`, `ai-adoption` or `experiments` (the three services;
   `experiments` replaced `investing` in founder feedback round 1);
   `repo` is `owner/name`; `url` is the public repository, the one `repo`
-  names. A private
-  repository is never linked: its `url` is the product's public page when
-  there is one — nivå's is `https://erniva.se/` — and the card labels it
-  "Website ↗" where a repository gets "Repository ↗", so no card calls a
-  private repository open; without a page it is `null` and the card gets the
-  "Private repository — no public link yet" line instead of a link. A public
+  names. A private repository is never linked, and this repository is
+  public, so it is not named either: the entry of a private product has no
+  `repo` and no `source`. Its `url` is the product's public page when there
+  is one — Fluentor's has one per language, an object keyed by language
+  code, `{ "en": "https://fluentor.se/en/", "sv": "https://fluentor.se/sv/" }`
+  — and the card labels it "Website ↗" where a repository gets
+  "Repository ↗", so no card calls a private repository open; without a
+  page it is `null` and the card gets the "Private repository — no public
+  link yet" line instead of a link. A public
   entry's repository must be one of `PUBLIC_REPOS` in `scripts/lib/apps.mjs`,
   the allow-list of public repositories the site may link; the content gate
   refuses any other GitHub repository anywhere in the built site.
@@ -533,16 +536,18 @@ one-liner in both strings files and its key in the curated list `APP_KEYS`
   languages, and a card links it only while the blog lists it: a draft is
   linked in a local build and not in the published one, and an article
   dated after today gets its link on the day the blog lists it.
-- `status` is one of `in-development`, `open-source-mit`, `experiment`,
+- `status` is one of `in-preview`, `open-source-mit`, `experiment`,
   `private`; every status in use has a label in `portfolioStatus` in both
   strings files, and a label no entry uses is refused. Statuses are stated
   as the repository states them, nothing is invented.
 - `source.readme` is the app's README, and an optional `source.report`
   names a second file, for a fact the README does not state (Ashlands: its
   `EVALUATION.md`). Each is a `https://github.com/<owner>/<name>/blob/…`
-  URL in the entry's own repository, the one `repo` names, even when that
-  repository is private: the site links neither. `source.retrieved` dates
-  both.
+  URL in the entry's own repository, the one `repo` names. `source.retrieved`
+  dates both. A private entry that names no repository (Fluentor's) has no
+  `source` either, and the validator refuses one: a file would name the
+  repository it is in. A private entry that does name its repository holds
+  its sources to the same rule, though the site links neither.
 - `portfolio.<key>.name` and `portfolio.<key>.summary` go into
   `src/_data/strings/en.json` and `sv.json`.
 - **The copy bands keep the cards balanced** (the design never changes with
@@ -598,16 +603,17 @@ an app without breaking the balance*.
   by hand. The hero's primary call to action links the apps section
   (`#apps`) instead: since founder feedback round 1 the site promotes what
   exists rather than "Start a project".
-- `nivaUrl` — nivå's public page, `https://erniva.se/` (its root sends a
-  visitor to `/en` or `/sv` by the browser's language). The hero's secondary
-  call to action reads "nivå" in both languages and links there, and so
-  does the AI adoption card's "Visit nivå" / "Besök nivå" — the founder's
-  call (2026-09-23): nothing that misleads while nivå is not yet open to
-  everyone, and nothing to change when it opens. Set to `null`, the
-  button becomes an honest early-access `mailto:` ("Get early access to
-  nivå" / "Få tidig tillgång till nivå") and the card links the apps
-  section, with no template change. The content gate checks the button in
-  whichever state applies.
+- `fluentorUrl` — Fluentor's public pages, one per language, an object keyed
+  by language code: `https://fluentor.se/en/` for the English pages and
+  `https://fluentor.se/sv/` for the Swedish ones. The hero's secondary call
+  to action reads "Fluentor" in both languages and links the page of its
+  language, and so does the AI adoption card's "Visit Fluentor" / "Besök
+  Fluentor" — the founder's call (2026-09-23): nothing that misleads while
+  the product is not yet open to everyone, and nothing to change when it
+  opens. Set to `null`, the button becomes an honest register-interest
+  `mailto:` ("Register interest in Fluentor" / "Anmäl intresse för
+  Fluentor") and the card links the apps section, with no template change.
+  The content gate checks the button in whichever state applies.
 - `languages` — `en` (default, at the root) and `sv`.
 
 The company line in every footer is copy, not a `site.js` fact: `footer.company`
@@ -637,7 +643,7 @@ after a `pnpm build`:
 | contrast | `pnpm check:contrast` | `src/assets/css/tokens.css` keeps its structure (dark by default, light only under the toggle's `[data-theme="light"]`, every fallback equal to its dark value, no OS media query, no token outside `:root`); every colour pair meets WCAG AA in both themes (4.5:1 text, 3:1 UI); no colour literal outside `tokens.css`. |
 | parity | `pnpm check:parity` | Every English page has its Swedish twin and vice versa, the feeds pair up, the strings files have identical keys with no empty values, pages pair one-to-one. A game page, in English like its game, has no twin and is named as left out. |
 | feeds | `pnpm check:feeds` | Both feeds are well-formed RSS 2.0 with absolute links, exactly the language's listed articles — never one dated after today, and never a draft unless this is a development build — draft labels, items that carry the prose only (no `<figure>`), and every page links its feed. |
-| content | `pnpm check:content` | The facts the site must state: one `h1` in the hero, the primary call to action linking the apps section (`#apps`), the nivå button honouring `site.nivaUrl`, the three service headings, the apps in data order, each with exactly the links it calls for in its action row — "Repository" to a public repository or "Website" to the public page of a product whose repository is private, then "Article" to the article about the app where it names one the build lists — and an entry with neither unlinked, the trust section's phrase, founder, article link and proof link, the latest-writing cards — the newest three, in the blog index's order — the founding month on the about page and the founder's name in its lead's first sentence and nowhere else in its main content, not even without its accents or in capitals; on every page the footer's address, the company line with the organisation number and the registered seat, the language switches, the toggle and the feed link (a game page, the game alone, is named as left out); every GitHub repository named in a page, a feed, the sitemap or a text file one of the public repositories the site may link (`PUBLIC_REPOS` in `scripts/lib/apps.mjs`, an allow-list); every page's link preview showing its own image — an article's its own, described in its `imageAlt`, every other page the default image — every card its article's image with `alt=""`, and every article page its image under its summary, loaded at once; article lengths and draft labels; that each blog index lists exactly the listed articles of its language and each category page those of its category, newest first, and none of another category; that an article dated after today is built but listed in neither its language's blog index nor its feed; and that a draft is listed and built in a development build but has no page at all in the published one. The pinned facts are the constants at the top of `scripts/check/content.mjs`. |
+| content | `pnpm check:content` | The facts the site must state: one `h1` in the hero, the primary call to action linking the apps section (`#apps`), the Fluentor button honouring `site.fluentorUrl`, the three service headings, the apps in data order, each with exactly the links it calls for in its action row — "Repository" to a public repository or "Website" to the public page of a product whose repository is private, then "Article" to the article about the app where it names one the build lists — and an entry with neither unlinked, the trust section's phrase, founder, article link and proof link, the latest-writing cards — the newest three, in the blog index's order — the founding month on the about page and the founder's name in its lead's first sentence and nowhere else in its main content, not even without its accents or in capitals; on every page the footer's address, the company line with the organisation number and the registered seat, the language switches, the toggle and the feed link (a game page, the game alone, is named as left out); every GitHub repository named in a page, a feed, the sitemap or a text file one of the public repositories the site may link (`PUBLIC_REPOS` in `scripts/lib/apps.mjs`, an allow-list); every page's link preview showing its own image — an article's its own, described in its `imageAlt`, every other page the default image — every card its article's image with `alt=""`, and every article page its image under its summary, loaded at once; article lengths and draft labels; that each blog index lists exactly the listed articles of its language and each category page those of its category, newest first, and none of another category; that an article dated after today is built but listed in neither its language's blog index nor its feed; and that a draft is listed and built in a development build but has no page at all in the published one. The pinned facts are the constants at the top of `scripts/check/content.mjs`. |
 | lighthouse | `pnpm check:lighthouse` | Serves `_site/` locally, runs Lighthouse 13 (mobile configuration) in headless Chrome on `/`, `/sv/`, `/about/`, `/blog/`, a category page, an article and `/404.html`: Performance, Accessibility, Best Practices and SEO each ≥ 95 and cumulative layout shift ≤ 0.1, one line per page. A page whose only problem is Performance < 95 is measured twice more and the median of its three Performance scores decides (its line shows the median, then the three: `performance 96 (85, 97, 96)`); in CI the lines also go to the run's summary page. A page whose Chrome is lost is measured again, once, in a new Chrome, and a second failure is one `FAIL` line naming the page and the cause; these lines go to the summary page too. |
 | layout | `pnpm check:layout` | Renders `/` and `/sv/` at 360, 768, 1024, 1280 and 1920 px in headless Chrome and measures the balanced cards: every service and app title one line, cards in a row equal in height with their "What you get" heading / summary tops and action rows aligned (± 1 px), every chip row one line. Renders `/blog/`, `/sv/blog/` and in each language the category page that lists the most articles at the same widths, and measures every list of article cards — on those pages, on both landing pages and under every article: the cards in a row equal in height with each part (image, metadata, title, description) starting at the same top (± 1 px), and one card to a row below 768 px, two from 768 px and three from 1024 px, the last row that many or fewer. Renders every article page at the same widths and measures the article layout: no horizontal scroll, every text block at most 44 rem wide, centred in the body and on one shared left edge, every wide figure across the body, every inline figure on the measure and centred with its panel 20–24.5 rem wide and its caption beside the panel from 768 px (top-aligned, after the gap) and under it below, every panel shown rendered so a 13-unit label is at least 12 px (a figure with two views has the other one `display: none`), every table starting on the text column's left edge and nothing of it past the column's right edge but what scrolls inside its own box, every block of games across the body with its versions side by side from 768 px and stacked below, every screen of a game at 4:3, and the article's image under its summary, across the text column, at 1200:630. A page whose Chrome is lost at one width is measured again, once, at that width in a new Chrome, and a second failure is one `FAIL` line naming the page, the width and the cause. `LAYOUT_DUMP=<file>` writes the raw measurements (the source of `tests/fixtures/layout/article.json`, `tables.json`, `games.json`, `image.json` and `posts.json`). |
 

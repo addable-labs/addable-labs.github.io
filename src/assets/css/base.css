@@ -329,7 +329,7 @@ a:hover .arrow,
   border-color: var(--color-accent-text);
 }
 
-.chip-in-development,
+.chip-in-preview,
 .chip-draft {
   color: var(--color-secondary-text);
   border-color: var(--color-secondary-text);

@@ -285,7 +285,7 @@ export default function (eleventyConfig) {
   // Contact CTA (redesign REQ-009): `"Reach out" | mailtoSubject`
   // gives mailto:hello@addablelabs.se?subject=Reach%20out — the subject is
   // the strings value, percent-encoded here and never by hand, so the contact
-  // band, the header button and the hero's nivå early-access CTA share one
+  // band, the header button and the hero's Fluentor early-access CTA share one
   // mechanism (the hero's primary CTA is an anchor to the apps since founder
   // feedback round 1, si-yp2x).
   eleventyConfig.addFilter("mailtoSubject", (subject, email = site.email) =>

@@ -6,7 +6,7 @@ imageAlt: "Five statements, level one to five, with one chosen, become a radar c
 date: 2026-09-23
 category: ai-journey             # app-development | ai-journey
 translationKey: lessons-from-building-niva
-draft: false                     # published — set true to keep it out of the public build (see README)
+draft: true                      # a draft — set false to publish it (see README)
 aiGenerated: true                # AI produced this text
 humanReviewed: true              # a person has read it
 ---

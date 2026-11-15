@@ -23,20 +23,18 @@ bygger det på?
 
 ## Vad en agent och en person inte kunde göra
 
-nivå, produkten bakom [Lärdomar från att bygga
-nivå](/sv/blog/lessons-from-building-niva/), byggdes tvärtom: en kodande
-agent och en person, 480 commits på 26 dagar, varenda en med agenten som
-medförfattare. Den uppsättningen börjar inte från noll. En fil med
-arbetsöverenskommelser, fyra nedskrivna rutiner – granskning,
-kvalitetsgrindar, driftsättning och innehållsändringar – arton anteckningar
-som agenten för åt sig själv, tio av dem om sådant som vi har rättat, en
-framstegslogg med en post per session och 105 dokumenterade beslut bär
-arbetet från en session till nästa.
+Fluentor, vår produkt, byggdes tvärtom: en kodande agent och en person, 480
+commits på 26 dagar, varenda en med agenten som medförfattare. Den
+uppsättningen börjar inte från noll. En fil med arbetsöverenskommelser, fyra
+nedskrivna rutiner – granskning, kvalitetsgrindar, driftsättning och
+innehållsändringar – arton anteckningar som agenten för åt sig själv, tio av
+dem om sådant som vi har rättat, en framstegslogg med en post per session
+och 105 dokumenterade beslut bär arbetet från en session till nästa.
 
 Det den uppsättningen inte kan är att prata med någon annan än oss. Den 12
 september, med fyra agenter på en dator, var och en med sitt eget projekt,
-lät vi nivå-agenten skriva ett meddelande som vi själva kunde bära till de
-andra tre och klistrade in det i den regelfil som varje agent på maskinen
+lät vi Fluentor-agenten skriva ett meddelande som vi själva kunde bära till
+de andra tre och klistrade in det i den regelfil som varje agent på maskinen
 läser först. Varje uppgift börjar hos oss och när två sessioner behöver veta
 något om varandra är det vi som bär meddelandet emellan. Det skalar inte
 till agenter som planerar, bygger, granskar och publicerar medan vi gör

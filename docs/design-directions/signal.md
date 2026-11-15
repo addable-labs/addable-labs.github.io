@@ -43,7 +43,7 @@ Dark-first. Background `#0B0E10`, surfaces `#13181C` / `#1A2126`, text
 `#ECEFF1`, muted `#A6B0BA`. Green `#83F35D` is the single vivid accent: eyebrow
 text, the primary button surface (dark text on green, 13.8:1), the hero glow,
 focus rings, the active-nav underline, hover borders. Orange `#FF6F00` is
-reserved for status and attention (the "in development" chip, the draft chip,
+reserved for status and attention (the "in preview" chip, the draft chip,
 the waiting cursor) so it never competes with the CTA. Light theme: paper
 `#F7F8F6`, ink `#14191D`, green text darkened to `#256B15` (6.2:1), orange text
 to `#A84600` (≥ 4.5:1); the pure hues stay as button surfaces and glows only.

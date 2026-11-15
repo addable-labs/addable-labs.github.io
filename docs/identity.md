@@ -121,7 +121,7 @@ syntax colours of code blocks in articles (`scripts/lib/highlight.mjs`).
 | `--color-accent-strong` | `#1B5210` | `#A9F78F` | link hover, primary-button edge on light |
 | `--color-on-accent` | `#0B0E10` | `#0B0E10` | text on the accent and secondary surfaces |
 | `--color-secondary` | `#FF6F00` | `#FF6F00` | status/attention surface (chip dot, caret) |
-| `--color-secondary-text` | `#A84600` | `#FF8A2E` | status text (draft, in development, waiting) |
+| `--color-secondary-text` | `#A84600` | `#FF8A2E` | status text (draft, in preview, waiting) |
 | `--color-border` | `#77828C` | `#626E79` | card and button borders, chip outlines (UI, 3:1) |
 | `--color-hairline` | `#D6DBD1` | `#242C33` | decorative rules only (excluded from the gate by name) |
 | `--color-focus` | `#A84600` | `#83F35D` | focus ring |
@@ -158,7 +158,7 @@ cards and alternate bands; the light theme is paper, not white, with white
 surfaces for depth. Green `#83F35D` is the single vivid accent — the primary
 button surface, the hero glow, the active-navigation underline, hover
 borders and, on dark, links and eyebrows. Orange `#FF6F00` is reserved for
-status and attention (the "in development" and draft chips, the console's
+status and attention (the "in preview" and draft chips, the console's
 waiting caret) so it never competes with the call to action. **The
 light-on-light rule:** the pure hues are never used as text on the light
 theme (`#83F35D` on paper is 1.32:1, `#FF6F00` on white 2.79:1); the light
@@ -286,13 +286,13 @@ change colour, border, transform and box-shadow only.
   in every card: `div.app-actions`, a dashed rule over one line that holds
   `a.app-action` (44 px, mono, accent text, underline on hover) —
   "Repository ↗" to a public repository, "Website ↗" to the public page of a
-  product whose repository is private (nivå's, si-gyc4) — or `p.app-private`
+  product whose repository is private (Fluentor's) — or `p.app-private`
   (the mono private note, muted), and beside it, where the app has an
   article, a second `a.app-action`, "Article →" / "Artikel →", to the article
-  in the page's language (Ashlands and nivå, founder request 2026-09-23,
-  si-3hpa; Gaimer since its article went public, si-enrh). The arrow tells a link that stays on the site (→) from one that
-  leaves it (↗), as everywhere else on the site; a link alone takes the
-  whole line.
+  in the page's language (Ashlands, founder request 2026-09-23, si-3hpa;
+  Gaimer since its article went public, si-enrh). The arrow tells a link
+  that stays on the site (→) from one that leaves it (↗), as everywhere else
+  on the site; a link alone takes the whole line.
   **The chip-row mechanism:** the founder-confirmed
   `private` label ("privat · API-nycklar på förfrågan", 33 characters,
   275 px at the chip's size) is wider than a three-column card's content at
@@ -323,7 +323,7 @@ change colour, border, transform and box-shadow only.
   theme like the figures.
 - **Chips.** Pills, mono Medium 0.75 rem, 28 px tall, a 1 px outline and a
   6 px dot in `currentColor`. Kinds follow the data's status keys:
-  `chip-open-source-mit` in the accent text colour; `chip-in-development`
+  `chip-open-source-mit` in the accent text colour; `chip-in-preview`
   and `chip-draft` in the status orange; `chip-experiment` and
   `chip-private` muted — a new status brings its own
   rule (see *Adding an app*). Category chips (`chip-cat`) and the
