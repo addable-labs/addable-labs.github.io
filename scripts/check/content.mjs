@@ -48,8 +48,8 @@
 //   - both seed articles exist in both languages, the seed articles are
 //     300–600 English words of prose and every later article 300–1,500, the
 //     Gaimer article alone 300–1,850 (the founder's call, 26 September 2026)
-//     and parts 1, 2, 3, 4 and 5 of the series 300–1,600, 300–2,030, 300–2,320, 300–3,000 and 300–3,820 (his calls of
-//     29–31 October 2026 and 3–5 November 2026;
+//     and parts 1, 2, 3, 4, 5 and 6 of the series 300–1,600, 300–2,030, 300–2,320, 300–3,000, 300–3,820 and 300–2,150 (his calls of
+//     29–31 October 2026 and 3–5 November 2026, and the article's own length for part 6;
 //     the figures' captions and diagram labels are not prose and do not count,
 //     si-55iu, and neither do tables' cells), a draft shows "Draft"/"Utkast" on its page, in the listings
 //     and in the feeds of a local build and has no page at all in the
@@ -121,7 +121,13 @@ const ARTICLE_SLUG = "how-this-site-was-built-by-agents";
 // ceiling and the items left out for words were added (we-fyhmn), to 3,750,
 // above its 3,746, and, once the founder's comments on review page version 13
 // and the second fact check (5 November 2026, we-q3cjj) had the studies' terms
-// explained and some claims narrowed, to 3,820, above its 3,810; every other
+// explained and some claims narrowed, to 3,820, above its 3,810,
+// and part 6 (where-the-agent-runs; 30 October 2026, we-1nih4, "up to 3,000
+// words is fine"), cut after a fresh read to 2,128 words (31 October 2026,
+// we-9v2mk), again for developers to 2,000 (we-rz9d0) and 2,010 after the
+// founder's comments (we-103hu; the gate now counts 1,995, as it no longer
+// takes the markup of a code block for words), to 2,150, above its measured
+// count, the article's own length (15 November 2026, si-oil5); every other
 // article keeps 1,500.
 const SEED_ARTICLES = new Set([ARTICLE_SLUG, "lessons-from-building-niva"]);
 const WORD_RANGE = { seed: [300, 600], other: [300, 1500] };
@@ -132,6 +138,7 @@ const WORD_CEILING = new Map([
   ["agents-with-a-scope-each", 2320],
   ["skills-for-repeatable-work", 3000],
   ["mcp-reaching-your-systems", 3820],
+  ["where-the-agent-runs", 2150],
 ]);
 
 async function page(relPath) {

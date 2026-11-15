@@ -258,6 +258,6 @@ The working titles may change along the way.
 3. [Give each AI agent a job of its own](/blog/agents-with-a-scope-each/)
 4. [Skills, for work that must be done the same way every time](/blog/skills-for-repeatable-work/)
 5. [MCP, how an AI agent reaches other systems](/blog/mcp-reaching-your-systems/)
-6. Where the agent runs and who starts it
+6. [Where the AI agent runs and who starts it](/blog/where-the-agent-runs/)
 7. <span id="part-7"></span>Limits set in advance
 8. What has changed along the way — the latest models need less steering than earlier ones, but still some

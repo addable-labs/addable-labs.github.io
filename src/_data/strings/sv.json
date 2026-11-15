@@ -1465,6 +1465,68 @@
       "alone": "Varje gräns stoppar en skrivning ensam.",
       "both": "Använd båda: är en fel satt håller den andra.",
       "caption": "De två gränserna på den första kopplingen som bara läser: MCP-servern i read-only mode och en token för övningsrepot med Issues satt till read. Var och en stoppar en skrivning ensam."
+    },
+    "what-goes-along": {
+      "title": "Två kolumner. Den högra, i grönt, rymmer det som är committat till repositoryt: instruktionsfilen CLAUDE.md, mappen med skills och projektets .mcp.json. En pil leder från den till en körning i molnet. Den vänstra rymmer det som bara finns på din dator: instruktionsfilen i din hemmapp, skills i din hemmapp, MCP-servrar som bara du har lagt till och inloggningar som kräver en webbläsare. Ingen pil leder från den.",
+      "head": "Det en molnkörning utgår från",
+      "computer": "Bara på din dator",
+      "repo": "I repositoryt",
+      "homeInstruction": {
+        "label": "Instruktionsfil",
+        "note": "~/.claude/CLAUDE.md"
+      },
+      "homeSkills": {
+        "label": "Skills",
+        "note": "~/.claude/skills"
+      },
+      "homeMcp": {
+        "label": "MCP-servrar",
+        "note": "bara för dig"
+      },
+      "homeSignIn": {
+        "label": "Inloggningar",
+        "note": "kräver webbläsare"
+      },
+      "repoInstruction": {
+        "label": "Instruktionsfil",
+        "note": "CLAUDE.md"
+      },
+      "repoSkills": {
+        "label": "Skills",
+        "note": ".claude/skills"
+      },
+      "repoMcp": {
+        "label": "MCP-fil",
+        "note": ".mcp.json"
+      },
+      "run": {
+        "label": "En molnkörning",
+        "note": "utgår från en kopia"
+      },
+      "staysBehind": "blir kvar",
+      "caption": "Det en molnsession i Claude Code utgår från, så som dokumentationen listade det den 30 oktober 2026: de tre filerna som är committade till repositoryt följer med (MCP-filen i en session med ett repository), det som bara finns på din dator blir kvar."
+    },
+    "daily-summary": {
+      "title": "Fyra steg, uppifrån och ned, med en pil från varje steg till nästa. Ett schema startar ett CI-jobb i GitHub Actions klockan 09:30 UTC varje dag. Jobbet kör en AI-agent som bara får läsa historiken över commits. Agenten skriver en sammanfattning som väntar på en sida i GitHub tills någon läser den. Under stegen: ingen är med och kan svara på frågor.",
+      "head": "Det dagliga sammanfattningsjobbet",
+      "schedule": {
+        "label": "Schema",
+        "note": "09:30 UTC varje dag"
+      },
+      "ci": {
+        "label": "CI-jobb",
+        "note": "GitHub Actions"
+      },
+      "agent": {
+        "label": "AI-agent",
+        "note": "får bara läsa historiken över commits"
+      },
+      "summary": {
+        "label": "Sammanfattning",
+        "note": "på en sida i GitHub, läses senare"
+      },
+      "nobody": "Ingen är med och kan svara på frågor",
+      "caption": "Det dagliga sammanfattningsjobbet i den här delen, från start till resultat: ett CI-jobb startar på schema, AI-agenten i det läser historiken över commits och skriver en sammanfattning som väntar på en sida i GitHub tills någon läser den."
     }
   },
   "games": {

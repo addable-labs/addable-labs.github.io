@@ -2502,7 +2502,47 @@ function readOnlyLimitsStack(t, id, pid) {
   ].join("");
 }
 
-export const FIGURES = { stages, gates, loop, assessment, team, harness, ledger, timeline, setup, build, words, bilingual, gauntlet, agents, critic, fleet, sources, merges, logos, connection, lifecycle, price, lock, "waiting-per-day": waitingPerDay, "chat-or-agent": chatOrAgent, "five-parts": fiveParts, "four-things": fourThings, "file-before-after": fileBeforeAfter, "which-tool-reads-what": whichToolReadsWhat, "file-hierarchy": fileHierarchy, "agent-handover": agentHandover, "agent-file": agentFile, "skill-folder": skillFolder, "skill-locations": skillLocations, "mcp-server": mcpServer, "read-only-limits": readOnlyLimits };
+// (34) What a Claude Code cloud session starts from — one panel: the files
+// that are only on the computer stay behind (left, plain), the files that are
+// committed to the repository go along (right, green) to the cloud run.
+function whatGoesAlong(t, id, figureId) {
+  const pid = `${figureId}-p1`;
+  const home = ["homeInstruction", "homeSkills", "homeMcp", "homeSignIn"];
+  const repo = ["repoInstruction", "repoSkills", "repoMcp"];
+  const body = [
+    text(16, 58, fit(`${id}.computer`, t.computer, 136), "fig-note fig-strong"),
+    text(168, 58, fit(`${id}.repo`, t.repo, 136), "fig-note fig-ok fig-strong"),
+    ...home.map((key, i) => card(16, 68 + i * 44, 136, `${id}.${key}`, t[key])),
+    ...repo.map((key, i) => card(168, 68 + i * 44, 136, `${id}.${key}`, t[key], "ok")),
+    arrow(pid, 236, 200, 236, 262),
+    card(168, 264, 136, `${id}.run`, t.run, "ok"),
+    text(84, 288, fit(`${id}.staysBehind`, t.staysBehind, 136), "fig-note", "middle"),
+  ].join("");
+  return { caption: t.caption, panels: [{ title: t.title, head: t.head, height: 322, body }] };
+}
+
+// (35) The job that runs by itself in part 6 — one panel: a schedule starts a
+// CI job, the AI agent in it reads the commit history (read-only, in green as
+// the agent is in the figures of part 1) and leaves a summary that waits on a
+// GitHub page to be read later. The chain runs top to bottom: a panel is 320
+// units wide, and four steps side by side would leave each a box too narrow
+// for its label at the type size. The line under it says what the article
+// says of an unattended run: nobody is there to answer a question.
+function dailySummary(t, id, figureId) {
+  const pid = `${figureId}-p1`;
+  const steps = ["schedule", "ci", "agent", "summary"];
+  const TOP = 52; // the first card's top edge
+  const PITCH = 62; // from one card's top edge to the next's: 40 high, 22 for the arrow
+  const last = TOP + (steps.length - 1) * PITCH + 40;
+  const body = [
+    ...steps.map((key, i) => card(16, TOP + i * PITCH, 288, `${id}.${key}`, t[key], key === "agent" ? "ok" : "")),
+    ...steps.slice(1).map((_, i) => arrow(pid, 160, TOP + i * PITCH + 42, 160, TOP + (i + 1) * PITCH - 2)),
+    text(160, last + 26, fit(`${id}.nobody`, t.nobody, 288), "fig-note", "middle"),
+  ].join("");
+  return { caption: t.caption, panels: [{ title: t.title, head: t.head, height: last + 40, body }] };
+}
+
+export const FIGURES = { stages, gates, loop, assessment, team, harness, ledger, timeline, setup, build, words, bilingual, gauntlet, agents, critic, fleet, sources, merges, logos, connection, lifecycle, price, lock, "waiting-per-day": waitingPerDay, "chat-or-agent": chatOrAgent, "five-parts": fiveParts, "four-things": fourThings, "file-before-after": fileBeforeAfter, "which-tool-reads-what": whichToolReadsWhat, "file-hierarchy": fileHierarchy, "agent-handover": agentHandover, "agent-file": agentFile, "skill-folder": skillFolder, "skill-locations": skillLocations, "mcp-server": mcpServer, "read-only-limits": readOnlyLimits, "what-goes-along": whatGoesAlong, "daily-summary": dailySummary };
 
 /**
  * Render one figure as HTML: `<figure class="figure figure-inline|figure-wide">`

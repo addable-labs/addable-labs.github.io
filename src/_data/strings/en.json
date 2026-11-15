@@ -1465,6 +1465,68 @@
       "alone": "Each limit stops a write on its own.",
       "both": "Set both: if one is wrong, the other holds.",
       "caption": "The two limits on the read-only first connection: the MCP server in read-only mode and a token for the practice repo with Issues set to read. Either one stops a write on its own."
+    },
+    "what-goes-along": {
+      "title": "Two columns. The right one, in green, holds what is committed to the repository: the instruction file CLAUDE.md, the skills folder and the project's .mcp.json. An arrow leads from it to a cloud run. The left one holds what is only on your computer: the instruction file in your home folder, the skills in your home folder, MCP servers added only for you and sign-ins that need a browser. No arrow leads from it.",
+      "head": "What a cloud run starts from",
+      "computer": "Only on your computer",
+      "repo": "In the repository",
+      "homeInstruction": {
+        "label": "Instruction file",
+        "note": "~/.claude/CLAUDE.md"
+      },
+      "homeSkills": {
+        "label": "Skills",
+        "note": "~/.claude/skills"
+      },
+      "homeMcp": {
+        "label": "MCP servers",
+        "note": "added only for you"
+      },
+      "homeSignIn": {
+        "label": "Sign-ins",
+        "note": "that need a browser"
+      },
+      "repoInstruction": {
+        "label": "Instruction file",
+        "note": "CLAUDE.md"
+      },
+      "repoSkills": {
+        "label": "Skills",
+        "note": ".claude/skills"
+      },
+      "repoMcp": {
+        "label": "MCP file",
+        "note": ".mcp.json"
+      },
+      "run": {
+        "label": "A cloud run",
+        "note": "starts from a copy"
+      },
+      "staysBehind": "stays behind",
+      "caption": "What a Claude Code cloud session starts from, as its documentation listed it on 30 October 2026: the three files committed to the repository go along (the MCP file in a session with one repository), what is only on your computer stays behind."
+    },
+    "daily-summary": {
+      "title": "Four steps, top to bottom, each with an arrow to the next. A schedule starts a CI job on GitHub Actions at 09:30 UTC every day. The job runs an AI agent that has read-only access to the commit history. The agent writes a summary that waits on a GitHub page to be read later. Under the steps: nobody is there to answer questions.",
+      "head": "The daily summary job",
+      "schedule": {
+        "label": "Schedule",
+        "note": "09:30 UTC every day"
+      },
+      "ci": {
+        "label": "CI job",
+        "note": "GitHub Actions"
+      },
+      "agent": {
+        "label": "AI agent",
+        "note": "read-only access to the commit history"
+      },
+      "summary": {
+        "label": "Summary",
+        "note": "on a GitHub page, read later"
+      },
+      "nobody": "Nobody is there to answer questions",
+      "caption": "The daily summary job of this part, from start to result: a CI job starts on a schedule, the AI agent in it reads the commit history and writes a summary that waits on a GitHub page until someone reads it."
     }
   },
   "games": {

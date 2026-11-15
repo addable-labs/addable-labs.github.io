@@ -1,0 +1,956 @@
+# The sources of "Where the AI agent runs and who starts it" (both languages):
+# one entry per factual claim about a tool, a vendor or a published article of
+# ours, for the monthly check of the series' sources. Every quote was taken from
+# its page on the date in retrieved and checked again on the date in
+# last_checked. Advice that is our own (where to start, which job to choose,
+# trying the cloud first, keeping a first job read-only) has the nearest vendor
+# quote and is marked as ours in the article. The three jobs were checked as
+# YAML and with actionlint, and were not run; the Codex step is assembled from
+# the action's list of settings.
+- id: P6-part1-places
+  article: where-the-agent-runs
+  sentence:
+    sv: "beskrev att en agent kan köras i en editor, i en terminal, i ett CI-jobb eller på schema"
+    en: "said that an agent can run in an editor, in a terminal, in a CI job or on a schedule"
+  vendor: Addable Labs
+  url: https://addablelabs.se/blog/what-makes-a-chat-an-ai-agent/
+  final_url: https://addablelabs.se/blog/what-makes-a-chat-an-ai-agent/
+  quote: "as an editor extension or a terminal program, in a CI job or on a schedule"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+
+- id: P6-cloud-vm-keeps-running
+  article: where-the-agent-runs
+  sentence:
+    sv: "den fortsätter köra om du stänger datorn"
+    en: "it keeps running if you close your laptop"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/claude-code-on-the-web
+  final_url: https://code.claude.com/docs/en/claude-code-on-the-web
+  quote: "The session keeps running after you close your laptop, and you can check on it or steer it from any device."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-31
+
+- id: P6-cloud-start-phone
+  article: where-the-agent-runs
+  sentence:
+    sv: "Du, från en webbläsare eller en telefon"
+    en: "You, from a browser or a phone"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/claude-code-on-the-web
+  final_url: https://code.claude.com/docs/en/claude-code-on-the-web
+  quote: "Browser: claude.ai/code, also called Claude Code on the web Mobile: the Code tab in the Claude app"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-31
+
+- id: P6-ci-event-comment
+  article: where-the-agent-runs
+  sentence:
+    sv: "En händelse, till exempel en kommentar på en pull request"
+    en: "An event, such as a comment on a pull request"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/github-actions
+  final_url: https://code.claude.com/docs/en/github-actions
+  quote: "Mention @claude in a pull request or issue comment to have Claude analyze code, implement changes, and push commits."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-31
+
+- id: P6-good-for-cloud
+  article: where-the-agent-runs
+  sentence:
+    sv: "En lång uppgift som pågår medan datorn är stängd"
+    en: "A long task that goes on while your laptop is closed"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/claude-code-on-the-web
+  final_url: https://code.claude.com/docs/en/claude-code-on-the-web
+  quote: "The session keeps running after you close your laptop, and you can check on it or steer it from any device."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+
+- id: P6-cloud-no-file
+  article: where-the-agent-runs
+  sentence:
+    sv: "Leverantörens moln kan vara det enklaste första försöket, eftersom du startar det från en webbläsare och inte skriver någon fil"
+    en: "The vendor's cloud may be the easiest first try, since you start it from a browser and write no file"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/claude-code-on-the-web
+  final_url: https://code.claude.com/docs/en/claude-code-on-the-web
+  quote: "Starting your first cloud session: Get started with cloud sessions connects GitHub and walks through a task in the browser"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+
+- id: P6-clone-cloud
+  article: where-the-agent-runs
+  sentence:
+    sv: "En körning i leverantörens moln utgår från en kopia av ditt repo, inte från din dator"
+    en: "A run in the vendor's cloud starts from a copy of your repository, not from your computer"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/cloud-environments
+  final_url: https://code.claude.com/docs/en/cloud-environments
+  quote: "Cloud sessions start from a fresh clone of your repository."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-31
+
+- id: P6-clone-cloud-gh
+  article: where-the-agent-runs
+  sentence:
+    sv: "En körning i leverantörens moln utgår från en kopia av ditt repo, inte från din dator"
+    en: "A run in the vendor's cloud starts from a copy of your repository, not from your computer"
+  vendor: GitHub
+  url: https://docs.github.com/en/copilot/concepts/security-governance-and-network-settings/about-cloud-sandboxes
+  final_url: https://docs.github.com/en/copilot/concepts/security-governance-and-network-settings/about-cloud-sandboxes
+  quote: "When you work in one or more repositories, Copilot clones each one into the sandbox, then runs commands and tests and makes changes there."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+
+- id: P6-clone-ci
+  article: where-the-agent-runs
+  sentence:
+    sv: "Ett CI-jobb har bara en kopia om ett av dess steg checkar ut repot"
+    en: "A CI job has a copy only if one of its steps checks the repository out"
+  vendor: OpenAI
+  url: https://learn.chatgpt.com/docs/github-action
+  final_url: https://learn.chatgpt.com/docs/github-action
+  quote: "Check out your code before invoking the action so Codex can read the repository contents."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-31
+
+- id: P6-clone-ci-claude
+  article: where-the-agent-runs
+  sentence:
+    sv: "Ett CI-jobb har bara en kopia om ett av dess steg checkar ut repot"
+    en: "A CI job has a copy only if one of its steps checks the repository out"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/github-actions
+  final_url: https://code.claude.com/docs/en/github-actions
+  quote: "Claude reads commits and issues through the GitHub API with those tools, so you can omit the checkout step"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+
+- id: P6-commit-available
+  article: where-the-agent-runs
+  sentence:
+    sv: "beskriver att det du committar till repot finns tillgängligt i sessionen och att det du bara har installerat eller konfigurerat på din egen maskin inte gör det"
+    en: "says that what you commit to the repository is available in the session, and that what you have installed or configured only on your own machine is not"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/cloud-environments
+  final_url: https://code.claude.com/docs/en/cloud-environments
+  quote: "Anything you commit to the repo is available. Anything you've installed or configured only on your own machine isn't available in the session."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-31
+
+- id: P6-cc-instruction-travels
+  article: where-the-agent-runs
+  sentence:
+    sv: "I Claude Codes molnsessioner följer repots instruktionsfil från del 2 och dess skills från del 4 med, eftersom de är en del av kopian"
+    en: "In Claude Code's cloud sessions, the repository's instruction file from part 2 and its skills from part 4 go along, because they are part of the copy"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/cloud-environments
+  final_url: https://code.claude.com/docs/en/cloud-environments
+  quote: "Your repo's CLAUDE.md … Yes … Part of the clone"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-31
+
+- id: P6-cc-skills-travel
+  article: where-the-agent-runs
+  sentence:
+    sv: "I Claude Codes molnsessioner följer repots instruktionsfil från del 2 och dess skills från del 4 med, eftersom de är en del av kopian"
+    en: "In Claude Code's cloud sessions, the repository's instruction file from part 2 and its skills from part 4 go along, because they are part of the copy"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/cloud-environments
+  final_url: https://code.claude.com/docs/en/cloud-environments
+  quote: "Your repo's .claude/skills/, .claude/agents/, .claude/commands/ … Yes … Part of the clone"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-31
+
+- id: P6-cc-mcp-travels
+  article: where-the-agent-runs
+  sentence:
+    sv: "Det gör också dess .mcp.json från del 5, i en session med ett repo"
+    en: "So does its .mcp.json from part 5, in a session with one repository"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/cloud-environments
+  final_url: https://code.claude.com/docs/en/cloud-environments
+  quote: "Your repo's .mcp.json MCP servers … Yes, in a session with one repository … Part of the clone"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-31
+
+- id: P6-cc-home-instruction
+  article: where-the-agent-runs
+  sentence:
+    sv: "Versionerna i din hemmapp, MCP-servrarna som bara du har lagt till och inloggningar som kräver en webbläsare blir kvar."
+    en: "The versions in your home folder, the MCP servers you added only for yourself and sign-ins that need a browser stay behind."
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/cloud-environments
+  final_url: https://code.claude.com/docs/en/cloud-environments
+  quote: "Your user ~/.claude/CLAUDE.md … No … Lives on your machine, not in the repo."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-31
+
+- id: P6-cc-home-skills
+  article: where-the-agent-runs
+  sentence:
+    sv: "Versionerna i din hemmapp, MCP-servrarna som bara du har lagt till och inloggningar som kräver en webbläsare blir kvar."
+    en: "The versions in your home folder, the MCP servers you added only for yourself and sign-ins that need a browser stay behind."
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/cloud-environments
+  final_url: https://code.claude.com/docs/en/cloud-environments
+  quote: "Your user ~/.claude/skills/, ~/.claude/agents/, ~/.claude/commands/ … No … Live on your machine, not in the repo."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-31
+
+- id: P6-cc-home-mcp
+  article: where-the-agent-runs
+  sentence:
+    sv: "Versionerna i din hemmapp, MCP-servrarna som bara du har lagt till och inloggningar som kräver en webbläsare blir kvar."
+    en: "The versions in your home folder, the MCP servers you added only for yourself and sign-ins that need a browser stay behind."
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/cloud-environments
+  final_url: https://code.claude.com/docs/en/cloud-environments
+  quote: "MCP servers you added with claude mcp add at the default local scope or the user scope … No"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-31
+
+- id: P6-cc-signin-browser
+  article: where-the-agent-runs
+  sentence:
+    sv: "Versionerna i din hemmapp, MCP-servrarna som bara du har lagt till och inloggningar som kräver en webbläsare blir kvar."
+    en: "The versions in your home folder, the MCP servers you added only for yourself and sign-ins that need a browser stay behind."
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/cloud-environments
+  final_url: https://code.claude.com/docs/en/cloud-environments
+  quote: "Interactive auth like AWS SSO … No … SSO requires browser-based login that can't run in a cloud session"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-31
+
+- id: P6-commit-your-config
+  article: where-the-agent-runs
+  sentence:
+    sv: "Dokumentationens råd är att committa din egen konfiguration till repot"
+    en: "The documentation's advice is to commit your own configuration to the repository."
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/cloud-environments
+  final_url: https://code.claude.com/docs/en/cloud-environments
+  quote: "To make your own configuration available in cloud sessions, commit it to the repo."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-31
+
+- id: P6-codex-skills-repo
+  article: where-the-agent-runs
+  sentence:
+    sv: "de som ligger i repot finns tillgängliga i molnuppgifter"
+    en: "the ones stored in the repository are available in cloud tasks, and personal skills from your computer are not synced"
+  vendor: OpenAI
+  url: https://learn.chatgpt.com/docs/environments/cloud-environments
+  final_url: https://learn.chatgpt.com/docs/environments/cloud-environments
+  quote: "Skills stored in your repository are available in cloud tasks. Personal skills from your local computer aren't synced to cloud environments."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-31
+
+- id: P6-codex-skills-personal
+  article: where-the-agent-runs
+  sentence:
+    sv: "Personliga skills från din dator synkas inte"
+    en: "the ones stored in the repository are available in cloud tasks, and personal skills from your computer are not synced"
+  vendor: OpenAI
+  url: https://learn.chatgpt.com/docs/environments/cloud-environments
+  final_url: https://learn.chatgpt.com/docs/environments/cloud-environments
+  quote: "Personal skills from your local computer aren't synced to cloud environments."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-31
+
+- id: P6-claude-p-denied
+  article: where-the-agent-runs
+  sentence:
+    sv: "bara göra det som tillåtits innan det startade"
+    en: "can do only what was allowed before it started"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/permission-modes
+  final_url: https://code.claude.com/docs/en/permission-modes
+  quote: "Calls needing approval are denied unless you approve them with an allow rule, hook, canUseTool callback, or --permission-prompt-tool."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-31
+
+- id: P6-codex-exec-readonly
+  article: where-the-agent-runs
+  sentence:
+    sv: "bara göra det som tillåtits innan det startade"
+    en: "can do only what was allowed before it started"
+  vendor: OpenAI
+  url: https://learn.chatgpt.com/docs/non-interactive-mode
+  final_url: https://learn.chatgpt.com/docs/non-interactive-mode
+  quote: "By default, codex exec runs in a read-only sandbox. In automation, set the least permissions needed for the workflow"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-31
+
+- id: P6-copilot-denied
+  article: where-the-agent-runs
+  sentence:
+    sv: "bara göra det som tillåtits innan det startade"
+    en: "can do only what was allowed before it started"
+  vendor: GitHub
+  url: https://docs.github.com/en/copilot/how-tos/copilot-cli/automate-copilot-cli/run-cli-programmatically
+  final_url: https://docs.github.com/en/copilot/how-tos/copilot-cli/automate-copilot-cli/run-cli-programmatically
+  quote: "requests that still require your approval are denied in unattended runs"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-31
+
+- id: P6-gha-folder
+  article: where-the-agent-runs
+  sentence:
+    sv: "som ligger i repots mapp .github/workflows"
+    en: "kept in the repository's .github/workflows folder"
+  vendor: GitHub
+  url: https://docs.github.com/en/actions/get-started/understand-github-actions
+  final_url: https://docs.github.com/en/actions/get-started/understand-github-actions
+  quote: "Workflows are defined in the .github/workflows directory in a repository."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+
+- id: P6-gha-yaml
+  article: where-the-agent-runs
+  sentence:
+    sv: "Ett jobb där beskrivs av en workflow-fil, en YAML-fil"
+    en: "A job there is described by a workflow file, a YAML file"
+  vendor: GitHub
+  url: https://docs.github.com/en/actions/get-started/understand-github-actions
+  final_url: https://docs.github.com/en/actions/get-started/understand-github-actions
+  quote: "Workflows are defined by a YAML file checked in to your repository"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+
+- id: P6-gha-name
+  article: where-the-agent-runs
+  sentence:
+    sv: "name är det som fliken Actions i repot visar för jobbet"
+    en: "name is what the repository's Actions tab shows for the job"
+  vendor: GitHub
+  url: https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax
+  final_url: https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax
+  quote: "The name of the workflow. GitHub displays the names of your workflows under your repository's \"Actions\" tab."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+
+- id: P6-cron-utc
+  article: where-the-agent-runs
+  sentence:
+    sv: "30 9 * * * är 09:30 varje dag, i UTC (10:30 eller 11:30 i Sverige)"
+    en: "30 9 * * * is 09:30 every day, in UTC (10:30 or 11:30 in Sweden)"
+  vendor: GitHub
+  url: https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows
+  final_url: https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows
+  quote: "Use POSIX cron syntax to schedule workflows to run at specific times. By default, scheduled workflows run in UTC."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-31
+
+- id: P6-dispatch
+  article: where-the-agent-runs
+  sentence:
+    sv: "workflow_dispatch lägger till knappen Run workflow på GitHub, för att starta jobbet för hand"
+    en: "workflow_dispatch adds the Run workflow button to GitHub, for starting the job by hand"
+  vendor: GitHub
+  url: https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows
+  final_url: https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows
+  quote: "To enable a workflow to be triggered manually, you need to configure the workflow_dispatch event. On the GitHub UI, the \"Run workflow\" button will be present if the workflow file exists on the default branch."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-31
+
+- id: P6-gha-runner
+  article: where-the-agent-runs
+  sentence:
+    sv: "runs-on väljer runnern"
+    en: "runs-on picks the runner"
+  vendor: GitHub
+  url: https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax
+  final_url: https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax
+  quote: "to define the type of machine to run the job on"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+
+- id: P6-gha-timeout
+  article: where-the-agent-runs
+  sentence:
+    sv: "timeout-minutes får GitHub att avbryta jobbet efter tio minuter"
+    en: "timeout-minutes makes GitHub cancel the job after ten minutes"
+  vendor: GitHub
+  url: https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax
+  final_url: https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax
+  quote: "The maximum number of minutes to let a job run before GitHub automatically cancels it."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+
+- id: P6-permissions-token
+  article: where-the-agent-runs
+  sentence:
+    sv: "permissions anger vad jobbets GITHUB_TOKEN får göra: här bara läsa repot"
+    en: "permissions sets what the job's GITHUB_TOKEN may do: here, only read the repository"
+  vendor: GitHub
+  url: https://docs.github.com/en/copilot/how-tos/copilot-cli/automate-copilot-cli/automate-with-actions
+  final_url: https://docs.github.com/en/copilot/how-tos/copilot-cli/automate-copilot-cli/automate-with-actions
+  quote: "The permissions block defines the scope granted to the built-in GITHUB_TOKEN. Because this workflow reads repository data and prints a summary to the logs, it requires contents: read."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-31
+
+- id: P6-gha-checkout
+  article: where-the-agent-runs
+  sentence:
+    sv: "Det första steget checkar ut repot till runnern"
+    en: "The first step checks the repository out onto the runner"
+  vendor: GitHub
+  url: https://raw.githubusercontent.com/actions/checkout/main/README.md
+  final_url: https://raw.githubusercontent.com/actions/checkout/main/README.md
+  quote: "This action checks-out your repository under $GITHUB_WORKSPACE, so your workflow can access it."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+
+- id: P6-gha-fetch-depth
+  article: where-the-agent-runs
+  sentence:
+    sv: "fetch-depth: 0 hämtar hela historiken så att git log kan se gårdagens commits"
+    en: "fetch-depth: 0 fetches the whole history, so that git log can see yesterday's commits"
+  vendor: GitHub
+  url: https://raw.githubusercontent.com/actions/checkout/main/README.md
+  final_url: https://raw.githubusercontent.com/actions/checkout/main/README.md
+  quote: "Set fetch-depth: 0 to fetch all history for all branches and tags."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+
+- id: P6-cc-action
+  article: where-the-agent-runs
+  sentence:
+    sv: "kör GitHub Action agenten i CI, antingen när någon nämner @claude i en kommentar eller, med en prompt, vid vilken GitHub-händelse som helst, till exempel ett schema"
+    en: "runs the agent in CI, either when someone mentions @claude in a comment or, with a prompt, on any GitHub event, such as a schedule"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/github-actions
+  final_url: https://code.claude.com/docs/en/github-actions
+  quote: "Mention @claude in a pull request or issue comment to have Claude analyze code, implement changes, and push commits. You can also give the Claude Code GitHub Action a prompt to run automatically on any GitHub event."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-31
+
+- id: P6-cc-action-cron
+  article: where-the-agent-runs
+  sentence:
+    sv: "kör GitHub Action agenten i CI, antingen när någon nämner @claude i en kommentar eller, med en prompt, vid vilken GitHub-händelse som helst, till exempel ett schema"
+    en: "runs the agent in CI, either when someone mentions @claude in a comment or, with a prompt, on any GitHub event, such as a schedule"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/github-actions
+  final_url: https://code.claude.com/docs/en/github-actions
+  quote: "With a prompt input, the Claude Code GitHub Action runs in automation mode on any GitHub event, including a cron schedule."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+
+- id: P6-cc-app-installed
+  article: where-the-agent-runs
+  sentence:
+    sv: "Den kräver att Claudes GitHub-app är installerad i repot"
+    en: "It needs the Claude GitHub app installed on the repository"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/github-actions
+  final_url: https://code.claude.com/docs/en/github-actions
+  quote: "Verify the GitHub App is installed on the repository"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+
+- id: P6-id-token
+  article: where-the-agent-runs
+  sentence:
+    sv: "en andra rad under permissions, id-token: write, som actionen använder för att logga in på GitHub som appen"
+    en: "a second line under permissions, id-token: write, which it uses to sign in to GitHub as that app"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/github-actions
+  final_url: https://code.claude.com/docs/en/github-actions
+  quote: "id-token: write: required for the Claude Code GitHub Action's default GitHub App authentication"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-31
+
+- id: P6-cc-list-commits
+  article: where-the-agent-runs
+  sentence:
+    sv: "Steget tillåter ett MCP-verktyg från GitHub, mcp__github__list_commits, som låter Claude läsa commits via GitHubs API"
+    en: "The step allows one GitHub MCP tool, mcp__github__list_commits, which lets Claude read the commits through GitHub's API"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/github-actions
+  final_url: https://code.claude.com/docs/en/github-actions
+  quote: "allow two GitHub MCP tools. Claude reads commits and issues through the GitHub API with those tools"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+
+- id: P6-cc-example
+  article: where-the-agent-runs
+  sentence:
+    sv: "Det är anpassat från Anthropics eget exempel: vi har tagit bort ärendena och modellinställningen och skrivit prompten själva"
+    en: "It is adapted from Anthropic's own example: we left out the issues and the model setting and wrote the prompt ourselves"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/github-actions
+  final_url: https://code.claude.com/docs/en/github-actions
+  quote: "This workflow generates a report in the workflow run log at 09:00 UTC each day. Its claude_args line passes CLI arguments that select the model and allow two GitHub MCP tools."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-31
+
+- id: P6-codex-action
+  article: where-the-agent-runs
+  sentence:
+    sv: "kör Codex action agenten i CI"
+    en: "the Codex action runs the agent in CI"
+  vendor: OpenAI
+  url: https://learn.chatgpt.com/docs/github-action
+  final_url: https://learn.chatgpt.com/docs/github-action
+  quote: "Use the Codex GitHub Action (openai/codex-action@v1) to run Codex in CI/CD jobs"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-31
+
+- id: P6-codex-action-example
+  article: where-the-agent-runs
+  sentence:
+    sv: "Actionens sida visar bara ett exempel som startar vid en pull request"
+    en: "The action's page shows only an example that starts on a pull request"
+  vendor: OpenAI
+  url: https://learn.chatgpt.com/docs/github-action
+  final_url: https://learn.chatgpt.com/docs/github-action
+  quote: "The sample workflow below reviews new pull requests, captures Codex's response, and posts it back on the PR."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-31
+
+- id: P6-codex-action-inputs
+  article: where-the-agent-runs
+  sentence:
+    sv: "det här steget är satt ihop av actionens lista över inställningar"
+    en: "this step is assembled from the action's list of settings"
+  vendor: OpenAI
+  url: https://learn.chatgpt.com/docs/github-action
+  final_url: https://learn.chatgpt.com/docs/github-action
+  quote: "output-file: Save the final Codex message to disk so later steps can upload or diff it."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-31
+
+- id: P6-codex-action-sandbox
+  article: where-the-agent-runs
+  sentence:
+    sv: "Inställningen read-only låter Codex läsa filerna men inte ändra dem"
+    en: "The read-only setting lets Codex look at the files and change none"
+  vendor: OpenAI
+  url: https://learn.chatgpt.com/docs/github-action
+  final_url: https://learn.chatgpt.com/docs/github-action
+  quote: "read-only keeps Codex from changing files or using the network"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-31
+
+- id: P6-codex-output-file
+  article: where-the-agent-runs
+  sentence:
+    sv: "output-file sparar svaret i en fil som den sista raden skriver ut"
+    en: "output-file saves its answer in a file that the last line prints"
+  vendor: OpenAI
+  url: https://learn.chatgpt.com/docs/github-action
+  final_url: https://learn.chatgpt.com/docs/github-action
+  quote: "output-file: Save the final Codex message to disk so later steps can upload or diff it."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+
+- id: P6-copilot-runner
+  article: where-the-agent-runs
+  sentence:
+    sv: "körs i CI med copilot -p, som kör en prompt och avslutas"
+    en: "runs in CI with copilot -p, which runs one prompt and exits"
+  vendor: GitHub
+  url: https://docs.github.com/en/copilot/how-tos/copilot-cli/automate-copilot-cli/automate-with-actions
+  final_url: https://docs.github.com/en/copilot/how-tos/copilot-cli/automate-copilot-cli/automate-with-actions
+  quote: "Use copilot -p PROMPT [OPTIONS] to run the CLI programmatically and exit when the command completes."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-31
+
+- id: P6-copilot-example
+  article: where-the-agent-runs
+  sentence:
+    sv: "Det här steget är anpassat från exemplet på GitHubs sida om att automatisera det med Actions: vi har kortat prompten och låter svaret gå till loggen i stället för till en fil"
+    en: "This step is adapted from the example on GitHub's page about automating it with Actions: we shortened the prompt and let the answer go to the log instead of a file"
+  vendor: GitHub
+  url: https://docs.github.com/en/copilot/how-tos/copilot-cli/automate-copilot-cli/automate-with-actions
+  final_url: https://docs.github.com/en/copilot/how-tos/copilot-cli/automate-copilot-cli/automate-with-actions
+  quote: "The CLI prints its response to standard output, which is recorded in the log for the Actions workflow run."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+
+- id: P6-copilot-allow-tool
+  article: where-the-agent-runs
+  sentence:
+    sv: "Flaggan --allow-tool tillåter git-kommandon"
+    en: "The --allow-tool flag allows git commands"
+  vendor: GitHub
+  url: https://docs.github.com/en/copilot/how-tos/copilot-cli/automate-copilot-cli/run-cli-programmatically
+  final_url: https://docs.github.com/en/copilot/how-tos/copilot-cli/automate-copilot-cli/run-cli-programmatically
+  quote: "to give Copilot permission to use only the tools and access that are necessary to complete the task"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+
+- id: P6-copilot-neither-token
+  article: where-the-agent-runs
+  sentence:
+    sv: "Då kan ingen av de två tokens skriva till ditt repo. Git kan alltså inte ändra det"
+    en: "Then neither token can write to your repository, so git cannot change it"
+  vendor: GitHub
+  url: https://docs.github.com/en/copilot/how-tos/copilot-cli/automate-copilot-cli/automate-with-actions
+  final_url: https://docs.github.com/en/copilot/how-tos/copilot-cli/automate-copilot-cli/automate-with-actions
+  quote: "The permissions block defines the scope granted to the built-in GITHUB_TOKEN."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+
+- id: P6-copilot-no-ask-user
+  article: where-the-agent-runs
+  sentence:
+    sv: "--no-ask-user hindrar Copilot från att ställa frågor"
+    en: "--no-ask-user stops Copilot from asking questions"
+  vendor: GitHub
+  url: https://docs.github.com/en/copilot/how-tos/copilot-cli/automate-copilot-cli/run-cli-programmatically
+  final_url: https://docs.github.com/en/copilot/how-tos/copilot-cli/automate-copilot-cli/run-cli-programmatically
+  quote: "Use --no-ask-user to prevent the agent from attempting to ask clarifying questions."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-31
+
+- id: P6-copilot-pat
+  article: where-the-agent-runs
+  sentence:
+    sv: "Tokenen är en fine-grained personal access token med behörigheten \"Copilot Requests\""
+    en: "The token is a fine-grained personal access token with the \"Copilot Requests\" permission"
+  vendor: GitHub
+  url: https://docs.github.com/en/copilot/how-tos/copilot-cli/automate-copilot-cli/automate-with-actions
+  final_url: https://docs.github.com/en/copilot/how-tos/copilot-cli/automate-copilot-cli/automate-with-actions
+  quote: "Create a new PAT with the \"Copilot Requests\" permission."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+
+- id: P6-codex-key
+  article: where-the-agent-runs
+  sentence:
+    sv: "Att köra dem kräver en nyckel eller en token för verktyget och ett eget repo"
+    en: "Running them takes a key or a token for the tool and a repository of our own"
+  vendor: OpenAI
+  url: https://learn.chatgpt.com/docs/github-action
+  final_url: https://learn.chatgpt.com/docs/github-action
+  quote: "Store your OpenAI key as a GitHub secret (for example OPENAI_API_KEY) and reference it in the workflow."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-31
+
+- id: P6-cc-cloud-flag
+  article: where-the-agent-runs
+  sentence:
+    sv: "en session på Anthropics datorer"
+    en: "starts a session on Anthropic's computers"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/claude-code-on-the-web
+  final_url: https://code.claude.com/docs/en/claude-code-on-the-web
+  quote: "Start a cloud session from the command line with the --cloud flag"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-31
+
+- id: P6-cc-cloud-anthropic
+  article: where-the-agent-runs
+  sentence:
+    sv: "en session på Anthropics datorer"
+    en: "starts a session on Anthropic's computers"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/claude-code-on-the-web
+  final_url: https://code.claude.com/docs/en/claude-code-on-the-web
+  quote: "By default it runs on infrastructure Anthropic manages"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-31
+
+- id: P6-codex-cloud-workspace
+  article: where-the-agent-runs
+  sentence:
+    sv: "ger varje uppgift en egen arbetsyta"
+    en: "gives each task a workspace of its own"
+  vendor: OpenAI
+  url: https://learn.chatgpt.com/docs/cloud
+  final_url: https://learn.chatgpt.com/docs/cloud
+  quote: "Each task has its own workspace and can keep working while your computer is asleep."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-31
+
+- id: P6-copilot-sandbox
+  article: where-the-agent-runs
+  sentence:
+    sv: "en isolerad Linux-miljö som GitHub skapar för sessionen"
+    en: "an isolated Linux environment that GitHub creates for the session"
+  vendor: GitHub
+  url: https://docs.github.com/en/copilot/concepts/security-governance-and-network-settings/about-cloud-sandboxes
+  final_url: https://docs.github.com/en/copilot/concepts/security-governance-and-network-settings/about-cloud-sandboxes
+  quote: "A cloud sandbox is an isolated Linux environment that GitHub creates for a Copilot session."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-31
+
+- id: P6-copilot-28oct
+  article: where-the-agent-runs
+  sentence:
+    sv: "om din plan och din organisation tillåter det"
+    en: "if your plan and your organisation allow it"
+  vendor: GitHub
+  url: https://docs.github.com/en/copilot/concepts/copilot-surfaces/copilot-on-github
+  final_url: https://docs.github.com/en/copilot/concepts/copilot-surfaces/copilot-on-github
+  quote: "Starting October 28, 2026, the new Copilot in the cloud experience on GitHub.com and GitHub Mobile is available to users with a paid Copilot plan, subject to applicable organization and enterprise policies."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-31
+
+- id: P6-log-claude
+  article: where-the-agent-runs
+  sentence:
+    sv: "läser loggen för verktygets steg"
+    en: "read the log of the tool's step"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/github-actions
+  final_url: https://code.claude.com/docs/en/github-actions
+  quote: "This workflow generates a report in the workflow run log at 09:00 UTC each day."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+
+- id: P6-log-copilot
+  article: where-the-agent-runs
+  sentence:
+    sv: "läser loggen för verktygets steg"
+    en: "read the log of the tool's step"
+  vendor: GitHub
+  url: https://docs.github.com/en/copilot/how-tos/copilot-cli/automate-copilot-cli/automate-with-actions
+  final_url: https://docs.github.com/en/copilot/how-tos/copilot-cli/automate-copilot-cli/automate-with-actions
+  quote: "The CLI prints its response to standard output, which is recorded in the log for the Actions workflow run."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+
+- id: P6-usage-ci-two
+  article: where-the-agent-runs
+  sentence:
+    sv: "En körning i CI använder två saker: verktygets användning och minuter i GitHub Actions"
+    en: "A run in CI uses two things: the tool's usage and GitHub Actions minutes."
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/github-actions
+  final_url: https://code.claude.com/docs/en/github-actions
+  quote: "Each run consumes two kinds of resources: GitHub Actions minutes"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-31
+
+- id: P6-usage-credits
+  article: where-the-agent-runs
+  sentence:
+    sv: "GitHub räknar Copilots användning i AI credits"
+    en: "GitHub counts Copilot's usage as AI credits"
+  vendor: GitHub
+  url: https://docs.github.com/en/copilot/concepts/copilot-surfaces/copilot-cli
+  final_url: https://docs.github.com/en/copilot/concepts/copilot-surfaces/copilot-cli
+  quote: "AI credits are consumed based on the number of tokens processed."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-31
+
+- id: P6-usage-trace
+  article: where-the-agent-runs
+  sentence:
+    sv: "som du i allmänhet inte kan spåra till en enskild prompt eller session"
+    en: "which you generally cannot trace to a single prompt or session"
+  vendor: GitHub
+  url: https://docs.github.com/en/copilot/how-tos/manage-and-track-spending/monitor-ai-usage
+  final_url: https://docs.github.com/en/copilot/how-tos/manage-and-track-spending/monitor-ai-usage
+  quote: "you generally cannot trace consumed credits to specific prompts, sessions, or exact features at a per-request level"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-31
+
+- id: P6-ts-folder
+  article: where-the-agent-runs
+  sentence:
+    sv: "GitHub läser workflow-filer från mappen .github/workflows"
+    en: "GitHub reads workflow files from the .github/workflows folder"
+  vendor: GitHub
+  url: https://docs.github.com/en/actions/get-started/understand-github-actions
+  final_url: https://docs.github.com/en/actions/get-started/understand-github-actions
+  quote: "Workflows are defined in the .github/workflows directory in a repository."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+
+- id: P6-ts-default-branch
+  article: where-the-agent-runs
+  sentence:
+    sv: "Ett schema eller knappen Run workflow fungerar bara när filen ligger på default branch"
+    en: "a schedule or a Run workflow button works only when the file is on the default branch"
+  vendor: GitHub
+  url: https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows
+  final_url: https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows
+  quote: "Scheduled workflows will only run on the default branch."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-31
+
+- id: P6-ts-default-branch-dispatch
+  article: where-the-agent-runs
+  sentence:
+    sv: "Ett schema eller knappen Run workflow fungerar bara när filen ligger på default branch"
+    en: "a schedule or a Run workflow button works only when the file is on the default branch"
+  vendor: GitHub
+  url: https://docs.github.com/en/actions/how-tos/manage-workflow-runs/manually-run-a-workflow
+  final_url: https://docs.github.com/en/actions/how-tos/manage-workflow-runs/manually-run-a-workflow
+  quote: "To trigger the workflow_dispatch event, your workflow must be in the default branch."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+
+- id: P6-ts-app-installed
+  article: where-the-agent-runs
+  sentence:
+    sv: "kontrollera också att Claudes GitHub-app är installerad i repot"
+    en: "also check that the Claude GitHub app is installed on the repository"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/github-actions
+  final_url: https://code.claude.com/docs/en/github-actions
+  quote: "Verify the GitHub App is installed on the repository"
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+
+- id: P6-ts-no-shell
+  article: where-the-agent-runs
+  sentence:
+    sv: "En prompt som bara är text ger Claude ingen shell- eller GitHub-åtkomst förrän filen ger de verktyg som prompten behöver"
+    en: "A plain-text prompt to Claude has no shell or GitHub access until the file grants the tools the prompt needs"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/github-actions
+  final_url: https://code.claude.com/docs/en/github-actions
+  quote: "For a plain-text prompt, Claude has no shell or GitHub API access until you grant the tools the prompt needs"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-31
+
+- id: P6-ts-utc
+  article: where-the-agent-runs
+  sentence:
+    sv: "kom ihåg att tiderna i ett schema är UTC"
+    en: "remember that the times in a schedule are UTC"
+  vendor: GitHub
+  url: https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows
+  final_url: https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows
+  quote: "By default, scheduled workflows run in UTC."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+
+- id: P6-ts-delay
+  article: where-the-agent-runs
+  sentence:
+    sv: "ett schema kan försenas när många workflows startar samtidigt, till exempel vid början av varje timme"
+    en: "a schedule can be delayed when many workflows start at once, such as at the start of every hour"
+  vendor: GitHub
+  url: https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows
+  final_url: https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows
+  quote: "The schedule event can be delayed during periods of high loads of GitHub Actions workflow runs. High load times include the start of every hour."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+
+- id: P6-ts-delay-advice
+  article: where-the-agent-runs
+  sentence:
+    sv: "GitHub rekommenderar en annan tid på timmen"
+    en: "advises another time of the hour"
+  vendor: GitHub
+  url: https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows
+  final_url: https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows
+  quote: "To decrease the chance of delay, schedule your workflow to run at a different time of the hour."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+
+- id: P6-ts-timeout
+  article: where-the-agent-runs
+  sentence:
+    sv: "avbryter raden timeout-minutes den efter tio minuter"
+    en: "the timeout-minutes line cancels it after ten minutes"
+  vendor: GitHub
+  url: https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax
+  final_url: https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax
+  quote: "The maximum number of minutes to let a job run before GitHub automatically cancels it."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+
+- id: P6-fac-gates
+  article: where-the-agent-runs
+  sentence:
+    sv: "I fabriken publiceras en ändring först när den klarat kvalitetsgrindarna"
+    en: "In the factory, a change goes live only once the gates pass"
+  vendor: Addable Labs
+  url: https://addablelabs.se/blog/why-we-run-an-agent-run-factory/
+  final_url: https://addablelabs.se/blog/why-we-run-an-agent-run-factory/
+  quote: "The agents push to GitHub themselves: a change goes live only once the gates pass, and a text only once we have read it."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-31
+
+- id: P6-adv-federation
+  article: where-the-agent-runs
+  sentence:
+    sv: "med workload identity federation, som Claudes action stöder"
+    en: "through workload identity federation, which Claude's action supports"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/github-actions
+  final_url: https://code.claude.com/docs/en/github-actions
+  quote: "To avoid storing a long-lived secret entirely, authenticate through workload identity federation"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-31
+
+- id: P6-adv-agentic-markdown
+  article: where-the-agent-runs
+  sentence:
+    sv: "automation skriven i markdown"
+    en: "automation written in markdown"
+  vendor: GitHub
+  url: https://github.blog/changelog/2026-10-28-github-agentic-workflows-generally-available/
+  final_url: https://github.blog/changelog/2026-10-28-github-agentic-workflows-generally-available/
+  quote: "Define your automation in natural language Markdown files, and GitHub Agentic Workflows compiles them into standard Actions YAML."
+  retrieved: 2026-10-30
+  last_checked: 2026-10-31
+
+- id: P6-adv-agentic-readonly
+  article: where-the-agent-runs
+  sentence:
+    sv: "som körs med skrivskyddade behörigheter som standard"
+    en: "which runs with read-only permissions by default"
+  vendor: GitHub
+  url: https://github.blog/changelog/2026-10-28-github-agentic-workflows-generally-available/
+  final_url: https://github.blog/changelog/2026-10-28-github-agentic-workflows-generally-available/
+  quote: "run with read-only permissions by default"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-31
+
+- id: P6-small-clear-outcome
+  article: where-the-agent-runs
+  sentence:
+    sv: "Välj ett jobb som körs utan att någon är med, som upprepas och som har ett resultat du kan kontrollera"
+    en: "Choose a job that runs without a person, repeats and has a result you can check"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/routines
+  final_url: https://code.claude.com/docs/en/routines
+  quote: "the kind of work scheduled tasks are suited to: unattended, repeatable, and tied to a clear outcome"
+  retrieved: 2026-10-30
+  last_checked: 2026-10-31
+
+- id: P6-secret-path
+  article: where-the-agent-runs
+  sentence:
+    sv: "Öppna repots Settings, sedan Secrets and variables, sedan Actions och slutligen New repository secret"
+    en: "In the repository's Settings, open Secrets and variables, then Actions, then New repository secret"
+  vendor: GitHub
+  url: https://docs.github.com/en/actions/how-tos/write-workflows/choose-what-workflows-do/use-secrets
+  final_url: https://docs.github.com/en/actions/how-tos/write-workflows/choose-what-workflows-do/use-secrets
+  quote: "select Secrets and variables, then click Actions. Click the Secrets tab. Click New repository secret."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+
+- id: P6-install-github-app
+  article: where-the-agent-runs
+  sentence:
+    sv: "För Claude Code, installera också Claudes GitHub-app i repot: actionens sida visar hur"
+    en: "For Claude Code, also install the Claude GitHub app on the repository: the action's page shows how"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/github-actions
+  final_url: https://code.claude.com/docs/en/github-actions
+  quote: "Manual setup: install the app, add the secret, and copy the workflow file into your repository yourself."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31
+
+- id: P6-run-workflow
+  article: where-the-agent-runs
+  sentence:
+    sv: "Öppna fliken Actions, välj Daily summary i listan och tryck på Run workflow"
+    en: "Open the Actions tab, pick Daily summary in the list and press Run workflow"
+  vendor: GitHub
+  url: https://docs.github.com/en/actions/how-tos/manage-workflow-runs/manually-run-a-workflow
+  final_url: https://docs.github.com/en/actions/how-tos/manage-workflow-runs/manually-run-a-workflow
+  quote: "Under your repository name, click Actions. In the left sidebar, click the name of the workflow you want to run. Above the list of workflow runs, click the Run workflow button."
+  retrieved: 2026-10-31
+  last_checked: 2026-10-31

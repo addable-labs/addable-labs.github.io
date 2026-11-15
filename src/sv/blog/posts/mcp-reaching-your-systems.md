@@ -514,6 +514,6 @@ Arbetstitlarna kan ändras på vägen.
 3. [Ge varje AI-agent ett eget jobb](/sv/blog/agents-with-a-scope-each/)
 4. [Skills, när arbetet ska göras likadant varje gång](/sv/blog/skills-for-repeatable-work/)
 5. MCP, så når AI-agenten andra system (den här delen)
-6. Var AI-agenten körs och vem som startar den
+6. [Var AI-agenten körs och vem som startar den](/sv/blog/where-the-agent-runs/)
 7. <span id="del-7"></span>Sätt gränserna i förväg
 8. Mindre styrning för varje modell
