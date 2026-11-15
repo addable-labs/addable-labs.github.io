@@ -1527,6 +1527,60 @@
       },
       "nobody": "Nobody is there to answer questions",
       "caption": "The daily summary job of this part, from start to result: a CI job starts on a schedule, the AI agent in it reads the commit history and writes a summary that waits on a GitHub page until someone reads it."
+    },
+    "limits-path": {
+      "title": "The instruction file reaches only the agent. From the top, a command meets the hook, then the permission rules and mode, then the sandbox. Below, some of what runs outside the sandbox: the agent's file tools, MCP servers and hooks.",
+      "head": "One command, the checks it meets",
+      "instruction": {
+        "label": "Instruction file",
+        "note": "only asks the agent"
+      },
+      "agent": {
+        "label": "The agent",
+        "note": "wants to act"
+      },
+      "hook": {
+        "label": "Hook",
+        "note": "your own script can say no"
+      },
+      "permissions": {
+        "label": "Permission rules and mode",
+        "note": "deny, ask or allow; may ask you"
+      },
+      "sandbox": "Sandbox: limits files and network",
+      "command": {
+        "label": "The command runs",
+        "note": "only where the sandbox allows"
+      },
+      "outside": "Some of what runs outside the sandbox:",
+      "fileTools": "File tools",
+      "mcp": "MCP servers",
+      "hooks": "Hooks",
+      "caption": "The checks one command meets in Claude Code, in the order its documentation gives them on 15 November 2026."
+    },
+    "limits-attempts": {
+      "title": "Five attempts against the deny rule, the hook and the sandbox of the practice folder. Editing a file under migrations/ with the agent's file tool: the deny rule stops it, the hook and the sandbox let it through. rm -rf build: the hook stops it, the deny rule lets it through. touch ~/sandbox-probe: the sandbox stops it, the deny rule and the hook let it through. rm -fr build: the deny rule and the hook let it through and Claude Code only asks you. A Python program that opens files itself: the sandbox covers it, the deny rule and the hook let it through. No single check covers everything.",
+      "head": "Five attempts, three limits",
+      "columns": {
+        "deny": "Deny rule",
+        "hook": "Hook",
+        "sandbox": "Sandbox"
+      },
+      "rows": {
+        "file": "Edit a file under migrations/ with the agent's file tool",
+        "rmrf": "rm -rf build",
+        "touch": "touch ~/sandbox-probe",
+        "rmfr": "rm -fr build",
+        "asks": "Claude Code only asks you",
+        "python": "A Python program that opens files itself"
+      },
+      "cells": {
+        "stops": "stops",
+        "covers": "covers",
+        "pass": "passes"
+      },
+      "note": "No single check covers everything.",
+      "caption": "What the deny rule, the hook and the sandbox of the practice folder do with five attempts, as the checks and the script in this part show."
     }
   },
   "games": {

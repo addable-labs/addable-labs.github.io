@@ -2542,7 +2542,103 @@ function dailySummary(t, id, figureId) {
   return { caption: t.caption, panels: [{ title: t.title, head: t.head, height: last + 40, body }] };
 }
 
-export const FIGURES = { stages, gates, loop, assessment, team, harness, ledger, timeline, setup, build, words, bilingual, gauntlet, agents, critic, fleet, sources, merges, logos, connection, lifecycle, price, lock, "waiting-per-day": waitingPerDay, "chat-or-agent": chatOrAgent, "five-parts": fiveParts, "four-things": fourThings, "file-before-after": fileBeforeAfter, "which-tool-reads-what": whichToolReadsWhat, "file-hierarchy": fileHierarchy, "agent-handover": agentHandover, "agent-file": agentFile, "skill-folder": skillFolder, "skill-locations": skillLocations, "mcp-server": mcpServer, "read-only-limits": readOnlyLimits, "what-goes-along": whatGoesAlong, "daily-summary": dailySummary };
+// (36) The checks one command meets in Claude Code — one panel: the
+// instruction file only asks the agent (top row); under the agent the path of
+// one command: the hook, the permission rules and mode (orange: they may ask
+// you), then the command inside the dashed sandbox box; below that, what runs
+// outside the sandbox. The order is the one Claude Code's documentation gives
+// on 30 October 2026 (PreToolUse hooks fire before any permission check).
+function limitsPath(t, id, figureId) {
+  const pid = `${figureId}-p1`;
+  const tag = (x, key) => [
+    `<rect x="${x}" y="332" width="92" height="26" rx="6" class="fig-node"/>`,
+    text(x + 46, 349.5, fit(`${id}.${key}`, t[key], 84, "small"), "fig-label fig-small", "middle"),
+  ].join("");
+  const body = [
+    card(16, 52, 136, `${id}.instruction`, t.instruction),
+    card(184, 52, 120, `${id}.agent`, t.agent, "ok"),
+    arrow(pid, 152, 72, 182, 72),
+    arrow(pid, 244, 94, 244, 112),
+    card(16, 114, 288, `${id}.hook`, t.hook),
+    arrow(pid, 160, 154, 160, 166),
+    card(16, 168, 288, `${id}.permissions`, t.permissions, "wait"),
+    arrow(pid, 160, 208, 160, 220),
+    `<rect x="12" y="222" width="296" height="74" rx="10" class="fig-accent-stroke fig-dashed"/>`,
+    text(24, 238, fit(`${id}.sandbox`, t.sandbox, 272), "fig-note fig-ok fig-strong"),
+    card(24, 246, 272, `${id}.command`, t.command),
+    text(16, 322, fit(`${id}.outside`, t.outside, 288), "fig-note fig-strong"),
+    tag(16, "fileTools"),
+    tag(114, "mcp"),
+    tag(212, "hooks"),
+  ].join("");
+  return { caption: t.caption, panels: [{ title: t.title, head: t.head, height: 374, body }] };
+}
+
+// (37) Five attempts against the three limits of the practice folder — one
+// panel, a table: a column for the deny rule, the hook and the sandbox, a row
+// for each attempt the part walks through, in the order the part meets them
+// (the three that each limit stops, then the two that get past one). A cell
+// says what that limit does with that attempt, in a mark and a word: a green
+// box with a tick and "stops" (the deny rule on an edit under migrations/ with
+// the agent's file tool, the hook on rm -rf, the sandbox on touch ~/sandbox-probe)
+// or "covers" (the sandbox on a program that opens files itself: the part says
+// the sandbox covers it, not that it stops it); plain grey "passes"
+// where the part says the limit does not act, or, for the deny rule and the
+// hook, where the settings file and the script it shows name nothing that
+// matches ("a hook that matches text stops what it lists and nothing else").
+// A cell the part does not decide is left empty: the sandbox on rm -rf build
+// and rm -fr build. The part says of rm -fr build that Claude Code only asks
+// you, in orange under the row's label. Commands are the same in both
+// languages.
+function limitsAttempts(t, id, figureId) {
+  const CELLS = [179, 229, 279]; // the centres of the deny rule, hook and sandbox columns
+  const CELL = 48;
+  const TOP = 74; // the first row's top, under the column heads
+  const ROW = 44;
+  const LINE = 12;
+  const LABEL = 136; // the row labels run from the left margin to the cells
+  const ROWS = [
+    { label: "file", cells: ["stops", "pass", "pass"] },
+    { label: "rmrf", cells: ["pass", "stops", null] },
+    { label: "touch", cells: ["pass", "pass", "stops"] },
+    { label: "rmfr", note: "asks", cells: ["pass", "pass", null] },
+    { label: "python", cells: ["pass", "pass", "covers"] },
+  ];
+  const rule = (y) => `<line x1="16" y1="${y}" x2="${WIDTH - 16}" y2="${y}" class="fig-hair"/>`;
+  const parts = [];
+
+  // The column heads, on one or two lines that end on one baseline.
+  ["deny", "hook", "sandbox"].forEach((column, i) => {
+    const lines = wrap(`${id}.columns.${column}`, t.columns[column], CELL, "note", 2);
+    lines.forEach((value, n) => parts.push(text(CELLS[i], 68 - (lines.length - 1 - n) * LINE, value, "fig-note fig-strong", "middle")));
+  });
+
+  ROWS.forEach(({ label, note, cells }, r) => {
+    const top = TOP + r * ROW;
+    parts.push(rule(top));
+    const lines = wrap(`${id}.rows.${label}`, t.rows[label], LABEL, "note", 3).map((value) => [value, "fig-note fig-strong"]);
+    if (note) lines.push(...wrap(`${id}.rows.${note}`, t.rows[note], 110, "note", 2).map((value) => [value, "fig-note fig-wait fig-strong"]));
+    if (lines.length > 3) throw new Error(`Figure label "${id}.rows.${label}" needs ${lines.length} lines with its note; at most 3 fit a row`);
+    const first = top + (ROW - (lines.length - 1) * LINE) / 2 + 3.5;
+    lines.forEach(([value, cls], n) => parts.push(text(16, first + n * LINE, value, cls)));
+    cells.forEach((kind, i) => {
+      const x = CELLS[i];
+      if (kind === "stops" || kind === "covers") {
+        const box = `x="${x - CELL / 2}" y="${top + 5}" width="${CELL}" height="${ROW - 10}" rx="6"`;
+        parts.push(`<rect ${box} class="fig-node"/>`, `<rect ${box} class="fig-accent-stroke"/>`, check(x, top + 16.5));
+        parts.push(text(x, top + 32, fit(`${id}.cells.${kind}`, t.cells[kind], CELL), "fig-note fig-ok fig-strong", "middle"));
+      } else if (kind === "pass") {
+        const lines = wrap(`${id}.cells.pass`, t.cells.pass, CELL, "note", 2);
+        lines.forEach((value, n) => parts.push(text(x, top + ROW / 2 + 3.5 + (n - (lines.length - 1) / 2) * LINE, value, "fig-note", "middle")));
+      }
+    });
+  });
+  const bottom = TOP + ROWS.length * ROW;
+  parts.push(rule(bottom), text(16, bottom + 20, fit(`${id}.note`, t.note, WIDTH - 32), "fig-note fig-strong"));
+  return { caption: t.caption, panels: [{ title: t.title, head: t.head, height: bottom + 36, body: parts.join("") }] };
+}
+
+export const FIGURES = { stages, gates, loop, assessment, team, harness, ledger, timeline, setup, build, words, bilingual, gauntlet, agents, critic, fleet, sources, merges, logos, connection, lifecycle, price, lock, "waiting-per-day": waitingPerDay, "chat-or-agent": chatOrAgent, "five-parts": fiveParts, "four-things": fourThings, "file-before-after": fileBeforeAfter, "which-tool-reads-what": whichToolReadsWhat, "file-hierarchy": fileHierarchy, "agent-handover": agentHandover, "agent-file": agentFile, "skill-folder": skillFolder, "skill-locations": skillLocations, "mcp-server": mcpServer, "read-only-limits": readOnlyLimits, "what-goes-along": whatGoesAlong, "daily-summary": dailySummary, "limits-path": limitsPath, "limits-attempts": limitsAttempts };
 
 /**
  * Render one figure as HTML: `<figure class="figure figure-inline|figure-wide">`

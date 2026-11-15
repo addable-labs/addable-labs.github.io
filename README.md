@@ -308,14 +308,15 @@ Brödtext i Markdown.
   built English article body: 300–600 for the two seed articles (REQ-006) and
   300–1,500 for every later article, except the Gaimer article
   (`cleaning-up-gaimer`), which the founder allowed 1,850 on 26 September
-  2026 so that it can tell the changes its first figure counts, and parts 1, 2, 3, 4, 5 and 6 of
+  2026 so that it can tell the changes its first figure counts, and parts 1, 2, 3, 4, 5, 6 and 7 of
   the series on AI agents (`what-makes-a-chat-an-ai-agent`, 1,600,
   `the-instruction-file`, 2,030, `agents-with-a-scope-each`, 2,320,
   `skills-for-repeatable-work`, 3,000, `mcp-reaching-your-systems`,
-  3,820, and `where-the-agent-runs`, 2,150), which he allowed in his reviews of
+  3,820, `where-the-agent-runs`, 2,150, and `set-the-limits-in-advance`,
+  2,100), which he allowed in his reviews of
   29–31 October and 3–5 November 2026 (parts 2, 3 and 4 as a 5–10 minute
-  read; for part 5 a longer read is fine when a topic needs it; part 6 gets
-  2,150, the article's own length, 15 November 2026). The Swedish
+  read; for part 5 a longer read is fine when a topic needs it; parts 6 and 7
+  get 2,150 and 2,100, each the article's own length, 15 November 2026). The Swedish
   twin is not counted, and neither are the figures (captions and diagram
   labels) or the tables' cells: they are not prose.
 - **Figures.** An article can carry custom SVG illustrations (REQ-008): put
@@ -324,13 +325,14 @@ Brödtext i Markdown.
   reading measure with its caption beside it from 48 rem, under it below),
   or `{% figure "<id>", "wide" %}` for one that spans the whole container
   with its caption centred underneath. A figure is drawn by `src/_includes/figures/figures.mjs`
-  (`FIGURES` names the thirty-eight: `stages`, `gates`, `loop`, `assessment`,
+  (`FIGURES` names the forty: `stages`, `gates`, `loop`, `assessment`,
   `team`, `harness`, `ledger`, `timeline`, `setup`, `build`, `words`,
   `bilingual`, `gauntlet`, `agents`, `critic`, `fleet`, `sources`, `merges`,
   `logos`, `connection`, `lifecycle`, `price`, `lock`, `waiting-per-day`,
   `chat-or-agent`, `five-parts`, `four-things`, `file-before-after`,
   `which-tool-reads-what`, `file-hierarchy`, `agent-handover`, `agent-file`, `skill-folder`, `skill-locations`, `mcp-server`,
-  `read-only-limits`, `what-goes-along`, `daily-summary`) and
+  `read-only-limits`, `what-goes-along`, `daily-summary`, `limits-path`,
+  `limits-attempts`) and
   every word it shows — panel titles, labels, notes, the caption — comes
   from `figures.<id>` in the two strings files, so one drawing serves both
   languages; a label too long for its slot fails the

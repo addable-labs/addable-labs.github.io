@@ -314,5 +314,5 @@ Arbetstitlarna kan ändras på vägen.
 4. [Skills, när arbetet ska göras likadant varje gång](/sv/blog/skills-for-repeatable-work/)
 5. [MCP, så når AI-agenten andra system](/sv/blog/mcp-reaching-your-systems/)
 6. Var AI-agenten körs och vem som startar den (den här delen)
-7. <span id="del-7"></span>Sätt gränserna i förväg
+7. <span id="del-7"></span>[Sätt gränserna i förväg](/sv/blog/set-the-limits-in-advance/)
 8. Mindre styrning för varje modell

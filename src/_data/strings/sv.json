@@ -1527,6 +1527,60 @@
       },
       "nobody": "Ingen är med och kan svara på frågor",
       "caption": "Det dagliga sammanfattningsjobbet i den här delen, från start till resultat: ett CI-jobb startar på schema, AI-agenten i det läser historiken över commits och skriver en sammanfattning som väntar på en sida i GitHub tills någon läser den."
+    },
+    "limits-path": {
+      "title": "Instruktionsfilen når bara agenten. Uppifrån möter ett kommando hooken, sedan behörighetsreglerna och läget och sist sandboxen. Längre ned visas en del av det som körs utanför sandboxen: agentens filverktyg, MCP-servrar och hooks.",
+      "head": "Ett kommando och kontrollerna",
+      "instruction": {
+        "label": "Instruktionsfil",
+        "note": "ber bara agenten"
+      },
+      "agent": {
+        "label": "Agenten",
+        "note": "vill göra något"
+      },
+      "hook": {
+        "label": "Hook",
+        "note": "ditt eget skript kan säga nej"
+      },
+      "permissions": {
+        "label": "Behörighetsregler och läge",
+        "note": "neka, fråga eller tillåta; kan fråga dig"
+      },
+      "sandbox": "Sandbox: begränsar filer och nätverk",
+      "command": {
+        "label": "Kommandot körs",
+        "note": "bara där sandboxen tillåter"
+      },
+      "outside": "En del av det som körs utanför sandboxen:",
+      "fileTools": "Filverktyg",
+      "mcp": "MCP-servrar",
+      "hooks": "Hooks",
+      "caption": "Kontrollerna som ett kommando möter i Claude Code, i den ordning dokumentationen anger dem den 15 november 2026."
+    },
+    "limits-attempts": {
+      "title": "Fem försök mot den nekande regeln, hooken och sandboxen i övningsmappen. Att ändra en fil under migrations/ med agentens filverktyg: den nekande regeln stoppar det, hooken och sandboxen släpper igenom det. rm -rf build: hooken stoppar det, den nekande regeln släpper igenom det. touch ~/sandbox-probe: sandboxen stoppar det, den nekande regeln och hooken släpper igenom det. rm -fr build: den nekande regeln och hooken släpper igenom det och Claude Code frågar bara dig. Ett Python-program som öppnar filer själv: sandboxen täcker det, den nekande regeln och hooken släpper igenom det. Ingen enskild kontroll täcker allt.",
+      "head": "Fem försök, tre begränsningar",
+      "columns": {
+        "deny": "Nekande regel",
+        "hook": "Hook",
+        "sandbox": "Sandbox"
+      },
+      "rows": {
+        "file": "Ändra en fil under migrations/ med agentens filverktyg",
+        "rmrf": "rm -rf build",
+        "touch": "touch ~/sandbox-probe",
+        "rmfr": "rm -fr build",
+        "asks": "Claude Code frågar bara dig",
+        "python": "Ett Python-program som öppnar filer själv"
+      },
+      "cells": {
+        "stops": "stoppar",
+        "covers": "täcker",
+        "pass": "går igenom"
+      },
+      "note": "Ingen enskild kontroll täcker allt.",
+      "caption": "Vad den nekande regeln, hooken och sandboxen i övningsmappen gör med fem försök, så som kontrollerna och skriptet i den här delen visar det."
     }
   },
   "games": {

@@ -312,5 +312,5 @@ The working titles may change along the way.
 4. [Skills, for work that must be done the same way every time](/blog/skills-for-repeatable-work/)
 5. [MCP, how an AI agent reaches other systems](/blog/mcp-reaching-your-systems/)
 6. Where the AI agent runs and who starts it (this part)
-7. <span id="part-7"></span>Set the limits in advance
+7. <span id="part-7"></span>[Set the limits in advance](/blog/set-the-limits-in-advance/)
 8. Less steering for every model
