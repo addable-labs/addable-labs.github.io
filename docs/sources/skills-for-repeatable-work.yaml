@@ -294,8 +294,8 @@
 - id: P4-instr-claude
   article: skills-for-repeatable-work
   sentence:
-    sv: "Claude Code kallar sin fil CLAUDE.md."
-    en: "Claude Code calls its file CLAUDE.md."
+    sv: "Instruktionsfilen är AGENTS.md från del 2 (Claude Code kallar sin fil CLAUDE.md)."
+    en: "The instruction file is the AGENTS.md from part 2 (Claude Code calls its file CLAUDE.md)."
   vendor: Anthropic
   url: https://code.claude.com/docs/en/memory
   final_url: https://code.claude.com/docs/en/memory
@@ -306,8 +306,8 @@
 - id: P4-instr-start
   article: skills-for-repeatable-work
   sentence:
-    sv: "Den läses vid varje start, så den hålls kort."
-    en: "It is read at every start, so it is kept short."
+    sv: "Agenten läser den vid varje start, så den hålls kort."
+    en: "The agent reads it at every start, so it is kept short."
   vendor: Anthropic
   url: https://code.claude.com/docs/en/memory
   final_url: https://code.claude.com/docs/en/memory

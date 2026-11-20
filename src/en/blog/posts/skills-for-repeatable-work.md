@@ -11,10 +11,10 @@ aiGenerated: true                # AI produced this text
 humanReviewed: true              # a person has read it
 ---
 
-In [The instruction file, the first thing an AI agent reads](/blog/the-instruction-file/),
-the second part of this series, the AI agent got a short markdown file to read at
-every start. That file says what the agent is responsible for and which job it
-is meant to do.
+Part 2 of this series, [The instruction file, the first thing an AI agent reads](/blog/the-instruction-file/),
+gave the AI agent a short markdown file that it reads at every start. The file
+tells the agent how the project is installed and tested and which rules always
+apply.
 
 Part 3 was about what the job is. This part is about how the job should be
 done, so that it is done the same way each time, for example when making a
@@ -169,11 +169,10 @@ rule that must hold every time into a hook, a command the tool runs by itself.
 
 Not everything belongs in a skill.
 
-The instruction file is the AGENTS.md that
-[The instruction file, the first thing an AI agent reads](/blog/the-instruction-file/)
-describes. It says what the agent is responsible for and which job it is meant
-to do. It is read at every start, so it is kept short. Claude Code calls its
-file CLAUDE.md.
+The instruction file is the AGENTS.md from
+[part 2](/blog/the-instruction-file/) (Claude Code calls its file CLAUDE.md). It
+tells the agent how the project is installed and tested and which rules always
+apply. The agent reads it at every start, so it is kept short.
 
 A skill says how to do one kind of job, such as a release, a review or a
 translation. It is not a second agent like the one in part 3: it is text that

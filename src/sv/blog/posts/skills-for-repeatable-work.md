@@ -11,10 +11,10 @@ aiGenerated: true                # AI har skrivit texten
 humanReviewed: true              # en person har läst den
 ---
 
-I [Instruktionsfilen, det första en AI-agent läser](/sv/blog/the-instruction-file/),
-seriens andra del, fick AI-agenten en kort markdown-fil att läsa varje gång den
-startar. Den filen säger vad agenten är ansvarig för och vilket jobb den ska
-göra.
+Seriens andra del, [Instruktionsfilen, det första en AI-agent läser](/sv/blog/the-instruction-file/),
+gav AI-agenten en kort markdown-fil som den läser varje gång den startar. Filen
+talar om för agenten hur projektet installeras och testas och vilka regler som
+alltid gäller.
 
 Del 3 handlade om vad jobbet är. Den här delen handlar om hur jobbet ska göras,
 så att det görs på samma sätt varje gång, till exempel när en ny version av
@@ -171,11 +171,10 @@ rekommenderar att en regel som måste gälla varje gång flyttas till en krok
 
 Allt hör inte hemma i en skill.
 
-Instruktionsfilen är den AGENTS.md som
-[Instruktionsfilen, det första en AI-agent läser](/sv/blog/the-instruction-file/)
-beskriver. Den säger vad agenten är ansvarig för och vilket jobb den ska göra.
-Den läses vid varje start, så den hålls kort. Claude Code kallar sin fil
-CLAUDE.md.
+Instruktionsfilen är AGENTS.md från [del 2](/sv/blog/the-instruction-file/)
+(Claude Code kallar sin fil CLAUDE.md). Den talar om för agenten hur projektet
+installeras och testas och vilka regler som alltid gäller. Agenten läser den vid
+varje start, så den hålls kort.
 
 En skill säger hur en sorts jobb ska göras, som en release, en granskning eller
 en översättning. Den är inte en andra agent som den i del 3: den är text som
