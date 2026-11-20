@@ -1597,6 +1597,11 @@
         "note": "from here, where to?"
       },
       "caption": "A level tells you where you stood. A route shows where you can go from there."
+    },
+    "torch-lights-up": {
+      "title": "The torch. A network of nodes and curved lines, with colours running from dark red-brown at the foot to yellow at the flame, and one path in the flame lit in pale gold up to its top node.",
+      "head": "The torch",
+      "caption": "The torch lights up from the foot, then the lit path draws from a node in the flame to the top."
     }
   },
   "games": {

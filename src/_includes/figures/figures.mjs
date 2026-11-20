@@ -27,6 +27,12 @@
 // The values in the charts of the Fluentor figures (levels, cells, bars) are
 // deliberately made-up shapes: the product is in preview and the
 // figures are schematic — no real people, scores or screenshots.
+//
+// One figure departs from this: "torch-lights-up" draws the product's torch,
+// the approved artwork, in the artwork's own colours in both themes, read
+// from scripts/lib/torch.mjs, and it moves (see its function).
+
+import { COVER, MARK } from "../../../scripts/lib/torch.mjs";
 
 const WIDTH = 320;
 // The landscape view of a flow figure (si-05r9): a left-to-right drawing on a
@@ -2731,7 +2737,127 @@ function readingAndRoute(t, id, figureId) {
   };
 }
 
-export const FIGURES = { stages, gates, loop, assessment, team, harness, ledger, timeline, setup, build, words, bilingual, gauntlet, agents, critic, fleet, sources, merges, logos, connection, lifecycle, price, lock, "waiting-per-day": waitingPerDay, "chat-or-agent": chatOrAgent, "five-parts": fiveParts, "four-things": fourThings, "file-before-after": fileBeforeAfter, "which-tool-reads-what": whichToolReadsWhat, "file-hierarchy": fileHierarchy, "agent-handover": agentHandover, "agent-file": agentFile, "skill-folder": skillFolder, "skill-locations": skillLocations, "mcp-server": mcpServer, "read-only-limits": readOnlyLimits, "what-goes-along": whatGoesAlong, "daily-summary": dailySummary, "limits-path": limitsPath, "limits-attempts": limitsAttempts, "reading-and-route": readingAndRoute };
+// (39) The torch lights up — inline, one panel: the article's cover, alive.
+// Under the head the panel is the cover's central square (COVER in
+// scripts/lib/torch.mjs): the product's torch on its dark plate with the
+// plate's faint grid, a glow behind the nodes of one route in the flame, the
+// rest of the torch dimmed a little, and the route drawn in pale gold through
+// its lines' own curves. It is drawn in the artwork's colours, the same in
+// both themes, and it is the approved mark's every node and line, never
+// redrawn. The markup is the still drawing, complete, which is what a reader
+// without JavaScript, a reader who asks for reduced motion, a printout and a
+// feed see. The motion (base.css, "The torch figure") is classes reveal.js
+// adds to the square's group (fig-motion): the product's launch motion first,
+// every node and line coming up by its height in the torch (data-h, 0 at the
+// foot and 1 at the top node, a line's that of its lower end, as the product
+// sets it), then the route drawing from its lowest node to the top (one path,
+// pathLength 1, so a dash offset of 1 hides it), each of its glows coming up
+// as the path reaches it (data-t, the share of the path's time that has
+// passed by then). Every motion fills only backwards, so the drawing ends as
+// it stands.
+function torchLightsUp(t, id, figureId) {
+  const lineGroup = MARK.match(/<g [^>]*>/)[0];
+  const lines = [...MARK.matchAll(/<path d="M([\d.]+) ([\d.]+)C([\d.]+) ([\d.]+) ([\d.]+) ([\d.]+) ([\d.]+) ([\d.]+)" stroke="([^"]+)"\/>/g)].map((m) => ({ points: m.slice(1, 9), stroke: m[9] }));
+  const nodes = [...MARK.matchAll(/<circle cx="([\d.]+)" cy="([\d.]+)" r="([\d.]+)" fill="([^"]+)"\/>/g)].map(([, cx, cy, r, fill]) => ({ cx, cy, r, fill }));
+  if (lines.length !== 74 || nodes.length !== 35) throw new Error(`Figure "${id}": the torch has 74 lines and 35 nodes, read ${lines.length} and ${nodes.length}`);
+
+  // Each element's height in the torch: 0 at the lowest node, 1 at the top.
+  const ys = nodes.map(({ cy }) => Number(cy));
+  const [top, foot] = [Math.min(...ys), Math.max(...ys)];
+  const height = (y) => String(Math.round(((foot - y) / (foot - top)) * 10000) / 10000);
+  const mark = [
+    lineGroup,
+    ...lines.map(({ points, stroke }) => `<path d="M${points[0]} ${points[1]}C${points.slice(2).join(" ")}" stroke="${stroke}" class="fig-torch-line" data-h="${height(Math.max(Number(points[1]), Number(points[7])))}"/>`),
+    "</g><g>",
+    ...nodes.map(({ cx, cy, r, fill }) => `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${fill}" class="fig-torch-halo" data-h="${height(Number(cy))}"/>`),
+    "</g><g>",
+    ...nodes.map(({ cx, cy, r, fill }) => `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${fill}" class="fig-torch-node" data-h="${height(Number(cy))}"/>`),
+    "</g>",
+  ].join("");
+
+  // The route as one path through its lines' own curves, each line taken in
+  // the direction the route runs, and where along it each node lies.
+  const route = COVER.route.map((index) => nodes[index]);
+  const at = ({ cx, cy }) => `${cx} ${cy}`;
+  const segments = route.slice(1).map((to, i) => {
+    const from = route[i];
+    const line = lines.find(({ points: p }) => [`${p[0]} ${p[1]}`, `${p[6]} ${p[7]}`].sort().join() === [at(from), at(to)].sort().join());
+    if (!line) throw new Error(`Figure "${id}": no line of the torch joins ${at(from)} and ${at(to)}`);
+    const p = line.points;
+    return `${p[0]} ${p[1]}` === at(from) ? p : [p[6], p[7], p[4], p[5], p[2], p[3], p[0], p[1]];
+  });
+  const lengths = segments.map(cubicLength);
+  const total = lengths.reduce((sum, length) => sum + length, 0);
+  const reached = route.map((_, i) => lengths.slice(0, i).reduce((sum, length) => sum + length, 0) / total);
+  const d = `M${at(route[0])}${segments.map((p) => `C${p.slice(2).join(" ")}`).join("")}`;
+
+  const P = `${figureId}-`; // the cover's ids, kept apart from every other drawing's
+  const [sx, sy, side] = COVER.square;
+  const PLATE_TOP = 38.5; // under the head's hairline
+  const stops = (list) => list.map(([offset, color, opacity]) => `<stop offset="${offset}" stop-color="${color}"${opacity === undefined ? "" : ` stop-opacity="${opacity}"`}/>`).join("");
+  const rect = ([x, y, width, height]) => `x="${x}" y="${y}" width="${width}" height="${height}"`;
+  const { grid, fade, glow, dim, climb, discs } = COVER;
+  const body = [
+    "<defs>",
+    `<pattern id="${P}grid" width="${grid.size}" height="${grid.size}" patternUnits="userSpaceOnUse" y="${grid.y}"><path d="${grid.path}" fill="none" stroke="${grid.stroke}"/></pattern>`,
+    `<radialGradient id="${P}fade" cx="${fade.cx}" cy="${fade.cy}" r="${fade.r}" gradientUnits="userSpaceOnUse">${stops(fade.stops)}</radialGradient>`,
+    `<mask id="${P}gridmask"><rect ${rect([sx, sy, side, side])} fill="url(#${P}fade)"/></mask>`,
+    `<radialGradient id="${P}node-glow">${stops(glow.stops)}</radialGradient>`,
+    `<linearGradient id="${P}climb" gradientUnits="userSpaceOnUse" x1="0" y1="${route[0].cy}" x2="0" y2="${route.at(-1).cy}">${stops(climb.stops)}</linearGradient>`,
+    `<radialGradient id="${P}hole">${stops(dim.hole.stops)}</radialGradient>`,
+    `<filter id="${P}feather" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="${dim.feather}"/></filter>`,
+    `<mask id="${P}dim-mask" maskUnits="userSpaceOnUse" ${rect(dim.rect)}><rect ${rect(dim.show)} fill="${dim.show[4]}" filter="url(#${P}feather)"/>${route.map(({ cx, cy }) => `<circle cx="${cx}" cy="${cy}" r="${dim.hole.r}" fill="url(#${P}hole)"/>`).join("")}</mask>`,
+    `<mask id="${P}off-discs" maskUnits="userSpaceOnUse" ${rect(discs.rect)}><rect ${rect(discs.rect)} fill="${discs.rect[4]}"/>${route.map(({ cx, cy }) => `<circle cx="${cx}" cy="${cy}" r="${discs.r}" fill="${discs.fill}"/>`).join("")}</mask>`,
+    "</defs>",
+    `<g transform="translate(0 ${PLATE_TOP}) scale(${round6(WIDTH / side)}) translate(${-sx} ${-sy})" class="fig-motion">`,
+    `<rect ${rect([sx, sy, side, side])} fill="${COVER.plate}"/>`,
+    `<rect ${rect([sx, sy, side, side])} fill="url(#${P}grid)" mask="url(#${P}gridmask)"/>`,
+    `<g transform="${COVER.transform}">${route.map(({ cx, cy }, i) => `<circle cx="${cx}" cy="${cy}" r="${glow.r}" fill="url(#${P}node-glow)" class="fig-torch-glow" data-t="${round6(easeOutAt(reached[i]))}"/>`).join("")}</g>`,
+    `<g transform="${COVER.transform}">${mark}</g>`,
+    `<g transform="${COVER.transform}"><rect ${rect(dim.rect)} fill="${dim.fill}" fill-opacity="${dim.opacity}" mask="url(#${P}dim-mask)" class="fig-torch-dim"/></g>`,
+    `<g transform="${COVER.transform}" fill="none" stroke="url(#${P}climb)" stroke-width="${climb.width}" stroke-linecap="round" stroke-linejoin="round" mask="url(#${P}off-discs)"><path d="${d}" pathLength="1" class="fig-torch-path"/></g>`,
+    "</g>",
+  ].join("");
+
+  return { caption: t.caption, panels: [{ title: t.title, head: t.head, height: PLATE_TOP + WIDTH, body }] };
+}
+
+/** The length of a cubic curve [x0, y0, x1, y1, x2, y2, x3, y3], as a polyline of 64 steps. */
+function cubicLength(points) {
+  const [x0, y0, x1, y1, x2, y2, x3, y3] = points.map(Number);
+  let length = 0;
+  let [px, py] = [x0, y0];
+  for (let i = 1; i <= 64; i += 1) {
+    const u = i / 64;
+    const v = 1 - u;
+    const x = v * v * v * x0 + 3 * v * v * u * x1 + 3 * v * u * u * x2 + u * u * u * x3;
+    const y = v * v * v * y0 + 3 * v * v * u * y1 + 3 * v * u * u * y2 + u * u * u * y3;
+    length += Math.hypot(x - px, y - py);
+    [px, py] = [x, y];
+  }
+  return length;
+}
+
+/**
+ * The share of its time an ease-out motion (CSS `ease-out`,
+ * cubic-bezier(0, 0, 0.58, 1)) takes to cover `progress` of its way.
+ */
+function easeOutAt(progress) {
+  const bezier = (u, a, b) => 3 * (1 - u) * (1 - u) * u * a + 3 * (1 - u) * u * u * b + u * u * u;
+  let [lo, hi] = [0, 1];
+  for (let i = 0; i < 50; i += 1) {
+    const u = (lo + hi) / 2;
+    if (bezier(u, 0, 1) < progress) lo = u;
+    else hi = u;
+  }
+  return bezier((lo + hi) / 2, 0, 0.58);
+}
+
+function round6(value) {
+  return Math.round(value * 1e6) / 1e6;
+}
+
+export const FIGURES = { stages, gates, loop, assessment, team, harness, ledger, timeline, setup, build, words, bilingual, gauntlet, agents, critic, fleet, sources, merges, logos, connection, lifecycle, price, lock, "waiting-per-day": waitingPerDay, "chat-or-agent": chatOrAgent, "five-parts": fiveParts, "four-things": fourThings, "file-before-after": fileBeforeAfter, "which-tool-reads-what": whichToolReadsWhat, "file-hierarchy": fileHierarchy, "agent-handover": agentHandover, "agent-file": agentFile, "skill-folder": skillFolder, "skill-locations": skillLocations, "mcp-server": mcpServer, "read-only-limits": readOnlyLimits, "what-goes-along": whatGoesAlong, "daily-summary": dailySummary, "limits-path": limitsPath, "limits-attempts": limitsAttempts, "reading-and-route": readingAndRoute, "torch-lights-up": torchLightsUp };
 
 /**
  * Render one figure as HTML: `<figure class="figure figure-inline|figure-wide">`

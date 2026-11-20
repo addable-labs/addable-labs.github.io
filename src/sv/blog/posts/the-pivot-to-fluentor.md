@@ -89,6 +89,8 @@ vart du kan gå därifrån. När du öppnar sidan tänds facklan i sidhuvudet, f
 först och lågan sist. Vi hoppas att animeringen ytterligare förstärker
 produktens nya budskap och förmedlar vår vision.
 
+{% figure "torch-lights-up" %}
+
 {% figure "reading-and-route", "wide" %}
 
 ## Det vi behöll

@@ -1597,6 +1597,11 @@
         "note": "vart går du härifrån?"
       },
       "caption": "En nivå visar var du stod. En väg visar vart du kan gå därifrån."
+    },
+    "torch-lights-up": {
+      "title": "Facklan. Ett nätverk av noder och böjda linjer, med färger från mörkt rödbrunt längst ner till gult vid lågan, där en väg i lågan är tänd i ljust guld upp till lågans översta nod.",
+      "head": "Facklan",
+      "caption": "Facklan tänds från foten, sedan ritas den tända vägen från en nod i lågan upp till toppen."
     }
   },
   "games": {

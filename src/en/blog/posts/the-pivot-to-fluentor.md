@@ -90,6 +90,8 @@ can go from there. When you open the page, the torch in the header lights up,
 foot first and flame last. We hope the animation further reinforces the
 product's new message and conveys our vision.
 
+{% figure "torch-lights-up" %}
+
 {% figure "reading-and-route", "wide" %}
 
 ## What we kept

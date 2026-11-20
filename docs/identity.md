@@ -448,14 +448,15 @@ change colour, border, transform and box-shadow only.
 ## Motion
 
 Motion establishes hierarchy and never moves layout — only `opacity` and
-`translate` animate, so the cumulative layout shift stays at zero.
+`translate` animate (and, inside the torch figure's drawing, a glow's scale
+and a stroke's dash offset), so the cumulative layout shift stays at zero.
 
 - **Entrance.** `.reveal` elements start at `opacity: 0; translate: 0 14px`
   only when JavaScript runs (`html.js`) and the visitor has not asked for
   reduced motion, and transition into place over 600 ms with a 90 ms stagger
   from their position among their siblings (`--i` from `:nth-child` rules;
   inline styles are forbidden by the HTML gate). `src/assets/js/reveal.js`
-  (~0.9 KB, a same-origin module script loaded after parsing) adds
+  (~2.3 KB, a same-origin module script loaded after parsing) adds
   `is-visible` on intersection (`rootMargin: 0 0 -8%`), or immediately when
   `prefers-reduced-motion: reduce` matches or `IntersectionObserver` is
   missing. The hero's own stagger — eyebrow, statement, lead, actions, proof
@@ -467,9 +468,20 @@ Motion establishes hierarchy and never moves layout — only `opacity` and
   curve: lifts of 1–3 px, border and colour changes, the primary button's
   glow ring, the arrow slide.
 - **Caret.** The console's waiting caret blinks with `steps(2)` at 1.1 s.
+- **The torch figure.** The figure `torch-lights-up` (the article on
+  Fluentor's name and logo) plays the product's launch motion on the
+  product's numbers — every node and line of the torch comes up from 0.3
+  opacity on its spring, 0.75 s each and its height × 0.36 s late, foot
+  first and flame last — and then draws the lit route of the article's cover
+  in 0.8 s, once, when half of it is in view: `reveal.js` holds its drawing
+  (`.fig-motion`) at the first frame with `is-ready` and plays it with
+  `is-playing` (base.css, "The torch figure"). Every motion fills only
+  backwards, so the drawing ends on the still cover; without JavaScript,
+  under reduced motion and in print it stands still.
 - **Reduced motion.** Under `@media (prefers-reduced-motion: reduce)` every
   animation is removed and every transition shortened to 0.01 ms, `.reveal`
-  renders in place, the caret is static and `scroll-behavior` is `auto`.
+  renders in place, the caret and the torch figure are still and
+  `scroll-behavior` is `auto`.
 - **Print.** Under `@media print` every `.reveal` and console log line renders
   in place with no animation — print never scrolls, so nothing may wait for
   `reveal.js`, and a printed or saved-as-PDF page carries every section
@@ -592,7 +604,11 @@ Gaimer's game background, `#1a1a1a`, and no other colour, which a test of
 their own checks. The article images and the default share image
 (`docs/images/*.svg`) are drawn in the palette's dark values as literals and
 published as PNG and WebP, so a changed colour reaches them only when they
-are rendered again (README, *Add an article*, **Image**).
+are rendered again (README, *Add an article*, **Image**). The torch figure
+draws the product's torch in the artwork's own colours, the same in both
+themes, which copy no token: they live in `scripts/lib/torch.mjs`, outside
+`src/`, and `tests/torch.test.mjs` holds them to the approved file and to the
+article's cover.
 
 ## Adding an app without breaking the balance
 
