@@ -1,6 +1,6 @@
 ---
 title: From AI chat to agentic work
-description: The first part of the series — what sets an AI agent apart from a chat with AI, the five parts the agent is made of and how they look in the factory behind this site.
+description: "An AI agent often runs on the same model as a chat with AI. What sets it apart is everything around the model: an agent may read the project, change files, run commands and check its own work. This first part of the series describes the parts the agent is made of and how they look in the factory behind this site."
 image: cover.png                 # a 1200 × 630 PNG in the article's media directory
 imageAlt: A developer seen from behind, split into two halves in front of two screens. The left half is grey and calmer, in front of a chat. The right half is green and active, one hand raised towards a screen with a graph of agents.
 date: 2026-10-30
@@ -207,4 +207,4 @@ The series takes the building blocks one at a time. The working titles may chang
 5. [MCP, how an AI agent reaches other systems](/blog/mcp-reaching-your-systems/)
 6. [Where the AI agent runs and who starts it](/blog/where-the-agent-runs/)
 7. <span id="part-7"></span>[Set the limits in advance](/blog/set-the-limits-in-advance/)
-8. What has changed along the way – [the latest models need less steering than earlier ones](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices), but still some
+8. What has changed along the way — [the latest models need less steering than earlier ones](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices), but still some

@@ -70,8 +70,8 @@
 - id: P6-cloud-no-file
   article: where-the-agent-runs
   sentence:
-    sv: "Leverantörens moln kan vara det enklaste första försöket, eftersom du startar det från en webbläsare och inte skriver någon fil"
-    en: "The vendor's cloud may be the easiest first try, since you start it from a browser and write no file"
+    sv: "Leverantörens moln kan ändå vara det enklaste första försöket, eftersom du startar det från en webbläsare och inte skriver någon fil"
+    en: "The vendor's cloud may still be the easiest first try, since you start it from a browser and write no file"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/claude-code-on-the-web
   final_url: https://code.claude.com/docs/en/claude-code-on-the-web
@@ -911,7 +911,7 @@
   article: where-the-agent-runs
   sentence:
     sv: "Välj ett jobb som körs utan att någon är med, som upprepas och som har ett resultat du kan kontrollera"
-    en: "Choose a job that runs without a person, repeats and has a result you can check"
+    en: "Choose a job that runs unattended, repeats and has a result you can check"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/routines
   final_url: https://code.claude.com/docs/en/routines

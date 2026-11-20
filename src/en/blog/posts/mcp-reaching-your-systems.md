@@ -1,6 +1,6 @@
 ---
 title: MCP, how an AI agent reaches other systems
-description: The fifth part of the series "From AI chat to agentic work" — what MCP is, how to make a first connection that can only read and what to do when it does not work.
+description: "The first connection to another system should only be able to read, because a connection gives the agent more reach. This part explains what MCP is, how to make such a connection and what to do when it does not work. The fifth part of the series \"From AI chat to agentic work\"."
 image: cover.png                 # a 1200 × 630 PNG in the article's media directory
 imageAlt: An AI agent, a green circle, is joined by one cable to an issue list, plugged into the list's socket. A small eye on the cable shows that the connection can only read. Set back to the right, a documentation page and a database, both grey, each have an empty socket and are not connected.
 date: 2026-11-05
@@ -11,17 +11,16 @@ aiGenerated: true                # AI produced this text
 humanReviewed: true              # a person has read it
 ---
 
-In part 4 of this series, the steps for a job went into a skill, a folder with a
-markdown file called SKILL.md in it. So far the instructions the AI agent reads
-at the start have been files on your own computer: the instruction file, the
-subagents' files and the skills.
-
 This part is about reaching other systems, such as an issue tracker, a
 documentation site or a database. The way in is the Model Context Protocol, MCP
-for short, an
-[open protocol](https://modelcontextprotocol.io/specification/2026-07-28): a
-standard way for an agent app, such as Claude Code, Codex or GitHub Copilot in
-VS Code, to connect to a system and use it.
+for short. It is an
+[open protocol](https://modelcontextprotocol.io/specification/2026-07-28) that
+gives an agent app, such as Claude Code, Codex or GitHub Copilot in VS Code, a
+standard way to connect to a system and use it.
+
+Until now the instructions the AI agent reads at the start have been files on
+your own computer: the instruction file, the subagents' files and the skills
+from part 4, folders with a markdown file called SKILL.md in them.
 
 A connection gives the agent more reach, so the first one should only be able to
 read.
@@ -35,8 +34,8 @@ that, so the developer copies the text into the chat each time.
 
 Copying works for one issue. It does not work when the agent needs the comments,
 the linked issues or the other issues that mention the form. The agent needs a
-way to connect to GitHub's issue tracker, and an MCP connection is the solution
-to that.
+way to connect to GitHub's issue tracker, and that is what an MCP connection
+gives it.
 
 Claude Code's [documentation](https://code.claude.com/docs/en/mcp) says to
 connect an MCP server when you find yourself copying data into chat from another
@@ -48,13 +47,13 @@ here because its documentation shows how to limit a connection.
 
 ## What an MCP server offers
 
-An MCP server is a program that gives the agent an API to a system, such as
-GitHub. It sits in front of the system's own API. Its tools can call that API.
-An MCP server can run locally on your computer or remotely, as GitHub does with
-its MCP server. Remote MCP servers are reached over HTTP at a web address, and
-many need to know who you are: GitHub's MCP server asks for a personal access
-token that you make in GitHub's settings. The agent can also run `gh` in the
-terminal, or call GitHub's API itself.
+An MCP server is a program that sits in front of a system's own API, such as
+GitHub's. It gives the agent tools that can call that API. An MCP server can run
+locally on your computer or remotely, as GitHub does with its MCP server. Remote
+MCP servers are reached over HTTP at a web address, and many need to know who
+you are: GitHub's MCP server asks for a personal access token that you make in
+GitHub's settings. The agent can also run `gh` in the terminal, or call GitHub's
+API itself.
 
 {% figure "mcp-server", "wide" %}
 
@@ -87,10 +86,10 @@ and settings in the cells are Claude Code's.
 Whichever way the agent reaches a system, the text it reads can carry prompt
 injection, which the next section describes.
 
-Our recommendation follows the rule of thumb above. Try the system's
-command-line tool first. Take an MCP server when the system has no command-line
-tool or when you want the MCP server to offer only a few tools that only read.
-Call the API yourself when neither fits.
+Our recommendation follows the rule of thumb above. We would try the system's
+command-line tool first and take an MCP server when the system has no
+command-line tool or when we want the MCP server to offer only a few tools that
+only read. If neither fits, we would call the API ourselves.
 
 ## Security considerations
 
@@ -288,14 +287,6 @@ failed: stop and check that the address ends in `/readonly`. If it came from
 
 ## Troubleshooting
 
-Here are five problems that can come up with a first connection:
-
-- The MCP server shows as failed.
-- The project's MCP server never starts.
-- The configuration is not read.
-- There are too many MCP tools.
-- The agent does something you did not ask for.
-
 If the MCP server shows as failed, check the token first: it may be wrong, have
 expired or have no access to the repository. In Claude Code, `/mcp` then shows
 the HTTP status the MCP server returned, such as a 401. The variable may also be
@@ -322,9 +313,9 @@ instructions in the text it read.
 
 ## Start small
 
-This is our own advice for a first connection. Use an MCP server from a provider
-you trust, such as the system's own. Do not let the first MCP server change
-anything. Never paste the token into a file or the chat.
+This is our own advice for a first connection. We would use an MCP server from a
+provider we trust, such as the system's own. We would not let the first one
+change anything. The token never goes into a file or the chat.
 
 With GitHub as the example, the steps in order are:
 

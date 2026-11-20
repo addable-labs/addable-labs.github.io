@@ -1,6 +1,6 @@
 ---
 title: Från AI-chatt till agentiskt arbete
-description: Första delen i serien – vad som skiljer en AI-agent från en chatt med AI, de fem delar agenten består av och hur de ser ut i fabriken bakom den här sajten.
+description: "En AI-agent körs ofta på samma modell som en chatt med AI. Det som skiljer dem åt är allt runt modellen: en agent får läsa projektet, ändra filer, köra kommandon och kontrollera sitt eget arbete. Den första delen i serien beskriver vad agenten består av och hur det ser ut i fabriken bakom den här sajten."
 image: cover.png                 # en PNG på 1200 × 630 i artikelns mediemapp
 imageAlt: En utvecklare sedd bakifrån, delad i två halvor framför två skärmar. Den vänstra halvan är grå och lugnare framför en chatt. Den högra är grön och aktiv, med handen höjd mot en skärm med en graf av agenter.
 date: 2026-10-30
@@ -157,10 +157,10 @@ har läst den först.
 
 ## Claude Code, Codex och GitHub Copilot
 
-Vi beskriver alla tre utifrån dokumentationen, så som den såg ut den
-12 oktober 2026, och reserverar oss för att verktygens begrepp och menyval
-kan ha ändrats sedan dess. Borgmästaren arbetar i Claude Code, men det hade
-lika gärna kunnat vara något av de andra två.
+Vi beskriver alla tre så som dokumentationen såg ut den 12 oktober 2026 och
+reserverar oss för att verktygens begrepp och menyval kan ha ändrats sedan dess.
+Borgmästaren arbetar i Claude Code, men det hade lika gärna kunnat vara något av
+de andra två.
 
 I **Claude Code** är instruktionsfilen CLAUDE.md och verktyget kan själv
 [skriva ett första utkast till den](https://code.claude.com/docs/en/memory)

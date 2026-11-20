@@ -95,8 +95,8 @@
 - id: B4-exclude
   article: the-instruction-file
   sentence:
-    sv: "Låt bli översikter och beskrivningar av vad varje fil gör."
-    en: "Leave out overviews and descriptions of what each file does."
+    sv: "Översikter och beskrivningar av vad varje fil gör skulle vi lämna utanför."
+    en: "We would leave out overviews and descriptions of what each file does."
   vendor: Anthropic
   url: https://code.claude.com/docs/en/best-practices
   final_url: https://code.claude.com/docs/en/best-practices
@@ -381,8 +381,8 @@
 - id: S7-backs
   article: the-instruction-file
   sentence:
-    sv: "Börja med kommandona för att installera, bygga och testa och lägg sedan till de få regler som agenten inte kan läsa ut ur koden, var och en med sitt skäl."
-    en: "Begin with the commands to install, build and test, then add the few rules the agent cannot work out from the code, each with its reason."
+    sv: "kommandona för att installera, bygga och testa först och sedan de få regler som agenten inte kan läsa ut ur koden, var och en med sitt skäl"
+    en: "the commands to install, build and test first, then the few rules the agent cannot work out from the code, each with its reason"
   vendor: ETH Zurich (arXiv)
   url: https://arxiv.org/html/2602.11988v3
   final_url: https://arxiv.org/html/2602.11988v3
@@ -800,7 +800,7 @@
   article: the-instruction-file
   sentence:
     sv: "I Claude Code är en sådan inställning en hook, ett kommando som verktyget kör av sig självt"
-    en: "In Claude Code such a setting is a so-called hook, a command the tool runs by itself"
+    en: "In Claude Code such a setting is called a hook: a command the tool runs by itself"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/hooks-guide
   final_url: https://code.claude.com/docs/en/hooks-guide
@@ -811,7 +811,7 @@
   article: the-instruction-file
   sentence:
     sv: "I Claude Code är en sådan inställning en hook, ett kommando som verktyget kör av sig självt"
-    en: "In Claude Code such a setting is a so-called hook, a command the tool runs by itself"
+    en: "In Claude Code such a setting is called a hook: a command the tool runs by itself"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/hooks-guide
   final_url: https://code.claude.com/docs/en/hooks-guide

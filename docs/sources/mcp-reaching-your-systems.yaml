@@ -10,8 +10,8 @@
 - id: P5-open-protocol
   article: mcp-reaching-your-systems
   sentence:
-    sv: "Model Context Protocol, förkortat MCP, ett öppet protokoll: ett standardiserat sätt för ett AI-program, till exempel Claude Code, Codex eller GitHub Copilot i VS Code, att koppla upp sig mot ett system och använda det"
-    en: "Model Context Protocol, MCP for short, an open protocol: a standard way for an agent app, such as Claude Code, Codex or GitHub Copilot in VS Code, to connect to a system and use it"
+    sv: "Model Context Protocol, förkortat MCP. Det är ett öppet protokoll som ger ett AI-program, till exempel Claude Code, Codex eller GitHub Copilot i VS Code, ett standardiserat sätt att koppla upp sig mot ett system och använda det"
+    en: "Model Context Protocol, MCP for short. It is an open protocol that gives an agent app, such as Claude Code, Codex or GitHub Copilot in VS Code, a standard way to connect to a system and use it"
   vendor: modelcontextprotocol.io
   url: https://modelcontextprotocol.io/specification/2026-07-28
   final_url: https://modelcontextprotocol.io/specification/2026-07-28
@@ -22,8 +22,8 @@
 - id: P5-standard-way
   article: mcp-reaching-your-systems
   sentence:
-    sv: "Model Context Protocol, förkortat MCP, ett öppet protokoll: ett standardiserat sätt för ett AI-program, till exempel Claude Code, Codex eller GitHub Copilot i VS Code, att koppla upp sig mot ett system och använda det"
-    en: "Model Context Protocol, MCP for short, an open protocol: a standard way for an agent app, such as Claude Code, Codex or GitHub Copilot in VS Code, to connect to a system and use it"
+    sv: "Model Context Protocol, förkortat MCP. Det är ett öppet protokoll som ger ett AI-program, till exempel Claude Code, Codex eller GitHub Copilot i VS Code, ett standardiserat sätt att koppla upp sig mot ett system och använda det"
+    en: "Model Context Protocol, MCP for short. It is an open protocol that gives an agent app, such as Claude Code, Codex or GitHub Copilot in VS Code, a standard way to connect to a system and use it"
   vendor: modelcontextprotocol.io
   url: https://modelcontextprotocol.io/specification/2026-07-28
   final_url: https://modelcontextprotocol.io/specification/2026-07-28
@@ -34,8 +34,8 @@
 - id: P5-connect-instead-of-paste
   article: mcp-reaching-your-systems
   sentence:
-    sv: "Agenten behöver ett sätt att koppla sig till GitHubs ärendehanteringssystem. En MCP-koppling är lösningen på det"
-    en: "The agent needs a way to connect to GitHub's issue tracker, and an MCP connection is the solution to that"
+    sv: "Agenten behöver ett sätt att koppla sig till GitHubs ärendehanteringssystem. Det ger en MCP-koppling"
+    en: "The agent needs a way to connect to GitHub's issue tracker, and that is what an MCP connection gives it"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/mcp
   final_url: https://code.claude.com/docs/en/mcp
@@ -46,8 +46,8 @@
 - id: P5-connect-github-server
   article: mcp-reaching-your-systems
   sentence:
-    sv: "Agenten behöver ett sätt att koppla sig till GitHubs ärendehanteringssystem. En MCP-koppling är lösningen på det"
-    en: "The agent needs a way to connect to GitHub's issue tracker, and an MCP connection is the solution to that"
+    sv: "Agenten behöver ett sätt att koppla sig till GitHubs ärendehanteringssystem. Det ger en MCP-koppling"
+    en: "The agent needs a way to connect to GitHub's issue tracker, and that is what an MCP connection gives it"
   vendor: GitHub
   url: https://raw.githubusercontent.com/github/github-mcp-server/main/README.md
   final_url: https://raw.githubusercontent.com/github/github-mcp-server/main/README.md
@@ -106,8 +106,8 @@
 - id: P5-server-def
   article: mcp-reaching-your-systems
   sentence:
-    sv: "En MCP-server är ett program som ger agenten ett API mot ett system, till exempel GitHub"
-    en: "An MCP server is a program that gives the agent an API to a system, such as GitHub"
+    sv: "En MCP-server är ett program som står framför ett systems eget API, till exempel GitHubs"
+    en: "An MCP server is a program that sits in front of a system's own API, such as GitHub's"
   vendor: modelcontextprotocol.io
   url: https://modelcontextprotocol.io/docs/2026-07-28/learn/server-concepts
   final_url: https://modelcontextprotocol.io/docs/2026-07-28/learn/server-concepts
@@ -118,8 +118,8 @@
 - id: P5-server-in-front
   article: mcp-reaching-your-systems
   sentence:
-    sv: "Den står framför systemets eget API. Dess verktyg kan anropa det"
-    en: "It sits in front of the system's own API. Its tools can call that API"
+    sv: "Den ger agenten verktyg som kan anropa det"
+    en: "It gives the agent tools that can call that API"
   vendor: modelcontextprotocol.io
   url: https://modelcontextprotocol.io/docs/2026-07-28/learn/server-concepts
   final_url: https://modelcontextprotocol.io/docs/2026-07-28/learn/server-concepts
@@ -1234,8 +1234,8 @@
 - id: P5-own-provider
   article: mcp-reaching-your-systems
   sentence:
-    sv: "Använd en MCP-server från en leverantör du litar på, till exempel systemets egen"
-    en: "Use an MCP server from a provider you trust, such as the system's own"
+    sv: "Vi skulle använda en MCP-server från en leverantör vi litar på, till exempel systemets egen"
+    en: "We would use an MCP server from a provider we trust, such as the system's own"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/security
   final_url: https://code.claude.com/docs/en/security
@@ -1246,8 +1246,8 @@
 - id: P5-first-read-only
   article: mcp-reaching-your-systems
   sentence:
-    sv: "Låt inte den första MCP-servern ändra något"
-    en: "Do not let the first MCP server change anything"
+    sv: "Den första skulle vi inte låta ändra något"
+    en: "We would not let the first one change anything"
   vendor: GitHub
   url: https://raw.githubusercontent.com/github/github-mcp-server/main/README.md
   final_url: https://raw.githubusercontent.com/github/github-mcp-server/main/README.md
@@ -1258,8 +1258,8 @@
 - id: P5-no-token-in-file
   article: mcp-reaching-your-systems
   sentence:
-    sv: "Klistra aldrig in tokenen i en fil eller i chatten"
-    en: "Never paste the token into a file or the chat"
+    sv: "Tokenen hamnar aldrig i en fil eller i chatten"
+    en: "The token never goes into a file or the chat"
   vendor: GitHub
   url: https://code.visualstudio.com/docs/agents/reference/mcp-configuration
   final_url: https://code.visualstudio.com/docs/agents/reference/mcp-configuration
@@ -3586,8 +3586,8 @@
 - id: P5-cmp-ours-cli
   article: mcp-reaching-your-systems
   sentence:
-    sv: "Vår rekommendation följer tumregeln ovan. Pröva systemets kommandoradsverktyg först. Ta en MCP-server när systemet saknar kommandoradsverktyg eller när du vill att MCP-servern bara ska erbjuda några få verktyg som bara läser. Anropa API:et själv när inget av de två passar"
-    en: "Our recommendation follows the rule of thumb above. Try the system's command-line tool first. Take an MCP server when the system has no command-line tool or when you want the MCP server to offer only a few tools that only read. Call the API yourself when neither fits"
+    sv: "Vår rekommendation följer tumregeln ovan. Vi skulle pröva systemets kommandoradsverktyg först och ta en MCP-server när systemet saknar kommandoradsverktyg eller när vi vill att MCP-servern bara ska erbjuda några få verktyg som bara läser. Om inget av de två passar, skulle vi anropa API:et själv"
+    en: "Our recommendation follows the rule of thumb above. We would try the system's command-line tool first and take an MCP server when the system has no command-line tool or when we want the MCP server to offer only a few tools that only read. If neither fits, we would call the API ourselves"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/best-practices
   final_url: https://code.claude.com/docs/en/best-practices
@@ -3598,8 +3598,8 @@
 - id: P5-cmp-ours-mcp
   article: mcp-reaching-your-systems
   sentence:
-    sv: "Vår rekommendation följer tumregeln ovan. Pröva systemets kommandoradsverktyg först. Ta en MCP-server när systemet saknar kommandoradsverktyg eller när du vill att MCP-servern bara ska erbjuda några få verktyg som bara läser. Anropa API:et själv när inget av de två passar"
-    en: "Our recommendation follows the rule of thumb above. Try the system's command-line tool first. Take an MCP server when the system has no command-line tool or when you want the MCP server to offer only a few tools that only read. Call the API yourself when neither fits"
+    sv: "Vår rekommendation följer tumregeln ovan. Vi skulle pröva systemets kommandoradsverktyg först och ta en MCP-server när systemet saknar kommandoradsverktyg eller när vi vill att MCP-servern bara ska erbjuda några få verktyg som bara läser. Om inget av de två passar, skulle vi anropa API:et själv"
+    en: "Our recommendation follows the rule of thumb above. We would try the system's command-line tool first and take an MCP server when the system has no command-line tool or when we want the MCP server to offer only a few tools that only read. If neither fits, we would call the API ourselves"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/best-practices
   final_url: https://code.claude.com/docs/en/best-practices

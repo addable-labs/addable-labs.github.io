@@ -1,6 +1,6 @@
 ---
 title: Var AI-agenten körs och vem som startar den
-description: Sjätte delen i serien "Från AI-chatt till agentiskt arbete" – samma AI-agent på fem ställen, från editorn till ett schema och leverantörens moln, vad som följer med till en körning i molnet och ett första jobb som körs av sig självt varje morgon.
+description: "En agent som körs utan att någon sitter bredvid kan inte fråga någon, så ett bra första jobb att låta köra på egen hand är ett som bara får läsa. Den här delen följer samma agent på fem ställen, från editorn till ett schema och leverantörens moln. Den säger vad som följer med till en körning i molnet och slutar med ett första jobb som körs av sig självt varje morgon. Sjätte delen i serien \"Från AI-chatt till agentiskt arbete\"."
 image: cover.png                 # en PNG på 1200 × 630 i artikelns mediemapp
 imageAlt: En AI-agent, en grön cirkel, arbetar på en liten arbetsbänk där ingen tittar på. Till vänster står en klocka med en grön visare som pekar på en morgontimme och startar den. Till höger väntar ett färdigt blad med resultatet och en bock, lysande grönt, på ett litet bord. Längst till höger står en tom stol i grått.
 date: 2026-11-15
@@ -11,19 +11,17 @@ aiGenerated: true                # AI har skrivit texten
 humanReviewed: true              # en person har läst den
 ---
 
-I del 5 av serien fick AI-agenten ett sätt att nå system utanför dina filer,
-till exempel ett ärendesystem. Hittills har du startat agenten själv och följt
-dess steg i chatten eller i editorn.
+När ingen är med kan ingen heller svara på agentens frågor. Därför är ett bra
+första jobb att låta köra på egen hand ett som bara får läsa.
 
 Den här delen handlar om samma agent när den körs utan att någon sitter bredvid:
 startad av ett schema eller av något som händer i GitHub, eller körd på
-leverantörens datorer i stället för dina. Del 1,
+leverantörens datorer i stället för dina. Hittills har du startat agenten själv
+och följt dess steg i chatten eller i editorn, även efter att del 5 gav den ett
+sätt att nå system utanför dina filer, till exempel ett ärendesystem. Del 1,
 [Från AI-chatt till agentiskt arbete](/sv/blog/what-makes-a-chat-an-ai-agent/),
 beskrev att en agent kan köras i en editor, i en terminal, i ett CI-jobb eller
 på schema.
-
-När ingen är med kan ingen heller svara på agentens frågor. Därför är ett bra
-första jobb att låta köra på egen hand ett som bara får läsa.
 
 ## En sammanfattning som ingen behöver be om
 
@@ -55,10 +53,10 @@ du startar agenten och den körs på leverantörens datorer.
 Vår tumregel: börja där du kan följa vad agenten gör, i editorn eller
 terminalen. Flytta ut ett jobb när du ber om samma sak gång på gång och kan
 bedöma resultatet genom att läsa det. Ett jobb som ska köras av sig självt varje
-morgon hör hemma på ett schema. Leverantörens moln kan vara det enklaste första
-försöket, eftersom du startar det från en webbläsare och inte skriver någon fil.
-Ge ett obevakat jobb inte mer än det behöver. Låt det inte agera på text från
-personer du inte känner.
+morgon hör hemma på ett schema. Leverantörens moln kan ändå vara det enklaste
+första försöket, eftersom du startar det från en webbläsare och inte skriver
+någon fil. Oavsett vilket ställe du väljer bör ett obevakat jobb inte få mer än
+det behöver och inte agera på text från personer du inte känner.
 
 ## Det som följer med till en körning i molnet
 
@@ -228,14 +226,6 @@ som du i allmänhet inte kan spåra till en enskild prompt eller session. Efter
 den första veckan kan du titta på användningen för kontot som nyckeln tillhör.
 
 ## Felsökning
-
-Fem saker kan gå fel:
-
-- Inget syns under Actions.
-- Körningen misslyckas i första steget.
-- Körningen lyckas men svaret är tomt eller fel.
-- Körningen startar vid en annan tid än du väntade dig.
-- Körningen pågår för länge.
 
 Om inget syns under Actions, kontrollera var filen ligger. GitHub läser
 workflow-filer från mappen `.github/workflows`. Ett schema eller knappen Run

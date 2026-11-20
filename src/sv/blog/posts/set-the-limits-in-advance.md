@@ -1,6 +1,6 @@
 ---
 title: Sätt gränserna i förväg
-description: Sjunde delen i serien "Från AI-chatt till agentiskt arbete" – skillnaden mellan att be en AI-agent uppföra sig och att stoppa den, de begränsningar som verktygen erbjuder, en första uppsättning gränser att pröva i ett övningsprojekt och vad du gör när en gräns släpper igenom något.
+description: "En rad i instruktionsfilen ber en AI-agent uppföra sig, medan en gräns kontrolleras utanför den. Den här delen går igenom de begränsningar som verktygen erbjuder, en första uppsättning att pröva i ett övningsprojekt och vad du gör när en gräns släpper igenom något. Sjunde delen i serien \"Från AI-chatt till agentiskt arbete\"."
 image: cover.png                 # en PNG på 1200 × 630 i artikelns mediemapp
 imageAlt: En AI-agent, en grön cirkel, rör sig längs en prickad stig förbi en liten grå lapp på en stolpe. Lappen är en begäran och stoppar inte agenten. Till höger står en stängd grind i grön kontur, med ett hänglås, tvärs över stigen. Grinden är en gräns och stigen tar slut vid den.
 date: 2026-11-15
@@ -10,12 +10,12 @@ draft: false                     # publicerad — sätt true för att hålla den
 aiGenerated: true                # AI har skrivit texten
 humanReviewed: true              # en person har läst den
 ---
-I del 6 arbetade agenten utan att någon var med. Som standard kan ett jobb i
+I del 6 arbetade agenten utan att någon var med. Därför fick det första jobbet
+bara läsa: som standard kan ett jobb i
 [Claude Code](https://code.claude.com/docs/en/permission-modes),
 [Codex](https://learn.chatgpt.com/docs/non-interactive-mode) och
 [GitHub Copilot](https://docs.github.com/en/copilot/how-tos/copilot-cli/automate-copilot-cli/run-cli-programmatically)
-bara göra det som tillåtits innan det startade, så det första jobbet ska bara
-läsa.
+bara göra det som tillåtits innan det startade.
 
 Ett jobb som ska göra mer behöver sina gränser satta i förväg.
 Behörighetsregler, en hook och en sandbox kan var och en svara ja eller nej åt

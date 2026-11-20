@@ -594,8 +594,8 @@
 - id: P4-sb-conclusion
   article: skills-for-repeatable-work
   sentence:
-    sv: "Hur mycket den hjälper beror på modellen och verktyget, som båda studierna fann."
-    en: "How much it helps depends on the model and the tool, as both studies found."
+    sv: "hur mycket den hjälper beror på modellen och verktyget, som båda studierna fann"
+    en: "how much it helps depends on the model and the tool, as both studies found"
   vendor: arXiv
   url: https://arxiv.org/html/2602.12670v4
   final_url: https://arxiv.org/html/2602.12670v4
@@ -606,8 +606,8 @@
 - id: P4-swe-config
   article: skills-for-repeatable-work
   sentence:
-    sv: "Hur mycket den hjälper beror på modellen och verktyget, som båda studierna fann."
-    en: "How much it helps depends on the model and the tool, as both studies found."
+    sv: "hur mycket den hjälper beror på modellen och verktyget, som båda studierna fann"
+    en: "how much it helps depends on the model and the tool, as both studies found"
   vendor: arXiv
   url: https://arxiv.org/html/2603.15401v2
   final_url: https://arxiv.org/html/2603.15401v2
@@ -618,8 +618,8 @@
 - id: P4-swe-test
   article: skills-for-repeatable-work
   sentence:
-    sv: "Testa din skill med dem du använder, som de följande avsnitten beskriver."
-    en: "Test your skill with the ones you use, as the next sections describe."
+    sv: "Det är värt att testa en skill med den modell och det verktyg du använder, som de följande avsnitten beskriver"
+    en: "It is worth testing a skill with the model and tool you use, as the next sections describe"
   vendor: arXiv
   url: https://arxiv.org/html/2603.15401v2
   final_url: https://arxiv.org/html/2603.15401v2

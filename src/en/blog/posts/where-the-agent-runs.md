@@ -1,6 +1,6 @@
 ---
 title: Where the AI agent runs and who starts it
-description: The sixth part of the series "From AI chat to agentic work" — the same AI agent in five places, from the editor to a schedule and the vendor's cloud, what goes along to a run in the cloud, and a first job that runs by itself every morning.
+description: "An agent that runs with nobody beside it cannot ask anyone, so a good first job to run on its own is one that can only read. This part follows the same agent to five places, from the editor to a schedule and the vendor's cloud. It says what goes along to a run in the cloud and ends with a first job that runs by itself every morning. The sixth part of the series \"From AI chat to agentic work\"."
 image: cover.png                 # a 1200 × 630 PNG in the article's media directory
 imageAlt: An AI agent, a green circle, works on a small workbench where nobody is watching. A clock with one green hand at a morning hour stands to its left and starts it. To its right a finished sheet with the result and a tick, glowing green, waits on a small table. At the far right an empty chair stands in grey.
 date: 2026-11-15
@@ -11,18 +11,17 @@ aiGenerated: true                # AI produced this text
 humanReviewed: true              # a person has read it
 ---
 
-In part 5 of this series, the AI agent got a way to reach systems outside your
-files, such as an issue tracker. So far you have started the agent yourself and
-followed its steps in the chat or the editor.
+When nobody is there, nobody can answer the agent's questions, so a good first
+job to run on its own is one that can only read.
 
 This part is about the same agent when it runs with nobody sitting beside it:
 started by a schedule or by something that happens in GitHub, or running on the
-vendor's computers instead of yours. Part 1,
-[From AI chat to agentic work](/blog/what-makes-a-chat-an-ai-agent/), said that
-an agent can run in an editor, in a terminal, in a CI job or on a schedule.
-
-When nobody is there, nobody can answer the agent's questions, so a good first
-job to run on its own is one that can only read.
+vendor's computers instead of yours. Until now you have started the agent
+yourself and followed its steps in the chat or the editor, even after part 5
+gave it a way to reach systems outside your files, such as an issue tracker.
+Part 1, [From AI chat to agentic work](/blog/what-makes-a-chat-an-ai-agent/),
+said that an agent can run in an editor, in a terminal, in a CI job or on a
+schedule.
 
 ## A summary nobody has to ask for
 
@@ -54,9 +53,10 @@ you start the agent and it runs on the vendor's computers.
 Our rule of thumb: start where you can follow what the agent does, in the editor
 or the terminal. Move a job out when you ask for the same thing again and again
 and can judge the result by reading it. A job that must run by itself every
-morning belongs on a schedule. The vendor's cloud may be the easiest first try,
-since you start it from a browser and write no file. Give an unattended job no
-more than it needs. Do not let it act on text from people you do not know.
+morning belongs on a schedule. The vendor's cloud may still be the easiest first
+try, since you start it from a browser and write no file. Whichever place you
+choose, an unattended job should get no more than it needs and should not act on
+text from people you do not know.
 
 ## What goes along to a run in the cloud
 
@@ -228,14 +228,6 @@ week, look at the usage of the account that the key belongs to.
 
 ## Troubleshooting
 
-Five things can go wrong:
-
-- Nothing appears under Actions.
-- The run fails at the first step.
-- The run succeeds, but the answer is empty or wrong.
-- The run starts at another time than you expected.
-- The run goes on for too long.
-
 If nothing appears under Actions, check where the file is. GitHub reads workflow
 files from the `.github/workflows` folder, and a schedule or a Run workflow
 button works only when the file is on the default branch, usually `main`.
@@ -274,7 +266,7 @@ The basics above are enough to start. Three things for later:
 
 ## Start small
 
-This is our own advice for a first job. Choose a job that runs without a person,
+This is our own advice for a first job. Choose a job that runs unattended,
 repeats and has a result you can check, such as the summary. Give it no way to
 write. If a later job must write, add that one tool and nothing else.
 

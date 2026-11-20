@@ -1,6 +1,6 @@
 ---
 title: The instruction file, the first thing an AI agent reads
-description: The second part of the series "From AI chat to agentic work" — whether to make an instruction file, what to write first, how to keep it useful and how one file can serve several tools.
+description: "The agent can read your code but cannot guess how the project is installed and tested, so a short markdown file that it reads at every start tells it. This part follows a made-up web app and its file: what to write first, how to keep the file useful and how one file can serve several tools. The second part of the series \"From AI chat to agentic work\"."
 image: cover.png                 # a 1200 × 630 PNG in the article's media directory
 imageAlt: An AI agent, a green circle, stands at the entrance of a project and reads a short note card on a post before it steps in. Behind the doorway lie the project's folders and files.
 date: 2026-10-30
@@ -184,10 +184,10 @@ One way is a test in the project that fails when the rule is broken: for
 `migrations/`, a test that fails when a migration already in the project is
 changed. The agent can write the test if you ask it to.
 
-The other way is a setting in the tool that blocks the change. In Claude Code such a setting is a
-so-called [hook](https://code.claude.com/docs/en/hooks-guide), a command the
-tool runs by itself. Anthropic's own example is a hook that blocks edits to the
-migrations folder. You can ask Claude to write it for you.
+The other way is a setting in the tool that blocks the change. In Claude Code
+such a setting is called a [hook](https://code.claude.com/docs/en/hooks-guide):
+a command the tool runs by itself. Anthropic's own example is a hook that blocks
+edits to the migrations folder. You can ask Claude to write it for you.
 
 What must never happen is stopped outside the model, as part 1 described.
 [Part 7](#part-7) of the series comes back to it.
@@ -232,9 +232,9 @@ it works with files there.
 
 ## Start small
 
-To start, create a markdown file called AGENTS.md in the project's top
-folder. Begin with the commands to install, build and test, then add the few
-rules the agent cannot work out from the code, each with its reason. Leave out
+We would start with a markdown file called AGENTS.md in the project's top
+folder: the commands to install, build and test first, then the few rules the
+agent cannot work out from the code, each with its reason. We would leave out
 overviews and descriptions of what each file does.
 
 You can write the file yourself or ask the agent to draft it. If a tool drafts

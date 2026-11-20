@@ -1,6 +1,6 @@
 ---
 title: Give each AI agent a job of its own
-description: The third part of the series "From AI chat to agentic work" — why an AI agent with one job and only the tools it needs is easier to review and to trust, how to write its description and what to do first.
+description: "An AI agent with one job and only the tools it needs is easier to review and to trust. The example here is a reviewer that may only read. This part shows how to write its description and what to do first. The third part of the series \"From AI chat to agentic work\"."
 image: cover.png                 # a 1200 × 630 PNG in the article's media directory
 imageAlt: An AI agent, a green circle, holds a short card with its job inside a dashed green frame around one folder of a project. Beside it lie a magnifying glass, its only tool, and the folder it works in. The project's other folders and files lie quiet around the frame.
 date: 2026-10-31
@@ -11,17 +11,18 @@ aiGenerated: true                # AI produced this text
 humanReviewed: true              # a person has read it
 ---
 
-In [The instruction file, the first thing an AI agent reads](/blog/the-instruction-file/),
-the second part of this series, the AI agent got a short markdown file to read at
-every start. So far one agent has done all the work: it writes the code, runs
-the tests and checks its own result.
-
 This part is about handing a job to a second AI agent, one with a single job and
-only the tools it needs. That can cost more than one agent: handing over adds
-model usage and coordination, so
+only the tools it needs. Until now one agent has done all the work: it writes
+the code, runs the tests and checks its own result. In
+[The instruction file, the first thing an AI agent reads](/blog/the-instruction-file/),
+the second part of this series, that agent was given a short markdown file to
+read at every start.
+
+A second agent can cost more than doing it all with one: handing over adds model
+usage and coordination, and
 [VS Code's documentation](https://code.visualstudio.com/docs/agents/run/subagents)
-says a direct request is usually enough for a quick lookup or a small edit. A
-second agent is worth it for a job you repeat, such as having a finished change
+says a direct request is usually enough for a quick lookup or a small edit.
+Handing over is worth it for a job you repeat, such as having a finished change
 reviewed.
 
 ## A reviewer that may only read
@@ -36,10 +37,10 @@ agent to review its own work is the obvious route. It is the weaker one: the
 agent has the whole conversation in front of it, with every choice it made along
 the way, so it reads its change through its own reasoning and assumptions.
 
-The other route is a separate reviewer, a subagent: an AI agent that another
-agent, the main agent, hands a task to. It works in a context of its own, which
-is the text it keeps in view: its instructions, the task it was given and what
-it has read. When the task is done it hands back a summary.
+The other route is a separate reviewer, a subagent: an AI agent that gets a task
+from another agent, the main agent. It works in a context of its own, the text
+it keeps in view: its instructions, the task it was given and what it has read.
+When the task is done it hands back a summary.
 
 A reviewer that starts fresh does not see the conversation, so it reads the code
 as a colleague who did not take part in writing it would. The benefit is that it
@@ -89,13 +90,12 @@ Write your comments as a list, most serious first. For each one, give the
 file, the line and what is wrong.
 ```
 
-The part at the top, between the two lines of dashes, is called frontmatter. It
-holds the subagent's settings. The `name` is what you and the main agent call
-the subagent. The `description` is what the main agent reads to decide whether
-to hand a task over.
-
-The `tools` line lists what tools the subagent may use. Below the frontmatter
-come the subagent's instructions, which it reads when it has been given a task.
+The part at the top, between the two lines of dashes, is the frontmatter, where
+the subagent's settings live. You and the main agent call the subagent by its
+`name`. The main agent reads the `description` to decide whether to hand a task
+over. The `tools` line lists the tools the subagent may use. Below the
+frontmatter come the subagent's instructions, which it reads when it has been
+given a task.
 
 {% figure "agent-file" %}
 
@@ -220,8 +220,8 @@ custom agent on its own, based on the task, unless the custom agent's file
 switches that off.
 
 On your own computer, Codex hands over when you ask or when instructions such as
-the AGENTS.md say so. Codex's documentation calls the description guidance for people on when Codex
-should use the subagent.
+the AGENTS.md say so. In Codex's documentation the description is guidance for
+the user on when Codex should use the subagent.
 
 Handing over on its own brings a risk: the main agent may hand over too often.
 Anthropic's guide also warns that a model may start subagents to explore code
@@ -237,13 +237,6 @@ it:
 ```
 
 ## Troubleshooting
-
-Four things can go wrong:
-
-- The main agent never hands over on its own.
-- Nothing happens when you name the subagent in your request.
-- The main agent hands over too often.
-- The reviewer's comments are shallow.
 
 If the main agent never hands over on its own, ask for the subagent by name:
 
@@ -277,14 +270,14 @@ is meant to do, as the first section said.
 
 ## Start small
 
-Pick one job that you already do the same way each time and that does not
-need the whole conversation. A review of a finished change is a good first
-one, since it can be done by reading.
+We would start with one job that you already do the same way each time and that
+does not need the whole conversation. A review of a finished change is a good
+first one, since it can be done by reading.
 
 Ask the tool to write the subagent's file for you and put it in the folder for
 your tool, which the section on the tools names. Then read it and cut it down:
-give the subagent read tools only, write its description as what it does and
-when to use it, and keep its instructions to a few lines.
+give the subagent read tools only and write its description as what it does and
+when to use it. Keep its instructions to a few lines.
 
 Try it on one finished change. Name the subagent in your request the first time
 and read the comments it hands back as you would read a colleague's.

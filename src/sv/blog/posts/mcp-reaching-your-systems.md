@@ -1,6 +1,6 @@
 ---
 title: MCP, så når AI-agenten andra system
-description: Femte delen i serien "Från AI-chatt till agentiskt arbete" – vad MCP är, hur du gör en första koppling som bara får läsa och vad du gör när den inte fungerar.
+description: "Den första kopplingen till ett annat system bör bara kunna läsa, eftersom en koppling ger agenten längre räckvidd. Den här delen förklarar vad MCP är, hur du gör en sådan koppling och vad du gör när den inte fungerar. Femte delen i serien \"Från AI-chatt till agentiskt arbete\"."
 image: cover.png                 # en PNG på 1200 × 630 i artikelns mediemapp
 imageAlt: En AI-agent, en grön cirkel, är kopplad med en enda sladd till en ärendelista, instoppad i listans uttag. Ett litet öga på sladden visar att kopplingen bara får läsa. Längre bak till höger sitter en dokumentationssida och en databas, båda grå, var och en med ett tomt uttag och utan koppling.
 date: 2026-11-05
@@ -11,17 +11,16 @@ aiGenerated: true                # AI har skrivit texten
 humanReviewed: true              # en person har läst den
 ---
 
-I del 4 av serien hamnade stegen för ett jobb i en skill, en mapp med en
-markdown-fil som heter SKILL.md. Hittills har de instruktioner som AI-agenten
-läser vid starten varit filer på din egen dator: instruktionsfilen,
-subagenternas filer och skills.
-
 Den här delen handlar om att nå andra system, till exempel ett ärendesystem, en
 dokumentationssajt eller en databas. Vägen dit är Model Context Protocol,
-förkortat MCP, ett
-[öppet protokoll](https://modelcontextprotocol.io/specification/2026-07-28): ett
-standardiserat sätt för ett AI-program, till exempel Claude Code, Codex eller
-GitHub Copilot i VS Code, att koppla upp sig mot ett system och använda det.
+förkortat MCP. Det är ett
+[öppet protokoll](https://modelcontextprotocol.io/specification/2026-07-28) som
+ger ett AI-program, till exempel Claude Code, Codex eller GitHub Copilot i VS
+Code, ett standardiserat sätt att koppla upp sig mot ett system och använda det.
+
+Hittills har de instruktioner som AI-agenten läser vid starten varit filer på
+din egen dator: instruktionsfilen, subagenternas filer och skills från del 4,
+mappar med en markdown-fil som heter SKILL.md.
 
 En koppling ger agenten längre räckvidd, så den första bör bara kunna läsa.
 
@@ -35,7 +34,7 @@ inget av det, så utvecklaren kopierar texten till chatten varje gång.
 Att kopiera fungerar för ett ärende. Det fungerar inte när agenten behöver
 kommentarerna, de länkade ärendena eller de andra ärendena som nämner
 formuläret. Agenten behöver ett sätt att koppla sig till GitHubs
-ärendehanteringssystem. En MCP-koppling är lösningen på det.
+ärendehanteringssystem. Det ger en MCP-koppling.
 
 Claude Codes [dokumentation](https://code.claude.com/docs/en/mcp) säger att du
 ska koppla in en MCP-server när du märker att du kopierar data från ett annat
@@ -49,13 +48,13 @@ begränsar en koppling.
 
 ## Vad en MCP-server erbjuder
 
-En MCP-server är ett program som ger agenten ett API mot ett system, till
-exempel GitHub. Den står framför systemets eget API. Dess verktyg kan anropa
-det. En MCP-server kan köras lokalt på din dator eller på distans, som GitHub
-gör med sin MCP-server. MCP-servrar på distans nås via HTTP på en webbadress.
-Många av dem behöver veta vem du är. GitHubs MCP-server begär en personal access
-token som du skapar i GitHubs inställningar. Agenten kan också köra `gh` i
-terminalen, eller anropa GitHubs API själv.
+En MCP-server är ett program som står framför ett systems eget API, till exempel
+GitHubs. Den ger agenten verktyg som kan anropa det. En MCP-server kan köras
+lokalt på din dator eller på distans, som GitHub gör med sin MCP-server.
+MCP-servrar på distans nås via HTTP på en webbadress. Många av dem behöver veta
+vem du är. GitHubs MCP-server begär en personal access token som du skapar i
+GitHubs inställningar. Agenten kan också köra `gh` i terminalen, eller anropa
+GitHubs API själv.
 
 {% figure "mcp-server", "wide" %}
 
@@ -88,10 +87,11 @@ inställningarna i cellerna gäller Claude Code.
 Oavsett hur agenten når ett system kan texten den läser innehålla prompt
 injection, vilket nästa avsnitt beskriver.
 
-Vår rekommendation följer tumregeln ovan. Pröva systemets kommandoradsverktyg
-först. Ta en MCP-server när systemet saknar kommandoradsverktyg eller när du
-vill att MCP-servern bara ska erbjuda några få verktyg som bara läser. Anropa
-API:et själv när inget av de två passar.
+Vår rekommendation följer tumregeln ovan. Vi skulle pröva systemets
+kommandoradsverktyg först och ta en MCP-server när systemet saknar
+kommandoradsverktyg eller när vi vill att MCP-servern bara ska erbjuda några få
+verktyg som bara läser. Om inget av de två passar, skulle vi anropa API:et
+själv.
 
 ## Säkerhetsaspekter
 
@@ -298,14 +298,6 @@ släppte igenom det.
 
 ## Felsökning
 
-Här är fem problem som kan uppstå med en första koppling:
-
-- MCP-servern visas som misslyckad.
-- Projektets MCP-server startar aldrig.
-- Konfigurationen läses inte.
-- Det finns för många MCP-verktyg.
-- Agenten gör något du inte bad om.
-
 Om MCP-servern visas som misslyckad, kontrollera tokenen först: den kan vara
 fel, ha gått ut eller sakna åtkomst till repot. I Claude Code visar `/mcp` då
 den HTTP-status som MCP-servern svarade med, till exempel 401. Variabeln kan
@@ -332,9 +324,10 @@ instruktioner i texten den läste.
 
 ## Börja litet
 
-Det här är vår egen rekommendation för en första koppling. Använd en MCP-server
-från en leverantör du litar på, till exempel systemets egen. Låt inte den första
-MCP-servern ändra något. Klistra aldrig in tokenen i en fil eller i chatten.
+Det här är vår egen rekommendation för en första koppling. Vi skulle använda en
+MCP-server från en leverantör vi litar på, till exempel systemets egen. Den
+första skulle vi inte låta ändra något. Tokenen hamnar aldrig i en fil eller i
+chatten.
 
 Med GitHub som exempel är stegen i ordning:
 

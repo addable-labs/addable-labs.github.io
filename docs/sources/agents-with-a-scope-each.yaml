@@ -71,8 +71,8 @@
 - id: P3-name
   article: agents-with-a-scope-each
   sentence:
-    sv: "Namnet (name) är det du och huvudagenten kallar subagenten."
-    en: "The name is what you and the main agent call the subagent."
+    sv: "Du och huvudagenten kallar subagenten vid dess namn (name)."
+    en: "You and the main agent call the subagent by its name."
   vendor: Anthropic
   url: https://code.claude.com/docs/en/sub-agents
   final_url: https://code.claude.com/docs/en/sub-agents
@@ -82,8 +82,8 @@
 - id: P3-description-field
   article: agents-with-a-scope-each
   sentence:
-    sv: "Beskrivningen (description) är det huvudagenten läser för att avgöra om den ska lämna över en uppgift."
-    en: "The description is what the main agent reads to decide whether to hand a task over."
+    sv: "Huvudagenten läser beskrivningen (description) för att avgöra om den ska lämna över en uppgift."
+    en: "The main agent reads the description to decide whether to hand a task over."
   vendor: Anthropic
   url: https://code.claude.com/docs/en/sub-agents
   final_url: https://code.claude.com/docs/en/sub-agents
@@ -94,7 +94,7 @@
   article: agents-with-a-scope-each
   sentence:
     sv: "Raden tools anger vilka verktyg subagenten får använda."
-    en: "The tools line lists what tools the subagent may use."
+    en: "The tools line lists the tools the subagent may use."
   vendor: Anthropic
   url: https://code.claude.com/docs/en/sub-agents
   final_url: https://code.claude.com/docs/en/sub-agents
@@ -115,8 +115,8 @@
 - id: P3-header
   article: agents-with-a-scope-each
   sentence:
-    sv: "Delen överst, mellan de två raderna med streck, kallas frontmatter."
-    en: "The part at the top, between the two lines of dashes, is called frontmatter."
+    sv: "Delen överst, mellan de två raderna med streck, är frontmatter, där subagentens inställningar finns."
+    en: "The part at the top, between the two lines of dashes, is the frontmatter, where the subagent's settings live."
   vendor: Anthropic
   url: https://code.claude.com/docs/en/sub-agents
   final_url: https://code.claude.com/docs/en/sub-agents
@@ -753,8 +753,8 @@
 - id: P3-cx-description
   article: agents-with-a-scope-each
   sentence:
-    sv: "Codex dokumentation kallar beskrivningen vägledning för människor om när Codex ska använda subagenten"
-    en: "Codex's documentation calls the description guidance for people on when Codex should use the subagent"
+    sv: "I Codex dokumentation är beskrivningen vägledning för användaren om när Codex ska använda subagenten"
+    en: "In Codex's documentation the description is guidance for the user on when Codex should use the subagent"
   vendor: OpenAI
   url: https://learn.chatgpt.com/docs/agent-configuration/subagents
   final_url: https://learn.chatgpt.com/docs/agent-configuration/subagents
@@ -775,8 +775,8 @@
 - id: P3-cost-cc
   article: agents-with-a-scope-each
   sentence:
-    sv: "Det kan kosta mer än en enda agent"
-    en: "That can cost more than one agent"
+    sv: "En andra agent kan kosta mer än en enda"
+    en: "A second agent can cost more than doing it all with one"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/best-practices
   final_url: https://code.claude.com/docs/en/best-practices
@@ -786,8 +786,8 @@
 - id: P3-cost-cx
   article: agents-with-a-scope-each
   sentence:
-    sv: "Det kan kosta mer än en enda agent"
-    en: "That can cost more than one agent"
+    sv: "En andra agent kan kosta mer än en enda"
+    en: "A second agent can cost more than doing it all with one"
   vendor: OpenAI
   url: https://learn.chatgpt.com/docs/agent-configuration/subagents
   final_url: https://learn.chatgpt.com/docs/agent-configuration/subagents
@@ -797,8 +797,8 @@
 - id: P3-cost-vs
   article: agents-with-a-scope-each
   sentence:
-    sv: "att lämna över medför mer modellanvändning och mer samordning, så VS Codes dokumentation säger att en direkt begäran oftast räcker för en snabb sökning eller en liten ändring"
-    en: "handing over adds model usage and coordination, so VS Code's documentation says a direct request is usually enough for a quick lookup or a small edit"
+    sv: "att lämna över ger mer modellanvändning och mer samordning. VS Codes dokumentation säger att det oftast räcker att be om en snabb sökning eller en liten ändring direkt"
+    en: "handing over adds model usage and coordination, and VS Code's documentation says a direct request is usually enough for a quick lookup or a small edit"
   vendor: GitHub
   url: https://code.visualstudio.com/docs/agents/run/subagents
   final_url: https://code.visualstudio.com/docs/agents/run/subagents
@@ -808,8 +808,8 @@
 - id: P3-cost-vs-concepts
   article: agents-with-a-scope-each
   sentence:
-    sv: "Det kan kosta mer än en enda agent"
-    en: "That can cost more than one agent"
+    sv: "En andra agent kan kosta mer än en enda"
+    en: "A second agent can cost more than doing it all with one"
   vendor: GitHub
   url: https://code.visualstudio.com/docs/agents/concepts/agents
   final_url: https://code.visualstudio.com/docs/agents/concepts/agents

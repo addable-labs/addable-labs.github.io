@@ -1,8 +1,8 @@
 ---
 title: Skills, när arbetet ska göras likadant varje gång
-description: Fjärde delen i serien "Från AI-chatt till agentiskt arbete" – hur ett jobb ska göras likadant varje gång, vad en skill är, varför det som måste bli exakt hör hemma i ett skript, vad studierna visar och vad du gör först.
+description: "När agenten gör samma jobb olika varje gång kan stegen bli en skill: en mapp med en markdown-fil och ofta ett skript för det som måste bli exakt. Den här delen visar hur det fungerar, vad två studier fann och vad du gör först. Fjärde delen i serien \"Från AI-chatt till agentiskt arbete\"."
 image: cover.png                 # en PNG på 1200 × 630 i artikelns mediemapp
-imageAlt: En AI-agent, en grön cirkel, står bredvid en mapp och tar ett receptkort ur den. I mappen ligger kortet, med en rubrik och tre steg, och ett litet kugghjul. Ur mappen kommer tre ark på rad, alla exakt likadana.
+imageAlt: En AI-agent, en grön cirkel, står bredvid en mapp och tar ett receptkort ur den. I mappen ligger kortet – med en rubrik och tre steg – och ett litet kugghjul. Ur mappen kommer tre ark på rad, alla exakt likadana.
 date: 2026-10-31
 category: ai-journey             # app-development | ai-journey
 translationKey: skills-for-repeatable-work
@@ -223,10 +223,10 @@ till exempel slumpmässig eller irrelevant text, som framtida arbete.
 SWE-Skills-Bench mätte också hela skills. Därför visar ingen av studierna att
 ett skript hjälper mer än vanliga instruktioner.
 
-För dig betyder det att en skill inte är en säker vinst. Hur mycket den hjälper
-beror på modellen och verktyget, som båda studierna fann. Testa din skill med
-dem du använder, som de följande avsnitten beskriver. Läs också det en agent har
-skrivit åt dig innan du litar på det.
+En skill är inte en säker vinst: hur mycket den hjälper beror på modellen och
+verktyget, som båda studierna fann. Det är värt att testa en skill med den
+modell och det verktyg du använder, som de följande avsnitten beskriver. Det är
+också värt att läsa det en agent har skrivit åt dig innan du litar på det.
 
 ## Claude Code, Codex och GitHub Copilot
 
@@ -280,14 +280,6 @@ utrymme och hur ofta den används. Ett tillägg som heter skill-creator kör
 testfall för en skill med och utan den.
 
 ## Felsökning
-
-Fem saker kan gå fel:
-
-- Agenten använder inte skillen.
-- Skillen startar när den inte ska.
-- `/release` känns inte igen.
-- Agenten hoppar över steg sent i ett långt samtal.
-- Skriptet säger OK när det inte ska.
 
 Använder agenten inte skillen, titta först på beskrivningen: lägg till orden du
 använder när du ber om arbetet.
@@ -351,9 +343,9 @@ ingenting. Kopiera namnen från verktygets sida.
 
 ## Börja litet
 
-Välj ett jobb som du redan ber agenten göra och som du rättar på samma sätt
-varje gång. Gör det en gång med agenten i en chatt. När det har blivit som du
-vill ber du agenten skriva en skill av stegen i den sessionen:
+Vi skulle börja med ett jobb som du redan ber agenten göra och som du rättar på
+samma sätt varje gång. Gör det en gång med agenten i en chatt. När det har
+blivit som du vill ber du agenten skriva en skill av stegen i den sessionen:
 
 ```text
 Write a skill from the steps we have just taken in this session.

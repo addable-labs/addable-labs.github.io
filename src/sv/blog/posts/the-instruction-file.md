@@ -1,6 +1,6 @@
 ---
 title: Instruktionsfilen, det första en AI-agent läser
-description: Andra delen i serien "Från AI-chatt till agentiskt arbete" – om man ska skapa en instruktionsfil, vad som ska stå i den först, hur den hålls användbar och hur en fil räcker för flera verktyg.
+description: "Agenten kan läsa din kod men inte gissa hur projektet installeras och testas, så en kort markdown-fil som den läser varje gång den startar talar om det. Den här delen följer en påhittad webbapp och dess fil: vad som ska stå först, hur filen hålls användbar och hur en fil räcker för flera verktyg. Andra delen i serien \"Från AI-chatt till agentiskt arbete\"."
 image: cover.png                 # en PNG på 1200 × 630 i artikelns mediemapp
 imageAlt: En AI-agent, en grön cirkel, står vid ingången till ett projekt och läser en kort lapp på en stolpe innan den går in. Bakom dörröppningen ligger projektets mappar och filer.
 date: 2026-10-30
@@ -233,10 +233,10 @@ undermapp när det arbetar med filer där.
 
 ## Börja litet
 
-Skapa en markdown-fil som heter AGENTS.md i projektets översta mapp. Börja
-med kommandona för att installera, bygga och testa och lägg sedan till de få
-regler som agenten inte kan läsa ut ur koden, var och en med sitt skäl. Låt bli
-översikter och beskrivningar av vad varje fil gör.
+Vi skulle börja med en markdown-fil som heter AGENTS.md i projektets översta
+mapp: kommandona för att installera, bygga och testa först och sedan de få
+regler som agenten inte kan läsa ut ur koden, var och en med sitt skäl.
+Översikter och beskrivningar av vad varje fil gör skulle vi lämna utanför.
 
 Du kan skriva filen själv eller be agenten skriva ett utkast. Skriver ett
 verktyg ett utkast åt dig, redigera det: både

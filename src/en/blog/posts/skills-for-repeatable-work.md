@@ -1,6 +1,6 @@
 ---
 title: Skills, for work that must be done the same way every time
-description: The fourth part of the series "From AI chat to agentic work" — how a job should be done the same way each time, what a skill is, why what must be exact belongs in a script, what the studies show and what to do first.
+description: "When the agent does the same job differently each time, the steps can go into a skill: a folder with a markdown file and often a script for the part that must be exact. This part shows how that works, what two studies found and what to do first. The fourth part of the series \"From AI chat to agentic work\"."
 image: cover.png                 # a 1200 × 630 PNG in the article's media directory
 imageAlt: An AI agent, a green circle, stands beside a folder and takes a recipe card from it. In the folder lie the card, with a heading and three steps, and a small gear. Out of the folder come three sheets in a row, all exactly the same.
 date: 2026-10-31
@@ -219,9 +219,9 @@ length-matched baselines", such as random or irrelevant text, as future work.
 SWE-Skills-Bench measured whole skills too. So neither study shows that a script
 helps more than plain instructions do.
 
-For you, this means that a skill is not a sure gain. How much it helps depends
-on the model and the tool, as both studies found. Test your skill with the ones
-you use, as the next sections describe. Also read what an agent wrote for you
+A skill is not a sure gain: how much it helps depends on the model and the tool,
+as both studies found. It is worth testing a skill with the model and tool you
+use, as the next sections describe, and reading what an agent wrote for you
 before you rely on it.
 
 ## Claude Code, Codex and GitHub Copilot
@@ -276,14 +276,6 @@ and how often it is used. An add-on called skill-creator runs test cases for a
 skill with and without it.
 
 ## Troubleshooting
-
-Five things can go wrong:
-
-- The agent does not use the skill.
-- The skill starts when it should not.
-- `/release` is not recognised.
-- The agent skips steps late in a long conversation.
-- The script says OK when it should not.
 
 If the agent does not use the skill, look at the description first: add the
 words you use when you ask for the work.
@@ -346,9 +338,10 @@ Copy the names from the tool's page.
 
 ## Start small
 
-Pick one job that you already ask the agent to do and that you correct in the
-same way each time. Do it once with the agent in a chat. When it has gone the
-way you want, ask the agent to write a skill from the steps of that session:
+We would start with one job that you already ask the agent to do and that you
+correct in the same way each time. Do it once with the agent in a chat. When it
+has gone the way you want, ask the agent to write a skill from the steps of that
+session:
 
 ```text
 Write a skill from the steps we have just taken in this session.

@@ -1,8 +1,8 @@
 ---
 title: Ge varje AI-agent ett eget jobb
-description: Tredje delen i serien "Från AI-chatt till agentiskt arbete" – varför en AI-agent med ett enda jobb och bara de verktyg den behöver är lättare att granska och lita på, hur du skriver dess beskrivning och vad du gör först.
+description: "En AI-agent med ett enda jobb och bara de verktyg den behöver är lättare att granska och lita på. Exemplet här är en granskare som bara får läsa. Den här delen visar hur du skriver dess beskrivning och vad du gör först. Tredje delen i serien \"Från AI-chatt till agentiskt arbete\"."
 image: cover.png                 # en PNG på 1200 × 630 i artikelns mediemapp
-imageAlt: En AI-agent, en grön cirkel, håller en kort lapp med sitt jobb inuti en streckad grön ram runt en mapp i ett projekt. Bredvid ligger ett förstoringsglas, dess enda verktyg, och mappen den arbetar i. Projektets övriga mappar och filer ligger lugnt runt ramen.
+imageAlt: En AI-agent, en grön cirkel, håller en kort lapp med sitt jobb inuti en streckad grön ram runt en mapp i ett projekt. Bredvid ligger ett förstoringsglas – dess enda verktyg – och mappen den arbetar i. Projektets övriga mappar och filer ligger lugnt runt ramen.
 date: 2026-10-31
 category: ai-journey             # app-development | ai-journey
 translationKey: agents-with-a-scope-each
@@ -11,17 +11,19 @@ aiGenerated: true                # AI har skrivit texten
 humanReviewed: true              # en person har läst den
 ---
 
-I [Instruktionsfilen, det första en AI-agent läser](/sv/blog/the-instruction-file/),
-seriens andra del, fick AI-agenten en kort markdown-fil att läsa varje gång den
-startar. Hittills har en enda agent gjort allt arbete: den skriver koden, kör
-testerna och kontrollerar sitt eget resultat.
-
 Den här delen handlar om att lämna över ett jobb till en andra AI-agent, en med
-ett enda jobb och bara de verktyg jobbet kräver. Det kan kosta mer än en enda
-agent: att lämna över medför mer modellanvändning och mer samordning, så
+ett enda jobb och bara de verktyg jobbet kräver. Hittills har en enda agent
+gjort allt arbete: den skriver koden, kör testerna och kontrollerar sitt eget
+resultat. I
+[Instruktionsfilen, det första en AI-agent läser](/sv/blog/the-instruction-file/),
+seriens andra del, fick den agenten en kort markdown-fil att läsa varje gång den
+startar.
+
+En andra agent kan kosta mer än en enda: att lämna över ger mer modellanvändning
+och mer samordning.
 [VS Codes dokumentation](https://code.visualstudio.com/docs/agents/run/subagents)
-säger att en direkt begäran oftast räcker för en snabb sökning eller en liten
-ändring. En andra agent lönar sig för ett jobb som du upprepar, till exempel att
+säger att det oftast räcker att be om en snabb sökning eller en liten ändring
+direkt. En andra agent lönar sig för ett jobb som du upprepar, till exempel att
 få en färdig ändring granskad.
 
 ## En granskare som bara får läsa
@@ -37,11 +39,11 @@ svagare alternativet: agenten har hela samtalet framför sig, med varje val den
 gjorde på vägen, så den läser sin ändring genom sina egna resonemang och
 antaganden.
 
-Det andra alternativet är en egen granskare, en subagent: en AI-agent som en
-annan agent, huvudagenten, lämnar en uppgift till. Den arbetar i ett eget
-sammanhang (context), alltså den text den har framför sig: sina instruktioner,
-uppgiften den har fått och det den har läst. När uppgiften är klar lämnar den
-tillbaka en sammanfattning.
+Det andra alternativet är en egen granskare, en subagent: en AI-agent som får en
+uppgift av en annan agent, huvudagenten. Den arbetar i ett eget sammanhang
+(context), alltså den text den har framför sig: sina instruktioner, uppgiften
+den har fått och det den har läst. När uppgiften är klar lämnar den tillbaka en
+sammanfattning.
 
 En granskare som börjar med rent bord ser inte samtalet och läser koden som en
 kollega som inte har varit med och skrivit den skulle göra. Fördelen är att den
@@ -92,13 +94,12 @@ Write your comments as a list, most serious first. For each one, give the
 file, the line and what is wrong.
 ```
 
-Delen överst, mellan de två raderna med streck, kallas frontmatter. Den
-innehåller subagentens inställningar. Namnet (`name`) är det du och huvudagenten
-kallar subagenten. Beskrivningen (`description`) är det huvudagenten läser för
-att avgöra om den ska lämna över en uppgift.
-
-Raden `tools` anger vilka verktyg subagenten får använda. Under frontmatter
-kommer subagentens instruktioner, som den läser när den har fått en uppgift.
+Delen överst, mellan de två raderna med streck, är frontmatter, där subagentens
+inställningar finns. Du och huvudagenten kallar subagenten vid dess namn
+(`name`). Huvudagenten läser beskrivningen (`description`) för att avgöra om den
+ska lämna över en uppgift. Raden `tools` anger vilka verktyg subagenten får
+använda. Under frontmatter kommer subagentens instruktioner, som den läser när
+den har fått en uppgift.
 
 {% figure "agent-file" %}
 
@@ -222,8 +223,8 @@ anpassad agent på egen hand, utifrån uppgiften, om inte den anpassade agentens
 fil stänger av det.
 
 På din egen dator lämnar Codex över när du ber om det eller när instruktioner
-som AGENTS.md säger det. Codex dokumentation kallar beskrivningen vägledning för
-människor om när Codex ska använda subagenten.
+som AGENTS.md säger det. I Codex dokumentation är beskrivningen vägledning för
+användaren om när Codex ska använda subagenten.
 
 Att lämna över på egen hand för med sig en risk: huvudagenten kan lämna över för
 ofta. Anthropics guide varnar också för att en modell kan starta subagenter för
@@ -239,13 +240,6 @@ En rad i instruktionsfilen från del 2 kan säga när det lönar sig att lämna
 ```
 
 ## Felsökning
-
-Fyra saker kan gå fel:
-
-- Huvudagenten lämnar aldrig över på egen hand.
-- Det händer ingenting när du nämner subagenten i din begäran.
-- Huvudagenten lämnar över för ofta.
-- Granskarens synpunkter är ytliga.
 
 Om huvudagenten aldrig lämnar över på egen hand, ber du om subagenten vid namn:
 
@@ -279,9 +273,9 @@ ska titta på. Skriv i din begäran vilken ändring som ska granskas och vad
 
 ## Börja litet
 
-Välj ett jobb som du redan gör på samma sätt varje gång och som inte behöver
-hela samtalet. En granskning av en färdig ändring är ett bra första jobb,
-eftersom den går att göra genom att läsa.
+Vi skulle börja med ett jobb som du redan gör på samma sätt varje gång och som
+inte behöver hela samtalet. En granskning av en färdig ändring är ett bra första
+jobb, eftersom den går att göra genom att läsa.
 
 Be verktyget skriva subagentens fil åt dig och lägg den i mappen för ditt
 verktyg, som avsnittet om verktygen anger. Läs den sedan och korta ner den: ge

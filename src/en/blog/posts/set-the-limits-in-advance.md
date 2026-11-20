@@ -1,6 +1,6 @@
 ---
 title: Set the limits in advance
-description: The seventh part of the series "From AI chat to agentic work" — the difference between asking an AI agent to behave and stopping it, the limits the tools offer, a first set of limits to try on a practice project and what to do when a limit lets something through.
+description: "A line in the instruction file asks an AI agent to behave, while a limit is checked outside it. This part goes through the limits the tools offer, a first set to try on a practice project and what to do when a limit lets something through. The seventh part of the series \"From AI chat to agentic work\"."
 image: cover.png                 # a 1200 × 630 PNG in the article's media directory
 imageAlt: An AI agent, a green circle, moves along a dotted path past a small grey note card on a post. The note is a request, and it does not stop the agent. To its right a closed gate in green outline, with a padlock, stands across the path. The gate is a limit, and the path ends at it.
 date: 2026-11-15
@@ -10,11 +10,12 @@ draft: false                     # published — set true to keep it out of the 
 aiGenerated: true                # AI produced this text
 humanReviewed: true              # a person has read it
 ---
-In part 6 the agent ran with nobody there. By default, a job in
+In part 6 the agent ran with nobody there, and the first job could only read,
+because by default a job in
 [Claude Code](https://code.claude.com/docs/en/permission-modes),
 [Codex](https://learn.chatgpt.com/docs/non-interactive-mode) and
 [GitHub Copilot](https://docs.github.com/en/copilot/how-tos/copilot-cli/automate-copilot-cli/run-cli-programmatically)
-can do only what was allowed before it started, so the first job only reads.
+can do only what was allowed before it started.
 
 A job that has to do more needs its limits set in advance. Permission rules, a
 hook and a sandbox can each answer for you when the agent is about to run a
