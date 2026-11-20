@@ -33,9 +33,9 @@ team's chat.
 {% figure "daily-summary" %}
 
 The job changes nothing in the project. It only reads the history and writes a
-few lines, which makes it a safe first job to move out of the editor. We will
-run it as a CI job that starts on a schedule. The summary will wait on a GitHub
-page. Sending it on to the team's chat is a later step.
+few lines, which makes it a safe first job to move out of the editor. The
+developer will run it as a CI job that starts on a schedule. The summary will
+wait on a GitHub page. Sending it on to the team's chat is a later step.
 
 ## The same agent in five places
 

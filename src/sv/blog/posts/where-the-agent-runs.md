@@ -33,9 +33,10 @@ teamets chatt.
 {% figure "daily-summary" %}
 
 Jobbet ändrar ingenting i projektet. Det läser bara historiken och skriver några
-rader, vilket gör det till ett tryggt första jobb att flytta ut ur editorn. Vi
-kör det som ett CI-jobb som startar på schema. Sammanfattningen får vänta på en
-sida i GitHub. Att skicka den vidare till teamets chatt är ett senare steg.
+rader, vilket gör det till ett tryggt första jobb att flytta ut ur editorn.
+Utvecklaren kör det som ett CI-jobb som startar på schema. Sammanfattningen får
+vänta på en sida i GitHub. Att skicka den vidare till teamets chatt är ett
+senare steg.
 
 ## Samma agent på fem ställen
 

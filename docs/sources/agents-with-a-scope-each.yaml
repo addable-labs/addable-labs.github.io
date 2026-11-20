@@ -27,8 +27,8 @@
 - id: P3-claudemd
   article: agents-with-a-scope-each
   sentence:
-    sv: "I Claude Code startar en subagent med samma instruktionsfiler som huvudagenten"
-    en: "In Claude Code a subagent starts with the same instruction files as the main agent"
+    sv: "I Claude Code startar granskaren med samma instruktionsfiler som huvudagenten"
+    en: "In Claude Code the reviewer starts with the same instruction files as the main agent"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/sub-agents
   final_url: https://code.claude.com/docs/en/sub-agents

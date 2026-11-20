@@ -1,6 +1,6 @@
 ---
 title: Skills, for work that must be done the same way every time
-description: "When the agent does the same job differently each time, the steps can go into a skill: a folder with a markdown file and often a script for the part that must be exact. This part shows how that works, what two studies found and what to do first. The fourth part of the series \"From AI chat to agentic work\"."
+description: "To make sure the AI agent does a job the same way every time, you can put the steps in a skill: a folder with a markdown file and often a script for the part that must be exact. This part shows how that works, what two studies found and what to do first. The fourth part of the series \"From AI chat to agentic work\"."
 image: cover.png                 # a 1200 × 630 PNG in the article's media directory
 imageAlt: An AI agent, a green circle, stands beside a folder and takes a recipe card from it. In the folder lie the card, with a heading and three steps, and a small gear. Out of the folder come three sheets in a row, all exactly the same.
 date: 2026-10-31

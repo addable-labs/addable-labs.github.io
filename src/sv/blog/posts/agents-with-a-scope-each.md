@@ -50,7 +50,8 @@ kollega som inte har varit med och skrivit den skulle göra. Fördelen är att d
 inte delar huvudagentens antaganden. Kostnaden är att den inte vet vad ändringen
 är till för, så din begäran bör ange ändringen och dess syfte.
 
-I Claude Code startar en subagent med samma instruktionsfiler som huvudagenten,
+I Claude Code startar granskaren med
+[samma instruktionsfiler som huvudagenten](https://code.claude.com/docs/en/sub-agents#what-loads-at-startup),
 så reglerna från del 2 når den.
 
 Granskaren i exemplet har ett enda jobb. Den läser de ändrade filer som

@@ -1,6 +1,6 @@
 ---
 title: Skills, när arbetet ska göras likadant varje gång
-description: "När agenten gör samma jobb olika varje gång kan stegen bli en skill: en mapp med en markdown-fil och ofta ett skript för det som måste bli exakt. Den här delen visar hur det fungerar, vad två studier fann och vad du gör först. Fjärde delen i serien \"Från AI-chatt till agentiskt arbete\"."
+description: "För att säkerställa att AI-agenten gör ett jobb likadant varje gång kan du skriva stegen som en skill: en mapp med en markdown-fil och ofta ett skript för det som måste bli exakt. Den här delen visar hur det fungerar, vad två studier fann och vad du gör först. Fjärde delen i serien \"Från AI-chatt till agentiskt arbete\"."
 image: cover.png                 # en PNG på 1200 × 630 i artikelns mediemapp
 imageAlt: En AI-agent, en grön cirkel, står bredvid en mapp och tar ett receptkort ur den. I mappen ligger kortet – med en rubrik och tre steg – och ett litet kugghjul. Ur mappen kommer tre ark på rad, alla exakt likadana.
 date: 2026-10-31

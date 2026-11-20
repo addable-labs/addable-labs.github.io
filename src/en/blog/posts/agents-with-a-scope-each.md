@@ -47,8 +47,9 @@ as a colleague who did not take part in writing it would. The benefit is that it
 does not share the main agent's assumptions. The cost is that it does not know
 what the change is for, so your request should name the change and its purpose.
 
-In Claude Code a subagent starts with the same instruction files as the main
-agent, so the rules from part 2 reach it.
+In Claude Code the reviewer starts with
+[the same instruction files as the main agent](https://code.claude.com/docs/en/sub-agents#what-loads-at-startup),
+so the rules from part 2 reach it.
 
 The reviewer in the example has one job. It reads the changed files the main
 agent names and writes its comments. It may not change a file, run a command
