@@ -3,6 +3,7 @@ title: "Från självskattning till AI-resa: så blev Fluentor till"
 description: "I november 2026 fick produkten nivå namnet Fluentor. Den hade gått vidare till det som kommer efter självskattningen, medan namn, logga och landningssida fortfarande talade om din nivå. Det här behövde ändras."
 image: cover.png                 # en PNG på 1200 × 630 i artikelns mediemapp
 imageAlt: "En fackla ritad som ett nätverk av noder och böjda linjer, med färger från mörkt rödbrunt längst ner via orange till gult vid lågan, där en enda väg är tänd i ljust guld från en lägre nod i lågan upp till lågans översta nod."
+heroFigure: torch-lights-up      # bilden ritad i sidan, på bildens plats
 date: 2026-11-20
 category: ai-journey             # app-development | ai-journey
 translationKey: the-pivot-to-fluentor
@@ -88,8 +89,6 @@ Den gamla loggans staplar visade hur högt upp du var. Kartan i facklan visar
 vart du kan gå därifrån. När du öppnar sidan tänds facklan i sidhuvudet, foten
 först och lågan sist. Vi hoppas att animeringen ytterligare förstärker
 produktens nya budskap och förmedlar vår vision.
-
-{% figure "torch-lights-up" %}
 
 {% figure "reading-and-route", "wide" %}
 

@@ -272,7 +272,9 @@ describe("which images load at once (si-awlu)", () => {
 
   it("loads the article's image at once and first", async () => {
     for (const lang of SITE.languages.codes) {
-      for (const article of await readArticleSources(SRC, SITE, lang)) {
+      // An article with a hero figure draws it in the image's place, with no
+      // image in its header (tests/torch.test.mjs).
+      for (const article of (await readArticleSources(SRC, SITE, lang)).filter((item) => !item.heroFigure)) {
         const doc = parse(await readFile(path.join(out, article.path, "index.html"), "utf8"));
         const image = doc.querySelector(".article-header img.article-image");
         assert.equal(image.getAttribute("loading"), undefined, article.path);

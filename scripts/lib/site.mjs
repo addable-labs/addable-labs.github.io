@@ -176,6 +176,7 @@ export async function readArticleSources(srcDir, site, lang) {
       date: data.date,
       image: data.image,
       imageAlt: data.imageAlt,
+      heroFigure: data.heroFigure,
       scheduled,
       omitted,
       listed: !omitted && !scheduled,

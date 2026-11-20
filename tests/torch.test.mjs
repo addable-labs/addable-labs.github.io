@@ -1,48 +1,49 @@
-// The torch figure ("torch-lights-up", src/_includes/figures/figures.mjs,
-// drawn from scripts/lib/torch.mjs) against the product's approved torch and
-// the article's cover, and its motion against what must stay still.
+// The torch ("torch-lights-up", the hero of the article on Fluentor's name
+// and logo: renderHero in src/_includes/figures/figures.mjs, drawn from
+// scripts/lib/torch.mjs) against the product's approved torch and the
+// article's cover, in its place in the article page, and its motion against
+// what must stay still.
 //
-// The figure's markup is its last frame: the cover's central square, the
-// approved torch with one route lit. So the markup is held to the cover
+// The hero's markup is its last frame: the whole cover, the approved torch
+// with one route lit. So the markup is held to the cover
 // (docs/images/the-pivot-to-fluentor.svg) element by element, and the torch
-// to the approved file's checksum. The motion is classes reveal.js adds, and
-// base.css plays it only under them, fills it only backwards, and stops it
-// under reduced motion and in print.
+// to the approved file's checksum. The motion is base.css's, which plays it
+// only on a screen, for a reader who has not asked for less motion, and only
+// when the page's script runs; it fills only backwards, so it ends on the
+// markup.
 
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
-import { describe, it } from "node:test";
+import { after, before, describe, it } from "node:test";
 import { parse } from "node-html-parser";
-import { renderFigure } from "../src/_includes/figures/figures.mjs";
+import { FIGURES, HEROES, renderHero } from "../src/_includes/figures/figures.mjs";
+import { loadSite, readArticleSources } from "../scripts/lib/site.mjs";
 import { COVER, MARK, MARK_SHA256 } from "../scripts/lib/torch.mjs";
-import { ROOT, SRC } from "./helpers.mjs";
+import { buildSite, ROOT, SRC, tempDir } from "./helpers.mjs";
 
 const ID = "torch-lights-up";
-const PREFIX = `fig-${ID}-`;
+const SLUG = "the-pivot-to-fluentor";
+const PREFIX = "hero-";
+const ALT = "The torch, described.";
+const SITE = await loadSite(SRC);
 const CSS = await readFile(path.join(SRC, "assets", "css", "base.css"), "utf8");
 const REVEAL = await readFile(path.join(SRC, "assets", "js", "reveal.js"), "utf8");
-const COVER_TEXT = await readFile(path.join(ROOT, "docs", "images", "the-pivot-to-fluentor.svg"), "utf8");
+const COVER_TEXT = await readFile(path.join(ROOT, "docs", "images", `${SLUG}.svg`), "utf8");
 const COVER_SVG = parse(COVER_TEXT).querySelector("svg");
-const STRINGS = {};
-for (const lang of ["en", "sv"]) STRINGS[lang] = JSON.parse(await readFile(path.join(SRC, "_data", "strings", `${lang}.json`), "utf8"));
-const HTML = renderFigure(ID, { placement: "inline", strings: STRINGS.en });
-const FIGURE = parse(HTML).querySelector("figure");
-const PANEL = FIGURE.querySelector("svg");
+const HERO = parse(renderHero(ID, { alt: ALT })).querySelector("svg");
 
 const elements = (node) => node.childNodes.filter((child) => child.nodeType === 1);
 const numbers = (text) => text.match(/-?[\d.]+/g).map(Number);
 
-// The cover's layers: the plate, the grid, then four groups in the mark's
-// place: the glow, the mark, the dimming plate and the route.
-const [, coverPlate, coverGrid, coverGlow, coverMark, coverDim, coverRoute] = elements(COVER_SVG);
-// The figure's: the same, inside the group that puts the cover's central
-// square under the panel's head.
-const square = elements(PANEL).find((el) => el.rawTagName === "g" && el.getAttribute("transform")?.startsWith("translate(0 "));
-const [figurePlate, figureGrid, figureGlow, figureMark, figureDim, figureRoute] = elements(square);
+// The cover's layers: its definitions, the plate, the grid, then four groups
+// in the mark's place: the glow, the mark, the dimming plate and the route.
+// The hero's are the same, in the same order.
+const [coverDefs, coverPlate, coverGrid, coverGlow, coverMark, coverDim, coverRoute] = elements(COVER_SVG);
+const [heroDefs, heroPlate, heroGrid, heroGlow, heroMark, heroDim, heroRoute] = elements(HERO);
 
-/** An element's attributes, with `drop` left out and the figure's id prefix taken off every id and reference. */
+/** An element's attributes, with `drop` left out and the hero's id prefix taken off every id and reference. */
 function attributesOf(el, drop = []) {
   return Object.fromEntries(
     Object.entries(el.attributes)
@@ -52,11 +53,11 @@ function attributesOf(el, drop = []) {
   );
 }
 
-/** Whether a cover element and a figure element are the same drawing: name, attributes and children. */
-function assertSame(cover, figure, where, drop = ["class", "data-h", "data-t"]) {
-  assert.equal(figure.rawTagName, cover.rawTagName, `${where}: element`);
-  assert.deepEqual(attributesOf(figure, drop), attributesOf(cover, drop), `${where}: attributes of <${cover.rawTagName}>`);
-  const [a, b] = [elements(cover), elements(figure)];
+/** Whether a cover element and a hero element are the same drawing: name, attributes and children. */
+function assertSame(cover, hero, where, drop = ["class", "data-h", "data-t"]) {
+  assert.equal(hero.rawTagName, cover.rawTagName, `${where}: element`);
+  assert.deepEqual(attributesOf(hero, drop), attributesOf(cover, drop), `${where}: attributes of <${cover.rawTagName}>`);
+  const [a, b] = [elements(cover), elements(hero)];
   assert.equal(b.length, a.length, `${where}: children of <${cover.rawTagName}>`);
   a.forEach((child, i) => assertSame(child, b[i], `${where} > ${child.rawTagName}[${i}]`, drop));
 }
@@ -65,7 +66,7 @@ function assertSame(cover, figure, where, drop = ["class", "data-h", "data-t"]) 
 const curve = (d) => numbers(d);
 const reversed = ([x0, y0, x1, y1, x2, y2, x3, y3]) => [x3, y3, x2, y2, x1, y1, x0, y0];
 
-describe("the torch figure draws the approved torch (torch-lights-up)", () => {
+describe("the torch draws the approved torch (torch-lights-up)", () => {
   it("is the approved file, byte for byte, and the cover holds the same markup", () => {
     assert.equal(createHash("sha256").update(MARK).digest("hex"), MARK_SHA256);
     const inner = MARK.slice(MARK.indexOf(">") + 1, MARK.lastIndexOf("</svg>"));
@@ -73,28 +74,28 @@ describe("the torch figure draws the approved torch (torch-lights-up)", () => {
   });
 
   it("draws every line and node where the cover draws it, in the cover's order, widths and colours", () => {
-    assert.equal(figureMark.getAttribute("transform"), coverMark.getAttribute("transform"));
+    assert.equal(heroMark.getAttribute("transform"), coverMark.getAttribute("transform"));
     const [coverLines, coverNodes] = elements(coverMark);
-    const [figureLines, figureHalos, figureNodes] = elements(figureMark);
+    const [heroLines, heroHalos, heroNodes] = elements(heroMark);
     assert.equal(elements(coverLines).length, 74);
     assert.equal(elements(coverNodes).length, 35);
-    assertSame(coverLines, figureLines, "lines");
-    assertSame(coverNodes, figureNodes, "nodes");
+    assertSame(coverLines, heroLines, "lines");
+    assertSame(coverNodes, heroNodes, "nodes");
     // The glow of the motion round each node: the node itself, invisible at rest.
-    assertSame(coverNodes, figureHalos, "halos");
-    assert.match(CSS, /^\.fig-torch-halo \{\n {2}opacity: 0;/m);
-    for (const el of elements(figureLines)) assert.equal(el.getAttribute("class"), "fig-torch-line");
-    for (const el of elements(figureNodes)) assert.equal(el.getAttribute("class"), "fig-torch-node");
-    for (const el of elements(figureHalos)) assert.equal(el.getAttribute("class"), "fig-torch-halo");
+    assertSame(coverNodes, heroHalos, "halos");
+    assert.match(CSS, /^\.torch-halo \{\n {2}opacity: 0;/m);
+    for (const el of elements(heroLines)) assert.equal(el.getAttribute("class"), "torch-line");
+    for (const el of elements(heroNodes)) assert.equal(el.getAttribute("class"), "torch-node");
+    for (const el of elements(heroHalos)) assert.equal(el.getAttribute("class"), "torch-halo");
   });
 
   it("carries each node's height in the torch, 0 at the foot and 1 at the top node, and each line its lower end's", () => {
-    const [figureLines, , figureNodes] = elements(figureMark);
-    const ys = elements(figureNodes).map((el) => Number(el.getAttribute("cy")));
+    const [heroLines, , heroNodes] = elements(heroMark);
+    const ys = elements(heroNodes).map((el) => Number(el.getAttribute("cy")));
     const [top, foot] = [Math.min(...ys), Math.max(...ys)];
     const height = (y) => Math.round(((foot - y) / (foot - top)) * 10000) / 10000;
-    for (const el of elements(figureNodes)) assert.equal(Number(el.getAttribute("data-h")), height(Number(el.getAttribute("cy"))));
-    for (const el of elements(figureLines)) {
+    for (const el of elements(heroNodes)) assert.equal(Number(el.getAttribute("data-h")), height(Number(el.getAttribute("cy"))));
+    for (const el of elements(heroLines)) {
       const [, y0, , , , , , y3] = curve(el.getAttribute("d"));
       assert.equal(Number(el.getAttribute("data-h")), height(Math.max(y0, y3)), el.getAttribute("d"));
     }
@@ -102,28 +103,32 @@ describe("the torch figure draws the approved torch (torch-lights-up)", () => {
   });
 });
 
-describe("the torch figure ends on the cover (torch-lights-up)", () => {
-  it("draws the cover's central square under the panel's head, its plate and its grid", () => {
-    const [x, y, side] = COVER.square;
-    assert.equal(square.getAttribute("transform"), `translate(0 38.5) scale(${Math.round((320 / side) * 1e6) / 1e6}) translate(${-x} ${-y})`);
-    assert.equal(COVER_SVG.getAttribute("width"), "1200");
-    assert.deepEqual([x + side / 2, y + side / 2, side], [600, 315, 630], "the square is the cover's centre, the plate's full height");
-    for (const [cover, figure, what] of [[coverPlate, figurePlate, "plate"], [coverGrid, figureGrid, "grid"]]) {
-      assert.deepEqual(attributesOf(figure, ["x", "y", "width", "height"]), attributesOf(cover, ["width", "height"]), what);
-      assert.deepEqual(numbers(`${figure.getAttribute("x")} ${figure.getAttribute("y")} ${figure.getAttribute("width")} ${figure.getAttribute("height")}`), [x, y, side, side], what);
-    }
+describe("the hero's last frame is the cover (torch-lights-up)", () => {
+  it("is the whole cover, 1200 x 630, layer for layer and in the cover's order", () => {
+    assert.deepEqual(COVER.size, [1200, 630]);
+    assert.equal(HERO.getAttribute("viewBox"), COVER_SVG.getAttribute("viewBox"));
+    assert.equal(HERO.getAttribute("width"), COVER_SVG.getAttribute("width"));
+    assert.equal(HERO.getAttribute("height"), COVER_SVG.getAttribute("height"));
+    assert.deepEqual(elements(HERO).map((el) => el.rawTagName), elements(COVER_SVG).map((el) => el.rawTagName));
+    assert.equal(elements(HERO).length, 7);
+    assertSame(coverPlate, heroPlate, "plate");
+    assertSame(coverGrid, heroGrid, "grid");
+    assertSame(coverGlow, heroGlow, "glow");
+    assertSame(coverDim, heroDim, "dimming plate");
+    assert.deepEqual(attributesOf(heroRoute), attributesOf(coverRoute), "the route's stroke, width, ends and mask");
   });
 
-  it("draws the cover's glow, dimming plate and route groups, in the cover's order", () => {
-    assertSame(coverGlow, figureGlow, "glow");
-    assertSame(coverDim, figureDim, "dimming plate");
-    assert.deepEqual(attributesOf(figureRoute), attributesOf(coverRoute), "the route's stroke, width, ends and mask");
+  it("keeps the cover's gradients, masks, filter and grid pattern, each under the hero's own id", () => {
+    assertSame(coverDefs, heroDefs, "defs");
+    assert.equal(elements(coverDefs).length, 9);
+    for (const def of elements(heroDefs)) assert.ok(def.getAttribute("id").startsWith(PREFIX), def.getAttribute("id"));
   });
 
-  it("draws the cover's route as one path through its lines' own curves, from the lowest node of the route to the top node", () => {
-    const paths = elements(figureRoute);
+  it("draws the cover's lit route as one path through its lines' own curves, from the lowest node of the route to the top node", () => {
+    const paths = elements(heroRoute);
     assert.equal(paths.length, 1);
     const [route] = paths;
+    assert.equal(route.getAttribute("class"), "torch-path");
     assert.equal(route.getAttribute("pathLength"), "1");
     const d = route.getAttribute("d");
     assert.match(d, /^M[\d.]+ [\d.]+(C[\d.]+ [\d.]+ [\d.]+ [\d.]+ [\d.]+ [\d.]+)+$/);
@@ -142,43 +147,94 @@ describe("the torch figure ends on the cover (torch-lights-up)", () => {
     const ends = lines.flatMap(([x0, y0, , , , , x3, y3]) => [[x0, y0], [x3, y3]]);
     const [first, last] = [values.slice(0, 2), values.slice(-2)];
     assert.deepEqual(first, ends.reduce((low, end) => (end[1] > low[1] ? end : low)));
-    const [, , nodes] = elements(figureMark);
+    const [, , nodes] = elements(heroMark);
     assert.equal(last[1], Math.min(...elements(nodes).map((el) => Number(el.getAttribute("cy")))));
     // Each glow, in route order, knows when the route reaches its node.
-    const reached = elements(figureGlow).map((el) => Number(el.getAttribute("data-t")));
+    const reached = elements(heroGlow).map((el) => Number(el.getAttribute("data-t")));
     assert.equal(reached[0], 0);
     assert.equal(reached.at(-1), 1);
     for (let i = 1; i < reached.length; i += 1) assert.ok(reached[i] > reached[i - 1], `glow ${i} comes up after glow ${i - 1}`);
   });
 
-  it("keeps the cover's gradients, masks, filter and grid pattern", () => {
-    const coverDefs = elements(elements(COVER_SVG)[0]);
-    const figureDefs = new Map(elements(PANEL).filter((el) => el.rawTagName === "defs").flatMap(elements).map((el) => [el.getAttribute("id"), el]));
-    assert.equal(coverDefs.length, 9);
-    for (const def of coverDefs) {
-      const id = def.getAttribute("id");
-      const mine = figureDefs.get(`${PREFIX}${id}`);
-      assert.ok(mine, `the figure has the cover's ${id}`);
-      // The grid's fade is masked over the square the figure draws, not the whole plate.
-      if (id === "gridmask") assertSame(def, mine, id, ["x", "y", "width", "height"]);
-      else assertSame(def, mine, id);
-    }
-  });
-
-  it("is complete as it stands: nothing in the markup is hidden or half drawn", () => {
-    assert.doesNotMatch(PANEL.toString(), /is-ready|is-playing|stroke-dash|(?<![\w-])opacity=|style=/);
-    assert.equal(square.getAttribute("class"), "fig-motion");
+  it("is complete as it stands: the lit route drawn, nothing hidden or half drawn, described and without a caption", () => {
+    assert.doesNotMatch(HERO.toString(), /is-playing|stroke-dash|(?<![\w-])opacity=|style=|<title|<text|<figcaption/);
+    assert.equal(HERO.getAttribute("class"), "article-image plays-once");
+    assert.equal(HERO.getAttribute("role"), "img");
+    assert.equal(HERO.getAttribute("aria-label"), ALT);
+    const quoted = 'A "quoted" <torch> & more';
+    const markup = renderHero(ID, { alt: quoted });
+    assert.match(markup, / aria-label="A &quot;quoted&quot; &lt;torch&gt; &amp; more">/);
+    assert.equal(parse(markup).querySelector("svg").getAttribute("aria-label"), quoted);
+    assert.throws(() => renderHero("another", { alt: ALT }), /Unknown hero figure "another"/);
+    assert.throws(() => renderHero(ID, { alt: " " }), /needs the article's imageAlt/);
   });
 });
 
-describe("the torch figure's motion (torch-lights-up)", () => {
-  /** The declarations of every base.css rule whose selector names a torch class, with the selector. */
-  const torchRules = [...CSS.replace(/\/\*[\s\S]*?\*\//g, "").matchAll(/^([^\s@{}][^{}]*?) \{([^}]*)\}/gm)].filter(([, selector]) => /fig-torch-|fig-motion/.test(selector)).map(([, selector, body]) => ({ selector, body }));
+describe("the hero in the article page (torch-lights-up)", () => {
+  let tmp;
+  let out;
+  before(async () => {
+    tmp = await tempDir("torch-");
+    out = buildSite(tmp.dir);
+  });
+  after(() => tmp.cleanup());
 
+  const page = async (article) => parse(await readFile(path.join(out, article.path, "index.html"), "utf8"));
+
+  it("only this article uses the hero figure, in both languages, and the torch is no figure in the text", async () => {
+    assert.deepEqual(Object.keys(HEROES), [ID]);
+    assert.equal(FIGURES[ID], undefined, "no figure of that name");
+    for (const lang of SITE.languages.codes) {
+      const articles = await readArticleSources(SRC, SITE, lang);
+      assert.deepEqual(articles.filter((article) => article.heroFigure !== undefined).map((article) => [article.slug, article.heroFigure]), [[SLUG, ID]], lang);
+      const strings = JSON.parse(await readFile(path.join(SRC, "_data", "strings", `${lang}.json`), "utf8"));
+      assert.equal(strings.figures[ID], undefined, `${lang}: no strings for a torch figure`);
+      const source = await readFile(path.join(SRC, lang, "blog", "posts", `${SLUG}.md`), "utf8");
+      assert.doesNotMatch(source, /\{% figure "torch/, `${lang}: no torch figure in the text`);
+    }
+  });
+
+  it("shows the hero in the image's place, under the summary, described as each language's imageAlt, with no image beside it", async () => {
+    for (const lang of SITE.languages.codes) {
+      const article = (await readArticleSources(SRC, SITE, lang)).find((item) => item.slug === SLUG);
+      const doc = await page(article);
+      const header = doc.querySelector(".article-header");
+      assert.deepEqual(elements(header).map((el) => el.rawTagName), ["p", "h1", "p", "svg"], `${lang}: metadata, title, summary, hero`);
+      assert.equal(header.querySelectorAll("img").length, 0, `${lang}: no image in the header`);
+      const hero = doc.querySelector(".article-header .article-summary + svg.article-image");
+      assert.ok(hero, `${lang}: the hero right under the summary`);
+      assert.equal(hero.getAttribute("aria-label"), article.imageAlt, `${lang}: described as its own imageAlt`);
+      assertSame(parse(renderHero(ID, { alt: article.imageAlt })).querySelector("svg"), hero, `${lang} hero`, []);
+      assert.equal(doc.querySelectorAll(".plays-once").length, 1, `${lang}: one drawing that plays`);
+      assert.equal(doc.querySelectorAll(".article-body .torch-node, .article-body [id^=fig-torch]").length, 0, `${lang}: no torch in the text`);
+      // The still cover keeps serving the link preview.
+      assert.equal(doc.querySelector('meta[property="og:image"]').getAttribute("content"), `${SITE.url}/blog/${SLUG}/cover.png`, lang);
+    }
+  });
+
+  it("every other article still has its <img>, and no drawing that plays", async () => {
+    let count = 0;
+    for (const lang of SITE.languages.codes) {
+      for (const article of (await readArticleSources(SRC, SITE, lang)).filter((item) => item.slug !== SLUG)) {
+        const doc = await page(article);
+        const image = doc.querySelector(".article-header .article-summary + img.article-image");
+        assert.ok(image, article.path);
+        assert.equal(image.getAttribute("alt"), article.imageAlt, article.path);
+        assert.ok(image.getAttribute("src").startsWith(`/blog/${article.slug}/`), article.path);
+        assert.equal(doc.querySelectorAll(".article-header svg, .plays-once").length, 0, article.path);
+        count += 1;
+      }
+    }
+    assert.ok(count >= 10, `the other articles (${count})`);
+  });
+});
+
+describe("the torch's motion (torch-lights-up)", () => {
   /** The text of the at-rule block that starts with `head`. */
   function block(head) {
     const start = CSS.indexOf(`${head} {`);
     assert.ok(start >= 0, `base.css has ${head}`);
+    assert.equal(CSS.indexOf(`${head} {`, start + 1), -1, `base.css has one ${head}`);
     let depth = 0;
     for (let i = CSS.indexOf("{", start); i < CSS.length; i += 1) {
       if (CSS[i] === "{") depth += 1;
@@ -188,37 +244,45 @@ describe("the torch figure's motion (torch-lights-up)", () => {
     throw new Error(`${head} is not closed`);
   }
 
-  const MOVING = [".fig-torch-node", ".fig-torch-line", ".fig-torch-halo", ".fig-torch-path", ".fig-torch-dim", ".fig-torch-glow"];
+  /** The rules of `text` whose selector names the torch or the drawing that plays, with their declarations. */
+  const torchRules = (text) =>
+    [...text.replace(/\/\*[\s\S]*?\*\//g, "").matchAll(/^\s*([^\s@{}][^{}]*?) \{([^}]*)\}/gm)].filter(([, selector]) => /torch-|plays-once/.test(selector)).map(([, selector, body]) => ({ selector, body }));
 
-  it("plays only under the class reveal.js adds, and fills only backwards", () => {
-    const animated = torchRules.filter(({ body }) => /\banimation:/.test(body) && !/animation: none/.test(body));
+  const MOTION = "@media screen and (prefers-reduced-motion: no-preference)";
+  const MOVING = [".torch-node", ".torch-line", ".torch-halo", ".torch-path", ".torch-dim", ".torch-glow"];
+
+  it("moves only on a screen, for a reader who has not asked for less motion, when the script runs, and fills only backwards", () => {
+    const inside = torchRules(block(MOTION));
+    const animated = inside.filter(({ body }) => /\banimation:/.test(body));
     assert.deepEqual(animated.flatMap(({ selector }) => selector.split(",").map((s) => s.trim().split(" ").at(-1))).sort(), [...MOVING].sort());
     for (const { selector, body } of animated) {
-      for (const part of selector.split(",")) assert.match(part.trim(), /^\.fig-motion\.is-ready \.fig-torch-/, part);
+      for (const part of selector.split(",")) assert.match(part.trim(), /^html\.js \.plays-once \.torch-[a-z]+$/, part);
       assert.match(body, /animation: torch-[a-z]+ [\d.]+s .*backwards;/, selector);
       assert.doesNotMatch(body, /forwards|both|infinite/, selector);
     }
-    assert.ok(torchRules.some(({ selector, body }) => selector === ".fig-motion.is-ready:not(.is-playing) *" && /animation-play-state: paused/.test(body)), "held at the first frame until it plays");
+    // Held at the first frame from the first paint until reveal.js plays it.
+    assert.ok(inside.some(({ selector, body }) => selector === "html.js .plays-once:not(.is-playing) *" && /animation-play-state: paused/.test(body)), "held at the first frame until it plays");
+    // Nowhere else: outside that block a torch rule moves nothing, so print,
+    // reduced motion and a page without the script get the still picture.
+    const outside = torchRules(CSS.replace(block(MOTION), ""));
+    assert.deepEqual(outside.map(({ selector }) => selector), [".torch-halo"]);
+    for (const { selector, body } of outside) assert.doesNotMatch(body, /animation|stroke-dash/, selector);
+    // The route's dashes are the drawing motion's own, so none is left once it has run.
+    for (const { selector, body } of inside) assert.doesNotMatch(body, /stroke-dash/, selector);
+    assert.match(block("@keyframes torch-draw"), /from \{\s*stroke-dasharray: 1 2;\s*stroke-dashoffset: 1;\s*\}\s*to \{\s*stroke-dasharray: 1 2;\s*stroke-dashoffset: 0;\s*\}/);
   });
 
-  it("stands still under reduced motion and in print", () => {
-    for (const head of ["@media (prefers-reduced-motion: reduce)", "@media print"]) {
-      const text = block(head);
-      const rule = text.match(/((?:\.fig-torch-[a-z]+,?\s*)+)\{\s*animation: none;\s*\}/);
-      assert.ok(rule, `${head} stops the torch`);
-      assert.deepEqual(rule[1].split(",").map((s) => s.trim()).sort(), [...MOVING].sort(), head);
-    }
-    // reveal.js marks nothing where motion is not wanted, or cannot run.
-    const stop = REVEAL.indexOf("return;");
-    assert.ok(stop > 0 && stop < REVEAL.indexOf('"is-ready"') && stop < REVEAL.indexOf('querySelectorAll(".fig-motion")'), "reveal.js returns before it marks the drawing");
-    const guard = REVEAL.slice(0, stop);
-    assert.match(guard, /var reduce = window\.matchMedia && window\.matchMedia\("\(prefers-reduced-motion: reduce\)"\)\.matches;/);
-    assert.match(guard, /if \(reduce \|\| !\("IntersectionObserver" in window\)\) \{/);
+  it("stands still under reduced motion: base.css removes every animation and reveal.js leaves the drawing alone", () => {
+    assert.match(block("@media (prefers-reduced-motion: reduce)"), /\*,\s*\*::before,\s*\*::after \{\s*animation: none !important;/);
+    const reduce = REVEAL.indexOf("var reduce = ");
+    assert.ok(reduce >= 0 && reduce < REVEAL.indexOf('querySelectorAll(".plays-once")'));
+    assert.match(REVEAL, /var reduce = window\.matchMedia && window\.matchMedia\("\(prefers-reduced-motion: reduce\)"\)\.matches;\n {2}var drawings = reduce \? \[\] : document\.querySelectorAll\("\.plays-once"\);/);
   });
 
   it("moves on the product's numbers: 0.75 s on its spring, a height's 0.36 s late, the route once the top node is up", () => {
-    const rule = (selector) => torchRules.find((r) => r.selector === selector)?.body ?? assert.fail(`base.css has ${selector}`);
-    const rise = rule(".fig-motion.is-ready .fig-torch-node,\n.fig-motion.is-ready .fig-torch-line");
+    const rules = torchRules(block(MOTION));
+    const rule = (selector) => rules.find((r) => r.selector === selector)?.body ?? assert.fail(`base.css has ${selector}`);
+    const rise = rule("html.js .plays-once .torch-node,\n  html.js .plays-once .torch-line");
     const spring = rise.match(/animation: torch-ash 0\.75s linear\(([^)]*)\) backwards;/);
     assert.ok(spring, "the rise: 0.75 s on a sampled spring");
     // SwiftUI's spring, response 0.55 and damping 0.72, sampled at 60 steps
@@ -229,18 +293,19 @@ describe("the torch figure's motion (torch-lights-up)", () => {
     const expected = Array.from({ length: 61 }, (_, i) => (i === 60 ? 1 : Math.round(at((i / 60) * 0.75) * 10000) / 10000));
     assert.deepEqual(spring[1].split(",").map(Number), expected);
     assert.match(rise, /animation-delay: calc\(var\(--h\) \* 0\.36s\);/);
-    assert.match(rule(".fig-motion.is-ready .fig-torch-halo"), /animation: torch-flare 0\.75s ease-out backwards;\s*animation-delay: calc\(var\(--h\) \* 0\.36s\);/);
-    assert.match(rule(".fig-motion.is-ready"), /--torch-lit: calc\(0\.36s \+ 0\.75s\);/);
-    assert.match(rule(".fig-motion.is-ready .fig-torch-path"), /animation: torch-draw 0\.8s ease-out backwards;\s*animation-delay: var\(--torch-lit\);/);
-    assert.match(rule(".fig-motion.is-ready .fig-torch-glow"), /animation-delay: calc\(var\(--torch-lit\) \+ var\(--t\) \* 0\.8s\);/);
+    assert.match(rule("html.js .plays-once .torch-halo"), /animation: torch-flare 0\.75s ease-out backwards;\s*animation-delay: calc\(var\(--h\) \* 0\.36s\);/);
+    assert.match(rule("html.js .plays-once"), /--torch-lit: calc\(0\.36s \+ 0\.75s\);/);
+    assert.match(rule("html.js .plays-once .torch-path"), /animation: torch-draw 0\.8s ease-out backwards;\s*animation-delay: var\(--torch-lit\);/);
+    assert.match(rule("html.js .plays-once .torch-glow"), /animation-delay: calc\(var\(--torch-lit\) \+ var\(--t\) \* 0\.8s\);/);
   });
 
-  it("has no script of its own: reveal.js gives each timed part its moment and plays the drawing once in view", () => {
-    assert.deepEqual(elements(FIGURE).map((el) => el.rawTagName), ["div", "figcaption"]);
+  it("has no script of its own: reveal.js gives each timed part its moment and plays the drawing once half of it is in view", () => {
     const play = REVEAL.slice(REVEAL.indexOf("function play("));
     assert.match(play, /querySelectorAll\("\[data-h\], \[data-t\]"\)/);
     assert.match(play, /setProperty\("--h", h\)/);
     assert.match(play, /setProperty\("--t", t\)/);
-    assert.match(play, /classList\.add\("is-ready"\)[\s\S]*classList\.add\("is-playing"\)/);
+    assert.match(play, /if \(!\("IntersectionObserver" in window\)\) \{\s*drawing\.classList\.add\("is-playing"\);\s*return;\s*\}/, "at once without IntersectionObserver");
+    assert.match(play, /e\.intersectionRatio >= 0\.5[\s\S]*classList\.add\("is-playing"\)[\s\S]*\{ threshold: \[0, 0\.5\] \}/);
+    assert.doesNotMatch(REVEAL, /is-ready/);
   });
 });

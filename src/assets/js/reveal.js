@@ -3,14 +3,18 @@
 // Under prefers-reduced-motion: reduce, or without IntersectionObserver, every
 // element is shown at once; without JavaScript nothing is ever hidden.
 //
-// A drawing that plays once (.fig-motion, the torch figure of
-// src/_includes/figures/figures.mjs) gets its timed parts' moments, data-h
-// and data-t, as --h and --t for base.css, is held at its first frame
-// (is-ready) and plays (is-playing) once half its panel is in view, or once
-// the panel's top has passed the top of the window. Under reduced motion, or
-// without IntersectionObserver, it is never marked: the still drawing stands.
+// A drawing that plays once (.plays-once, an article's hero drawn in the
+// page: renderHero in src/_includes/figures/figures.mjs) is held at its first
+// frame by base.css from the first paint whenever JavaScript runs (html.js).
+// This gives its timed parts' moments, data-h and data-t, as --h and --t, and
+// plays it (is-playing) once half of it is in view, or once its top has
+// passed the top of the window; without IntersectionObserver, at once. Under
+// reduced motion base.css gives it no motion, so it is left alone: the still
+// picture stands.
 (function () {
   var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var drawings = reduce ? [] : document.querySelectorAll(".plays-once");
+  for (var k = 0; k < drawings.length; k++) play(drawings[k]);
   var items = document.querySelectorAll(".reveal");
   if (reduce || !("IntersectionObserver" in window)) {
     for (var i = 0; i < items.length; i++) items[i].classList.add("is-visible");
@@ -23,8 +27,6 @@
   }, { rootMargin: "0px 0px -8% 0px", threshold: 0.05 });
   for (var j = 0; j < items.length; j++) io.observe(items[j]);
 
-  var drawings = document.querySelectorAll(".fig-motion");
-  for (var k = 0; k < drawings.length; k++) play(drawings[k]);
   function play(drawing) {
     var timed = drawing.querySelectorAll("[data-h], [data-t]");
     for (var m = 0; m < timed.length; m++) {
@@ -32,7 +34,10 @@
       if (h) timed[m].style.setProperty("--h", h);
       if (t) timed[m].style.setProperty("--t", t);
     }
-    drawing.classList.add("is-ready");
+    if (!("IntersectionObserver" in window)) {
+      drawing.classList.add("is-playing");
+      return;
+    }
     var watch = new IntersectionObserver(function (entries) {
       var e = entries[entries.length - 1];
       if (e.intersectionRatio >= 0.5 || (e.isIntersecting && e.boundingClientRect.top < 0)) {
@@ -40,6 +45,6 @@
         watch.disconnect();
       }
     }, { threshold: [0, 0.5] });
-    watch.observe(drawing.ownerSVGElement || drawing);
+    watch.observe(drawing);
   }
 })();

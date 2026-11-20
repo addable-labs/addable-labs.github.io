@@ -44,7 +44,9 @@
 //     image, described in the strings' site.imageAlt; every article card, in
 //     whichever listing, shows its article's image with alt="", as the title
 //     link beside it names the article, and every article page shows its
-//     image right under its summary, described in its imageAlt
+//     image right under its summary, described in its imageAlt, or, where
+//     its front matter names a hero figure, that drawing in the image's
+//     place, an inline SVG described in its imageAlt
 //   - both seed articles exist in both languages, the seed articles are
 //     300–600 English words of prose and every later article 300–1,500, the
 //     Gaimer article alone 300–1,850 (the founder's call, 26 September 2026)
@@ -536,11 +538,19 @@ for (const lang of site.languages.codes) {
     if (!built) continue;
     // Its image right under its summary (si-awlu), described in its own
     // language, from its own media directory, and not lazy: it may be the
-    // largest thing on the first screen.
-    const hero = built.doc.querySelectorAll(".article-header img");
-    const heroUrls = hero.length === 1 ? imageUrls(hero[0]) : [];
-    const underSummary = built.doc.querySelector(".article-header .article-summary + img.article-image") === hero[0];
-    report.check(hero.length === 1 && underSummary && attr(hero[0], "alt") === article.imageAlt && attr(hero[0], "loading") !== "lazy" && heroUrls.length > 0 && heroUrls.every((url) => url.startsWith(`/blog/${article.slug}/`)), `${rel}: shows its image, /blog/${article.slug}/, under its summary, described as its imageAlt and loaded at once${hero.length === 1 ? "" : ` (${hero.length} images in its header)`}`);
+    // largest thing on the first screen. An article whose front matter names
+    // a hero figure shows that drawing in the image's place instead: one
+    // inline SVG and no image in its header, described as its imageAlt.
+    if (article.heroFigure) {
+      const hero = built.doc.querySelectorAll(".article-header img, .article-header svg");
+      const underSummary = built.doc.querySelector(".article-header .article-summary + svg.article-image") === hero[0];
+      report.check(hero.length === 1 && underSummary && attr(hero[0], "role") === "img" && attr(hero[0], "aria-label") === article.imageAlt, `${rel}: shows its hero figure, ${article.heroFigure}, in its image's place under its summary, described as its imageAlt${hero.length === 1 ? "" : ` (${hero.length} images and drawings in its header)`}`);
+    } else {
+      const hero = built.doc.querySelectorAll(".article-header img");
+      const heroUrls = hero.length === 1 ? imageUrls(hero[0]) : [];
+      const underSummary = built.doc.querySelector(".article-header .article-summary + img.article-image") === hero[0];
+      report.check(hero.length === 1 && underSummary && attr(hero[0], "alt") === article.imageAlt && attr(hero[0], "loading") !== "lazy" && heroUrls.length > 0 && heroUrls.every((url) => url.startsWith(`/blog/${article.slug}/`)), `${rel}: shows its image, /blog/${article.slug}/, under its summary, described as its imageAlt and loaded at once${hero.length === 1 ? "" : ` (${hero.length} images in its header)`}`);
+    }
     if (lang === site.languages.default) {
       // The prose only: a figure's caption and the labels inside its SVG
       // panels are removed before counting (founder feedback 2026-09-21,

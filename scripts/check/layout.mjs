@@ -96,8 +96,9 @@ function measureGrids() {
 // a block of games is the games shortcode's `.games`, its versions the
 // `.game` figures in it and their screens the `.game-shot` images and
 // `.game-frame` frames (scripts/lib/games.mjs); the article's image is the
-// header's `img.article-image`, measured with the bottom of the summary
-// above it (layouts/article.njk).
+// header's `.article-image`, its `img` or, where the article names a hero
+// figure, the inline `svg` drawn in its place, measured with the bottom of
+// the summary above it (layouts/article.njk).
 function measureArticle() {
   const box = (el) => el.getBoundingClientRect();
   const round = (value) => Math.round(value * 100) / 100;
@@ -146,7 +147,7 @@ function measureArticle() {
         screens: [...version.querySelectorAll(".game-shot, .game-frame")].map(rect),
       })),
     }));
-  const image = document.querySelector(".article-header img.article-image");
+  const image = document.querySelector(".article-header .article-image");
   const summary = rect(document.querySelector(".article-header .article-summary"));
   return {
     rem,

@@ -308,6 +308,20 @@ export default function (eleventyConfig) {
     return renderFigure(id, { placement, lang, strings });
   });
 
+  // An article's hero drawn in the page: an article whose front matter names
+  // one (`heroFigure: torch-lights-up`) shows that drawing, an inline SVG
+  // described as its imageAlt, where its image would stand under its title
+  // and summary (layouts/article.njk). Its image stays: the link preview and
+  // the cards still show it. An unknown name fails the build.
+  eleventyConfig.addAsyncShortcode("articleHero", async function (id, alt) {
+    const { renderHero } = await loadFigures();
+    try {
+      return renderHero(id, { alt });
+    } catch (error) {
+      throw new Error(`${this.page?.inputPath ?? "articleHero"}: ${error.message}`);
+    }
+  });
+
   // The feeds carry the prose only: `post.templateContent | withoutFigures`
   // drops the inline-SVG figures, which would render unstyled (classes and
   // custom properties do not travel) and bloat every item, so the feed
