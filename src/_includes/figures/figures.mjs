@@ -2638,7 +2638,100 @@ function limitsAttempts(t, id, figureId) {
   return { caption: t.caption, panels: [{ title: t.title, head: t.head, height: bottom + 36, body: parts.join("") }] };
 }
 
-export const FIGURES = { stages, gates, loop, assessment, team, harness, ledger, timeline, setup, build, words, bilingual, gauntlet, agents, critic, fleet, sources, merges, logos, connection, lifecycle, price, lock, "waiting-per-day": waitingPerDay, "chat-or-agent": chatOrAgent, "five-parts": fiveParts, "four-things": fourThings, "file-before-after": fileBeforeAfter, "which-tool-reads-what": whichToolReadsWhat, "file-hierarchy": fileHierarchy, "agent-handover": agentHandover, "agent-file": agentFile, "skill-folder": skillFolder, "skill-locations": skillLocations, "mcp-server": mcpServer, "read-only-limits": readOnlyLimits, "what-goes-along": whatGoesAlong, "daily-summary": dailySummary, "limits-path": limitsPath, "limits-attempts": limitsAttempts };
+// (38) A level and a route — wide, two panels, the idea of the article about
+// Fluentor's name and logo in two pictures. Left, a reading: five columns of
+// rising height, a level scale from one to five, the third one marked in the
+// accent colour and "You are here" under it; nothing says what comes next.
+// Right, a route: a small hand-placed map of ten dots joined by lines, from
+// some dots two or three ways lead on; the dot where you stand is marked with
+// the same words and one route of four steps is lit from it, as a road
+// outlined in the accent colour, to the dot called "Next step". It is an
+// illustration of the idea, not the logo: the columns and the map are drawn
+// for this figure, the dots and lines are the same in both languages and only
+// the words change.
+function readingAndRoute(t, id, figureId) {
+  const HEIGHT = 252;
+  const NOTE_Y = 238;
+  const LABEL_Y = 216; // the baseline of the marks' words in both panels
+
+  // The reading: five columns on a baseline, the third one marked.
+  const COLUMN = 40;
+  const GAP = 12;
+  const LEFT = (WIDTH - (5 * COLUMN + 4 * GAP)) / 2;
+  const BASE = 172;
+  const STEP = 22; // each column is one step higher than the one before
+  const MARKED = 2;
+  const column = (i, cls) => {
+    const x = LEFT + i * (COLUMN + GAP);
+    const h = (i + 1) * STEP;
+    return `<path d="M${x} ${BASE}V${BASE - h + 3}a3 3 0 0 1 3-3h${COLUMN - 6}a3 3 0 0 1 3 3V${BASE}z" class="${cls}"/>`;
+  };
+  const centre = (i) => LEFT + i * (COLUMN + GAP) + COLUMN / 2;
+  const reading = [
+    `<line x1="${LEFT - 12}" y1="${BASE}" x2="${WIDTH - LEFT + 12}" y2="${BASE}" class="fig-line"/>`,
+    ...[0, 1, 2, 3, 4].map((i) => column(i, i === MARKED ? "fig-cell" : "fig-bar-muted")),
+    column(MARKED, "fig-accent-stroke"),
+    ...[0, 1, 2, 3, 4].map((i) => text(centre(i), BASE + 16, String(i + 1), i === MARKED ? "fig-note fig-ok fig-strong" : "fig-note", "middle")),
+    `<path d="M${centre(MARKED)} ${BASE + 22}l-5 7h10z" class="fig-ok"/>`,
+    text(centre(MARKED), LABEL_Y, fit(`${id}.reading.here`, t.reading.here, 140, "label"), "fig-label fig-ok", "middle"),
+    text(WIDTH / 2, NOTE_Y, fit(`${id}.reading.note`, t.reading.note, WIDTH - 32), "fig-note", "middle"),
+  ].join("");
+
+  // The route: the dots by name, the lines between them, and the lit route.
+  const DOTS = {
+    start: [64, 186], a: [116, 152], b: [172, 164], c: [226, 126], next: [262, 84],
+    d: [44, 128], e: [122, 92], f: [184, 100], g: [210, 190], h: [276, 160],
+  };
+  const LINES = [["start", "d"], ["d", "e"], ["a", "e"], ["e", "f"], ["f", "c"], ["b", "g"], ["g", "h"], ["h", "next"]];
+  const ROUTE = ["start", "a", "b", "c", "next"];
+  const HALF = 3.5; // half the width of the lit road
+  const at = (name) => DOTS[name];
+  // The outline of a road of width 2 x HALF along the route: the offset of
+  // the polyline to each side, mitred at the bends.
+  const unit = ([dx, dy]) => [dx / Math.hypot(dx, dy), dy / Math.hypot(dx, dy)];
+  const points = ROUTE.map(at);
+  const dirs = points.slice(1).map(([x, y], i) => unit([x - points[i][0], y - points[i][1]]));
+  const edge = (sign) =>
+    points.map(([x, y], i) => {
+      const [ax, ay] = dirs[Math.max(i - 1, 0)];
+      const [bx, by] = dirs[Math.min(i, dirs.length - 1)];
+      const [nax, nay] = [-ay * sign, ax * sign];
+      const [nbx, nby] = [-by * sign, bx * sign];
+      const k = HALF / (1 + nax * nbx + nay * nby);
+      return [round(x + (nax + nbx) * k), round(y + (nay + nby) * k)];
+    });
+  const outline = [...edge(1), ...edge(-1).reverse()];
+  const lit = new Set(ROUTE);
+  const [sx, sy] = at("start");
+  const [nx, ny] = at("next");
+  const route = [
+    ...LINES.map(([from, to]) => `<line x1="${at(from)[0]}" y1="${at(from)[1]}" x2="${at(to)[0]}" y2="${at(to)[1]}" class="fig-line"/>`),
+    polygon(outline, "fig-area"),
+    ...Object.entries(DOTS)
+      .filter(([name]) => !lit.has(name))
+      .map(([, [x, y]]) => `<circle cx="${x}" cy="${y}" r="4.5" class="fig-node"/>`),
+    ...ROUTE.slice(1, -1).flatMap((name) => [`<circle cx="${at(name)[0]}" cy="${at(name)[1]}" r="4.5" class="fig-dot"/>`, `<circle cx="${at(name)[0]}" cy="${at(name)[1]}" r="4.5" class="fig-accent-stroke"/>`]),
+    `<circle cx="${sx}" cy="${sy}" r="12" class="fig-glow"/>`,
+    `<circle cx="${sx}" cy="${sy}" r="6" class="fig-dot"/>`,
+    `<circle cx="${sx}" cy="${sy}" r="6" class="fig-accent-stroke"/>`,
+    `<circle cx="${nx}" cy="${ny}" r="6" class="fig-dot"/>`,
+    `<circle cx="${nx}" cy="${ny}" r="6" class="fig-accent-stroke"/>`,
+    `<circle cx="${nx}" cy="${ny}" r="11" class="fig-accent-stroke"/>`,
+    text(sx, LABEL_Y, fit(`${id}.route.here`, t.route.here, 140, "label"), "fig-label fig-ok", "middle"),
+    text(nx, ny - 20, fit(`${id}.route.next`, t.route.next, 140, "label"), "fig-label fig-ok", "middle"),
+    text(WIDTH / 2, NOTE_Y, fit(`${id}.route.note`, t.route.note, WIDTH - 32), "fig-note", "middle"),
+  ].join("");
+
+  return {
+    caption: t.caption,
+    panels: [
+      { title: t.reading.title, head: t.reading.head, height: HEIGHT, body: reading },
+      { title: t.route.title, head: t.route.head, height: HEIGHT, body: route },
+    ],
+  };
+}
+
+export const FIGURES = { stages, gates, loop, assessment, team, harness, ledger, timeline, setup, build, words, bilingual, gauntlet, agents, critic, fleet, sources, merges, logos, connection, lifecycle, price, lock, "waiting-per-day": waitingPerDay, "chat-or-agent": chatOrAgent, "five-parts": fiveParts, "four-things": fourThings, "file-before-after": fileBeforeAfter, "which-tool-reads-what": whichToolReadsWhat, "file-hierarchy": fileHierarchy, "agent-handover": agentHandover, "agent-file": agentFile, "skill-folder": skillFolder, "skill-locations": skillLocations, "mcp-server": mcpServer, "read-only-limits": readOnlyLimits, "what-goes-along": whatGoesAlong, "daily-summary": dailySummary, "limits-path": limitsPath, "limits-attempts": limitsAttempts, "reading-and-route": readingAndRoute };
 
 /**
  * Render one figure as HTML: `<figure class="figure figure-inline|figure-wide">`

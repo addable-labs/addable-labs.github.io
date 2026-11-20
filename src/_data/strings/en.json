@@ -1581,6 +1581,22 @@
       },
       "note": "No single check covers everything.",
       "caption": "What the deny rule, the hook and the sandbox of the practice folder do with five attempts, as the checks and the script in this part show."
+    },
+    "reading-and-route": {
+      "reading": {
+        "title": "A reading. Five bars of rising height, a scale from one to five, with the third one marked You are here. One answer, one day.",
+        "head": "A reading",
+        "here": "You are here",
+        "note": "one answer, one day"
+      },
+      "route": {
+        "title": "A route. A small map of nodes joined by lines, where from some nodes two or three ways lead on. One node is marked You are here, and one route is lit from it to the node marked Next step. From here, where to?",
+        "head": "A route",
+        "here": "You are here",
+        "next": "Next step",
+        "note": "from here, where to?"
+      },
+      "caption": "A level tells you where you stood. A route shows where you can go from there."
     }
   },
   "games": {

@@ -325,14 +325,14 @@ Brödtext i Markdown.
   reading measure with its caption beside it from 48 rem, under it below),
   or `{% figure "<id>", "wide" %}` for one that spans the whole container
   with its caption centred underneath. A figure is drawn by `src/_includes/figures/figures.mjs`
-  (`FIGURES` names the forty: `stages`, `gates`, `loop`, `assessment`,
+  (`FIGURES` names the forty-one: `stages`, `gates`, `loop`, `assessment`,
   `team`, `harness`, `ledger`, `timeline`, `setup`, `build`, `words`,
   `bilingual`, `gauntlet`, `agents`, `critic`, `fleet`, `sources`, `merges`,
   `logos`, `connection`, `lifecycle`, `price`, `lock`, `waiting-per-day`,
   `chat-or-agent`, `five-parts`, `four-things`, `file-before-after`,
   `which-tool-reads-what`, `file-hierarchy`, `agent-handover`, `agent-file`, `skill-folder`, `skill-locations`, `mcp-server`,
   `read-only-limits`, `what-goes-along`, `daily-summary`, `limits-path`,
-  `limits-attempts`) and
+  `limits-attempts`, `reading-and-route`) and
   every word it shows — panel titles, labels, notes, the caption — comes
   from `figures.<id>` in the two strings files, so one drawing serves both
   languages; a label too long for its slot fails the

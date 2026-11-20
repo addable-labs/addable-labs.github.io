@@ -1581,6 +1581,22 @@
       },
       "note": "Ingen enskild kontroll täcker allt.",
       "caption": "Vad den nekande regeln, hooken och sandboxen i övningsmappen gör med fem försök, så som kontrollerna och skriptet i den här delen visar det."
+    },
+    "reading-and-route": {
+      "reading": {
+        "title": "En avläsning. Fem staplar som blir högre för varje steg, en skala från ett till fem, där den tredje är markerad med orden Du är här. Ett svar, en dag.",
+        "head": "En avläsning",
+        "here": "Du är här",
+        "note": "ett svar, en dag"
+      },
+      "route": {
+        "title": "En väg. En liten karta med noder förbundna av linjer, där det från en del noder går två eller tre vägar vidare. En nod är markerad med orden Du är här och en väg är upplyst från den till noden Nästa steg. Vart går du härifrån?",
+        "head": "En väg",
+        "here": "Du är här",
+        "next": "Nästa steg",
+        "note": "vart går du härifrån?"
+      },
+      "caption": "En nivå visar var du stod. En väg visar vart du kan gå därifrån."
     }
   },
   "games": {
