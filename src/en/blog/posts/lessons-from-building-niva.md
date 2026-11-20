@@ -6,10 +6,12 @@ imageAlt: "Five statements, level one to five, with one chosen, become a radar c
 date: 2026-09-23
 category: ai-journey             # app-development | ai-journey
 translationKey: lessons-from-building-niva
-draft: true                      # a draft — set false to publish it (see README)
+draft: false                     # published — set true to keep it out of the public build (see README)
 aiGenerated: true                # AI produced this text
 humanReviewed: true              # a person has read it
 ---
+
+*Written in September 2026, when the product was called nivå. Today it is Fluentor. [Read how it came about](/blog/the-pivot-to-fluentor/).*
 
 [nivå](https://erniva.se/) — Swedish for "level" — is an AI fluency and AI adoption maturity
 self-assessment for individuals and teams. It is in development, so this is not
@@ -83,4 +85,4 @@ Whether the guides are useful enough to every user, whether teams get value from
 the heatmap, and how the assessment behaves at scale are open questions that
 only real use can answer. The answers will come from feedback — which is why we
 plan to offer preview releases of modules, to polish them a bit more before they
-are final. When there is something to tell, we will write about it here.
+are final.

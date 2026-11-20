@@ -3,12 +3,12 @@ title: "Från självskattning till AI-resa: så blev Fluentor till"
 description: "I november 2026 fick produkten nivå namnet Fluentor. Den hade gått vidare till det som kommer efter självskattningen, medan namn, logga och landningssida fortfarande talade om din nivå. Det här behövde ändras."
 image: cover.png                 # en PNG på 1200 × 630 i artikelns mediemapp
 imageAlt: "En fackla ritad som ett nätverk av noder och böjda linjer, med färger från mörkt rödbrunt längst ner via orange till gult vid lågan, där en enda väg är tänd i ljust guld från en lägre nod i lågan upp till lågans översta nod."
-date: 2026-11-15
+date: 2026-11-20
 category: ai-journey             # app-development | ai-journey
 translationKey: the-pivot-to-fluentor
-draft: true                      # byggs lokalt, hålls utanför det publika bygget (se README)
+draft: false                     # publicerad — sätt true för att hålla den utanför publika bygget
 aiGenerated: true                # AI har skrivit texten
-humanReviewed: false             # true när grundaren har läst den
+humanReviewed: true              # en person har läst den
 ---
 
 Produkten nivå har bytt namn. Sedan början av november heter den

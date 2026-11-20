@@ -57,8 +57,8 @@ describe("content gate", () => {
     assert.match(output, /ok {4}every GitHub repository the site names is one of the public repositories it may link: [^\n]*\baddable-labs\/ashlands\b[^\n]*\bJetBrains\/JetBrainsMono\b/);
     // Ashlands links its article beside its own link, in the page's language
     // (si-3hpa), from the day it is dated (si-x0js). Fluentor's entry names
-    // no article (its own is a draft, si-wpwe), so its card links its public
-    // page alone, the one of the page's language.
+    // no article (si-wpwe), so its card links its public page alone, the one
+    // of the page's language.
     assert.match(output, cardArticleLine("index.html", "Ashlands", "/blog/ashlands-what-one-prompt-built/", "Article"));
     assert.match(output, /ok {4}index\.html: Fluentor entry has one link, its public page, and no other/);
     assert.match(output, /ok {4}index\.html: Fluentor entry links its public page \(https:\/\/fluentor\.se\/en\/\) through a\.app-action labelled "Website ↗", first in its action row/);
@@ -165,7 +165,7 @@ describe("content gate", () => {
   it("fails when the Fluentor card links more than its public page, calls the page \"Repository\" or links the other language's page (REQ-011; si-gyc4, si-wpwe)", async () => {
     // The repository is private and the product is not: the page of the
     // page's language, labelled as a website, and nothing else. Fluentor's
-    // article is a draft (si-wpwe), and the entry names none.
+    // entry names no article (si-wpwe).
     const twice = await withLandingEdit("fluentor-linked", (html) => html.replace(/(<h3 class="app-name portfolio-name"[^>]*>)Fluentor(<\/h3>)/, '$1<a href="https://example.com/fluentor">Fluentor</a>$2'));
     const linked = runGate("content", twice);
     assert.equal(linked.status, 1);
@@ -186,7 +186,7 @@ describe("content gate", () => {
     // only while the build lists the article (si-x0js). The edits of a card
     // whose article is dated after today are left out, and the gate is
     // expected to say that card links its article nowhere. Fluentor's card
-    // links none since its article became a draft (si-wpwe).
+    // links none, as its entry names no article (si-wpwe).
     const ashlands = listedToday("/blog/ashlands-what-one-prompt-built/");
     const edits = {};
     if (ashlands) {
@@ -596,8 +596,8 @@ describe("content gate", () => {
 // same front matter the build reads (si-absd), so an article whose date
 // changes moves in both alike: only this table, written by hand, notices.
 const ARTICLES = [
+  ["/blog/the-pivot-to-fluentor/", "2026-11-20"],
   ["/blog/set-the-limits-in-advance/", "2026-11-15"],
-  ["/blog/the-pivot-to-fluentor/", "2026-11-15"],
   ["/blog/where-the-agent-runs/", "2026-11-15"],
   ["/blog/mcp-reaching-your-systems/", "2026-11-05"],
   ["/blog/agents-with-a-scope-each/", "2026-10-31"],

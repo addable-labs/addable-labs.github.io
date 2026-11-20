@@ -6,10 +6,12 @@ imageAlt: "Fem påståenden, nivå ett till fem, där ett är valt, blir ett rad
 date: 2026-09-23
 category: ai-journey             # app-development | ai-journey
 translationKey: lessons-from-building-niva
-draft: true                      # ett utkast — sätt false för att publicera det
+draft: false                     # publicerad — sätt true för att hålla den utanför publika bygget
 aiGenerated: true                # AI har skrivit texten
 humanReviewed: false             # true när en person har läst den
 ---
+
+*Skriven i september 2026, då produkten hette nivå. I dag heter den Fluentor. [Läs hur det gick till](/sv/blog/the-pivot-to-fluentor/).*
 
 [nivå](https://erniva.se/) är en självskattning av AI-kompetens och AI-mognad för individer och team.
 Den är under utveckling, så det här är ingen berättelse om resultat. Det är en
@@ -87,5 +89,4 @@ Om guiderna är tillräckligt användbara för alla användare, om team har nytt
 värmekartan och hur självskattningen beter sig i större skala är öppna frågor
 som bara verklig användning kan besvara. Svaren kommer från återkoppling –
 därför planerar vi att erbjuda förhandsversioner av moduler, för att kunna putsa
-dem lite till innan de blir slutgiltiga. När det finns något att berätta skriver
-vi om det här.
+dem lite till innan de blir slutgiltiga.

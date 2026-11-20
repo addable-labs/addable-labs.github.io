@@ -3,12 +3,12 @@ title: "From self-assessment to AI journey: how Fluentor came about"
 description: "In November 2026 nivå became Fluentor. The product had moved on to what comes after the assessment, while its name, logo and page still talked about your level. This had to be changed."
 image: cover.png                 # a 1200 × 630 PNG in the article's media directory
 imageAlt: "A torch drawn as a network of nodes and curved lines, with colours running from dark red-brown at the foot through orange to yellow at the flame, where one path is lit in pale gold from a lower node in the flame up to its top node."
-date: 2026-11-15
+date: 2026-11-20
 category: ai-journey             # app-development | ai-journey
 translationKey: the-pivot-to-fluentor
-draft: true                      # built locally, left out of the public build (see README)
+draft: false                     # published — set true to keep it out of the public build (see README)
 aiGenerated: true                # AI produced this text
-humanReviewed: false             # true once the founder has read it
+humanReviewed: true              # a person has read it
 ---
 
 In early November nivå — Swedish for "level" — got a new name. It is now called
