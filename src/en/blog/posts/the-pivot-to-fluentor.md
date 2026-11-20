@@ -3,6 +3,7 @@ title: "From self-assessment to AI journey: how Fluentor came about"
 description: "In November 2026 nivå became Fluentor. The product had moved on to what comes after the assessment, while its name, logo and page still talked about your level. This had to be changed."
 image: cover.png                 # a 1200 × 630 PNG in the article's media directory
 imageAlt: "A torch drawn as a network of nodes and curved lines, with colours running from dark red-brown at the foot through orange to yellow at the flame, where one path is lit in pale gold from a lower node in the flame up to its top node."
+heroFigure: torch-lights-up      # the hero drawn in the page, in the image's place
 date: 2026-11-20
 category: ai-journey             # app-development | ai-journey
 translationKey: the-pivot-to-fluentor
@@ -89,8 +90,6 @@ The old bars showed how far up you were. The map in the torch shows where you
 can go from there. When you open the page, the torch in the header lights up,
 foot first and flame last. We hope the animation further reinforces the
 product's new message and conveys our vision.
-
-{% figure "torch-lights-up" %}
 
 {% figure "reading-and-route", "wide" %}
 

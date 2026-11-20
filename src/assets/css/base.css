@@ -2171,10 +2171,11 @@ html:not(.js) .game-play {
   animation: blink 1.1s steps(2, start) infinite;
 }
 
-/* The torch figure (torch-lights-up in figures.mjs): the product's torch
-   lights up as it does in the product's header and start screen, then the
-   route of the article's cover draws itself. The motion is the product's, on
-   its numbers. Every node and line stands from the first frame at 0.3 opacity
+/* The torch: the hero of the article on Fluentor's name and logo
+   (torch-lights-up, renderHero in figures.mjs), the cover drawn in the page,
+   lights up as the product's torch does in its header and start screen, then
+   the cover's route draws itself. The motion is the product's, on its
+   numbers. Every node and line stands from the first frame at 0.3 opacity
    and comes up on the product's spring (SwiftUI's own, response 0.55 and
    damping 0.72, sampled into linear()) as the heat passes its height, --h, 0
    at the foot and 1 at the flame: 0.75 s each, h x 0.36 s late, so the top
@@ -2182,52 +2183,56 @@ html:not(.js) .game-play {
    the route draws from its lowest node to the top in 0.8 s, ease-out, while
    the plate that dims the rest of the torch comes up and a glow lights behind
    each node of the route as the route reaches it (--t, the share of the
-   route's time by then). Every motion fills only backwards: once it has run
-   nothing of it is left, and what stands is the still drawing, the cover.
-   reveal.js sets --h and --t from the data-h and data-t attributes, adds
-   is-ready to the drawing (.fig-motion), which holds every motion at its
-   first frame, and then is-playing once the figure is in view. Without the
-   script, under reduced motion and in print nothing moves: the still
-   drawing. */
-.fig-torch-halo {
+   route's time by then). Every motion fills only backwards, the route's
+   dashes included: once it has run nothing of it is left, and what stands
+   is the still picture, the cover.
+   The motion exists only on a screen, for a reader who has not asked for
+   less motion, and only when JavaScript runs (html.js, set by the theme
+   script before the first paint), which holds it at its first frame from
+   that paint until reveal.js adds is-playing to the drawing (.plays-once)
+   once half of it is in view; reveal.js also sets --h and --t from the
+   data-h and data-t attributes. Without JavaScript, under reduced motion and
+   in print nothing moves: the still picture. */
+.torch-halo {
   opacity: 0;
   transform-box: fill-box;
   transform-origin: center;
 }
 
-.fig-motion.is-ready {
-  --torch-lit: calc(0.36s + 0.75s);
-}
+@media screen and (prefers-reduced-motion: no-preference) {
+  html.js .plays-once {
+    --torch-lit: calc(0.36s + 0.75s);
+  }
 
-.fig-motion.is-ready .fig-torch-node,
-.fig-motion.is-ready .fig-torch-line {
-  animation: torch-ash 0.75s linear(0.0000, 0.0095, 0.0355, 0.0744, 0.1231, 0.1789, 0.2394, 0.3026, 0.3670, 0.4310, 0.4936, 0.5539, 0.6112, 0.6650, 0.7149, 0.7609, 0.8026, 0.8403, 0.8739, 0.9035, 0.9295, 0.9519, 0.9710, 0.9871, 1.0005, 1.0113, 1.0200, 1.0266, 1.0315, 1.0350, 1.0371, 1.0382, 1.0384, 1.0378, 1.0366, 1.0350, 1.0331, 1.0309, 1.0285, 1.0260, 1.0236, 1.0211, 1.0187, 1.0165, 1.0143, 1.0123, 1.0104, 1.0087, 1.0071, 1.0057, 1.0045, 1.0034, 1.0024, 1.0016, 1.0009, 1.0003, 0.9998, 0.9995, 0.9991, 0.9989, 1.0000) backwards;
-  animation-delay: calc(var(--h) * 0.36s);
-}
+  html.js .plays-once .torch-node,
+  html.js .plays-once .torch-line {
+    animation: torch-ash 0.75s linear(0.0000, 0.0095, 0.0355, 0.0744, 0.1231, 0.1789, 0.2394, 0.3026, 0.3670, 0.4310, 0.4936, 0.5539, 0.6112, 0.6650, 0.7149, 0.7609, 0.8026, 0.8403, 0.8739, 0.9035, 0.9295, 0.9519, 0.9710, 0.9871, 1.0005, 1.0113, 1.0200, 1.0266, 1.0315, 1.0350, 1.0371, 1.0382, 1.0384, 1.0378, 1.0366, 1.0350, 1.0331, 1.0309, 1.0285, 1.0260, 1.0236, 1.0211, 1.0187, 1.0165, 1.0143, 1.0123, 1.0104, 1.0087, 1.0071, 1.0057, 1.0045, 1.0034, 1.0024, 1.0016, 1.0009, 1.0003, 0.9998, 0.9995, 0.9991, 0.9989, 1.0000) backwards;
+    animation-delay: calc(var(--h) * 0.36s);
+  }
 
-.fig-motion.is-ready .fig-torch-halo {
-  animation: torch-flare 0.75s ease-out backwards;
-  animation-delay: calc(var(--h) * 0.36s);
-}
+  html.js .plays-once .torch-halo {
+    animation: torch-flare 0.75s ease-out backwards;
+    animation-delay: calc(var(--h) * 0.36s);
+  }
 
-.fig-motion.is-ready .fig-torch-path {
-  stroke-dasharray: 1 2;
-  animation: torch-draw 0.8s ease-out backwards;
-  animation-delay: var(--torch-lit);
-}
+  html.js .plays-once .torch-path {
+    animation: torch-draw 0.8s ease-out backwards;
+    animation-delay: var(--torch-lit);
+  }
 
-.fig-motion.is-ready .fig-torch-dim {
-  animation: torch-in 0.8s ease-out backwards;
-  animation-delay: var(--torch-lit);
-}
+  html.js .plays-once .torch-dim {
+    animation: torch-in 0.8s ease-out backwards;
+    animation-delay: var(--torch-lit);
+  }
 
-.fig-motion.is-ready .fig-torch-glow {
-  animation: torch-in 0.25s ease-out backwards;
-  animation-delay: calc(var(--torch-lit) + var(--t) * 0.8s);
-}
+  html.js .plays-once .torch-glow {
+    animation: torch-in 0.25s ease-out backwards;
+    animation-delay: calc(var(--torch-lit) + var(--t) * 0.8s);
+  }
 
-.fig-motion.is-ready:not(.is-playing) * {
-  animation-play-state: paused;
+  html.js .plays-once:not(.is-playing) * {
+    animation-play-state: paused;
+  }
 }
 
 @keyframes torch-ash {
@@ -2259,10 +2264,12 @@ html:not(.js) .game-play {
 
 @keyframes torch-draw {
   from {
+    stroke-dasharray: 1 2;
     stroke-dashoffset: 1;
   }
 
   to {
+    stroke-dasharray: 1 2;
     stroke-dashoffset: 0;
   }
 }
@@ -2423,15 +2430,6 @@ html:not(.js) .game-play {
     animation: none;
   }
 
-  .fig-torch-node,
-  .fig-torch-line,
-  .fig-torch-halo,
-  .fig-torch-path,
-  .fig-torch-dim,
-  .fig-torch-glow {
-    animation: none;
-  }
-
   html {
     scroll-behavior: auto;
   }
@@ -2455,14 +2453,5 @@ html:not(.js) .game-play {
     translate: none;
     animation: none;
     transition: none;
-  }
-
-  .fig-torch-node,
-  .fig-torch-line,
-  .fig-torch-halo,
-  .fig-torch-path,
-  .fig-torch-dim,
-  .fig-torch-glow {
-    animation: none;
   }
 }

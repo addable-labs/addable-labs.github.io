@@ -1,23 +1,23 @@
-// The torch the torch figure draws ("torch-lights-up" in
-// src/_includes/figures/figures.mjs, the article on Fluentor's name and
-// logo), and how the article's cover lights it.
+// The torch the hero of the article on Fluentor's name and logo draws
+// ("torch-lights-up", renderHero in src/_includes/figures/figures.mjs), and
+// how the article's cover lights it.
 //
 // The torch is the product's mark, a network of 35 nodes (the steps) and 74
 // curved lines (the paths between them): MARK is its approved file, byte for
-// byte, and the figure draws every node and line from it, never redrawn.
+// byte, and the hero draws every node and line from it, never redrawn.
 // COVER is what the article's cover (docs/images/the-pivot-to-fluentor.svg)
 // adds to it, the same mark scaled into a 1200 x 630 plate: the plate and its
 // faint grid, a soft glow behind the nodes of one route, a translucent plate
 // that dims the rest of the torch a little, and the route itself, its lines'
-// own curves drawn again in a brighter, wider stroke. The figure draws the
-// cover's central square, so it ends on what the cover shows.
+// own curves drawn again in a brighter, wider stroke. The hero draws the
+// whole cover, so it ends on what the cover shows.
 //
 // These colours are the artwork's, not the site's. The torch keeps its
 // colours in both themes (a logo that changes colour with the page around it
 // is a logo people recognise less), so none of them is a token: they live
 // here, beside the build code, and not under src/, where every colour is one
 // of tokens.css (tests/theme.test.mjs). tests/torch.test.mjs holds MARK to
-// the approved file's checksum and the figure to the cover, element by
+// the approved file's checksum and the hero to the cover, element by
 // element.
 
 /** The approved torch, the file byte for byte (its SHA-256 is MARK_SHA256). */
@@ -26,14 +26,13 @@ export const MARK = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="104 118 24
 export const MARK_SHA256 = "af0ddbbf2067227f27491b49d98a0a4acd689973c0dc3fdc79be6bbd31eccd00";
 
 /**
- * The cover's lighting of the mark, in the cover's own units (a 1200 x 630
- * plate). `transform` places the mark on the plate (its visible nodes, 512
- * units tall, at 540, centred); `square` is the plate's central square, x,
- * y and side, which the subject sits in. `route` is the lit route as the
+ * The cover's lighting of the mark, in the cover's own units: `size` is the
+ * plate's, 1200 x 630, and `transform` places the mark on it (its visible
+ * nodes, 512 units tall, at 540, centred). `route` is the lit route as the
  * mark's node indices, from the lowest node to the top of the flame.
  */
 export const COVER = {
-  square: [285, 0, 630],
+  size: [1200, 630],
   transform: "translate(600 315) scale(1.05469) translate(-228.25 -382.30)",
   plate: "#0B0E10",
   grid: { size: 30, y: 15, path: "M0 .5H30M.5 0V30", stroke: "#242C33" },
