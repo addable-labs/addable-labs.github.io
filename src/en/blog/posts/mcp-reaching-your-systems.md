@@ -377,7 +377,7 @@ server. Everything after `--` is the command that starts it:
 claude mcp add --transport stdio my-server -- python server.py
 ```
 
-A local server talks to Claude Code through its standard output (stdout).
+A local server [talks to Claude Code through its standard output](https://modelcontextprotocol.io/specification/2026-07-28/basic/transports/stdio) (stdout).
 Anything else it prints there corrupts the messages and breaks the server, as
 the guide warns: that includes `print()` in Python and `console.log()` in
 TypeScript. Log to stderr instead.
@@ -408,7 +408,7 @@ flow: the MCP
 [specification](https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization)
 says that it should take its credentials from the environment instead.
 
-A `claude -p` run (Claude Code run once from a script, with nobody at the
+A [`claude -p` run](https://code.claude.com/docs/en/headless) (Claude Code run once from a script, with nobody at the
 keyboard) has no `/mcp` panel and cannot start the sign-in either: sign in first
 from an interactive session or with `claude mcp login`. Without a local browser,
 for example over SSH, `claude mcp login` prints an address to open on your own

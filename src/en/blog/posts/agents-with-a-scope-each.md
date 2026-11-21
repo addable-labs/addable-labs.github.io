@@ -298,17 +298,15 @@ faster and cheaper for straightforward tasks. Higher effort gives deeper
 reasoning for complex ones.
 [Codex's guide](https://learn.chatgpt.com/docs/agent-configuration/subagents)
 names reviewers among the agents that suit high effort, because they trace
-complex logic and check assumptions. A straightforward task where speed matters
-most suits low effort. Higher effort also takes more time and tokens.
+complex logic and check assumptions.
 
 The levels that exist depend on the model, as
 [Claude Code's page](https://code.claude.com/docs/en/sub-agents#choose-an-effort-level),
 [Codex's guide](https://learn.chatgpt.com/docs/agent-configuration/subagents)
 and
-[VS Code's reference](https://code.visualstudio.com/docs/agents/reference/custom-agent-file-reference#model-preferences)
+[VS Code's reference](https://code.visualstudio.com/docs/agents/reference/custom-agent-file-reference#_model-preferences)
 say. Claude Code, Codex and Copilot in VS Code can all set the model and the
-effort level in the subagent's file. Replace `<model>` below with a model name
-that your tool offers.
+effort level in the subagent's file. Replace `<model>` below with a model name that your tool offers. [Claude Code's page](https://code.claude.com/docs/en/sub-agents#choose-a-model) and [Codex's guide](https://learn.chatgpt.com/docs/agent-configuration/subagents) give the names. In [VS Code](https://code.visualstudio.com/docs/agents/reference/custom-agent-file-reference#_model-preferences), the editor suggests them as you write the file.
 
 In
 [Claude Code](https://code.claude.com/docs/en/sub-agents#supported-frontmatter-fields),

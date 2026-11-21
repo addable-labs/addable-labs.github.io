@@ -301,16 +301,14 @@ snabbare och billigare för enkla uppgifter. Högre nivå ger djupare resonemang
 för svåra.
 [Codex guide](https://learn.chatgpt.com/docs/agent-configuration/subagents)
 nämner granskare bland de agenter som passar hög nivå, eftersom de följer
-komplex logik och kontrollerar antaganden. En enkel uppgift där hastighet är
-viktigast passar låg nivå. Högre nivå tar också mer tid och fler tokens.
+komplex logik och kontrollerar antaganden.
 
 Vilka nivåer som finns beror på modellen, som
 [Claude Codes sida](https://code.claude.com/docs/en/sub-agents#choose-an-effort-level),
 [Codex guide](https://learn.chatgpt.com/docs/agent-configuration/subagents) och
-[VS Codes referens](https://code.visualstudio.com/docs/agents/reference/custom-agent-file-reference#model-preferences)
+[VS Codes referens](https://code.visualstudio.com/docs/agents/reference/custom-agent-file-reference#_model-preferences)
 säger. Claude Code, Codex och Copilot i VS Code kan alla ställa in både modell
-och ansträngningsnivå i subagentens fil. Byt `<model>` nedan mot ett modellnamn
-som ditt verktyg erbjuder.
+och ansträngningsnivå i subagentens fil. Byt `<model>` nedan mot ett modellnamn som ditt verktyg erbjuder. [Claude Codes sida](https://code.claude.com/docs/en/sub-agents#choose-a-model) och [Codex guide](https://learn.chatgpt.com/docs/agent-configuration/subagents) anger namnen. I [VS Code](https://code.visualstudio.com/docs/agents/reference/custom-agent-file-reference#_model-preferences) föreslår editorn dem medan du skriver filen.
 
 I
 [Claude Code](https://code.claude.com/docs/en/sub-agents#supported-frontmatter-fields)

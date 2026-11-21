@@ -943,27 +943,39 @@
   retrieved: 2026-11-21
   last_checked: 2026-11-21
 
-- id: P3-adv-effort-low
+- id: P3-adv-values-cc
   article: agents-with-a-scope-each
   sentence:
-    sv: "En enkel uppgift där hastighet är viktigast passar låg nivå"
-    en: "A straightforward task where speed matters most suits low effort"
-  vendor: OpenAI
-  url: https://learn.chatgpt.com/docs/agent-configuration/subagents
-  final_url: https://learn.chatgpt.com/docs/agent-configuration/subagents
-  quote: "Use when the task is straightforward and speed matters most."
+    sv: "Claude Codes sida och Codex guide anger namnen"
+    en: "Claude Code's page and Codex's guide give the names"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/sub-agents
+  final_url: https://code.claude.com/docs/en/sub-agents
+  quote: "set the model field in its definition to one of these values"
   retrieved: 2026-11-21
   last_checked: 2026-11-21
 
-- id: P3-adv-effort-cost
+- id: P3-adv-values-cx
   article: agents-with-a-scope-each
   sentence:
-    sv: "Högre nivå tar också mer tid och fler tokens"
-    en: "Higher effort also takes more time and tokens"
+    sv: "Claude Codes sida och Codex guide anger namnen"
+    en: "Claude Code's page and Codex's guide give the names"
   vendor: OpenAI
   url: https://learn.chatgpt.com/docs/agent-configuration/subagents
   final_url: https://learn.chatgpt.com/docs/agent-configuration/subagents
-  quote: "Higher reasoning effort increases response time and token usage, but it can improve quality for complex work."
+  quote: "gpt-6.2-sol: Use Sol for everyday agents that plan, use tools, and check their work."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
+
+- id: P3-adv-values-vsc
+  article: agents-with-a-scope-each
+  sentence:
+    sv: "I VS Code föreslår editorn dem medan du skriver filen"
+    en: "In VS Code, the editor suggests them as you write the file"
+  vendor: Microsoft
+  url: https://code.visualstudio.com/docs/agents/reference/custom-agent-file-reference
+  final_url: https://code.visualstudio.com/docs/agents/reference/custom-agent-file-reference
+  quote: "Use the model identifiers inserted by completions for the intended harness."
   retrieved: 2026-11-21
   last_checked: 2026-11-21
 

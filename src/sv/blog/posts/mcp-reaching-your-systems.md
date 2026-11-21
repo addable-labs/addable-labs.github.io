@@ -384,7 +384,7 @@ stdio-server. Allt efter `--` är kommandot som startar den:
 claude mcp add --transport stdio my-server -- python server.py
 ```
 
-En lokal server pratar med Claude Code genom sin vanliga utmatning (stdout).
+En lokal server [pratar med Claude Code genom sin vanliga utmatning](https://modelcontextprotocol.io/specification/2026-07-28/basic/transports/stdio) (stdout).
 Allt annat som den skriver dit skadar meddelandena och får servern att sluta
 fungera, vilket guiden varnar för: det gäller `print()` i Python och
 `console.log()` i TypeScript. Logga till stderr i stället.
@@ -415,7 +415,7 @@ OAuth-flödet:
 [specifikationen](https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization)
 för MCP säger att den i stället ska hämta sina inloggningsuppgifter från miljön.
 
-En `claude -p`-körning (Claude Code som körs en gång från ett skript, utan att
+En [`claude -p`-körning](https://code.claude.com/docs/en/headless) (Claude Code som körs en gång från ett skript, utan att
 någon sitter vid tangentbordet) har ingen `/mcp`-panel och kan inte heller
 starta inloggningen: logga först in från en interaktiv session eller med
 `claude mcp login`. Utan lokal webbläsare, till exempel över SSH, skriver
