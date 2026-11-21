@@ -100,22 +100,8 @@ given a task.
 
 {% figure "agent-file" %}
 
-The frontmatter may contain other configurations, such as a model of its own for
-the subagent, but these four are enough to begin with.
-
-When you set a model, a good rule of thumb is to match it to how hard the job
-is. A job that needs judgement, such as reviewing code, a plan or a design, gets
-a strong model, while a clear job, such as writing code from a precise
-description, can go to a small, fast one. Used the other way round, a strong
-model costs more than an easy job needs. A small one may give a shallow answer
-to a hard job.
-
-The
-[effort level](https://code.claude.com/docs/en/model-config#adjust-effort-level)
-is a second setting, which controls how much the model reasons. Lower effort is
-faster and cheaper for straightforward tasks. Higher effort gives deeper
-reasoning for complex ones. Claude Code, Codex and Copilot in VS Code can all
-set the model and the effort level in the subagent's file.
+These four are enough to begin with. The model and the effort level can be set
+too; see [Advanced](#advanced).
 
 ## Write the description for the main agent
 
@@ -284,6 +270,71 @@ Try it on one finished change. Name the subagent in your request the first time
 and read the comments it hands back as you would read a colleague's.
 
 Add a tool, or another subagent, only when the first one has proved useful.
+
+## Advanced
+
+The basics above are enough to start. Two settings for later, the model and the
+effort level:
+
+The model is the language model that does the subagent's work. Unless you set
+one, a subagent runs on the model of the conversation that starts it, as
+[Claude Code's page](https://code.claude.com/docs/en/sub-agents#choose-a-model),
+[Codex's guide](https://learn.chatgpt.com/docs/agent-configuration/subagents)
+and
+[VS Code's reference](https://code.visualstudio.com/docs/agents/reference/custom-agent-file-reference)
+each say.
+
+When you set a model, a good rule of thumb is to match it to how hard the job
+is. A job that needs judgement, such as reviewing code, a plan or a design, gets
+a strong model, while a clear job, such as writing code from a precise
+description, can go to a small, fast one. Used the other way round, a strong
+model costs more than an easy job needs. A small one may give a shallow answer
+to a hard job.
+
+The
+[effort level](https://code.claude.com/docs/en/model-config#adjust-effort-level)
+is a second setting, which controls how much the model reasons. Lower effort is
+faster and cheaper for straightforward tasks. Higher effort gives deeper
+reasoning for complex ones.
+[Codex's guide](https://learn.chatgpt.com/docs/agent-configuration/subagents)
+names reviewers among the agents that suit high effort, because they trace
+complex logic and check assumptions. A straightforward task where speed matters
+most suits low effort. Higher effort also takes more time and tokens.
+
+The levels that exist depend on the model, as
+[Claude Code's page](https://code.claude.com/docs/en/sub-agents#choose-an-effort-level),
+[Codex's guide](https://learn.chatgpt.com/docs/agent-configuration/subagents)
+and
+[VS Code's reference](https://code.visualstudio.com/docs/agents/reference/custom-agent-file-reference#model-preferences)
+say. Claude Code, Codex and Copilot in VS Code can all set the model and the
+effort level in the subagent's file. Replace `<model>` below with a model name
+that your tool offers.
+
+In
+[Claude Code](https://code.claude.com/docs/en/sub-agents#supported-frontmatter-fields),
+add these lines to the frontmatter of the subagent's file:
+
+```text
+model: <model>
+effort: high
+```
+
+In [Codex](https://learn.chatgpt.com/docs/agent-configuration/subagents), add
+these lines to the subagent's file:
+
+```text
+model = "<model>"
+model_reasoning_effort = "high"
+```
+
+In
+[Copilot in VS Code](https://code.visualstudio.com/docs/agents/reference/custom-agent-file-reference),
+add these lines to the frontmatter of the subagent's file:
+
+```text
+model: <model>
+reasoning-effort: high
+```
 
 ## What comes next
 

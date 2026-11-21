@@ -104,21 +104,8 @@ den har fått en uppgift.
 
 {% figure "agent-file" %}
 
-I frontmatter kan det finnas andra konfigurationer, till exempel en egen modell
-för subagenten, men de här fyra räcker för att börja.
-
-När du väljer modell är en bra tumregel att anpassa den efter hur svårt jobbet
-är. Ett jobb som kräver omdöme, till exempel att granska kod, en plan eller en
-design, får en stark modell, medan ett tydligt jobb, till exempel att skriva kod
-utifrån en exakt beskrivning, kan gå till en liten och snabb modell. Görs det
-tvärtom kostar en stark modell mer än ett enkelt jobb kräver. En liten modell
-kan ge ett ytligt svar på ett svårt jobb.
-
-[Ansträngningsnivån (effort level)](https://code.claude.com/docs/en/model-config#adjust-effort-level)
-är en andra inställning som styr hur mycket modellen resonerar. Lägre nivå är
-snabbare och billigare för enkla uppgifter. Högre nivå ger djupare resonemang
-för svåra. Claude Code, Codex och Copilot i VS Code kan alla ställa in både
-modell och ansträngningsnivå i subagentens fil.
+De här fyra räcker för att börja. Modell och ansträngningsnivå kan också ställas
+in; se [Avancerat](#avancerat).
 
 ## Skriv beskrivningen för huvudagenten
 
@@ -288,6 +275,68 @@ och läs synpunkterna den lämnar tillbaka som du skulle läsa en kollegas.
 
 Lägg till ett verktyg, eller ytterligare en subagent, först när den första har
 visat sig vara till nytta.
+
+## Avancerat
+
+Grunderna ovan räcker för att börja. Två inställningar till senare, modellen och
+ansträngningsnivån:
+
+Modellen är den språkmodell som gör subagentens arbete. Om du inte väljer någon
+kör en subagent på modellen i samtalet som startar den, som
+[Claude Codes sida](https://code.claude.com/docs/en/sub-agents#choose-a-model),
+[Codex guide](https://learn.chatgpt.com/docs/agent-configuration/subagents) och
+[VS Codes referens](https://code.visualstudio.com/docs/agents/reference/custom-agent-file-reference)
+var och en säger.
+
+När du väljer modell är en bra tumregel att anpassa den efter hur svårt jobbet
+är. Ett jobb som kräver omdöme, till exempel att granska kod, en plan eller en
+design, får en stark modell, medan ett tydligt jobb, till exempel att skriva kod
+utifrån en exakt beskrivning, kan gå till en liten och snabb modell. Görs det
+tvärtom kostar en stark modell mer än ett enkelt jobb kräver. En liten modell
+kan ge ett ytligt svar på ett svårt jobb.
+
+[Ansträngningsnivån (effort level)](https://code.claude.com/docs/en/model-config#adjust-effort-level)
+är en andra inställning som styr hur mycket modellen resonerar. Lägre nivå är
+snabbare och billigare för enkla uppgifter. Högre nivå ger djupare resonemang
+för svåra.
+[Codex guide](https://learn.chatgpt.com/docs/agent-configuration/subagents)
+nämner granskare bland de agenter som passar hög nivå, eftersom de följer
+komplex logik och kontrollerar antaganden. En enkel uppgift där hastighet är
+viktigast passar låg nivå. Högre nivå tar också mer tid och fler tokens.
+
+Vilka nivåer som finns beror på modellen, som
+[Claude Codes sida](https://code.claude.com/docs/en/sub-agents#choose-an-effort-level),
+[Codex guide](https://learn.chatgpt.com/docs/agent-configuration/subagents) och
+[VS Codes referens](https://code.visualstudio.com/docs/agents/reference/custom-agent-file-reference#model-preferences)
+säger. Claude Code, Codex och Copilot i VS Code kan alla ställa in både modell
+och ansträngningsnivå i subagentens fil. Byt `<model>` nedan mot ett modellnamn
+som ditt verktyg erbjuder.
+
+I
+[Claude Code](https://code.claude.com/docs/en/sub-agents#supported-frontmatter-fields)
+lägger du till de här raderna i frontmatter i subagentens fil:
+
+```text
+model: <model>
+effort: high
+```
+
+I [Codex](https://learn.chatgpt.com/docs/agent-configuration/subagents) lägger
+du till de här raderna i subagentens fil:
+
+```text
+model = "<model>"
+model_reasoning_effort = "high"
+```
+
+I
+[Copilot i VS Code](https://code.visualstudio.com/docs/agents/reference/custom-agent-file-reference)
+lägger du till de här raderna i frontmatter i subagentens fil:
+
+```text
+model: <model>
+reasoning-effort: high
+```
 
 ## Vad som kommer härnäst
 

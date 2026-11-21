@@ -74,7 +74,7 @@ and settings in the cells are Claude Code's.
 
 | Function | Command-line tool (for example `gh`) | API called directly (GitHub's REST API) | MCP server |
 | --- | --- | --- | --- |
-| Finding out what it can do | Pointing the agent at `--help` is enough for a tool it has not seen | The reference describes the method, path and parameters of every endpoint | The client sends a `tools/list` request and gets the tools, described with JSON Schema |
+| Finding out what it can do | Pointing the agent at `--help` is enough for a tool it has not seen | The reference describes the method, path and parameters of every endpoint | The client (the agent app) sends a `tools/list` request and gets the tools, described with JSON Schema |
 | Limiting access | Permission rules match the command text, and the sandbox is off by default | A token acts as your identity, limited by the scopes you select | Rules can cover every tool of a server or one tool, and a server can offer a read-only mode. The sandbox does not cover MCP servers |
 | What comes back | `gh api` can narrow the output with `--jq` or a template | The response is JSON and typically holds more than you need | A tool can declare an output schema for structured results, and Claude Code warns when a tool's output exceeds 10,000 tokens |
 | Cost to the context | Still more context-efficient than MCP servers, even with tool search, because they add no per-tool listing | — | Tool names and instructions are in the context even when unused, and tool search defers the definitions |
@@ -357,13 +357,18 @@ Claude Code's prompt:
 /mcp-server-dev:build-mcp-server
 ```
 
-If the first command fails with
-`Marketplace "claude-plugins-official" not found`, add the marketplace with
-`/plugin marketplace add anthropics/claude-plugins-official` and run the install
-again. If the message says that the plugin is not found in the marketplace,
-refresh the catalog with `/plugin marketplace update claude-plugins-official`
-and try again. If the refresh says that the marketplace is not found, add it as
-above.
+If the install fails because the marketplace is not found, add it and install
+again:
+
+```text
+/plugin marketplace add anthropics/claude-plugins-official
+```
+
+If the message says that the plugin is not found, refresh the marketplace first:
+
+```text
+/plugin marketplace update claude-plugins-official
+```
 
 A server that Claude Code starts on your own computer is added as a local stdio
 server. Everything after `--` is the command that starts it:
@@ -372,9 +377,10 @@ server. Everything after `--` is the command that starts it:
 claude mcp add --transport stdio my-server -- python server.py
 ```
 
-In a stdio server, anything written to stdout breaks the server, because it
-corrupts the JSON-RPC messages, as the guide warns. That includes `print()` in
-Python and `console.log()` in TypeScript. Log to stderr instead.
+A local server talks to Claude Code through its standard output (stdout).
+Anything else it prints there corrupts the messages and breaks the server, as
+the guide warns: that includes `print()` in Python and `console.log()` in
+TypeScript. Log to stderr instead.
 
 ### OAuth instead of a token
 
@@ -402,12 +408,12 @@ flow: the MCP
 [specification](https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization)
 says that it should take its credentials from the environment instead.
 
-A `claude -p` run has no `/mcp` panel and cannot start the sign-in either: sign
-in first from an interactive session or with `claude mcp login`. Without a local
-browser, for example over SSH, `claude mcp login` prints an address to open on
-your own computer. Paste the full redirect address from your browser's address
-bar back at the prompt. That needs an interactive terminal: connect with
-`ssh -t`.
+A `claude -p` run (Claude Code run once from a script, with nobody at the
+keyboard) has no `/mcp` panel and cannot start the sign-in either: sign in first
+from an interactive session or with `claude mcp login`. Without a local browser,
+for example over SSH, `claude mcp login` prints an address to open on your own
+computer. Paste the full redirect address from your browser's address bar back
+at the prompt. That needs an interactive terminal: connect with `ssh -t`.
 
 If an entry still has an `Authorization` header that the server rejects, Claude
 Code reports the connection as failed instead of falling back to OAuth, so check

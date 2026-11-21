@@ -126,8 +126,8 @@
 - id: P3-model
   article: agents-with-a-scope-each
   sentence:
-    sv: "till exempel en egen modell för subagenten"
-    en: "such as a model of its own for the subagent"
+    sv: "Modell och ansträngningsnivå kan också ställas in"
+    en: "The model and the effort level can be set too"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/sub-agents
   final_url: https://code.claude.com/docs/en/sub-agents
@@ -880,5 +880,185 @@
   url: https://code.visualstudio.com/docs/agent-customization/custom-agents
   final_url: https://code.visualstudio.com/docs/agent-customization/custom-agents
   quote: "ask an agent to generate a starter file"
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
+
+- id: P3-model-effort-ptr
+  article: agents-with-a-scope-each
+  sentence:
+    sv: "Modell och ansträngningsnivå kan också ställas in"
+    en: "The model and the effort level can be set too"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/sub-agents
+  final_url: https://code.claude.com/docs/en/sub-agents
+  quote: "Effort level when this subagent is active."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
+
+- id: P3-adv-default-cc
+  article: agents-with-a-scope-each
+  sentence:
+    sv: "Om du inte väljer någon kör en subagent på modellen i samtalet som startar den"
+    en: "Unless you set one, a subagent runs on the model of the conversation that starts it"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/sub-agents
+  final_url: https://code.claude.com/docs/en/sub-agents
+  quote: "By default, a subagent you define runs on the same model as the conversation that starts it."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
+
+- id: P3-adv-default-cx
+  article: agents-with-a-scope-each
+  sentence:
+    sv: "Om du inte väljer någon kör en subagent på modellen i samtalet som startar den"
+    en: "Unless you set one, a subagent runs on the model of the conversation that starts it"
+  vendor: OpenAI
+  url: https://learn.chatgpt.com/docs/agent-configuration/subagents
+  final_url: https://learn.chatgpt.com/docs/agent-configuration/subagents
+  quote: "If you don't configure a subagent model or `model_reasoning_effort`, the subagent inherits the parent agent's model and reasoning effort."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
+
+- id: P3-adv-default-vsc
+  article: agents-with-a-scope-each
+  sentence:
+    sv: "Om du inte väljer någon kör en subagent på modellen i samtalet som startar den"
+    en: "Unless you set one, a subagent runs on the model of the conversation that starts it"
+  vendor: Microsoft
+  url: https://code.visualstudio.com/docs/agents/reference/custom-agent-file-reference
+  final_url: https://code.visualstudio.com/docs/agents/reference/custom-agent-file-reference
+  quote: "If omitted, the currently selected model is used."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
+
+- id: P3-adv-effort-reviewer
+  article: agents-with-a-scope-each
+  sentence:
+    sv: "Codex guide nämner granskare bland de agenter som passar hög nivå, eftersom de följer komplex logik och kontrollerar antaganden"
+    en: "Codex's guide names reviewers among the agents that suit high effort, because they trace complex logic and check assumptions"
+  vendor: OpenAI
+  url: https://learn.chatgpt.com/docs/agent-configuration/subagents
+  final_url: https://learn.chatgpt.com/docs/agent-configuration/subagents
+  quote: "Use when an agent needs to trace complex logic, check assumptions, or work through edge cases (for example, reviewer or security-focused agents)."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
+
+- id: P3-adv-effort-low
+  article: agents-with-a-scope-each
+  sentence:
+    sv: "En enkel uppgift där hastighet är viktigast passar låg nivå"
+    en: "A straightforward task where speed matters most suits low effort"
+  vendor: OpenAI
+  url: https://learn.chatgpt.com/docs/agent-configuration/subagents
+  final_url: https://learn.chatgpt.com/docs/agent-configuration/subagents
+  quote: "Use when the task is straightforward and speed matters most."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
+
+- id: P3-adv-effort-cost
+  article: agents-with-a-scope-each
+  sentence:
+    sv: "Högre nivå tar också mer tid och fler tokens"
+    en: "Higher effort also takes more time and tokens"
+  vendor: OpenAI
+  url: https://learn.chatgpt.com/docs/agent-configuration/subagents
+  final_url: https://learn.chatgpt.com/docs/agent-configuration/subagents
+  quote: "Higher reasoning effort increases response time and token usage, but it can improve quality for complex work."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
+
+- id: P3-adv-levels-cc
+  article: agents-with-a-scope-each
+  sentence:
+    sv: "Vilka nivåer som finns beror på modellen"
+    en: "The levels that exist depend on the model"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/sub-agents
+  final_url: https://code.claude.com/docs/en/sub-agents
+  quote: "available levels depend on the model"
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
+
+- id: P3-adv-levels-cx
+  article: agents-with-a-scope-each
+  sentence:
+    sv: "Vilka nivåer som finns beror på modellen"
+    en: "The levels that exist depend on the model"
+  vendor: OpenAI
+  url: https://learn.chatgpt.com/docs/agent-configuration/subagents
+  final_url: https://learn.chatgpt.com/docs/agent-configuration/subagents
+  quote: "Use for especially demanding reasoning when the selected model supports these levels."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
+
+- id: P3-adv-levels-vsc
+  article: agents-with-a-scope-each
+  sentence:
+    sv: "Vilka nivåer som finns beror på modellen"
+    en: "The levels that exist depend on the model"
+  vendor: Microsoft
+  url: https://code.visualstudio.com/docs/agents/reference/custom-agent-file-reference
+  final_url: https://code.visualstudio.com/docs/agents/reference/custom-agent-file-reference
+  quote: "Supported values depend on the model."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
+
+- id: P3-adv-paste-cc-model
+  article: agents-with-a-scope-each
+  sentence:
+    sv: "I Claude Code lägger du till de här raderna i frontmatter i subagentens fil"
+    en: "In Claude Code, add these lines to the frontmatter of the subagent's file"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/sub-agents
+  final_url: https://code.claude.com/docs/en/sub-agents
+  quote: "To choose its model yourself, set the model field in its definition"
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
+
+- id: P3-adv-paste-cc-effort
+  article: agents-with-a-scope-each
+  sentence:
+    sv: "I Claude Code lägger du till de här raderna i frontmatter i subagentens fil"
+    en: "In Claude Code, add these lines to the frontmatter of the subagent's file"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/sub-agents
+  final_url: https://code.claude.com/docs/en/sub-agents
+  quote: "Effort level when this subagent is active."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
+
+- id: P3-adv-paste-cx
+  article: agents-with-a-scope-each
+  sentence:
+    sv: "I Codex lägger du till de här raderna i subagentens fil"
+    en: "In Codex, add these lines to the subagent's file"
+  vendor: OpenAI
+  url: https://learn.chatgpt.com/docs/agent-configuration/subagents
+  final_url: https://learn.chatgpt.com/docs/agent-configuration/subagents
+  quote: "set `model` and `model_reasoning_effort` directly in the custom agent file."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
+
+- id: P3-adv-paste-vsc-model
+  article: agents-with-a-scope-each
+  sentence:
+    sv: "I Copilot i VS Code lägger du till de här raderna i frontmatter i subagentens fil"
+    en: "In Copilot in VS Code, add these lines to the frontmatter of the subagent's file"
+  vendor: Microsoft
+  url: https://code.visualstudio.com/docs/agents/reference/custom-agent-file-reference
+  final_url: https://code.visualstudio.com/docs/agents/reference/custom-agent-file-reference
+  quote: "Preferred model or ordered list of alternatives."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
+
+- id: P3-adv-paste-vsc-effort
+  article: agents-with-a-scope-each
+  sentence:
+    sv: "I Copilot i VS Code lägger du till de här raderna i frontmatter i subagentens fil"
+    en: "In Copilot in VS Code, add these lines to the frontmatter of the subagent's file"
+  vendor: Microsoft
+  url: https://code.visualstudio.com/docs/agents/reference/custom-agent-file-reference
+  final_url: https://code.visualstudio.com/docs/agents/reference/custom-agent-file-reference
+  quote: "Initial reasoning effort for the selected model, when supported."
   retrieved: 2026-11-21
   last_checked: 2026-11-21

@@ -316,13 +316,14 @@ Brödtext i Markdown.
   (`cleaning-up-gaimer`), which the founder allowed 1,850 on 26 September
   2026 so that it can tell the changes its first figure counts, and parts 1, 2, 3, 4, 5, 6 and 7 of
   the series on AI agents (`what-makes-a-chat-an-ai-agent`, 1,600,
-  `the-instruction-file`, 2,030, `agents-with-a-scope-each`, 2,320,
+  `the-instruction-file`, 2,030, `agents-with-a-scope-each`, 2,500,
   `skills-for-repeatable-work`, 3,000, `mcp-reaching-your-systems`,
   3,820, `where-the-agent-runs`, 2,150, and `set-the-limits-in-advance`,
-  2,100), which he allowed in his reviews of
+  2,150), which he allowed in his reviews of
   29–31 October and 3–5 November 2026 (parts 2, 3 and 4 as a 5–10 minute
   read; for part 5 a longer read is fine when a topic needs it; parts 6 and 7
-  get 2,150 and 2,100, each the article's own length, 15 November 2026). The Swedish
+  get 2,150 and 2,150, each the article's own length, 15 and 21 November 2026; part 3 got 2,500 on
+  21 November 2026, for the Advanced section he asked for). The Swedish
   twin is not counted, and neither are the figures (captions and diagram
   labels) or the tables' cells: they are not prose.
 - **Figures.** An article can carry custom SVG illustrations (REQ-008): put

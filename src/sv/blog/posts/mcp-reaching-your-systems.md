@@ -75,7 +75,7 @@ inställningarna i cellerna gäller Claude Code.
 
 | Funktion | Kommandoradsverktyg (till exempel `gh`) | API direkt (GitHubs REST-API) | MCP-server |
 | --- | --- | --- | --- |
-| Ta reda på vad det kan göra | Det räcker att peka agenten på `--help` för ett verktyg den inte sett förut | Referensen beskriver metod, sökväg och parametrar för varje endpoint | Klienten skickar en `tools/list`-begäran och får verktygen, beskrivna med JSON Schema |
+| Ta reda på vad det kan göra | Det räcker att peka agenten på `--help` för ett verktyg den inte sett förut | Referensen beskriver metod, sökväg och parametrar för varje endpoint | Klienten (agentappen) skickar en `tools/list`-begäran och får verktygen, beskrivna med JSON Schema |
 | Begränsa åtkomst | Behörighetsregler matchar kommandots text. Sandboxen är avstängd som standard | En token agerar som din identitet, begränsad av de behörigheter du väljer | Regler kan gälla alla verktyg i en server eller ett enda verktyg. En server kan erbjuda ett skrivskyddat läge. Sandboxen omfattar inte MCP-servrar |
 | Vad du får tillbaka | `gh api` kan begränsa utdata med `--jq` eller en mall | Svaret är JSON och innehåller oftast mer än du behöver | Ett verktyg kan ange ett utdataschema för strukturerade resultat. Claude Code varnar när ett verktygs utdata överstiger 10 000 tokens |
 | Kostnad för kontexten | Fortfarande mer kontexteffektiva än MCP-servrar, även med tool search, eftersom de inte lägger till någon lista över verktyg | – | Verktygsnamn och instruktioner ligger i kontexten även när de inte används. Med tool search skjuts definitionerna upp |
@@ -364,14 +364,18 @@ en lokal stdio-server. Skriv de här två kommandona i Claude Codes prompt:
 /mcp-server-dev:build-mcp-server
 ```
 
-Om det första kommandot misslyckas med
-`Marketplace "claude-plugins-official" not found`, lägger du till
-pluginkatalogen (marketplace) med
-`/plugin marketplace add anthropics/claude-plugins-official` och kör
-installationen igen. Om meddelandet i stället säger att pluginet inte finns i
-katalogen, uppdaterar du katalogen med
-`/plugin marketplace update claude-plugins-official` och försöker igen. Om
-uppdateringen säger att katalogen inte hittas, lägger du till den som ovan.
+Misslyckas installationen eftersom pluginkatalogen (marketplace) inte hittas,
+lägg till den och installera igen:
+
+```text
+/plugin marketplace add anthropics/claude-plugins-official
+```
+
+Säger meddelandet att pluginet inte finns, uppdatera först katalogen:
+
+```text
+/plugin marketplace update claude-plugins-official
+```
 
 En server som Claude Code startar på din egen dator läggs till som en lokal
 stdio-server. Allt efter `--` är kommandot som startar den:
@@ -380,10 +384,10 @@ stdio-server. Allt efter `--` är kommandot som startar den:
 claude mcp add --transport stdio my-server -- python server.py
 ```
 
-Allt som skrivs till stdout i en stdio-server får servern att sluta fungera,
-eftersom det skadar JSON-RPC-meddelandena. Guiden varnar för det. Det gäller
-`print()` i Python och `console.log()` i TypeScript. Logga till stderr i
-stället.
+En lokal server pratar med Claude Code genom sin vanliga utmatning (stdout).
+Allt annat som den skriver dit skadar meddelandena och får servern att sluta
+fungera, vilket guiden varnar för: det gäller `print()` i Python och
+`console.log()` i TypeScript. Logga till stderr i stället.
 
 ### OAuth i stället för en token
 
@@ -411,8 +415,9 @@ OAuth-flödet:
 [specifikationen](https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization)
 för MCP säger att den i stället ska hämta sina inloggningsuppgifter från miljön.
 
-En `claude -p`-körning har ingen `/mcp`-panel och kan inte heller starta
-inloggningen: logga först in från en interaktiv session eller med
+En `claude -p`-körning (Claude Code som körs en gång från ett skript, utan att
+någon sitter vid tangentbordet) har ingen `/mcp`-panel och kan inte heller
+starta inloggningen: logga först in från en interaktiv session eller med
 `claude mcp login`. Utan lokal webbläsare, till exempel över SSH, skriver
 `claude mcp login` ut en adress som du öppnar på din egen dator. Klistra in hela
 omdirigeringsadressen från webbläsarens adressfält vid prompten. Det kräver en

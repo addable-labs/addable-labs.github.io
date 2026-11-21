@@ -186,7 +186,9 @@ the first two. We did not try the settings file in a live session.
 
 Now start Claude Code from this folder with the command `claude`. If it
 [asks whether you trust the folder](https://code.claude.com/docs/en/security),
-say yes: it is your own practice folder.
+say yes: it is your own practice folder. Say yes only to a folder you made or
+trust:
+[a project you did not write can bring its own settings and hooks](https://code.claude.com/docs/en/permissions#what-runs-before-you-trust-a-folder).
 
 ## Check that it works
 
@@ -258,7 +260,8 @@ files itself, for example a Python program. The sandbox does, so use both.
 If the hook seems not to run at all, repeat the test command. Two causes to rule
 out are a script that is not executable and a `matcher` spelled with the wrong
 case. A hook that fails or times out does not block by default: on most events
-Claude Code still carries out the action.
+Claude Code still carries out the action. [Advanced](#advanced) shows how to
+make it block.
 
 A question that you answer yes to every time is not a limit. If you catch
 yourself doing that, make an allow rule for the command, for example `npm test`,
@@ -317,6 +320,8 @@ shows whether the sandbox is on.
 
 ## Advanced
 
+The basics above are enough to start. Three things for later:
+
 - A team or a company can force settings that users cannot override: managed
   settings in Claude Code, Copilot's
   [enterprise-managed settings](https://code.visualstudio.com/docs/enterprise/manage-ai-settings)
@@ -329,9 +334,15 @@ shows whether the sandbox is on.
   Codex may start read-only until you trust the folder. Claude Code asks whether
   you trust the folder in an interactive session, but a run without a person at
   the prompt, such as `claude -p`, never asks.
-- A hook that fails can be made to block. In Claude Code 2.1.295 or later,
-  `"onFailure": "block"` next to `"type"` in a hook's entry blocks when the hook
-  cannot start or times out.
+- A hook that fails can be made to block. In
+  [Claude Code 2.1.295 or later](https://code.claude.com/docs/en/hooks), add
+  `onFailure` to the hook's entry in `.claude/settings.json`, and the hook
+  blocks when it cannot start or times out:
+
+  ```text
+  "type": "command",
+  "onFailure": "block",
+  ```
 
 ## What comes next
 

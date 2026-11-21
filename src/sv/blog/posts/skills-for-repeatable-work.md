@@ -43,10 +43,10 @@ instruktioner, checklista eller arbetssätt i chatten.
 
 ## En skill är en mapp
 
-En skill är en mapp med en markdown-fil som heter SKILL.md. Filen börjar med ett namn
-(`name`) och en beskrivning (`description`) – de två fält som varje skill
-behöver – och fortsätter med instruktionerna. Andra fält är valfria; "Avancerade
-skills" nära slutet beskriver dem.
+En skill är en mapp med en markdown-fil som heter SKILL.md. Filen börjar med ett
+namn (`name`) och en beskrivning (`description`) – de två fält som varje skill
+behöver – och fortsätter med instruktionerna. Andra fält är valfria; "Avancerat"
+nära slutet beskriver dem.
 
 Bredvid SKILL.md kan det ligga ett skript – ett kort program som gör en bestämd
 sak – och andra filer som instruktionerna hänvisar till. En sort är en mall: en
@@ -315,31 +315,6 @@ Säger skriptet OK när något är fel ligger felet i skriptet: ändra versionen
 `package.json` utan att ändra ändringsloggen, kör skriptet för hand och rätta
 det tills det stannar.
 
-## Avancerade skills
-
-En skill fungerar med bara ett `name` och en `description`, så du kan hoppa över
-det här avsnittet i början. [Specifikationen](https://agentskills.io/specification)
-lägger till de valfria fälten `license`, `compatibility`, `metadata` och
-`allowed-tools`, som den markerar som experimentellt.
-
-Varje verktyg lägger till egna fält. Claude Code har bland annat `allowed-tools`
-för verktyg som skillen får använda utan att fråga, `context: fork` för att köra
-skillen i en subagent och `model` och `effort`. VS Code lägger till
-`argument-hint`, `user-invocable` och `disable-model-invocation`. Codex har
-sina extra inställningar i den valfria filen `agents/openai.yaml`.
-`disable-model-invocation` och den filen används under Felsökning.
-
-Kan en skill välja modell? I Claude Code kan den det: `model` anger modellen för
-resten av svaret där skillen används. Din egen modell är tillbaka vid ditt nästa
-meddelande. `effort` gör samma sak för ansträngningsnivån. Specifikationen,
-sidorna för Codex och VS Code och GitHubs sida om
-[att lägga till skills](https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/customize-cloud-agent/add-skills)
-listar inget sådant fält. Del 3 gav en tumregel för att välja modell och
-ansträngningsnivå.
-
-Claude Code ignorerar ett fältnamn det inte känner igen, så ett stavfel gör
-ingenting. Kopiera namnen från verktygets sida.
-
 ## Börja litet
 
 Vi skulle börja med ett jobb som du redan ber agenten göra och som du rättar på
@@ -372,6 +347,38 @@ som kör verktyg eller når andra system.
 Kontrollera sedan skillen som beskrivs ovan. Nästa gång du rättar agenten i det
 jobbet ber du den ändra skillen också, så att rättelsen finns kvar. Lägg till
 nästa skill först när den här har visat sig användbar.
+
+## Avancerat
+
+En skill fungerar med bara ett `name` och en `description`, så du kan hoppa över
+det här avsnittet i början. [Specifikationen](https://agentskills.io/specification)
+lägger till de valfria fälten `license`, `compatibility`, `metadata` och
+`allowed-tools`, som den markerar som experimentellt.
+
+Varje verktyg lägger till egna fält.
+[Claude Code](https://code.claude.com/docs/en/skills#frontmatter-reference)
+använder specifikationens `allowed-tools` för verktyg som skillen får använda
+utan att fråga. Dessutom har det `context: fork` för att köra skillen i en
+subagent samt `model` och `effort`.
+[VS Code](https://code.visualstudio.com/docs/agent-customization/agent-skills)
+lägger till `argument-hint`, `user-invocable` och `disable-model-invocation`.
+[Codex](https://learn.chatgpt.com/docs/build-skills) har sina extra
+inställningar i den valfria filen `agents/openai.yaml`.
+`disable-model-invocation` och den filen används under Felsökning.
+
+Kan en skill välja modell? I
+[Claude Code](https://code.claude.com/docs/en/skills#frontmatter-reference) kan
+den det: `model` anger modellen för resten av svaret där skillen används.
+Modellen du valde är tillbaka vid ditt nästa meddelande. `effort` gör samma sak
+för ansträngningsnivån. Specifikationen, sidorna för Codex och VS Code och
+GitHubs sida om
+[att lägga till skills](https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/customize-cloud-agent/add-skills)
+listar inget sådant fält. Del 3 gav en tumregel för att välja modell och
+ansträngningsnivå.
+
+[Claude Code](https://code.claude.com/docs/en/skills#frontmatter-reference)
+ignorerar ett fältnamn det inte känner igen, så ett stavfel gör ingenting.
+Kopiera namnen från verktygets sida.
 
 ## Vad som kommer härnäst
 

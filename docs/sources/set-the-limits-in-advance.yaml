@@ -1114,8 +1114,8 @@
 - id: G-on-failure
   article: set-the-limits-in-advance
   sentence:
-    sv: "I Claude Code 2.1.295 eller senare gör du det med \"onFailure\": \"block\" bredvid \"type\" i hookens definition: då blockerar hooken även när den inte kan startas eller tar för lång tid"
-    en: "In Claude Code 2.1.295 or later, \"onFailure\": \"block\" next to \"type\" in a hook's entry blocks when the hook cannot start or times out"
+    sv: "I Claude Code 2.1.295 eller senare lägger du till onFailure i hookens definition i .claude/settings.json: då blockerar hooken när den inte kan startas eller tar för lång tid"
+    en: "In Claude Code 2.1.295 or later, add onFailure to the hook's entry in .claude/settings.json, and the hook blocks when it cannot start or times out"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/hooks
   final_url: https://code.claude.com/docs/en/hooks
@@ -1126,11 +1126,35 @@
 - id: G-on-failure-start
   article: set-the-limits-in-advance
   sentence:
-    sv: "I Claude Code 2.1.295 eller senare gör du det med \"onFailure\": \"block\" bredvid \"type\" i hookens definition: då blockerar hooken även när den inte kan startas eller tar för lång tid"
-    en: "In Claude Code 2.1.295 or later, \"onFailure\": \"block\" next to \"type\" in a hook's entry blocks when the hook cannot start or times out"
+    sv: "I Claude Code 2.1.295 eller senare lägger du till onFailure i hookens definition i .claude/settings.json: då blockerar hooken när den inte kan startas eller tar för lång tid"
+    en: "In Claude Code 2.1.295 or later, add onFailure to the hook's entry in .claude/settings.json, and the hook blocks when it cannot start or times out"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/hooks
   final_url: https://code.claude.com/docs/en/hooks
   quote: "To block the action when the hook can't start, set"
   retrieved: 2026-10-31
   last_checked: 2026-11-15
+
+- id: G-trust-settings
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "ett projekt du inte har skrivit kan ha med sig egna inställningar och hooks"
+    en: "a project you did not write can bring its own settings and hooks"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/permissions
+  final_url: https://code.claude.com/docs/en/permissions
+  quote: "`permissions.allow` rules and `permissions.additionalDirectories` entries in a project's `.claude/settings.json` grant capability, so Claude Code applies them only after you accept the workspace trust dialog for that folder"
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
+
+- id: G-trust-hooks
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "ett projekt du inte har skrivit kan ha med sig egna inställningar och hooks"
+    en: "a project you did not write can bring its own settings and hooks"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/permissions
+  final_url: https://code.claude.com/docs/en/permissions
+  quote: "Each row is one kind of content a repository can supply."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21

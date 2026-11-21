@@ -193,7 +193,9 @@ två första. Vi har inte prövat inställningsfilen i en riktig session.
 
 Starta nu Claude Code från den här mappen med kommandot `claude`. Om det
 [frågar om du litar på mappen](https://code.claude.com/docs/en/security) svarar
-du ja: det är din egen övningsmapp.
+du ja: det är din egen övningsmapp. Svara bara ja för en mapp som du har skapat
+själv eller litar på:
+[ett projekt du inte har skrivit kan ha med sig egna inställningar och hooks](https://code.claude.com/docs/en/permissions#what-runs-before-you-trust-a-folder).
 
 ## Kontrollera att det fungerar
 
@@ -270,6 +272,7 @@ Om hooken inte verkar köras alls, upprepa testkommandot. Två orsaker att
 utesluta är ett skript som inte är körbart och en `matcher` med fel versaler
 eller gemener. En hook som misslyckas eller tar för lång tid blockerar inte som
 standard: på de flesta händelser genomför Claude Code åtgärden ändå.
+[Avancerat](#avancerat) visar hur du får den att blockera.
 
 Om du svarar ja på samma fråga varje gång är den ingen gräns. Lägg i så fall
 till en tillåtande regel för kommandot, till exempel `npm test`, eller sätt
@@ -329,6 +332,8 @@ om sandboxen är på.
 
 ## Avancerat
 
+Grunderna ovan räcker för att börja. Tre saker till senare:
+
 - Ett team eller ett företag kan tvinga fram inställningar som användare inte
   kan åsidosätta: managed settings i Claude Code, Copilots
   [enterprise-managed settings](https://code.visualstudio.com/docs/enterprise/manage-ai-settings)
@@ -342,10 +347,15 @@ om sandboxen är på.
   Codex kan starta skrivskyddat tills du litar på mappen. Claude Code frågar om
   du litar på mappen i en interaktiv session. En körning där ingen sitter vid
   prompten, som `claude -p`, frågar aldrig.
-- Du kan ställa in att en hook som misslyckas ska blockera. I Claude Code
-  2.1.295 eller senare gör du det med `"onFailure": "block"` bredvid `"type"` i
-  hookens definition: då blockerar hooken även när den inte kan startas eller
-  tar för lång tid.
+- Du kan ställa in att en hook som misslyckas ska blockera. I
+  [Claude Code 2.1.295 eller senare](https://code.claude.com/docs/en/hooks)
+  lägger du till `onFailure` i hookens definition i `.claude/settings.json`: då
+  blockerar hooken när den inte kan startas eller tar för lång tid:
+
+  ```text
+  "type": "command",
+  "onFailure": "block",
+  ```
 
 ## Vad som kommer härnäst
 

@@ -251,21 +251,6 @@ time of the hour. That is why the file uses 09:30.
 If the run goes on for too long, the `timeout-minutes` line cancels it after ten
 minutes.
 
-## Advanced
-
-The basics above are enough to start. Three things for later:
-
-- Jobs that change code. They leave a branch or a pull request. You read it
-  before it counts. In the factory, a change goes live only once the gates pass
-  ([Why we run an agent-run software
-  factory](/blog/why-we-run-an-agent-run-factory/)). Part 7 covers the
-  permissions such a job needs.
-- Signing in from a workflow without a stored key, through workload identity
-  federation, which Claude's action supports.
-- [GitHub Agentic Workflows](https://github.blog/changelog/2026-10-28-github-agentic-workflows-generally-available/):
-  automation written in markdown, which runs with read-only permissions by
-  default.
-
 ## Start small
 
 This is our own advice for a first job. Choose a job that runs unattended,
@@ -295,6 +280,22 @@ write. If a later job must write, add that one tool and nothing else.
 
 5. Leave the schedule on when the answer is right, and look at the Actions tab
    after a few mornings.
+
+## Advanced
+
+The basics above are enough to start. Three things for later:
+
+- A job that changes code should leave a branch or a pull request, so that you
+  read the change before it counts. Part 7 covers the permissions such a job
+  needs.
+- A workflow can sign in without a key stored as a secret, through workload
+  identity federation:
+  [Claude's action](https://code.claude.com/docs/en/github-actions#set-up-for-an-organization)
+  exchanges the workflow's GitHub OpenID Connect token for access to the Claude
+  API.
+- [GitHub Agentic Workflows](https://github.blog/changelog/2026-10-28-github-agentic-workflows-generally-available/)
+  are automation written in markdown. They run with read-only permissions by
+  default.
 
 ## What comes next
 

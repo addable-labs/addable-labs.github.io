@@ -859,23 +859,11 @@
   retrieved: 2026-10-31
   last_checked: 2026-10-31
 
-- id: P6-fac-gates
-  article: where-the-agent-runs
-  sentence:
-    sv: "I fabriken publiceras en ändring först när den klarat kvalitetsgrindarna"
-    en: "In the factory, a change goes live only once the gates pass"
-  vendor: Addable Labs
-  url: https://addablelabs.se/blog/why-we-run-an-agent-run-factory/
-  final_url: https://addablelabs.se/blog/why-we-run-an-agent-run-factory/
-  quote: "The agents push to GitHub themselves: a change goes live only once the gates pass, and a text only once we have read it."
-  retrieved: 2026-10-30
-  last_checked: 2026-10-31
-
 - id: P6-adv-federation
   article: where-the-agent-runs
   sentence:
-    sv: "med workload identity federation, som Claudes action stöder"
-    en: "through workload identity federation, which Claude's action supports"
+    sv: "En workflow kan logga in utan en nyckel som är lagrad som en secret, med workload identity federation"
+    en: "A workflow can sign in without a key stored as a secret, through workload identity federation"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/github-actions
   final_url: https://code.claude.com/docs/en/github-actions
@@ -898,8 +886,8 @@
 - id: P6-adv-agentic-readonly
   article: where-the-agent-runs
   sentence:
-    sv: "som körs med skrivskyddade behörigheter som standard"
-    en: "which runs with read-only permissions by default"
+    sv: "De körs med skrivskyddade behörigheter som standard"
+    en: "They run with read-only permissions by default"
   vendor: GitHub
   url: https://github.blog/changelog/2026-10-28-github-agentic-workflows-generally-available/
   final_url: https://github.blog/changelog/2026-10-28-github-agentic-workflows-generally-available/
@@ -954,3 +942,15 @@
   quote: "Under your repository name, click Actions. In the left sidebar, click the name of the workflow you want to run. Above the list of workflow runs, click the Run workflow button."
   retrieved: 2026-10-31
   last_checked: 2026-10-31
+
+- id: P6-adv-federation-oidc
+  article: where-the-agent-runs
+  sentence:
+    sv: "Claudes action byter workflowens GitHub OpenID Connect-token mot åtkomst till Claude API"
+    en: "Claude's action exchanges the workflow's GitHub OpenID Connect token for access to the Claude API"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/github-actions
+  final_url: https://code.claude.com/docs/en/github-actions
+  quote: "where the Claude Code GitHub Action exchanges the workflow's GitHub OpenID Connect (OIDC) token for Claude API access through a Claude Console service account"
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21

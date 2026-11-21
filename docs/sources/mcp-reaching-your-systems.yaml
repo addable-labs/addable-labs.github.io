@@ -1582,8 +1582,8 @@
 - id: P5-adv-plugin-fail-marketplace
   article: mcp-reaching-your-systems
   sentence:
-    sv: "Om det första kommandot misslyckas med Marketplace \"claude-plugins-official\" not found, lägger du till pluginkatalogen (marketplace) med /plugin marketplace add anthropics/claude-plugins-official och kör installationen igen"
-    en: "If the first command fails with Marketplace \"claude-plugins-official\" not found, add the marketplace with /plugin marketplace add anthropics/claude-plugins-official and run the install again"
+    sv: "Misslyckas installationen eftersom pluginkatalogen (marketplace) inte hittas, lägg till den och installera igen"
+    en: "If the install fails because the marketplace is not found, add it and install again"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/mcp
   final_url: https://code.claude.com/docs/en/mcp
@@ -1594,24 +1594,12 @@
 - id: P5-adv-plugin-fail-catalog
   article: mcp-reaching-your-systems
   sentence:
-    sv: "Om meddelandet i stället säger att pluginet inte finns i katalogen, uppdaterar du katalogen med /plugin marketplace update claude-plugins-official och försöker igen"
-    en: "If the message says that the plugin is not found in the marketplace, refresh the catalog with /plugin marketplace update claude-plugins-official and try again"
+    sv: "Säger meddelandet att pluginet inte finns, uppdatera först katalogen"
+    en: "If the message says that the plugin is not found, refresh the marketplace first"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/mcp
   final_url: https://code.claude.com/docs/en/mcp
   quote: "your local copy of the marketplace catalog may be out of date. Refresh it with `/plugin marketplace update claude-plugins-official`, then retry the install."
-  retrieved: 2026-11-05
-  last_checked: 2026-11-05
-
-- id: P5-adv-plugin-refresh-missing
-  article: mcp-reaching-your-systems
-  sentence:
-    sv: "Om uppdateringen säger att katalogen inte hittas, lägger du till den som ovan"
-    en: "If the refresh says that the marketplace is not found, add it as above"
-  vendor: Anthropic
-  url: https://code.claude.com/docs/en/mcp
-  final_url: https://code.claude.com/docs/en/mcp
-  quote: "`Marketplace \"claude-plugins-official\" not found`: add the marketplace with `/plugin marketplace add anthropics/claude-plugins-official`, then retry the install."
   retrieved: 2026-11-05
   last_checked: 2026-11-05
 
@@ -1642,8 +1630,8 @@
 - id: P5-adv-stdout
   article: mcp-reaching-your-systems
   sentence:
-    sv: "Allt som skrivs till stdout i en stdio-server får servern att sluta fungera, eftersom det skadar JSON-RPC-meddelandena. Guiden varnar för det"
-    en: "In a stdio server, anything written to stdout breaks the server, because it corrupts the JSON-RPC messages, as the guide warns"
+    sv: "Allt annat som den skriver dit skadar meddelandena och får servern att sluta fungera, vilket guiden varnar för"
+    en: "Anything else it prints there corrupts the messages and breaks the server, as the guide warns"
   vendor: modelcontextprotocol.io
   url: https://modelcontextprotocol.io/docs/2026-07-28/develop/build-server
   final_url: https://modelcontextprotocol.io/docs/2026-07-28/develop/build-server
@@ -1654,8 +1642,8 @@
 - id: P5-adv-print
   article: mcp-reaching-your-systems
   sentence:
-    sv: "Det gäller print() i Python och console.log() i TypeScript"
-    en: "That includes print() in Python and console.log() in TypeScript"
+    sv: "det gäller print() i Python och console.log() i TypeScript"
+    en: "that includes print() in Python and console.log() in TypeScript"
   vendor: modelcontextprotocol.io
   url: https://modelcontextprotocol.io/docs/2026-07-28/develop/build-server
   final_url: https://modelcontextprotocol.io/docs/2026-07-28/develop/build-server
@@ -1666,8 +1654,8 @@
 - id: P5-adv-consolelog
   article: mcp-reaching-your-systems
   sentence:
-    sv: "Det gäller print() i Python och console.log() i TypeScript"
-    en: "That includes print() in Python and console.log() in TypeScript"
+    sv: "det gäller print() i Python och console.log() i TypeScript"
+    en: "that includes print() in Python and console.log() in TypeScript"
   vendor: modelcontextprotocol.io
   url: https://modelcontextprotocol.io/docs/2026-07-28/develop/build-server
   final_url: https://modelcontextprotocol.io/docs/2026-07-28/develop/build-server
@@ -1906,8 +1894,8 @@
 - id: P5-adv-oauth-nopanel
   article: mcp-reaching-your-systems
   sentence:
-    sv: "En claude -p-körning har ingen /mcp-panel och kan inte heller starta inloggningen: logga först in från en interaktiv session eller med claude mcp login"
-    en: "A claude -p run has no /mcp panel and cannot start the sign-in either: sign in first from an interactive session or with claude mcp login"
+    sv: "En claude -p-körning (Claude Code som körs en gång från ett skript, utan att någon sitter vid tangentbordet) har ingen /mcp-panel och kan inte heller starta inloggningen: logga först in från en interaktiv session eller med claude mcp login"
+    en: "A claude -p run (Claude Code run once from a script, with nobody at the keyboard) has no /mcp panel and cannot start the sign-in either: sign in first from an interactive session or with claude mcp login"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/mcp
   final_url: https://code.claude.com/docs/en/mcp
@@ -1918,8 +1906,8 @@
 - id: P5-adv-oauth-interactive
   article: mcp-reaching-your-systems
   sentence:
-    sv: "En claude -p-körning har ingen /mcp-panel och kan inte heller starta inloggningen: logga först in från en interaktiv session eller med claude mcp login"
-    en: "A claude -p run has no /mcp panel and cannot start the sign-in either: sign in first from an interactive session or with claude mcp login"
+    sv: "En claude -p-körning (Claude Code som körs en gång från ett skript, utan att någon sitter vid tangentbordet) har ingen /mcp-panel och kan inte heller starta inloggningen: logga först in från en interaktiv session eller med claude mcp login"
+    en: "A claude -p run (Claude Code run once from a script, with nobody at the keyboard) has no /mcp panel and cannot start the sign-in either: sign in first from an interactive session or with claude mcp login"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/mcp
   final_url: https://code.claude.com/docs/en/mcp
@@ -3154,8 +3142,8 @@
 - id: P5-cmp-toolslist
   article: mcp-reaching-your-systems
   sentence:
-    sv: "Klienten skickar en tools/list-begäran och får verktygen, beskrivna med JSON Schema"
-    en: "The client sends a tools/list request and gets the tools, described with JSON Schema"
+    sv: "Klienten (agentappen) skickar en tools/list-begäran och får verktygen, beskrivna med JSON Schema"
+    en: "The client (the agent app) sends a tools/list request and gets the tools, described with JSON Schema"
   vendor: modelcontextprotocol.io
   url: https://modelcontextprotocol.io/specification/2026-07-28/server/tools
   final_url: https://modelcontextprotocol.io/specification/2026-07-28/server/tools
@@ -3166,8 +3154,8 @@
 - id: P5-cmp-jsonschema
   article: mcp-reaching-your-systems
   sentence:
-    sv: "Klienten skickar en tools/list-begäran och får verktygen, beskrivna med JSON Schema"
-    en: "The client sends a tools/list request and gets the tools, described with JSON Schema"
+    sv: "Klienten (agentappen) skickar en tools/list-begäran och får verktygen, beskrivna med JSON Schema"
+    en: "The client (the agent app) sends a tools/list request and gets the tools, described with JSON Schema"
   vendor: modelcontextprotocol.io
   url: https://modelcontextprotocol.io/docs/2026-07-28/learn/server-concepts
   final_url: https://modelcontextprotocol.io/docs/2026-07-28/learn/server-concepts
@@ -3630,3 +3618,27 @@
   quote: "For systems without a CLI, there's"
   retrieved: 2026-11-05
   last_checked: 2026-11-05
+
+- id: P5-adv-stdout-talks
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "En lokal server pratar med Claude Code genom sin vanliga utmatning (stdout)"
+    en: "A local server talks to Claude Code through its standard output (stdout)"
+  vendor: modelcontextprotocol.io
+  url: https://modelcontextprotocol.io/specification/2026-07-28/basic/transports/stdio
+  final_url: https://modelcontextprotocol.io/specification/2026-07-28/basic/transports/stdio
+  quote: "The server reads JSON-RPC messages from `stdin` and writes JSON-RPC messages to `stdout`."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
+
+- id: P5-adv-claude-p
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Claude Code som körs en gång från ett skript, utan att någon sitter vid tangentbordet"
+    en: "Claude Code run once from a script, with nobody at the keyboard"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/headless
+  final_url: https://code.claude.com/docs/en/headless
+  quote: "To run Claude Code in non-interactive mode, pass `-p` with your prompt and the CLI options you need"
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21

@@ -251,21 +251,6 @@ rekommenderar en annan tid på timmen. Därför använder filen 09:30.
 Om körningen pågår för länge avbryter raden `timeout-minutes` den efter tio
 minuter.
 
-## Avancerat
-
-Grunderna ovan räcker för att börja. Tre saker till senare:
-
-- Jobb som ändrar kod. De lämnar en branch eller en pull request. Du läser den
-  innan ändringen går vidare. I fabriken publiceras en ändring först när den
-  klarat kvalitetsgrindarna ([Därför driver vi en agentdriven
-  mjukvarufabrik](/sv/blog/why-we-run-an-agent-run-factory/)). Del 7 går igenom
-  de behörigheter ett sådant jobb behöver.
-- Inloggning från en workflow utan lagrad nyckel, med workload identity
-  federation, som Claudes action stöder.
-- [GitHub Agentic Workflows](https://github.blog/changelog/2026-10-28-github-agentic-workflows-generally-available/):
-  automation skriven i markdown, som körs med skrivskyddade behörigheter som
-  standard.
-
 ## Börja litet
 
 Det här är vår egen rekommendation för ett första jobb. Välj ett jobb som körs
@@ -296,6 +281,21 @@ jobb måste skriva, lägg till just det verktyget och inget mer.
 
 5. Låt schemat stå kvar när svaret stämmer och titta på fliken Actions efter
    några morgnar.
+
+## Avancerat
+
+Grunderna ovan räcker för att börja. Tre saker till senare:
+
+- Ett jobb som ändrar kod ska lämna en branch eller en pull request, så att du
+  läser ändringen innan den går vidare. Del 7 går igenom de behörigheter ett
+  sådant jobb behöver.
+- En workflow kan logga in utan en nyckel som är lagrad som en secret, med
+  workload identity federation:
+  [Claudes action](https://code.claude.com/docs/en/github-actions#set-up-for-an-organization)
+  byter workflowens GitHub OpenID Connect-token mot åtkomst till Claude API.
+- [GitHub Agentic Workflows](https://github.blog/changelog/2026-10-28-github-agentic-workflows-generally-available/)
+  är automation skriven i markdown. De körs med skrivskyddade behörigheter som
+  standard.
 
 ## Vad som kommer härnäst
 

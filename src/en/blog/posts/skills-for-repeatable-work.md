@@ -44,7 +44,7 @@ checklist or procedure into the chat.
 
 A skill is a folder with a markdown file in it called SKILL.md. The file begins
 with a `name` and a `description`, the two fields every skill needs, and goes on
-with the instructions. Other fields are optional; "Advanced skills" near the end
+with the instructions. Other fields are optional; "Advanced" near the end
 describes them.
 
 Next to the SKILL.md there can be a script, a short program that does one fixed
@@ -310,31 +310,6 @@ If the script says OK when something is wrong, the fault is in the script:
 change the version in `package.json` without the changelog, run the script by
 hand and fix it until it stops.
 
-## Advanced skills
-
-A skill works with only a `name` and a `description`, so you can skip this
-section at first. The [specification](https://agentskills.io/specification)
-adds the optional fields `license`, `compatibility`, `metadata` and
-`allowed-tools`, which it marks as experimental.
-
-Each tool adds fields of its own. Claude Code has, among others, `allowed-tools`
-for tools the skill may use without asking, `context: fork` to run the skill in
-a subagent and `model` and `effort`. VS Code adds `argument-hint`,
-`user-invocable` and `disable-model-invocation`. Codex keeps its extra settings
-in the optional file `agents/openai.yaml`. `disable-model-invocation` and that
-file are used under Troubleshooting.
-
-Can a skill choose the model? In Claude Code it can: `model` sets the model for
-the rest of the answer in which the skill is used. Your own model returns with
-your next message. `effort` does the same for the effort level. The
-specification, the pages of Codex and VS Code, and GitHub's page on
-[adding skills](https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/customize-cloud-agent/add-skills)
-list no such field. Part 3 gave a rule of thumb for choosing the model and the
-effort level.
-
-Claude Code ignores a field name it does not recognise, so a typo does nothing.
-Copy the names from the tool's page.
-
 ## Start small
 
 We would start with one job that you already ask the agent to do and that you
@@ -368,6 +343,38 @@ reach other systems.
 Then check the skill as described above. The next time you correct the agent on
 that job, ask it to change the skill as well, so that the correction stays. Add
 the next skill only when this one has proved useful.
+
+## Advanced
+
+A skill works with only a `name` and a `description`, so you can skip this
+section at first. The [specification](https://agentskills.io/specification)
+adds the optional fields `license`, `compatibility`, `metadata` and
+`allowed-tools`, which it marks as experimental.
+
+Each tool adds fields of its own.
+[Claude Code](https://code.claude.com/docs/en/skills#frontmatter-reference) uses
+the specification's `allowed-tools` for tools the skill may use without asking.
+It also has `context: fork` to run the skill in a subagent, and `model` and
+`effort`.
+[VS Code](https://code.visualstudio.com/docs/agent-customization/agent-skills)
+adds `argument-hint`, `user-invocable` and `disable-model-invocation`.
+[Codex](https://learn.chatgpt.com/docs/build-skills) keeps its extra settings in
+the optional file `agents/openai.yaml`. `disable-model-invocation` and that file
+are used under Troubleshooting.
+
+Can a skill choose the model? In
+[Claude Code](https://code.claude.com/docs/en/skills#frontmatter-reference) it
+can: `model` sets the model for the rest of the answer in which the skill is
+used. The model you chose returns with your next message. `effort` does the same
+for the effort level. The specification, the pages of Codex and VS Code, and
+GitHub's page on
+[adding skills](https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/customize-cloud-agent/add-skills)
+list no such field. Part 3 gave a rule of thumb for choosing the model and the
+effort level.
+
+[Claude Code](https://code.claude.com/docs/en/skills#frontmatter-reference)
+ignores a field name it does not recognise, so a typo does nothing. Copy the
+names from the tool's page.
 
 ## What comes next
 
