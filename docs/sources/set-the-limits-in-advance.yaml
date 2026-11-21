@@ -6,7 +6,13 @@
 # Not in the list: the results of our own run of the script, the order of
 # limits in "Start strict" and the advice in the checks (answer yes, answer no,
 # delete the practice folder), which are our own, and the sentence that part 6
-# told the study (no longer in this article).
+# told the study (no longer in this article). The paragraph added on 21 November
+# 2026 on what has changed (entries L-easier-words to L-less-asked-more-limits)
+# was checked that day, and so were L-shape and G-rules-apply, whose quotes the
+# vendor had reworded. Three claims of the new paragraph are our own
+# conclusions from the pages quoted: that steering with words is easier, that
+# the need for a limit remains and that a tool that asks less makes the limits
+# matter more.
 - id: L-default-claude
   article: set-the-limits-in-advance
   sentence:
@@ -70,14 +76,14 @@
 - id: L-shape
   article: set-the-limits-in-advance
   sentence:
-    sv: "instruktioner \"påverkar vad Claude försöker göra men ändrar inte vad Claude Code tillåter\""
-    en: "instructions \"shape what Claude tries to do, but they don't change what Claude Code allows\""
+    sv: "instruktioner \"påverkar vad Claude försöker göra men ändrar inte dessa regler\""
+    en: "instructions \"shape what Claude tries to do, but they don't change these rules\""
   vendor: Anthropic
   url: https://code.claude.com/docs/en/permissions
   final_url: https://code.claude.com/docs/en/permissions
-  quote: "shape what Claude tries to do, but they don't change what Claude Code allows."
-  retrieved: 2026-10-31
-  last_checked: 2026-11-15
+  quote: "shape what Claude tries to do, but they don't change these rules."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
 
 - id: L-enforced
   article: set-the-limits-in-advance
@@ -90,6 +96,66 @@
   quote: "Permission rules are enforced by Claude Code, not by the model."
   retrieved: 2026-10-31
   last_checked: 2026-11-15
+
+- id: L-easier-words
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "Att styra med ord har blivit lättare"
+    en: "Steering with words has become easier"
+  vendor: Anthropic
+  url: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices
+  final_url: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices
+  quote: "Where you might have said “CRITICAL: You MUST use this tool when...,” you can use more normal prompting such as “Use this tool when...” instead."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
+
+- id: L-responsive
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "två av modellerna den nämner är mer lyhörda för systemprompten än tidigare modeller"
+    en: "two of the models it names are more responsive to the system prompt than earlier ones"
+  vendor: Anthropic
+  url: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices
+  final_url: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices
+  quote: "are also more responsive to the system prompt than previous models"
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
+
+- id: L-need-remains
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "Behovet av en gräns har inte försvunnit"
+    en: "The need for a limit has not gone away"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/permissions
+  final_url: https://code.claude.com/docs/en/permissions
+  quote: "shape what Claude tries to do, but they don't change these rules."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
+
+- id: L-auto-asks-less
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "som Claude Code gör i auto mode (del 6)"
+    en: "as Claude Code does in auto mode (part 6)"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/permission-modes
+  final_url: https://code.claude.com/docs/en/permission-modes
+  quote: "Auto mode lets Claude execute without routine permission prompts."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
+
+- id: L-less-asked-more-limits
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "Ju mindre ett verktyg frågar dig, som Claude Code gör i auto mode (del 6), desto viktigare blir gränserna du sätter i förväg"
+    en: "The less a tool asks you, as Claude Code does in auto mode (part 6), the more the limits you set in advance matter"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/permission-modes
+  final_url: https://code.claude.com/docs/en/permission-modes
+  quote: "Auto mode reduces permission prompts but does not guarantee safety."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
 
 - id: S-openai-best
   article: set-the-limits-in-advance
@@ -711,9 +777,9 @@
   vendor: Anthropic
   url: https://code.claude.com/docs/en/permissions
   final_url: https://code.claude.com/docs/en/permissions
-  quote: "Read and Edit deny rules apply to Claude's built-in file tools, to file commands Claude Code recognizes in Bash"
-  retrieved: 2026-10-31
-  last_checked: 2026-11-15
+  quote: "Read and Edit deny rules apply to Claude's built-in file tools. In a Bash command Claude Code can analyze, they also apply to redirection targets and to file commands it recognizes, such as cat, head, tail, sed, and tee."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
 
 - id: G-rules-not-2
   article: set-the-limits-in-advance

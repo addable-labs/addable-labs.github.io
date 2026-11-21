@@ -38,9 +38,17 @@ Agenten
 brukar följa den. Om den missförstår raden eller har blivit vilseledd av text
 den har läst (del 5 beskrev hur) kan raden inte stoppa den. Anthropics
 [dokumentation](https://code.claude.com/docs/en/permissions) säger att
-instruktioner "påverkar vad Claude försöker göra men ändrar inte vad Claude Code
-tillåter", medan behörighetsregler "upprätthålls av Claude Code, inte av
-modellen" (vår översättning).
+behörighetsregler "upprätthålls av Claude Code, inte av modellen", medan
+instruktioner "påverkar vad Claude försöker göra men ändrar inte dessa regler"
+(vår översättning).
+
+Att styra med ord har blivit lättare: i Anthropics
+[promptguide](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices)
+står det att två av modellerna den nämner är mer lyhörda för systemprompten än
+tidigare modeller. Behovet av en gräns har inte försvunnit. Ju mindre ett
+verktyg frågar dig, som Claude Code gör i
+[auto mode](https://code.claude.com/docs/en/permission-modes) (del 6), desto
+viktigare blir gränserna du sätter i förväg.
 
 En gräns är en regel som kontrolleras utanför instruktionsfilen. Del 2 nämnde
 två sätt att få en: ett test i projektet och en inställning i verktyget.

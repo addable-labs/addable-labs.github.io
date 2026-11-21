@@ -7,6 +7,9 @@
 # quote and is marked as ours in the article. The three jobs were checked as
 # YAML and with actionlint, and were not run; the Codex step is assembled from
 # the action's list of settings.
+# Added on 21 November 2026 for the paragraph under "When nobody is there" on
+# what has changed in Claude Code: its first and last sentences are our own
+# summary of the permission-modes page, with the nearest quote.
 - id: P6-part1-places
   article: where-the-agent-runs
   sentence:
@@ -258,6 +261,90 @@
   quote: "Personal skills from your local computer aren't synced to cloud environments."
   retrieved: 2026-10-30
   last_checked: 2026-10-31
+
+- id: P6-auto-asked-less
+  article: where-the-agent-runs
+  sentence:
+    sv: "Claude Code frågar dig numera mer sällan"
+    en: "In Claude Code you are now asked less"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/permission-modes
+  final_url: https://code.claude.com/docs/en/permission-modes
+  quote: "Auto mode lets Claude execute without routine permission prompts."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
+
+- id: P6-auto-start
+  article: where-the-agent-runs
+  sentence:
+    sv: "en interaktiv session i terminalen eller i VS Code från version 2.1.283 som standard startar i auto mode, där en andra modell granskar åtgärderna i stället för dig, oavsett plan"
+    en: "from version 2.1.283 an interactive terminal or VS Code session starts by default in auto mode, where a second model reviews the actions instead of you, whatever your plan"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/permission-modes
+  final_url: https://code.claude.com/docs/en/permission-modes
+  quote: "With Claude Code v2.1.283 or later, auto mode is the built-in starting permission mode for interactive terminal and VS Code sessions on every plan and provider."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
+
+- id: P6-auto-start-model
+  article: where-the-agent-runs
+  sentence:
+    sv: "en interaktiv session i terminalen eller i VS Code från version 2.1.283 som standard startar i auto mode, där en andra modell granskar åtgärderna i stället för dig, oavsett plan"
+    en: "from version 2.1.283 an interactive terminal or VS Code session starts by default in auto mode, where a second model reviews the actions instead of you, whatever your plan"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/permission-modes
+  final_url: https://code.claude.com/docs/en/permission-modes
+  quote: "In auto mode, a second model, the classifier, reviews actions instead of you"
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
+
+- id: P6-auto-earlier-plans
+  article: where-the-agent-runs
+  sentence:
+    sv: "Tidigare versioner startade i auto mode bara på vissa planer"
+    en: "Earlier versions started in auto mode only on some plans"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/permission-modes
+  final_url: https://code.claude.com/docs/en/permission-modes
+  quote: "On earlier versions, it's the built-in starting permission mode only on Pro, Max, Ultra, and Team plans."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
+
+- id: P6-manual-asks
+  article: where-the-agent-runs
+  sentence:
+    sv: "På de andra frågade Claude Code före de flesta åtgärder"
+    en: "On the others Claude Code asked before most actions"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/permission-modes
+  final_url: https://code.claude.com/docs/en/permission-modes
+  quote: "In Manual mode, Claude Code stops and asks you before most actions that edit files, run shell commands, or reach the network."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
+
+- id: P6-manual-otherwise
+  article: where-the-agent-runs
+  sentence:
+    sv: "På de andra frågade Claude Code före de flesta åtgärder"
+    en: "On the others Claude Code asked before most actions"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/permission-modes
+  final_url: https://code.claude.com/docs/en/permission-modes
+  quote: "on earlier versions, auto on Pro, Max, Ultra, or Team plans in sessions that fetch feature flags, and default otherwise"
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
+
+- id: P6-auto-starting-point
+  article: where-the-agent-runs
+  sentence:
+    sv: "En agent som arbetar utan att en person godkänner varje steg är numera utgångsläget i Claude Code"
+    en: "An agent that works without a person approving each step is now Claude Code's starting point"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/permission-modes
+  final_url: https://code.claude.com/docs/en/permission-modes
+  quote: "auto mode is the built-in starting permission mode for interactive terminal and VS Code sessions"
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
 
 - id: P6-claude-p-denied
   article: where-the-agent-runs

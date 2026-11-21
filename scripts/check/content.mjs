@@ -50,7 +50,7 @@
 //   - both seed articles exist in both languages, the seed articles are
 //     300–600 English words of prose and every later article 300–1,500, the
 //     Gaimer article alone 300–1,850 (the founder's call, 26 September 2026)
-//     and parts 1, 2, 3, 4, 5, 6 and 7 of the series 300–1,600, 300–2,030, 300–2,320, 300–3,000, 300–3,820, 300–2,150 and 300–2,100 (his calls of
+//     and parts 1, 2, 3, 4, 5, 6 and 7 of the series 300–1,600, 300–2,030, 300–2,320, 300–3,000, 300–3,820, 300–2,150 and 300–2,150 (his calls of
 //     29–31 October 2026 and 3–5 November 2026, and the article's own length for parts 6 and 7;
 //     the figures' captions and diagram labels are not prose and do not count,
 //     si-55iu, and neither do tables' cells), a draft shows "Draft"/"Utkast" on its page, in the listings
@@ -135,7 +135,9 @@ const ARTICLE_SLUG = "how-this-site-was-built-by-agents";
 // (we-rz9d0) and to 2,096 in the second round (we-ju8nq; the gate now counts
 // 2,074, as it no longer takes the markup of a code block for words), to 2,100,
 // above its measured count, the article's own length (15 November 2026,
-// si-yakv); every other article keeps 1,500.
+// si-yakv), and to 2,150, above its 2,138, once it said how this has changed
+// since early 2026 (21 November 2026, we-x414m); every other article keeps
+// 1,500.
 const SEED_ARTICLES = new Set([ARTICLE_SLUG, "lessons-from-building-niva"]);
 const WORD_RANGE = { seed: [300, 600], other: [300, 1500] };
 const WORD_CEILING = new Map([
@@ -146,7 +148,7 @@ const WORD_CEILING = new Map([
   ["skills-for-repeatable-work", 3000],
   ["mcp-reaching-your-systems", 3820],
   ["where-the-agent-runs", 2150],
-  ["set-the-limits-in-advance", 2100],
+  ["set-the-limits-in-advance", 2150],
 ]);
 
 async function page(relPath) {

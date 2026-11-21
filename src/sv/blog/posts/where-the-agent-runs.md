@@ -85,9 +85,18 @@ molnuppgifter. Personliga skills från din dator synkas inte.
 
 ## När ingen är med
 
-I editorn finns du där och kan svara när agenten stannar och frågar. Ett jobb
-som startar på schema har ingen som kan svara. Som standard kan ett jobb i
-[Claude Code](https://code.claude.com/docs/en/permission-modes),
+I editorn finns du där och kan svara när agenten stannar och frågar. Claude Code
+frågar dig numera mer sällan. I november 2026 beskriver Anthropics
+[dokumentation](https://code.claude.com/docs/en/permission-modes) att en
+interaktiv session i terminalen eller i VS Code från version 2.1.283 som
+standard startar i auto mode, där en andra modell granskar åtgärderna i stället
+för dig, oavsett plan. Tidigare versioner startade i auto mode bara på vissa
+planer. På de andra frågade Claude Code före de flesta åtgärder. En agent som
+arbetar utan att en person godkänner varje steg är numera utgångsläget i Claude
+Code.
+
+Ett jobb som startar på schema har ingen som kan svara. Som standard kan ett
+jobb i [Claude Code](https://code.claude.com/docs/en/permission-modes),
 [Codex](https://learn.chatgpt.com/docs/non-interactive-mode) och
 [GitHub Copilot](https://docs.github.com/en/copilot/how-tos/copilot-cli/automate-copilot-cli/run-cli-programmatically)
 bara göra det som tillåtits innan det startade, så det första jobbet ska bara
