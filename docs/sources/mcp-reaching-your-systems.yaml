@@ -2314,8 +2314,8 @@
 - id: P5-st-mcptox-third
   article: mcp-reaching-your-systems
   sentence:
-    sv: "I genomsnitt lyckades attacken i ungefär en tredjedel av fallen (36,5 %)"
-    en: "On average the attack succeeded in about a third of the cases (36.5%)"
+    sv: "I genomsnitt lyckades attacken i drygt en tredjedel av fallen (36,5 %)"
+    en: "On average the attack succeeded in just over a third of the cases (36.5%)"
   vendor: Chinese university group (arXiv)
   url: https://arxiv.org/html/2508.14925v2
   final_url: https://arxiv.org/html/2508.14925v2
@@ -2518,7 +2518,7 @@
 - id: P5-st-msb-instances
   article: mcp-reaching-your-systems
   sentence:
-    sv: "12 typer av attack, sammanlagt 2 000 attackförsök, mot tio modeller"
+    sv: "12 typer av attack, sammanlagt 2 000 testfall, mot tio modeller"
     en: "12 types of attack, 2,000 attack instances in all, against ten models"
   vendor: MSB authors (arXiv)
   url: https://arxiv.org/html/2510.15994v2
@@ -2542,7 +2542,7 @@
 - id: P5-st-msb-types
   article: mcp-reaching-your-systems
   sentence:
-    sv: "12 typer av attack, sammanlagt 2 000 attackförsök, mot tio modeller"
+    sv: "12 typer av attack, sammanlagt 2 000 testfall, mot tio modeller"
     en: "12 types of attack, 2,000 attack instances in all, against ten models"
   vendor: MSB authors (arXiv)
   url: https://arxiv.org/html/2510.15994v2
@@ -2614,7 +2614,7 @@
 - id: P5-st-msb-fifths
   article: mcp-reaching-your-systems
   sentence:
-    sv: "I genomsnitt över attacktyperna lyckades ungefär två attacker av fem (40,35 %)"
+    sv: "I genomsnitt över attacktyperna lyckades ungefär två av fem attacker (40,35 %)"
     en: "On average across its types of attack, about two attacks in five succeeded (40.35%)"
   vendor: MSB authors (arXiv)
   url: https://arxiv.org/html/2510.15994v2
@@ -2782,7 +2782,7 @@
 - id: P5-st-hasan-code
   article: mcp-reaching-your-systems
   sentence:
-    sv: "En studie av 583 MCP-servrar med öppen källkod granskade serverernas kod"
+    sv: "En studie av 583 MCP-servrar med öppen källkod granskade servrarnas kod"
     en: "A study of 583 open-source MCP servers analysed the servers' code"
   vendor: Hasan et al. (arXiv)
   url: https://arxiv.org/html/2506.13538v5
@@ -2815,11 +2815,23 @@
   retrieved: 2026-11-05
   last_checked: 2026-11-05
 
+- id: P5-st-hasan-vuln-table
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Ett verktyg för statisk analys hittade minst en säkerhetsbrist i 7,2 % av servrarna"
+    en: "A static analysis tool found at least one security vulnerability in 7.2% of the servers"
+  vendor: Hasan et al. (arXiv)
+  url: https://arxiv.org/html/2506.13538v5
+  final_url: https://arxiv.org/html/2506.13538v5
+  quote: "7.2% of MCP server repositories contain at least one security vulnerability, with half of these affected by credential exposure."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
+
 - id: P5-st-hasan-cred
   article: mcp-reaching-your-systems
   sentence:
-    sv: "Hälften av dem gällde exponerade inloggningsuppgifter"
-    en: "Half of those were credential exposure"
+    sv: "Hälften av dem hade exponerade inloggningsuppgifter"
+    en: "Half of those had exposed credentials"
   vendor: Hasan et al. (arXiv)
   url: https://arxiv.org/html/2506.13538v5
   final_url: https://arxiv.org/html/2506.13538v5
