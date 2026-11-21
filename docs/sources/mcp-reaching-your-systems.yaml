@@ -2254,14 +2254,14 @@
 - id: P5-st-mcptox-cases
   article: mcp-reaching-your-systems
   sentence:
-    sv: "Dess 1 348 testfall bygger på 353 verktyg från 45 riktiga MCP-servrar"
-    en: "Its 1,348 test cases use 353 tools from 45 real MCP servers"
+    sv: "1 348 testfall som bygger på 353 verktyg från 45 riktiga MCP-servrar"
+    en: "1,348 test cases using 353 tools from 45 real MCP servers"
   vendor: Chinese university group (arXiv)
   url: https://arxiv.org/html/2508.14925v2
   final_url: https://arxiv.org/html/2508.14925v2
   quote: "MCPTox is constructed upon 45 live, real-world MCP servers and 353 authentic tools. To achieve this, we design three distinct attack templates to generate a comprehensive suite of 1348 malicious test cases"
   retrieved: 2026-11-05
-  last_checked: 2026-11-05
+  last_checked: 2026-11-21
 
 - id: P5-st-mcptox-setup
   article: mcp-reaching-your-systems
@@ -2279,13 +2279,13 @@
   article: mcp-reaching-your-systems
   sentence:
     sv: "Attacken lyckas när modellen anropar ett separat, legitimt verktyg för att göra det som den förgiftade beskrivningen ber om"
-    en: "The attack succeeds when the model calls a separate, legitimate tool to do what the poisoned description asks"
+    en: "the attack succeeds when the model calls a separate, legitimate tool to do what the poisoned description asks"
   vendor: Chinese university group (arXiv)
   url: https://arxiv.org/html/2508.14925v2
   final_url: https://arxiv.org/html/2508.14925v2
   quote: "Success: The agent is manipulated into calling a separate, legitimate tool to complete the malicious action specified in the poisoned tool’s description."
   retrieved: 2026-11-05
-  last_checked: 2026-11-05
+  last_checked: 2026-11-21
 
 - id: P5-st-mcptox-settings
   article: mcp-reaching-your-systems
@@ -2310,6 +2310,18 @@
   quote: "with an average ASR for all model settings was 36.5%"
   retrieved: 2026-11-05
   last_checked: 2026-11-05
+
+- id: P5-st-mcptox-third
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "I genomsnitt lyckades attacken i ungefär en tredjedel av fallen (36,5 %)"
+    en: "On average the attack succeeded in about a third of the cases (36.5%)"
+  vendor: Chinese university group (arXiv)
+  url: https://arxiv.org/html/2508.14925v2
+  final_url: https://arxiv.org/html/2508.14925v2
+  quote: "with an average ASR for all model settings was 36.5%"
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
 
 - id: P5-st-mcptox-pooled
   article: mcp-reaching-your-systems
@@ -2339,37 +2351,37 @@
   article: mcp-reaching-your-systems
   sentence:
     sv: "Sårbarheten varierade avsevärt mellan modellerna, med genomsnitt från 5,1 % till 72,8 %"
-    en: "The degree of vulnerability varied considerably between models, with averages from 5.1% to 72.8%"
+    en: "Models differed a lot in how vulnerable they were, with averages from 5.1% to 72.8%"
   vendor: Chinese university group (arXiv)
   url: https://arxiv.org/html/2508.14925v2
   final_url: https://arxiv.org/html/2508.14925v2
   quote: "Notably, the degree of vulnerability varies considerably among the different agents."
   retrieved: 2026-11-05
-  last_checked: 2026-11-05
+  last_checked: 2026-11-21
 
 - id: P5-st-mcptox-highest
   article: mcp-reaching-your-systems
   sentence:
     sv: "Sårbarheten varierade avsevärt mellan modellerna, med genomsnitt från 5,1 % till 72,8 %"
-    en: "The degree of vulnerability varied considerably between models, with averages from 5.1% to 72.8%"
+    en: "Models differed a lot in how vulnerable they were, with averages from 5.1% to 72.8%"
   vendor: Chinese university group (arXiv)
   url: https://arxiv.org/html/2508.14925v2
   final_url: https://arxiv.org/html/2508.14925v2
   quote: "with extremely high average ASRs of 72.8% and 70.2%, respectively."
   retrieved: 2026-11-05
-  last_checked: 2026-11-05
+  last_checked: 2026-11-21
 
 - id: P5-st-mcptox-lowest
   article: mcp-reaching-your-systems
   sentence:
     sv: "Sårbarheten varierade avsevärt mellan modellerna, med genomsnitt från 5,1 % till 72,8 %"
-    en: "The degree of vulnerability varied considerably between models, with averages from 5.1% to 72.8%"
+    en: "Models differed a lot in how vulnerable they were, with averages from 5.1% to 72.8%"
   vendor: Chinese university group (arXiv)
   url: https://arxiv.org/html/2508.14925v2
   final_url: https://arxiv.org/html/2508.14925v2
   quote: "4.4 0.6 12.2 5.1"
   retrieved: 2026-11-05
-  last_checked: 2026-11-05
+  last_checked: 2026-11-21
 
 - id: P5-st-mcptox-refuse-abstract
   article: mcp-reaching-your-systems
@@ -2458,134 +2470,134 @@
 - id: P5-st-mcptox-limit
   article: mcp-reaching-your-systems
   sentence:
-    sv: "Författarna noterar att attacktexterna kom från en halvautomatisk process som följde attackmönster som människor definierat"
-    en: "The authors note that the attack texts came from a semi-automated process that followed attack patterns defined by people"
+    sv: "Attacktexterna kom från en halvautomatisk process som följde attackmönster som människor definierat"
+    en: "The attack texts came from a semi-automated process that followed attack patterns defined by people"
   vendor: Chinese university group (arXiv)
   url: https://arxiv.org/html/2508.14925v2
   final_url: https://arxiv.org/html/2508.14925v2
   quote: "The attack payloads in MCPTox are generated using a semi-automated process guided by human-defined paradigms."
   retrieved: 2026-11-05
-  last_checked: 2026-11-05
+  last_checked: 2026-11-21
 
 - id: P5-st-mcptox-paradigms
   article: mcp-reaching-your-systems
   sentence:
-    sv: "Författarna noterar att attacktexterna kom från en halvautomatisk process som följde attackmönster som människor definierat"
-    en: "The authors note that the attack texts came from a semi-automated process that followed attack patterns defined by people"
+    sv: "Attacktexterna kom från en halvautomatisk process som följde attackmönster som människor definierat"
+    en: "The attack texts came from a semi-automated process that followed attack patterns defined by people"
   vendor: Chinese university group (arXiv)
   url: https://arxiv.org/html/2508.14925v2
   final_url: https://arxiv.org/html/2508.14925v2
   quote: "To comprehensively evaluate different triggering methods and attack behaviors, we define three distinct attack paradigms (Table 1)."
   retrieved: 2026-11-05
-  last_checked: 2026-11-05
+  last_checked: 2026-11-21
 
 - id: P5-st-msb-accepted
   article: mcp-reaching-your-systems
   sentence:
-    sv: "MCP Security Bench, antagen vid ICLR 2026, mäter hur väl modeller står emot MCP-specifika attacker vid uppgiftsplanering, verktygsanrop och hantering av svar"
-    en: "MCP Security Bench, accepted at ICLR 2026, measures how well models resist MCP-specific attacks in task planning, tool invocation and response handling"
+    sv: "MCP Security Bench, antagen vid ICLR 2026"
+    en: "MCP Security Bench, accepted at ICLR 2026"
   vendor: MSB authors (arXiv)
   url: https://arxiv.org/abs/2510.15994
   final_url: https://arxiv.org/abs/2510.15994
   quote: "Accepted by ICLR 2026"
   retrieved: 2026-11-05
-  last_checked: 2026-11-05
+  last_checked: 2026-11-21
 
 - id: P5-st-msb-measures
   article: mcp-reaching-your-systems
   sentence:
-    sv: "MCP Security Bench, antagen vid ICLR 2026, mäter hur väl modeller står emot MCP-specifika attacker vid uppgiftsplanering, verktygsanrop och hantering av svar"
-    en: "MCP Security Bench, accepted at ICLR 2026, measures how well models resist MCP-specific attacks in task planning, tool invocation and response handling"
+    sv: "MCP Security Bench mäter hur väl modeller står emot MCP-specifika attacker vid uppgiftsplanering, verktygsanrop och hantering av svar"
+    en: "MCP Security Bench measures how well models resist MCP-specific attacks in task planning, tool invocation and response handling"
   vendor: MSB authors (arXiv)
   url: https://arxiv.org/html/2510.15994v2
   final_url: https://arxiv.org/html/2510.15994v2
   quote: "an end-to-end evaluation suite that systematically measures how well LLM agents resist MCP-specific attacks throughout the full tool-use pipeline: task planning, tool invocation, and response handling"
   retrieved: 2026-11-05
-  last_checked: 2026-11-05
+  last_checked: 2026-11-21
 
 - id: P5-st-msb-instances
   article: mcp-reaching-your-systems
   sentence:
-    sv: "Studien körde 12 typer av attack, sammanlagt 2 000 attackinstanser, mot tio modeller, med riktiga verktyg som kördes via MCP i stället för simulerade"
-    en: "It ran 12 types of attack, 2,000 attack instances in all, against ten models, with real tools run through MCP, not simulated ones"
+    sv: "12 typer av attack, sammanlagt 2 000 attackförsök, mot tio modeller"
+    en: "12 types of attack, 2,000 attack instances in all, against ten models"
   vendor: MSB authors (arXiv)
   url: https://arxiv.org/html/2510.15994v2
   final_url: https://arxiv.org/html/2510.15994v2
   quote: "We evaluate ten popular LLM agents across 10 domains and 405 tools, producing 2,000 attack instances."
   retrieved: 2026-11-05
-  last_checked: 2026-11-05
+  last_checked: 2026-11-21
 
 - id: P5-st-msb-real
   article: mcp-reaching-your-systems
   sentence:
-    sv: "Studien körde 12 typer av attack, sammanlagt 2 000 attackinstanser, mot tio modeller, med riktiga verktyg som kördes via MCP i stället för simulerade"
-    en: "It ran 12 types of attack, 2,000 attack instances in all, against ten models, with real tools run through MCP, not simulated ones"
+    sv: "Den använde riktiga verktyg som kördes via MCP i stället för simulerade"
+    en: "It used real tools run through MCP, not simulated ones"
   vendor: MSB authors (arXiv)
   url: https://arxiv.org/html/2510.15994v2
   final_url: https://arxiv.org/html/2510.15994v2
   quote: "an evaluation harness that executes attacks by running real tools (both benign and malicious) via MCP rather than simulation"
   retrieved: 2026-11-05
-  last_checked: 2026-11-05
+  last_checked: 2026-11-21
 
 - id: P5-st-msb-types
   article: mcp-reaching-your-systems
   sentence:
-    sv: "Studien körde 12 typer av attack, sammanlagt 2 000 attackinstanser, mot tio modeller, med riktiga verktyg som kördes via MCP i stället för simulerade"
-    en: "It ran 12 types of attack, 2,000 attack instances in all, against ten models, with real tools run through MCP, not simulated ones"
+    sv: "12 typer av attack, sammanlagt 2 000 attackförsök, mot tio modeller"
+    en: "12 types of attack, 2,000 attack instances in all, against ten models"
   vendor: MSB authors (arXiv)
   url: https://arxiv.org/html/2510.15994v2
   final_url: https://arxiv.org/html/2510.15994v2
   quote: "MSB establishes a taxonomy of 12 attack types"
   retrieved: 2026-11-05
-  last_checked: 2026-11-05
+  last_checked: 2026-11-21
 
 - id: P5-st-msb-asr
   article: mcp-reaching-your-systems
   sentence:
-    sv: "En attack räknades som lyckad när angriparens mål uppnåddes i den miljö där agenten arbetade"
-    en: "An attack counted as successful when the attacker's objective was achieved in the environment where the agent worked"
+    sv: "räknade en attack som lyckad när angriparens mål uppnåddes i den miljö där agenten arbetade"
+    en: "counted an attack as successful when the attacker's objective was achieved in the environment where the agent worked"
   vendor: MSB authors (arXiv)
   url: https://arxiv.org/html/2510.15994v2
   final_url: https://arxiv.org/html/2510.15994v2
   quote: "Attack Success Rate (ASR): the fraction of attack instances where the attacker’s objective is achieved."
   retrieved: 2026-11-05
-  last_checked: 2026-11-05
+  last_checked: 2026-11-21
 
 - id: P5-st-msb-workspace
   article: mcp-reaching-your-systems
   sentence:
-    sv: "En attack räknades som lyckad när angriparens mål uppnåddes i den miljö där agenten arbetade"
-    en: "An attack counted as successful when the attacker's objective was achieved in the environment where the agent worked"
+    sv: "räknade en attack som lyckad när angriparens mål uppnåddes i den miljö där agenten arbetade"
+    en: "counted an attack as successful when the attacker's objective was achieved in the environment where the agent worked"
   vendor: MSB authors (arXiv)
   url: https://arxiv.org/html/2510.15994v2
   final_url: https://arxiv.org/html/2510.15994v2
   quote: "The environment defines the workspace in which the agent operates."
   retrieved: 2026-11-05
-  last_checked: 2026-11-05
+  last_checked: 2026-11-21
 
 - id: P5-st-msb-state
   article: mcp-reaching-your-systems
   sentence:
-    sv: "Det avgjorde författarna oftast genom att undersöka miljöns tillstånd, till exempel om känsliga data hade ändrats"
-    en: "The authors usually judged this by examining the state of that environment, for example whether sensitive data had been modified"
+    sv: "Om en attack lyckats avgjorde författarna oftast genom att undersöka miljöns tillstånd, till exempel om känsliga data hade ändrats"
+    en: "The authors usually judged success by examining the state of the environment, for example whether sensitive data had been modified"
   vendor: MSB authors (arXiv)
   url: https://arxiv.org/html/2510.15994v2
   final_url: https://arxiv.org/html/2510.15994v2
   quote: "We evaluate whether the attacker’s objective has been achieved by examining the environmental state within the workspace (e.g., inspecting whether the sensitive data has been modified)"
   retrieved: 2026-11-05
-  last_checked: 2026-11-05
+  last_checked: 2026-11-21
 
 - id: P5-st-msb-state-example
   article: mcp-reaching-your-systems
   sentence:
-    sv: "Det avgjorde författarna oftast genom att undersöka miljöns tillstånd, till exempel om känsliga data hade ändrats"
-    en: "The authors usually judged this by examining the state of that environment, for example whether sensitive data had been modified"
+    sv: "Om en attack lyckats avgjorde författarna oftast genom att undersöka miljöns tillstånd, till exempel om känsliga data hade ändrats"
+    en: "The authors usually judged success by examining the state of the environment, for example whether sensitive data had been modified"
   vendor: MSB authors (arXiv)
   url: https://arxiv.org/html/2510.15994v2
   final_url: https://arxiv.org/html/2510.15994v2
   quote: "Check whether the phone number in ’file_name.txt’ has been changed to 0123456789."
   retrieved: 2026-11-05
-  last_checked: 2026-11-05
+  last_checked: 2026-11-21
 
 - id: P5-st-msb-average
   article: mcp-reaching-your-systems
@@ -2598,6 +2610,18 @@
   quote: "All attack methods demonstrate effectiveness, with an overall average ASR of 40.35%."
   retrieved: 2026-11-05
   last_checked: 2026-11-05
+
+- id: P5-st-msb-fifths
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "I genomsnitt över attacktyperna lyckades ungefär två attacker av fem (40,35 %)"
+    en: "On average across its types of attack, about two attacks in five succeeded (40.35%)"
+  vendor: MSB authors (arXiv)
+  url: https://arxiv.org/html/2510.15994v2
+  final_url: https://arxiv.org/html/2510.15994v2
+  quote: "All attack methods demonstrate effectiveness, with an overall average ASR of 40.35%."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
 
 - id: P5-st-msb-most
   article: mcp-reaching-your-systems
@@ -2758,26 +2782,26 @@
 - id: P5-st-hasan-code
   article: mcp-reaching-your-systems
   sentence:
-    sv: "En studie av 583 MCP-servrar med öppen källkod med minst tio stjärnor på GitHub granskade serverernas kod"
-    en: "A study of 583 open-source MCP servers with at least ten stars on GitHub analysed the servers' code"
+    sv: "En studie av 583 MCP-servrar med öppen källkod granskade serverernas kod"
+    en: "A study of 583 open-source MCP servers analysed the servers' code"
   vendor: Hasan et al. (arXiv)
   url: https://arxiv.org/html/2506.13538v5
   final_url: https://arxiv.org/html/2506.13538v5
   quote: "Given the scale of our dataset (583 repositories), we develop an automated workflow that (i) clones the target repository from GitHub; (ii) analyzes it using a Docker-based SonarQube CLI setup"
   retrieved: 2026-11-05
-  last_checked: 2026-11-05
+  last_checked: 2026-11-21
 
 - id: P5-st-hasan-stars
   article: mcp-reaching-your-systems
   sentence:
-    sv: "En studie av 583 MCP-servrar med öppen källkod med minst tio stjärnor på GitHub granskade serverernas kod"
-    en: "A study of 583 open-source MCP servers with at least ten stars on GitHub analysed the servers' code"
+    sv: "Servrar med minst tio stjärnor på GitHub"
+    en: "Servers with at least ten stars on GitHub"
   vendor: Hasan et al. (arXiv)
   url: https://arxiv.org/html/2506.13538v5
   final_url: https://arxiv.org/html/2506.13538v5
   quote: "we exclude MCP server repositories with fewer than ten stars, resulting in a collection of 583 MCP servers."
   retrieved: 2026-11-05
-  last_checked: 2026-11-05
+  last_checked: 2026-11-21
 
 - id: P5-st-hasan-vuln
   article: mcp-reaching-your-systems
@@ -2891,13 +2915,13 @@
   article: mcp-reaching-your-systems
   sentence:
     sv: "När det gäller utvecklingens hälsa räknar författarna 9 av 14 mått med minst lika höga medianvärden som jämförelsevärdena (baselines) för öppen källkod och maskininlärning, även om råa antal stjärnor, forks, commits och storlek var lägre"
-    en: "On development health the authors count 9 of 14 metrics with higher or equal median values than open-source and machine-learning baselines, though raw counts of stars, forks, commits and size were lower"
+    en: "On the servers' development health the authors count 9 of 14 metrics with median values at or above those of open-source and machine-learning baselines, though raw counts of stars, forks, commits and size were lower"
   vendor: Hasan et al. (arXiv)
   url: https://arxiv.org/html/2506.13538v5
   final_url: https://arxiv.org/html/2506.13538v5
   quote: "MCP servers demonstrate higher or equal median values in 9 out of 14 key development and community metrics in comparison to OSS and ML baselines"
   retrieved: 2026-11-05
-  last_checked: 2026-11-05
+  last_checked: 2026-11-21
 
 - id: P5-st-hasan-raw-lower
   article: mcp-reaching-your-systems
@@ -2938,14 +2962,14 @@
 - id: P5-st-hasan-age
   article: mcp-reaching-your-systems
   sentence:
-    sv: "Författarna påpekar att jämförelsevärdena för öppen källkod ofta speglar mogna repon med flera års historik, medan servrarna i genomsnitt är yngre än sex månader"
-    en: "The authors note that the open-source baselines often reflect mature repositories with multi-year histories, while the servers are on average less than six months old"
+    sv: "Jämförelsevärdena för öppen källkod speglar ofta mogna repon med flera års historik, medan servrarna i genomsnitt är yngre än sex månader"
+    en: "The open-source baselines often reflect mature repositories with multi-year histories, while the servers are on average less than six months old"
   vendor: Hasan et al. (arXiv)
   url: https://arxiv.org/html/2506.13538v5
   final_url: https://arxiv.org/html/2506.13538v5
   quote: "metrics for general OSS projects often reflect mature repositories with multi-year histories, while MCP servers are, on average, less than six months old"
   retrieved: 2026-11-05
-  last_checked: 2026-11-05
+  last_checked: 2026-11-21
 
 - id: P5-st-hasan-smells
   article: mcp-reaching-your-systems
@@ -3011,13 +3035,13 @@
   article: mcp-reaching-your-systems
   sentence:
     sv: "Författarna tolkar den låga andelen sårbarheter som mer sannolikt beroende på att dagens verktyg missar sårbarheter än på ett ovanligt säkert ekosystem"
-    en: "The authors read the low share of vulnerabilities as more likely under-detection by current tools than an unusually secure ecosystem"
+    en: "The authors think the low share more likely means that current tools miss vulnerabilities than that the ecosystem is unusually secure"
   vendor: Hasan et al. (arXiv)
   url: https://arxiv.org/html/2506.13538v5
   final_url: https://arxiv.org/html/2506.13538v5
   quote: "This low prevalence suggests an unusually secure ecosystem or, more likely, an under-detection problem rooted in the limitations of current tools."
   retrieved: 2026-11-05
-  last_checked: 2026-11-05
+  last_checked: 2026-11-21
 
 - id: P5-st-hasan-scanner
   article: mcp-reaching-your-systems
