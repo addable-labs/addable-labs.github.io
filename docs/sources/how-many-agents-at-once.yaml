@@ -1,0 +1,78 @@
+# The sources of "How many agents the factory runs at once" (both languages): one
+# entry per sentence that rests on a vendor's page or on one of the site's published
+# articles, for the monthly source check. The factory's own numbers rest on the
+# measurements of 26 September, 6 October and 21 November 2026 and are not listed. Every
+# quote was taken from its page on 2026-11-21. "The study shows the effect on cost" is
+# our summary of the study's finding on handing off later.
+
+- id: A1-worktrees
+  article: how-many-agents-at-once
+  sentence:
+    sv: "Guiden till arbetskataloger i Codex säger att samma isolering låter flera chattar arbeta i ett projekt \"utan att störa varandra\""
+    en: "Codex's guide to worktrees says the same isolation lets several chats work in one project \"without interfering with each other\""
+  vendor: OpenAI
+  url: https://learn.chatgpt.com/docs/environments/git-worktrees
+  final_url: https://learn.chatgpt.com/docs/environments/git-worktrees
+  quote: "Worktrees let Codex run multiple independent chats in the same project without interfering with each other."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
+
+- id: A2-parallel-tokens
+  article: how-many-agents-at-once
+  sentence:
+    sv: "Claude Codes guide till att köra agenter parallellt varnar för att flera sessioner samtidigt mångdubblar tokenanvändningen"
+    en: "Claude Code's guide to running agents in parallel warns that running several sessions at once multiplies token usage"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/agents
+  final_url: https://code.claude.com/docs/en/agents
+  quote: "Running several sessions or subagents at once multiplies token usage."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
+
+- id: A3-idle-compaction
+  article: how-many-agents-at-once
+  sentence:
+    sv: "Sedan oktober har Claude Code också komprimerat en lång konversation som ligger overksam i ungefär en timme, innan dess cache löper ut"
+    en: "Since October, Claude Code has also compacted a long conversation that sits idle for about an hour, before its cache expires"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/settings-reference
+  final_url: https://code.claude.com/docs/en/settings-reference
+  quote: "Idle compaction compacts a long conversation that you've stepped away from. Your next message then sends a summary instead of the whole conversation."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
+
+- id: A3-idle-hour
+  article: how-many-agents-at-once
+  sentence:
+    sv: "Sedan oktober har Claude Code också komprimerat en lång konversation som ligger overksam i ungefär en timme, innan dess cache löper ut"
+    en: "Since October, Claude Code has also compacted a long conversation that sits idle for about an hour, before its cache expires"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/settings-reference
+  final_url: https://code.claude.com/docs/en/settings-reference
+  quote: "about an hour has passed since the last request, and your computer stays awake until then"
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
+
+- id: A3-idle-changelog
+  article: how-many-agents-at-once
+  sentence:
+    sv: "Sedan oktober har Claude Code också komprimerat en lång konversation som ligger overksam i ungefär en timme, innan dess cache löper ut"
+    en: "Since October, Claude Code has also compacted a long conversation that sits idle for about an hour, before its cache expires"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/changelog
+  final_url: https://code.claude.com/docs/en/changelog
+  quote: "Added idle compaction in the terminal: a 200K+ token conversation left idle for about 54 minutes is compacted before its one-hour prompt cache expires, so your next message doesn't reprocess it all"
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
+
+- id: A4-study-cost
+  article: how-many-agents-at-once
+  sentence:
+    sv: "visar effekten på kostnaden"
+    en: "shows the effect on cost"
+  vendor: Addable Labs
+  url: https://addablelabs.se/blog/what-the-mayors-context-costs/
+  final_url: https://addablelabs.se/blog/what-the-mayors-context-costs/
+  quote: "The price of handing off later was a longer context on every call."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21

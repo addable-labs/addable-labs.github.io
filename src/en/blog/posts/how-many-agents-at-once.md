@@ -1,6 +1,6 @@
 ---
 title: How many agents the factory runs at once
-description: The two limits on how much the factory behind this site does at once, what two workers per project measured on 26 September 2026, what a start of the mayor and a landed change cost then and now, and the step to five.
+description: What a second coding agent per project changed in the factory behind this site on 26 September 2026, what three at once did on 15 November, and what a start of the mayor and a landed change cost from September to November.
 image: cover.png                 # a 1200 × 630 PNG in the article's media directory
 imageAlt: "Five lanes for workers, two of them busy in green and three empty, and to the right one lock that lets a single browser job through at a time: the first lane's job holds it while the second lane's waits in orange."
 date: 2026-10-06
@@ -11,170 +11,203 @@ aiGenerated: true                # AI produced this text
 humanReviewed: false             # nobody has read it yet
 ---
 
-## Summary
+Claude Code and Codex both let one person run several coding agents at once. For
+someone who already works with one, that raises a plain question: if more agents
+work at once, does more get done, and what stops it?
 
-Two limits decide how much [the
-factory](/blog/why-we-run-an-agent-run-factory/) behind this site does at
-once: how many tokens one agent session holds before it hands its work to a
-new one, and how many workers run in one project at a time. A worker is an
-agent session that takes one bead, a task in the factory's tracker, and
-delivers it. Gas City calls a project a rig; this article says project.
+The factory behind this site, described in
+[Why we run an agent-run software factory](/blog/why-we-run-an-agent-run-factory/),
+has measured part of the answer. Its workers are agent sessions that each take
+one task from the factory's tracker and deliver it. On 26 September 2026 the
+factory went from one worker per project to two. On this site a change was then
+finished every 26 minutes instead of every 44 while a worker ran, and the second
+worker did not make a change dearer in tokens. More got done.
 
-The second limit was one worker per project until 26 September 2026, two from
-then and five since 6 October. With two came a rule: a job that starts a
-browser waits its turn for a single lock. On 26 September four pairs of
-workers ran side by side on this site and met once, in a shared note; 17 of 97
-browser jobs waited for the lock, 43 minutes in all, and while a worker ran, a
-change was finished every 26 minutes instead of every 44.
+Practitioners name two limits above all: merging the agents' work and reviewing
+it. Neither held these two workers back. They never collided in git, and the
+founder does not review every change. The limit lay in what they shared: one
+lock for every job that starts a browser, the full test runs that queued for it
+and the memory of one computer.
 
-On 28 September the mayor, the agent that coordinates the factory, measured
-what a start of one of its sessions and a landed change cost. Measured again
-on 6 October, a start took 108,300 tokens instead of 30,600: the factory had
-little work and the mayor waited before acting, while the start itself hardly
-grew. Five workers have not yet run side by side.
+On 15 November three workers ran side by side on this site, the most the
+remaining records show. The lock set the pace again: 18 of that day's 62 browser
+jobs waited for it, 245 minutes in all. Five at once, allowed since 6 October,
+is still to come.
 
-## Two limits
+## The ceiling rose from one worker to five in ten days
 
-The first limit is per session. The factory's settings give the model's
-window as 1,000,000 tokens. Gas City advises a session to hand off from 25% of
-it, 250,000 tokens, and urges it from 30%, 300,000: the founder's call on 23
-September. What the hand-off point does to a session's cost is the subject of
-[A study of the mayor's context](/blog/what-the-mayors-context-costs/).
+In November 2026 the factory still has three projects on one computer with 24 GB
+of memory: this site, [Gaimer](https://github.com/addable-labs/gaimer) and its
+own private repository. All of November's work went to this site, where five
+more agents write, check and edit the articles. The mayor, the agent that
+coordinates the factory, starts a worker only when it has a task for one, so the
+number of workers per project is a ceiling, not a target.
 
-The second limit is per project: how many implementation workers may run at
-once. It is a ceiling, not a target. A worker starts only when the mayor
-dispatches a bead to it, so on a quiet day none runs. The factory now works on
-three projects, this site, [Gaimer](https://github.com/addable-labs/gaimer)
-and its own private repository, all on one computer with 24 GB of memory.
+The ceiling began at one worker per project. On 26 September the founder asked
+for a second, and minutes later the mayor raised it to two in this site and
+Gaimer. The factory's own repository became the third project on 29 September.
+On 6 October the founder asked for five agents and the ceiling became five in
+each project; that evening he also added a writer, a fact checker and a Swedish
+editor, and an English editor and a researcher followed within a day.
 
-## One worker, then two
+A second limit applies to each session. The factory's settings give the model a
+window of 1,000,000 tokens, and Gas City, the orchestrator the factory runs on,
+advises a session to hand its work to a new one from 25% of it and urges it from
+30%. [A study of the mayor's context](/blog/what-the-mayors-context-costs/)
+shows the effect on cost. Since October, Claude Code has also
+[compacted a long conversation that sits idle for about an hour](https://code.claude.com/docs/en/settings-reference#idlecompaction),
+before its cache expires, so one of the mayor's sessions lasted from 31 October
+to 15 November.
 
-On 26 September at 09:59 UTC the founder wrote: "I think we should try adding
-another agent per rig and see how that affects performance. The verification
-jobs should be sequenced somehow so we don't run too many chrome instances".
-At 10:06 the mayor raised the ceiling to two in both projects of the time.
-Every verification job that starts Chrome or WebKit, such as a check or test
-run of the site, went through one lock: one job at a time across the factory,
-every wait and run logged. A sampler logged the machine's load, memory, swap
-and browser processes every minute from 10:05 to 16:59.
+## A second worker raised the pace
 
-That evening the founder set the rule for judging the change: measure finished
-sessions, their tokens, time, waits and failures, and whether the workers got
+On 26 September the founder wrote: "I think we should try adding another agent
+per rig and see how that affects performance. The verification jobs should be
+sequenced somehow so we don't run too many chrome instances". Gas City calls a
+project a rig. The mayor raised the ceiling to two, and from then on every job
+that starts Chrome or WebKit, such as a check or a test run of the site, went
+through one lock: one job at a time across the factory, with every wait and run
+logged. A sampler logged the computer's load, memory, swap and browser processes
+every minute that day.
+
+That evening the founder set the rule for judging the step: measure finished
+sessions — their tokens, time, waits and failures — and whether the workers got
 in each other's way, with no made-up tests or replays.
 
-| This site's workers | One worker | Two workers |
-| --- | ---: | ---: |
-| Finished sessions | 17 | 8 |
-| Changes finished | 13 | 11 |
-| Tokens per change, median (millions) | 26.3 | 19.2 |
-| Session minutes per change | 44 | 39 |
-| Minutes with a worker running, per change | 44 | 26 |
+| This site's workers | One worker, 25–26 Sep | Two workers, 26 Sep | Alone, 14–20 Nov | Three side by side, 15 Nov |
+| --- | ---: | ---: | ---: | ---: |
+| Finished sessions | 17 | 8 | 11 | 3 |
+| Changes finished | 13 | 11 | 12 | 3 |
+| Tokens per change, median (millions) | 26.3 | 19.2 | 7.9 | 16.1 |
+| Session minutes per change | 44 | 39 | 29 | 166 |
+| Minutes with a worker running, per change | 44 | 26 | 29 | 74 |
 
-One worker ran from 25 September, 12:09 UTC, to 26 September, 09:50; the two
-ran in four pairs from 10:07 to 15:31, side by side for 44, 18, 63 and 13
-minutes. A session's tokens and minutes are split evenly over the changes it
-worked on. The tasks differed, so the tokens show only that a second worker
-did not make a change dearer; the gain is the pace.
+The gain of the second worker is in the last row. A session's tokens and minutes
+are split evenly over the changes it worked on, and since the tasks differed,
+tokens per change compare the tasks as much as the setups. On 15 November the
+last row went the other way: with three workers side by side a change took 74
+minutes of a worker running, against 29 for the workers that ran alone, though
+only three changes were finished. One change is in both November columns. In
+November the tasks were illustrations, covers, renames and publishing steps.
+
+## The workers waited for what they shared
+
+The two workers did not get in each other's way directly. Each worked in a git
+worktree of its own, never in the project's main checkout.
+[Codex's guide to worktrees](https://learn.chatgpt.com/docs/environments/git-worktrees)
+says the same isolation lets several chats work in one project "without
+interfering with each other". No command of one touched the other's worktree or
+processes, no git command failed on a lock or a conflict and no push was
+refused. They met once, in a note the workers share: one rewrote it while the
+other was still working, and the other's own check stopped its edit because the
+text had changed.
 
 {% figure "lock", "wide" %}
 
-The workers did not get in each other's way directly. No command of one
-touched the other's worktree or processes, no git command failed on a lock or
-a conflict, and no push was refused. They met in one file, a note the workers
-share: one rewrote it while the other, which had read it, was still working,
-and the other's own check later stopped its edit because the text had changed.
+The figure shows the day. Of the 97 jobs that took the lock, 17 waited, 43
+minutes in all. The longest waits came while the two workers' full test and
+check runs took turns.
 
-They did share the machine and the lock. Of the 97 jobs that took the lock
-from 10:09 to 15:34, 17 waited, all of them workers' jobs, 43 minutes in all.
-The three longest waits, 21 minutes together, fell between 13:55 and 14:18,
-while the two workers' full test and check runs took turns. A passing full
-test run took 441 and 467 seconds between 14:10 and 14:40, against 87 to 137
-seconds after 15:00; a failing one just before had spent 7.5 of its 8.9
-minutes in a known flaky browser test. One worker ran screenshot scripts,
-which start Chrome, nine times outside the lock in its first half hour; the
-rule now names screenshots and probes.
+| The lock and the computer on 26 September | Measured |
+| --- | ---: |
+| Jobs that took the lock, 10:09–15:34 UTC | 97 |
+| Jobs that waited, all of them workers' jobs | 17 |
+| Minutes waited, in all | 43 |
+| The three longest waits, 13:55–14:18 UTC (minutes together) | 21 |
+| Passing full test runs, 14:10–14:40 UTC (seconds) | 441 and 467 |
+| Passing full test runs after 15:00 UTC (seconds) | 87–137 |
+| A failing full test run just before them (minutes) | 8.9 |
+| Of those, in a known flaky browser test (minutes) | 7.5 |
+| Swap in use as it rose (GB) | 2.7 → 8.1 |
+| Free memory (%) | 33–68 |
+| Headless Chrome processes at once, at most | 9 |
+| One-minute load, median, with a job holding the lock | 34 |
+| One-minute load, median, with the lock free | 6.5 |
+| One-minute load, peak at 12:37 UTC | 219 |
 
-The machine held. Swap in use rose from 2.7 to 8.1 GB, free memory stayed
-between 33% and 68%, and at most nine headless Chrome processes ran at once.
-The one-minute load had a median of 34 while a job held the lock and 6.5 while
-it was free, with a peak of 219 at 12:37. The report the founder got that
-evening covered 13:09 to 16:55 UTC. Its verdict: two workers fit, with the
-lock.
+The computer held: free memory never fell below a third, although swap rose to
+8.1 GB and the load ran far higher while a job held the lock.
 
-## What a start and a change cost, then and now
+## Three at once, on 15 November
 
-On 28 September the founder asked for two of the mayor's measurements in the
-next article: the cost of a start and of a landed change. Both were run again
-on 6 October with the same scripts, on finished sessions only. A start is the
-tokens the mayor's context grows by before its first outward action: a reply,
-a dispatch, a bead written, a mail, a commit or an edit. With an even count,
-the median is the upper of the two middle values.
+On 15 November three workers ran side by side on this site for 130 minutes: two
+added the second illustrations to parts 6 and 7 of the series on AI agents and
+the third did the fourth round of renaming the product on the site. Each waited
+about an hour for the lock in all, and the longest single wait was 44 minutes.
+The lock was no longer theirs alone: a check run of another article by the
+writer held it for 48 minutes while all three queued. The writer, like the other
+agents that work on the articles, takes the same lock as the workers.
 
-| Mayor's sessions that acted | 24–28 Sep | 28 Sep–5 Oct |
+| The lock | 26 Sep, two workers | 15 Nov, three workers |
 | --- | ---: | ---: |
-| Sessions | 22 | 8 |
-| Tokens added before the first action, median | 30,600 | 108,300 |
-| Start-up content at the first call, median | 42,700 | 43,300 |
-| First turn: notes, state check, watches, average | 26,300 | 27,400 |
-| Reading for the task before acting, average | 5,100 | 44,100 |
-| Acted only after their first turn | 4 | 7 |
+| Jobs that took the lock, whole day | 102 | 62 |
+| Jobs that waited | 17 | 18 |
+| Minutes waited, in all | 43 | 245 |
+| Longest single wait (minutes) | 8.5 | 44 |
+| Who waited | Workers only | Workers and the writer |
 
-The start itself barely changed: about 43,000 tokens of start-up content, then
-a first turn of about 27,000 in which the mayor reads its notes, checks the
-state of the factory and re-arms its watches. What changed came after. From 24
-to 28 September beads were queued, and 18 of 22 sessions acted within their
-first turn, 11 by dispatching one. From 28 September to 5 October no worker
-ran in the site or Gaimer, and one of eight first actions was a dispatch. Five
-of those sessions first waited through 3, 23, 26, 67 and 85 wake-ups from
-their watches, reading notes, checking the state and re-arming in between; the
-other three acted within 23 minutes, after reading for their task.
+The computer's sampler had stopped at the end of October, so what the machine
+did on 15 November is not known. The numbers show that the three queued for the
+lock, not whether the computer ran short.
 
-The quiet shows in the mayor's day too. With the hand-off at 160,000 tokens on
-22–23 September it started 57 sessions a day and spent 43% of its tokens
-before each session's first outward action; on 24–28 September, at 300,000, 8
-a day and 4–5%. Since 28 September it has started one a day and spent 32%, of
-12 to 118 million tokens a day, against 204 to 470 million on 24–26 September.
+## A landed change cost the workers 12.9 to 22.3 million tokens
+
+[Claude Code's guide to running agents in parallel](https://code.claude.com/docs/en/agents)
+warns that running several sessions at once multiplies token usage. The table
+shows what a landed change, a commit that reached a project's main branch, cost
+over longer periods; the workers' tokens are those of all worker sessions in the
+period.
 
 | Tokens per landed change (millions) | Workers | Mayor | Changes |
 | --- | ---: | ---: | ---: |
 | Gaimer, 24–26 Sep | 12.9 | 4.1 | 83 |
 | This site, 24–26 Sep | 22.3 | – | 42 |
 | The factory's own repository, 29 Sep–6 Oct | 18.3 | – | 13 |
+| This site, 1–21 Nov | 13.1 | 26.1 | 16 |
 
-A landed change is a commit that reached a project's main branch; the workers'
-tokens are those of all worker sessions in the period. On 28 September the
-mayor put a change in Gaimer at 17 to 18 million tokens; counted again, it is
-16.9 million, 4.1 million of them the mayor's, by its calls about Gaimer.
-Neither project has landed a change since 26 September; the factory's own
-repository joined them on 29 September.
+The coordination comes on top. In September the mayor's share was counted only
+in Gaimer, 4.1 million tokens per change. In November the site landed 16 changes
+and the other two projects none, so all of the mayor's tokens count against the
+site: 26.1 million per change, an upper bound, since they also cover review
+pages, vendor checks and drafts that have not landed. The agents that write,
+check and edit the articles used another 50.4 million tokens per landed change.
 
-## From two to five
+## The mayor's start cost more while work was scarce
 
-On 6 October at 14:53 UTC the founder asked where the token and agent limits
-were; the mayor answered that both sit in the factory's settings. At 15:01 he
-wrote "Let's increase to 5 agents", and at 15:02 the ceiling was five in each
-of the three projects. The mayor told him what had not changed: browser jobs
-still run one at a time, and the machine already swaps. Each worker still
-works in a worktree of its own, never in a project's main checkout.
+| The mayor's sessions that acted (a median of an even count is the upper middle value) | 24–28 Sep | 28 Sep–5 Oct | 31 Oct–20 Nov |
+| --- | ---: | ---: | ---: |
+| Sessions | 22 | 8 | 5 |
+| Tokens added before the first outward action (a reply, a dispatch, a task written, a mail, a commit or an edit), median | 30,600 | 108,300 | 15,300 |
+| Start-up content at the first call, median | 42,700 | 43,300 | 51,600 |
+| First turn: notes, state check, watches, average | 26,300 | 27,400 | 15,000 |
+| Reading for the task before acting, average | 5,100 | 44,100 | 2,900 |
+| Acted only after their first turn | 4 | 7 | 2 |
 
-At 15:13 the founder asked whether the factory's roles fit its work, which he
-saw as mostly articles. The mayor answered that all twelve roles were for
-software and named five gaps: a writer, a fact checker, a Swedish editor, an
-illustrator and an analyst. At 18:51 the founder added the first three; code,
-figures and images stay with the implementation workers. Whether the other
-two are needed to take load off the mayor is being watched.
+A start, the tokens added before the first outward action, rose from 30,600 to
+108,300 while the start-up content and the first turn hardly changed: with no
+worker running in this site or Gaimer from 28 September to 5 October, the mayor
+waited and read before it acted. From 31 October to 20 November it started only
+five sessions that acted: they began with more start-up content, a median of
+51,600 tokens, but added a median of 15,300 before their first action. Since 12
+October the mayor also answers the founder on review pages, which the count
+ignores.
 
-The first time more than two workers run side by side, the mayor measures the
-time per task and the machine's load, with the sampler running again, and
-judges the step by the founder's rule of 26 September.
+## Five workers are allowed but have not run together
+
+Since 6 October the ceiling is five workers in each of the three projects. The
+mayor told the founder what had not changed: browser jobs still run one at a
+time, and the computer already swaps. Five workers would share the lock and the
+computer that two already shared, and three already spent much of 15 November
+waiting for the lock.
 
 ## What the numbers do not show
 
-- One day of two workers, on one machine and on tasks that differed: tokens
-  per change compare the tasks as much as the setups.
-- The mayor's tokens for this site and the factory's own repository are not
-  separated from the rest of its work.
-- The script that finds the first outward action missed those of one session
-  after 28 September, which ran its commands under a time limit. Counted, they
-  bring the share before the first action from the script's 40% to 32% and
-  leave the median at 108,300.
+- One day of two workers and one afternoon of three, on one computer and on
+  tasks that differed.
+- Whether the three workers of 15 November got in each other's way in git or in
+  files was not checked.
+- The transcripts from before late October no longer exist, so the numbers for
+  September and October come from the measurements made then.
+- For most of November the mayor and the workers ran on a different model.
+- The founder does not review every change, so the numbers say nothing about a
+  setup in which a person reviews each one.
