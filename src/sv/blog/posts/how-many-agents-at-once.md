@@ -30,7 +30,7 @@ delade: ett lås för varje jobb som startar en webbläsare, de fullständiga
 testkörningarna som köade till det och minnet i en enda dator.
 
 Den 15 november körde tre byggare sida vid sida på den här sajten – flest som de
-kvarvarande uppgifterna visar. Låset satte takten igen: 18 av dagens 62
+kvarvarande uppgifterna visar. Återigen köade de till låset: 18 av dagens 62
 webbläsarjobb väntade på det, sammanlagt 245 minuter. Fem samtidigt – tillåtet
 sedan den 6 oktober – återstår.
 
@@ -71,13 +71,13 @@ Borgmästaren höjde taket till två och från och med då gick varje jobb som
 startar Chrome eller WebKit – till exempel en kontroll- eller testkörning för
 sajten – genom ett lås: ett jobb i taget i hela fabriken, med varje väntan och
 körning loggad. En mätare loggade datorns belastning, minne, växlingsutrymme
-(swap) och webbläsarprocesser varje minut den dagen.
+(swap) och webbläsarprocesser varje minut medan de två byggarna körde.
 
 Samma kväll satte grundaren regeln för att bedöma steget: mät avslutade
 sessioner – deras tokens, tid, väntan och fel – och om byggarna kom i vägen för
 varandra, utan påhittade tester eller omspelningar.
 
-| Sajtens byggare | En byggare, 25–26 sep | Två byggare, 26 sep | Ensam, 14–20 nov | Tre sida vid sida, 15 nov |
+| Sajtens byggare | En byggare, 25–26 sep | Två byggare, 26 sep | Övriga sessioner, 14–20 nov | Tre sida vid sida, 15 nov |
 | --- | ---: | ---: | ---: | ---: |
 | Avslutade sessioner | 17 | 8 | 11 | 3 |
 | Klara ändringar | 13 | 11 | 12 | 3 |
@@ -89,10 +89,10 @@ Vinsten med den andra byggaren står på sista raden. En sessions tokens och
 minuter delas lika mellan de ändringar den arbetade med. Uppgifterna skilde sig
 åt, så tokens per ändring jämför uppgifterna lika mycket som uppsättningarna.
 Den 15 november gick sista raden åt andra hållet: med tre byggare sida vid sida
-tog en ändring 74 minuter med en byggare igång, mot 29 för byggarna som körde
-ensamma, även om bara tre ändringar blev klara. En ändring finns med i båda
-novemberkolumnerna. I november var uppgifterna illustrationer, omslag, namnbyten
-och publiceringssteg.
+tog en ändring 74 minuter med en byggare igång, mot 29 för novembers övriga
+sessioner, även om bara tre ändringar blev klara. En ändring finns med i båda
+novemberkolumnerna. I november var uppgifterna främst illustrationer, omslag,
+namnbyten och publiceringssteg.
 
 ## Byggarna väntade på det som de delade
 
@@ -136,13 +136,13 @@ medan ett jobb höll låset.
 ## Tre samtidigt, den 15 november
 
 Den 15 november körde tre byggare sida vid sida på den här sajten i 130 minuter:
-två lade till de andra illustrationerna till del 6 och 7 av serien om AI-agenter
-och den tredje gjorde den fjärde omgången av namnbytet på produkten på sajten.
-Var och en väntade sammanlagt ungefär en timme på låset och den längsta enskilda
-väntan var 44 minuter. Låset var inte längre bara deras: skribentens
-kontrollkörning av en annan artikel höll det i 48 minuter medan alla tre köade.
-Skribenten tar, liksom de andra agenterna som arbetar med artiklarna, samma lås
-som byggarna.
+två lade till en andra illustration till del 6 respektive del 7 av serien om
+AI-agenter och den tredje gjorde den fjärde omgången av namnbytet på produkten
+på sajten. Var och en väntade sammanlagt ungefär en timme på låset och den
+längsta enskilda väntan var 44 minuter. Låset var inte längre bara deras:
+skribentens kontrollkörning av en annan artikel höll det i 48 minuter medan alla
+tre köade. Skribenten tar, liksom de andra agenterna som arbetar med artiklarna,
+samma lås som byggarna.
 
 | Låset | 26 sep, två byggare | 15 nov, tre byggare |
 | --- | ---: | ---: |
@@ -152,9 +152,9 @@ som byggarna.
 | Längsta enskilda väntan (minuter) | 8,5 | 44 |
 | Vilka som väntade | Bara byggare | Byggare och skribenten |
 
-Datorns mätare hade slutat köra i slutet av oktober, så vad maskinen gjorde den
-15 november är inte känt. Siffrorna visar att de tre köade till låset, inte om
-datorn fick slut på resurser.
+Datorns mätare hade slutat köra i slutet av oktober, så datorns minne och
+växlingsutrymme den 15 november är inte kända. Siffrorna visar att de tre köade
+till låset, inte om datorn fick slut på resurser.
 
 ## En landad ändring kostade byggarna 12,9 till 22,3 miljoner tokens
 
@@ -169,15 +169,15 @@ under perioden.
 | Gaimer, 24–26 sep | 12,9 | 4,1 | 83 |
 | Den här sajten, 24–26 sep | 22,3 | – | 42 |
 | Fabrikens eget kodförråd, 29 sep–6 okt | 18,3 | – | 13 |
-| Den här sajten, 1–21 nov | 13,1 | 26,1 | 16 |
+| Den här sajten, 1–20 nov | 17,5 | 32,4 | 12 |
 
 Samordningen kommer ovanpå. I september räknades borgmästarens andel bara i
-Gaimer: 4,1 miljoner tokens per ändring. I november landade sajten 16 ändringar
-och de andra två projekten ingen, så alla borgmästarens tokens räknas på sajten:
-26,1 miljoner per ändring, en övre gräns, eftersom de också omfattar
-granskningssidor, kontroller av leverantörers sidor och utkast som inte har
-landat. Agenterna som skriver, granskar och redigerar artiklarna använde
-ytterligare 50,4 miljoner tokens per landad ändring.
+Gaimer: 4,1 miljoner tokens per ändring. Till och med den 20 november landade
+sajten 12 ändringar och de andra två projekten ingen, så alla borgmästarens
+tokens räknas på sajten: 32,4 miljoner per ändring, en övre gräns, eftersom de
+också omfattar granskningssidor, kontroller av leverantörers sidor och utkast
+som inte har landat. Agenterna som skriver, granskar och redigerar artiklarna
+använde ytterligare 62,0 miljoner tokens per landad ändring.
 
 ## Borgmästarens start kostade mer när det fanns lite arbete
 
@@ -196,7 +196,7 @@ steg från 30 600 till 108 300 medan startinnehållet och den första turen knap
 september till den 5 oktober väntade och läste borgmästaren innan den handlade.
 Från den 31 oktober till den 20 november startade den bara fem sessioner som
 handlade: de började med mer startinnehåll, i median 51 600 tokens, men lade
-till en median på 15 300 före sin första handling. Sedan den 12 oktober svarar
+till en median på 15 300 före sin första handling. Sedan den 11 oktober svarar
 borgmästaren också grundaren på granskningssidor, vilket räkningen bortser från.
 
 ## Fem byggare är tillåtna men har inte kört tillsammans
@@ -204,8 +204,8 @@ borgmästaren också grundaren på granskningssidor, vilket räkningen bortser f
 Sedan den 6 oktober är taket fem byggare i vart och ett av de tre projekten.
 Borgmästaren berättade för grundaren vad som inte hade ändrats: webbläsarjobb
 körs fortfarande ett i taget och datorn använder redan växlingsutrymme. Fem
-byggare skulle dela låset och datorn som två redan delade. Tre tillbringade
-redan en stor del av den 15 november med att vänta på låset.
+byggare skulle dela låset och datorn som två redan delade. Den 15 november
+väntade tre redan ungefär en timme var på låset.
 
 ## Vad siffrorna inte visar
 

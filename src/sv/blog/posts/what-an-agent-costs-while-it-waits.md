@@ -1,6 +1,6 @@
 ---
 title: Vad en agent kostar medan den väntar
-description: "Hur många tokens borgmästaren, agenten som samordnar fabriken bakom den här sajten, förbrukade medan den väntade från september till november 2026: två till tre gånger så många som kontexten varje gång något väckte den – oavsett om en bevakning hade löpt ut, en kontroll skulle köras eller en händelse hade kommit."
+description: "Hur många tokens borgmästaren, agenten som samordnar fabriken bakom den här sajten, förbrukade medan den väntade från september till november 2026: i regel två till tre gånger så många som kontexten för varje väckning som slutade utan utåtriktad handling – oavsett om en bevakning hade löpt ut, en kontroll skulle köras eller en händelse hade kommit."
 image: cover.png                 # en PNG på 1200 × 630 i artikelns mediemapp
 imageAlt: "Två banor över samma del av ett lugnt dygn. Bredvid ett stoppur har den övre banan sexton orange markeringar med jämna mellanrum: en bevakning som startas om var 30:e minut. Bredvid en ringklocka har den nedre banan fem gröna markeringar med ojämna mellanrum: en agent som bara väcks när något händer. Markeringarna är lika stora i båda banorna."
 date: 2026-10-11
@@ -12,9 +12,9 @@ humanReviewed: false             # ingen har läst den ännu
 ---
 
 Vad kostar en AI-agent medan den väntar? För borgmästaren, agenten som samordnar
-fabriken bakom den här sajten, kostade varje väckning två till tre gånger så
-många tokens som dess kontext. Ett dygn då inget väckte den kostade
-ingenting.
+fabriken bakom den här sajten, kostade en väckning utan utåtriktad handling i
+regel två till tre gånger så många tokens som dess kontext. Ett dygn då inget
+väckte den kostade ingenting.
 
 Fram till den 9 oktober 2026 väntade borgmästaren i en bevakning som löpte ut
 var 30:e minut och fick startas igen. Under intensiva dagar försvann de
@@ -83,10 +83,10 @@ av dem. Ju lugnare dygnet var, desto större andel gick till att vänta.
 ## En omstart kostade dubbla kontexten, en väckning i november tre gånger
 
 Ju större kontexten var, desto mer kostade en omstart. Tabellen delar in
-omstarterna och novembers väckningar utan utåtriktad handling efter kontextens
-storlek i deras första anrop.
+omstarterna och novembers väckningar av en händelse utan utåtriktad handling
+efter kontextens storlek i deras första anrop.
 
-| Kontext i första anropet (tokens) | Omstarter, sep–okt | Tokens per omstart, median | Gånger kontexten, median | Väckningar, nov | Tokens per väckning, median | Gånger kontexten, median |
+| Kontext i första anropet (tokens) | Omstarter, sep–okt | Tokens per omstart, median | Gånger kontexten, median | Väckningar av händelser, nov | Tokens per väckning, median | Gånger kontexten, median |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
 | 50 000–100 000 | 221 | 168 000 | 2,0 | 19 | 277 000 | 3,0 |
 | 100 000–150 000 | 142 | 256 000 | 2,0 | 35 | 364 000 | 3,0 |
@@ -174,8 +174,8 @@ Sedan oktober har Claude Code
 innan timmen har gått: när kontexten når standardgränsen på 200 000 tokens och
 ungefär en timme har gått sedan det senaste anropet ersätter det konversationen
 med en sammanfattning. Det hände borgmästaren sex gånger i november, varje gång
-efter 55 till 58 minuter utan anrop. En kontext på 217 000 till 300 000 tokens
-krympte då till 15 000 till 20 000. Anropet som skriver sammanfattningen räknas
+efter ungefär 55 minuter utan anrop. En kontext på 217 000 till 300 000 tokens
+krympte då till 58 000 till 65 000. Anropet som skriver sammanfattningen räknas
 inte.
 
 ## Vad siffrorna inte visar

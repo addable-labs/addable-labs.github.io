@@ -1,6 +1,6 @@
 ---
 title: How many agents the factory runs at once
-description: What a second coding agent per project changed in the factory behind this site on 26 September 2026, what three at once did on 15 November, and what a start of the mayor and a landed change cost from September to November.
+description: What a second coding agent per project changed in the factory behind this site on 26 September 2026, what three at once did on 15 November and what a start of the mayor and a landed change cost from September to November.
 image: cover.png                 # a 1200 × 630 PNG in the article's media directory
 imageAlt: "Five lanes for workers, two of them busy in green and three empty, and to the right one lock that lets a single browser job through at a time: the first lane's job holds it while the second lane's waits in orange."
 date: 2026-10-06
@@ -30,9 +30,9 @@ lock for every job that starts a browser, the full test runs that queued for it
 and the memory of one computer.
 
 On 15 November three workers ran side by side on this site, the most the
-remaining records show. The lock set the pace again: 18 of that day's 62 browser
-jobs waited for it, 245 minutes in all. Five at once, allowed since 6 October,
-is still to come.
+remaining records show. Again they queued for the lock: 18 of that day's 62
+browser jobs waited for it, 245 minutes in all. Five at once, allowed since 6
+October, is still to come.
 
 ## The ceiling rose from one worker to five in ten days
 
@@ -68,13 +68,13 @@ project a rig. The mayor raised the ceiling to two, and from then on every job
 that starts Chrome or WebKit, such as a check or a test run of the site, went
 through one lock: one job at a time across the factory, with every wait and run
 logged. A sampler logged the computer's load, memory, swap and browser processes
-every minute that day.
+every minute while the two workers ran.
 
 That evening the founder set the rule for judging the step: measure finished
 sessions — their tokens, time, waits and failures — and whether the workers got
 in each other's way, with no made-up tests or replays.
 
-| This site's workers | One worker, 25–26 Sep | Two workers, 26 Sep | Alone, 14–20 Nov | Three side by side, 15 Nov |
+| This site's workers | One worker, 25–26 Sep | Two workers, 26 Sep | Other sessions, 14–20 Nov | Three side by side, 15 Nov |
 | --- | ---: | ---: | ---: | ---: |
 | Finished sessions | 17 | 8 | 11 | 3 |
 | Changes finished | 13 | 11 | 12 | 3 |
@@ -86,9 +86,10 @@ The gain of the second worker is in the last row. A session's tokens and minutes
 are split evenly over the changes it worked on, and since the tasks differed,
 tokens per change compare the tasks as much as the setups. On 15 November the
 last row went the other way: with three workers side by side a change took 74
-minutes of a worker running, against 29 for the workers that ran alone, though
+minutes of a worker running, against 29 for the other November sessions, though
 only three changes were finished. One change is in both November columns. In
-November the tasks were illustrations, covers, renames and publishing steps.
+November the tasks were mainly illustrations, covers, renames and publishing
+steps.
 
 ## The workers waited for what they shared
 
@@ -146,9 +147,9 @@ agents that work on the articles, takes the same lock as the workers.
 | Longest single wait (minutes) | 8.5 | 44 |
 | Who waited | Workers only | Workers and the writer |
 
-The computer's sampler had stopped at the end of October, so what the machine
-did on 15 November is not known. The numbers show that the three queued for the
-lock, not whether the computer ran short.
+The computer's sampler had stopped at the end of October, so the machine's
+memory and swap on 15 November are not known. The numbers show that the three
+queued for the lock, not whether the computer ran short.
 
 ## A landed change cost the workers 12.9 to 22.3 million tokens
 
@@ -163,14 +164,15 @@ period.
 | Gaimer, 24–26 Sep | 12.9 | 4.1 | 83 |
 | This site, 24–26 Sep | 22.3 | – | 42 |
 | The factory's own repository, 29 Sep–6 Oct | 18.3 | – | 13 |
-| This site, 1–21 Nov | 13.1 | 26.1 | 16 |
+| This site, 1–20 Nov | 17.5 | 32.4 | 12 |
 
 The coordination comes on top. In September the mayor's share was counted only
-in Gaimer, 4.1 million tokens per change. In November the site landed 16 changes
-and the other two projects none, so all of the mayor's tokens count against the
-site: 26.1 million per change, an upper bound, since they also cover review
-pages, vendor checks and drafts that have not landed. The agents that write,
-check and edit the articles used another 50.4 million tokens per landed change.
+in Gaimer, 4.1 million tokens per change. By 20 November the site had landed 12
+changes and the other two projects none, so all of the mayor's tokens count
+against the site: 32.4 million per change, an upper bound, since they also cover
+review pages, vendor checks and drafts that have not landed. The agents that
+write, check and edit the articles used another 62.0 million tokens per landed
+change.
 
 ## The mayor's start cost more while work was scarce
 
@@ -188,7 +190,7 @@ A start, the tokens added before the first outward action, rose from 30,600 to
 worker running in this site or Gaimer from 28 September to 5 October, the mayor
 waited and read before it acted. From 31 October to 20 November it started only
 five sessions that acted: they began with more start-up content, a median of
-51,600 tokens, but added a median of 15,300 before their first action. Since 12
+51,600 tokens, but added a median of 15,300 before their first action. Since 11
 October the mayor also answers the founder on review pages, which the count
 ignores.
 
@@ -197,8 +199,8 @@ ignores.
 Since 6 October the ceiling is five workers in each of the three projects. The
 mayor told the founder what had not changed: browser jobs still run one at a
 time, and the computer already swaps. Five workers would share the lock and the
-computer that two already shared, and three already spent much of 15 November
-waiting for the lock.
+computer that two already shared, and on 15 November three already waited about
+an hour each for the lock.
 
 ## What the numbers do not show
 

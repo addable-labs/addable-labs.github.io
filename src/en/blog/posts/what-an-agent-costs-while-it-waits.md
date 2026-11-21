@@ -1,6 +1,6 @@
 ---
 title: What an agent costs while it waits
-description: "What the mayor, the agent that coordinates the factory behind this site, spent in tokens while it waited from September to November 2026: two to three times its context each time something woke it, whether a watch had run out, a check was due or an event had arrived."
+description: "What the mayor, the agent that coordinates the factory behind this site, spent in tokens while it waited from September to November 2026: typically two to three times its context for each wake-up that ended with no outward action, whether a watch had run out, a check was due or an event had arrived."
 image: cover.png                 # a 1200 × 630 PNG in the article's media directory
 imageAlt: "Two lanes over the same span of a quiet day. Beside a stopwatch, the upper lane holds sixteen evenly spaced orange marks: a watch started again every 30 minutes. Beside a bell, the lower lane holds five green marks at uneven intervals: an agent woken only when something happens. The marks are the same size in both lanes."
 date: 2026-10-11
@@ -12,8 +12,9 @@ humanReviewed: false             # nobody has read it yet
 ---
 
 What does an AI agent cost while it waits? For the mayor, the agent that
-coordinates the factory behind this site, each wake-up cost two to three times
-its context in tokens, and a day on which nothing woke it cost nothing.
+coordinates the factory behind this site, a wake-up with no outward action
+typically cost two to three times its context in tokens, and a day on which
+nothing woke it cost nothing.
 
 Until 9 October 2026 the mayor waited in a watch that ran out every 30 minutes
 and had to be started again. On busy days those restarts were lost among the
@@ -78,10 +79,10 @@ quieter the day, the larger the share spent on waiting.
 ## A restart cost twice the context, a wake-up in November three times
 
 The larger the context, the more a restart cost. The table groups the restarts,
-and the November wake-ups with no outward action, by the size of the context at
-their first call.
+and November's event wake-ups with no outward action, by the size of the context
+at their first call.
 
-| Context at the first call (tokens) | Restarts, Sep–Oct | Tokens per restart, median | Times the context, median | Wake-ups, Nov | Tokens per wake-up, median | Times the context, median |
+| Context at the first call (tokens) | Restarts, Sep–Oct | Tokens per restart, median | Times the context, median | Event wake-ups, Nov | Tokens per wake-up, median | Times the context, median |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
 | 50,000–100,000 | 221 | 168,000 | 2.0 | 19 | 277,000 | 3.0 |
 | 100,000–150,000 | 142 | 256,000 | 2.0 | 35 | 364,000 | 3.0 |
@@ -168,8 +169,8 @@ Since October Claude Code has
 before the hour runs out: once the context reaches the default threshold of
 200,000 tokens and about an hour has passed since the last request, it replaces
 the conversation with a summary. That happened to the mayor six times in
-November, each time after 55 to 58 minutes without a call, shrinking a context
-of 217,000 to 300,000 tokens to 15,000 to 20,000. The request that writes the
+November, each time after about 55 minutes without a call, shrinking a context
+of 217,000 to 300,000 tokens to 58,000 to 65,000. The request that writes the
 summary is not counted.
 
 ## What the numbers do not show
