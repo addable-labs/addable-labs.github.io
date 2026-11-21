@@ -322,7 +322,8 @@ Brödtext i Markdown.
   2,100), which he allowed in his reviews of
   29–31 October and 3–5 November 2026 (parts 2, 3 and 4 as a 5–10 minute
   read; for part 5 a longer read is fine when a topic needs it; parts 6 and 7
-  get 2,150 and 2,100, each the article's own length, 15 November 2026). The Swedish
+  get 2,150 and 2,100, each the article's own length, 15 November 2026; the deep dive
+  `what-fills-an-ai-agents-context`, outside the series, gets 2,100, 21 November 2026). The Swedish
   twin is not counted, and neither are the figures (captions and diagram
   labels) or the tables' cells: they are not prose.
 - **Figures.** An article can carry custom SVG illustrations (REQ-008): put

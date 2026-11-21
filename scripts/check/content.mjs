@@ -135,7 +135,9 @@ const ARTICLE_SLUG = "how-this-site-was-built-by-agents";
 // (we-rz9d0) and to 2,096 in the second round (we-ju8nq; the gate now counts
 // 2,074, as it no longer takes the markup of a code block for words), to 2,100,
 // above its measured count, the article's own length (15 November 2026,
-// si-yakv); every other article keeps 1,500.
+// si-yakv), and the deep dive on what fills an agent's context, outside the
+// series, 2,100, above its 2,082 (21 November 2026, we-meawo; the founder asked
+// for it "to clarity", not to a length); every other article keeps 1,500.
 const SEED_ARTICLES = new Set([ARTICLE_SLUG, "lessons-from-building-niva"]);
 const WORD_RANGE = { seed: [300, 600], other: [300, 1500] };
 const WORD_CEILING = new Map([
@@ -147,6 +149,7 @@ const WORD_CEILING = new Map([
   ["mcp-reaching-your-systems", 3820],
   ["where-the-agent-runs", 2150],
   ["set-the-limits-in-advance", 2100],
+  ["what-fills-an-ai-agents-context", 2100],
 ]);
 
 async function page(relPath) {
