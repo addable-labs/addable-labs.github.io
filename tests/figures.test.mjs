@@ -242,6 +242,22 @@ describe("a drawing in two views (si-05r9)", () => {
     }
   });
 
+  it("draws every text of the four wide figures of the deep dive on an agent's context inside its panel, in both views and both languages (si-cmjr)", () => {
+    for (const lang of ["en", "sv"]) {
+      for (const id of ["context-as-it-fills", "context-subagent", "context-compaction", "context-handoff"]) {
+        const { panels } = FIGURES[id](STRINGS[lang].figures[id], id, `fig-${id}`);
+        assert.deepEqual(panels.map((panel) => panel.view), ["flow", "stack"], `${lang}: ${id}`);
+        for (const { view, width = WIDTH, body } of panels) {
+          const items = textExtents(body);
+          assert.ok(items.length > 5, `${lang}: ${id} ${view} has its texts`);
+          for (const { content, left, right } of items) {
+            assert.ok(left >= MARGIN - 8 && right <= width - MARGIN + 8, `${lang}: ${id} ${view}: "${content}" is drawn from ${left} to ${right} on a ${width}-unit panel`);
+          }
+        }
+      }
+    }
+  });
+
   it("gives the two panels ids of their own, so the arrowheads of one never serve the other", () => {
     const html = renderFigure("mcp-server", { placement: "wide", strings: STRINGS.en });
     assert.match(html, /<div class="figure-panels figure-panels-views">/);

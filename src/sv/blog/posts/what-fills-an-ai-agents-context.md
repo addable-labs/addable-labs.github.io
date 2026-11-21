@@ -68,7 +68,7 @@ så figurerna här visar bara relativa storlekar. Filer, kommandons utdata och
 modellens egna svar läggs på i lager och en gammal uppgifts lager finns kvar när
 en ny börjar.
 
-{% figure "context-as-it-fills" %}
+{% figure "context-as-it-fills", "wide" %}
 
 Det som blir kvar skickas igen.
 [Claude Codes sida om bästa praxis](https://code.claude.com/docs/en/best-practices)
@@ -104,7 +104,7 @@ det arbetet i sin egen kontext och lämnar bara tillbaka sammanfattningen. Sidan
 om kontextfönstret lägger till att bara sammanfattningen och en liten
 metadatasvans kommer tillbaka.
 
-{% figure "context-subagent" %}
+{% figure "context-subagent", "wide" %}
 
 [Codex dokumentation](https://learn.chatgpt.com/docs/agent-configuration/subagents)
 beskriver problemet som en subagent löser från andra hållet. Om du fyller
@@ -145,7 +145,7 @@ information men att detaljer från tidigare meddelanden kan sammanfattas eller
 utelämnas och Anthropics guide varnar för att alltför aggressiv komprimering kan
 förlora subtil men avgörande kontext vars betydelse först senare blir uppenbar.
 
-{% figure "context-compaction" %}
+{% figure "context-compaction", "wide" %}
 
 Claude Codes dokumentation visar vad som kommer tillbaka efteråt. Det mesta av
 start-innehållet läses in igen automatiskt och verktyget läser om upp till fem
@@ -194,7 +194,7 @@ tyst under en första nivå, ber sedan agenten att planera mot en ren
 överlämningspunkt och, över en andra nivå, att utlösa den kanoniska
 överlämningen nu.
 
-{% figure "context-handoff" %}
+{% figure "context-handoff", "wide" %}
 
 Tanken handlar om vem som avgör vad som överlever. Vid komprimering skriver
 verktyget sammanfattningen. Vid en planerad överlämning skriver agenten ner det

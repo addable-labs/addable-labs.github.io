@@ -2741,6 +2741,511 @@ function readingAndRoute(t, id, figureId) {
   };
 }
 
+// The five figures of the deep dive "What fills an AI agent's context"
+// (si-cmjr, 21 November 2026): one family, in which the context window is the
+// same bar every time (ctxBar). The bar is a tall outline whose top, a dashed
+// line, is the window's limit; the layers fill it from its foot, and the part
+// still empty is outlined only. A layer keeps one look in all five: the
+// start-up layer four slim grey bands (the tool's instructions, the
+// instruction file, memory, the names of skills and tools), files the
+// accent, command output the orange, the conversation the text colour, a
+// summary the accent's outline over its glow, a written note a card with
+// lines of writing on it; a rule that loads with one folder's files is one
+// grey band like those of the start-up layer, as it is an instruction too.
+// Sizes are drawn, not counted: the heights below are shapes, no token count
+// stands behind them, and no vendor, tool or model is named. Where a figure
+// shows a sequence it reads left to right; the four wide ones come in two
+// views like (30): left to right from 51rem, stacked below.
+
+const CTX_W = 44; // the bar's width
+const CTX_H = 156; // its height, from the limit to its foot
+const CTX_IN = 3; // the layers' inset from its sides and foot
+const CTX_GAP = 2.5; // the gap between two layers
+const CTX_BAND = 3.5; // a band of the start-up layer, and the rule
+const CTX_BANDS = 4; // the start-up layer's bands
+const CTX_BAND_GAP = 1.5;
+const CTX_STARTUP = CTX_BANDS * CTX_BAND + (CTX_BANDS - 1) * CTX_BAND_GAP;
+// The classes a layer is drawn in: its fill and, for the two hues that are
+// pale on the light theme, the matching dark edge over it.
+const CTX_KINDS = {
+  startup: { fill: "fig-bar-muted" },
+  rule: { fill: "fig-bar-muted" },
+  files: { fill: "fig-cell", edge: "fig-accent-stroke" },
+  output: { fill: "fig-gate", edge: "fig-wait-stroke" },
+  talk: { fill: "fig-bar" },
+  summary: { fill: "fig-area" },
+  note: { fill: "fig-node" },
+};
+
+/**
+ * One layer, a rounded rectangle from (x, y), `kind` one of CTX_KINDS. A
+ * hatched layer (the second task) is stripes of its colour from the panel's
+ * pattern; an edge or an outline is drawn inside the layer's box, so a layer
+ * is as tall as its height says. A note carries a line or two of writing.
+ */
+function ctxLayer(pid, x, y, w, h, kind, hatch = false) {
+  const { fill, edge } = CTX_KINDS[kind];
+  const r = Math.min(2.5, h / 2);
+  const rect = (inset, attrs) => `<rect x="${round(x + inset)}" y="${round(y + inset)}" width="${round(w - 2 * inset)}" height="${round(h - 2 * inset)}" rx="${round(Math.max(r - inset, 0.5))}" ${attrs}/>`;
+  const parts = [];
+  if (hatch) parts.push(rect(0, `fill="url(#${pid}-hatch-${kind})"`));
+  else if (kind === "summary") parts.push(rect(0.75, `class="${fill}"`));
+  else if (kind === "note") parts.push(rect(0.5, `class="${fill}"`));
+  else parts.push(rect(0, `class="${fill}"`));
+  if (edge) parts.push(rect(0.75, `class="${edge}"`));
+  if (kind === "note") {
+    const lines = h >= 14 ? [0.62, 0.42] : [0.55];
+    lines.forEach((share, i) => parts.push(`<rect x="${round(x + 5)}" y="${round(y + h / (lines.length + 1) * (i + 1) - 0.75)}" width="${round((w - 10) * share)}" height="1.5" rx="0.75" class="fig-bar-muted"/>`));
+  }
+  return parts.join("");
+}
+
+/** The stripes a hatched layer is filled with, one pattern per kind, in the panel's defs. */
+function ctxHatch(pid, kinds) {
+  return `<defs>${kinds.map((kind) => `<pattern id="${pid}-hatch-${kind}" width="4" height="4" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="1.75" height="4" class="${CTX_KINDS[kind].fill}"/></pattern>`).join("")}</defs>`;
+}
+
+/**
+ * The context window: a bar CTX_W wide whose limit, the dashed line, is at
+ * `top` and whose foot is CTX_H below it. `layers` fill it from the foot,
+ * each { kind, h, hatch }; the start-up layer has its own four bands and no
+ * h. Returns the drawing, each layer's top and bottom edge (and the
+ * start-up layer's bands) for the labels, and the bar's foot. Throws when
+ * the layers run past the limit.
+ */
+function ctxBar(pid, x, top, layers) {
+  const bottom = top + CTX_H;
+  const r = 7;
+  const inner = { x: x + CTX_IN, w: CTX_W - 2 * CTX_IN };
+  const parts = [`<path d="M${x} ${top}V${bottom - r}a${r} ${r} 0 0 0 ${r} ${r}H${x + CTX_W - r}a${r} ${r} 0 0 0 ${r} -${r}V${top}" class="fig-line"/>`];
+  const spans = [];
+  let y = bottom - CTX_IN;
+  for (const { kind, h, hatch } of layers) {
+    if (kind === "startup") {
+      const bands = [];
+      for (let i = 0; i < CTX_BANDS; i += 1) {
+        const bandTop = y - CTX_BAND - i * (CTX_BAND + CTX_BAND_GAP);
+        bands.push({ top: bandTop, bottom: bandTop + CTX_BAND });
+        parts.push(ctxLayer(pid, inner.x, bandTop, inner.w, CTX_BAND, "startup"));
+      }
+      spans.push({ kind, top: y - CTX_STARTUP, bottom: y, bands });
+      y -= CTX_STARTUP + CTX_GAP;
+    } else {
+      parts.push(ctxLayer(pid, inner.x, y - h, inner.w, h, kind, hatch));
+      spans.push({ kind, top: y - h, bottom: y });
+      y -= h + CTX_GAP;
+    }
+  }
+  if (y + CTX_GAP < top + 2) throw new Error(`A context bar's layers run ${round(top + 2 - y - CTX_GAP)} units past its limit`);
+  parts.push(`<line x1="${x - 6}" y1="${top}" x2="${x + CTX_W + 6}" y2="${top}" class="fig-line fig-dashed"/>`);
+  return { svg: parts.join(""), spans, bottom };
+}
+
+/** The middle of a span: where a label's leader meets it. */
+function mid({ top, bottom }) {
+  return (top + bottom) / 2;
+}
+
+/** A leader from a layer at (x1, y1) to the label it names at (x2, y2): level, then slanting, then level. */
+function ctxLeader(x1, y1, x2, y2) {
+  const bend = Math.min(6, (x2 - x1) / 3);
+  return `<path d="M${round(x1)} ${round(y1)}H${round(x1 + bend)}L${round(x2 - bend)} ${round(y2)}H${round(x2)}" class="fig-member"/>`;
+}
+
+/** A note's baseline for a label whose middle is at y. */
+const NOTE_MID = 3.6;
+
+/**
+ * A key entry: a 14 x 8 swatch of a layer and its name, from x; the
+ * start-up layer as two of its bands. Returns the drawing and the x after it.
+ */
+function ctxSwatch(pid, x, y, kind, label, hatch = false) {
+  const swatch = kind === "startup" ? [ctxLayer(pid, x, y - 7.75, 14, 3.25, "startup"), ctxLayer(pid, x, y - 3, 14, 3.25, "startup")].join("") : ctxLayer(pid, x, y - 7.75, 14, 8, kind, hatch);
+  return { svg: swatch + text(x + 20, y, label, "fig-note"), end: x + 20 + label.length * ADVANCE.note };
+}
+
+// (39) Before the first prompt — one inline panel: the bar, almost empty, its
+// start-up layer of four slim bands at the foot, each band named on the right
+// (the tool's own instructions lowest: the article has them come before all
+// the others), the empty part marked "room left" and the dashed top "the
+// limit of the window".
+function contextBeforeYouType(t, id, figureId) {
+  const pid = `${figureId}-p1`;
+  const X = 40;
+  const TOP = 60;
+  const RIGHT = X + CTX_W;
+  const LABEL = 104;
+  const SLOT = WIDTH - 16 - LABEL;
+  const bar = ctxBar(pid, X, TOP, [{ kind: "startup" }]);
+  const [startup] = bar.spans;
+  const emptyTop = TOP + 4;
+  const emptyBottom = startup.top - 4;
+  const parts = [
+    bar.svg,
+    // The limit: the bar's dashed top runs on to its words.
+    `<line x1="${RIGHT + 6}" y1="${TOP}" x2="${LABEL - 6}" y2="${TOP}" class="fig-line fig-dashed"/>`,
+    text(LABEL, TOP + NOTE_MID, fit(`${id}.limit`, t.limit, SLOT), "fig-note"),
+    // The room left: a bracket the height of the empty part.
+    `<path d="M${RIGHT + 4} ${emptyTop}H${RIGHT + 8}V${emptyBottom}H${RIGHT + 4}" class="fig-member"/>`,
+    text(LABEL, (emptyTop + emptyBottom) / 2 + NOTE_MID, fit(`${id}.empty`, t.empty, SLOT), "fig-note fig-strong"),
+  ];
+  // The four bands, named from the top one down, a line apart below the bracket.
+  const PITCH = 14;
+  const first = emptyBottom + 12;
+  startup.bands
+    .map((band, i) => ({ band, key: `layer${i + 1}` }))
+    .reverse()
+    .forEach(({ band, key }, row) => {
+      const y = first + row * PITCH;
+      parts.push(ctxLeader(RIGHT + 2, mid(band), LABEL - 4, y), text(LABEL, y + NOTE_MID, fit(`${id}.${key}`, t[key], SLOT), "fig-note"));
+    });
+  const height = first + 3 * PITCH + 16;
+  return { caption: t.caption, panels: [{ title: t.title, head: t.head, height, body: parts.join("") }] };
+}
+
+/** A figure of the family in two views from one drawing function, `draw(t, id, pid, view)` returning { body, height }. */
+function ctxViews(t, id, figureId, draw) {
+  const flow = draw(t, id, `${figureId}-p1`, "flow");
+  const stack = draw(t, id, `${figureId}-p2`, "stack");
+  return {
+    caption: t.caption,
+    panels: [
+      { title: t.title, head: t.head, width: FLOW_WIDTH, height: flow.height, view: "flow", body: flow.body },
+      { title: t.title, head: t.head, height: stack.height, view: "stack", body: stack.body },
+    ],
+  };
+}
+
+/** A bar's name under its foot. */
+function ctxName(cx, bottom, key, value, slot) {
+  return text(cx, bottom + 20, fit(key, value, slot, "small"), "fig-label fig-small", "middle");
+}
+
+// The four moments of (40), each bar's layers from its foot, in the fixed
+// order start-up, files, command output, conversation; in the fourth the
+// second task's files and conversation, hatched, begin above the first task's.
+const CTX_MOMENTS = [
+  [{ kind: "startup" }, { kind: "talk", h: 8 }],
+  [{ kind: "startup" }, { kind: "files", h: 26 }, { kind: "talk", h: 12 }],
+  [{ kind: "startup" }, { kind: "files", h: 26 }, { kind: "output", h: 38 }, { kind: "talk", h: 18 }],
+  [{ kind: "startup" }, { kind: "files", h: 26 }, { kind: "output", h: 38 }, { kind: "talk", h: 22 }, { kind: "files", h: 20, hatch: true }, { kind: "talk", h: 10, hatch: true }],
+];
+const CTX_KEY = [["startup", "startup"], ["files", "files"], ["output", "output"], ["talk", "talk"], ["task2", "files", true]];
+
+// (40) One session at four moments — wide, two views. Left to right, the bar
+// after the first prompt, after a few files are read, after a test run and
+// after a second, unrelated task has begun, each fuller than the one before;
+// a small arrow leaves each bar to the right, as the whole bar goes with the
+// next request (the first arrow says so). In the fourth bar the first task's
+// layers stay at the foot as they were in the third, and the second task's,
+// hatched, start above them (a thin outline round the first task's, as the
+// spec had it, read as a second edge of the bar at this size). A key under the
+// bars names the layers. Below 51rem the four bars stand closer, numbered, with
+// the moments as a numbered list under them.
+function contextAsItFills(t, id, figureId) {
+  return ctxViews(t, id, figureId, contextAsItFillsView);
+}
+
+function contextAsItFillsView(t, id, pid, view) {
+  const wide = view === "flow";
+  const W = wide ? FLOW_WIDTH : WIDTH;
+  const COLUMN = wide ? 192 : 72;
+  const TOP = 64;
+  const parts = [ctxHatch(pid, ["files", "talk"])];
+  const moments = ["m1", "m2", "m3", "m4"];
+  let bottom = 0;
+  CTX_MOMENTS.forEach((layers, i) => {
+    const cx = 16 + COLUMN / 2 + i * COLUMN;
+    const x = cx - CTX_W / 2;
+    const bar = ctxBar(pid, x, TOP, layers);
+    bottom = bar.bottom;
+    parts.push(text(cx, TOP - 10, String(i + 1), "fig-note fig-strong", "middle"), bar.svg);
+    // Sent with the next request: an arrow out of the bar's right side.
+    const ay = TOP + CTX_H / 2;
+    const ax = x + CTX_W + (wide ? 12 : 4);
+    parts.push(arrow(pid, ax, ay, ax + (wide ? 40 : 17), ay));
+    if (wide) {
+      // The first arrow's words, under it, centred between the two bars.
+      if (i === 0) wrap(`${id}.sent`, t.sent, COLUMN - CTX_W - 16, "note", 2).forEach((line, n) => parts.push(text(x + CTX_W + (COLUMN - CTX_W) / 2, ay + 16 + n * 13, line, "fig-note", "middle")));
+      wrap(`${id}.${moments[i]}`, t[moments[i]], COLUMN - 16, "note", 2).forEach((line, n) => parts.push(text(cx, bottom + 20 + n * 13, line, "fig-note fig-strong", "middle")));
+    }
+  });
+  let y = bottom + (wide ? 54 : 20);
+  if (!wide) {
+    // The moments, numbered as the bars are, and what the arrows mean.
+    moments.forEach((key, i) => {
+      parts.push(text(16, y, String(i + 1), "fig-note fig-strong"));
+      wrap(`${id}.${key}`, t[key], WIDTH - 16 - 28, "note", 2).forEach((line) => {
+        parts.push(text(28, y, line, "fig-note"));
+        y += 13;
+      });
+    });
+    parts.push(arrow(pid, 16, y - 3.6, 30, y - 3.6), text(36, y, fit(`${id}.sent`, t.sent, WIDTH - 16 - 36), "fig-note"));
+    y += 22;
+  }
+  // The key: one swatch per layer, in the order they stack.
+  if (wide) {
+    const entries = CTX_KEY.map(([key, kind, hatch]) => ({ key, kind, hatch, label: fit(`${id}.${key}`, t[key], 150) }));
+    const width = entries.reduce((sum, { label }) => sum + 20 + label.length * ADVANCE.note, 0) + (entries.length - 1) * 22;
+    let x = (W - width) / 2;
+    for (const { kind, hatch, label } of entries) {
+      const swatch = ctxSwatch(pid, x, y, kind, label, hatch);
+      parts.push(swatch.svg);
+      x = swatch.end + 22;
+    }
+    y += 16;
+  } else {
+    CTX_KEY.forEach(([key, kind, hatch], i) => {
+      const x = i % 2 === 0 ? 16 : 168;
+      parts.push(ctxSwatch(pid, x, y + Math.floor(i / 2) * 16, kind, fit(`${id}.${key}`, t[key], 136 - 20), hatch).svg);
+    });
+    y += 2 * 16 + 16;
+  }
+  return { body: parts.join(""), height: y };
+}
+
+// (41) A subagent's own context — wide, two views. The main agent's bar is a
+// little filled: its start-up layer, the conversation and, on top, the thin
+// summary it got back. The subagent's bar has a start-up layer of its own,
+// the brief as its conversation, a tall layer of files and search results and
+// the summary it writes. The brief goes across at the height of the
+// subagent's conversation; the summary comes back from the top of the
+// subagent's bar to the main bar's, a line far thinner than the search. Under
+// the bars, the counter: the main context is the main bar's layers in a row,
+// the total use those and the subagent's, so it holds a second start-up layer
+// and the whole search; its lengths are the layers' heights.
+const CTX_MAIN = [{ kind: "startup" }, { kind: "talk", h: 20 }, { kind: "summary", h: 6 }];
+const CTX_SUB = [{ kind: "startup" }, { kind: "talk", h: 8 }, { kind: "files", h: 92 }, { kind: "summary", h: 6 }];
+
+function contextSubagent(t, id, figureId) {
+  return ctxViews(t, id, figureId, contextSubagentView);
+}
+
+function contextSubagentView(t, id, pid, view) {
+  const wide = view === "flow";
+  const W = wide ? FLOW_WIDTH : WIDTH;
+  const TOP = 60;
+  const MAIN_X = wide ? 150 : 36;
+  const SUB_X = wide ? 560 : 240;
+  const main = ctxBar(pid, MAIN_X, TOP, CTX_MAIN);
+  const sub = ctxBar(pid, SUB_X, TOP, CTX_SUB);
+  const mainSummary = main.spans[2];
+  const [, brief, search, subSummary] = sub.spans;
+  const from = MAIN_X + CTX_W + 8;
+  const to = SUB_X - 8;
+  const parts = [main.svg, sub.svg];
+  // The brief, across.
+  const by = mid(brief);
+  parts.push(arrow(pid, from, by, to, by), text((from + to) / 2, by - 6, fit(`${id}.brief`, t.brief, to - from - 16), "fig-note fig-strong", "middle"));
+  // The summary, back: level from the subagent's summary, down to the main bar's.
+  const turn = from + (wide ? 36 : 12);
+  const sy = mid(subSummary);
+  parts.push(pathArrow(pid, `M${to} ${round(sy)}H${turn}V${round(mid(mainSummary))}H${from}`));
+  parts.push(text((turn + to) / 2, sy - 6, fit(`${id}.summary`, t.summary, to - turn - 8), "fig-note fig-strong", "middle"));
+  // The search, named beside its layer: on the right in the flow view, on the left of the bar below it.
+  if (wide) {
+    const lx = SUB_X + CTX_W + 16;
+    parts.push(ctxLeader(SUB_X + CTX_W + 2, mid(search), lx - 4, mid(search)), text(lx, mid(search) + NOTE_MID, fit(`${id}.search`, t.search, W - 16 - lx), "fig-note fig-strong"));
+  } else {
+    const lines = wrap(`${id}.search`, t.search, to - turn - 12, "note", 2);
+    const first = mid(search) - ((lines.length - 1) * 13) / 2;
+    lines.forEach((line, n) => parts.push(text(to, first + n * 13 + NOTE_MID, line, "fig-note fig-strong", "end")));
+  }
+  // The two names.
+  const slot = wide ? 180 : 120;
+  parts.push(ctxName(MAIN_X + CTX_W / 2, main.bottom, `${id}.main`, t.main, slot), ctxName(SUB_X + CTX_W / 2, sub.bottom, `${id}.sub`, t.sub, slot));
+  // The counter: the layers in a row, as long as they are tall; in the flow
+  // view each row's name before it, in the stacked view above it.
+  const LABEL_X = wide ? MAIN_X : 16;
+  const METER_X = wide ? LABEL_X + 112 : 16;
+  const GAP = 1.5;
+  const SPLIT = 5;
+  const heights = (bar) => bar.spans.map((span) => ({ kind: span.kind, len: span.bottom - span.top }));
+  const mainRow = heights(main);
+  const subRow = heights(sub);
+  const units = [...mainRow, ...subRow].reduce((sum, { len }) => sum + len, 0);
+  const gaps = (mainRow.length + subRow.length - 2) * GAP + SPLIT;
+  const k = wide ? 2.2 : (W - 16 - METER_X - gaps) / units;
+  const meter = (y, rows) => {
+    const out = [];
+    let x = METER_X;
+    rows.forEach((row, r) => {
+      if (r > 0) x += SPLIT - GAP;
+      for (const { kind, len } of row) {
+        out.push(ctxLayer(pid, x, y - 8, len * k, 8, kind));
+        x += len * k + GAP;
+      }
+    });
+    if (x - GAP > W - 16 + 0.01) throw new Error(`Figure "${id}": the counter runs to ${round(x - GAP)} units`);
+    return out.join("");
+  };
+  const rule = main.bottom + 28;
+  const rowLabel = (key, y) => text(LABEL_X, y, fit(`${id}.${key}`, t[key], wide ? METER_X - LABEL_X - 8 : W - 32), "fig-note fig-strong");
+  const y0 = rule + 22;
+  const y1 = y0 + (wide ? 20 : 34);
+  const drop = wide ? 0 : 14; // the meter's baseline below its name's in the stacked view
+  parts.push(
+    `<line x1="16" y1="${rule}" x2="${W - 16}" y2="${rule}" class="fig-hair"/>`,
+    rowLabel("counterMain", y0),
+    meter(y0 + drop, [mainRow]),
+    rowLabel("counterTotal", y1),
+    meter(y1 + drop, [mainRow, subRow]),
+  );
+  return { body: parts.join(""), height: y1 + drop + 16 };
+}
+
+// (42) What compaction keeps — wide, two views. Before: the bar full to its
+// limit with the layers of (40) and, just above the files, the rule that
+// loaded with one folder's files, a grey band like the start-up layer's (it
+// is an instruction too). An arrow, "compaction", to the bar after it: the
+// start-up layer back from disk, a short summary in place of the
+// conversation and three slim bands of files read again. The rule slides out
+// of the bar at its own height, a strip crossed out, "summarised away", above
+// the arrow. Below 51rem the bar after stands under the bar before.
+const CTX_BEFORE = [{ kind: "startup" }, { kind: "files", h: 26 }, { kind: "rule", h: CTX_BAND + 1 }, { kind: "output", h: 34 }, { kind: "talk", h: 55 }];
+const CTX_AFTER = [{ kind: "startup" }, { kind: "summary", h: 14 }, { kind: "files", h: 4 }, { kind: "files", h: 4 }, { kind: "files", h: 4 }];
+
+function contextCompaction(t, id, figureId) {
+  return ctxViews(t, id, figureId, contextCompactionView);
+}
+
+function contextCompactionView(t, id, pid, view) {
+  const wide = view === "flow";
+  const W = wide ? FLOW_WIDTH : WIDTH;
+  const TOP = 60;
+  const BEFORE_X = wide ? 110 : 36;
+  const before = ctxBar(pid, BEFORE_X, TOP, CTX_BEFORE);
+  const AFTER_X = wide ? 500 : 36;
+  const AFTER_TOP = wide ? TOP : before.bottom + 76;
+  const after = ctxBar(pid, AFTER_X, AFTER_TOP, CTX_AFTER);
+  const parts = [before.svg, after.svg];
+  // The rule, out of the bar at its own height and crossed out.
+  const rule = before.spans[2];
+  const ry = mid(rule);
+  const STRIP_W = CTX_W - 2 * CTX_IN;
+  const STRIP_X = BEFORE_X + CTX_W + 30;
+  parts.push(
+    `<line x1="${BEFORE_X + CTX_W + 2}" y1="${ry}" x2="${STRIP_X - 4}" y2="${ry}" class="fig-line fig-dashed"/>`,
+    ctxLayer(pid, STRIP_X, rule.top, STRIP_W, rule.bottom - rule.top, "rule"),
+    `<line x1="${STRIP_X - 3}" y1="${round(ry + 5)}" x2="${STRIP_X + STRIP_W + 3}" y2="${round(ry - 5)}" class="fig-wait-stroke"/>`,
+    text(STRIP_X + STRIP_W + 10, ry + NOTE_MID, fit(`${id}.lost`, t.lost, W - 16 - STRIP_X - STRIP_W - 10), "fig-note fig-wait fig-strong"),
+  );
+  const ruleLines = wrap(`${id}.rule`, t.rule, (wide ? AFTER_X - 24 : W - 16) - STRIP_X, "note", 2);
+  ruleLines.forEach((line, n) => parts.push(text(STRIP_X, rule.top - 9 - (ruleLines.length - 1 - n) * 13, line, "fig-note")));
+  // The compaction: across under the rule, or down between the two bars.
+  if (wide) {
+    const ay = rule.bottom + 24;
+    const from = BEFORE_X + CTX_W + 8;
+    const to = AFTER_X - 8;
+    parts.push(arrow(pid, from, ay, to, ay), text((from + to) / 2, ay + 16, fit(`${id}.arrow`, t.arrow, to - from - 16), "fig-note fig-strong", "middle"));
+  } else {
+    const ax = BEFORE_X + CTX_W / 2;
+    parts.push(arrow(pid, ax, before.bottom + 30, ax, AFTER_TOP - 10), text(ax + 14, (before.bottom + AFTER_TOP) / 2 + 10 + NOTE_MID, fit(`${id}.arrow`, t.arrow, W - 16 - ax - 14), "fig-note fig-strong"));
+  }
+  // The bar after, its three kinds named on the right.
+  const lx = AFTER_X + CTX_W + 14;
+  const [startup, summary, ...files] = after.spans;
+  const named = [
+    [startup, "startup"],
+    [summary, "summary"],
+    [{ top: files[files.length - 1].top, bottom: files[0].bottom }, "files"],
+  ];
+  for (const [span, key] of named) {
+    parts.push(ctxLeader(AFTER_X + CTX_W + 2, mid(span), lx - 4, mid(span)), text(lx, mid(span) + NOTE_MID, fit(`${id}.${key}`, t[key], W - 16 - lx), "fig-note"));
+  }
+  parts.push(ctxName(BEFORE_X + CTX_W / 2, before.bottom, `${id}.before`, t.before, 120), ctxName(AFTER_X + CTX_W / 2, after.bottom, `${id}.after`, t.after, 120));
+  return { body: parts.join(""), height: after.bottom + 34 };
+}
+
+// (43) A planned hand-off — wide, two views. The session's bar has risen past
+// the first of two dotted lines across it: the advisory level, where the hook
+// tells the agent to plan the hand-off, and higher up the urgent one, in the
+// orange, where it says to hand off now. Beside the bar, under the advisory
+// line, the words that the agent chooses what is written down. The note
+// leaves the bar as a card at the hand-off, the top of the fill, between the
+// two lines (the fact check, 22 November 2026: the agent plans at the
+// advisory line and writes the note at the hand-off). An arrow takes the
+// note to the next session's bar, which holds its start-up layer and the
+// note, a layer thinner than the old bar's conversation. Below 51rem the card
+// stands under the words beside the bar and the next session's bar under the
+// first.
+const CTX_SESSION = [{ kind: "startup" }, { kind: "files", h: 22 }, { kind: "output", h: 26 }, { kind: "talk", h: 30 }];
+const CTX_NEXT = [{ kind: "startup" }, { kind: "note", h: 10 }];
+
+function contextHandoff(t, id, figureId) {
+  return ctxViews(t, id, figureId, contextHandoffView);
+}
+
+function contextHandoffView(t, id, pid, view) {
+  const wide = view === "flow";
+  const W = wide ? FLOW_WIDTH : WIDTH;
+  const TOP = 60;
+  const X = wide ? 70 : 36;
+  const session = ctxBar(pid, X, TOP, CTX_SESSION);
+  const HANDOFF = session.spans[session.spans.length - 1].top; // the top of the fill
+  const URGENT = TOP + 26;
+  const ADVISORY = HANDOFF + 30;
+  const CARD = { w: 84, h: 36 };
+  const LX = X + CTX_W + (wide ? 12 : 18); // the levels' words, beside the bar
+  const parts = [session.svg];
+  const level = (y, end, cls) => `<line x1="${X - 6}" y1="${y}" x2="${end}" y2="${y}" class="${cls}" stroke-dasharray="0.5 3.5" stroke-linecap="round"/>`;
+  // The card: a note with three lines of writing on it.
+  const card = (x, y, w) =>
+    [
+      `<rect x="${x}" y="${y}" width="${w}" height="${CARD.h}" rx="6" class="fig-node"/>`,
+      ...[1, 0.8, 0.5].map((share, i) => `<rect x="${x + 10}" y="${y + 9 + i * 8}" width="${round((w - 20) * share)}" height="2.5" rx="1.25" class="fig-bar-muted"/>`),
+    ].join("");
+  const levelWords = (key, y, slot, cls) => {
+    const lines = wrap(`${id}.${key}`, t[key], slot, "note", 2);
+    return lines.map((line, n) => text(LX, y - 6 - (lines.length - 1 - n) * 13, line, cls)).join("");
+  };
+  const NEXT_X = wide ? 630 : X;
+  // Below 51rem the card stands under the words beside the bar, and the next bar under the first.
+  const STACK_CARD = { x: LX, y: ADVISORY + 42, w: 56 };
+  const NEXT_TOP = wide ? TOP : Math.max(session.bottom + 40, STACK_CARD.y + CARD.h + 54);
+  const next = ctxBar(pid, NEXT_X, NEXT_TOP, CTX_NEXT);
+  const [nextStartup, note] = next.spans;
+  parts.push(next.svg);
+  if (wide) {
+    const LINE_END = 380; // the two levels end short of the card's words
+    const CARD_X = 420;
+    const slot = LINE_END - 14 - LX;
+    parts.push(
+      level(URGENT, LINE_END, "fig-wait-stroke"),
+      levelWords("urgent", URGENT, slot, "fig-note fig-wait fig-strong"),
+      level(ADVISORY, LINE_END, "fig-line"),
+      levelWords("advisory", ADVISORY, slot, "fig-note fig-strong"),
+      text(LX, ADVISORY + 16, fit(`${id}.chosen`, t.chosen, LINE_END - LX), "fig-note"),
+      // At the hand-off the note leaves the bar.
+      arrow(pid, X + CTX_W + 4, HANDOFF, CARD_X - 4, HANDOFF),
+      card(CARD_X, HANDOFF - CARD.h / 2, CARD.w),
+      text(CARD_X + CARD.w / 2, HANDOFF + CARD.h / 2 + 16, fit(`${id}.note`, t.note, 180), "fig-note fig-strong", "middle"),
+      pathArrow(pid, `M${CARD_X + CARD.w + 6} ${HANDOFF}H${NEXT_X - 32}V${round(mid(note))}H${NEXT_X - 8}`),
+    );
+  } else {
+    const slot = W - 16 - LX;
+    const { x: cardX, y: cardY, w: cardW } = STACK_CARD;
+    const below = cardX + cardW / 2;
+    const side = X + CTX_W + 7; // the way down beside the bar, from the hand-off to the card
+    parts.push(
+      level(URGENT, W - 16, "fig-wait-stroke"),
+      levelWords("urgent", URGENT, slot, "fig-note fig-wait fig-strong"),
+      level(ADVISORY, W - 16, "fig-line"),
+      levelWords("advisory", ADVISORY, slot, "fig-note fig-strong"),
+      ...wrap(`${id}.chosen`, t.chosen, slot, "note", 2).map((line, n) => text(LX, ADVISORY + 16 + n * 13, line, "fig-note")),
+      pathArrow(pid, `M${X + CTX_W + 2} ${HANDOFF}H${side}V${cardY + CARD.h / 2}H${cardX - 2}`),
+      card(cardX, cardY, cardW),
+      text(cardX + cardW + 10, cardY + CARD.h / 2 + NOTE_MID, fit(`${id}.note`, t.note, W - 16 - cardX - cardW - 10), "fig-note fig-strong"),
+      pathArrow(pid, `M${below} ${cardY + CARD.h + 4}V${round(mid(note))}H${NEXT_X + CTX_W + 8}`),
+    );
+  }
+  // The next bar's start-up layer, named on the right.
+  const sx = NEXT_X + CTX_W + 14;
+  parts.push(ctxLeader(NEXT_X + CTX_W + 2, mid(nextStartup), sx - 4, mid(nextStartup)), text(sx, mid(nextStartup) + NOTE_MID, fit(`${id}.startup`, t.startup, W - 16 - sx), "fig-note"));
+  parts.push(ctxName(X + CTX_W / 2, session.bottom, `${id}.session`, t.session, 120), ctxName(NEXT_X + CTX_W / 2, next.bottom, `${id}.next`, t.next, 120));
+  return { body: parts.join(""), height: next.bottom + 34 };
+}
+
 // The torch lights up: the hero of the article on Fluentor's name and logo,
 // drawn in the page in its image's place (renderHero, below). It is the
 // article's cover, the whole 1200 x 630 picture, drawn from its parts (COVER
@@ -2859,7 +3364,7 @@ function round6(value) {
   return Math.round(value * 1e6) / 1e6;
 }
 
-export const FIGURES = { stages, gates, loop, assessment, team, harness, ledger, timeline, setup, build, words, bilingual, gauntlet, agents, critic, fleet, sources, merges, logos, connection, lifecycle, price, lock, "waiting-per-day": waitingPerDay, "chat-or-agent": chatOrAgent, "five-parts": fiveParts, "four-things": fourThings, "file-before-after": fileBeforeAfter, "which-tool-reads-what": whichToolReadsWhat, "file-hierarchy": fileHierarchy, "agent-handover": agentHandover, "agent-file": agentFile, "skill-folder": skillFolder, "skill-locations": skillLocations, "mcp-server": mcpServer, "read-only-limits": readOnlyLimits, "what-goes-along": whatGoesAlong, "daily-summary": dailySummary, "limits-path": limitsPath, "limits-attempts": limitsAttempts, "reading-and-route": readingAndRoute };
+export const FIGURES = { stages, gates, loop, assessment, team, harness, ledger, timeline, setup, build, words, bilingual, gauntlet, agents, critic, fleet, sources, merges, logos, connection, lifecycle, price, lock, "waiting-per-day": waitingPerDay, "chat-or-agent": chatOrAgent, "five-parts": fiveParts, "four-things": fourThings, "file-before-after": fileBeforeAfter, "which-tool-reads-what": whichToolReadsWhat, "file-hierarchy": fileHierarchy, "agent-handover": agentHandover, "agent-file": agentFile, "skill-folder": skillFolder, "skill-locations": skillLocations, "mcp-server": mcpServer, "read-only-limits": readOnlyLimits, "what-goes-along": whatGoesAlong, "daily-summary": dailySummary, "limits-path": limitsPath, "limits-attempts": limitsAttempts, "reading-and-route": readingAndRoute, "context-before-you-type": contextBeforeYouType, "context-as-it-fills": contextAsItFills, "context-subagent": contextSubagent, "context-compaction": contextCompaction, "context-handoff": contextHandoff };
 
 /**
  * Render one figure as HTML: `<figure class="figure figure-inline|figure-wide">`

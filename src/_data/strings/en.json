@@ -1597,6 +1597,69 @@
         "note": "from here, where to?"
       },
       "caption": "A level tells you where you stood. A route shows where you can go from there."
+    },
+    "context-before-you-type": {
+      "title": "The context window as a bar with a thin start-up layer at the bottom and the rest empty. The layer holds the tool's instructions, the instruction file, memory and the names of skills and tools.",
+      "head": "Before the first prompt",
+      "limit": "the limit of the window",
+      "empty": "room left",
+      "layer1": "the tool's own instructions",
+      "layer2": "the instruction file",
+      "layer3": "memory",
+      "layer4": "names of skills and tools",
+      "caption": "The context before you have typed anything. The start-up layer is small next to the whole window, but it is there, and every later request carries it. The sizes are drawn, not counted."
+    },
+    "context-as-it-fills": {
+      "title": "Four moments of one session, each bar fuller than the one before: after the first prompt, after a few files are read, after a test run's output, and after a second unrelated task has begun. The layers of the first task stay.",
+      "head": "One session, four moments",
+      "m1": "after the first prompt",
+      "m2": "after a few files are read",
+      "m3": "after a test run",
+      "m4": "after a second, unrelated task begins",
+      "startup": "start-up layer",
+      "files": "files read",
+      "output": "command output",
+      "talk": "conversation",
+      "task2": "second task",
+      "sent": "sent again with the next request",
+      "caption": "The same bar at four moments. Nothing leaves the bar by itself: the first task's layers are still there, and still sent, when the second task begins."
+    },
+    "context-subagent": {
+      "title": "A main agent's bar and a subagent's bar. The main agent hands over a brief. The subagent fills its own bar with a large search and hands back only a thin summary. Below, a counter shows the main context staying small while the total use grows.",
+      "head": "A subagent has a context of its own",
+      "main": "main agent",
+      "sub": "subagent",
+      "brief": "a brief",
+      "search": "files and search results",
+      "summary": "a summary",
+      "counterMain": "main context",
+      "counterTotal": "total use",
+      "caption": "The subagent's reading never enters the main bar, only its summary does. The counter shows the price: the main context stays small, and the total use is larger than doing the same work in one bar."
+    },
+    "context-compaction": {
+      "title": "A full bar before compaction and the same bar after it. Afterwards the start-up layer is back from disk, a short summary has replaced the conversation, a few files are read again, and a rule that loaded only with one folder's files is summarised away until one of those files is read again.",
+      "head": "What compaction keeps",
+      "before": "before",
+      "after": "after",
+      "arrow": "compaction",
+      "startup": "start-up layer, back from disk",
+      "summary": "summary of the conversation",
+      "files": "a few files read again",
+      "rule": "a rule that loaded with one folder's files",
+      "lost": "summarised away",
+      "caption": "What loads at start comes back from disk, with a few recently changed files. The rest is summarised, and a detail can go with it."
+    },
+    "context-handoff": {
+      "title": "One session's bar rising past a dotted advisory line, where the agent plans the hand-off. At the hand-off the agent writes a note, and a new session starts with a new bar holding the start-up layer and that note.",
+      "head": "A planned hand-off",
+      "session": "session",
+      "advisory": "advisory level: plan the hand-off",
+      "urgent": "urgent level: hand off now",
+      "note": "a written note",
+      "chosen": "the agent chooses what is written down",
+      "next": "next session",
+      "startup": "start-up layer",
+      "caption": "The hook speaks only above the first line. The note is written by the agent before the context is full, so the next session starts from what the agent chose to keep, not from a summary the tool wrote for it."
     }
   },
   "games": {

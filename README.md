@@ -332,14 +332,16 @@ Brödtext i Markdown.
   reading measure with its caption beside it from 48 rem, under it below),
   or `{% figure "<id>", "wide" %}` for one that spans the whole container
   with its caption centred underneath. A figure is drawn by `src/_includes/figures/figures.mjs`
-  (`FIGURES` names the forty-one: `stages`, `gates`, `loop`, `assessment`,
+  (`FIGURES` names the forty-six: `stages`, `gates`, `loop`, `assessment`,
   `team`, `harness`, `ledger`, `timeline`, `setup`, `build`, `words`,
   `bilingual`, `gauntlet`, `agents`, `critic`, `fleet`, `sources`, `merges`,
   `logos`, `connection`, `lifecycle`, `price`, `lock`, `waiting-per-day`,
   `chat-or-agent`, `five-parts`, `four-things`, `file-before-after`,
   `which-tool-reads-what`, `file-hierarchy`, `agent-handover`, `agent-file`, `skill-folder`, `skill-locations`, `mcp-server`,
   `read-only-limits`, `what-goes-along`, `daily-summary`, `limits-path`,
-  `limits-attempts`, `reading-and-route`) and
+  `limits-attempts`, `reading-and-route`, `context-before-you-type`,
+  `context-as-it-fills`, `context-subagent`, `context-compaction`,
+  `context-handoff`) and
   every word it shows — panel titles, labels, notes, the caption — comes
   from `figures.<id>` in the two strings files, so one drawing serves both
   languages; a label too long for its slot fails the
@@ -349,8 +351,9 @@ Brödtext i Markdown.
   one line with a space between them, so neither runs into the other or
   past a margin. Adding a figure means one drawing function, its
   strings under `figures.<id>` in `en.json` and `sv.json`, and the two
-  shortcode lines. A drawing can come in two views (`mcp-server` and
-  `read-only-limits`, si-05r9): a flow panel, `FLOW_WIDTH` (800) units wide
+  shortcode lines. A drawing can come in two views (`mcp-server`,
+  `read-only-limits`, si-05r9, and the four wide figures of the deep dive on
+  an agent's context, si-cmjr): a flow panel, `FLOW_WIDTH` (800) units wide
   and drawn left to right, shown from 51 rem (`FLOW_FROM_REM`, the smallest
   whole rem at which a 13-unit label reaches 12 px with a little to spare)
   at most 55 rem wide, and the stacked 320-unit panel below that, so a

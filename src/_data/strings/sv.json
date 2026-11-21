@@ -1597,6 +1597,69 @@
         "note": "vart går du härifrån?"
       },
       "caption": "En nivå visar var du stod. En väg visar vart du kan gå därifrån."
+    },
+    "context-before-you-type": {
+      "title": "Kontextfönstret som en stapel med ett tunt startlager längst ned och resten tomt. Lagret rymmer verktygets instruktioner, instruktionsfilen, minnet och namnen på skills och verktyg.",
+      "head": "Före den första prompten",
+      "limit": "fönstrets gräns",
+      "empty": "utrymme kvar",
+      "layer1": "verktygets egna instruktioner",
+      "layer2": "instruktionsfilen",
+      "layer3": "minne",
+      "layer4": "namn på skills och verktyg",
+      "caption": "Kontexten innan du har skrivit något. Start-lagret är litet jämfört med hela fönstret, men det finns där – varje senare begäran bär med sig det. Storlekarna är ritade, inte räknade."
+    },
+    "context-as-it-fills": {
+      "title": "Fyra tillfällen i en session, där varje stapel är fullare än den förra: efter den första prompten, efter några lästa filer, efter en testkörnings utdata och sedan en andra, orelaterad uppgift har börjat. Den första uppgiftens lager finns kvar.",
+      "head": "En session, fyra tillfällen",
+      "m1": "efter den första prompten",
+      "m2": "efter några lästa filer",
+      "m3": "efter en testkörning",
+      "m4": "sedan en andra, orelaterad uppgift har börjat",
+      "startup": "startlager",
+      "files": "lästa filer",
+      "output": "kommandots utdata",
+      "talk": "samtal",
+      "task2": "andra uppgiften",
+      "sent": "skickas igen med nästa begäran",
+      "caption": "Samma stapel vid fyra tillfällen. Inget lämnar stapeln av sig självt: den första uppgiftens lager finns kvar och skickas fortfarande när den andra uppgiften börjar."
+    },
+    "context-subagent": {
+      "title": "En huvudagents stapel och en subagents stapel. Huvudagenten lämnar över ett uppdrag. Subagenten fyller sin egen stapel med en stor sökning och lämnar bara tillbaka en tunn sammanfattning. Nedanför visar en mätare att huvudkontexten förblir liten medan den totala användningen växer.",
+      "head": "En subagent har en egen kontext",
+      "main": "huvudagent",
+      "sub": "subagent",
+      "brief": "ett uppdrag",
+      "search": "filer och sökresultat",
+      "summary": "en sammanfattning",
+      "counterMain": "huvudkontext",
+      "counterTotal": "total användning",
+      "caption": "Subagentens läsning kommer aldrig in i huvudstapeln, bara dess sammanfattning gör det. Mätaren visar priset: huvudkontexten förblir liten medan den totala användningen är större än om samma arbete gjordes i en stapel."
+    },
+    "context-compaction": {
+      "title": "En full stapel före komprimeringen och samma stapel efter den. Efteråt är start-lagret tillbaka från disk, en kort sammanfattning har ersatt samtalet, några filer är lästa igen och en regel som bara lästes in med en mapps filer har sammanfattats bort tills en av de filerna läses igen.",
+      "head": "Vad komprimeringen behåller",
+      "before": "före",
+      "after": "efter",
+      "arrow": "komprimering",
+      "startup": "startlager, tillbaka från disk",
+      "summary": "sammanfattning av samtalet",
+      "files": "några filer lästa igen",
+      "rule": "en regel som lästes in med en mapps filer",
+      "lost": "sammanfattad bort",
+      "caption": "Det som läses in vid start kommer tillbaka från disk, liksom några nyss ändrade filer. Resten sammanfattas och en detalj kan försvinna med det."
+    },
+    "context-handoff": {
+      "title": "En sessions stapel som stiger förbi en prickad rådgivningslinje, där agenten planerar överlämningen. Vid överlämningen skriver agenten en anteckning. En ny session börjar sedan med en ny stapel som rymmer startlagret och den anteckningen.",
+      "head": "En planerad överlämning",
+      "session": "session",
+      "advisory": "rådgivningsnivå: planera överlämningen",
+      "urgent": "brådskande nivå: lämna över nu",
+      "note": "en skriven anteckning",
+      "chosen": "agenten väljer vad som skrivs ner",
+      "next": "nästa session",
+      "startup": "startlager",
+      "caption": "Hooken säger något först över den första linjen. Anteckningen skrivs av agenten innan kontexten är full, så nästa session börjar från det agenten valde att behålla, inte från en sammanfattning som verktyget skrev åt den."
     }
   },
   "games": {

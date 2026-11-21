@@ -69,7 +69,7 @@ figures here show relative sizes only. Files, the output of commands and the
 model's own answers pile up in layers, and the layers of an old task stay when a
 new one begins.
 
-{% figure "context-as-it-fills" %}
+{% figure "context-as-it-fills", "wide" %}
 
 What stays is sent again.
 [Claude Code's best-practices page](https://code.claude.com/docs/en/best-practices)
@@ -104,7 +104,7 @@ results, logs or file contents you will not refer to again: the subagent does
 that work in its own context and returns only the summary. The context-window
 page adds that only the summary and a small metadata trailer come back.
 
-{% figure "context-subagent" %}
+{% figure "context-subagent", "wide" %}
 
 [Codex's documentation](https://learn.chatgpt.com/docs/agent-configuration/subagents)
 describes the problem a subagent solves from the other side. If you flood the
@@ -145,7 +145,7 @@ information, but that details from earlier messages might be summarised or
 omitted, and Anthropic's guide warns that overly aggressive compaction can lose
 subtle but critical context whose importance only becomes apparent later.
 
-{% figure "context-compaction" %}
+{% figure "context-compaction", "wide" %}
 
 Claude Code's documentation shows what comes back afterwards. Most start-up
 content reloads automatically, and the tool re-reads up to five of the files
@@ -194,7 +194,7 @@ session's transcript, stays silent below a first level, then tells the agent to
 plan toward a clean handoff point and, above a second level, to trigger the
 canonical handoff now.
 
-{% figure "context-handoff" %}
+{% figure "context-handoff", "wide" %}
 
 The idea is about who decides what survives. In compaction the tool writes the
 summary. In a planned hand-off the agent writes down what the next session needs
