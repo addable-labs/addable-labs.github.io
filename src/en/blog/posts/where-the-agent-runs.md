@@ -182,8 +182,10 @@ exits. This step is adapted from the example on GitHub's
 we shortened the prompt and let the answer go to the log instead of a file. The
 `--allow-tool` flag allows git commands, and `--no-ask-user` turns off Copilot's
 interactive question prompt. The token is a fine-grained personal access token
-with the "Copilot Requests" permission. Give it that one permission. Then
-neither token can write to your repository, so git cannot change it.
+with the "Copilot Requests" permission. Grant it only that permission. Then
+neither this token nor the job's own `GITHUB_TOKEN`, which the `permissions`
+lines above limit to reading, can write to your repository, so a git command
+the agent runs cannot change it.
 
 ```text
       - uses: actions/setup-node@v7

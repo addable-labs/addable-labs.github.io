@@ -586,14 +586,38 @@
 - id: P6-copilot-neither-token
   article: where-the-agent-runs
   sentence:
-    sv: "Då kan ingen av de två tokens skriva till ditt repo. Git kan alltså inte ändra det"
-    en: "Then neither token can write to your repository, so git cannot change it"
+    sv: "Då kan varken den här tokenen eller jobbets egen GITHUB_TOKEN, som raderna under permissions ovan begränsar till att läsa, skriva till ditt repo. Ett git-kommando som agenten kör kan alltså inte ändra det"
+    en: "Then neither this token nor the job's own GITHUB_TOKEN, which the permissions lines above limit to reading, can write to your repository, so a git command the agent runs cannot change it"
   vendor: GitHub
-  url: https://docs.github.com/en/copilot/how-tos/copilot-cli/automate-copilot-cli/automate-with-actions
-  final_url: https://docs.github.com/en/copilot/how-tos/copilot-cli/automate-copilot-cli/automate-with-actions
-  quote: "The permissions block defines the scope granted to the built-in GITHUB_TOKEN."
-  retrieved: 2026-10-31
-  last_checked: 2026-10-31
+  url: https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax
+  final_url: https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax
+  quote: "When you add the permissions key within a specific job, all actions and run commands within that job that use the GITHUB_TOKEN gain the access rights you specify. … If you specify the access for any of these permissions, all of those that are not specified are set to none."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
+
+- id: P6-copilot-pat-only-requests
+  article: where-the-agent-runs
+  sentence:
+    sv: "Då kan varken den här tokenen eller jobbets egen GITHUB_TOKEN, som raderna under permissions ovan begränsar till att läsa, skriva till ditt repo"
+    en: "Then neither this token nor the job's own GITHUB_TOKEN, which the permissions lines above limit to reading, can write to your repository"
+  vendor: GitHub
+  url: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens
+  final_url: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens
+  quote: "Tokens always include read-only access to all public repositories on GitHub. … The copilot_requests permission enables making Copilot requests for the given user."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
+
+- id: P6-copilot-git-token
+  article: where-the-agent-runs
+  sentence:
+    sv: "Ett git-kommando som agenten kör kan alltså inte ändra det"
+    en: "so a git command the agent runs cannot change it"
+  vendor: GitHub
+  url: https://raw.githubusercontent.com/actions/checkout/main/README.md
+  final_url: https://raw.githubusercontent.com/actions/checkout/main/README.md
+  quote: "The auth token is persisted in the local git config. This enables your scripts to run authenticated git commands."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
 
 - id: P6-copilot-no-ask-user
   article: where-the-agent-runs

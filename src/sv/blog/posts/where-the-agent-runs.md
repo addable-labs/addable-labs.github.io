@@ -181,8 +181,10 @@ Det här steget är anpassat från exemplet på GitHubs
 vi har kortat prompten och låter svaret gå till loggen i stället för till en
 fil. Flaggan `--allow-tool` tillåter git-kommandon. `--no-ask-user` stänger av
 Copilots frågeprompt. Tokenen är en fine-grained personal access token med
-behörigheten "Copilot Requests". Ge den bara den behörigheten. Då kan ingen av
-de två tokens skriva till ditt repo. Git kan alltså inte ändra det.
+behörigheten "Copilot Requests". Ge den bara den behörigheten. Då kan varken
+den här tokenen eller jobbets egen `GITHUB_TOKEN`, som raderna under
+`permissions` ovan begränsar till att läsa, skriva till ditt repo. Ett
+git-kommando som agenten kör kan alltså inte ändra det.
 
 ```text
       - uses: actions/setup-node@v7
