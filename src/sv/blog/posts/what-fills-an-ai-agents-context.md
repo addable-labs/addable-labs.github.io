@@ -2,7 +2,7 @@
 title: Vad som fyller en AI-agents kontext
 description: "Vad en AI-agent för kodning skickar till modellen i varje steg, hur en session fyller det utrymmet, vad en subagent håller utanför det och vad komprimeringen förlorar, så som leverantörerna beskrev det i november 2026, med Gas Citys planerade överlämning som exempel."
 image: cover.png                 # en PNG på 1200 × 630 i artikelns mediemapp
-imageAlt: "Två av borgmästarens sessioner bredvid varandra. Den förstas kontext har fyllts anrop för anrop: startinnehållet längst ner, omorienteringen i orange, sedan arbetet upp till den streckade överlämningspunkten. Vid överlämningen skriver borgmästaren läget i sitt arbete på ett kort; en ny session börjar på samma startinnehåll och läser kortet först."
+imageAlt: "En hög stapel, kontextfönstret, med en streckad linje som överkant fylls nerifrån i lager. Längst ner ligger ett tunt grått startlager av fyra band. Ovanpå det ligger ett grönt, ett orange och ett vitt lager. Ett blekt grönt lager är på väg in. Bredvid står en liten tom stapel, en subagents egen kontext."
 date: 2026-11-21
 category: ai-journey             # app-development | ai-journey
 translationKey: what-fills-an-ai-agents-context

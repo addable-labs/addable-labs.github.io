@@ -2,7 +2,7 @@
 title: What fills an AI agent's context
 description: "What an AI coding agent sends the model with every step, how a session fills that space, what a subagent keeps out of it and what compaction loses, as the vendors described it in November 2026, with Gas City's planned hand-off as the worked example."
 image: cover.png                 # a 1200 × 630 PNG in the article's media directory
-imageAlt: "Two of the mayor's sessions side by side. The first one's context has filled call by call: the start-up content at the bottom, re-orientation in orange, then the work up to the dashed hand-off point. At the hand-off the mayor writes the state of its work on a card; a new session starts on the same start-up content and reads it first."
+imageAlt: "A tall bar, the context window, with a dashed line for its top, fills from the bottom in layers. At its foot lies a thin grey start-up layer of four bands. On it lie a green, an orange and a white layer, and a faint green layer is on its way in. Beside it stands a small empty bar, a subagent's own context."
 date: 2026-11-21
 category: ai-journey             # app-development | ai-journey
 translationKey: what-fills-an-ai-agents-context

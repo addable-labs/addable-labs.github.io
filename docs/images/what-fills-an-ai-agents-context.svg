@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <!-- The image of "What fills an AI agent's context" (si-cmjr, 21 November
+       2026), in the style and palette of the other covers and drawn as the
+       article's five figures draw the context window: a tall bar, open at
+       its dashed top, the limit, and filled from its foot. One bar fills up:
+       the thin start-up layer of four grey bands at the foot, then the
+       layers a session adds, files read (green), command output (orange) and
+       the conversation (white), and a small green layer on its way in.
+       Beside it, on the same floor, a small bar stands empty: a subagent's
+       own context. Sizes are drawn, not counted. Unlike the cover of the
+       study of the mayor's context (two equal windows and a note between
+       them), there is one window here and no hand-off. The subject sits
+       inside the central 630 x 630 square; nothing that matters is within
+       40 px of an edge. -->
+  <defs>
+    <pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse" y="15">
+      <path d="M0 .5H30M.5 0V30" fill="none" stroke="#242C33"/>
+    </pattern>
+    <radialGradient id="fade" cx="600" cy="315" r="640" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff" stop-opacity=".95"/>
+      <stop offset=".6" stop-color="#fff" stop-opacity=".55"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </radialGradient>
+    <mask id="gridmask"><rect width="1200" height="630" fill="url(#fade)"/></mask>
+    <radialGradient id="glow" cx="560" cy="330" r="330" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#83F35D" stop-opacity=".1"/>
+      <stop offset="1" stop-color="#83F35D" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="#0B0E10"/>
+  <rect width="1200" height="630" fill="url(#grid)" mask="url(#gridmask)"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+
+  <!-- The floor both bars stand on. -->
+  <path d="M400 538H800" stroke="#626E79" stroke-width="2.5" stroke-linecap="round" stroke-opacity=".6"/>
+
+  <!-- The context window: open at the top, its limit the dashed line. -->
+  <path d="M470 96V502a24 24 0 0 0 24 24H602a24 24 0 0 0 24-24V96" fill="#13181C" stroke="#626E79" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M452 96H644" stroke="#626E79" stroke-width="3" stroke-dasharray="4 10" stroke-linecap="round"/>
+
+  <!-- The start-up layer: four slim grey bands at the foot. -->
+  <g fill="#626E79">
+    <rect x="484" y="502" width="128" height="9" rx="4.5"/>
+    <rect x="484" y="488" width="128" height="9" rx="4.5"/>
+    <rect x="484" y="474" width="128" height="9" rx="4.5"/>
+    <rect x="484" y="460" width="128" height="9" rx="4.5"/>
+  </g>
+  <!-- Files read, command output, the conversation. -->
+  <rect x="484" y="382" width="128" height="70" rx="8" fill="#83F35D"/>
+  <rect x="484" y="290" width="128" height="84" rx="8" fill="#FF6F00"/>
+  <rect x="484" y="240" width="128" height="42" rx="8" fill="#ECEFF1"/>
+  <!-- A layer on its way in. -->
+  <rect x="484" y="198" width="128" height="26" rx="8" fill="#83F35D" fill-opacity=".45"/>
+
+  <!-- A subagent's own context: a small bar, empty. -->
+  <path d="M690 356V508a18 18 0 0 0 18 18H752a18 18 0 0 0 18-18V356" fill="#13181C" stroke="#626E79" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M677 356H783" stroke="#626E79" stroke-width="3" stroke-dasharray="4 10" stroke-linecap="round"/>
+</svg>
