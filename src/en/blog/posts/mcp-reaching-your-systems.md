@@ -80,7 +80,7 @@ and settings in the cells are Claude Code's.
 | Cost to the context | Still more context-efficient than MCP servers, even with tool search, because they add no per-tool listing | — | Tool names and instructions are in the context even when unused, and tool search defers the definitions |
 | Setup and upkeep | `gh auth login` signs in with a browser flow and stores the token in the system credential store, or in a plain text file if there is none or it cannot be used | You send the token in the Authorization header and name the API version in a header | With OAuth the tokens are stored and refreshed automatically. A server can change its tools while it is connected |
 | Use in several agent apps | — | — | A server is not specific to one agent app, and some apps use a different file format than others |
-| What you see before it runs | The permission prompt shows what Claude Code is about to do | — | By default, Claude Code asks before an MCP tool runs. The MCP specification adds that a human should always be able to deny a tool call, and that the client should show the tool's inputs before the call |
+| What you see before it runs | The permission prompt shows what Claude Code is about to do | — | In Manual mode, Claude Code asks before an MCP tool runs. The MCP specification adds that a human should always be able to deny a tool call, and that the client should show the tool's inputs before the call |
 | Where it falls short | A command you approve can still write anywhere your user account can | Requests are limited to 60 an hour without a token and 5,000 with a personal access token, and secondary limits can change without notice | Anthropic does not security-audit or manage any MCP server |
 
 Whichever way the agent reaches a system, the text it reads can carry prompt
@@ -205,9 +205,12 @@ Setting both is our own advice, not GitHub's: if one is set wrongly, the other
 still holds. Neither stops the agent from reading a harmful instruction, which
 is why the practice repository is private.
 
-Claude Code and GitHub Copilot ask for your approval when the agent wants to use
-an MCP tool. Our advice: leave it that way at first, so you can see what the
-agent does. [Part 7](#part-7) covers how to decide what may run without asking.
+GitHub Copilot asks for your approval when the agent wants to use an MCP tool.
+So does Claude Code in Manual mode, but it starts in
+[Auto mode](https://code.claude.com/docs/en/permission-modes) unless set
+otherwise, and there a second model reviews the call instead of you. Our advice:
+let the tool ask you at first, so you can see what the agent does.
+[Part 7](#part-7) covers how to decide what may run without asking.
 
 ## Claude Code, Codex and GitHub Copilot
 
@@ -419,11 +422,13 @@ claude mcp add --transport http my-server https://mcp.example.com/mcp
 
 Then run `/mcp` in Claude Code and follow the steps in your browser.
 `claude mcp login my-server` does the same from your shell. For a server that
-supports OAuth, Codex has `codex mcp login`. In VS Code a browser window opens
-the first time it connects, if an entry in its own format (`.vscode/mcp.json`)
-has an `oauth` setting with a `clientId`. VS Code's reference says that the
-`oauth` fields apply to that format, and that the `.mcp.json` format used above
-has a separate schema.
+supports OAuth, Codex has `codex mcp login`. In VS Code you complete the sign-in
+when Copilot asks for it. For a server that needs a client ID registered in
+advance, VS Code's
+[reference](https://code.visualstudio.com/docs/agents/reference/mcp-configuration#_authentication-and-secrets)
+names the field `oauthClientId` in the `.mcp.json` format used above. The
+`oauth` object belongs to the `.vscode/mcp.json` format, which the reference
+says not to use for new Copilot configurations.
 
 In our view, OAuth fits when the server supports it and you are at the keyboard.
 A token fits in the other cases. A local stdio server is not meant for the OAuth

@@ -298,9 +298,9 @@ policy:
 ```
 
 If `/release` is not recognised, the tool has not found the skill. Check that
-the folder is in a place the tool reads and that the file is called SKILL.md.
-In Claude Code, a skills folder you created while it was running needs
-`/reload-skills`. In Codex, a skill that does not appear needs a restart.
+the folder is in a place the tool reads and that the file is called SKILL.md. In
+Claude Code, run `/reload-skills` if a new skill does not appear. In Codex, a
+skill that does not appear needs a restart.
 
 If the agent skips steps late in a long conversation, put the most important
 steps first in the SKILL.md. When Claude Code summarises a long conversation to
@@ -351,8 +351,9 @@ themselves in SkillsBench were written before they started the task, not after
 a session that went well.
 
 The tools have helpers for drafting a skill. In Codex it is `$skill-creator`,
-and in the VS Code chat, with Local selected in the chat view, you can type
-`/create-skill` followed by a description.
+and in VS Code you can
+[ask the agent in the chat](https://code.visualstudio.com/docs/agent-customization/agent-skills#_generate-a-skill-with-ai)
+to create the skill from a description.
 
 Read the draft and cut it down to what the job needs. Put the folder where your
 tool reads skills: `.claude/skills/release/` in Claude Code,

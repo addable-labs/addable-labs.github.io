@@ -658,32 +658,56 @@
 - id: P5-vs-approval
   article: mcp-reaching-your-systems
   sentence:
-    sv: "Claude Code och GitHub Copilot ber om ditt godkännande när agenten vill använda ett MCP-verktyg"
-    en: "Claude Code and GitHub Copilot ask for your approval when the agent wants to use an MCP tool"
+    sv: "GitHub Copilot ber om ditt godkännande när agenten vill använda ett MCP-verktyg"
+    en: "GitHub Copilot asks for your approval when the agent wants to use an MCP tool"
   vendor: GitHub
-  url: https://code.visualstudio.com/docs/agents/run/security
-  final_url: https://code.visualstudio.com/docs/agents/run/security
-  quote: "MCP tool invocations require explicit user approval, which you can grant at different scopes: session-level for temporary access, workspace-level for project-specific trust, or user-level for broader permissions."
-  retrieved: 2026-10-30
-  last_checked: 2026-11-03
+  url: https://code.visualstudio.com/docs/agent-customization/mcp-servers#_use-your-servers-tools
+  final_url: https://code.visualstudio.com/docs/agent-customization/mcp-servers#_use-your-servers-tools
+  quote: "Review startup, sign-in, or tool approval requests as they appear."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
 
 - id: P5-cc-approval-default
   article: mcp-reaching-your-systems
   sentence:
-    sv: "Claude Code och GitHub Copilot ber om ditt godkännande när agenten vill använda ett MCP-verktyg"
-    en: "Claude Code and GitHub Copilot ask for your approval when the agent wants to use an MCP tool"
+    sv: "Det gör även Claude Code i läget Manual"
+    en: "So does Claude Code in Manual mode"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/permissions
   final_url: https://code.claude.com/docs/en/permissions
-  quote: "Prompts for permission on first use of each tool."
-  retrieved: 2026-10-31
-  last_checked: 2026-11-03
+  quote: "including Bash, PowerShell, file, and MCP tool prompts"
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
+
+- id: P5-cc-auto-start
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "det startar i läget Auto om inget annat är inställt"
+    en: "it starts in Auto mode unless set otherwise"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/permission-modes
+  final_url: https://code.claude.com/docs/en/permission-modes
+  quote: "With Claude Code v2.1.283 or later, auto mode is the built-in starting permission mode for interactive terminal and VS Code sessions."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
+
+- id: P5-cc-auto-reviews
+  article: mcp-reaching-your-systems
+  sentence:
+    sv: "Där granskar en andra modell anropet i stället för dig"
+    en: "there a second model reviews the call instead of you"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/permission-modes
+  final_url: https://code.claude.com/docs/en/permission-modes
+  quote: "In auto mode, a second model, the classifier, reviews actions instead of you"
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
 
 - id: P5-vs-advice-leave-prompt
   article: mcp-reaching-your-systems
   sentence:
-    sv: "Vårt råd: låt det vara så till en början, så du ser vad agenten gör"
-    en: "Our advice: leave it that way at first, so you can see what the agent does"
+    sv: "Vårt råd: låt verktyget fråga dig till en början, så du ser vad agenten gör"
+    en: "Our advice: let the tool ask you at first, so you can see what the agent does"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/permissions
   final_url: https://code.claude.com/docs/en/permissions
@@ -1795,89 +1819,53 @@
   retrieved: 2026-11-05
   last_checked: 2026-11-05
 
-- id: P5-adv-oauth-vscode
-  article: mcp-reaching-your-systems
-  sentence:
-    sv: "I VS Code öppnas ett webbläsarfönster första gången det ansluter, om en post i dess eget format (.vscode/mcp.json) har inställningen oauth med en clientId"
-    en: "In VS Code a browser window opens the first time it connects, if an entry in its own format (.vscode/mcp.json) has an oauth setting with a clientId"
-  vendor: GitHub
-  url: https://code.visualstudio.com/docs/agents/reference/mcp-configuration
-  final_url: https://code.visualstudio.com/docs/agents/reference/mcp-configuration
-  quote: "When `oauth` is configured, VS Code handles the OAuth flow automatically. A browser window opens for authorization on the first connection to the server."
-  retrieved: 2026-11-05
-  last_checked: 2026-11-05
-
-- id: P5-adv-oauth-clientid
-  article: mcp-reaching-your-systems
-  sentence:
-    sv: "I VS Code öppnas ett webbläsarfönster första gången det ansluter, om en post i dess eget format (.vscode/mcp.json) har inställningen oauth med en clientId"
-    en: "In VS Code a browser window opens the first time it connects, if an entry in its own format (.vscode/mcp.json) has an oauth setting with a clientId"
-  vendor: GitHub
-  url: https://code.visualstudio.com/docs/agents/reference/mcp-configuration
-  final_url: https://code.visualstudio.com/docs/agents/reference/mcp-configuration
-  quote: "The OAuth client ID to use when authenticating with the server."
-  retrieved: 2026-11-05
-  last_checked: 2026-11-05
-
 - id: P5-adv-oauth-vscode-format
   article: mcp-reaching-your-systems
   sentence:
-    sv: "I VS Code öppnas ett webbläsarfönster första gången det ansluter, om en post i dess eget format (.vscode/mcp.json) har inställningen oauth med en clientId"
-    en: "In VS Code a browser window opens the first time it connects, if an entry in its own format (.vscode/mcp.json) has an oauth setting with a clientId"
+    sv: "I VS Code slutför du inloggningen när Copilot ber om det"
+    en: "In VS Code you complete the sign-in when Copilot asks for it"
   vendor: GitHub
-  url: https://code.visualstudio.com/docs/agents/reference/mcp-configuration
-  final_url: https://code.visualstudio.com/docs/agents/reference/mcp-configuration
-  quote: "The `oauth` fields above apply to the VS Code format."
-  retrieved: 2026-11-05
-  last_checked: 2026-11-05
+  url: https://code.visualstudio.com/docs/agents/reference/mcp-configuration#_authentication-and-secrets
+  final_url: https://code.visualstudio.com/docs/agents/reference/mcp-configuration#_authentication-and-secrets
+  quote: "complete authorization when prompted"
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
 
 - id: P5-adv-oauth-vscode-file
   article: mcp-reaching-your-systems
   sentence:
-    sv: "I VS Code öppnas ett webbläsarfönster första gången det ansluter, om en post i dess eget format (.vscode/mcp.json) har inställningen oauth med en clientId"
-    en: "In VS Code a browser window opens the first time it connects, if an entry in its own format (.vscode/mcp.json) has an oauth setting with a clientId"
+    sv: "Objektet oauth hör till formatet i .vscode/mcp.json, som referensen säger att du inte ska använda för nya Copilot-konfigurationer"
+    en: "The oauth object belongs to the .vscode/mcp.json format, which the reference says not to use for new Copilot configurations"
   vendor: GitHub
-  url: https://code.visualstudio.com/docs/agents/reference/mcp-configuration
-  final_url: https://code.visualstudio.com/docs/agents/reference/mcp-configuration
-  quote: "The VS Code format is stored in `.vscode/mcp.json` in your workspace"
-  retrieved: 2026-11-05
-  last_checked: 2026-11-05
+  url: https://code.visualstudio.com/docs/agents/reference/mcp-configuration#_configuration-file
+  final_url: https://code.visualstudio.com/docs/agents/reference/mcp-configuration#_configuration-file
+  quote: "For new Copilot configurations, use these native destinations, not .vscode/mcp.json or profile mcp.json."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
 
 - id: P5-adv-oauth-vscode-fields
   article: mcp-reaching-your-systems
   sentence:
-    sv: "VS Codes referens säger att oauth-fälten gäller det formatet och att .mcp.json-formatet som används ovan har ett eget schema"
-    en: "VS Code's reference says that the oauth fields apply to that format, and that the .mcp.json format used above has a separate schema"
+    sv: "För en server som kräver ett klient-id som har registrerats i förväg anger VS Codes referens fältet oauthClientId i .mcp.json-formatet som används ovan"
+    en: "For a server that needs a client ID registered in advance, VS Code's reference names the field oauthClientId in the .mcp.json format used above"
   vendor: GitHub
-  url: https://code.visualstudio.com/docs/agents/reference/mcp-configuration
-  final_url: https://code.visualstudio.com/docs/agents/reference/mcp-configuration
-  quote: "The `oauth` fields above apply to the VS Code format."
-  retrieved: 2026-11-05
-  last_checked: 2026-11-05
-
-- id: P5-adv-oauth-vscode-portable
-  article: mcp-reaching-your-systems
-  sentence:
-    sv: "VS Codes referens säger att oauth-fälten gäller det formatet och att .mcp.json-formatet som används ovan har ett eget schema"
-    en: "VS Code's reference says that the oauth fields apply to that format, and that the .mcp.json format used above has a separate schema"
-  vendor: GitHub
-  url: https://code.visualstudio.com/docs/agents/reference/mcp-configuration
-  final_url: https://code.visualstudio.com/docs/agents/reference/mcp-configuration
-  quote: "The portable Copilot format uses a separate schema with a top-level `mcpServers` object."
-  retrieved: 2026-11-05
-  last_checked: 2026-11-05
+  url: https://code.visualstudio.com/docs/agents/reference/mcp-configuration#_portable-configuration
+  final_url: https://code.visualstudio.com/docs/agents/reference/mcp-configuration#_portable-configuration
+  quote: "Client ID for a server that requires a pre-registered OAuth client. This is a flat field, not the editor format's nested oauth object."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
 
 - id: P5-adv-oauth-vscode-portable-file
   article: mcp-reaching-your-systems
   sentence:
-    sv: "VS Codes referens säger att oauth-fälten gäller det formatet och att .mcp.json-formatet som används ovan har ett eget schema"
-    en: "VS Code's reference says that the oauth fields apply to that format, and that the .mcp.json format used above has a separate schema"
+    sv: "För en server som kräver ett klient-id som har registrerats i förväg anger VS Codes referens fältet oauthClientId i .mcp.json-formatet som används ovan"
+    en: "For a server that needs a client ID registered in advance, VS Code's reference names the field oauthClientId in the .mcp.json format used above"
   vendor: GitHub
-  url: https://code.visualstudio.com/docs/agents/reference/mcp-configuration
-  final_url: https://code.visualstudio.com/docs/agents/reference/mcp-configuration
-  quote: "The portable Copilot format is stored in `.mcp.json` at the root of your workspace"
-  retrieved: 2026-11-05
-  last_checked: 2026-11-05
+  url: https://code.visualstudio.com/docs/agents/reference/mcp-configuration#_configuration-file
+  final_url: https://code.visualstudio.com/docs/agents/reference/mcp-configuration#_configuration-file
+  quote: "Both files use a top-level mcpServers object, and the harness reads them directly."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
 
 - id: P5-adv-oauth-fits
   article: mcp-reaching-your-systems
@@ -3454,14 +3442,14 @@
 - id: P5-cmp-cc-asks
   article: mcp-reaching-your-systems
   sentence:
-    sv: "Som standard frågar Claude Code innan ett MCP-verktyg körs"
-    en: "By default, Claude Code asks before an MCP tool runs"
+    sv: "I läget Manual frågar Claude Code innan ett MCP-verktyg körs"
+    en: "In Manual mode, Claude Code asks before an MCP tool runs"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/permissions
   final_url: https://code.claude.com/docs/en/permissions
-  quote: "Prompts for permission on first use of each tool."
-  retrieved: 2026-11-05
-  last_checked: 2026-11-05
+  quote: "including Bash, PowerShell, file, and MCP tool prompts"
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
 
 - id: P5-cmp-human
   article: mcp-reaching-your-systems

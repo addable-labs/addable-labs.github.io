@@ -70,14 +70,14 @@
 - id: L-shape
   article: set-the-limits-in-advance
   sentence:
-    sv: "instruktioner \"påverkar vad Claude försöker göra men ändrar inte vad Claude Code tillåter\""
-    en: "instructions \"shape what Claude tries to do, but they don't change what Claude Code allows\""
+    sv: "instruktioner \"påverkar vad Claude försöker göra men ändrar inte de här reglerna\""
+    en: "instructions \"shape what Claude tries to do, but they don't change these rules\""
   vendor: Anthropic
   url: https://code.claude.com/docs/en/permissions
   final_url: https://code.claude.com/docs/en/permissions
-  quote: "shape what Claude tries to do, but they don't change what Claude Code allows."
-  retrieved: 2026-10-31
-  last_checked: 2026-11-15
+  quote: "shape what Claude tries to do, but they don't change these rules."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
 
 - id: L-enforced
   article: set-the-limits-in-advance
@@ -706,20 +706,32 @@
 - id: G-rules-apply
   article: set-the-limits-in-advance
   sentence:
-    sv: "Den gäller Claude Codes egna filverktyg och de filkommandon det känner igen, som cat och sed, men inte ett skript som öppnar filer själv, till exempel ett Python-program"
-    en: "It covers Claude Code's own file tools and the file commands it recognises, such as cat and sed, but not a script that opens files itself, for example a Python program"
+    sv: "Den gäller Claude Codes egna filverktyg och de filkommandon det känner igen, som cat och sed, men inte ett kommando som läser filer utan att nämna dem, som grep -r i mappen där de ligger"
+    en: "It covers Claude Code's own file tools and the file commands it recognises, such as cat and sed, but not a command that reads files without naming them, such as grep -r run in the folder that holds them"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/permissions
   final_url: https://code.claude.com/docs/en/permissions
-  quote: "Read and Edit deny rules apply to Claude's built-in file tools, to file commands Claude Code recognizes in Bash"
-  retrieved: 2026-10-31
-  last_checked: 2026-11-15
+  quote: "Read and Edit deny rules apply to Claude's built-in file tools. In a Bash command Claude Code can analyze, they also apply to redirection targets and to file commands it recognizes, such as cat, head, tail, sed, and tee."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
+
+- id: G-rules-not-grep
+  article: set-the-limits-in-advance
+  sentence:
+    sv: "Den gäller Claude Codes egna filverktyg och de filkommandon det känner igen, som cat och sed, men inte ett kommando som läser filer utan att nämna dem, som grep -r i mappen där de ligger"
+    en: "It covers Claude Code's own file tools and the file commands it recognises, such as cat and sed, but not a command that reads files without naming them, such as grep -r run in the folder that holds them"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/permissions
+  final_url: https://code.claude.com/docs/en/permissions
+  quote: "They don't apply to a command that reads files without naming them, such as grep -r pattern . run from the directory that holds the file."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
 
 - id: G-rules-not-2
   article: set-the-limits-in-advance
   sentence:
-    sv: "Den gäller Claude Codes egna filverktyg och de filkommandon det känner igen, som cat och sed, men inte ett skript som öppnar filer själv, till exempel ett Python-program"
-    en: "It covers Claude Code's own file tools and the file commands it recognises, such as cat and sed, but not a script that opens files itself, for example a Python program"
+    sv: "Den gäller inte heller ett skript som öppnar filer själv, till exempel ett Python-program"
+    en: "Nor does it cover a script that opens files itself, for example a Python program"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/permissions
   final_url: https://code.claude.com/docs/en/permissions
@@ -730,8 +742,8 @@
 - id: G-sandbox-covers
   article: set-the-limits-in-advance
   sentence:
-    sv: "Sandboxen gör det, så använd båda"
-    en: "The sandbox does, so use both"
+    sv: "Sandboxen täcker båda fallen, så använd dem tillsammans"
+    en: "The sandbox covers both, so use the two together"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/sandboxing
   final_url: https://code.claude.com/docs/en/sandboxing

@@ -60,12 +60,12 @@ a loose file of database commands in the root of the project. The developer
 reads through the agent's changes, finds the file and tells the agent to put
 the change in a new migration.
 
-Then the developer rewrites the rule so that it
-gives both the reason and the way out: those files have already run in
-production, which means on the live database, so the change goes in a new
-migration. A rule with its reason helps in cases nobody thought of: when the
-instructions explain why a convention exists, the agent
-[makes better decisions in unusual cases](https://code.visualstudio.com/docs/agent-customization/custom-instructions).
+Then the developer rewrites the rule so that it gives both the reason and the
+way out: those files have already run in production, which means on the live
+database, so the change goes in a new migration. A rule with its reason helps in
+cases nobody thought of: Anthropic's guide to prompting says that when you
+explain why,
+[Claude can generalise from the explanation](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices).
 
 Twice in the next two weeks, the agent runs all the tests after a change of a
 single line, although one test file would do. The second time, the developer

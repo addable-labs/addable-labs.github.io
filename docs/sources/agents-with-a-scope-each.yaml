@@ -445,25 +445,14 @@
 - id: P3-least-privilege
   article: agents-with-a-scope-each
   sentence:
-    sv: "VS Codes dokumentation rekommenderar verktyg som bara läser för säkerhetskänsligt arbete"
-    en: "VS Code's documentation advises read-only tools for security-sensitive work"
+    sv: "VS Codes dokumentation råder dig att låta verktygen passa uppgiften: en granskare som bara läser kod behöver inga verktyg för att ändra filer, för terminalen eller för att lämna över arbete"
+    en: "VS Code's documentation advises to match the tools to the task: a reviewer that only reads code does not need tools for editing, the terminal or handing work over"
   vendor: GitHub
-  url: https://code.visualstudio.com/docs/agent-customization/custom-agents
-  final_url: https://code.visualstudio.com/docs/agent-customization/custom-agents
-  quote: "For security-sensitive workflows, create agents with read-only tools to prevent unintended modifications."
-  retrieved: 2026-10-30
-  last_checked: 2026-10-30
-- id: P3-least-privilege-name
-  article: agents-with-a-scope-each
-  sentence:
-    sv: "säger att verktygslistan i en agent som delas i ett repository ska följa principen om minsta behörighet (principle of least privilege)"
-    en: "says that the tool list of an agent shared in a repository should follow the principle of least privilege"
-  vendor: GitHub
-  url: https://code.visualstudio.com/docs/agent-customization/custom-agents
-  final_url: https://code.visualstudio.com/docs/agent-customization/custom-agents
-  quote: "When sharing agents in a repository, review the tool list and instructions to ensure they follow the principle of least privilege."
-  retrieved: 2026-10-30
-  last_checked: 2026-10-30
+  url: https://code.visualstudio.com/docs/agent-customization/custom-agents#_write-effective-agent-instructions
+  final_url: https://code.visualstudio.com/docs/agent-customization/custom-agents#_write-effective-agent-instructions
+  quote: "Match tools to the task. A reviewer that only reads code doesn't need editing, terminal, or delegation tools."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
 - id: P3-permissions
   article: agents-with-a-scope-each
   sentence:
@@ -533,14 +522,14 @@
 - id: P3-cc-mention
   article: agents-with-a-scope-each
   sentence:
-    sv: "Skriver du @ och subagentens namn ser Claude Code till att subagenten körs för just den uppgiften."
-    en: "Typing @ and the subagent's name makes sure the subagent runs for that task."
+    sv: "Skriver du @ och subagentens namn säger du åt huvudagenten att köra subagenten för just den uppgiften."
+    en: "Typing @ and the subagent's name tells the main agent to run the subagent for that task."
   vendor: Anthropic
   url: https://code.claude.com/docs/en/sub-agents
   final_url: https://code.claude.com/docs/en/sub-agents
-  quote: "guarantees the subagent runs for one task"
-  retrieved: 2026-10-30
-  last_checked: 2026-10-30
+  quote: "@-mention: tells Claude to run the subagent for one task"
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
 - id: P3-cx-file
   article: agents-with-a-scope-each
   sentence:
@@ -665,14 +654,14 @@
 - id: P3-contexts-caveat
   article: agents-with-a-scope-each
   sentence:
-    sv: "kan lyfta fram olika problem men garanterar inga opartiska eller korrekta slutsatser"
-    en: "can surface different issues, but don't guarantee unbiased or correct conclusions"
+    sv: "VS Codes dokumentation säger att du ska kontrollera filhänvisningar och antaganden i det som en subagent lämnar tillbaka innan du arbetar vidare"
+    en: "VS Code's documentation tells you to check the file references and assumptions in what a subagent returns before you go on with the work"
   vendor: GitHub
-  url: https://code.visualstudio.com/docs/agents/run/subagents
-  final_url: https://code.visualstudio.com/docs/agents/run/subagents
-  quote: "Separate contexts can surface different issues, but don't guarantee unbiased or correct conclusions."
-  retrieved: 2026-10-30
-  last_checked: 2026-10-30
+  url: https://code.visualstudio.com/docs/agents/run/subagents#_delegate-a-task
+  final_url: https://code.visualstudio.com/docs/agents/run/subagents#_delegate-a-task
+  quote: "Check file references and assumptions before continuing with implementation."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
 - id: P3-factory-roles
   article: agents-with-a-scope-each
   sentence:
@@ -797,12 +786,67 @@
 - id: P3-cost-vs
   article: agents-with-a-scope-each
   sentence:
-    sv: "att lämna över ger mer modellanvändning och mer samordning. VS Codes dokumentation säger att det oftast räcker att be om en snabb sökning eller en liten ändring direkt"
-    en: "handing over adds model usage and coordination, and VS Code's documentation says a direct request is usually enough for a quick lookup or a small edit"
+    sv: "Att lämna över arbete till en subagent ökar modellanvändningen"
+    en: "Handing work to a subagent adds model usage"
   vendor: GitHub
   url: https://code.visualstudio.com/docs/agents/run/subagents
   final_url: https://code.visualstudio.com/docs/agents/run/subagents
   quote: "For a quick lookup or a small edit, a direct request is usually enough. Subagents make their own model requests"
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
+- id: P3-cost-sub-requests
+  article: agents-with-a-scope-each
+  sentence:
+    sv: "Att lämna över arbete till en subagent ökar modellanvändningen"
+    en: "Handing work to a subagent adds model usage"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/sub-agents
+  final_url: https://code.claude.com/docs/en/sub-agents
+  quote: "It also sends its own requests, which count toward the same usage limits as your main conversation."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
+- id: P3-cost-direct
+  article: agents-with-a-scope-each
+  sentence:
+    sv: "VS Codes dokumentation säger att det oftast räcker att be om en snabb sökning eller en liten ändring direkt"
+    en: "VS Code's documentation says a direct request is usually enough for a quick lookup or a small edit"
+  vendor: GitHub
+  url: https://code.visualstudio.com/docs/agents/run/subagents
+  final_url: https://code.visualstudio.com/docs/agents/run/subagents
+  quote: "For a quick lookup or a small edit, a direct request is usually enough."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
+- id: P3-brief
+  article: agents-with-a-scope-each
+  sentence:
+    sv: "Huvudagenten skriver subagentens uppdrag och läser det som kommer tillbaka"
+    en: "The main agent writes the subagent's brief and reads what comes back"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/sub-agents
+  final_url: https://code.claude.com/docs/en/sub-agents
+  quote: "Your full message still goes to Claude, which writes the subagent's task prompt based on what you asked."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
+- id: P3-returns
+  article: agents-with-a-scope-each
+  sentence:
+    sv: "Huvudagenten skriver subagentens uppdrag och läser det som kommer tillbaka"
+    en: "The main agent writes the subagent's brief and reads what comes back"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/sub-agents
+  final_url: https://code.claude.com/docs/en/sub-agents
+  quote: "it delegates to that subagent, which works independently and returns results."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
+- id: P3-fresh-start
+  article: agents-with-a-scope-each
+  sentence:
+    sv: "Subagenten börjar utan samtalet hittills, så den måste själv läsa de filer som behövs för att förstå uppgiften"
+    en: "The subagent starts without the conversation so far, so it has to read the relevant files itself to learn what the task is about"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/sub-agents
+  final_url: https://code.claude.com/docs/en/sub-agents
+  quote: "Each subagent starts with a fresh, isolated context window. It doesn't see your conversation history, the skills you've already invoked, or the files Claude has already read."
   retrieved: 2026-11-21
   last_checked: 2026-11-21
 - id: P3-cost-vs-concepts
@@ -852,25 +896,25 @@
 - id: P3-case
   article: agents-with-a-scope-each
   sentence:
-    sv: "måste namnet skrivas exakt som i filen, med samma versaler"
-    en: "the name must be written exactly as in the file, capitals included"
+    sv: "I VS Code kontrollerar du i Agent Customizations-redigeraren att filen står i listan utan fel"
+    en: "In VS Code, check in the Agent Customizations editor that the file is listed without errors"
   vendor: GitHub
-  url: https://code.visualstudio.com/docs/agents/run/subagents
-  final_url: https://code.visualstudio.com/docs/agents/run/subagents
-  quote: "Agent names are case-sensitive. Use the exact name from the custom agent definition."
-  retrieved: 2026-10-30
-  last_checked: 2026-10-30
+  url: https://code.visualstudio.com/docs/agent-customization/custom-agents#_verify-your-custom-agent
+  final_url: https://code.visualstudio.com/docs/agent-customization/custom-agents#_verify-your-custom-agent
+  quote: "confirm that Reviewer is listed without file errors"
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
 - id: P3-run-subagent
   article: agents-with-a-scope-each
   sentence:
-    sv: "Verktyget Run Subagent måste också vara valt under Configure Tools"
-    en: "The Run Subagent tool must also be selected under Configure Tools"
+    sv: "I VS Code kontrollerar du i Agent Customizations-redigeraren att filen står i listan utan fel"
+    en: "In VS Code, check in the Agent Customizations editor that the file is listed without errors"
   vendor: GitHub
-  url: https://code.visualstudio.com/docs/agents/run/subagents
-  final_url: https://code.visualstudio.com/docs/agents/run/subagents
-  quote: "Select Configure Tools and make sure Run Subagent (agent/runSubagent) is selected."
-  retrieved: 2026-10-30
-  last_checked: 2026-10-30
+  url: https://code.visualstudio.com/docs/agent-customization/custom-agents#_verify-your-custom-agent
+  final_url: https://code.visualstudio.com/docs/agent-customization/custom-agents#_verify-your-custom-agent
+  quote: "confirm that Reviewer is listed without file errors"
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
 - id: P3-generate
   article: agents-with-a-scope-each
   sentence:

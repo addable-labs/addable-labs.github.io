@@ -20,7 +20,7 @@ bara göra det som tillåtits innan det startade.
 Ett jobb som ska göra mer behöver sina gränser satta i förväg.
 Behörighetsregler, en hook och en sandbox kan var och en svara ja eller nej åt
 dig när agenten är på väg att köra ett kommando eller ändra en fil. Vi beskriver
-verktygen så som deras dokumentation såg ut den 15 november 2026.
+verktygen så som deras dokumentation såg ut den 21 november 2026.
 
 ## En begäran och en gräns
 
@@ -38,9 +38,9 @@ Agenten
 brukar följa den. Om den missförstår raden eller har blivit vilseledd av text
 den har läst (del 5 beskrev hur) kan raden inte stoppa den. Anthropics
 [dokumentation](https://code.claude.com/docs/en/permissions) säger att
-instruktioner "påverkar vad Claude försöker göra men ändrar inte vad Claude Code
-tillåter", medan behörighetsregler "upprätthålls av Claude Code, inte av
-modellen" (vår översättning).
+behörighetsregler "upprätthålls av Claude Code, inte av modellen" och att
+instruktioner "påverkar vad Claude försöker göra men ändrar inte de här
+reglerna" (vår översättning).
 
 En gräns är en regel som kontrolleras utanför instruktionsfilen. Del 2 nämnde
 två sätt att få en: ett test i projektet och en inställning i verktyget.
@@ -259,10 +259,11 @@ skriptet letar bara efter den andra stavningen. `rm -r -f build` och
 `git push -f` går också igenom. En hook som matchar text stoppar bara det den
 listar.
 
-Den nekande regeln har också ett hål. Den gäller Claude Codes egna filverktyg
-och de filkommandon det känner igen, som `cat` och `sed`, men inte ett skript
-som öppnar filer själv, till exempel ett Python-program. Sandboxen gör det, så
-använd båda.
+Den nekande regeln har också hål. Den gäller Claude Codes egna filverktyg och de
+filkommandon det känner igen, som `cat` och `sed`, men inte ett kommando som
+läser filer utan att nämna dem, som `grep -r` i mappen där de ligger. Den gäller
+inte heller ett skript som öppnar filer själv, till exempel ett Python-program.
+Sandboxen täcker båda fallen, så använd dem tillsammans.
 
 {% figure "limits-attempts" %}
 

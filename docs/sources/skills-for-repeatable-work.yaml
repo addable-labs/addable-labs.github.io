@@ -918,14 +918,14 @@
 - id: P4-claude-reload
   article: skills-for-repeatable-work
   sentence:
-    sv: "I Claude Code behöver en skills-mapp som du skapade medan verktyget kördes kommandot /reload-skills."
-    en: "In Claude Code, a skills folder you created while it was running needs /reload-skills."
+    sv: "I Claude Code kör du /reload-skills om en ny skill inte dyker upp."
+    en: "In Claude Code, run /reload-skills if a new skill does not appear."
   vendor: Anthropic
   url: https://code.claude.com/docs/en/skills
   final_url: https://code.claude.com/docs/en/skills
-  quote: "If you create a top-level skills directory that didn't exist when the session started, run /reload-skills to pick up the skills you put there."
-  retrieved: 2026-10-30
-  last_checked: 2026-10-30
+  quote: "If a new skill doesn't appear, run /reload-skills."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
 
 - id: P4-codex-restart
   article: skills-for-repeatable-work
@@ -1158,14 +1158,14 @@
 - id: P4-vscode-create
   article: skills-for-repeatable-work
   sentence:
-    sv: "I chatten i VS Code kan du, med Local vald i chattvyn, skriva /create-skill följt av en beskrivning"
-    en: "in the VS Code chat, with Local selected in the chat view, you can type /create-skill followed by a description"
+    sv: "I VS Code kan du be agenten i chatten skapa skillen utifrån en beskrivning"
+    en: "in VS Code you can ask the agent in the chat to create the skill from a description"
   vendor: GitHub
-  url: https://code.visualstudio.com/docs/agent-customization/agent-skills
-  final_url: https://code.visualstudio.com/docs/agent-customization/agent-skills
-  quote: "With Local selected in the Chat view, you can also … Enter /create-skill followed by a description to generate a skill."
-  retrieved: 2026-10-30
-  last_checked: 2026-10-30
+  url: https://code.visualstudio.com/docs/agent-customization/agent-skills#_generate-a-skill-with-ai
+  final_url: https://code.visualstudio.com/docs/agent-customization/agent-skills#_generate-a-skill-with-ai
+  quote: "Instead of writing the file yourself, ask the agent to create a skill in a chat with your intended harness."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
 
 - id: P4-vscode-scripts
   article: skills-for-repeatable-work

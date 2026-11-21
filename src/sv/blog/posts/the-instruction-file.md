@@ -60,12 +60,11 @@ stället, så agenten lämnar en lös fil med databaskommandon i projektets rot.
 Utvecklaren läser igenom agentens ändringar, hittar filen och ber agenten lägga
 ändringen i en ny migrering.
 
-Sedan skriver utvecklaren om regeln så att den ger
-både skäl och utväg: filerna har redan körts i produktion, alltså mot den
-riktiga databasen, så ändringen görs i en ny migrering. En regel med sitt skäl
-hjälper i fall som ingen har tänkt på: när instruktionerna förklarar varför en
-konvention finns fattar agenten
-[bättre beslut i ovanliga fall](https://code.visualstudio.com/docs/agent-customization/custom-instructions).
+Sedan skriver utvecklaren om regeln så att den ger både skäl och utväg: filerna
+har redan körts i produktion, alltså mot den riktiga databasen, så ändringen
+görs i en ny migrering. En regel med sitt skäl hjälper i fall som ingen har
+tänkt på: Anthropics guide för promptar säger att när du förklarar varför
+[kan Claude generalisera utifrån förklaringen](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices).
 
 Två gånger under de följande två veckorna kör agenten alla tester efter en
 ändring på en enda rad, fast en testfil hade räckt. Andra gången lägger

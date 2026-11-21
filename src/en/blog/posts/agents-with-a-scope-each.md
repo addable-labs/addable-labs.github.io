@@ -18,8 +18,10 @@ the code, runs the tests and checks its own result. In
 the second part of this series, that agent was given a short markdown file to
 read at every start.
 
-A second agent can cost more than doing it all with one: handing over adds model
-usage and coordination, and
+A second agent can cost more than doing it all with one. Handing work to a
+subagent adds model usage. The main agent writes the subagent's brief and reads
+what comes back. The subagent starts without the conversation so far, so it has
+to read the relevant files itself to learn what the task is about.
 [VS Code's documentation](https://code.visualstudio.com/docs/agents/run/subagents)
 says a direct request is usually enough for a quick lookup or a small edit.
 Handing over is worth it for a job you repeat, such as having a finished change
@@ -59,9 +61,10 @@ The developer reads the comments and decides what happens next.
 
 {% figure "agent-handover", "wide" %}
 
-The reviewer can be wrong. VS Code's documentation puts it plainly: separate
-contexts "can surface different issues, but don't guarantee unbiased or correct
-conclusions".
+The reviewer can be wrong.
+[VS Code's documentation](https://code.visualstudio.com/docs/agents/run/subagents#_delegate-a-task)
+tells you to check the file references and assumptions in what a subagent
+returns before you go on with the work.
 
 In the factory behind this site, the planner, the builder and the reviewer are
 different agents too, as we described in
@@ -158,10 +161,11 @@ does in the example.
 
 The rule of thumb is to start with the fewest tools the job can be done with and
 add one when the subagent turns out to need it. VS Code's documentation advises
-[read-only tools for security-sensitive work](https://code.visualstudio.com/docs/agent-customization/custom-agents)
-and says that the tool list of an agent shared in a repository should follow the
-principle of least privilege, which means giving an agent only the access its
-job needs.
+to
+[match the tools to the task](https://code.visualstudio.com/docs/agent-customization/custom-agents#_write-effective-agent-instructions):
+a reviewer that only reads code does not need tools for editing, the terminal or
+handing work over. This is the principle of least privilege: give an agent only
+the access its job needs.
 
 A line in the instruction file from part 2 asks an agent to behave, while a tool
 it does not have cannot be misused: the `tools` line is a limit outside the
@@ -245,8 +249,8 @@ If the main agent never hands over on its own, ask for the subagent by name:
 Use the reviewer subagent to review the change in the sign-up form.
 ```
 
-In Claude Code this usually works. Typing @ and the subagent's name makes sure
-the subagent runs for that task.
+In Claude Code this usually works. Typing @ and the subagent's name tells the
+main agent to run the subagent for that task.
 
 If naming the subagent works but the main agent never picks it on its own, start
 with the description: say when the subagent should be used, as the example does.
@@ -258,9 +262,9 @@ In Copilot, a second cause is the line `disable-model-invocation: true` in the
 file, which stops the main agent from picking the subagent on its own.
 
 If naming the subagent does not work either, look at the file. Claude Code skips
-a file that has no description. In VS Code the name must be written exactly as
-in the file, capitals included. The Run Subagent tool must also be selected
-under Configure Tools.
+a file that has no description. In VS Code, check in the
+[Agent Customizations editor](https://code.visualstudio.com/docs/agent-customization/custom-agents#_verify-your-custom-agent)
+that the file is listed without errors.
 
 When the main agent hands over too often, make the description narrower and add
 the line from the last section to your instruction file.

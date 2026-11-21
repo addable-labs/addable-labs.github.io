@@ -19,8 +19,10 @@ resultat. I
 seriens andra del, fick den agenten en kort markdown-fil att läsa varje gång den
 startar.
 
-En andra agent kan kosta mer än en enda: att lämna över ger mer modellanvändning
-och mer samordning.
+En andra agent kan kosta mer än en enda. Att lämna över arbete till en subagent
+ökar modellanvändningen. Huvudagenten skriver subagentens uppdrag och läser det
+som kommer tillbaka. Subagenten börjar utan samtalet hittills, så den måste
+själv läsa de filer som behövs för att förstå uppgiften.
 [VS Codes dokumentation](https://code.visualstudio.com/docs/agents/run/subagents)
 säger att det oftast räcker att be om en snabb sökning eller en liten ändring
 direkt. En andra agent lönar sig för ett jobb som du upprepar, till exempel att
@@ -63,9 +65,10 @@ Utvecklaren läser synpunkterna och bestämmer vad som händer sedan.
 
 {% figure "agent-handover", "wide" %}
 
-Granskaren kan ha fel. VS Codes dokumentation säger det rakt ut: separata
-sammanhang "kan lyfta fram olika problem men garanterar inga opartiska eller
-korrekta slutsatser" (vår översättning).
+Granskaren kan ha fel.
+[VS Codes dokumentation](https://code.visualstudio.com/docs/agents/run/subagents#_delegate-a-task)
+säger att du ska kontrollera filhänvisningar och antaganden i det som en
+subagent lämnar tillbaka innan du arbetar vidare.
 
 I fabriken bakom den här sajten är planerare, byggare och granskare också
 olika agenter, som vi beskrev i
@@ -159,12 +162,13 @@ huvudagenten nämna de ändrade filerna när den lämnar över uppgiften, som de
 i exemplet.
 
 Tumregeln är att börja med så få verktyg som jobbet går att göra med och lägga
-till ett när subagenten visar sig behöva det. VS Codes dokumentation
-rekommenderar
-[verktyg som bara läser för säkerhetskänsligt arbete](https://code.visualstudio.com/docs/agent-customization/custom-agents)
-och säger att verktygslistan i en agent som delas i ett repository ska följa
-principen om minsta behörighet (principle of least privilege), alltså att ge en
-agent bara den behörighet jobbet kräver.
+till ett när subagenten visar sig behöva det. VS Codes dokumentation råder dig
+att
+[låta verktygen passa uppgiften](https://code.visualstudio.com/docs/agent-customization/custom-agents#_write-effective-agent-instructions):
+en granskare som bara läser kod behöver inga verktyg för att ändra filer, för
+terminalen eller för att lämna över arbete. Det är principen om minsta
+behörighet (principle of least privilege): ge en agent bara den behörighet
+jobbet kräver.
 
 En rad i instruktionsfilen från del 2 ber en agent uppföra sig, medan ett
 verktyg den saknar inte går att missbruka: raden `tools` är en gräns utanför
@@ -248,8 +252,8 @@ Om huvudagenten aldrig lämnar över på egen hand, ber du om subagenten vid nam
 Use the reviewer subagent to review the change in the sign-up form.
 ```
 
-I Claude Code fungerar det oftast. Skriver du @ och subagentens namn ser Claude
-Code till att subagenten körs för just den uppgiften.
+I Claude Code fungerar det oftast. Skriver du @ och subagentens namn säger du åt
+huvudagenten att köra subagenten för just den uppgiften.
 
 Om det fungerar att nämna subagenten men huvudagenten aldrig väljer den på egen
 hand, börja med beskrivningen: skriv när subagenten ska användas, som exemplet
@@ -261,9 +265,9 @@ I Copilot är en andra orsak raden `disable-model-invocation: true` i filen, som
 hindrar huvudagenten från att välja subagenten på egen hand.
 
 Om det inte hjälper att nämna subagenten vid namn heller, titta på filen. Claude
-Code hoppar över en fil som saknar beskrivning. I VS Code måste namnet skrivas
-exakt som i filen, med samma versaler. Verktyget Run Subagent måste också vara
-valt under Configure Tools.
+Code hoppar över en fil som saknar beskrivning. I VS Code kontrollerar du i
+[Agent Customizations-redigeraren](https://code.visualstudio.com/docs/agent-customization/custom-agents#_verify-your-custom-agent)
+att filen står i listan utan fel.
 
 När huvudagenten lämnar över för ofta, gör du beskrivningen smalare och lägger
 till raden från förra avsnittet i din instruktionsfil.

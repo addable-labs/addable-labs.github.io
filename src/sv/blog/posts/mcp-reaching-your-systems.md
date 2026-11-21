@@ -81,7 +81,7 @@ inställningarna i cellerna gäller Claude Code.
 | Kostnad för kontexten | Fortfarande mer kontexteffektiva än MCP-servrar, även med tool search, eftersom de inte lägger till någon lista över verktyg | – | Verktygsnamn och instruktioner ligger i kontexten även när de inte används. Med tool search skjuts definitionerna upp |
 | Installation och underhåll | `gh auth login` loggar in via webbläsaren och sparar tokenen i systemets inloggningslager eller i en vanlig textfil om det saknas eller inte går att använda | Du skickar tokenen i Authorization-headern och anger API-versionen i en header | Med OAuth sparas och förnyas tokens automatiskt. En server kan ändra sina verktyg medan den är ansluten |
 | Användning i flera AI-program | – | – | En server är inte specifik för ett AI-program. Vissa program använder ett annat filformat än andra |
-| Vad du ser innan det körs | Behörighetsfrågan visar vad Claude Code ska göra | – | Som standard frågar Claude Code innan ett MCP-verktyg körs. Dessutom säger MCP-specifikationen att en människa alltid ska kunna neka ett verktygsanrop och att klienten ska visa verktygets indata före anropet |
+| Vad du ser innan det körs | Behörighetsfrågan visar vad Claude Code ska göra | – | I läget Manual frågar Claude Code innan ett MCP-verktyg körs. Dessutom säger MCP-specifikationen att en människa alltid ska kunna neka ett verktygsanrop och att klienten ska visa verktygets indata före anropet |
 | Där det brister | Ett kommando du godkänner kan ändå skriva överallt där ditt användarkonto kan | Begäranden är begränsade till 60 i timmen utan token och 5 000 med en personal access token. Sekundära gränser kan ändras utan förvarning | Anthropic säkerhetsgranskar eller förvaltar ingen MCP-server |
 
 Oavsett hur agenten når ett system kan texten den läser innehålla prompt
@@ -213,10 +213,12 @@ Att använda båda är vår egen rekommendation och inte något GitHub säger. O
 ena är fel inställd håller den andra ändå. Ingen av dem hindrar agenten från att
 läsa en skadlig instruktion. Därför är övningsrepot privat.
 
-Claude Code och GitHub Copilot ber om ditt godkännande när agenten vill använda
-ett MCP-verktyg. Vårt råd: låt det vara så till en början, så du ser vad agenten
-gör. [Del 7](#del-7) går igenom hur du bestämmer vad som får köras utan att
-fråga.
+GitHub Copilot ber om ditt godkännande när agenten vill använda ett MCP-verktyg.
+Det gör även Claude Code i läget Manual, men det startar i
+[läget Auto](https://code.claude.com/docs/en/permission-modes) om inget annat är
+inställt. Där granskar en andra modell anropet i stället för dig. Vårt råd: låt
+verktyget fråga dig till en början, så du ser vad agenten gör. [Del 7](#del-7)
+går igenom hur du bestämmer vad som får köras utan att fråga.
 
 ## Claude Code, Codex och GitHub Copilot
 
@@ -432,11 +434,13 @@ claude mcp add --transport http my-server https://mcp.example.com/mcp
 
 Kör sedan `/mcp` i Claude Code och följ stegen i webbläsaren.
 `claude mcp login my-server` gör samma sak från skalet. För en server som stöder
-OAuth har Codex `codex mcp login`. I VS Code öppnas ett webbläsarfönster första
-gången det ansluter, om en post i dess eget format (`.vscode/mcp.json`) har
-inställningen `oauth` med en `clientId`. VS Codes referens säger att
-`oauth`-fälten gäller det formatet och att `.mcp.json`-formatet som används ovan
-har ett eget schema.
+OAuth har Codex `codex mcp login`. I VS Code slutför du inloggningen när Copilot
+ber om det. För en server som kräver ett klient-id som har registrerats i förväg
+anger VS Codes
+[referens](https://code.visualstudio.com/docs/agents/reference/mcp-configuration#_authentication-and-secrets)
+fältet `oauthClientId` i `.mcp.json`-formatet som används ovan. Objektet `oauth`
+hör till formatet i `.vscode/mcp.json`, som referensen säger att du inte ska
+använda för nya Copilot-konfigurationer.
 
 Enligt oss passar OAuth när servern stöder det och du sitter vid tangentbordet.
 En token passar i de andra fallen. En lokal stdio-server är inte tänkt för

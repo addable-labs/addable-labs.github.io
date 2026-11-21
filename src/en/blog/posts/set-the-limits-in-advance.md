@@ -20,7 +20,7 @@ can do only what was allowed before it started.
 A job that has to do more needs its limits set in advance. Permission rules, a
 hook and a sandbox can each answer for you when the agent is about to run a
 command or change a file. We describe the tools as their documentation stood on
-15 November 2026.
+21 November 2026.
 
 ## A request and a limit
 
@@ -36,9 +36,9 @@ The agent
 [reads that line at every start](https://code.claude.com/docs/en/memory) and
 usually follows it. If it misreads the line, or text it has read has misled it
 (part 5 described how), the line cannot stop it. In Anthropic's
-[documentation](https://code.claude.com/docs/en/permissions), instructions
-"shape what Claude tries to do, but they don't change what Claude Code allows",
-while permission rules "are enforced by Claude Code, not by the model".
+[documentation](https://code.claude.com/docs/en/permissions), permission rules
+"are enforced by Claude Code, not by the model", and instructions "shape what
+Claude tries to do, but they don't change these rules".
 
 A limit is a rule that something outside the instruction file checks. Part 2
 named two ways to get one: a test in the project and a setting in the tool.
@@ -249,9 +249,11 @@ Step 5 showed it. `rm -fr build` means the same as `rm -rf build`, but the
 script looks only for the second spelling. `rm -r -f build` and `git push -f`
 get through as well. A hook that matches text stops only what it lists.
 
-The deny rule has a gap too. It covers Claude Code's own file tools and the file
-commands it recognises, such as `cat` and `sed`, but not a script that opens
-files itself, for example a Python program. The sandbox does, so use both.
+The deny rule has gaps too. It covers Claude Code's own file tools and the file
+commands it recognises, such as `cat` and `sed`, but not a command that reads
+files without naming them, such as `grep -r` run in the folder that holds them.
+Nor does it cover a script that opens files itself, for example a Python
+program. The sandbox covers both, so use the two together.
 
 {% figure "limits-attempts" %}
 

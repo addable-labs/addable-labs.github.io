@@ -62,25 +62,25 @@
 - id: V1-reason
   article: the-instruction-file
   sentence:
-    sv: "när instruktionerna förklarar varför en konvention finns fattar agenten bättre beslut i ovanliga fall"
-    en: "when the instructions explain why a convention exists, the agent makes better decisions in unusual cases"
-  vendor: GitHub
-  url: https://code.visualstudio.com/docs/agent-customization/custom-instructions
-  final_url: https://code.visualstudio.com/docs/agent-customization/custom-instructions
-  quote: "Include the reasoning behind rules."
-  retrieved: 2026-10-12
-  last_checked: 2026-10-30
+    sv: "Anthropics guide för promptar säger att när du förklarar varför kan Claude generalisera utifrån förklaringen"
+    en: "Anthropic's guide to prompting says that when you explain why, Claude can generalise from the explanation"
+  vendor: Anthropic
+  url: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices#add-context-to-improve-performance
+  final_url: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices#add-context-to-improve-performance
+  quote: "Providing context or motivation behind your instructions, such as explaining to Claude why such behavior is important, can give Claude more information about your goals"
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
 - id: V2-edge
   article: the-instruction-file
   sentence:
-    sv: "när instruktionerna förklarar varför en konvention finns fattar agenten bättre beslut i ovanliga fall"
-    en: "when the instructions explain why a convention exists, the agent makes better decisions in unusual cases"
-  vendor: GitHub
-  url: https://code.visualstudio.com/docs/agent-customization/custom-instructions
-  final_url: https://code.visualstudio.com/docs/agent-customization/custom-instructions
-  quote: "When instructions explain why a convention exists, the AI makes better decisions in edge cases."
-  retrieved: 2026-10-12
-  last_checked: 2026-10-30
+    sv: "Anthropics guide för promptar säger att när du förklarar varför kan Claude generalisera utifrån förklaringen"
+    en: "Anthropic's guide to prompting says that when you explain why, Claude can generalise from the explanation"
+  vendor: Anthropic
+  url: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices#add-context-to-improve-performance
+  final_url: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices#add-context-to-improve-performance
+  quote: "Claude can generalize from the explanation."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
 - id: B3-infer
   article: the-instruction-file
   sentence:

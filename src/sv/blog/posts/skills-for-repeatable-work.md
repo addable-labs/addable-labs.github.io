@@ -301,11 +301,10 @@ policy:
   allow_implicit_invocation: false
 ```
 
-Om `/release` inte känns igen har verktyget inte hittat skillen. Kontrollera
-att mappen ligger på ett ställe som verktyget läser och att filen heter
-SKILL.md. I Claude Code behöver en skills-mapp som du skapade medan verktyget
-kördes kommandot `/reload-skills`. I Codex behöver en skill som inte dyker
-upp en omstart.
+Om `/release` inte känns igen har verktyget inte hittat skillen. Kontrollera att
+mappen ligger på ett ställe som verktyget läser och att filen heter SKILL.md. I
+Claude Code kör du `/reload-skills` om en ny skill inte dyker upp. I Codex
+behöver en skill som inte dyker upp en omstart.
 
 Hoppar agenten över steg sent i ett långt samtal, lägg de viktigaste stegen
 först i SKILL.md. När Claude Code sammanfattar ett långt samtal för att få plats
@@ -355,8 +354,9 @@ Det här är ett arbetssätt och inget uppmätt resultat. De skills som agentern
 session som gått bra.
 
 Verktygen har hjälpmedel för att skriva ett utkast till en skill. I Codex är det
-`$skill-creator`. I chatten i VS Code kan du, med Local vald i chattvyn, skriva
-`/create-skill` följt av en beskrivning.
+`$skill-creator`. I VS Code kan du
+[be agenten i chatten](https://code.visualstudio.com/docs/agent-customization/agent-skills#_generate-a-skill-with-ai)
+skapa skillen utifrån en beskrivning.
 
 Läs utkastet och korta ner det till det jobbet behöver. Lägg mappen där ditt
 verktyg läser skills: `.claude/skills/release/` i Claude Code,
