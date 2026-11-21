@@ -37,13 +37,13 @@ The agent
 usually follows it. If it misreads the line, or text it has read has misled it
 (part 5 described how), the line cannot stop it. In Anthropic's
 [documentation](https://code.claude.com/docs/en/permissions), permission rules
-"are enforced by Claude Code, not by the model", while instructions "shape what
+"are enforced by Claude Code, not by the model", and instructions "shape what
 Claude tries to do, but they don't change these rules".
 
 Steering with words has become easier: Anthropic's
 [prompting guide](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices)
-says that two of the models it names are more responsive to the system prompt
-than earlier ones. The need for a limit has not gone away. The less a tool asks
+says that Claude's latest models are trained for precise instruction following.
+The need for a limit has not gone away. The less a tool asks
 you, as Claude Code does in
 [auto mode](https://code.claude.com/docs/en/permission-modes) (part 6), the more
 the limits you set in advance matter.

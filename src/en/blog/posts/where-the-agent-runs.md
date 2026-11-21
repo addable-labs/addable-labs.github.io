@@ -90,8 +90,9 @@ Code you are now asked less. In November 2026 Anthropic's
 [documentation](https://code.claude.com/docs/en/permission-modes) says that from
 version 2.1.283 an interactive terminal or VS Code session starts by default in
 auto mode, where a second model reviews the actions instead of you, whatever
-your plan. Earlier versions started in auto mode only on some plans. On the
-others Claude Code asked before most actions. An agent that works without a
+your plan. Earlier versions started in auto mode only on some plans, and
+versions before 2.1.228 on none. Otherwise Claude Code asked before most actions
+that edit files, run commands or reach the network. An agent that works without a
 person approving each step is now Claude Code's starting point.
 
 A job that starts on a schedule has nobody to answer. By default, a job in

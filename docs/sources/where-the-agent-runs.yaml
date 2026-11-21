@@ -310,11 +310,23 @@
   retrieved: 2026-11-21
   last_checked: 2026-11-21
 
+- id: P6-auto-none-before
+  article: where-the-agent-runs
+  sentence:
+    sv: "Versioner före 2.1.228 gjorde det inte på någon plan"
+    en: "versions before 2.1.228 on none"
+  vendor: Anthropic
+  url: https://code.claude.com/docs/en/permission-modes
+  final_url: https://code.claude.com/docs/en/permission-modes
+  quote: "default requires Claude Code v2.1.228 or later on macOS, Linux, and WSL, and v2.1.233 or later on native Windows. On earlier versions, the built-in default is Manual."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
+
 - id: P6-manual-asks
   article: where-the-agent-runs
   sentence:
-    sv: "På de andra frågade Claude Code före de flesta åtgärder"
-    en: "On the others Claude Code asked before most actions"
+    sv: "Annars frågade Claude Code före de flesta åtgärder som ändrar filer, kör kommandon eller använder nätverket"
+    en: "Otherwise Claude Code asked before most actions that edit files, run commands or reach the network"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/permission-modes
   final_url: https://code.claude.com/docs/en/permission-modes
@@ -325,8 +337,8 @@
 - id: P6-manual-otherwise
   article: where-the-agent-runs
   sentence:
-    sv: "På de andra frågade Claude Code före de flesta åtgärder"
-    en: "On the others Claude Code asked before most actions"
+    sv: "Annars frågade Claude Code före de flesta åtgärder som ändrar filer, kör kommandon eller använder nätverket"
+    en: "Otherwise Claude Code asked before most actions that edit files, run commands or reach the network"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/permission-modes
   final_url: https://code.claude.com/docs/en/permission-modes

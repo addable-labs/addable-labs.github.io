@@ -91,7 +91,9 @@ frågar dig numera mer sällan. I november 2026 beskriver Anthropics
 interaktiv session i terminalen eller i VS Code från version 2.1.283 som
 standard startar i auto mode, där en andra modell granskar åtgärderna i stället
 för dig, oavsett plan. Tidigare versioner startade i auto mode bara på vissa
-planer. På de andra frågade Claude Code före de flesta åtgärder. En agent som
+planer. Versioner före 2.1.228 gjorde det inte på någon plan. Annars frågade
+Claude Code före de flesta åtgärder som ändrar filer, kör kommandon eller
+använder nätverket. En agent som
 arbetar utan att en person godkänner varje steg är numera utgångsläget i Claude
 Code.
 

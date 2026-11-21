@@ -76,7 +76,7 @@
 - id: L-shape
   article: set-the-limits-in-advance
   sentence:
-    sv: "instruktioner \"påverkar vad Claude försöker göra men ändrar inte dessa regler\""
+    sv: "instruktioner \"påverkar vad Claude försöker göra men ändrar inte de här reglerna\""
     en: "instructions \"shape what Claude tries to do, but they don't change these rules\""
   vendor: Anthropic
   url: https://code.claude.com/docs/en/permissions
@@ -105,19 +105,19 @@
   vendor: Anthropic
   url: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices
   final_url: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices
-  quote: "Where you might have said “CRITICAL: You MUST use this tool when...,” you can use more normal prompting such as “Use this tool when...” instead."
+  quote: "Claude’s latest models are trained for precise instruction following and benefit from explicit direction to use specific tools."
   retrieved: 2026-11-21
   last_checked: 2026-11-21
 
 - id: L-responsive
   article: set-the-limits-in-advance
   sentence:
-    sv: "två av modellerna den nämner är mer lyhörda för systemprompten än tidigare modeller"
-    en: "two of the models it names are more responsive to the system prompt than earlier ones"
+    sv: "Claudes senaste modeller är tränade för att följa instruktioner precist"
+    en: "Claude's latest models are trained for precise instruction following"
   vendor: Anthropic
   url: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices
   final_url: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices
-  quote: "are also more responsive to the system prompt than previous models"
+  quote: "Claude’s latest models are trained for precise instruction following"
   retrieved: 2026-11-21
   last_checked: 2026-11-21
 
