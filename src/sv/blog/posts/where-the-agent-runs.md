@@ -56,8 +56,10 @@ terminalen. Flytta ut ett jobb när du ber om samma sak gång på gång och kan
 bedöma resultatet genom att läsa det. Ett jobb som ska köras av sig självt varje
 morgon hör hemma på ett schema. Leverantörens moln kan ändå vara det enklaste
 första försöket, eftersom du startar det från en webbläsare och inte skriver
-någon fil. Oavsett vilket ställe du väljer bör ett obevakat jobb inte få mer än
-det behöver och inte agera på text från personer du inte känner.
+någon fil. Oavsett vilket ställe du väljer bör en agent som körs obevakad inte
+få mer än den behöver och inte agera på text från personer du inte känner. En
+agent som startar när någon kommenterar läser allt som den som kommenterade
+skrev, så i ett publikt repo kan vem som helst ge den instruktioner.
 
 ## Det som följer med till en körning i molnet
 

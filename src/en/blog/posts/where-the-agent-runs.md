@@ -55,8 +55,10 @@ or the terminal. Move a job out when you ask for the same thing again and again
 and can judge the result by reading it. A job that must run by itself every
 morning belongs on a schedule. The vendor's cloud may still be the easiest first
 try, since you start it from a browser and write no file. Whichever place you
-choose, an unattended job should get no more than it needs and should not act on
-text from people you do not know.
+choose, an agent running unattended should get no more than it needs and should
+not act on text from people you do not know. An agent that starts when someone
+comments reads whatever the commenter wrote, so on a public repository an
+outsider can give it instructions.
 
 ## What goes along to a run in the cloud
 
