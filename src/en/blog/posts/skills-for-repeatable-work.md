@@ -225,7 +225,7 @@ before you rely on it.
 
 ## Claude Code, Codex and GitHub Copilot
 
-We describe the tools as their documentation stood on 30 October 2026. What we
+We describe the tools as their documentation stood on 21 November 2026. What we
 say may have changed since. All three follow the same Agent Skills format, so
 the folder and its SKILL.md look the same in each. What differs is where the
 folder is kept and how you start a skill.

@@ -214,7 +214,7 @@ let the tool ask you at first, so you can see what the agent does.
 
 ## Claude Code, Codex and GitHub Copilot
 
-The descriptions below follow the documentation as it stood on 30 October 2026.
+The descriptions below follow the documentation as it stood on 21 November 2026.
 
 In **Claude Code** you add the MCP server with one command, run in the project's
 top folder. The command adds an MCP server called github. It is reached over the
@@ -349,7 +349,7 @@ With GitHub as the example, the steps in order are:
 ## Advanced
 
 Four things are worth knowing once the first connection works. The descriptions
-follow the documentation as it stood on 5 November 2026.
+follow the documentation as it stood on 21 November 2026.
 
 ### Host and client
 

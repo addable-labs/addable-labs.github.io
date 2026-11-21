@@ -197,7 +197,7 @@ What must never happen is stopped outside the model, as part 1 described.
 With more than one tool in the project, one AGENTS.md in the top folder is
 enough if each tool finds it. That fits VS Code's documentation, which advises
 a shared format that all the tools support when possible. We
-describe the tools as their documentation stood on 30 October 2026. What we
+describe the tools as their documentation stood on 21 November 2026. What we
 say may have changed since.
 
 The file in the top folder is read at every start, as part 1 said.

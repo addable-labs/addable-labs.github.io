@@ -263,7 +263,7 @@ Den nekande regeln har också hål. Den gäller Claude Codes egna filverktyg och
 filkommandon det känner igen, som `cat` och `sed`, men inte ett kommando som
 läser filer utan att nämna dem, som `grep -r` i mappen där de ligger. Den gäller
 inte heller ett skript som öppnar filer själv, till exempel ett Python-program.
-Sandboxen täcker båda fallen, så använd dem tillsammans.
+Sandboxen täcker båda fallen, så använd den tillsammans med regeln.
 
 {% figure "limits-attempts" %}
 

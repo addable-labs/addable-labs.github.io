@@ -229,7 +229,7 @@ också värt att läsa det en agent har skrivit åt dig innan du litar på det.
 
 ## Claude Code, Codex och GitHub Copilot
 
-Vi beskriver verktygen så som deras dokumentation såg ut den 30 oktober 2026.
+Vi beskriver verktygen så som deras dokumentation såg ut den 21 november 2026.
 Det vi skriver kan ha ändrats sedan dess. Alla tre följer samma format, Agent
 Skills, så mappen och dess SKILL.md ser likadana ut i var och en. Det som
 skiljer är var mappen ligger och hur du startar en skill.

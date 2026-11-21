@@ -222,7 +222,7 @@ går igenom hur du bestämmer vad som får köras utan att fråga.
 
 ## Claude Code, Codex och GitHub Copilot
 
-Beskrivningarna nedan följer dokumentationen den 30 oktober 2026.
+Beskrivningarna nedan följer dokumentationen den 21 november 2026.
 
 I **Claude Code** lägger du till MCP-servern med ett kommando som körs i
 projektets toppmapp. Kommandot lägger till en MCP-server som heter github. Den
@@ -359,7 +359,7 @@ Med GitHub som exempel är stegen i ordning:
 ## Avancerat
 
 Fyra saker är bra att känna till när den första kopplingen fungerar.
-Beskrivningarna följer dokumentationen den 5 november 2026.
+Beskrivningarna följer dokumentationen den 21 november 2026.
 
 ### Host och client
 

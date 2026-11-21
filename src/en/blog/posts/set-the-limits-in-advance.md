@@ -253,7 +253,7 @@ The deny rule has gaps too. It covers Claude Code's own file tools and the file
 commands it recognises, such as `cat` and `sed`, but not a command that reads
 files without naming them, such as `grep -r` run in the folder that holds them.
 Nor does it cover a script that opens files itself, for example a Python
-program. The sandbox covers both, so use the two together.
+program. The sandbox covers both, so use it together with the rule.
 
 {% figure "limits-attempts" %}
 

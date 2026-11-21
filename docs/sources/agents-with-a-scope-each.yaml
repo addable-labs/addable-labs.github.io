@@ -446,7 +446,7 @@
   article: agents-with-a-scope-each
   sentence:
     sv: "VS Codes dokumentation råder dig att låta verktygen passa uppgiften: en granskare som bara läser kod behöver inga verktyg för att ändra filer, för terminalen eller för att lämna över arbete"
-    en: "VS Code's documentation advises to match the tools to the task: a reviewer that only reads code does not need tools for editing, the terminal or handing work over"
+    en: "VS Code's documentation advises you to match the tools to the task: a reviewer that only reads code does not need tools for editing, the terminal or handing work over"
   vendor: GitHub
   url: https://code.visualstudio.com/docs/agent-customization/custom-agents#_write-effective-agent-instructions
   final_url: https://code.visualstudio.com/docs/agent-customization/custom-agents#_write-effective-agent-instructions
@@ -841,8 +841,8 @@
 - id: P3-fresh-start
   article: agents-with-a-scope-each
   sentence:
-    sv: "Subagenten börjar utan samtalet hittills, så den måste själv läsa de filer som behövs för att förstå uppgiften"
-    en: "The subagent starts without the conversation so far, so it has to read the relevant files itself to learn what the task is about"
+    sv: "En subagent av det slag som den här delen handlar om börjar utan samtalet hittills, så den måste själv läsa de filer som behövs för att förstå uppgiften"
+    en: "A subagent of the kind this part is about starts without the conversation so far, so it has to read the relevant files itself to learn what the task is about"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/sub-agents
   final_url: https://code.claude.com/docs/en/sub-agents

@@ -742,8 +742,8 @@
 - id: G-sandbox-covers
   article: set-the-limits-in-advance
   sentence:
-    sv: "Sandboxen täcker båda fallen, så använd dem tillsammans"
-    en: "The sandbox covers both, so use the two together"
+    sv: "Sandboxen täcker båda fallen, så använd den tillsammans med regeln"
+    en: "The sandbox covers both, so use it together with the rule"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/sandboxing
   final_url: https://code.claude.com/docs/en/sandboxing

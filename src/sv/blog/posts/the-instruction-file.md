@@ -198,7 +198,7 @@ Det som aldrig får hända stoppas utanför modellen, som del 1 beskrev.
 
 Med flera verktyg i projektet räcker en AGENTS.md i översta mappen om varje
 verktyg hittar den. Det stämmer med VS Codes dokumentation, som rekommenderar ett gemensamt format som alla verktygen stöder, när det går.
-Verktygen beskriver vi så som dokumentationen såg ut den 30 oktober 2026. Det
+Verktygen beskriver vi så som dokumentationen såg ut den 21 november 2026. Det
 vi skriver kan ha ändrats sedan dess.
 
 Filen i översta mappen läses vid varje start, som del 1 beskrev.

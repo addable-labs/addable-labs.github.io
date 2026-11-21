@@ -20,7 +20,7 @@ read at every start.
 
 A second agent can cost more than doing it all with one. Handing work to a
 subagent adds model usage. The main agent writes the subagent's brief and reads
-what comes back. The subagent starts without the conversation so far, so it has
+what comes back. A subagent of the kind this part is about starts without the conversation so far, so it has
 to read the relevant files itself to learn what the task is about.
 [VS Code's documentation](https://code.visualstudio.com/docs/agents/run/subagents)
 says a direct request is usually enough for a quick lookup or a small edit.
@@ -160,8 +160,7 @@ the main agent should name the changed files when it hands the task over, as it
 does in the example.
 
 The rule of thumb is to start with the fewest tools the job can be done with and
-add one when the subagent turns out to need it. VS Code's documentation advises
-to
+add one when the subagent turns out to need it. VS Code's documentation advises you to
 [match the tools to the task](https://code.visualstudio.com/docs/agent-customization/custom-agents#_write-effective-agent-instructions):
 a reviewer that only reads code does not need tools for editing, the terminal or
 handing work over. This is the principle of least privilege: give an agent only
@@ -175,7 +174,7 @@ of the series comes back to.
 
 ## Claude Code, Codex and GitHub Copilot
 
-We describe the tools as their documentation stood on 30 October 2026. What we
+We describe the tools as their documentation stood on 21 November 2026. What we
 say may have changed since.
 
 In **Claude Code** a subagent is a markdown file in `.claude/agents/` in the

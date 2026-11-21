@@ -21,7 +21,7 @@ startar.
 
 En andra agent kan kosta mer än en enda. Att lämna över arbete till en subagent
 ökar modellanvändningen. Huvudagenten skriver subagentens uppdrag och läser det
-som kommer tillbaka. Subagenten börjar utan samtalet hittills, så den måste
+som kommer tillbaka. En subagent av det slag som den här delen handlar om börjar utan samtalet hittills, så den måste
 själv läsa de filer som behövs för att förstå uppgiften.
 [VS Codes dokumentation](https://code.visualstudio.com/docs/agents/run/subagents)
 säger att det oftast räcker att be om en snabb sökning eller en liten ändring
@@ -178,7 +178,7 @@ modellen, av det slag som del 1 beskrev. Behörigheter avgör vad en agent får
 
 ## Claude Code, Codex och GitHub Copilot
 
-Verktygen beskriver vi så som dokumentationen såg ut den 30 oktober 2026. Det
+Verktygen beskriver vi så som dokumentationen såg ut den 21 november 2026. Det
 vi skriver kan ha ändrats sedan dess.
 
 I **Claude Code** är en subagent en markdown-fil i `.claude/agents/` i
