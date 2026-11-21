@@ -839,9 +839,9 @@
   vendor: GitHub
   url: https://code.visualstudio.com/docs/agent-customization/agent-skills
   final_url: https://code.visualstudio.com/docs/agent-customization/agent-skills
-  quote: "Type / in the chat input field to see a list of available skills and prompts"
-  retrieved: 2026-10-30
-  last_checked: 2026-10-30
+  quote: "Type / in the chat input field to see available skills and prompts"
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
 
 - id: P4-skill-doctor
   article: skills-for-repeatable-work

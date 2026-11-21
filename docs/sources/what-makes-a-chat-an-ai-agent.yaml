@@ -221,9 +221,9 @@
   vendor: Anthropic
   url: https://code.claude.com/docs/en/memory
   final_url: https://code.claude.com/docs/en/memory
-  quote: "Claude treats them as context, not enforced configuration."
-  retrieved: 2026-10-30
-  last_checked: 2026-10-30
+  quote: "Claude treats CLAUDE.md files and auto memory as context. They aren’t enforced configuration."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
 - id: C16
   article: what-makes-a-chat-an-ai-agent
   sentence:
@@ -648,22 +648,22 @@
     sv: "i VS Code är instruktionsfilen `.github/copilot-instructions.md` och Copilot läser också AGENTS.md."
     en: "in VS Code the instruction file is `.github/copilot-instructions.md`, and Copilot reads AGENTS.md too."
   vendor: GitHub
-  url: https://code.visualstudio.com/docs/agent-customization/custom-instructions#_use-a-githubcopilot-instructionsmd-file
-  final_url: https://code.visualstudio.com/docs/agent-customization/custom-instructions#_use-a-githubcopilot-instructionsmd-file
-  quote: "For Copilot sessions, use .github/copilot-instructions.md for project-wide guidance."
-  retrieved: 2026-10-30
-  last_checked: 2026-10-30
+  url: https://code.visualstudio.com/docs/agent-customization/custom-instructions#_create-the-file-directly
+  final_url: https://code.visualstudio.com/docs/agent-customization/custom-instructions#_create-the-file-directly
+  quote: "Copilot .github/copilot-instructions.md or AGENTS.md"
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
 - id: G2
   article: what-makes-a-chat-an-ai-agent
   sentence:
     sv: "och Copilot läser också AGENTS.md."
     en: "and Copilot reads AGENTS.md too."
   vendor: GitHub
-  url: https://code.visualstudio.com/docs/agent-customization/custom-instructions#_use-a-githubcopilot-instructionsmd-file
-  final_url: https://code.visualstudio.com/docs/agent-customization/custom-instructions#_use-a-githubcopilot-instructionsmd-file
-  quote: "Multiple harnesses, including Copilot and OpenAI Codex, support it."
-  retrieved: 2026-10-30
-  last_checked: 2026-10-30
+  url: https://code.visualstudio.com/docs/agent-customization/custom-instructions#_create-the-file-directly
+  final_url: https://code.visualstudio.com/docs/agent-customization/custom-instructions#_create-the-file-directly
+  quote: "Copilot .github/copilot-instructions.md or AGENTS.md"
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
 - id: V4
   article: what-makes-a-chat-an-ai-agent
   sentence:
@@ -694,9 +694,9 @@
   vendor: GitHub
   url: https://code.visualstudio.com/docs/agents/run/approvals
   final_url: https://code.visualstudio.com/docs/agents/run/approvals
-  quote: "By default, common read-only commands run automatically, while risky commands such as rm and del require approval."
-  retrieved: 2026-10-12
-  last_checked: 2026-10-12
+  quote: "The runtime can approve a read-only or sandboxed command without checking terminal rules."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
 - id: V9
   article: what-makes-a-chat-an-ai-agent
   sentence:

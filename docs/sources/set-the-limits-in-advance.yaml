@@ -63,9 +63,9 @@
   vendor: Anthropic
   url: https://code.claude.com/docs/en/memory
   final_url: https://code.claude.com/docs/en/memory
-  quote: "Claude treats them as context, not enforced configuration."
-  retrieved: 2026-10-31
-  last_checked: 2026-11-15
+  quote: "Claude treats CLAUDE.md files and auto memory as context. They aren’t enforced configuration."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
 
 - id: L-shape
   article: set-the-limits-in-advance
@@ -135,9 +135,9 @@
   vendor: GitHub
   url: https://code.visualstudio.com/docs/agents/run/approvals
   final_url: https://code.visualstudio.com/docs/agents/run/approvals
-  quote: "Uses an LLM judge to assess each tool call."
-  retrieved: 2026-10-31
-  last_checked: 2026-11-15
+  quote: "With Assisted permissions, a model reviews proposed tool calls to decide whether they can run automatically or need your confirmation."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
 
 - id: K-deny-wins
   article: set-the-limits-in-advance
@@ -339,9 +339,9 @@
   vendor: Anthropic
   url: https://code.claude.com/docs/en/permission-modes
   final_url: https://code.claude.com/docs/en/permission-modes
-  quote: "Its config value is `default`, which is what hooks and SDK integrations use."
-  retrieved: 2026-10-31
-  last_checked: 2026-11-15
+  quote: "Manual mode appears under its config value, default."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
 
 - id: X-manual-asks
   article: set-the-limits-in-advance
@@ -927,9 +927,9 @@
   vendor: GitHub
   url: https://code.visualstudio.com/docs/agents/run/approvals
   final_url: https://code.visualstudio.com/docs/agents/run/approvals
-  quote: "An organization can set a different managed default for Copilot harness sessions."
-  retrieved: 2026-10-31
-  last_checked: 2026-11-15
+  quote: "Your organization can set a managed default or restrict which levels you can select."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
 
 - id: X-vs-user-settings
   article: set-the-limits-in-advance
@@ -951,9 +951,9 @@
   vendor: GitHub
   url: https://code.visualstudio.com/docs/agents/run/agent-sandboxing
   final_url: https://code.visualstudio.com/docs/agents/run/agent-sandboxing
-  quote: "It accepts `off` or `on` and defaults to `off`."
-  retrieved: 2026-10-31
-  last_checked: 2026-11-15
+  quote: "to choose the default: on or off. The default is off."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
 
 - id: T-copilot-settings-net
   article: set-the-limits-in-advance
@@ -963,9 +963,9 @@
   vendor: GitHub
   url: https://code.visualstudio.com/docs/agents/run/agent-sandboxing
   final_url: https://code.visualstudio.com/docs/agents/run/agent-sandboxing
-  quote: "Set it to `false` to block outbound access, including for the integrated browser."
-  retrieved: 2026-10-31
-  last_checked: 2026-11-15
+  quote: "This also blocks outbound access for the integrated browser in the sandboxed session."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
 
 - id: T-copilot-edits
   article: set-the-limits-in-advance
@@ -975,9 +975,9 @@
   vendor: GitHub
   url: https://code.visualstudio.com/docs/agents/run/review-code-edits
   final_url: https://code.visualstudio.com/docs/agents/run/review-code-edits
-  quote: "with glob patterns to require a diff and approval for edits to sensitive files"
-  retrieved: 2026-10-31
-  last_checked: 2026-11-15
+  quote: "uses glob patterns to request confirmation before an edit is saved."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
 
 - id: T-copilot-edits-ask
   article: set-the-limits-in-advance
@@ -985,11 +985,11 @@
     sv: "I Manual permissions gör den att Copilot frågar innan det ändrar en migrering eller .env. Den förbjuder inte ändringen"
     en: "In Manual permissions it makes Copilot ask before it edits a migration or .env; it does not forbid the edit"
   vendor: GitHub
-  url: https://code.visualstudio.com/docs/agents/run/approvals
-  final_url: https://code.visualstudio.com/docs/agents/run/approvals
-  quote: "Actions that are not auto-approved require your confirmation."
-  retrieved: 2026-10-31
-  last_checked: 2026-11-15
+  url: https://code.visualstudio.com/docs/agents/run/review-code-edits
+  final_url: https://code.visualstudio.com/docs/agents/run/review-code-edits
+  quote: "uses glob patterns to request confirmation before an edit is saved."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
 
 - id: X-vs-user-scope
   article: set-the-limits-in-advance
@@ -1011,9 +1011,9 @@
   vendor: GitHub
   url: https://code.visualstudio.com/docs/agents/run/agent-sandboxing
   final_url: https://code.visualstudio.com/docs/agents/run/agent-sandboxing
-  quote: "run `/sandbox policy` to verify whether sandboxing is active"
-  retrieved: 2026-10-31
-  last_checked: 2026-11-15
+  quote: "Run `/sandbox policy` in the session to check whether sandboxing is active"
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
 
 - id: H-managed-claude
   article: set-the-limits-in-advance
@@ -1119,9 +1119,9 @@
   vendor: Anthropic
   url: https://code.claude.com/docs/en/hooks
   final_url: https://code.claude.com/docs/en/hooks
-  quote: "To block the action instead, set `\"onFailure\": \"block\"` on a `command` or `http` hook. Requires Claude Code v2.1.295 or later."
-  retrieved: 2026-10-31
-  last_checked: 2026-11-15
+  quote: "To block the action instead, set \"onFailure\": \"block\" on a command, http, or mcp_tool hook. Requires Claude Code v2.1.295 or later."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
 
 - id: G-on-failure-start
   article: set-the-limits-in-advance

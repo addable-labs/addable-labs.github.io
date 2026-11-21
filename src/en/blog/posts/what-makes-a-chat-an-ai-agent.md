@@ -185,7 +185,7 @@ that usually lets it write only in the project's folder, with no network
 unless set otherwise. An approval policy decides when it must stop and ask.
 
 In **GitHub Copilot** in VS Code the instruction file is
-[`.github/copilot-instructions.md`](https://code.visualstudio.com/docs/agent-customization/custom-instructions#_use-a-githubcopilot-instructionsmd-file),
+[`.github/copilot-instructions.md`](https://code.visualstudio.com/docs/agent-customization/custom-instructions#_create-the-file-directly),
 and Copilot reads AGENTS.md too. With the default
 [Manual permissions](https://code.visualstudio.com/docs/agents/run/approvals)
 setting, Copilot asks before it runs commands or uses other tools — except

@@ -457,11 +457,11 @@
     sv: "Det finns en viktig risk vi vill lyfta fram: prompt injection"
     en: "There is one important risk we want to highlight: prompt injection"
   vendor: GitHub
-  url: https://code.visualstudio.com/docs/agents/run/security
-  final_url: https://code.visualstudio.com/docs/agents/run/security
-  quote: "AI systems are vulnerable to prompt injection attacks"
-  retrieved: 2026-10-31
-  last_checked: 2026-10-31
+  url: https://code.visualstudio.com/docs/agents/concepts/trust-and-safety#_ai-limitations-to-watch-for
+  final_url: https://code.visualstudio.com/docs/agents/concepts/trust-and-safety#_ai-limitations-to-watch-for
+  quote: "Files, tool outputs, and web pages can contain instructions that attempt to redirect an agent."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
 
 - id: P5-injection-outputs
   article: mcp-reaching-your-systems
@@ -469,11 +469,11 @@
     sv: "Agenten läser mycket text, till exempel ett ärende, en webbsida eller beskrivningen av ett verktyg i en MCP-server. Instruktioner kan ligga gömda i den texten. Agenten kan följa dem som om du hade skrivit dem"
     en: "The agent reads a lot of text, such as an issue, a web page or the description of an MCP server tool. Instructions can be hidden in that text. The agent may follow them as if you had written them"
   vendor: GitHub
-  url: https://code.visualstudio.com/docs/agents/run/security
-  final_url: https://code.visualstudio.com/docs/agents/run/security
-  quote: "AI systems are vulnerable to prompt injection attacks where malicious content in tool outputs influences the AI's behavior and decision-making."
-  retrieved: 2026-10-30
-  last_checked: 2026-10-31
+  url: https://code.visualstudio.com/docs/agents/concepts/trust-and-safety#_ai-limitations-to-watch-for
+  final_url: https://code.visualstudio.com/docs/agents/concepts/trust-and-safety#_ai-limitations-to-watch-for
+  quote: "Files, tool outputs, and web pages can contain instructions that attempt to redirect an agent."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
 
 - id: P5-injection-descriptions
   article: mcp-reaching-your-systems
@@ -493,11 +493,11 @@
     sv: "Agenten läser mycket text, till exempel ett ärende, en webbsida eller beskrivningen av ett verktyg i en MCP-server. Instruktioner kan ligga gömda i den texten. Agenten kan följa dem som om du hade skrivit dem"
     en: "The agent reads a lot of text, such as an issue, a web page or the description of an MCP server tool. Instructions can be hidden in that text. The agent may follow them as if you had written them"
   vendor: GitHub
-  url: https://code.visualstudio.com/docs/agents/run/security
-  final_url: https://code.visualstudio.com/docs/agents/run/security
-  quote: "these instructions can override the agent's original task and cause it to perform malicious actions"
-  retrieved: 2026-10-31
-  last_checked: 2026-10-31
+  url: https://code.visualstudio.com/docs/agents/concepts/trust-and-safety#_ai-limitations-to-watch-for
+  final_url: https://code.visualstudio.com/docs/agents/concepts/trust-and-safety#_ai-limitations-to-watch-for
+  quote: "a retrieved document might tell the agent to disregard your request and follow a different workflow."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
 
 - id: P5-must-consent
   article: mcp-reaching-your-systems
@@ -649,11 +649,11 @@
     sv: "Ingen av dem hindrar agenten från att läsa en skadlig instruktion. Därför är övningsrepot privat"
     en: "Neither stops the agent from reading a harmful instruction, which is why the practice repository is private"
   vendor: GitHub
-  url: https://code.visualstudio.com/docs/agents/run/security
-  final_url: https://code.visualstudio.com/docs/agents/run/security
-  quote: "AI systems are vulnerable to prompt injection attacks where malicious content in tool outputs influences the AI's behavior and decision-making."
-  retrieved: 2026-10-31
-  last_checked: 2026-10-31
+  url: https://code.visualstudio.com/docs/agents/concepts/trust-and-safety#_ai-limitations-to-watch-for
+  final_url: https://code.visualstudio.com/docs/agents/concepts/trust-and-safety#_ai-limitations-to-watch-for
+  quote: "Content retrieved for a task is not automatically a trustworthy instruction, even when it comes from a service you authorized."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
 
 - id: P5-vs-approval
   article: mcp-reaching-your-systems
@@ -843,9 +843,9 @@
   vendor: GitHub
   url: https://code.visualstudio.com/docs/agents/reference/mcp-configuration
   final_url: https://code.visualstudio.com/docs/agents/reference/mcp-configuration
-  quote: "The portable Copilot format is stored in `.mcp.json` at the root of your workspace"
-  retrieved: 2026-10-30
-  last_checked: 2026-10-31
+  quote: "Both files use a top-level mcpServers object, and the harness reads them directly."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
 
 - id: P5-vs-portable-shape
   article: mcp-reaching-your-systems
@@ -855,9 +855,9 @@
   vendor: GitHub
   url: https://code.visualstudio.com/docs/agents/reference/mcp-configuration
   final_url: https://code.visualstudio.com/docs/agents/reference/mcp-configuration
-  quote: "The portable Copilot format is stored in `.mcp.json` at the root of your workspace or in `$COPILOT_HOME/mcp-config.json` for your user, with `~/.copilot/mcp-config.json` as the fallback location."
-  retrieved: 2026-11-03
-  last_checked: 2026-11-03
+  quote: "Use a top-level mcpServers object in workspace-root .mcp.json or Copilot user mcp-config.json."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
 
 - id: P5-vs-existing-file
   article: mcp-reaching-your-systems
@@ -867,9 +867,9 @@
   vendor: GitHub
   url: https://code.visualstudio.com/docs/agents/reference/mcp-configuration
   final_url: https://code.visualstudio.com/docs/agents/reference/mcp-configuration
-  quote: "It defines servers in a top-level `mcpServers` object."
-  retrieved: 2026-10-30
-  last_checked: 2026-11-03
+  quote: "edit the native file using the portable configuration examples."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
 
 - id: P5-vs-portable-servers
   article: mcp-reaching-your-systems
@@ -877,11 +877,11 @@
     sv: "Skapa filen för hand med samma innehåll som i exemplet ovan"
     en: "Create the file by hand with the same content as the example above"
   vendor: GitHub
-  url: https://code.visualstudio.com/docs/agent-customization/mcp-servers
-  final_url: https://code.visualstudio.com/docs/agent-customization/mcp-servers
-  quote: "Portable files use a top-level `mcpServers` object."
-  retrieved: 2026-11-03
-  last_checked: 2026-11-03
+  url: https://code.visualstudio.com/docs/agents/reference/mcp-configuration
+  final_url: https://code.visualstudio.com/docs/agents/reference/mcp-configuration
+  quote: "Use a top-level mcpServers object in workspace-root .mcp.json or Copilot user mcp-config.json."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
 
 - id: P5-vs-code-format
   article: mcp-reaching-your-systems
@@ -891,9 +891,9 @@
   vendor: GitHub
   url: https://code.visualstudio.com/docs/agents/reference/mcp-configuration
   final_url: https://code.visualstudio.com/docs/agents/reference/mcp-configuration
-  quote: "The VS Code format is stored in `.vscode/mcp.json` in your workspace or in your user profile."
-  retrieved: 2026-11-03
-  last_checked: 2026-11-03
+  quote: "For new Copilot configurations, use these native destinations, not .vscode/mcp.json or profile mcp.json."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
 
 - id: P5-vs-code-servers
   article: mcp-reaching-your-systems
@@ -901,11 +901,11 @@
     sv: "Det är inte .vscode/mcp.json, som har ett annat format"
     en: "It is not .vscode/mcp.json, which has a different format"
   vendor: GitHub
-  url: https://code.visualstudio.com/docs/agent-customization/mcp-servers
-  final_url: https://code.visualstudio.com/docs/agent-customization/mcp-servers
-  quote: "The VS Code format uses `servers`."
-  retrieved: 2026-11-03
-  last_checked: 2026-11-03
+  url: https://code.visualstudio.com/docs/agents/reference/mcp-configuration
+  final_url: https://code.visualstudio.com/docs/agents/reference/mcp-configuration
+  quote: "For new Copilot configurations, use these native destinations, not .vscode/mcp.json or profile mcp.json."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
 
 - id: P5-vs-header-env
   article: mcp-reaching-your-systems
@@ -975,9 +975,9 @@
   vendor: GitHub
   url: https://code.visualstudio.com/docs/agent-customization/mcp-servers
   final_url: https://code.visualstudio.com/docs/agent-customization/mcp-servers
-  quote: "Expand the tool call in the conversation. Check that it belongs to the server you added and inspect its returned output."
-  retrieved: 2026-10-31
-  last_checked: 2026-11-03
+  quote: "Expand the tool call in the conversation. … For another server, choose a low-impact task supported by its tools and inspect the result in the same way."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
 
 - id: P5-vs-plausible
   article: mcp-reaching-your-systems
@@ -987,9 +987,9 @@
   vendor: GitHub
   url: https://code.visualstudio.com/docs/agent-customization/mcp-servers
   final_url: https://code.visualstudio.com/docs/agent-customization/mcp-servers
-  quote: "A plausible answer alone isn't sufficient."
-  retrieved: 2026-10-30
-  last_checked: 2026-10-31
+  quote: "A plausible answer without a tool call doesn't verify the connection."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
 
 - id: P5-readonly-no-write-tool
   article: mcp-reaching-your-systems
@@ -1059,9 +1059,9 @@
   vendor: GitHub
   url: https://code.visualstudio.com/docs/agent-customization/mcp-servers
   final_url: https://code.visualstudio.com/docs/agent-customization/mcp-servers
-  quote: "Expand the tool call in the conversation. Check that it belongs to the server you added and inspect its returned output."
-  retrieved: 2026-11-03
-  last_checked: 2026-11-03
+  quote: "Expand the tool call in the conversation."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
 
 - id: P5-readonly-check
   article: mcp-reaching-your-systems
@@ -1119,9 +1119,9 @@
   vendor: GitHub
   url: https://code.visualstudio.com/docs/agents/reference/mcp-configuration
   final_url: https://code.visualstudio.com/docs/agents/reference/mcp-configuration
-  quote: "Provide credentials in the environment of the host that runs or connects to the server, not only in an unrelated terminal"
-  retrieved: 2026-10-31
-  last_checked: 2026-10-31
+  quote: "Provide variables in the environment of the host that runs or connects to the server."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
 
 - id: P5-unset-var
   article: mcp-reaching-your-systems
@@ -1227,9 +1227,9 @@
   vendor: GitHub
   url: https://code.visualstudio.com/docs/agents/run/security
   final_url: https://code.visualstudio.com/docs/agents/run/security
-  quote: "these instructions can override the agent's original task and cause it to perform malicious actions"
-  retrieved: 2026-10-30
-  last_checked: 2026-10-31
+  quote: "If an action was driven by untrusted content, don't approve follow-up requests solely because that content asks for them."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
 
 - id: P5-own-provider
   article: mcp-reaching-your-systems
@@ -1345,11 +1345,11 @@
     sv: "Gå vidare till det riktiga projektet först när ärendena där skrivs av personer du litar på"
     en: "Move to your real project only when the issues there are written by people you trust"
   vendor: GitHub
-  url: https://code.visualstudio.com/docs/agents/run/security
-  final_url: https://code.visualstudio.com/docs/agents/run/security
-  quote: "AI systems are vulnerable to prompt injection attacks where malicious content in tool outputs influences the AI's behavior and decision-making."
-  retrieved: 2026-10-31
-  last_checked: 2026-10-31
+  url: https://code.visualstudio.com/docs/agents/concepts/trust-and-safety#_ai-limitations-to-watch-for
+  final_url: https://code.visualstudio.com/docs/agents/concepts/trust-and-safety#_ai-limitations-to-watch-for
+  quote: "Content retrieved for a task is not automatically a trustworthy instruction, even when it comes from a service you authorized."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
 
 - id: P5-adv-host-claude
   article: mcp-reaching-your-systems
@@ -3303,9 +3303,9 @@
   vendor: Anthropic
   url: https://code.claude.com/docs/en/mcp
   final_url: https://code.claude.com/docs/en/mcp
-  quote: "Claude Code displays a warning when any MCP tool output exceeds 10,000 tokens"
-  retrieved: 2026-11-05
-  last_checked: 2026-11-05
+  quote: "displays a warning when any MCP tool output exceeds a fixed 10,000 tokens"
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
 
 - id: P5-cmp-cli-context
   article: mcp-reaching-your-systems
@@ -3433,11 +3433,11 @@
     sv: "En server är inte specifik för ett AI-program. Vissa program använder ett annat filformat än andra"
     en: "A server is not specific to one agent app, and some apps use a different file format than others"
   vendor: GitHub
-  url: https://code.visualstudio.com/docs/agent-customization/mcp-servers
-  final_url: https://code.visualstudio.com/docs/agent-customization/mcp-servers
-  quote: "Portable files use a top-level `mcpServers` object. The VS Code format uses `servers`."
-  retrieved: 2026-11-05
-  last_checked: 2026-11-05
+  url: https://code.visualstudio.com/docs/agents/reference/mcp-configuration
+  final_url: https://code.visualstudio.com/docs/agents/reference/mcp-configuration
+  quote: "For other providers, use the provider's MCP configuration documentation. Their configuration locations and schemas can differ."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
 
 - id: P5-cmp-prompt
   article: mcp-reaching-your-systems
@@ -3553,11 +3553,11 @@
     sv: "Oavsett hur agenten når ett system kan texten den läser innehålla prompt injection, vilket nästa avsnitt beskriver"
     en: "Whichever way the agent reaches a system, the text it reads can carry prompt injection, which the next section describes"
   vendor: GitHub
-  url: https://code.visualstudio.com/docs/agents/run/security
-  final_url: https://code.visualstudio.com/docs/agents/run/security
-  quote: "AI systems are vulnerable to prompt injection attacks where malicious content in tool outputs influences the AI's behavior and decision-making."
-  retrieved: 2026-11-05
-  last_checked: 2026-11-05
+  url: https://code.visualstudio.com/docs/agents/concepts/trust-and-safety#_ai-limitations-to-watch-for
+  final_url: https://code.visualstudio.com/docs/agents/concepts/trust-and-safety#_ai-limitations-to-watch-for
+  quote: "Files, tool outputs, and web pages can contain instructions that attempt to redirect an agent."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
 
 - id: P5-cmp-injection-any-tools
   article: mcp-reaching-your-systems
@@ -3565,11 +3565,11 @@
     sv: "Oavsett hur agenten når ett system kan texten den läser innehålla prompt injection, vilket nästa avsnitt beskriver"
     en: "Whichever way the agent reaches a system, the text it reads can carry prompt injection, which the next section describes"
   vendor: GitHub
-  url: https://code.visualstudio.com/docs/agents/run/security
-  final_url: https://code.visualstudio.com/docs/agents/run/security
-  quote: "an MCP tool or the fetch tool might unsuspectingly retrieve data from a website that has user-generated content"
-  retrieved: 2026-11-05
-  last_checked: 2026-11-05
+  url: https://code.visualstudio.com/docs/agents/concepts/trust-and-safety#_ai-limitations-to-watch-for
+  final_url: https://code.visualstudio.com/docs/agents/concepts/trust-and-safety#_ai-limitations-to-watch-for
+  quote: "Content retrieved for a task is not automatically a trustworthy instruction, even when it comes from a service you authorized."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
 
 - id: P5-cmp-injection-any-cc
   article: mcp-reaching-your-systems

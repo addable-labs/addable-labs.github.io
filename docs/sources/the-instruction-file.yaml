@@ -395,11 +395,11 @@
     sv: "Med flera verktyg i projektet räcker en AGENTS.md i översta mappen om varje verktyg hittar den."
     en: "With more than one tool in the project, one AGENTS.md in the top folder is enough if each tool finds it."
   vendor: GitHub
-  url: https://code.visualstudio.com/docs/agent-customization/custom-instructions
-  final_url: https://code.visualstudio.com/docs/agent-customization/custom-instructions
-  quote: "If your team uses multiple harnesses, use a shared format that they all support when possible."
-  retrieved: 2026-10-13
-  last_checked: 2026-10-30
+  url: https://code.visualstudio.com/docs/agents/reference/custom-instructions-reference#_supported-formats-and-locations
+  final_url: https://code.visualstudio.com/docs/agents/reference/custom-instructions-reference#_supported-formats-and-locations
+  quote: "If your team uses multiple harnesses, choose a shared supported format where possible and keep any separate copies consistent."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
 - id: O4-reads
   article: the-instruction-file
   sentence:
@@ -430,9 +430,9 @@
   vendor: GitHub
   url: https://code.visualstudio.com/docs/agent-customization/custom-instructions
   final_url: https://code.visualstudio.com/docs/agent-customization/custom-instructions
-  quote: "Multiple harnesses, including Copilot and OpenAI Codex, support it."
-  retrieved: 2026-10-30
-  last_checked: 2026-10-30
+  quote: "Copilot .github/copilot-instructions.md or AGENTS.md"
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
 - id: C10-reads
   article: the-instruction-file
   sentence:
@@ -529,9 +529,9 @@
   vendor: GitHub
   url: https://code.visualstudio.com/docs/agent-customization/custom-instructions
   final_url: https://code.visualstudio.com/docs/agent-customization/custom-instructions
-  quote: "AGENTS.md is not specific to Codex. It is a cross-agent format"
-  retrieved: 2026-10-12
-  last_checked: 2026-10-30
+  quote: "AGENTS.md is a cross-agent format, not a Codex-only file."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
 - id: C5-nested
   article: the-instruction-file
   sentence:
@@ -582,11 +582,11 @@
     sv: "I VS Code hittar det en fil i en undermapp när det arbetar med filer där"
     en: "In VS Code it finds a file in a subfolder as it works with files there"
   vendor: GitHub
-  url: https://code.visualstudio.com/docs/agent-customization/custom-instructions
-  final_url: https://code.visualstudio.com/docs/agent-customization/custom-instructions
-  quote: "As Copilot works with files in subfolders, it discovers AGENTS.md files along their directory paths."
-  retrieved: 2026-10-30
-  last_checked: 2026-10-30
+  url: https://code.visualstudio.com/docs/agents/reference/custom-instructions-reference#_nested-project-instructions
+  final_url: https://code.visualstudio.com/docs/agents/reference/custom-instructions-reference#_nested-project-instructions
+  quote: "Copilot Discovers AGENTS.md at the repository root, working directory, intermediate directories, and along paths to files it works with."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
 - id: C4-200
   article: the-instruction-file
   sentence:
@@ -846,11 +846,11 @@
     sv: "VS Codes dokumentation, som rekommenderar ett gemensamt format som alla verktygen stöder, när det går"
     en: "VS Code's documentation, which advises a shared format that all the tools support when possible"
   vendor: GitHub
-  url: https://code.visualstudio.com/docs/agent-customization/custom-instructions
-  final_url: https://code.visualstudio.com/docs/agent-customization/custom-instructions
-  quote: "If your team uses multiple harnesses, use a shared format that they all support when possible."
-  retrieved: 2026-10-30
-  last_checked: 2026-10-30
+  url: https://code.visualstudio.com/docs/agents/reference/custom-instructions-reference#_supported-formats-and-locations
+  final_url: https://code.visualstudio.com/docs/agents/reference/custom-instructions-reference#_supported-formats-and-locations
+  quote: "If your team uses multiple harnesses, choose a shared supported format where possible and keep any separate copies consistent."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
 - id: E1-overtrigger
   article: the-instruction-file
   sentence:

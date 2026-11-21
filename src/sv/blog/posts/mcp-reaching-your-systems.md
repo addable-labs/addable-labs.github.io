@@ -109,7 +109,7 @@ MCP-server är därför ett beslut om vad du litar på, ungefär som att install
 ett program.
 
 Det finns en viktig risk vi vill lyfta fram:
-[prompt injection](https://code.visualstudio.com/docs/agents/run/security).
+[prompt injection](https://code.visualstudio.com/docs/agents/concepts/trust-and-safety#_ai-limitations-to-watch-for).
 Agenten läser mycket text, till exempel ett ärende, en webbsida eller
 beskrivningen av ett verktyg i en MCP-server. Instruktioner kan ligga gömda i
 den texten. Agenten kan följa dem som om du hade skrivit dem. Tänk dig att

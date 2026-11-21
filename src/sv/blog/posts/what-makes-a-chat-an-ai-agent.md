@@ -185,7 +185,7 @@ annat är inställt. En regel för godkännanden avgör när det måste stanna o
 fråga.
 
 I **GitHub Copilot** i VS Code är instruktionsfilen
-[`.github/copilot-instructions.md`](https://code.visualstudio.com/docs/agent-customization/custom-instructions#_use-a-githubcopilot-instructionsmd-file)
+[`.github/copilot-instructions.md`](https://code.visualstudio.com/docs/agent-customization/custom-instructions#_create-the-file-directly)
 och Copilot läser också AGENTS.md. Med inställningen
 [Manual permissions](https://code.visualstudio.com/docs/agents/run/approvals),
 som är förvald, ber Copilot om lov innan den kör kommandon eller använder

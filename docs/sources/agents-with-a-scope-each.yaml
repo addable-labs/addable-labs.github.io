@@ -43,9 +43,9 @@
   vendor: GitHub
   url: https://code.visualstudio.com/docs/agents/run/subagents
   final_url: https://code.visualstudio.com/docs/agents/run/subagents
-  quote: "A Local subagent doesn't inherit the main conversation history."
-  retrieved: 2026-10-30
-  last_checked: 2026-10-30
+  quote: "Local subagents receive the delegated task and applicable instructions, not the main conversation history."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
 - id: P3-nohistory-cc
   article: agents-with-a-scope-each
   sentence:
@@ -131,9 +131,9 @@
   vendor: Anthropic
   url: https://code.claude.com/docs/en/sub-agents
   final_url: https://code.claude.com/docs/en/sub-agents
-  quote: "The `model` field controls which model the subagent uses"
-  retrieved: 2026-10-30
-  last_checked: 2026-10-30
+  quote: "To choose its model yourself, set the model field in its definition"
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
 - id: P3-model-rule
   article: agents-with-a-scope-each
   sentence:
@@ -153,9 +153,9 @@
   vendor: OpenAI
   url: https://learn.chatgpt.com/docs/agent-configuration/subagents
   final_url: https://learn.chatgpt.com/docs/agent-configuration/subagents
-  quote: "Start here for demanding agents. Use it for ambiguous, multi-step work that needs planning, tool use, validation, and follow-through across a larger context."
-  retrieved: 2026-10-30
-  last_checked: 2026-10-30
+  quote: "Use Sol for everyday agents that plan, use tools, and check their work."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
 - id: P3-model-small
   article: agents-with-a-scope-each
   sentence:
@@ -186,9 +186,9 @@
   vendor: OpenAI
   url: https://learn.chatgpt.com/docs/agent-configuration/subagents
   final_url: https://learn.chatgpt.com/docs/agent-configuration/subagents
-  quote: "Use gpt-6-luna when you want a faster, lower-cost option for lighter subagent work."
-  retrieved: 2026-10-30
-  last_checked: 2026-10-30
+  quote: "Use gpt-6-luna for lighter, lower-cost work."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
 - id: P3-model-shallow
   article: agents-with-a-scope-each
   sentence:
@@ -197,9 +197,9 @@
   vendor: OpenAI
   url: https://learn.chatgpt.com/docs/agent-configuration/subagents
   final_url: https://learn.chatgpt.com/docs/agent-configuration/subagents
-  quote: "Start here for demanding agents."
-  retrieved: 2026-10-30
-  last_checked: 2026-10-30
+  quote: "use gpt-6-luna for fast scans or increase Sol’s reasoning effort for a more demanding task."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
 - id: P3-effort
   article: agents-with-a-scope-each
   sentence:
@@ -274,9 +274,9 @@
   vendor: GitHub
   url: https://code.visualstudio.com/docs/agents/reference/custom-agent-file-reference
   final_url: https://code.visualstudio.com/docs/agents/reference/custom-agent-file-reference
-  quote: "Reasoning effort for the agent in the Copilot harness."
-  retrieved: 2026-10-30
-  last_checked: 2026-10-30
+  quote: "Initial reasoning effort for the selected model, when supported."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
 - id: P3-weighs
   article: agents-with-a-scope-each
   sentence:
@@ -613,11 +613,11 @@
     sv: "GitHub Copilot läser agentfiler från .github/agents/, med namn som slutar på .agent.md eller .md"
     en: "GitHub Copilot reads agent files from .github/agents/, with names that end in .agent.md or .md"
   vendor: GitHub
-  url: https://code.visualstudio.com/docs/agent-customization/custom-agents
-  final_url: https://code.visualstudio.com/docs/agent-customization/custom-agents
-  quote: ".github/agents folder … .agent.md or .md files"
-  retrieved: 2026-10-30
-  last_checked: 2026-10-30
+  url: https://code.visualstudio.com/docs/agents/reference/custom-agent-file-reference
+  final_url: https://code.visualstudio.com/docs/agents/reference/custom-agent-file-reference
+  quote: ".github/agents folder .agent.md or .md files"
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
 - id: P3-gh-tools-list
   article: agents-with-a-scope-each
   sentence:
@@ -626,9 +626,9 @@
   vendor: GitHub
   url: https://code.visualstudio.com/docs/agent-customization/custom-agents
   final_url: https://code.visualstudio.com/docs/agent-customization/custom-agents
-  quote: "If the agent specifies a tools list, only those tools are available."
-  retrieved: 2026-10-30
-  last_checked: 2026-10-30
+  quote: "The YAML header names the agent and selects reading and search tools."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
 - id: P3-gh-aliases
   article: agents-with-a-scope-each
   sentence:
@@ -736,9 +736,9 @@
   vendor: GitHub
   url: https://code.visualstudio.com/docs/agents/run/subagents
   final_url: https://code.visualstudio.com/docs/agents/run/subagents
-  quote: "The main agent can also decide to delegate without an explicit request."
-  retrieved: 2026-10-30
-  last_checked: 2026-10-30
+  quote: "The main agent can also choose to delegate without an explicit request."
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
 - id: P3-gh-cloud-auto
   article: agents-with-a-scope-each
   sentence:
@@ -802,9 +802,9 @@
   vendor: GitHub
   url: https://code.visualstudio.com/docs/agents/run/subagents
   final_url: https://code.visualstudio.com/docs/agents/run/subagents
-  quote: "For a quick lookup or a small edit, a direct request is usually enough. Delegation adds model usage and coordination"
-  retrieved: 2026-10-30
-  last_checked: 2026-10-30
+  quote: "For a quick lookup or a small edit, a direct request is usually enough. Subagents make their own model requests"
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21
 - id: P3-cost-vs-concepts
   article: agents-with-a-scope-each
   sentence:
@@ -879,6 +879,6 @@
   vendor: GitHub
   url: https://code.visualstudio.com/docs/agent-customization/custom-agents
   final_url: https://code.visualstudio.com/docs/agent-customization/custom-agents
-  quote: "You can let an agent generate a custom agent for you based on a description."
-  retrieved: 2026-10-30
-  last_checked: 2026-10-30
+  quote: "ask an agent to generate a starter file"
+  retrieved: 2026-11-21
+  last_checked: 2026-11-21

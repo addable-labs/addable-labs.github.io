@@ -106,7 +106,7 @@ does not security-audit or manage any MCP server. So connecting an MCP server is
 a trust decision, like installing a program.
 
 There is one important risk we want to highlight:
-[prompt injection](https://code.visualstudio.com/docs/agents/run/security). The
+[prompt injection](https://code.visualstudio.com/docs/agents/concepts/trust-and-safety#_ai-limitations-to-watch-for). The
 agent reads a lot of text, such as an issue, a web page or the description of an
 MCP server tool. Instructions can be hidden in that text. The agent may follow
 them as if you had written them. Suppose the developer's real project is public
