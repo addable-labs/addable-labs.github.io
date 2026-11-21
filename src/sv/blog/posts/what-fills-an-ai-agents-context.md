@@ -29,8 +29,9 @@ du skriver något, vad varje steg lägger till, vad en subagent håller utanför
 kontexten och vad som går förlorat när kontexten komprimeras. Beskrivningarna
 följer dokumentationen för Claude Code, Codex och GitHub Copilot i VS Code så
 som den såg ut i november 2026. Fabriken bakom den här sajten är exemplet. Vad
-en agent behåller från en session till nästa är ett annat ämne – minne. En
-senare artikel tar upp det.
+en agent behåller från en session till nästa är ett annat ämne – minne.
+[Minne som överlever en AI-agents session](/sv/blog/memory-that-outlives-an-ai-agents-session/)
+tar upp det.
 
 ## Kontexten rymmer mer än ditt samtal
 

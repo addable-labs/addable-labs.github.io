@@ -28,7 +28,9 @@ adds, what a subagent keeps out and what is lost when the context is compacted.
 The descriptions follow the documentation of Claude Code, Codex and GitHub
 Copilot in VS Code as it stood in November 2026, and the factory behind this
 site is the worked example. What an agent keeps from one session to the next is
-a different subject, memory, and a later article takes it up.
+a different subject, memory, and
+[Memory that outlives an AI agent's session](/blog/memory-that-outlives-an-ai-agents-session/)
+takes it up.
 
 ## The context holds more than your conversation
 
