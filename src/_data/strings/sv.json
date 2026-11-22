@@ -1607,10 +1607,10 @@
       "layer2": "instruktionsfilen",
       "layer3": "minne",
       "layer4": "namn på skills och verktyg",
-      "caption": "Kontexten innan du har skrivit något. Start-lagret är litet jämfört med hela fönstret, men det finns där – varje senare begäran bär med sig det. Storlekarna är ritade, inte räknade."
+      "caption": "Kontexten innan du har skrivit något. Startlagret är litet jämfört med hela fönstret, men det finns där – varje senare anrop bär med sig det. Storlekarna är ritade, inte räknade."
     },
     "context-as-it-fills": {
-      "title": "Fyra tillfällen i en session, där varje stapel är fullare än den förra: efter den första prompten, efter några lästa filer, efter en testkörnings utdata och sedan en andra, orelaterad uppgift har börjat. Den första uppgiftens lager finns kvar.",
+      "title": "Fyra tillfällen i en session, där varje stapel är fullare än den förra: efter den första prompten, efter några lästa filer, efter utdata från en testkörning och sedan en andra, orelaterad uppgift har börjat. Den första uppgiftens lager finns kvar.",
       "head": "En session, fyra tillfällen",
       "m1": "efter den första prompten",
       "m2": "efter några lästa filer",
@@ -1621,7 +1621,7 @@
       "output": "kommandots utdata",
       "talk": "samtal",
       "task2": "andra uppgiften",
-      "sent": "skickas igen med nästa begäran",
+      "sent": "skickas igen med nästa anrop",
       "caption": "Samma stapel vid fyra tillfällen. Inget lämnar stapeln av sig självt: den första uppgiftens lager finns kvar och skickas fortfarande när den andra uppgiften börjar."
     },
     "context-subagent": {
