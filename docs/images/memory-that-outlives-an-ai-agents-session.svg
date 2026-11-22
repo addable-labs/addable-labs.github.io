@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <!-- The image of "Memory that outlives an AI agent's session" (si-rtd7,
+       22 November 2026), in the style and palette of the other covers and
+       drawn as the article's figures draw it, a companion to the cover of
+       "What fills an AI agent's context": the same bar for the context
+       window, open at its dashed top and filled from its foot. Two sessions
+       stand on one floor with a drawer of cards between them, the store the
+       figures draw for memory. The first session is over: its outline is
+       dashed and its layers (the start-up layer's grey bands, files read in
+       green, the conversation in white) are faded. One card in the drawer is
+       lit, the note it wrote, and a dotted green path runs from the first bar
+       down to that card and on into the second bar, which is almost empty: its
+       start-up layer, whose third band is the same note, lit. Sizes are drawn,
+       not counted. Unlike the context study's cover (two windows and a note
+       carried across the top) and the context deep dive's (one bar filling),
+       the subject here is the store on the floor between two sessions. It sits
+       inside the central 630 x 630 square; nothing that matters is within 40 px
+       of an edge. -->
+  <defs>
+    <pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse" y="15">
+      <path d="M0 .5H30M.5 0V30" fill="none" stroke="#242C33"/>
+    </pattern>
+    <radialGradient id="fade" cx="600" cy="315" r="640" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff" stop-opacity=".95"/>
+      <stop offset=".6" stop-color="#fff" stop-opacity=".55"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </radialGradient>
+    <mask id="gridmask"><rect width="1200" height="630" fill="url(#fade)"/></mask>
+    <radialGradient id="glow" cx="600" cy="400" r="320" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#83F35D" stop-opacity=".1"/>
+      <stop offset="1" stop-color="#83F35D" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="cardglow" cx="602" cy="440" r="70" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#83F35D" stop-opacity=".22"/>
+      <stop offset="1" stop-color="#83F35D" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="#0B0E10"/>
+  <rect width="1200" height="630" fill="url(#grid)" mask="url(#gridmask)"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+
+  <!-- The floor the two sessions and the drawer stand on. -->
+  <path d="M300 538H900" stroke="#626E79" stroke-width="2.5" stroke-linecap="round" stroke-opacity=".6"/>
+
+  <!-- The first session, over: a dashed outline and its layers faded. -->
+  <path d="M318 176V502a24 24 0 0 0 24 24H406a24 24 0 0 0 24-24V176" fill="#13181C" stroke="#626E79" stroke-width="3" stroke-dasharray="10 9" stroke-linejoin="round"/>
+  <path d="M300 176H448" stroke="#626E79" stroke-width="3" stroke-dasharray="4 10" stroke-linecap="round"/>
+  <g opacity=".4">
+    <g fill="#626E79">
+      <rect x="332" y="502" width="84" height="9" rx="4.5"/>
+      <rect x="332" y="488" width="84" height="9" rx="4.5"/>
+      <rect x="332" y="474" width="84" height="9" rx="4.5"/>
+      <rect x="332" y="460" width="84" height="9" rx="4.5"/>
+    </g>
+    <rect x="332" y="384" width="84" height="68" rx="8" fill="#83F35D"/>
+    <rect x="332" y="330" width="84" height="46" rx="8" fill="#ECEFF1"/>
+  </g>
+
+  <!-- The note's way: from the first session down into the drawer, and on into the next session. -->
+  <g fill="none" stroke="#83F35D" stroke-width="3" stroke-dasharray="1 11" stroke-linecap="round">
+    <path d="M446 352C520 352 602 362 602 404"/>
+    <path d="M624 420C694 390 732 474 760 474"/>
+  </g>
+
+  <!-- The store: a drawer with cards standing in it; the lit one is the note. -->
+  <rect x="542" y="370" width="120" height="140" fill="url(#cardglow)"/>
+  <g fill="#1A2126" stroke="#626E79" stroke-width="2.5">
+    <rect x="496" y="438" width="36" height="70" rx="5"/>
+    <rect x="540" y="438" width="36" height="70" rx="5"/>
+    <rect x="628" y="438" width="36" height="70" rx="5"/>
+    <rect x="672" y="438" width="36" height="70" rx="5"/>
+  </g>
+  <rect x="584" y="418" width="36" height="90" rx="5" fill="#1A2126" stroke="#83F35D" stroke-width="2.5"/>
+  <g fill="#626E79">
+    <rect x="503" y="449" width="22" height="3" rx="1.5"/>
+    <rect x="503" y="458" width="14" height="3" rx="1.5"/>
+    <rect x="547" y="449" width="22" height="3" rx="1.5"/>
+    <rect x="547" y="458" width="14" height="3" rx="1.5"/>
+    <rect x="635" y="449" width="22" height="3" rx="1.5"/>
+    <rect x="635" y="458" width="14" height="3" rx="1.5"/>
+    <rect x="679" y="449" width="22" height="3" rx="1.5"/>
+    <rect x="679" y="458" width="14" height="3" rx="1.5"/>
+    <rect x="591" y="429" width="22" height="3" rx="1.5"/>
+    <rect x="591" y="438" width="14" height="3" rx="1.5"/>
+  </g>
+  <rect x="476" y="468" width="248" height="58" rx="12" fill="#1A2126" stroke="#626E79" stroke-width="3"/>
+  <rect x="576" y="494" width="48" height="7" rx="3.5" fill="#626E79"/>
+
+  <!-- The next session: almost empty, its start-up layer at the foot, the note its third band. -->
+  <path d="M770 176V502a24 24 0 0 0 24 24H858a24 24 0 0 0 24-24V176" fill="#13181C" stroke="#626E79" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M752 176H900" stroke="#626E79" stroke-width="3" stroke-dasharray="4 10" stroke-linecap="round"/>
+  <g fill="#626E79">
+    <rect x="784" y="502" width="84" height="9" rx="4.5"/>
+    <rect x="784" y="488" width="84" height="9" rx="4.5"/>
+    <rect x="784" y="452" width="84" height="9" rx="4.5"/>
+  </g>
+  <rect x="785" y="467" width="82" height="16" rx="4" fill="#1A2126" stroke="#83F35D" stroke-width="2.5"/>
+  <rect x="794" y="473.5" width="40" height="3" rx="1.5" fill="#626E79"/>
+</svg>

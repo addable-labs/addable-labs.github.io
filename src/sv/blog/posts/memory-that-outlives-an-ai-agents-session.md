@@ -2,7 +2,7 @@
 title: Minne som överlever en AI-agents session
 description: "Vad en AI-agent för kodning skriver ner så att nästa session, nästa dator och nästa runner kan använda det: hur Claude Code, GitHub Copilot och Codex hanterar minne i november 2026, vad ett team delar, vad en runner behåller, vad som kan gå fel i ett delat minne och vad fem lösningar kostar att hålla igång."
 image: cover.png                 # en PNG på 1200 × 630 i artikelns mediemapp
-imageAlt: "Två av borgmästarens sessioner bredvid varandra. Den förstas kontext har fyllts anrop för anrop: startinnehållet längst ner, omorienteringen i orange, sedan arbetet upp till den streckade överlämningspunkten. Vid överlämningen skriver borgmästaren läget i sitt arbete på ett kort; en ny session börjar på samma startinnehåll och läser kortet först."
+imageAlt: "Två höga staplar, två sessioners kontextfönster, står på samma golv med en låda med kort mellan sig: förrådet. Den första sessionen är slut, dess kontur streckad och dess grå, gröna och vita lager bleka. En prickad grön linje går från den till ett upplyst kort i lådan, anteckningen den skrev. Linjen fortsätter in i den andra stapeln, som är nästan tom: längst ner rymmer dess tunna grå startlager samma anteckning, upplyst."
 date: 2026-11-21
 category: ai-journey             # app-development | ai-journey
 translationKey: memory-that-outlives-an-ai-agents-session

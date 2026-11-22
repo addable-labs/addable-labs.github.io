@@ -2,7 +2,7 @@
 title: Memory that outlives an AI agent's session
 description: "What an AI coding agent writes down so that the next session, the next computer and the next runner can use it: how Claude Code, GitHub Copilot and Codex handle memory in November 2026, what a team shares, what a runner keeps, what can go wrong in a shared memory and what five setups cost to keep up."
 image: cover.png                 # a 1200 × 630 PNG in the article's media directory
-imageAlt: "Two of the mayor's sessions side by side. The first one's context has filled call by call: the start-up content at the bottom, re-orientation in orange, then the work up to the dashed hand-off point. At the hand-off the mayor writes the state of its work on a card; a new session starts on the same start-up content and reads it first."
+imageAlt: "Two tall bars, the context windows of two sessions, stand on one floor with a drawer of cards between them: the store. The first session is over, its outline dashed and its grey, green and white layers faded. A dotted green line runs from it to one lit card in the drawer, the note it wrote, and goes on into the second bar, which is almost empty: at its foot, the thin grey start-up layer holds the same note, lit."
 date: 2026-11-21
 category: ai-journey             # app-development | ai-journey
 translationKey: memory-that-outlives-an-ai-agents-session
