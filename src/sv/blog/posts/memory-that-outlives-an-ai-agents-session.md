@@ -321,8 +321,8 @@ hoppade nya sessioner över det mesta av en anteckningslogg som hade blivit för
 lång för att läsas i sin helhet och tog gamla fakta för aktuella. Lägeskortet
 som skrivs om vid varje överlämning och referensen som läses i ett anrop fanns
 redan; ändringen – som beskrivs i "Vad som fyller en AI-agents kontext" – var
-att korta båda och sätta tak för dem. En praktiker beskriver det allmänna
-fallet: ett faktum som antecknades i mars läses in med samma tillförsikt i juni
+att korta båda och sätta tak för dem. Pococks ordlista
+beskriver det allmänna fallet: ett faktum som antecknades i mars läses in med samma tillförsikt i juni
 – sedan projektet har gått vidare – och ett minnessystem behöver gallras på
 samma sätt som AGENTS.md.
 

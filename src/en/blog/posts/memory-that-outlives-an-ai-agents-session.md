@@ -141,9 +141,9 @@ repository's code and configuration, move it to the project document or
 instructions file, review the change through the repository's normal process and
 update or remove the local memory to avoid stale or conflicting copies.
 
-A third kind of text belongs in neither: work in flight. Pocock puts the line
-this way in his
-[handoff guide](https://github.com/mattpocock/skills/blob/main/docs/productivity/handoff.md):
+A third kind of text belongs in neither: work in flight. Pocock's
+[handoff guide](https://github.com/mattpocock/skills/blob/main/docs/productivity/handoff.md)
+puts the line this way:
 "If you keep re-explaining a fact, it belongs in `CLAUDE.md`. A half-finished
 task belongs in a handoff." The hand-off is the subject of "What fills an AI
 agent's context".
@@ -306,7 +306,7 @@ this site met it in September 2026. In
 log that had become too long to read whole was mostly skipped by new sessions,
 which took old facts as current. The state card rewritten at every hand-off and
 the reference read in one call were already in place; the change, described in
-"What fills an AI agent's context", was to trim and cap both. A practitioner
+"What fills an AI agent's context", was to trim and cap both. Pocock's dictionary
 states the general case: a fact recorded in March is loaded with equal
 confidence in June, after the project has moved on, and a memory system needs
 pruning, the same way AGENTS.md does.
