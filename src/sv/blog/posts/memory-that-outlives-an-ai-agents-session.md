@@ -37,7 +37,7 @@ ger halvorna namn. På skrivvägen sparar agenten det den lärde sig under en
 session som filer i miljön. På läsvägen läser verktyget in de filerna, eller ett
 register över dem, i kontextfönstret i början av en senare session.
 
-{% figure "memory-written-and-loaded" %}
+{% figure "memory-written-and-loaded", "wide" %}
 
 I figuren är sessionens stapel borta när sessionen slutar men förrådet bredvid
 den är det inte: det som skrevs dit läses in i nästa sessions startinnehåll.
@@ -188,7 +188,7 @@ säger att jobb på GitHub-värdade runners startar i en ren runner-avbild. En
 anteckning som agenten skriver under ett jobb är därför borta när jobbet slutar,
 om inte jobbet checkar in den, laddar upp den eller cachar den.
 
-{% figure "memory-runner-starts-empty" %}
+{% figure "memory-runner-starts-empty", "wide" %}
 
 Det som når runnern är det repo som ett steg i jobbet checkar ut. För Claude
 Codes GitHub Action är leverantörens svar den incheckade filen:
@@ -256,7 +256,7 @@ I figuren ligger det förgiftade kortet i förrådet och läses i början av var
 senare session. Det kortet ber om stoppas bara av en gräns som sitter efter
 agenten.
 
-{% figure "memory-poisoned-entry" %}
+{% figure "memory-poisoned-entry", "wide" %}
 
 Leverantörernas kontroller riktar sig mot samma svaga punkter. GitHubs tekniska
 inlägg nämner föråldrade, felaktiga och till och med illasinnat inmatade minnen

@@ -2809,19 +2809,45 @@ function ctxHatch(pid, kinds) {
  * The context window: a bar CTX_W wide whose limit, the dashed line, is at
  * `top` and whose foot is CTX_H below it. `layers` fill it from the foot,
  * each { kind, h, hatch }; the start-up layer has its own four bands and no
- * h. Returns the drawing, each layer's top and bottom edge (and the
- * start-up layer's bands) for the labels, and the bar's foot. Throws when
- * the layers run past the limit.
+ * h; in the deep dive on memory it says `memory: true` or `false`, whether
+ * it loads a memory;
+ * a layer of kind "bad" is a card that is wrong or hostile (memBad).
+ * Returns the drawing, each layer's top and bottom edge (and the start-up
+ * layer's bands) for the labels, and the bar's foot. Throws when the layers
+ * run past the limit. A bar that `ends` (a session that is over) has a
+ * dashed outline and its layers faded.
  */
-function ctxBar(pid, x, top, layers) {
+function ctxBar(pid, x, top, layers, ends = false) {
   const bottom = top + CTX_H;
   const r = 7;
   const inner = { x: x + CTX_IN, w: CTX_W - 2 * CTX_IN };
-  const parts = [`<path d="M${x} ${top}V${bottom - r}a${r} ${r} 0 0 0 ${r} ${r}H${x + CTX_W - r}a${r} ${r} 0 0 0 ${r} -${r}V${top}" class="fig-line"/>`];
+  const parts = [`<path d="M${x} ${top}V${bottom - r}a${r} ${r} 0 0 0 ${r} ${r}H${x + CTX_W - r}a${r} ${r} 0 0 0 ${r} -${r}V${top}" class="fig-line${ends ? " fig-dashed" : ""}"/>`];
   const spans = [];
   let y = bottom - CTX_IN;
-  for (const { kind, h, hatch } of layers) {
-    if (kind === "startup") {
+  for (const { kind, h, hatch, memory } of layers) {
+    if (kind === "startup" && memory !== undefined) {
+      // A start-up layer of the deep dive on memory, which says whether it
+      // loads a memory: then its third band, where (39) names memory, is the
+      // note, taller than a band so that its line of writing shows. Its grey
+      // bands are one path (memBars), square-ended: the page's HTML budget
+      // has no room for the arcs of ctxLayer's pills, and at 3.5 units the
+      // rounding is under two pixels.
+      const bands = [];
+      const grey = [];
+      let foot = y;
+      for (let i = 0; i < CTX_BANDS; i += 1) {
+        const note = memory && i === MEM_BAND_INDEX;
+        const bandH = note ? MEM_BAND : CTX_BAND;
+        bands.push({ top: foot - bandH, bottom: foot });
+        if (note) parts.push(ctxLayer(pid, inner.x, foot - bandH, inner.w, bandH, "note"));
+        else grey.push([inner.x, foot - bandH, inner.w, bandH]);
+        foot -= bandH + CTX_BAND_GAP;
+      }
+      parts.push(memBars(grey));
+      const layerTop = foot + CTX_BAND_GAP;
+      spans.push({ kind, top: layerTop, bottom: y, bands, memory: memory ? bands[MEM_BAND_INDEX] : undefined });
+      y = layerTop - CTX_GAP;
+    } else if (kind === "startup") {
       const bands = [];
       for (let i = 0; i < CTX_BANDS; i += 1) {
         const bandTop = y - CTX_BAND - i * (CTX_BAND + CTX_BAND_GAP);
@@ -2831,12 +2857,13 @@ function ctxBar(pid, x, top, layers) {
       spans.push({ kind, top: y - CTX_STARTUP, bottom: y, bands });
       y -= CTX_STARTUP + CTX_GAP;
     } else {
-      parts.push(ctxLayer(pid, inner.x, y - h, inner.w, h, kind, hatch));
+      parts.push(kind === "bad" ? memBad(inner.x, y - h, inner.w, h) : ctxLayer(pid, inner.x, y - h, inner.w, h, kind, hatch));
       spans.push({ kind, top: y - h, bottom: y });
       y -= h + CTX_GAP;
     }
   }
   if (y + CTX_GAP < top + 2) throw new Error(`A context bar's layers run ${round(top + 2 - y - CTX_GAP)} units past its limit`);
+  if (ends) parts.splice(1, parts.length - 1, `<g opacity="0.5">${parts.slice(1).join("")}</g>`);
   parts.push(`<line x1="${x - 6}" y1="${top}" x2="${x + CTX_W + 6}" y2="${top}" class="fig-line fig-dashed"/>`);
   return { svg: parts.join(""), spans, bottom };
 }
@@ -3246,6 +3273,650 @@ function contextHandoffView(t, id, pid, view) {
   return { body: parts.join(""), height: next.bottom + 34 };
 }
 
+// The five figures of the deep dive "Memory that outlives an AI agent's
+// session" (si-rtd7, 22 November 2026), one family with (39)–(43): where a
+// context window appears it is ctxBar, its layers in the same colours. Two
+// things are new, each drawn one way in all five: the store, a drawer with
+// cards standing in it, for text kept outside the window (memStore), and a
+// card for one written note (memCard). A start-up layer that loads a memory
+// has the note as its third band, where (39) names memory (ctxBar's
+// `memory`). An entry that is wrong or hostile is marked three ways, not by
+// colour alone: a jagged top edge, a warning sign and the orange (memBad, a
+// layer of kind "bad" in a bar). No vendor, tool or model is named, and sizes
+// are drawn, not counted. All five are wide and come in the two views of
+// (40): left to right from 51rem, stacked below.
+
+const MEM_BAND_INDEX = 2; // the start-up layer's band (39) names memory, from the foot
+const MEM_BAND = 8; // a note's band in a start-up layer: room for its line of writing
+const MEM_CARD = { w: 16, h: 24, up: 12, gap: 4 }; // a card in the store: its size, how far it stands above the drawer's front, the gap between two
+const MEM_FRONT = 24; // the height of the drawer's front
+const MEM_PAD = 8; // the drawer's margin beside its cards
+const MEM_NOTE = { w: 48, h: 32 }; // one written note on its own
+
+/**
+ * Small filled bars as ONE path, each [x, y, w, h]: lines of writing,
+ * bands. A page carries every figure twice (its two views) and the HTML
+ * budget is 150 KB with the CSS, so the many small bars of this family are
+ * drawn as subpaths of one path, not as a rect each. They are
+ * square-ended: at the 1.5 to 3.5 units they are drawn at, the rounding of
+ * a rect with rx = h / 2 is under two pixels.
+ */
+function memBars(list, cls = "fig-bar-muted") {
+  const r1 = (v) => Math.round(v * 10) / 10; // a tenth of a unit is under a pixel at every width
+  const d = list
+    .map(([x, y, w, h]) => `M${r1(x)} ${r1(y)}h${r1(w)}v${r1(h)}h${r1(-w)}z`)
+    .join("");
+  return `<path d="${d}" class="${cls}"/>`;
+}
+
+/** One written note: a card with lines of writing; `small` for a card standing in the store. */
+function memCard(x, y, w, h, small = false) {
+  const lines = small ? { inset: 4, first: 4, pitch: 4, height: 1.5, shares: [1, 0.6] } : { inset: 9, first: 8, pitch: 7, height: 2, shares: [1, 0.8, 0.5] };
+  return [
+    `<rect x="${round(x)}" y="${round(y)}" width="${round(w)}" height="${round(h)}" rx="${small ? 2.5 : 5}" class="fig-node"/>`,
+    memBars(lines.shares.map((share, i) => [x + lines.inset, y + lines.first + i * lines.pitch, (w - 2 * lines.inset) * share, lines.height])),
+  ].join("");
+}
+
+/** The outline of a card whose top edge is jagged, from (x, y). */
+function memJagged(x, y, w, h, tooth = 2.5) {
+  const r1 = (v) => Math.round(v * 10) / 10;
+  const n = Math.max(2, Math.round(w / (2 * tooth)));
+  const step = w / n;
+  const half = r1(step / 2);
+  const teeth = Array.from({ length: n }, () => `${half} ${r1(-tooth)} ${half} ${r1(tooth)}`).join(" ");
+  return `M${r1(x)} ${r1(y + h)}V${r1(y + tooth)}l${teeth}H${r1(x + w)}V${r1(y + h)}Z`;
+}
+
+/** A warning sign centred on (cx, cy), `s` tall: a triangle with an exclamation mark, in the orange. */
+function memWarn(cx, cy, s = 11) {
+  const r1 = (v) => Math.round(v * 10) / 10;
+  const half = s * 0.6;
+  // One path: the triangle, then the mark's stroke and its dot (a stroke of no length, its round cap the dot).
+  return `<path d="M${r1(cx)} ${r1(cy - s / 2)}L${r1(cx + half)} ${r1(cy + s / 2)}H${r1(cx - half)}ZM${r1(cx)} ${r1(cy - s * 0.14)}V${r1(cy + s * 0.13)}M${r1(cx)} ${r1(cy + s * 0.3)}v0" class="fig-wait-stroke" stroke-linejoin="round" stroke-linecap="round"/>`;
+}
+
+/** A card that is wrong or hostile: jagged at the top, edged in the orange, a warning sign on it when `sign` gives its size. */
+function memBad(x, y, w, h, sign = 0) {
+  // The fill a plain rect under the teeth (they are too small to show it), the jagged outline over it.
+  const parts = [`<rect x="${round(x)}" y="${round(y + 2.5)}" width="${round(w)}" height="${round(h - 2.5)}" class="fig-row"/>`, `<path d="${memJagged(x, y, w, h)}" class="fig-wait-stroke" stroke-linejoin="round"/>`];
+  if (sign) parts.push(memWarn(x + w / 2, y + 3 + sign / 2, sign));
+  return parts.join("");
+}
+
+/**
+ * The store: a drawer seen from the front, its cards standing in it, their
+ * tops above its front, and a handle. (x, y) is its left edge and the top of
+ * its cards; `cards` lists "note" or "bad" from the left (a bad card stands
+ * a little higher, its sign on its top). `scale` draws it smaller, as an
+ * icon, without its lines of writing. Returns the drawing, its edges and
+ * each card's place.
+ */
+function memStore(x, y, cards, scale = 1) {
+  const k = (v) => v * scale;
+  const { w: cw, h: ch, up, gap } = MEM_CARD;
+  const w = k(2 * MEM_PAD + cards.length * cw + (cards.length - 1) * gap);
+  const front = y + k(up);
+  const parts = [];
+  const bars = []; // the cards' lines of writing (above the front) and the handle, drawn as one path
+  const at = cards.map((kind, i) => {
+    const cx = x + k(MEM_PAD + i * (cw + gap));
+    if (kind === "bad") {
+      parts.push(memBad(cx, y - k(4), k(cw), k(ch), scale === 1 ? 9 : 0));
+      return { x: cx, top: y - k(4), cx: cx + k(cw) / 2 };
+    }
+    parts.push(`<rect x="${round(cx)}" y="${round(y)}" width="${round(k(cw))}" height="${round(k(ch))}" rx="${round(k(2.5))}" class="fig-node"/>`);
+    if (scale === 1) bars.push([cx + 4, y + 5, cw - 8, 1.5]);
+    return { x: cx, top: y, cx: cx + k(cw) / 2 };
+  });
+  parts.push(`<rect x="${round(x)}" y="${round(front)}" width="${round(w)}" height="${round(k(MEM_FRONT))}" rx="${round(k(5))}" class="fig-node"/>`);
+  bars.push([x + w / 2 - k(10), front + k(MEM_FRONT) / 2 - k(1.5), k(20), k(3)]);
+  parts.push(memBars(bars));
+  return { svg: parts.join(""), left: x, right: x + w, cx: x + w / 2, top: y, front, mid: front + k(MEM_FRONT) / 2, bottom: front + k(MEM_FRONT), cards: at };
+}
+
+/** A person, centred on (cx, cy): a head and shoulders in the orange of a person's check. */
+function memPerson(cx, cy) {
+  return [`<circle cx="${round(cx)}" cy="${round(cy - 5)}" r="3.5" class="fig-wait-stroke"/>`, `<path d="M${round(cx - 6.5)} ${round(cy + 7)}a6.5 6.5 0 0 1 13 0" class="fig-wait-stroke" stroke-linecap="round"/>`].join("");
+}
+
+/** A file: a page with a folded corner and lines of writing, from (x, y). */
+function memFile(x, y, w = 22, h = 28) {
+  const fold = w * 0.3;
+  return [
+    `<path d="M${round(x)} ${round(y)}H${round(x + w - fold)}L${round(x + w)} ${round(y + fold)}V${round(y + h)}H${round(x)}Z" class="fig-node" stroke-linejoin="round"/>`,
+    memBars([0.42, 0.58, 0.74].map((at, i) => [x + 4, y + h * at, (w - 8) * [1, 0.8, 0.6][i], 1.5])),
+  ].join("");
+}
+
+/** A folder, from (x, y). */
+function memFolder(x, y, w = 24, h = 18) {
+  return `<path d="M${round(x)} ${round(y + h)}V${round(y)}H${round(x + w * 0.38)}L${round(x + w * 0.48)} ${round(y + 3.5)}H${round(x + w)}V${round(y + h)}Z" class="fig-node" stroke-linejoin="round"/>`;
+}
+
+/**
+ * A place that starts a session (a computer, a runner): a box with a small
+ * context window in it, the bar's shape drawn small with its start-up
+ * layer, centred on cx from `top`.
+ */
+function memMachine(cx, top, w = 52, h = 56) {
+  const bw = 18;
+  const bh = 36;
+  const bx = cx - bw / 2;
+  const btop = top + (h - bh) / 2 + 1;
+  const r = 4;
+  const parts = [
+    `<rect x="${round(cx - w / 2)}" y="${round(top)}" width="${w}" height="${h}" rx="6" class="fig-node"/>`,
+    `<path d="M${round(bx)} ${round(btop)}V${round(btop + bh - r)}a${r} ${r} 0 0 0 ${r} ${r}H${round(bx + bw - r)}a${r} ${r} 0 0 0 ${r} -${r}V${round(btop)}" class="fig-line"/>`,
+    `<line x1="${round(bx - 3)}" y1="${round(btop)}" x2="${round(bx + bw + 3)}" y2="${round(btop)}" class="fig-line fig-dashed"/>`,
+  ];
+  parts.push(memBars(Array.from({ length: CTX_BANDS }, (_, i) => [bx + 2, btop + bh - 3.5 - i * 2.75, bw - 4, 1.75])));
+  return parts.join("");
+}
+
+/** A gate that stops what runs into it: an orange bar across the line, centred on (x, y); upright across a level line, level across an upright one. */
+function memStop(x, y, upright = true, length = 26) {
+  const [w, h] = upright ? [4, length] : [length, 4];
+  return `<rect x="${round(x - w / 2)}" y="${round(y - h / 2)}" width="${w}" height="${h}" rx="1" class="fig-gate"/>`;
+}
+
+/** A gate that lets some through: a doorway of two orange posts and a lintel, the line passing through it, at (x, y). */
+function memPosts(x, y) {
+  return [
+    `<rect x="${round(x - 9)}" y="${round(y - 11)}" width="3" height="21" rx="1" class="fig-gate"/>`,
+    `<rect x="${round(x + 6)}" y="${round(y - 11)}" width="3" height="21" rx="1" class="fig-gate"/>`,
+    `<rect x="${round(x - 9)}" y="${round(y - 13)}" width="18" height="3" rx="1" class="fig-gate"/>`,
+  ].join("");
+}
+
+/** wrap(), its lines as even as they can be: the narrowest slot that needs no more lines. */
+function memWrap(key, value, slot, size = "note", max = 3) {
+  let best = wrap(key, value, slot, size, max);
+  for (let narrower = slot - ADVANCE[size]; narrower > 0; narrower -= ADVANCE[size]) {
+    let lines;
+    try {
+      lines = wrap(key, value, narrower, size, max);
+    } catch {
+      break;
+    }
+    if (lines.length > best.length) break;
+    best = lines;
+  }
+  return best;
+}
+
+/** Lines of wrapped text, from y down, 13 apart; returns the drawing. */
+function memLines(lines, x, y, cls, anchor) {
+  return lines.map((line, n) => text(x, y + n * 13, line, cls, anchor)).join("");
+}
+
+// (44) A memory written down and read again — wide, two views. The session's
+// bar, about half full (start-up layer, files, conversation), ends: its
+// outline dashed, its layers faded, and under it that its context goes. A
+// card leaves it, and an arrow, "written down", takes it down into the store
+// between and below the two bars; the store stands on a line, "memory: notes
+// outside the context window". An arrow, "loaded back at the start", goes up
+// from the store into the next session's bar, almost empty: its start-up
+// layer, whose third band is the note. Below 51rem the store stands beside
+// the first bar's foot and the next bar under the first, the arrow coming
+// down into it from above.
+const MEM_SESSION = [{ kind: "startup", memory: false }, { kind: "files", h: 30 }, { kind: "talk", h: 34 }];
+const MEM_NEXT = [{ kind: "startup", memory: true }];
+
+function memoryWrittenAndLoaded(t, id, figureId) {
+  return ctxViews(t, id, figureId, memoryWrittenAndLoadedView);
+}
+
+/** The next bar's two names on its right: the note above, the start-up layer below, each on a leader. */
+function memNextLabels(t, id, x, startup, W) {
+  const lx = x + CTX_W + 20;
+  const slot = W - 16 - lx;
+  const note = mid(startup.memory);
+  const layer = mid(startup);
+  return [
+    ctxLeader(x + CTX_W + 2, note, lx - 4, note - 9),
+    text(lx, note - 9 + NOTE_MID, fit(`${id}.note`, t.note, slot), "fig-note fig-strong"),
+    `<path d="M${x + CTX_W + 4} ${round(startup.top)}H${x + CTX_W + 7}V${round(startup.bottom)}H${x + CTX_W + 4}" class="fig-member"/>`,
+    ctxLeader(x + CTX_W + 7, layer, lx - 4, layer + 9),
+    text(lx, layer + 9 + NOTE_MID, fit(`${id}.startup`, t.startup, slot), "fig-note"),
+  ].join("");
+}
+
+function memoryWrittenAndLoadedView(t, id, pid, view) {
+  const wide = view === "flow";
+  const W = wide ? FLOW_WIDTH : WIDTH;
+  const TOP = 60;
+  const S_X = wide ? 110 : 36;
+  const session = ctxBar(pid, S_X, TOP, MEM_SESSION, true);
+  const talk = session.spans[2];
+  const parts = [session.svg];
+  // The card that leaves the bar.
+  const card = { x: S_X + CTX_W + (wide ? 14 : 12), y: round(mid(talk) - MEM_NOTE.h / 2) };
+  parts.push(memCard(card.x, card.y, MEM_NOTE.w, MEM_NOTE.h));
+  const cardMid = card.y + MEM_NOTE.h / 2;
+  const scx = S_X + CTX_W / 2;
+  parts.push(ctxName(scx, session.bottom, `${id}.session1`, t.session1, 120));
+  let height;
+  if (wide) {
+    // The session ends: under its name, on one line or two.
+    const ends = memWrap(`${id}.ends`, t.ends, 2 * (scx - 16), "note", 2);
+    parts.push(memLines(ends, scx, session.bottom + 36, "fig-note", "middle"));
+    // The store, between and below the bars, on its line.
+    const store = memStore(284, 252, ["note", "note", "note", "note"]);
+    const floor = store.bottom + 4;
+    parts.push(store.svg, `<line x1="${store.left - 44}" y1="${floor}" x2="${store.right + 44}" y2="${floor}" class="fig-line"/>`);
+    parts.push(text(store.cx, floor + 16, fit(`${id}.store`, t.store, 2 * (store.cx - 16)), "fig-note fig-strong", "middle"));
+    // Written down: from the card, down into the store.
+    const wx = store.cards[0].cx;
+    parts.push(pathArrow(pid, `M${card.x + MEM_NOTE.w + 4} ${cardMid}H${wx}V${store.top - 6}`));
+    parts.push(text(wx + 8, (cardMid + store.top) / 2 + NOTE_MID, fit(`${id}.write`, t.write, 120), "fig-note fig-strong"));
+    // Loaded back at the start: from the store, up into the next bar's note.
+    const N_X = 580;
+    const next = ctxBar(pid, N_X, TOP, MEM_NEXT);
+    const [startup] = next.spans;
+    const RX = 548;
+    parts.push(next.svg, pathArrow(pid, `M${store.right + 4} ${store.mid}H${RX}V${round(mid(startup.memory))}H${N_X - 6}`));
+    parts.push(text(RX - 8, (store.mid + mid(startup.memory)) / 2 + NOTE_MID + 6, fit(`${id}.read`, t.read, RX - 8 - store.right - 8), "fig-note fig-strong", "end"));
+    parts.push(memNextLabels(t, id, N_X, startup, W));
+    parts.push(ctxName(N_X + CTX_W / 2, next.bottom, `${id}.session2`, t.session2, 120));
+    height = floor + 32;
+  } else {
+    // The session ends: beside its bar, under the limit.
+    const ex = S_X + CTX_W + 12;
+    parts.push(memLines(memWrap(`${id}.ends`, t.ends, W - 16 - ex, "note", 2), ex, TOP + 16, "fig-note"));
+    // The store beside the bar's foot, its words under it.
+    const store = memStore(W - 16 - 104, 178, ["note", "note", "note", "note"]);
+    const floor = store.bottom + 4;
+    parts.push(store.svg, `<line x1="${store.left - 14}" y1="${floor}" x2="${W - 16}" y2="${floor}" class="fig-line"/>`);
+    const storeLines = memWrap(`${id}.store`, t.store, W - 16 - ex, "note", 2);
+    parts.push(memLines(storeLines, (ex + W - 16) / 2, floor + 16, "fig-note fig-strong", "middle"));
+    // Written down: from the card, across and down into the store.
+    const wx = store.cards[1].cx;
+    parts.push(pathArrow(pid, `M${card.x + MEM_NOTE.w + 4} ${cardMid}H${wx}V${store.top - 6}`));
+    parts.push(text((card.x + MEM_NOTE.w + 4 + wx) / 2, cardMid - 8, fit(`${id}.write`, t.write, wx - card.x - MEM_NOTE.w), "fig-note fig-strong", "middle"));
+    // Loaded back at the start: from the store, down beside it, across above the next bar and down into it.
+    const N_TOP = floor + 16 + storeLines.length * 13 + 40;
+    const next = ctxBar(pid, S_X, N_TOP, MEM_NEXT);
+    const [startup] = next.spans;
+    const across = N_TOP - 18;
+    parts.push(next.svg, pathArrow(pid, `M${store.right + 4} ${store.mid}H${W - 8}V${across}H${scx}V${round(startup.memory.top - 5)}`));
+    parts.push(text((scx + W - 8) / 2, across - 7, fit(`${id}.read`, t.read, W - 8 - scx - 8), "fig-note fig-strong", "middle"));
+    parts.push(memNextLabels(t, id, S_X, startup, W));
+    parts.push(ctxName(scx, next.bottom, `${id}.session2`, t.session2, 120));
+    height = next.bottom + 34;
+  }
+  return { body: parts.join(""), height };
+}
+
+// (45) Rules in the file, recall in memory — one panel, inline: the article
+// carries five figures twice over and its page has an HTML budget, and this
+// drawing reads the same at every width, so it has one view. Two columns,
+// each a tall card: the instruction file (a file; written by people,
+// reviewed in a pull request, the same on every computer, each with a tick)
+// and memory (the store; written by the agent, nobody has to have read it,
+// may be old or wrong, each with an empty ring). A card leaves the store and
+// a curved arrow takes it over to the file; a person stands at the arrow's
+// start, and the words over the arc say it moves once a person has checked
+// it. Under the two columns a lighter card, dashed, for work in flight: a
+// hand-off, with no arrow to either.
+function memoryFileOrMemory(t, id, figureId) {
+  const pid = `${figureId}-p1`;
+  const COL_W = 140;
+  const L = 16;
+  const R = WIDTH - L - COL_W;
+  const TOP = 112;
+  const PAD = 8;
+  const parts = [];
+  // The move, over the top: its words above the arc.
+  const moveLines = memWrap(`${id}.move`, t.move, WIDTH - 32, "note", 2);
+  const arcTop = 58 + (moveLines.length - 1) * 13;
+  parts.push(memLines(moveLines, WIDTH / 2, 58, "fig-note fig-strong", "middle"));
+  // The columns' contents, measured first so both columns share one height.
+  const bulletX = PAD + 14;
+  const slot = COL_W - bulletX - PAD;
+  const column = (key, keys) => ({ head: wrap(`${id}.${key}`, t[key], COL_W - 2 * PAD, "small", 2), rows: keys.map((k) => wrap(`${id}.${k}`, t[k], slot, "note", 3)) });
+  const left = column("fileHead", ["file1", "file2", "file3"]);
+  const right = column("memHead", ["mem1", "mem2", "mem3"]);
+  const headY = TOP + 72; // under the icon row
+  const rowsTop = (c) => headY + (c.head.length - 1) * 15 + 22;
+  const rowsHeight = (c) => c.rows.reduce((sum, lines) => sum + lines.length * 13 + 7, 0);
+  const H = Math.max(...[left, right].map((c) => rowsTop(c) + rowsHeight(c))) - TOP + 6;
+  const drawColumn = (x, c, mark) => {
+    const out = [`<rect x="${x}" y="${TOP}" width="${COL_W}" height="${round(H)}" rx="10" class="fig-node"/>`];
+    c.head.forEach((line, n) => out.push(text(x + PAD, headY + n * 15, line, "fig-label fig-small fig-strong")));
+    let y = rowsTop(c);
+    c.rows.forEach((lines) => {
+      out.push(mark(x + PAD + 4, y - 3.6), memLines(lines, x + bulletX, y, "fig-note"));
+      y += lines.length * 13 + 7;
+    });
+    return out.join("");
+  };
+  parts.push(drawColumn(L, left, (x, y) => check(x + 1, y)));
+  parts.push(drawColumn(R, right, (x, y) => `<circle cx="${round(x)}" cy="${round(y)}" r="3" class="fig-member"/>`));
+  // The icons: the file on the left column's right, the store and the card that leaves it on the right column.
+  const fileX = L + COL_W - PAD - 22;
+  parts.push(memFile(fileX, TOP + 12, 22, 30));
+  parts.push(memStore(R + COL_W - PAD - 92, TOP + 18, ["note", "note", "note", "note"]).svg);
+  const card = { x: R + PAD, y: TOP + 14, w: 30, h: 22 };
+  parts.push(memCard(card.x, card.y, card.w, card.h, true));
+  // The arc: from the card, over the gap, down to the file; the person at its start.
+  const sx = card.x + card.w / 2;
+  const ex = fileX + 11;
+  const lift = arcTop + 10;
+  parts.push(pathArrow(pid, `M${sx} ${card.y - 22}C${sx} ${lift} ${ex} ${lift} ${ex} ${TOP + 8}`), memPerson(sx, card.y - 11));
+  // Work in flight: a lighter card under both, with no arrow.
+  const fy = TOP + H + 20;
+  const fw = WIDTH - 32;
+  const flight = memWrap(`${id}.flight`, t.flight, fw - 24, "note", 2);
+  const fh = 14 + flight.length * 13;
+  parts.push(`<rect x="16" y="${round(fy)}" width="${fw}" height="${fh}" rx="8" class="fig-line fig-dashed"/>`, memLines(flight, WIDTH / 2, fy + 18, "fig-note", "middle"));
+  return { caption: t.caption, panels: [{ title: t.title, head: t.head, height: round(fy + fh + 18), body: parts.join("") }] };
+}
+
+// (46) Who can read which memory — one panel, inline, for the reason (45)
+// gives: a small matrix. Three columns, the places that start a session,
+// each a box with a context window in it, numbered, their names (your
+// computer, a colleague's, a runner) in a numbered list under the matrix;
+// three rows, the places a memory can live (a folder on your computer, a
+// file in the repository, a vendor's store), each name with its icon above
+// its line. A row's line runs to the columns it reaches, a dot where it
+// reaches one: the folder only the first; the file, through a box for the
+// repository, all three with a solid line and a green dot; the vendor's
+// store all three with a dashed line, an empty dot and a gate on the way, an
+// orange doorway, labelled with whom the vendor lets in.
+function memoryWhereItLives(t, id) {
+  const CX = [156, 218, 280];
+  const BOX = { w: 40, h: 48, top: 66 };
+  const columns = ["c1", "c2", "c3"];
+  const parts = columns.map((key, i) => text(CX[i], BOX.top - 8, String(i + 1), "fig-note fig-strong", "middle") + memMachine(CX[i], BOX.top, BOX.w, BOX.h));
+  const first = BOX.top + BOX.h + 34;
+  const icon = (key, x, cy) => {
+    if (key === "r1") return memFolder(x, cy - 9, 24, 18);
+    if (key === "r2") return memFile(x + 3, cy - 12, 18, 24);
+    return memStore(x - 1, cy - 6, ["note", "note", "note"], 0.36).svg;
+  };
+  // The rows: an icon and a name, then the line under them.
+  const rows = ["r1", "r2", "r3"].map((key, r) => {
+    const top = first + r * 56;
+    parts.push(icon(key, 16, top - 6), text(46, top - 2, fit(`${id}.${key}`, t[key], WIDTH - 16 - 46, "small"), "fig-label fig-small"));
+    return top + 20;
+  });
+  const dot = (x, y, solid) => (solid ? `<circle cx="${x}" cy="${y}" r="4.5" class="fig-dot"/>` : `<circle cx="${x}" cy="${y}" r="4" class="fig-node"/>`);
+  // A folder on your computer: your computer only.
+  parts.push(`<line x1="16" y1="${rows[0]}" x2="${CX[0]}" y2="${rows[0]}" class="fig-line"/>`, dot(CX[0], rows[0], true));
+  // A file in the repository: through the repository, to all three.
+  const repoW = Math.max(64, t.repo.length * ADVANCE.note + 18);
+  const repoX = 26;
+  const repoEnd = repoX + repoW;
+  if (repoEnd > CX[0] - 14) throw new Error(`Figure "${id}": the repository's box runs to ${round(repoEnd)} units`);
+  parts.push(
+    `<line x1="16" y1="${rows[1]}" x2="${repoX}" y2="${rows[1]}" class="fig-line"/>`,
+    `<rect x="${repoX}" y="${rows[1] - 12}" width="${round(repoW)}" height="24" rx="6" class="fig-node"/>`,
+    text(repoX + repoW / 2, rows[1] + NOTE_MID, fit(`${id}.repo`, t.repo, repoW - 12), "fig-note fig-strong", "middle"),
+    `<line x1="${round(repoEnd)}" y1="${rows[1]}" x2="${CX[2]}" y2="${rows[1]}" class="fig-line"/>`,
+    ...CX.map((x) => dot(x, rows[1], true)),
+  );
+  // A vendor's store: dashed, through the gate, to all three; the gate's words under the line.
+  parts.push(`<line x1="16" y1="${rows[2]}" x2="${CX[2]}" y2="${rows[2]}" class="fig-line fig-dashed"/>`, memPosts(64, rows[2]), ...CX.map((x) => dot(x, rows[2], false)));
+  const gateLines = memWrap(`${id}.gate`, t.gate, WIDTH - 32, "note", 2);
+  parts.push(memLines(gateLines, 16, rows[2] + 26, "fig-note fig-wait"));
+  // The columns' names, numbered as the boxes are.
+  let y = rows[2] + 26 + (gateLines.length - 1) * 13 + 30;
+  columns.forEach((key, i) => {
+    parts.push(text(16, y, String(i + 1), "fig-note fig-strong"), text(28, y, fit(`${id}.${key}`, t[key], WIDTH - 16 - 28), "fig-note"));
+    y += 14;
+  });
+  return { caption: t.caption, panels: [{ title: t.title, head: t.head, height: y + 6, body: parts.join("") }] };
+}
+
+// (47) A runner starts empty — wide, two views. One runner in three states,
+// a box each, under a timeline: the job starts (the box outlined and empty;
+// a solid arrow brings the repository in, dashed ones a cache, with a
+// warning sign, and a store outside the runner), the job runs (the box
+// holds a context window with its start-up layer, and the note the agent
+// writes), the job ends (the box crossed out in the orange: the runner is
+// deleted; the note, faded, is gone). From the note in the middle box three
+// arrows leave and end outside the crossed box: a commit, an artifact and a
+// cache, the cache with the same sign. A key names the sign. Below 51rem
+// the three boxes stand one under the other, the inputs beside the first
+// and the three ways out beside the last.
+const MEM_RUNNING = [{ kind: "startup", memory: false }, { kind: "files", h: 22 }, { kind: "talk", h: 14 }];
+
+function memoryRunnerStartsEmpty(t, id, figureId) {
+  return ctxViews(t, id, figureId, memoryRunnerStartsEmptyView);
+}
+
+/** A runner as a box: outlined, from (x, y). */
+function memRunner(x, y, w, h) {
+  return `<rect x="${round(x)}" y="${round(y)}" width="${w}" height="${h}" rx="10" class="fig-line"/>`;
+}
+
+/** The crossed box: the runner deleted, its note faded inside, the words on plates over the cross. */
+function memDeleted(t, id, x, y, w, h) {
+  const cx = x + w / 2;
+  const card = { w: MEM_NOTE.w, h: MEM_NOTE.h };
+  const cardY = y + h / 2 - card.h / 2 - 8;
+  const parts = [
+    memRunner(x, y, w, h),
+    `<path d="M${x + 8} ${y + 8}L${x + w - 8} ${y + h - 8}M${x + w - 8} ${y + 8}L${x + 8} ${y + h - 8}" class="fig-wait-stroke"/>`,
+    `<g opacity="0.35">${memCard(cx - card.w / 2, cardY, card.w, card.h)}</g>`,
+  ];
+  const plate = (lines, top, cls) => {
+    const width = Math.max(...lines.map((line) => line.length)) * ADVANCE.note + 12;
+    const height = lines.length * 13 + 6;
+    return [`<rect x="${round(cx - width / 2)}" y="${round(top)}" width="${round(width)}" height="${height}" rx="4" class="fig-row"/>`, memLines(lines, cx, top + 13, cls, "middle")].join("");
+  };
+  const deleted = memWrap(`${id}.deleted`, t.deleted, w - 20, "note", 2);
+  parts.push(plate(deleted, y + 12, "fig-note fig-wait fig-strong"));
+  const gone = memWrap(`${id}.gone`, t.gone, w - 20, "note", 3);
+  parts.push(plate(gone, cardY + card.h + 8, "fig-note"));
+  return parts.join("");
+}
+
+function memoryRunnerStartsEmptyView(t, id, pid, view) {
+  const wide = view === "flow";
+  const W = wide ? FLOW_WIDTH : WIDTH;
+  const parts = [];
+  // The three boxes, their places and sizes.
+  const BOX_W = wide ? 124 : 132;
+  const H_RUN = 188;
+  const boxes = wide
+    ? [
+        { x: 272, y: 92, h: H_RUN },
+        { x: 432, y: 92, h: H_RUN },
+        { x: 612, y: 92, h: H_RUN },
+      ]
+    : [
+        { x: 16, y: 76, h: 150 },
+        { x: 16, y: 266, h: H_RUN },
+        { x: 16, y: 494, h: 156 },
+      ];
+  const heads = ["start", "run", "end"];
+  // The timeline: the three states' names, and an arrow from one to the next.
+  if (wide) {
+    const y = 74;
+    heads.forEach((key, i) => parts.push(text(boxes[i].x + BOX_W / 2, y - 10, fit(`${id}.${key}`, t[key], 170), "fig-note fig-strong", "middle")));
+    parts.push(pathArrow(pid, `M${boxes[0].x + BOX_W / 2} ${y}H${boxes[2].x + BOX_W / 2 + 70}`));
+    boxes.forEach(({ x }) => parts.push(`<circle cx="${x + BOX_W / 2}" cy="${y}" r="3.5" class="fig-dot"/>`));
+  } else {
+    heads.forEach((key, i) => parts.push(text(16, boxes[i].y - 9, fit(`${id}.${key}`, t[key], 110), "fig-note fig-strong")));
+    [0, 1].forEach((i) => parts.push(arrow(pid, 130, boxes[i].y + boxes[i].h + 4, 130, boxes[i + 1].y - 6)));
+  }
+  // 1. The job starts: an empty box, and what comes in.
+  const [b1, b2, b3] = boxes;
+  parts.push(memRunner(b1.x, b1.y, BOX_W, b1.h));
+  const inputs = [
+    { key: "repo", dashed: false, icon: (x, y) => memFile(x, y - 9, 14, 18), iconW: 14 },
+    { key: "cache", dashed: true, icon: (x, y) => memWarn(x + 7, y, 12), iconW: 14 },
+    { key: "store", dashed: true, icon: (x, y) => memStore(x, y - 6, ["note", "note", "note"], 0.36).svg, iconW: 26 },
+  ];
+  if (wide) {
+    inputs.forEach(({ key, dashed, icon, iconW }, i) => {
+      const y = b1.y + 46 + i * 52;
+      const lineX = 16 + 26 + 8; // after the widest icon
+      parts.push(text(lineX, y - 9, fit(`${id}.${key}`, t[key], b1.x - 16 - lineX), "fig-note"));
+      parts.push(icon(16 + (26 - iconW) / 2, y), arrow(pid, lineX, y, b1.x - 4, y, dashed));
+    });
+  } else {
+    const lx = b1.x + BOX_W + 26;
+    inputs.forEach(({ key, dashed, icon, iconW }, i) => {
+      const y = b1.y + 24 + i * 46;
+      const lines = memWrap(`${id}.${key}`, t[key], W - 16 - lx - iconW - 6, "note", 3);
+      parts.push(icon(lx, y - 3.6), memLines(lines, lx + iconW + 6, y, "fig-note"));
+      parts.push(arrow(pid, lx - 6, y - 3.6, b1.x + BOX_W + 4, y - 3.6, dashed));
+    });
+  }
+  // 2. The job runs: the session's bar and the note the agent writes.
+  parts.push(memRunner(b2.x, b2.y, BOX_W, b2.h));
+  const bar = ctxBar(pid, b2.x + 12, b2.y + 16, MEM_RUNNING);
+  parts.push(bar.svg);
+  const card = { x: b2.x + 12 + CTX_W + 10, y: b2.y + 70, w: MEM_NOTE.w, h: MEM_NOTE.h };
+  parts.push(memCard(card.x, card.y, card.w, card.h));
+  const noteLines = memWrap(`${id}.note`, t.note, wide ? 170 : W - 16 - (b2.x + BOX_W + 12), "note", 2);
+  if (wide) parts.push(memLines(noteLines, b2.x + BOX_W / 2, b2.y + b2.h + 18, "fig-note fig-strong", "middle"));
+  else parts.push(memLines(noteLines, b2.x + BOX_W + 12, card.y - 6 - (noteLines.length - 1) * 13, "fig-note fig-strong"));
+  // 3. The job ends: the runner deleted, the note gone.
+  parts.push(memDeleted(t, id, b3.x, b3.y, BOX_W, b3.h));
+  // The three ways out: from the note, out of the box, past the crossed box, each to its end.
+  const outs = [
+    { key: "commit", sign: false },
+    { key: "artifact", sign: false },
+    { key: "cacheOut", sign: true },
+  ];
+  const exitY = (i) => card.y + 7 + i * 9;
+  const turnX = wide ? [594, 582, 570] : [178, 168, 158];
+  const endY = wide ? (i) => b3.y + b3.h + 40 + i * 24 : (i) => b3.y + 34 + i * 40;
+  const itemX = wide ? 622 : 186;
+  outs.forEach(({ key, sign }, i) => {
+    const y = endY(i);
+    parts.push(pathArrow(pid, `M${card.x + card.w + 4} ${exitY(i)}H${turnX[i]}V${y}H${itemX - 6}`));
+    parts.push(memCard(itemX, y - 9, 14, 18, true));
+    const label = fit(`${id}.${key}`, t[key], W - 16 - (itemX + 22) - (sign ? 20 : 0));
+    parts.push(text(itemX + 22, y + NOTE_MID, label, "fig-note fig-strong"));
+    if (sign) parts.push(memWarn(itemX + 22 + label.length * ADVANCE.note + 12, y - 0.5, 12));
+  });
+  // The key: the sign means untrusted input.
+  const keyY = wide ? endY(2) : b3.y + b3.h + 30;
+  parts.push(memWarn(22, keyY - 4, 12), text(36, keyY, fit(`${id}.warn`, t.warn, wide ? 220 : W - 52), "fig-note"));
+  return { body: parts.join(""), height: keyY + 18 };
+}
+
+// (48) A poisoned entry — wide, two views. Left to right: a text from
+// outside, a card with a hidden line in the orange and a warning sign on it;
+// an arrow into the agent's bar; from the bar an arrow, "written to memory",
+// into the store, where one of five cards is the poisoned entry (jagged, in
+// the orange, the sign on it). From the store, read by later sessions, an
+// arrow into each of three bars, every later session, each holding a copy
+// of the jagged card on its start-up layer (the fact check, 22 November
+// 2026: a memory reaches the sessions that read it, not necessarily at the
+// start). From the last bar, at that card, an arrow runs towards the action
+// the entry asks for and stops at a gate, a limit outside the model. Below 51rem the same runs down the panel, the arrows
+// into the three bars coming down into them from above.
+const MEM_AGENT = [{ kind: "startup", memory: false }, { kind: "files", h: 40 }, { kind: "talk", h: 16 }];
+const MEM_LATER = [{ kind: "startup", memory: false }, { kind: "bad", h: MEM_BAND }];
+const MEM_POISONED = ["bad", "note", "note", "note", "note"];
+
+function memoryPoisonedEntry(t, id, figureId) {
+  return ctxViews(t, id, figureId, memoryPoisonedEntryView);
+}
+
+/** A text from outside: a page with lines of writing, one of them the hidden instruction, dashed in the orange with the sign at its end. Returns the drawing and the hidden line's height. */
+function memSource(x, y, w, h) {
+  const parts = [`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="5" class="fig-node"/>`];
+  const rows = [10, 19, 31, 43, 52];
+  const hidden = 2;
+  parts.push(memBars(rows.flatMap((dy, i) => (i === hidden ? [] : [[x + 8, y + dy - 0.75, (w - 16) * [1, 0.85, 0, 0.9, 0.6][i], 1.5]]))));
+  const hy = y + rows[hidden];
+  parts.push(`<line x1="${x + 8}" y1="${hy}" x2="${x + w - 26}" y2="${hy}" class="fig-wait-stroke" stroke-dasharray="2 2.5"/>`, memWarn(x + w - 15, hy - 0.5, 11));
+  return { svg: parts.join(""), hidden: hy };
+}
+
+function memoryPoisonedEntryView(t, id, pid, view) {
+  const wide = view === "flow";
+  const W = wide ? FLOW_WIDTH : WIDTH;
+  const parts = [];
+  const SRC = { w: wide ? 84 : 96, h: 62 };
+  let height;
+  if (wide) {
+    const TOP = 76;
+    const A_X = 152;
+    const agent = ctxBar(pid, A_X, TOP, MEM_AGENT);
+    const files = agent.spans[1];
+    const fy = mid(files);
+    // The text from outside, level with the files the agent reads.
+    const src = memSource(16, round(fy - SRC.h / 2), SRC.w, SRC.h);
+    parts.push(text(16, fy - SRC.h / 2 - 10, fit(`${id}.source`, t.source, A_X - 16 - 16), "fig-note fig-strong"), src.svg);
+    parts.push(memLines(memWrap(`${id}.hidden`, t.hidden, A_X - 16 - 20, "note", 2), 16, fy + SRC.h / 2 + 16, "fig-note fig-wait fig-strong"));
+    parts.push(arrow(pid, 16 + SRC.w + 4, fy, A_X - 6, fy), agent.svg, ctxName(A_X + CTX_W / 2, agent.bottom, `${id}.agent`, t.agent, 100));
+    // Written to memory: into the store, its front level with the files.
+    const S_X = 328;
+    const store = memStore(S_X, round(fy - MEM_CARD.up - MEM_FRONT / 2), MEM_POISONED);
+    parts.push(arrow(pid, A_X + CTX_W + 8, fy, S_X - 6, fy), text((A_X + CTX_W + 8 + S_X - 6) / 2, fy - 8, fit(`${id}.write`, t.write, S_X - 6 - A_X - CTX_W - 8), "fig-note fig-strong", "middle"));
+    parts.push(store.svg, text(store.cx, store.bottom + 16, fit(`${id}.store`, t.store, store.right - store.left), "fig-note fig-strong", "middle"));
+    const bad = store.cards[0];
+    parts.push(text(bad.cx, bad.top - 9, fit(`${id}.bad`, t.bad, 2 * (bad.cx - 16)), "fig-note fig-wait fig-strong", "start"));
+    // Every later session: three bars, each read into at the start.
+    const BARS = [476, 540, 604];
+    const later = BARS.map((x) => ctxBar(pid, x, TOP, MEM_LATER));
+    later.forEach((b) => parts.push(b.svg));
+    parts.push(text((BARS[0] + BARS[2] + CTX_W) / 2, TOP - 14, fit(`${id}.later`, t.later, 240), "fig-note fig-strong", "middle"));
+    const noteY = round(mid(later[0].spans[1]));
+    const BUS = later[0].bottom + 18;
+    BARS.forEach((x) => parts.push(pathArrow(pid, `M${store.right + 4} ${fy}H${store.right + 22}V${BUS}H${x - 10}V${noteY}H${x - 5}`)));
+    parts.push(text((store.right + 22 + BARS[2] - 10) / 2, BUS + 16, fit(`${id}.read`, t.read, 200), "fig-note fig-strong", "middle"));
+    // The action the entry asks for, stopped by the limit.
+    const GATE = BARS[2] + CTX_W + 36;
+    parts.push(arrow(pid, BARS[2] + CTX_W + 6, noteY, GATE - 4, noteY), memStop(GATE, noteY));
+    const action = memWrap(`${id}.action`, t.action, W - 16 - (GATE + 12), "note", 3);
+    parts.push(memLines(action, GATE + 12, noteY + NOTE_MID - ((action.length - 1) * 13) / 2, "fig-note"));
+    const gate = memWrap(`${id}.gate`, t.gate, W - 16 - (BARS[2] + CTX_W + 8), "note", 2);
+    parts.push(memLines(gate, BARS[2] + CTX_W + 8, noteY + 32, "fig-note fig-wait fig-strong"));
+    height = Math.max(BUS + 16, noteY + 32 + (gate.length - 1) * 13) + 20;
+  } else {
+    // The text from outside, then the agent's bar beside it.
+    const A_X = 200;
+    const TOP = 60;
+    const agent = ctxBar(pid, A_X, TOP, MEM_AGENT);
+    const fy = mid(agent.spans[1]);
+    const src = memSource(16, round(fy - SRC.h / 2), SRC.w, SRC.h);
+    parts.push(text(16, fy - SRC.h / 2 - 10, fit(`${id}.source`, t.source, A_X - 16 - 16), "fig-note fig-strong"), src.svg);
+    parts.push(memLines(memWrap(`${id}.hidden`, t.hidden, A_X - 16 - 12, "note", 2), 16, fy + SRC.h / 2 + 16, "fig-note fig-wait fig-strong"));
+    parts.push(arrow(pid, 16 + SRC.w + 4, fy, A_X - 6, fy), agent.svg, ctxName(A_X + CTX_W / 2, agent.bottom, `${id}.agent`, t.agent, 100));
+    // Written to memory: down from the bar's side, across into the store.
+    const store = memStore(128, agent.bottom + 64, MEM_POISONED);
+    const wx = A_X + CTX_W + 20;
+    parts.push(pathArrow(pid, `M${A_X + CTX_W + 6} ${fy}H${wx}V${store.mid}H${store.right + 6}`));
+    parts.push(memLines(memWrap(`${id}.write`, t.write, 120, "note", 2), wx - 8, agent.bottom + 40, "fig-note fig-strong", "end"));
+    const bad = store.cards[0];
+    const badLines = memWrap(`${id}.bad`, t.bad, bad.x - 8 - 16, "note", 2);
+    parts.push(store.svg, memLines(badLines, bad.x - 10, bad.top + 8, "fig-note fig-wait fig-strong", "end"));
+    parts.push(text(store.cx, store.bottom + 16, fit(`${id}.store`, t.store, store.right - store.left), "fig-note fig-strong", "middle"));
+    // Read at the start: down from the store and into each bar from above.
+    const BARS = [96, 164, 232];
+    const L_TOP = store.bottom + 80;
+    const later = BARS.map((x) => ctxBar(pid, x, L_TOP, MEM_LATER));
+    later.forEach((b) => parts.push(b.svg));
+    const bus = L_TOP - 16;
+    const noteTop = round(later[0].spans[1].top);
+    BARS.forEach((x) => parts.push(pathArrow(pid, `M${store.cx} ${store.bottom + 24}V${bus}H${x + CTX_W / 2}V${noteTop - 5}`)));
+    const readLines = memWrap(`${id}.read`, t.read, W - 16 - store.cx - 8, "note", 2);
+    parts.push(memLines(readLines, store.cx + 8, (store.bottom + 24 + bus) / 2 + NOTE_MID - ((readLines.length - 1) * 13) / 2, "fig-note fig-strong"));
+    const laterX = (BARS[0] + BARS[2] + CTX_W) / 2;
+    parts.push(text(laterX, later[0].bottom + 20, fit(`${id}.later`, t.later, 2 * (laterX - 16)), "fig-label fig-small", "middle"));
+    // The action the entry asks for: down from the last bar's card, stopped at the limit.
+    const noteY = round(mid(later[2].spans[1]));
+    const ax = BARS[2] + CTX_W + 10;
+    const gateY = later[2].bottom + 52;
+    parts.push(pathArrow(pid, `M${BARS[2] + CTX_W + 4} ${noteY}H${ax}V${gateY - 4}`), memStop(ax, gateY, false));
+    const gate = memWrap(`${id}.gate`, t.gate, ax - 20 - 16, "note", 2);
+    parts.push(memLines(gate, ax - 20, gateY + NOTE_MID - ((gate.length - 1) * 13) / 2, "fig-note fig-wait fig-strong", "end"));
+    const action = memWrap(`${id}.action`, t.action, W - 32, "note", 2);
+    parts.push(memLines(action, ax + 4, gateY + 26, "fig-note", "end"));
+    height = gateY + 26 + (action.length - 1) * 13 + 18;
+  }
+  return { body: parts.join(""), height };
+}
+
 // The torch lights up: the hero of the article on Fluentor's name and logo,
 // drawn in the page in its image's place (renderHero, below). It is the
 // article's cover, the whole 1200 x 630 picture, drawn from its parts (COVER
@@ -3364,7 +4035,7 @@ function round6(value) {
   return Math.round(value * 1e6) / 1e6;
 }
 
-export const FIGURES = { stages, gates, loop, assessment, team, harness, ledger, timeline, setup, build, words, bilingual, gauntlet, agents, critic, fleet, sources, merges, logos, connection, lifecycle, price, lock, "waiting-per-day": waitingPerDay, "chat-or-agent": chatOrAgent, "five-parts": fiveParts, "four-things": fourThings, "file-before-after": fileBeforeAfter, "which-tool-reads-what": whichToolReadsWhat, "file-hierarchy": fileHierarchy, "agent-handover": agentHandover, "agent-file": agentFile, "skill-folder": skillFolder, "skill-locations": skillLocations, "mcp-server": mcpServer, "read-only-limits": readOnlyLimits, "what-goes-along": whatGoesAlong, "daily-summary": dailySummary, "limits-path": limitsPath, "limits-attempts": limitsAttempts, "reading-and-route": readingAndRoute, "context-before-you-type": contextBeforeYouType, "context-as-it-fills": contextAsItFills, "context-subagent": contextSubagent, "context-compaction": contextCompaction, "context-handoff": contextHandoff };
+export const FIGURES = { stages, gates, loop, assessment, team, harness, ledger, timeline, setup, build, words, bilingual, gauntlet, agents, critic, fleet, sources, merges, logos, connection, lifecycle, price, lock, "waiting-per-day": waitingPerDay, "chat-or-agent": chatOrAgent, "five-parts": fiveParts, "four-things": fourThings, "file-before-after": fileBeforeAfter, "which-tool-reads-what": whichToolReadsWhat, "file-hierarchy": fileHierarchy, "agent-handover": agentHandover, "agent-file": agentFile, "skill-folder": skillFolder, "skill-locations": skillLocations, "mcp-server": mcpServer, "read-only-limits": readOnlyLimits, "what-goes-along": whatGoesAlong, "daily-summary": dailySummary, "limits-path": limitsPath, "limits-attempts": limitsAttempts, "reading-and-route": readingAndRoute, "context-before-you-type": contextBeforeYouType, "context-as-it-fills": contextAsItFills, "context-subagent": contextSubagent, "context-compaction": contextCompaction, "context-handoff": contextHandoff, "memory-written-and-loaded": memoryWrittenAndLoaded, "memory-file-or-memory": memoryFileOrMemory, "memory-where-it-lives": memoryWhereItLives, "memory-runner-starts-empty": memoryRunnerStartsEmpty, "memory-poisoned-entry": memoryPoisonedEntry };
 
 /**
  * Render one figure as HTML: `<figure class="figure figure-inline|figure-wide">`

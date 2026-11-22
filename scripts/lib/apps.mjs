@@ -55,7 +55,7 @@ export const BANDS = { name: 16, serviceTitle: 20, statusLabel: 22, ratio: 1.25,
     things. Add a repository only once it is public: without a token,
     `curl -s -o /dev/null -w '%{http_code}' https://api.github.com/repos/<owner>/<name>`
     prints 200. */
-export const PUBLIC_REPOS = ["addable-labs/ashlands", "addable-labs/gaimer", "PeterBlenessy/notesage", "JetBrains/JetBrainsMono", "gastownhall/beads", "gastownhall/gascity", "gastownhall/gascity-packs", "github/github-mcp-server", "mattpocock/skills", "anthropics/claude-code"];
+export const PUBLIC_REPOS = ["addable-labs/ashlands", "addable-labs/gaimer", "PeterBlenessy/notesage", "JetBrains/JetBrainsMono", "gastownhall/beads", "gastownhall/gascity", "gastownhall/gascity-packs", "github/github-mcp-server", "mattpocock/skills", "anthropics/claude-code", "basicmachines-co/basic-memory", "mem0ai/mem0"];
 
 /** Public entries link the repository where it lives today; a url with
     this prefix is a repository, and the card labels it so. */

@@ -38,7 +38,7 @@ session as files in the environment. On the read path the tool loads those
 files, or an index of them, back into the context window at the start of a later
 session.
 
-{% figure "memory-written-and-loaded" %}
+{% figure "memory-written-and-loaded", "wide" %}
 
 In the figure the session's bar is gone when the session ends, and the store
 beside it is not: what was written to it is loaded into the start-up content of
@@ -187,7 +187,7 @@ says that jobs on GitHub-hosted runners start in a clean runner image. A note
 the agent writes during a job is therefore gone when the job ends, unless the
 job commits it, uploads it or caches it.
 
-{% figure "memory-runner-starts-empty" %}
+{% figure "memory-runner-starts-empty", "wide" %}
 
 What reaches the runner is the repository that a step of the job checks out. For
 Claude Code's GitHub Action the vendor's answer is the committed file:
@@ -252,7 +252,7 @@ part 7 matter more with memory, not less. In the figure the poisoned card sits
 in the store and is read at the start of every later session. Only a limit
 placed after the agent stops what the card asks for.
 
-{% figure "memory-poisoned-entry" %}
+{% figure "memory-poisoned-entry", "wide" %}
 
 The vendors' controls aim at the same weak points. GitHub's engineering post
 names outdated, incorrect and even maliciously injected memories as its biggest

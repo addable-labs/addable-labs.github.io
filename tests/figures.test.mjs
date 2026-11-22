@@ -170,6 +170,9 @@ describe("a drawing in two views (si-05r9)", () => {
   // flow view, left to right on FLOW_WIDTH units and shown from FLOW_FROM_REM, and the
   // stacked 320-unit panel they had before, shown below it.
   const TWO_VIEWS = ["mcp-server", "read-only-limits"];
+  const MEMORY = ["memory-written-and-loaded", "memory-file-or-memory", "memory-where-it-lives", "memory-runner-starts-empty", "memory-poisoned-entry"];
+  // Two of them are one inline panel: the page carries every figure's views and has an HTML budget.
+  const MEMORY_INLINE = ["memory-file-or-memory", "memory-where-it-lives"];
   const SIZE_CLASS = [["fig-head", "head"], ["fig-small", "small"], ["fig-label", "label"], ["fig-note", "note"]];
 
   /** Every <text> of a panel's body: its left and right ends in units, from the type table and the anchor. */
@@ -254,6 +257,34 @@ describe("a drawing in two views (si-05r9)", () => {
             assert.ok(left >= MARGIN - 8 && right <= width - MARGIN + 8, `${lang}: ${id} ${view}: "${content}" is drawn from ${left} to ${right} on a ${width}-unit panel`);
           }
         }
+      }
+    }
+  });
+
+  it("draws every text of the five figures of the deep dive on memory inside its panel, the three wide ones in both views, in both languages (si-rtd7)", () => {
+    for (const lang of ["en", "sv"]) {
+      for (const id of MEMORY) {
+        const { panels } = FIGURES[id](STRINGS[lang].figures[id], id, `fig-${id}`);
+        assert.deepEqual(panels.map((panel) => panel.view), MEMORY_INLINE.includes(id) ? [undefined] : ["flow", "stack"], `${lang}: ${id}`);
+        for (const { view, width = WIDTH, body } of panels) {
+          const items = textExtents(body);
+          assert.ok(items.length > 5, `${lang}: ${id} ${view} has its texts`);
+          for (const { content, left, right } of items) {
+            assert.ok(left >= MARGIN - 8 && right <= width - MARGIN + 8, `${lang}: ${id} ${view}: "${content}" is drawn from ${left} to ${right} on a ${width}-unit panel`);
+          }
+        }
+      }
+    }
+  });
+
+  it("marks the poisoned entry by its shape and a sign as well as by its colour: a jagged card in the store and in each later session's start-up layer, with a warning sign in the store (si-rtd7)", () => {
+    const id = "memory-poisoned-entry";
+    const jagged = /<path d="M[\d.]+ [\d.]+V[\d.]+l(?:[\d.]+ -[\d.]+ [\d.]+ [\d.]+ ?){3,}H[\d.]+V[\d.]+Z" class="fig-wait-stroke"/g;
+    const sign = /<path d="M[\d.]+ [\d.]+L[\d.]+ [\d.]+H[\d.]+ZM[^"]*" class="fig-wait-stroke"/g;
+    for (const lang of ["en", "sv"]) {
+      for (const { view, body } of FIGURES[id](STRINGS[lang].figures[id], id, `fig-${id}`).panels) {
+        assert.equal(body.match(jagged)?.length, 4, `${lang} ${view}: the card in the store and its copy in three start-up layers`);
+        assert.ok((body.match(sign)?.length ?? 0) >= 2, `${lang} ${view}: a sign on the hidden instruction and on the card in the store`);
       }
     }
   });
