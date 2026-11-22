@@ -139,9 +139,10 @@ const ARTICLE_SLUG = "how-this-site-was-built-by-agents";
 // series, 2,250, above its 2,237 (22 November 2026, we-ldb50, after the fact check and the
 // Swedish editor's report added what they asked for; first 2,100, above 2,082, on 21
 // November, we-meawo; the founder asked for it "to clarity", not to a length), and its
-// companion on memory that outlives a session, also outside the series, 3,800, above its
-// 3,759 (21 November 2026, we-7bswi; asked for the same way); every other article keeps
-// 1,500.
+// companion on memory that outlives a session, also outside the series, 3,850, above its
+// 3,842 (22 November 2026, we-6p0jq, after the fact check and the Swedish editor's report
+// added what they asked for; first 3,800, above 3,759, on 21 November, we-7bswi; asked for
+// the same way); every other article keeps 1,500.
 const SEED_ARTICLES = new Set([ARTICLE_SLUG, "lessons-from-building-niva"]);
 const WORD_RANGE = { seed: [300, 600], other: [300, 1500] };
 const WORD_CEILING = new Map([
@@ -154,7 +155,7 @@ const WORD_CEILING = new Map([
   ["where-the-agent-runs", 2150],
   ["set-the-limits-in-advance", 2100],
   ["what-fills-an-ai-agents-context", 2250],
-  ["memory-that-outlives-an-ai-agents-session", 3800],
+  ["memory-that-outlives-an-ai-agents-session", 3850],
 ]);
 
 async function page(relPath) {
