@@ -8,7 +8,7 @@
 - id: A1-worktrees
   article: how-many-agents-at-once
   sentence:
-    sv: "Guiden till arbetskataloger i Codex säger att samma isolering låter flera chattar arbeta i ett projekt \"utan att störa varandra\""
+    sv: "Codex guide till worktrees säger att samma isolering gör att flera chattar kan arbeta i ett projekt \"utan att störa varandra\""
     en: "Codex's guide to worktrees says the same isolation lets several chats work in one project \"without interfering with each other\""
   vendor: OpenAI
   url: https://learn.chatgpt.com/docs/environments/git-worktrees
@@ -32,7 +32,7 @@
 - id: A3-idle-compaction
   article: how-many-agents-at-once
   sentence:
-    sv: "Sedan oktober har Claude Code också komprimerat en lång konversation som ligger overksam i ungefär en timme, innan dess cache löper ut"
+    sv: "Sedan oktober komprimerar Claude Code också en lång konversation som har legat inaktiv i ungefär en timme, innan cachen går ut"
     en: "Since October, Claude Code has also compacted a long conversation that sits idle for about an hour, before its cache expires"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/settings-reference
@@ -44,7 +44,7 @@
 - id: A3-idle-hour
   article: how-many-agents-at-once
   sentence:
-    sv: "Sedan oktober har Claude Code också komprimerat en lång konversation som ligger overksam i ungefär en timme, innan dess cache löper ut"
+    sv: "Sedan oktober komprimerar Claude Code också en lång konversation som har legat inaktiv i ungefär en timme, innan cachen går ut"
     en: "Since October, Claude Code has also compacted a long conversation that sits idle for about an hour, before its cache expires"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/settings-reference
@@ -56,7 +56,7 @@
 - id: A3-idle-changelog
   article: how-many-agents-at-once
   sentence:
-    sv: "Sedan oktober har Claude Code också komprimerat en lång konversation som ligger overksam i ungefär en timme, innan dess cache löper ut"
+    sv: "Sedan oktober komprimerar Claude Code också en lång konversation som har legat inaktiv i ungefär en timme, innan cachen går ut"
     en: "Since October, Claude Code has also compacted a long conversation that sits idle for about an hour, before its cache expires"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/changelog
@@ -68,7 +68,7 @@
 - id: A4-study-cost
   article: how-many-agents-at-once
   sentence:
-    sv: "visar effekten på kostnaden"
+    sv: "visar hur det påverkar kostnaden"
     en: "shows the effect on cost"
   vendor: Addable Labs
   url: https://addablelabs.se/blog/what-the-mayors-context-costs/
