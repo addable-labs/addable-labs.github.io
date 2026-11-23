@@ -18,9 +18,7 @@ starting point plainly: each session begins with a fresh context window.
 [What fills an AI agent's context](/blog/what-fills-an-ai-agents-context/)
 covers what is in the window during a session. This article covers what is kept
 outside it: what an agent writes down, where that is stored, who else can read
-it and what can go wrong when a team shares it. It follows the documentation of
-Claude Code, Codex and GitHub Copilot as it stood in November 2026 and uses that
-article's terms without explaining them again.
+it and what can go wrong when a team shares it. It follows the documentation of Claude Code, Codex and GitHub Copilot as it stood in November 2026 and builds on that article's terms.
 
 A team is what makes the subject hard. A developer's computer, a colleague's
 computer and a job on a GitHub runner (the machine that runs a job in GitHub
@@ -42,13 +40,11 @@ session.
 
 {% figure "memory-written-and-loaded", "wide" %}
 
-In the figure the session's bar is gone when the session ends, and the memory
-store beside it is not. The memory store is where the notes sit. What was
+When the session ends its bar is gone; the memory store beside it stays. The memory store is where the notes sit. What was
 written to it is loaded into the start-up content of the next session. Three
 questions decide how a memory behaves: who writes it, where it is stored and who
 else can read it. The rest of the article answers them for each tool and for a
-team. What is read back at the start lands in the start-up content and so takes
-room in every request. It is context and nothing more. Claude Code's
+team. What is read back at the start lands in the start-up content and so takes up part of the context window in every request. It is context and nothing more. Claude Code's
 documentation says that Claude treats CLAUDE.md files and auto memory as context
 and not as enforced configuration. To block an action whatever Claude decides,
 it points to a hook. What is enforced outside the model is the subject of
@@ -76,11 +72,7 @@ GitHub Copilot's memory works differently. According to
 [GitHub's documentation](https://docs.github.com/en/copilot/concepts/prompting-and-context/copilot-memory),
 Copilot creates memories itself as a byproduct of working with you and keeps two
 kinds: repository-level facts, which are shared with your collaborators, and
-user-level preferences, which follow you between repositories. Saving is a tool
-call:
-[GitHub's engineering post](https://github.blog/ai-and-ml/github-copilot/building-an-agentic-memory-system-for-github-copilot/)
-describes memory creation as a tool that agents invoke when they discover
-something likely to have actionable implications for future tasks. Each memory
+user-level preferences, which follow you between repositories. Saving is a tool call: in [GitHub's engineering post](https://github.blog/ai-and-ml/github-copilot/building-an-agentic-memory-system-for-github-copilot/), agents invoke it when they discover something likely to matter for what they do in future tasks. Each memory
 is stored with citations, references to the code locations that support it.
 
 Before using a fact, Copilot checks its citations against the current branch. An
@@ -107,22 +99,6 @@ finished chats in the background.
 
 ## Rules belong in the file and memory is for recall
 
-All three vendors draw the line in the same place. OpenAI's documentation says
-to keep required team guidance in `AGENTS.md` or checked-in documentation and to
-treat memories as "a helpful recall layer, not as the only source for rules that
-must always apply".
-[VS Code's documentation](https://code.visualstudio.com/docs/agents/run/memory)
-notes that repository facts are shared and not private notes, and says to keep
-reviewed team requirements in source-controlled project documentation or custom
-instructions.
-
-GitHub's documentation describes a division of labour: use custom instructions
-for important rules, such as a security requirement or a mandatory review step,
-and let Copilot Memory handle the accumulated detail that would otherwise make
-an instructions file long and hard to maintain. Claude Code's page sorts the two
-by purpose: CLAUDE.md files to guide Claude's behaviour, auto memory to let
-Claude learn from your corrections.
-
 The reason is who has checked the text. A person writes the instruction file,
 described in
 [The instruction file, the first thing an AI agent reads](/blog/the-instruction-file/),
@@ -132,14 +108,23 @@ because Copilot's check of a fact's citations is a judgement it makes, rather
 than a guarantee enforced by the system, a stored fact should not be relied on
 as a rule that will always be followed.
 
+All three vendors draw the line in the same place. OpenAI's documentation says
+to keep required team guidance in `AGENTS.md` or checked-in documentation and to
+treat memories as "a helpful recall layer, not as the only source for rules that
+must always apply".
+[VS Code's documentation](https://code.visualstudio.com/docs/agents/run/memory)
+notes that repository facts are shared and not private notes, and says to keep
+reviewed team requirements in source-controlled project documentation or custom
+instructions. GitHub's documentation describes a division of labour: use custom
+instructions for important rules, such as a security requirement or a mandatory
+review step, and let Copilot Memory handle the accumulated detail that would
+otherwise make an instructions file long and hard to maintain. Claude Code's
+page sorts the two by purpose: CLAUDE.md files to guide Claude's behaviour, auto
+memory to let Claude learn from your corrections.
+
 {% figure "memory-file-or-memory" %}
 
-In the figure a fact moves from the agent's notes to the file once it has proved
-stable. VS Code's documentation gives the steps for repository memory that has
-become stable and useful to the team: verify the information against the
-repository's code and configuration, move it to the project document or
-instructions file, review the change through the repository's normal process and
-update or remove the local memory to avoid stale or conflicting copies.
+A fact moves from the agent's notes to the file once it has proved stable. VS Code's documentation gives the steps for repository memory that has become stable and useful to the team. Verify the information against the repository's code and configuration, move it to the project document or instructions file and review the change through the repository's normal process. Then update or remove the local memory, to avoid stale or conflicting copies.
 
 A third kind of text belongs in neither: work in flight. Pocock's
 [handoff guide](https://github.com/mattpocock/skills/blob/main/docs/productivity/handoff.md)
@@ -174,23 +159,14 @@ policies on GitHub do not apply to it.
 
 {% figure "memory-where-it-lives" %}
 
-In the figure, a memory in a home folder reaches only the computer it sits on, a
-committed file reaches every computer and runner, and a vendor's store reaches
-the accounts the vendor lets in. So "shared" has two meanings: shared as a file,
+A memory in a home folder reaches only the computer it sits on, a committed file reaches every computer and runner, and a vendor's store reaches the accounts the vendor lets in. So "shared" has two meanings: shared as a file,
 which travels with the repository and which anyone with the checkout can read
 and review, or shared through an account, which depends on who the vendor lets
 in.
 
 ## A GitHub-hosted runner starts empty
 
-A job on a GitHub-hosted runner begins in a clean state.
-[GitHub's documentation](https://docs.github.com/en/actions/concepts/runners/github-hosted-runners)
-says that, with the exception of single-CPU runners, each GitHub-hosted runner
-is a new virtual machine, and its page on
-[dependency caching](https://docs.github.com/en/actions/concepts/workflows-and-actions/dependency-caching)
-says that jobs on GitHub-hosted runners start in a clean runner image. A note
-the agent writes during a job is therefore gone when the job ends, unless the
-job pushes it in a commit, uploads it as an artifact or caches it.
+A note the agent writes during a job is gone when the job ends, unless the job pushes it in a commit, uploads it as an artifact or caches it. A job on a GitHub-hosted runner begins in a clean state: [GitHub's documentation](https://docs.github.com/en/actions/concepts/runners/github-hosted-runners) says that, with the exception of single-CPU runners, each GitHub-hosted runner is a new virtual machine, and its page on [dependency caching](https://docs.github.com/en/actions/concepts/workflows-and-actions/dependency-caching) says that jobs on GitHub-hosted runners start in a clean runner image.
 
 {% figure "memory-runner-starts-empty", "wide" %}
 
@@ -201,7 +177,7 @@ create a CLAUDE.md file in the repository root for code style guidelines, review
 criteria, project-specific rules and preferred patterns, and to keep it concise,
 since Claude reads it on every run.
 
-In the figure, three things can outlive a job, and they are not equal. A commit
+Three things can outlive a job, and they are not equal. A commit
 can be reviewed like any change and is there for the next run. An artifact is
 for files produced by a job that you want to use or view after the run has
 ended. A cache is for files that are expensive to regenerate, and GitHub says a
@@ -229,12 +205,9 @@ explains prompt injection: text the agent reads can contain instructions that it
 follows as if you had written them. A memory can carry one such text into every
 later session that reads it.
 
-### Who can write
+### Who can write to a shared memory
 
-In Copilot, repository facts are created only when Copilot works in a repository
-where the user has write access. The Copilot app and the interactive
-command-line tool can ask you to approve a memory before it is stored, but the
-cloud agent and code review do not ask. GitHub's documentation adds that
+The cloud agent and code review store a memory without asking you; the Copilot app and the interactive command-line tool can ask you to approve it first. In Copilot, repository facts are created only when Copilot works in a repository where the user has write access. GitHub's documentation adds that
 repository facts can be captured from pull requests that were closed without
 merging, and that Copilot is told to check them against the current codebase,
 which does not guarantee that it recognises every outdated fact.
@@ -255,18 +228,13 @@ are averages over one set of tests, not a rate for your own setup.
 The authors also tested one prompt-level defence, which reduced memory injection
 in many settings but gave limited protection once the memory had been poisoned.
 What stops a poisoned instruction whatever the model decides is a limit outside
-it, which is why such limits matter more with memory, not less. In the figure
-the poisoned entry sits in the store and reaches every later session that reads
-it, and the limit stands after the agent.
+it, which is why such limits matter more with memory, not less. The poisoned entry sits in the store and reaches every later session that reads it, and the limit stands after the agent.
 
 {% figure "memory-poisoned-entry", "wide" %}
 
 The vendors' controls aim at the same weak points. GitHub's engineering post
 names outdated, incorrect and even maliciously injected memories as its biggest
-concern. In its test it seeded repositories with adversarial memories, facts
-that contradicted the codebase with citations pointing to irrelevant or
-nonexistent code, and across all test cases its agents consistently verified
-citations, discovered contradictions and updated the incorrect memories. That is
+concern. In its test it seeded repositories with adversarial memories: facts that contradicted the codebase, with citations pointing to irrelevant or nonexistent code. Across all test cases its agents consistently verified citations, discovered contradictions and updated the incorrect memories. That is
 GitHub's evaluation of its own product, and it covers memories whose citations
 do not support them.
 
@@ -285,7 +253,7 @@ Code's auto memory is plain markdown that `/memory` opens, Codex's memory files
 can be inspected in its home directory and GitHub lets people with the right
 access review and delete repository facts in the repository's settings.
 
-### Secrets
+### A secret travels with the memory
 
 A memory is text that the agent writes and that other people can often read, so
 a secret that lands in one travels with it. GitHub's documentation says that
@@ -368,10 +336,7 @@ retrieving all relevant information from the knowledge graph.
 The reference server in the Model Context Protocol project's repository
 describes itself as "a basic implementation of persistent memory using a local
 knowledge graph". It keeps the graph in one file, so there is nothing to host.
-Several clients on one computer can share the file, because every write takes a
-lock, but the README says that a network file system that does not honour the
-lock cannot be shared safely this way and that by default nothing caps the
-graph. The repository calls its servers reference implementations and not
+Several clients on one computer can share the file, because every write takes a lock. The README adds two cautions: a network file system that does not honour the lock cannot be shared safely this way, and by default nothing caps the graph. The repository calls its servers reference implementations and not
 production-ready solutions.
 
 [basic-memory](https://github.com/basicmachines-co/basic-memory) (AGPL-3.0)
@@ -414,16 +379,17 @@ commands. The cost is a database and a sync remote to keep healthy.
 
 ## What to do first
 
-Read what your agent has already saved: `/memory` in Claude Code, the
-repository's Copilot memory settings on GitHub and the `~/.codex` folder for
-Codex. Then sort what you find into three kinds of text: rules, recall and work
-in flight. Rules the team relies on go in the committed instruction file,
+A first step is to read what the agent has already saved: `/memory` in Claude
+Code, the repository's Copilot memory settings on GitHub and the `~/.codex`
+folder for Codex. What you find sorts into three kinds of text: rules, recall
+and work in flight. Rules the team relies on go in the committed instruction file,
 reviewed like code, and one that must hold whatever the agent decides also needs
 a limit outside the model. Work in flight goes in a hand-off.
 
-Treat a runner as empty: whatever a job learns is lost unless it is pushed in a
-commit or kept in a store outside the runner, and a cache is not a place to keep
-it. Before you connect a shared store such as a memory server, decide who may
-write to it, who reads it and how an entry is deleted. And check the current
-settings before you rely on a default, since in November 2026 they differ
-between the tools and between Copilot's plans.
+A runner is empty when the job starts: whatever a job learns is lost unless it
+is pushed in a commit or kept in a store outside the runner, and a cache is not
+a place to keep it. Before a shared store such as a memory server is connected,
+it helps to have decided who may write to it, who reads it and how an entry is
+deleted. It is also worth checking the current settings before relying on a
+default, since in November 2026 they differ between the tools and between
+Copilot's plans.

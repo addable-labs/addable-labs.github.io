@@ -1,6 +1,6 @@
 ---
 title: Minne som överlever en AI-agents session
-description: "Vad en AI-agent för kodning skriver ner så att nästa session, nästa dator och nästa runner kan använda det: hur Claude Code, GitHub Copilot och Codex hanterar minne i november 2026, vad ett team delar, vad en runner behåller, vad som kan gå fel i ett delat minne och vad fem lösningar kostar att hålla igång."
+description: "Hur Claude Code, GitHub Copilot och Codex sparar det en agent lär sig i november 2026, vad som följer med till nästa session, nästa dator och nästa runner och vad som kan gå fel när ett team delar det."
 image: cover.png                 # en PNG på 1200 × 630 i artikelns mediemapp
 imageAlt: "Två höga staplar, två sessioners kontextfönster, står på samma golv med en låda med kort mellan sig: förrådet. Den första sessionen är slut, dess kontur streckad och dess grå, gröna och vita lager bleka. En prickad grön linje går från den till ett upplyst kort i lådan, anteckningen den skrev. Linjen fortsätter in i den andra stapeln, som är nästan tom: längst ner rymmer dess tunna grå startlager samma anteckning, upplyst."
 date: 2026-11-21
@@ -15,13 +15,7 @@ En session tar slut och dess kontext försvinner med den.
 [Claude Codes dokumentation](https://code.claude.com/docs/en/memory) beskriver
 utgångsläget rakt ut: varje session börjar med ett nytt kontextfönster.
 
-[Vad som fyller en AI-agents kontext](/sv/blog/what-fills-an-ai-agents-context/)
-handlar om vad som finns i fönstret under en session. Den här artikeln handlar
-om vad som sparas utanför det: vad en agent skriver ner, var det lagras, vem mer
-som kan läsa det och vad som kan gå fel när ett team delar det. Den följer
-dokumentationen för Claude Code, Codex och GitHub Copilot så som den såg ut i
-november 2026 och använder termerna från artikeln om kontexten utan att förklara
-dem igen.
+[Vad som fyller en AI-agents kontext](/sv/blog/what-fills-an-ai-agents-context/) handlar om vad som finns i fönstret under en session. Här gäller det vad som sparas utanför det och om det går att lita på när ett team delar det. Artikeln följer dokumentationen för Claude Code, Codex och GitHub Copilot så som den såg ut i november 2026 och använder termerna från artikeln om kontexten.
 
 Det är teamet som gör ämnet svårt. En utvecklares dator, en kollegas dator och
 ett jobb på en GitHub-runner (maskinen som kör ett jobb i GitHub Actions)
@@ -30,11 +24,7 @@ andra bara om det committas eller sparas på ett ställe som de delar.
 
 ## Minne är det en agent skriver ner och läser in igen
 
-[Anthropics guide till kontextteknik](https://www.anthropic.com/research/effective-context-engineering-for-ai-agents)
-kallar tekniken agentiskt minne (agentic memory) – eller strukturerat
-antecknande (structured note-taking) – och definierar den i två halvor: agenten
-skriver anteckningar utanför kontextfönstret och anteckningarna läses in i
-kontextfönstret igen vid senare tillfällen. En praktikers ordlista, Matt Pococks
+[Anthropics guide till kontextteknik](https://www.anthropic.com/research/effective-context-engineering-for-ai-agents) kallar tekniken agentiskt minne (agentic memory) eller strukturerat antecknande (structured note-taking). Det går ut på två saker. Agenten skriver anteckningar utanför kontextfönstret. Anteckningarna läses in i kontextfönstret igen vid senare tillfällen. En utvecklares ordlista, Matt Pococks
 [AI Hero dictionary](https://www.aihero.dev/ai-coding-dictionary/memory-system),
 ger halvorna namn. På skrivvägen (write path) sparar agenten det den lärde sig
 under en session som filer i miljön. På läsvägen (read path) läser verktyget in
@@ -48,25 +38,20 @@ bredvid den är det inte. Minnesförrådet är platsen där anteckningarna ligge
 Det som skrevs dit läses in i nästa sessions startinnehåll. Tre frågor avgör hur
 ett minne beter sig: vem som skriver det, var det lagras och vem mer som kan
 läsa det. Resten av artikeln svarar på dem för varje verktyg och för ett team.
-Det som läses in igen i början hamnar i startinnehållet och tar därför plats i
-varje anrop. Det är kontext och inget mer. Claude Codes dokumentation säger att
+Det som läses in igen i början hamnar i startinnehållet och tar därför upp en del av kontextfönstret i varje anrop. Det är kontext och inget mer. Claude Codes dokumentation säger att
 Claude behandlar CLAUDE.md-filer och automatiskt minne (auto memory) som kontext
 och inte som konfiguration som upprätthålls. För att blockera en åtgärd oavsett
-vad Claude bestämmer pekar dokumentationen på en hook. Vad som upprätthålls
-utanför modellen är ämnet för
-[Sätt gränserna i förväg](/sv/blog/set-the-limits-in-advance/).
+vad Claude bestämmer pekar dokumentationen på en hook. Vad som upprätthålls utanför modellen handlar [Sätt gränserna i förväg](/sv/blog/set-the-limits-in-advance/) om.
 
 ## Vad leverantörerna kallar minne
 
 Claude Code har två saker som för kunskap vidare mellan sessioner:
 CLAUDE.md-filer – som du skriver – och automatiskt minne, som Claude skriver
-själv utifrån dina korrigeringar och preferenser. I automatiskt minne sparar
-Claude anteckningar av fyra slag: om dig, om de korrigeringar du ger, om
-pågående arbete och beslut samt om var man hittar information utanför projektet.
+själv utifrån dina korrigeringar och preferenser. I automatiskt minne sparar Claude anteckningar av fyra slag: om dig, om de korrigeringar du ger, om pågående arbete och beslut och om var information finns utanför projektet.
 Den hoppar över allt den kan härleda ur kodbasen eller hitta i dina
 CLAUDE.md-filer. Claude sparar inte något i varje session: den avgör vad som är
 värt att komma ihåg utifrån om informationen skulle vara användbar i ett
-framtida samtal. Den sparar också det du ber den komma ihåg.
+framtida konversation. Den sparar också det du ber den komma ihåg.
 
 Anteckningarna är vanliga markdown-filer i en mapp för varje repo, med ett index
 som heter `MEMORY.md` och en fil för varje minne. De första 200 raderna eller 25
@@ -75,11 +60,7 @@ när den behöver dem. I november 2026 är automatiskt minne på som standard i
 lokala sessioner och av som standard i en session i en miljö med egen drift
 (self-hosted).
 
-GitHub Copilots minne fungerar annorlunda. Enligt
-[GitHubs dokumentation](https://docs.github.com/en/copilot/concepts/prompting-and-context/copilot-memory)
-skapar Copilot minnen själv som en biprodukt av att arbeta med dig och har två
-sorter: fakta på repo-nivå – som delas med dina medarbetare i projektet – och
-preferenser på användarnivå, som följer dig mellan repon. Att spara är ett
+GitHub Copilots minne fungerar annorlunda. Enligt [GitHubs dokumentation](https://docs.github.com/en/copilot/concepts/prompting-and-context/copilot-memory) skapar Copilot minnen själv som en biprodukt av att arbeta med dig. Minnena finns i två sorter: fakta på repo-nivå – som delas med dina medarbetare i projektet – och preferenser på användarnivå, som följer dig mellan repon. Att spara är ett
 verktygsanrop:
 [GitHubs tekniska inlägg](https://github.blog/ai-and-ml/github-copilot/building-an-agentic-memory-system-for-github-copilot/)
 beskriver skapandet av minnen som ett verktyg som agenter anropar när de
@@ -112,15 +93,9 @@ skapar minne av avslutade chattar i bakgrunden.
 
 ## Regler hör hemma i filen och minnet är till för att komma ihåg
 
-Alla tre leverantörerna drar gränsen på samma ställe. OpenAIs dokumentation
-säger att man ska skriva in obligatorisk vägledning för teamet i `AGENTS.md`
-eller i dokumentation som ligger i repot och behandla minnen som "ett användbart
-lager för att komma ihåg, inte som den enda källan till regler som alltid måste
-gälla" (vår översättning).
+Alla tre leverantörerna drar gränsen på samma ställe. OpenAIs dokumentation säger att du ska skriva in obligatorisk vägledning för teamet i `AGENTS.md` eller i dokumentation som ligger i repot och behandla minnen som "ett användbart lager för att komma ihåg, inte som den enda källan till regler som alltid måste gälla" (vår översättning).
 [VS Codes dokumentation](https://code.visualstudio.com/docs/agents/run/memory)
-påpekar att repo-fakta delas och inte är privata anteckningar. Den säger också
-att man ska skriva in granskade krav för teamet i projektdokumentation under
-versionshantering eller i anpassade instruktioner.
+påpekar att repo-fakta delas och inte är privata anteckningar. Den säger också att du ska skriva in granskade krav för teamet i projektdokumentation under versionshantering eller i anpassade instruktioner.
 
 GitHubs dokumentation beskriver en arbetsfördelning: använd anpassade
 instruktioner för viktiga regler – som ett säkerhetskrav eller ett obligatoriskt
@@ -134,15 +109,11 @@ Orsaken är vem som har kontrollerat texten. En människa skriver
 instruktionsfilen – den beskrivs i
 [Instruktionsfilen, det första en AI-agent läser](/sv/blog/the-instruction-file/)
 – och en kollega kan granska den i en pull request. En agent skriver minnet och
-ingen behöver ha läst det. GitHubs dokumentation ger ett andra skäl: eftersom
-Copilots kontroll av ett faktums källhänvisningar är Copilots eget omdöme och
-inte en garanti som systemet upprätthåller bör man inte lita på att ett lagrat
-faktum följs som en regel som alltid gäller.
+ingen behöver ha läst det. GitHubs dokumentation ger ett andra skäl. Copilots kontroll av ett faktums källhänvisningar är Copilots eget omdöme och inte en garanti som systemet upprätthåller, så du bör inte lita på att ett lagrat faktum följs som en regel som alltid gäller.
 
 {% figure "memory-file-or-memory" %}
 
-I figuren flyttar ett faktum från agentens anteckningar till filen när det har
-visat sig stabilt. VS Codes dokumentation ger stegen för repo-minne som har
+Ett faktum flyttar från agentens anteckningar till filen när det har visat sig stabilt. VS Codes dokumentation ger stegen för repo-minne som har
 blivit stabilt och användbart för teamet: kontrollera uppgiften mot repots kod
 och konfiguration, flytta den till projektdokumentet eller instruktionsfilen,
 granska ändringen i repots vanliga process och uppdatera eller ta bort det
@@ -152,8 +123,7 @@ En tredje sorts text hör hemma i ingen av dem: pågående arbete. Pocock drar
 gränsen så här i sin
 [guide till överlämning](https://github.com/mattpocock/skills/blob/main/docs/productivity/handoff.md):
 "Om du ständigt förklarar ett faktum på nytt hör det hemma i `CLAUDE.md`. En
-halvfärdig uppgift hör hemma i en överlämning." (vår översättning) Överlämningen
-är ämnet för "Vad som fyller en AI-agents kontext".
+halvfärdig uppgift hör hemma i en överlämning." (vår översättning) Överlämningen tar "Vad som fyller en AI-agents kontext" upp.
 
 ## Det ett team delar är det som committas
 
@@ -181,9 +151,7 @@ den.
 
 {% figure "memory-where-it-lives" %}
 
-I figuren når ett minne i en hemmapp bara den dator det ligger på, en fil som
-ligger i repot når varje dator och runner och en leverantörs minnesförråd når de
-konton som leverantören släpper in. "Delat" har alltså två betydelser: delat som
+Ett minne i en hemmapp når bara den dator det ligger på, en fil i repot når varje dator och runner och en leverantörs minnesförråd når de konton som leverantören släpper in. "Delat" har alltså två betydelser: delat som
 en fil – som följer med repot och som alla med en utcheckning kan läsa och
 granska – och delat via ett konto, vilket beror på vilka leverantören släpper
 in.
@@ -205,12 +173,9 @@ cachar den.
 
 Det som når runnern är det repo som ett steg i jobbet checkar ut. För Claude
 Codes GitHub Action är leverantörens svar filen i repot:
-[dess dokumentation](https://code.claude.com/docs/en/github-actions) säger att
-man ska skapa en CLAUDE.md i repots rot för kodstil, granskningskriterier,
-projektspecifika regler och föredragna mönster – och hålla den kortfattad,
-eftersom Claude läser den vid varje körning.
+[dess dokumentation](https://code.claude.com/docs/en/github-actions) säger att du ska skapa en CLAUDE.md i repots rot för kodstil, granskningskriterier, projektspecifika regler och föredragna mönster – och hålla den kortfattad, eftersom Claude läser den vid varje körning.
 
-I figuren kan tre saker överleva ett jobb. De är inte likvärdiga. En commit kan
+Tre saker kan överleva ett jobb. De är inte likvärdiga. En commit kan
 granskas som vilken ändring som helst och finns där för nästa körning. En
 artefakt är till för filer som ett jobb har skapat och som du vill använda eller
 titta på sedan körningen har tagit slut. En cache är till för filer som är dyra
@@ -241,8 +206,7 @@ vidare till varje senare session som läser det.
 
 ### Vem som kan skriva
 
-I Copilot skapas repo-fakta bara när Copilot arbetar i ett repo där användaren
-har skrivrättigheter. Copilot-appen och det interaktiva kommandoradsverktyget
+I Copilot skapas repo-fakta bara när Copilot arbetar i ett repo där du har skrivrättigheter. Copilot-appen och det interaktiva kommandoradsverktyget
 kan be dig godkänna ett minne innan det lagras, men molnagenten och
 kodgranskningen frågar inte. GitHubs dokumentation tillägger att repo-fakta kan
 fångas ur pull requests som stängdes utan att slås ihop och att Copilot ska
@@ -251,9 +215,7 @@ igen varje föråldrat faktum.
 
 ### En förgiftad post
 
-[En preprint](https://arxiv.org/html/2609.13889v1) av forskare vid University of
-Auckland och Fudan University, publicerad i september 2026, prövar förgiftning
-på Claude Code självt. Metoden är att gömma instruktioner i vanliga externa
+En instruktion som har gömts i ett dokument kan hamna i agentens minne och göra skada flera sessioner senare. [En preprint](https://arxiv.org/html/2609.13889v1) av forskare vid University of Auckland och Fudan University, publicerad i september 2026, prövar det på Claude Code självt. Metoden är att gömma instruktioner i vanliga externa
 källor – text, bilder och PDF-filer – så att agenten skriver dem till sitt
 beständiga minne. De utlöses sedan i en senare session. Upplägget var en
 simulerad arbetsyta med e-post, kalender, delade dokument och formulär, där
@@ -267,8 +229,7 @@ Författarna prövade också ett försvar på promptnivå. Det gjorde att färre
 instruktioner nådde minnet i många konfigurationer, men det gav begränsat skydd
 när minnet väl hade förgiftats. Det som stoppar en förgiftad instruktion oavsett
 vad modellen bestämmer är en gräns utanför den. Därför spelar sådana gränser
-större roll med minne, inte mindre. I figuren ligger den förgiftade posten i
-minnesförrådet och når varje senare session som läser den. Gränsen står efter
+större roll med minne, inte mindre. Den förgiftade posten ligger i minnesförrådet och når varje senare session som läser den. Gränsen står efter
 agenten.
 
 {% figure "memory-poisoned-entry", "wide" %}
@@ -305,12 +266,7 @@ hemlighet som hamnar i ett minne följer med. GitHubs dokumentation säger att
 minnen genomsöks efter hemligheter som tokens, nycklar eller
 inloggningsuppgifter och att ett minne där en sådan upptäcks avvisas. OpenAIs
 dokumentation säger att Codex maskerar hemligheter i genererade minnesfält, men
-att du ändå bör granska filerna innan du delar din Codex-hemkatalog. VS Codes
-dokumentation säger tydligt att man inte ska lagra inloggningsuppgifter,
-hemligheter eller känslig personlig information i minnet. "MCP, så når
-AI-agenten andra system" håller en token utanför filer och chatt. "Sätt
-gränserna i förväg" visar en regel mot att läsa en `.env`-fil. Minnet kräver
-samma försiktighet.
+att du ändå bör granska filerna innan du delar din Codex-hemkatalog. VS Codes dokumentation säger tydligt att du inte ska lagra inloggningsuppgifter, hemligheter eller känslig personlig information i minnet. Minnet kräver samma försiktighet som tidigare delar: i "MCP, så når AI-agenten andra system" hålls en token utanför filer och chatt och i "Sätt gränserna i förväg" finns en regel mot att läsa en `.env`-fil.
 
 ### Föråldrade fakta
 
@@ -318,10 +274,7 @@ Den tystare risken är ett faktum som var sant när det skrevs. Fabriken bakom d
 här sajten stötte på den i september 2026. I
 [En studie av borgmästarens kontext](/sv/blog/what-the-mayors-context-costs/)
 hoppade nya sessioner över det mesta av en anteckningslogg som hade blivit för
-lång för att läsas i sin helhet och tog gamla fakta för aktuella. Lägeskortet
-som skrivs om vid varje överlämning och referensen som läses i ett anrop fanns
-redan; ändringen – som beskrivs i "Vad som fyller en AI-agents kontext" – var
-att korta båda och sätta tak för dem. Pococks ordlista
+lång för att läsas i sin helhet och tog gamla fakta för aktuella. Lägeskortet som skrivs om vid varje överlämning och referensen som läses i ett anrop fanns redan. Ändringen var att korta båda och sätta tak för dem, som "Vad som fyller en AI-agents kontext" beskriver. Pococks ordlista
 beskriver det allmänna fallet: ett faktum som antecknades i mars läses in med samma tillförsikt i juni
 – sedan projektet har gått vidare – och ett minnessystem behöver gallras på
 samma sätt som AGENTS.md.
@@ -336,7 +289,7 @@ rösta ned ett minne som den anser vara felaktigt eller föråldrat.
 ## Fem lösningar och vad var och en kostar att hålla igång
 
 De tre första lösningarna är leverantörernas egna. De två sista är öppen
-källkod: praktikers exempel och inte leverantörsråd. Det som sägs om dem här är
+källkod: exempel från utvecklare, inte leverantörsråd. Det som sägs om dem här är
 det projekten sade om sig själva i november 2026.
 
 ### Filen i repot
@@ -366,9 +319,7 @@ Claude Codes automatiska minne kostar ingenting att köra. Claude Code undantar
 minnesmappen från rensningen som tar bort gamla sessionstranskript, så
 anteckningarna ligger kvar tills du eller Claude ändrar eller tar bort dem.
 Inget av det löper ut av sig självt – det som gallras är det du eller Claude tar
-bort – och inget av det når en kollega eller en runner. Codex filer är genererat
-tillstånd (generated state): dokumentationen säger att man inte ska förlita sig
-på att redigera dem för hand. Skrivbordsappen kan nollställa en dators hela
+bort – och inget av det når en kollega eller en runner. Codex filer är genererat tillstånd (generated state): dokumentationen säger att du inte ska förlita dig på att redigera dem för hand. Skrivbordsappen kan nollställa en dators hela
 minnesförråd.
 
 ### En minnesserver över MCP
@@ -405,18 +356,13 @@ lika snabbt som en riktig.
 
 [Mem0](https://github.com/mem0ai/mem0) kallar sig ett intelligent minneslager
 för AI-assistenter och agenter. Det erbjuds som ett bibliotek, som en server med
-egen drift som startas med `docker compose` eller som en molnplattform. Dess
-README säger att Mem0 kräver en språkmodell (LLM) för att fungera, så
-biblioteket eller en server med egen drift kommer med en språkmodell att betala
-för eller drifta. Dess extraktion lägger bara till: minnen ackumuleras och
+egen drift som startas med `docker compose` eller som en molnplattform. Dess README säger att Mem0 kräver en språkmodell (LLM) för att fungera, så ett bibliotek eller en server med egen drift betyder en språkmodell du antingen betalar för eller driver själv. Dess extraktion lägger bara till: minnen ackumuleras och
 ingenting skrivs över, vilket lämnar gallringen åt dig.
 
 ### Ett gemensamt register
 
 Fabriken bakom den här sajten har sitt gemensamma tillstånd i
-[Beads](https://github.com/gastownhall/beads), en ärendehanterare med öppen
-källkod som i sin README kallar sig "ett beständigt, strukturerat minne för
-kodande agenter" (vår översättning): en graf av uppgifter med beroenden i en
+[Beads](https://github.com/gastownhall/beads), en ärendehanterare med öppen källkod som i sin README kallar sig "ett beständigt, strukturerat minne för agenter som kodar" (vår översättning): en graf av uppgifter med beroenden i en
 versionshanterad databas, i stället för markdown-planer. Som
 [Därför driver vi en agentdriven mjukvarufabrik](/sv/blog/why-we-run-an-agent-run-factory/)
 beskriver tar en agent en bead, arbetar, skriver ner vad den gjorde och stänger
@@ -435,18 +381,8 @@ synkroniseringen som måste hållas igång.
 
 ## Vad du gör först
 
-Läs det din agent redan har sparat: `/memory` i Claude Code, repots
-Copilot-minnesinställningar på GitHub och mappen `~/.codex` för Codex. Sortera
-sedan det du hittar i tre sorter: regler, sådant man vill komma ihåg och
-pågående arbete. Regler som teamet förlitar sig på hör hemma i instruktionsfilen
-i repot, granskad som kod. En regel som måste gälla oavsett vad agenten
-bestämmer behöver också en gräns utanför modellen. Pågående arbete hör hemma i
-en överlämning.
+Det första som lönar sig är att läsa det din agent redan har sparat: `/memory` i Claude Code, repots Copilot-minnesinställningar på GitHub och mappen `~/.codex` för Codex. Det du hittar går att sortera i tre sorter: regler, sådant du vill komma ihåg och pågående arbete. Regler som teamet förlitar sig på hör hemma i instruktionsfilen i repot, granskad som kod. En regel som måste gälla oavsett vad agenten bestämmer behöver också en gräns utanför modellen. Pågående arbete hör hemma i en överlämning.
 
-Behandla en runner som tom: allt ett jobb lär sig går förlorat om det inte
-pushas i en commit eller sparas i ett minnesförråd utanför runnern – och en
-cache är inget ställe att ha det på. Innan du ansluter ett delat minnesförråd,
-till exempel en minnesserver, bör du bestämma vem som får skriva i det, vem som
-läser det och hur en post tas bort. Och kontrollera de aktuella inställningarna
+En runner är tom när jobbet börjar: allt ett jobb lär sig går förlorat om det inte pushas i en commit eller sparas i ett minnesförråd utanför runnern – och en cache är inget ställe att ha det på. Innan du ansluter ett delat minnesförråd, till exempel en minnesserver, är det bra att ha bestämt vem som får skriva i det, vem som läser det och hur en post tas bort. Och kontrollera de aktuella inställningarna
 innan du förlitar dig på en standard, eftersom de i november 2026 skiljer sig
 mellan verktygen och mellan Copilots abonnemang.
