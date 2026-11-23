@@ -35,7 +35,7 @@
 - id: M03
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "Utvecklaren Matt Pococks ordlista, AI Hero dictionary, ger de två sakerna namn. På write path sparar agenten det den lärde sig under en session som filer i miljön. På read path läser verktyget i början av en senare session in de filerna, eller ett index över dem, i kontextfönstret"
+    sv: "Utvecklaren Matt Pococks ordlista, AI Hero dictionary, ger de två sakerna namn. I write path sparar agenten det den lärde sig under en session som filer. I read path läser verktyget in filerna – eller ett index över dem – i kontextfönstret i början av en senare session"
     en: "A practitioner's glossary, Matt Pocock's AI Hero dictionary, names the halves. On the write path the agent records what it learned during a session as files in the environment. On the read path the tool loads those files, or an index of them, back into the context window at the start of a later session"
   vendor: Matt Pocock
   url: https://www.aihero.dev/ai-coding-dictionary/memory-system
@@ -47,7 +47,7 @@
 - id: M04
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "Det som läses in igen i början hamnar i startinnehållet och tar därför upp en del av kontextfönstret i varje anrop. Det är kontext och ingenting annat. Enligt Claude Codes dokumentation behandlar Claude CLAUDE.md-filer och auto memory som kontext. De är inte konfiguration som verktyget upprätthåller. För att blockera en åtgärd oavsett vad Claude bestämmer pekar dokumentationen på en hook. Det som upprätthålls utanför modellen beskrivs i Sätt gränserna i förväg"
+    sv: "Det som läses in igen i början hamnar i startinnehållet och tar därför upp en del av kontextfönstret i varje anrop. Det är kontext och ingenting annat. Enligt Claude Codes dokumentation behandlar Claude CLAUDE.md-filer och auto memory som kontext. De är inte konfiguration som verktyget tvingar fram. För att blockera en åtgärd oavsett vad Claude bestämmer pekar dokumentationen på en hook. Det som tvingas fram utanför modellen beskrivs i Sätt gränserna i förväg"
     en: "What is read back at the start lands in the start-up content and so takes up part of the context window in every request. It is context and nothing more. Claude Code's documentation says that Claude treats CLAUDE.md files and auto memory as context and not as enforced configuration. To block an action whatever Claude decides, it points to a hook. What is enforced outside the model is the subject of Set the limits in advance"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/memory
@@ -83,7 +83,7 @@
 - id: M07
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "I auto memory sparar Claude anteckningar av fyra slag: om dig, om de korrigeringar du ger, om pågående arbete och beslut och om var information finns utanför projektet. Claude hoppar över sådant som går att läsa ut ur kodbasen eller som redan står i dina CLAUDE.md-filer"
+    sv: "I auto memory sparar Claude anteckningar av fyra slag: om dig, om de korrigeringar du ger, om pågående arbete och beslut samt om var information finns utanför projektet. Claude hoppar över sådant som går att läsa ut ur kodbasen eller som redan står i dina CLAUDE.md-filer"
     en: "In auto memory Claude saves notes of four kinds: about you; about the corrections you give it; about ongoing work and decisions; and about where to find information outside the project. It skips whatever it can derive from the codebase or finds in your CLAUDE.md files"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/memory
@@ -95,7 +95,7 @@
 - id: M08
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "I auto memory sparar Claude anteckningar av fyra slag: om dig, om de korrigeringar du ger, om pågående arbete och beslut och om var information finns utanför projektet. Claude hoppar över sådant som går att läsa ut ur kodbasen eller som redan står i dina CLAUDE.md-filer"
+    sv: "I auto memory sparar Claude anteckningar av fyra slag: om dig, om de korrigeringar du ger, om pågående arbete och beslut samt om var information finns utanför projektet. Claude hoppar över sådant som går att läsa ut ur kodbasen eller som redan står i dina CLAUDE.md-filer"
     en: "In auto memory Claude saves notes of four kinds: about you; about the corrections you give it; about ongoing work and decisions; and about where to find information outside the project. It skips whatever it can derive from the codebase or finds in your CLAUDE.md files"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/memory
@@ -107,7 +107,7 @@
 - id: M09
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "Claude sparar inte något i varje session. Den avgör vad som är värt att komma ihåg utifrån om informationen skulle vara användbar i en framtida konversation. Dessutom sparar den det du ber den komma ihåg"
+    sv: "Claude sparar inte något i varje session. Den sparar sådant som troligen blir användbart i en framtida konversation. Dessutom sparar den det du ber den komma ihåg"
     en: "Claude does not save something every session: it decides what is worth remembering by whether the information would be useful in a future conversation, and it saves what you ask it to remember"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/memory
@@ -119,7 +119,7 @@
 - id: M10
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "Claude sparar inte något i varje session. Den avgör vad som är värt att komma ihåg utifrån om informationen skulle vara användbar i en framtida konversation. Dessutom sparar den det du ber den komma ihåg"
+    sv: "Claude sparar inte något i varje session. Den sparar sådant som troligen blir användbart i en framtida konversation. Dessutom sparar den det du ber den komma ihåg"
     en: "Claude does not save something every session: it decides what is worth remembering by whether the information would be useful in a future conversation, and it saves what you ask it to remember"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/memory
@@ -131,7 +131,7 @@
 - id: M11
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "Anteckningarna är vanliga markdown-filer i en mapp per repo, med ett index som heter MEMORY.md och en fil per minne. De första 200 raderna eller 25 KB av indexet läses in när en session startar. De andra filerna läser Claude när den behöver dem"
+    sv: "Anteckningarna är vanliga Markdown-filer i en mapp per repo, med ett index som heter MEMORY.md och en fil per minne. De första 200 raderna eller 25 KB av indexet läses in när en session startar. De övriga filerna läser Claude när den behöver dem"
     en: "The notes are plain markdown files in a folder for each repository, with an index called MEMORY.md and one file for each memory. The first 200 lines or 25KB of the index load at the start of a session, and Claude reads the other files when it needs them"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/memory
@@ -143,7 +143,7 @@
 - id: M12
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "Anteckningarna är vanliga markdown-filer i en mapp per repo, med ett index som heter MEMORY.md och en fil per minne. De första 200 raderna eller 25 KB av indexet läses in när en session startar. De andra filerna läser Claude när den behöver dem"
+    sv: "Anteckningarna är vanliga Markdown-filer i en mapp per repo, med ett index som heter MEMORY.md och en fil per minne. De första 200 raderna eller 25 KB av indexet läses in när en session startar. De övriga filerna läser Claude när den behöver dem"
     en: "The notes are plain markdown files in a folder for each repository, with an index called MEMORY.md and one file for each memory. The first 200 lines or 25KB of the index load at the start of a session, and Claude reads the other files when it needs them"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/memory
@@ -155,7 +155,7 @@
 - id: M13
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "Anteckningarna är vanliga markdown-filer i en mapp per repo, med ett index som heter MEMORY.md och en fil per minne. De första 200 raderna eller 25 KB av indexet läses in när en session startar. De andra filerna läser Claude när den behöver dem"
+    sv: "Anteckningarna är vanliga Markdown-filer i en mapp per repo, med ett index som heter MEMORY.md och en fil per minne. De första 200 raderna eller 25 KB av indexet läses in när en session startar. De övriga filerna läser Claude när den behöver dem"
     en: "The notes are plain markdown files in a folder for each repository, with an index called MEMORY.md and one file for each memory. The first 200 lines or 25KB of the index load at the start of a session, and Claude reads the other files when it needs them"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/memory
@@ -191,7 +191,7 @@
 - id: M16
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "GitHub Copilots minne fungerar annorlunda. Enligt GitHubs dokumentation skapar Copilot minnen själv som en biprodukt av att arbeta med dig. Minnena finns i två sorter: fakta på repo-nivå – som delas med dina medarbetare i projektet – och preferenser på användarnivå, som följer dig mellan repon"
+    sv: "GitHub Copilots minne fungerar annorlunda. Enligt GitHubs dokumentation skapar Copilot minnen själv som en bieffekt av att arbeta med dig. Minnena finns i två sorter: fakta för repot – som delas med dina kollegor – och preferenser på användarnivå, som följer dig mellan repon"
     en: "GitHub Copilot's memory works differently. According to GitHub's documentation, Copilot creates memories itself as a byproduct of working with you and keeps two kinds: repository-level facts, which are shared with your collaborators, and user-level preferences, which follow you between repositories"
   vendor: GitHub
   url: https://docs.github.com/en/copilot/concepts/prompting-and-context/copilot-memory
@@ -203,7 +203,7 @@
 - id: M17
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "GitHub Copilots minne fungerar annorlunda. Enligt GitHubs dokumentation skapar Copilot minnen själv som en biprodukt av att arbeta med dig. Minnena finns i två sorter: fakta på repo-nivå – som delas med dina medarbetare i projektet – och preferenser på användarnivå, som följer dig mellan repon"
+    sv: "GitHub Copilots minne fungerar annorlunda. Enligt GitHubs dokumentation skapar Copilot minnen själv som en bieffekt av att arbeta med dig. Minnena finns i två sorter: fakta för repot – som delas med dina kollegor – och preferenser på användarnivå, som följer dig mellan repon"
     en: "GitHub Copilot's memory works differently. According to GitHub's documentation, Copilot creates memories itself as a byproduct of working with you and keeps two kinds: repository-level facts, which are shared with your collaborators, and user-level preferences, which follow you between repositories"
   vendor: GitHub
   url: https://docs.github.com/en/copilot/concepts/prompting-and-context/copilot-memory
@@ -215,7 +215,7 @@
 - id: M18
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "GitHub Copilots minne fungerar annorlunda. Enligt GitHubs dokumentation skapar Copilot minnen själv som en biprodukt av att arbeta med dig. Minnena finns i två sorter: fakta på repo-nivå – som delas med dina medarbetare i projektet – och preferenser på användarnivå, som följer dig mellan repon"
+    sv: "GitHub Copilots minne fungerar annorlunda. Enligt GitHubs dokumentation skapar Copilot minnen själv som en bieffekt av att arbeta med dig. Minnena finns i två sorter: fakta för repot – som delas med dina kollegor – och preferenser på användarnivå, som följer dig mellan repon"
     en: "GitHub Copilot's memory works differently. According to GitHub's documentation, Copilot creates memories itself as a byproduct of working with you and keeps two kinds: repository-level facts, which are shared with your collaborators, and user-level preferences, which follow you between repositories"
   vendor: GitHub
   url: https://docs.github.com/en/copilot/concepts/prompting-and-context/copilot-memory
@@ -251,7 +251,7 @@
 - id: M21
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "Innan Copilot använder ett faktum kontrollerar den källhänvisningarna mot den aktuella branchen. Ett internt röstsystem värderar varje minne utifrån om det fortfarande gäller. Minnen som har röstats upp skickas oftare till modellen"
+    sv: "Innan Copilot använder ett faktum kontrollerar den källhänvisningarna mot den aktuella branchen. Copilot röstar internt upp eller ned varje minne beroende på om det fortfarande gäller. Minnen som har röstats upp skickas oftare till modellen"
     en: "Before using a fact, Copilot checks its citations against the current branch. An internal voting system rates each memory by whether it is still valid, and upvoted memories are more likely to be sent to the model"
   vendor: GitHub
   url: https://docs.github.com/en/copilot/concepts/prompting-and-context/copilot-memory
@@ -263,7 +263,7 @@
 - id: M22
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "Innan Copilot använder ett faktum kontrollerar den källhänvisningarna mot den aktuella branchen. Ett internt röstsystem värderar varje minne utifrån om det fortfarande gäller. Minnen som har röstats upp skickas oftare till modellen"
+    sv: "Innan Copilot använder ett faktum kontrollerar den källhänvisningarna mot den aktuella branchen. Copilot röstar internt upp eller ned varje minne beroende på om det fortfarande gäller. Minnen som har röstats upp skickas oftare till modellen"
     en: "Before using a fact, Copilot checks its citations against the current branch. An internal voting system rates each memory by whether it is still valid, and upvoted memories are more likely to be sent to the model"
   vendor: GitHub
   url: https://docs.github.com/en/copilot/concepts/prompting-and-context/copilot-memory
@@ -275,7 +275,7 @@
 - id: M23
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "Minnena ligger i GitHubs moln och delas av Copilot i VS Code, på kommandoraden, i code review och i cloud agent. Ett faktum som en av dem har fångat kan alltså användas av en annan"
+    sv: "Minnena ligger i GitHubs moln och delas av Copilot i VS Code, på kommandoraden, i code review och i cloud agent. Ett faktum som en av dem har sparat kan alltså användas av en annan"
     en: "The memories live in GitHub's cloud and are shared by Copilot in VS Code, in the command line, in code review and in the cloud agent: a fact captured by one of them can be used by another"
   vendor: Microsoft
   url: https://code.visualstudio.com/docs/agents/run/memory
@@ -287,7 +287,7 @@
 - id: M24
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "Minnena ligger i GitHubs moln och delas av Copilot i VS Code, på kommandoraden, i code review och i cloud agent. Ett faktum som en av dem har fångat kan alltså användas av en annan"
+    sv: "Minnena ligger i GitHubs moln och delas av Copilot i VS Code, på kommandoraden, i code review och i cloud agent. Ett faktum som en av dem har sparat kan alltså användas av en annan"
     en: "The memories live in GitHub's cloud and are shared by Copilot in VS Code, in the command line, in code review and in the cloud agent: a fact captured by one of them can be used by another"
   vendor: GitHub
   url: https://docs.github.com/en/copilot/concepts/prompting-and-context/copilot-memory
@@ -299,7 +299,7 @@
 - id: M25
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "I Codex skapas minnet av tidigare chattar i stället för att skrivas medan de pågår. Enligt OpenAIs dokumentation gör Codex om användbar kontext från lämpliga tidigare chattar till lokala minnesfiler. Aktiva eller kortvariga sessioner hoppas över och hemligheter i de genererade fälten maskeras. Minnena uppdateras i bakgrunden när en chatt har varit inaktiv tillräckligt länge, inte när varje chatt tar slut"
+    sv: "I Codex skapas minnet utifrån tidigare chattar i stället för att skrivas medan de pågår. Enligt OpenAIs dokumentation gör Codex om användbar kontext från lämpliga tidigare chattar till lokala minnesfiler. Aktiva eller kortvariga sessioner hoppas över och secrets i de genererade fälten maskeras. Minnena uppdateras i bakgrunden när en chatt har varit inaktiv tillräckligt länge, inte när varje chatt tar slut"
     en: "In Codex, memory is generated from earlier chats instead of being written during them. OpenAI's documentation says that Codex turns useful context from eligible prior chats into local memory files, skips active or short-lived sessions and redacts secrets from the generated fields. It updates memories in the background, once a chat has been idle long enough, instead of at the end of every chat"
   vendor: OpenAI
   url: https://learn.chatgpt.com/docs/customization/memories
@@ -311,7 +311,7 @@
 - id: M26
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "I Codex skapas minnet av tidigare chattar i stället för att skrivas medan de pågår. Enligt OpenAIs dokumentation gör Codex om användbar kontext från lämpliga tidigare chattar till lokala minnesfiler. Aktiva eller kortvariga sessioner hoppas över och hemligheter i de genererade fälten maskeras. Minnena uppdateras i bakgrunden när en chatt har varit inaktiv tillräckligt länge, inte när varje chatt tar slut"
+    sv: "I Codex skapas minnet utifrån tidigare chattar i stället för att skrivas medan de pågår. Enligt OpenAIs dokumentation gör Codex om användbar kontext från lämpliga tidigare chattar till lokala minnesfiler. Aktiva eller kortvariga sessioner hoppas över och secrets i de genererade fälten maskeras. Minnena uppdateras i bakgrunden när en chatt har varit inaktiv tillräckligt länge, inte när varje chatt tar slut"
     en: "In Codex, memory is generated from earlier chats instead of being written during them. OpenAI's documentation says that Codex turns useful context from eligible prior chats into local memory files, skips active or short-lived sessions and redacts secrets from the generated fields. It updates memories in the background, once a chat has been idle long enough, instead of at the end of every chat"
   vendor: OpenAI
   url: https://learn.chatgpt.com/docs/customization/memories
@@ -323,7 +323,7 @@
 - id: M27
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "Filerna ligger i Codex hemkatalog, som standard ~/.codex. Dokumentationen kallar dem genererat tillstånd (generated state). I november 2026 är lokala Codex-minnen av som standard"
+    sv: "Filerna ligger i Codex hemmapp, som standard ~/.codex. Dokumentationen kallar dem genererade filer (generated state). I november 2026 är lokala Codex-minnen av som standard"
     en: "The files sit in the Codex home directory, by default ~/.codex. The documentation calls them generated state, and in November 2026 local Codex memories are off by default"
   vendor: OpenAI
   url: https://learn.chatgpt.com/docs/customization/memories
@@ -335,7 +335,7 @@
 - id: M28
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "Filerna ligger i Codex hemkatalog, som standard ~/.codex. Dokumentationen kallar dem genererat tillstånd (generated state). I november 2026 är lokala Codex-minnen av som standard"
+    sv: "Filerna ligger i Codex hemmapp, som standard ~/.codex. Dokumentationen kallar dem genererade filer (generated state). I november 2026 är lokala Codex-minnen av som standard"
     en: "The files sit in the Codex home directory, by default ~/.codex. The documentation calls them generated state, and in November 2026 local Codex memories are off by default"
   vendor: OpenAI
   url: https://learn.chatgpt.com/docs/customization/memories
@@ -347,7 +347,7 @@
 - id: M29
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "Filerna ligger i Codex hemkatalog, som standard ~/.codex. Dokumentationen kallar dem genererat tillstånd (generated state). I november 2026 är lokala Codex-minnen av som standard"
+    sv: "Filerna ligger i Codex hemmapp, som standard ~/.codex. Dokumentationen kallar dem genererade filer (generated state). I november 2026 är lokala Codex-minnen av som standard"
     en: "The files sit in the Codex home directory, by default ~/.codex. The documentation calls them generated state, and in November 2026 local Codex memories are off by default"
   vendor: OpenAI
   url: https://learn.chatgpt.com/docs/customization/memories
@@ -359,8 +359,8 @@
 - id: M30
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "Alla tre leverantörerna drar gränsen på samma ställe. OpenAIs dokumentation säger att du ska lägga obligatoriska riktlinjer för teamet i AGENTS.md eller i dokumentation i repot och behandla minnen som \"ett användbart lager för att komma ihåg, inte som den enda källan till regler som alltid måste gälla\" (vår översättning). VS Codes dokumentation påpekar att repo-fakta delas och inte är privata anteckningar. Den säger också att du ska lägga granskade krav för teamet i projektdokumentation under versionshantering eller i custom instructions"
-    en: "All three vendors draw the line in the same place. OpenAI's documentation says to keep required team guidance in AGENTS.md or checked-in documentation and to treat memories as \"a helpful recall layer, not as the only source for rules that must always apply\". VS Code's documentation notes that repository facts are shared and not private notes, and says to keep reviewed team requirements in source-controlled project documentation or custom instructions"
+    sv: "Alla tre leverantörerna drar gränsen på samma ställe. OpenAIs dokumentation säger att du ska lägga obligatoriska riktlinjer för teamet i AGENTS.md eller i dokumentation i repot och behandla minnen som \"ett användbart lager för att komma ihåg, inte som den enda källan till regler som alltid måste gälla\" (vår översättning). VS Codes dokumentation påpekar att fakta om repot delas och inte är privata anteckningar. Den säger också att du ska lägga granskade krav för teamet i projektdokumentation under versionshantering eller i custom instructions"
+    en: "All three vendors draw the line between rules and memory in the same place. OpenAI's documentation says to keep required team guidance in AGENTS.md or checked-in documentation and to treat memories as \"a helpful recall layer, not as the only source for rules that must always apply\". VS Code's documentation notes that repository facts are shared and not private notes, and says to keep reviewed team requirements in source-controlled project documentation or custom instructions"
   vendor: OpenAI
   url: https://learn.chatgpt.com/docs/customization/memories
   final_url: https://learn.chatgpt.com/docs/customization/memories
@@ -371,8 +371,8 @@
 - id: M31
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "Alla tre leverantörerna drar gränsen på samma ställe. OpenAIs dokumentation säger att du ska lägga obligatoriska riktlinjer för teamet i AGENTS.md eller i dokumentation i repot och behandla minnen som \"ett användbart lager för att komma ihåg, inte som den enda källan till regler som alltid måste gälla\" (vår översättning). VS Codes dokumentation påpekar att repo-fakta delas och inte är privata anteckningar. Den säger också att du ska lägga granskade krav för teamet i projektdokumentation under versionshantering eller i custom instructions"
-    en: "All three vendors draw the line in the same place. OpenAI's documentation says to keep required team guidance in AGENTS.md or checked-in documentation and to treat memories as \"a helpful recall layer, not as the only source for rules that must always apply\". VS Code's documentation notes that repository facts are shared and not private notes, and says to keep reviewed team requirements in source-controlled project documentation or custom instructions"
+    sv: "Alla tre leverantörerna drar gränsen på samma ställe. OpenAIs dokumentation säger att du ska lägga obligatoriska riktlinjer för teamet i AGENTS.md eller i dokumentation i repot och behandla minnen som \"ett användbart lager för att komma ihåg, inte som den enda källan till regler som alltid måste gälla\" (vår översättning). VS Codes dokumentation påpekar att fakta om repot delas och inte är privata anteckningar. Den säger också att du ska lägga granskade krav för teamet i projektdokumentation under versionshantering eller i custom instructions"
+    en: "All three vendors draw the line between rules and memory in the same place. OpenAI's documentation says to keep required team guidance in AGENTS.md or checked-in documentation and to treat memories as \"a helpful recall layer, not as the only source for rules that must always apply\". VS Code's documentation notes that repository facts are shared and not private notes, and says to keep reviewed team requirements in source-controlled project documentation or custom instructions"
   vendor: Microsoft
   url: https://code.visualstudio.com/docs/agents/run/memory
   final_url: https://code.visualstudio.com/docs/agents/run/memory
@@ -383,7 +383,7 @@
 - id: M32
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "GitHub beskriver en arbetsfördelning: custom instructions för viktiga regler – som ett säkerhetskrav eller ett obligatoriskt granskningssteg – och Copilot Memory för detaljerna som samlas på hög och annars skulle göra en instruktionsfil lång och svår att underhålla. På Claude Codes sida är uppdelningen efter syfte: CLAUDE.md-filer styr Claudes beteende och auto memory låter Claude lära sig av dina korrigeringar"
+    sv: "GitHub beskriver en arbetsfördelning: custom instructions för viktiga regler – som ett säkerhetskrav eller ett obligatoriskt granskningssteg – och Copilot Memory för detaljerna som samlas på hög och annars skulle göra en instruktionsfil lång och svår att underhålla. Claude Code delar upp det efter syfte: CLAUDE.md-filer styr Claudes beteende och auto memory låter Claude lära sig av dina korrigeringar"
     en: "GitHub's documentation describes a division of labour: use custom instructions for important rules, such as a security requirement or a mandatory review step, and let Copilot Memory handle the accumulated detail that would otherwise make an instructions file long and hard to maintain. Claude Code's page sorts the two by purpose: CLAUDE.md files to guide Claude's behaviour, auto memory to let Claude learn from your corrections"
   vendor: GitHub
   url: https://docs.github.com/en/copilot/concepts/prompting-and-context/copilot-memory
@@ -395,7 +395,7 @@
 - id: M33
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "GitHub beskriver en arbetsfördelning: custom instructions för viktiga regler – som ett säkerhetskrav eller ett obligatoriskt granskningssteg – och Copilot Memory för detaljerna som samlas på hög och annars skulle göra en instruktionsfil lång och svår att underhålla. På Claude Codes sida är uppdelningen efter syfte: CLAUDE.md-filer styr Claudes beteende och auto memory låter Claude lära sig av dina korrigeringar"
+    sv: "GitHub beskriver en arbetsfördelning: custom instructions för viktiga regler – som ett säkerhetskrav eller ett obligatoriskt granskningssteg – och Copilot Memory för detaljerna som samlas på hög och annars skulle göra en instruktionsfil lång och svår att underhålla. Claude Code delar upp det efter syfte: CLAUDE.md-filer styr Claudes beteende och auto memory låter Claude lära sig av dina korrigeringar"
     en: "GitHub's documentation describes a division of labour: use custom instructions for important rules, such as a security requirement or a mandatory review step, and let Copilot Memory handle the accumulated detail that would otherwise make an instructions file long and hard to maintain. Claude Code's page sorts the two by purpose: CLAUDE.md files to guide Claude's behaviour, auto memory to let Claude learn from your corrections"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/memory
@@ -407,8 +407,8 @@
 - id: M34
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "Skälet är vem som har kontrollerat texten. En människa skriver instruktionsfilen – den beskrivs i Instruktionsfilen, det första en AI-agent läser – och en kollega kan granska den i en pull request. En agent skriver minnet och ingen behöver ha läst det. GitHubs dokumentation ger ett andra skäl. Copilots kontroll av ett faktums källhänvisningar är Copilots eget omdöme och inte en garanti som systemet upprätthåller, så du bör inte lita på att ett lagrat faktum följs som en regel som alltid gäller"
-    en: "The reason is who has checked the text. A person writes the instruction file, described in The instruction file, the first thing an AI agent reads, and a colleague can review it in a pull request. An agent writes the memory, and nobody has to have read it. GitHub's documentation gives a second reason: because Copilot's check of a fact's citations is a judgement it makes, rather than a guarantee enforced by the system, a stored fact should not be relied on as a rule that will always be followed"
+    sv: "Skälet till uppdelningen är vem som har kontrollerat texten. En människa skriver instruktionsfilen – den beskrivs i Instruktionsfilen, det första en AI-agent läser – och en kollega kan granska den i en pull request. En agent skriver minnet och ingen behöver ha läst det. GitHubs dokumentation ger ett skäl till. Copilots kontroll av ett faktums källhänvisningar är Copilots eget omdöme och inte en garanti som systemet tvingar fram, så du bör inte lita på att ett lagrat faktum följs som en regel som alltid gäller"
+    en: "The reason for the split is who has checked the text. A person writes the instruction file, described in The instruction file, the first thing an AI agent reads, and a colleague can review it in a pull request. An agent writes the memory, and nobody has to have read it. GitHub's documentation gives a second reason: because Copilot's check of a fact's citations is a judgement it makes, rather than a guarantee enforced by the system, a stored fact should not be relied on as a rule that will always be followed"
   vendor: GitHub
   url: https://docs.github.com/en/copilot/concepts/prompting-and-context/copilot-memory
   final_url: https://docs.github.com/en/copilot/concepts/prompting-and-context/copilot-memory
@@ -419,7 +419,7 @@
 - id: M35
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "Ett faktum flyttas från agentens anteckningar till filen när det har visat sig stabilt. VS Codes dokumentation beskriver stegen för repo-minne som har blivit stabilt och användbart för teamet. Kontrollera uppgiften mot repots kod och konfiguration, flytta den till projektdokumentet eller instruktionsfilen och granska ändringen i repots vanliga process. Uppdatera eller ta bort det lokala minnet efteråt för att undvika föråldrade eller motstridiga kopior"
+    sv: "Ett faktum flyttas från agentens anteckningar till filen när det har visat sig stabilt. VS Codes dokumentation beskriver stegen när ett minne för repot har blivit stabilt och användbart för teamet: kontrollera faktumet mot repots kod och konfiguration, flytta det till projektdokumentationen eller instruktionsfilen och granska ändringen på det vanliga sättet i repot. Uppdatera eller ta bort det lokala minnet efteråt för att undvika föråldrade eller motstridiga kopior"
     en: "A fact moves from the agent's notes to the file once it has proved stable. VS Code's documentation gives the steps for repository memory that has become stable and useful to the team. Verify the information against the repository's code and configuration, move it to the project document or instructions file and review the change through the repository's normal process. Then update or remove the local memory, to avoid stale or conflicting copies"
   vendor: Microsoft
   url: https://code.visualstudio.com/docs/agents/run/memory
@@ -431,7 +431,7 @@
 - id: M36
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "Ett faktum flyttas från agentens anteckningar till filen när det har visat sig stabilt. VS Codes dokumentation beskriver stegen för repo-minne som har blivit stabilt och användbart för teamet. Kontrollera uppgiften mot repots kod och konfiguration, flytta den till projektdokumentet eller instruktionsfilen och granska ändringen i repots vanliga process. Uppdatera eller ta bort det lokala minnet efteråt för att undvika föråldrade eller motstridiga kopior"
+    sv: "Ett faktum flyttas från agentens anteckningar till filen när det har visat sig stabilt. VS Codes dokumentation beskriver stegen när ett minne för repot har blivit stabilt och användbart för teamet: kontrollera faktumet mot repots kod och konfiguration, flytta det till projektdokumentationen eller instruktionsfilen och granska ändringen på det vanliga sättet i repot. Uppdatera eller ta bort det lokala minnet efteråt för att undvika föråldrade eller motstridiga kopior"
     en: "A fact moves from the agent's notes to the file once it has proved stable. VS Code's documentation gives the steps for repository memory that has become stable and useful to the team. Verify the information against the repository's code and configuration, move it to the project document or instructions file and review the change through the repository's normal process. Then update or remove the local memory, to avoid stale or conflicting copies"
   vendor: Microsoft
   url: https://code.visualstudio.com/docs/agents/run/memory
@@ -443,7 +443,7 @@
 - id: M37
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "Ett faktum flyttas från agentens anteckningar till filen när det har visat sig stabilt. VS Codes dokumentation beskriver stegen för repo-minne som har blivit stabilt och användbart för teamet. Kontrollera uppgiften mot repots kod och konfiguration, flytta den till projektdokumentet eller instruktionsfilen och granska ändringen i repots vanliga process. Uppdatera eller ta bort det lokala minnet efteråt för att undvika föråldrade eller motstridiga kopior"
+    sv: "Ett faktum flyttas från agentens anteckningar till filen när det har visat sig stabilt. VS Codes dokumentation beskriver stegen när ett minne för repot har blivit stabilt och användbart för teamet: kontrollera faktumet mot repots kod och konfiguration, flytta det till projektdokumentationen eller instruktionsfilen och granska ändringen på det vanliga sättet i repot. Uppdatera eller ta bort det lokala minnet efteråt för att undvika föråldrade eller motstridiga kopior"
     en: "A fact moves from the agent's notes to the file once it has proved stable. VS Code's documentation gives the steps for repository memory that has become stable and useful to the team. Verify the information against the repository's code and configuration, move it to the project document or instructions file and review the change through the repository's normal process. Then update or remove the local memory, to avoid stale or conflicting copies"
   vendor: Microsoft
   url: https://code.visualstudio.com/docs/agents/run/memory
@@ -455,7 +455,7 @@
 - id: M38
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "Ett faktum flyttas från agentens anteckningar till filen när det har visat sig stabilt. VS Codes dokumentation beskriver stegen för repo-minne som har blivit stabilt och användbart för teamet. Kontrollera uppgiften mot repots kod och konfiguration, flytta den till projektdokumentet eller instruktionsfilen och granska ändringen i repots vanliga process. Uppdatera eller ta bort det lokala minnet efteråt för att undvika föråldrade eller motstridiga kopior"
+    sv: "Ett faktum flyttas från agentens anteckningar till filen när det har visat sig stabilt. VS Codes dokumentation beskriver stegen när ett minne för repot har blivit stabilt och användbart för teamet: kontrollera faktumet mot repots kod och konfiguration, flytta det till projektdokumentationen eller instruktionsfilen och granska ändringen på det vanliga sättet i repot. Uppdatera eller ta bort det lokala minnet efteråt för att undvika föråldrade eller motstridiga kopior"
     en: "A fact moves from the agent's notes to the file once it has proved stable. VS Code's documentation gives the steps for repository memory that has become stable and useful to the team. Verify the information against the repository's code and configuration, move it to the project document or instructions file and review the change through the repository's normal process. Then update or remove the local memory, to avoid stale or conflicting copies"
   vendor: Microsoft
   url: https://code.visualstudio.com/docs/agents/run/memory
@@ -467,7 +467,7 @@
 - id: M39
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "En tredje sorts text hör hemma i ingen av dem: pågående arbete. Pocock drar gränsen så här i sin guide till överlämning: \"Om du ständigt förklarar ett faktum på nytt hör det hemma i CLAUDE.md. En halvfärdig uppgift hör hemma i en överlämning.\" (vår översättning) Överlämningen beskrivs i \"Vad som fyller en AI-agents kontext\""
+    sv: "En tredje sorts text hör inte hemma i någon av dem: pågående arbete. Pocock drar gränsen så här i sin guide till överlämning: \"Om du hela tiden förklarar ett faktum på nytt hör det hemma i CLAUDE.md. En halvfärdig uppgift hör hemma i en överlämning.\" (vår översättning) Överlämningen beskrivs i \"Vad som fyller en AI-agents kontext\""
     en: "A third kind of text belongs in neither: work in flight. Pocock's handoff guide puts the line this way: \"If you keep re-explaining a fact, it belongs in CLAUDE.md. A half-finished task belongs in a handoff.\" The hand-off is the subject of \"What fills an AI agent's context\""
   vendor: Matt Pocock
   url: https://github.com/mattpocock/skills/blob/main/docs/productivity/handoff.md
@@ -527,7 +527,7 @@
 - id: M44
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "Copilot är ett medvetet undantag: GitHub lagrar repo-fakta åt Copilot. VS Code har också ett experimentellt alternativ som lagrar dem i en fil i arbetskatalogen, .github/copilot-memories.jsonl. Den filen kan ingå i commits – även sådana som agenten gör. Molnminnets inställningar och policyer på GitHub gäller inte för den"
+    sv: "Copilot är ett medvetet undantag: GitHub lagrar fakta om repot åt Copilot. VS Code har också ett experimentellt alternativ som lagrar dem i en fil i arbetskatalogen, .github/copilot-memories.jsonl. Den filen kan ingå i commits – även sådana som agenten gör. Molnminnets inställningar och policyer på GitHub gäller inte för den"
     en: "Copilot is the exception, by design, because GitHub keeps its repository facts. VS Code also has an experimental option that stores them in a file in the working tree, .github/copilot-memories.jsonl. That file can be included in commits, including commits made by the agent, and the cloud-memory settings and policies on GitHub do not apply to it"
   vendor: Microsoft
   url: https://code.visualstudio.com/docs/agents/run/memory
@@ -539,7 +539,7 @@
 - id: M45
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "Copilot är ett medvetet undantag: GitHub lagrar repo-fakta åt Copilot. VS Code har också ett experimentellt alternativ som lagrar dem i en fil i arbetskatalogen, .github/copilot-memories.jsonl. Den filen kan ingå i commits – även sådana som agenten gör. Molnminnets inställningar och policyer på GitHub gäller inte för den"
+    sv: "Copilot är ett medvetet undantag: GitHub lagrar fakta om repot åt Copilot. VS Code har också ett experimentellt alternativ som lagrar dem i en fil i arbetskatalogen, .github/copilot-memories.jsonl. Den filen kan ingå i commits – även sådana som agenten gör. Molnminnets inställningar och policyer på GitHub gäller inte för den"
     en: "Copilot is the exception, by design, because GitHub keeps its repository facts. VS Code also has an experimental option that stores them in a file in the working tree, .github/copilot-memories.jsonl. That file can be included in commits, including commits made by the agent, and the cloud-memory settings and policies on GitHub do not apply to it"
   vendor: Microsoft
   url: https://code.visualstudio.com/docs/agents/run/memory
@@ -551,7 +551,7 @@
 - id: M46
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "Copilot är ett medvetet undantag: GitHub lagrar repo-fakta åt Copilot. VS Code har också ett experimentellt alternativ som lagrar dem i en fil i arbetskatalogen, .github/copilot-memories.jsonl. Den filen kan ingå i commits – även sådana som agenten gör. Molnminnets inställningar och policyer på GitHub gäller inte för den"
+    sv: "Copilot är ett medvetet undantag: GitHub lagrar fakta om repot åt Copilot. VS Code har också ett experimentellt alternativ som lagrar dem i en fil i arbetskatalogen, .github/copilot-memories.jsonl. Den filen kan ingå i commits – även sådana som agenten gör. Molnminnets inställningar och policyer på GitHub gäller inte för den"
     en: "Copilot is the exception, by design, because GitHub keeps its repository facts. VS Code also has an experimental option that stores them in a file in the working tree, .github/copilot-memories.jsonl. That file can be included in commits, including commits made by the agent, and the cloud-memory settings and policies on GitHub do not apply to it"
   vendor: Microsoft
   url: https://code.visualstudio.com/docs/agents/run/memory
@@ -563,7 +563,7 @@
 - id: M47
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "En anteckning som agenten skriver under ett jobb är borta när jobbet slutar, om inte jobbet pushar den i en commit, laddar upp den som en artifact eller cachar den. Ett jobb på en GitHub-hosted runner börjar i ett rent tillstånd: GitHubs dokumentation säger att varje GitHub-hosted runner – med undantag för single-CPU-runners – är en ny virtuell maskin. Sidan om dependency caching säger att jobb på GitHub-hosted runners startar från en ren runner image"
+    sv: "En anteckning som agenten skriver under ett jobb är borta när jobbet slutar, om inte jobbet committar och pushar den, laddar upp den som en artifact eller cachar den. Ett jobb på en GitHub-hosted runner börjar från en ren miljö: GitHubs dokumentation säger att varje GitHub-hosted runner – med undantag för single-CPU-runners – är en ny virtuell maskin. Sidan om dependency caching säger att jobb på GitHub-hosted runners startar från en ren runner image"
     en: "A note the agent writes during a job is gone when the job ends, unless the job pushes it in a commit, uploads it as an artifact or caches it. A job on a GitHub-hosted runner begins in a clean state: GitHub's documentation says that, with the exception of single-CPU runners, each GitHub-hosted runner is a new virtual machine, and its page on dependency caching says that jobs on GitHub-hosted runners start in a clean runner image"
   vendor: GitHub
   url: https://docs.github.com/en/actions/concepts/runners/github-hosted-runners
@@ -575,7 +575,7 @@
 - id: M48
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "En anteckning som agenten skriver under ett jobb är borta när jobbet slutar, om inte jobbet pushar den i en commit, laddar upp den som en artifact eller cachar den. Ett jobb på en GitHub-hosted runner börjar i ett rent tillstånd: GitHubs dokumentation säger att varje GitHub-hosted runner – med undantag för single-CPU-runners – är en ny virtuell maskin. Sidan om dependency caching säger att jobb på GitHub-hosted runners startar från en ren runner image"
+    sv: "En anteckning som agenten skriver under ett jobb är borta när jobbet slutar, om inte jobbet committar och pushar den, laddar upp den som en artifact eller cachar den. Ett jobb på en GitHub-hosted runner börjar från en ren miljö: GitHubs dokumentation säger att varje GitHub-hosted runner – med undantag för single-CPU-runners – är en ny virtuell maskin. Sidan om dependency caching säger att jobb på GitHub-hosted runners startar från en ren runner image"
     en: "A note the agent writes during a job is gone when the job ends, unless the job pushes it in a commit, uploads it as an artifact or caches it. A job on a GitHub-hosted runner begins in a clean state: GitHub's documentation says that, with the exception of single-CPU runners, each GitHub-hosted runner is a new virtual machine, and its page on dependency caching says that jobs on GitHub-hosted runners start in a clean runner image"
   vendor: GitHub
   url: https://docs.github.com/en/actions/concepts/workflows-and-actions/dependency-caching
@@ -587,7 +587,7 @@
 - id: M126
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "En anteckning som agenten skriver under ett jobb är borta när jobbet slutar, om inte jobbet pushar den i en commit, laddar upp den som en artifact eller cachar den. Ett jobb på en GitHub-hosted runner börjar i ett rent tillstånd: GitHubs dokumentation säger att varje GitHub-hosted runner – med undantag för single-CPU-runners – är en ny virtuell maskin. Sidan om dependency caching säger att jobb på GitHub-hosted runners startar från en ren runner image"
+    sv: "En anteckning som agenten skriver under ett jobb är borta när jobbet slutar, om inte jobbet committar och pushar den, laddar upp den som en artifact eller cachar den. Ett jobb på en GitHub-hosted runner börjar från en ren miljö: GitHubs dokumentation säger att varje GitHub-hosted runner – med undantag för single-CPU-runners – är en ny virtuell maskin. Sidan om dependency caching säger att jobb på GitHub-hosted runners startar från en ren runner image"
     en: "A note the agent writes during a job is gone when the job ends, unless the job pushes it in a commit, uploads it as an artifact or caches it. A job on a GitHub-hosted runner begins in a clean state: GitHub's documentation says that, with the exception of single-CPU runners, each GitHub-hosted runner is a new virtual machine, and its page on dependency caching says that jobs on GitHub-hosted runners start in a clean runner image"
   vendor: GitHub
   url: https://docs.github.com/en/actions/concepts/runners/self-hosted-runners
@@ -599,7 +599,7 @@
 - id: M49
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "Det som når runnern är repot som ett steg i jobbet checkar ut. För Claude Codes GitHub Action är leverantörens svar filen i repot. Action-dokumentationen säger att du ska skapa en CLAUDE.md i repots rot för kodstil, granskningskriterier, projektspecifika regler och föredragna mönster – och hålla den kortfattad, eftersom Claude läser den vid varje körning"
+    sv: "Det som finns på runnern är repot, som ett steg i jobbet checkar ut. För Claude Codes GitHub Action är lösningen filen i repot. Action-dokumentationen säger att du ska skapa en CLAUDE.md i repots rot för kodstil, granskningskriterier, projektspecifika regler och föredragna mönster – och hålla den kortfattad, eftersom Claude läser den vid varje körning"
     en: "What reaches the runner is the repository that a step of the job checks out. For Claude Code's GitHub Action the vendor's answer is the committed file: its documentation says to create a CLAUDE.md file in the repository root for code style guidelines, review criteria, project-specific rules and preferred patterns, and to keep it concise, since Claude reads it on every run"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/github-actions
@@ -611,7 +611,7 @@
 - id: M50
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "Det som når runnern är repot som ett steg i jobbet checkar ut. För Claude Codes GitHub Action är leverantörens svar filen i repot. Action-dokumentationen säger att du ska skapa en CLAUDE.md i repots rot för kodstil, granskningskriterier, projektspecifika regler och föredragna mönster – och hålla den kortfattad, eftersom Claude läser den vid varje körning"
+    sv: "Det som finns på runnern är repot, som ett steg i jobbet checkar ut. För Claude Codes GitHub Action är lösningen filen i repot. Action-dokumentationen säger att du ska skapa en CLAUDE.md i repots rot för kodstil, granskningskriterier, projektspecifika regler och föredragna mönster – och hålla den kortfattad, eftersom Claude läser den vid varje körning"
     en: "What reaches the runner is the repository that a step of the job checks out. For Claude Code's GitHub Action the vendor's answer is the committed file: its documentation says to create a CLAUDE.md file in the repository root for code style guidelines, review criteria, project-specific rules and preferred patterns, and to keep it concise, since Claude reads it on every run"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/github-actions
@@ -647,7 +647,7 @@
 - id: M53
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "En cache är ett dåligt ställe att ha ett minne på. Enligt GitHubs dokumentation återställer varje körning som kan läsa en cache innehållet precis som det är. Återställda filer ska därför behandlas som opålitlig indata och hemligheter ska inte lagras i en cache. En förgiftad cache kan leda till att kod körs i betrodda workflows. En minnesfil är till för att agenten ska följa den, vilket är raka motsatsen till opålitlig indata"
+    sv: "En cache är ett dåligt ställe att ha ett minne på. Enligt GitHubs dokumentation återställer varje körning som kan läsa en cache innehållet precis som det är. Återställda filer ska därför behandlas som opålitlig indata och secrets ska inte lagras i en cache. En förgiftad cache kan leda till att kod körs i betrodda workflows. En minnesfil är till för att agenten ska följa den, vilket är raka motsatsen till opålitlig indata"
     en: "A cache is a poor place to keep a memory. Any run that can read a cache restores its contents as they are, GitHub's documentation says. Restored files should therefore be treated as untrusted input and no secrets should be stored in a cache. Poisoned caches can lead to code execution in trusted workflows. A memory file is meant to be followed by the agent, which is the opposite of untrusted input"
   vendor: GitHub
   url: https://docs.github.com/en/actions/concepts/workflows-and-actions/dependency-caching
@@ -659,7 +659,7 @@
 - id: M54
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "En cache är ett dåligt ställe att ha ett minne på. Enligt GitHubs dokumentation återställer varje körning som kan läsa en cache innehållet precis som det är. Återställda filer ska därför behandlas som opålitlig indata och hemligheter ska inte lagras i en cache. En förgiftad cache kan leda till att kod körs i betrodda workflows. En minnesfil är till för att agenten ska följa den, vilket är raka motsatsen till opålitlig indata"
+    sv: "En cache är ett dåligt ställe att ha ett minne på. Enligt GitHubs dokumentation återställer varje körning som kan läsa en cache innehållet precis som det är. Återställda filer ska därför behandlas som opålitlig indata och secrets ska inte lagras i en cache. En förgiftad cache kan leda till att kod körs i betrodda workflows. En minnesfil är till för att agenten ska följa den, vilket är raka motsatsen till opålitlig indata"
     en: "A cache is a poor place to keep a memory. Any run that can read a cache restores its contents as they are, GitHub's documentation says. Restored files should therefore be treated as untrusted input and no secrets should be stored in a cache. Poisoned caches can lead to code execution in trusted workflows. A memory file is meant to be followed by the agent, which is the opposite of untrusted input"
   vendor: GitHub
   url: https://docs.github.com/en/actions/concepts/workflows-and-actions/dependency-caching
@@ -671,7 +671,7 @@
 - id: M55
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "Copilots cloud agent sparar det den lär sig utanför jobbet, i Copilot Memory, så att det finns kvar till nästa uppgift. I programmatiska sessioner med kommandoradsverktyget är minnet avstängt om inte körningen anger --enable-memory"
+    sv: "Copilots cloud agent sparar det den lär sig utanför jobbet, i Copilot Memory, så att det finns kvar till nästa uppgift. I icke-interaktiva sessioner med kommandoradsverktyget är minnet avstängt om inte körningen anger --enable-memory"
     en: "Copilot's cloud agent keeps what it learns outside the job, in Copilot Memory, so it is there for the next task. In programmatic sessions of the command-line tool, memory is off unless a run passes --enable-memory"
   vendor: GitHub
   url: https://docs.github.com/en/copilot/concepts/prompting-and-context/copilot-memory
@@ -683,7 +683,7 @@
 - id: M56
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "Copilots cloud agent sparar det den lär sig utanför jobbet, i Copilot Memory, så att det finns kvar till nästa uppgift. I programmatiska sessioner med kommandoradsverktyget är minnet avstängt om inte körningen anger --enable-memory"
+    sv: "Copilots cloud agent sparar det den lär sig utanför jobbet, i Copilot Memory, så att det finns kvar till nästa uppgift. I icke-interaktiva sessioner med kommandoradsverktyget är minnet avstängt om inte körningen anger --enable-memory"
     en: "Copilot's cloud agent keeps what it learns outside the job, in Copilot Memory, so it is there for the next task. In programmatic sessions of the command-line tool, memory is off unless a run passes --enable-memory"
   vendor: GitHub
   url: https://docs.github.com/en/copilot/concepts/prompting-and-context/copilot-memory
@@ -743,7 +743,7 @@
 - id: M57
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "Cloud agent och code review sparar ett minne utan att fråga dig. Copilot-appen och det interaktiva kommandoradsverktyget kan be dig godkänna ett minne innan det sparas. I Copilot skapas repo-fakta bara när Copilot arbetar i ett repo där du har skrivrättigheter. GitHubs dokumentation tillägger att repo-fakta kan fångas upp ur pull requests som stängdes utan att mergas. Copilot ska kontrollera dem mot den aktuella kodbasen, men det garanterar inte att den känner igen varje föråldrat faktum"
+    sv: "Cloud agent och code review sparar ett minne utan att fråga dig. Copilot-appen och det interaktiva kommandoradsverktyget kan be dig godkänna ett minne innan det sparas. I Copilot skapas fakta om repot bara när Copilot arbetar i ett repo där du har skrivbehörighet. GitHubs dokumentation tillägger att fakta om repot kan hämtas ur pull requests som stängdes utan att mergas. Copilot ska kontrollera dem mot den aktuella kodbasen, men det garanterar inte att den känner igen varje föråldrat faktum"
     en: "The cloud agent and code review store a memory without asking you; the Copilot app and the interactive command-line tool can ask you to approve it first. In Copilot, repository facts are created only when Copilot works in a repository where the user has write access. GitHub's documentation adds that repository facts can be captured from pull requests that were closed without merging, and that Copilot is told to check them against the current codebase, which does not guarantee that it recognises every outdated fact"
   vendor: GitHub
   url: https://docs.github.com/en/copilot/concepts/prompting-and-context/copilot-memory
@@ -755,7 +755,7 @@
 - id: M58
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "Cloud agent och code review sparar ett minne utan att fråga dig. Copilot-appen och det interaktiva kommandoradsverktyget kan be dig godkänna ett minne innan det sparas. I Copilot skapas repo-fakta bara när Copilot arbetar i ett repo där du har skrivrättigheter. GitHubs dokumentation tillägger att repo-fakta kan fångas upp ur pull requests som stängdes utan att mergas. Copilot ska kontrollera dem mot den aktuella kodbasen, men det garanterar inte att den känner igen varje föråldrat faktum"
+    sv: "Cloud agent och code review sparar ett minne utan att fråga dig. Copilot-appen och det interaktiva kommandoradsverktyget kan be dig godkänna ett minne innan det sparas. I Copilot skapas fakta om repot bara när Copilot arbetar i ett repo där du har skrivbehörighet. GitHubs dokumentation tillägger att fakta om repot kan hämtas ur pull requests som stängdes utan att mergas. Copilot ska kontrollera dem mot den aktuella kodbasen, men det garanterar inte att den känner igen varje föråldrat faktum"
     en: "The cloud agent and code review store a memory without asking you; the Copilot app and the interactive command-line tool can ask you to approve it first. In Copilot, repository facts are created only when Copilot works in a repository where the user has write access. GitHub's documentation adds that repository facts can be captured from pull requests that were closed without merging, and that Copilot is told to check them against the current codebase, which does not guarantee that it recognises every outdated fact"
   vendor: GitHub
   url: https://docs.github.com/en/copilot/concepts/prompting-and-context/copilot-memory
@@ -767,7 +767,7 @@
 - id: M59
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "Cloud agent och code review sparar ett minne utan att fråga dig. Copilot-appen och det interaktiva kommandoradsverktyget kan be dig godkänna ett minne innan det sparas. I Copilot skapas repo-fakta bara när Copilot arbetar i ett repo där du har skrivrättigheter. GitHubs dokumentation tillägger att repo-fakta kan fångas upp ur pull requests som stängdes utan att mergas. Copilot ska kontrollera dem mot den aktuella kodbasen, men det garanterar inte att den känner igen varje föråldrat faktum"
+    sv: "Cloud agent och code review sparar ett minne utan att fråga dig. Copilot-appen och det interaktiva kommandoradsverktyget kan be dig godkänna ett minne innan det sparas. I Copilot skapas fakta om repot bara när Copilot arbetar i ett repo där du har skrivbehörighet. GitHubs dokumentation tillägger att fakta om repot kan hämtas ur pull requests som stängdes utan att mergas. Copilot ska kontrollera dem mot den aktuella kodbasen, men det garanterar inte att den känner igen varje föråldrat faktum"
     en: "The cloud agent and code review store a memory without asking you; the Copilot app and the interactive command-line tool can ask you to approve it first. In Copilot, repository facts are created only when Copilot works in a repository where the user has write access. GitHub's documentation adds that repository facts can be captured from pull requests that were closed without merging, and that Copilot is told to check them against the current codebase, which does not guarantee that it recognises every outdated fact"
   vendor: GitHub
   url: https://docs.github.com/en/copilot/concepts/prompting-and-context/copilot-memory
@@ -779,7 +779,7 @@
 - id: M60
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "En instruktion som har gömts i ett dokument kan hamna i agentens minne och göra skada flera sessioner senare. En preprint från forskare vid University of Auckland och Fudan University, publicerad i september 2026, testar det på själva Claude Code. Metoden är att gömma instruktioner i vanliga externa källor – text, bilder och PDF-filer – så att agenten skriver dem till sitt beständiga minne. De utlöses sedan i en senare session. Upplägget var en simulerad arbetsyta med e-post, kalender, delade dokument och formulär, där Claude Code kördes på tre språkmodeller från andra utvecklare. I genomsnitt nådde instruktionerna minnet i 66,9 % av försöken. I 81,7 % av testerna som gick över flera sessioner ledde de till att privata data läckte i en senare session. Det är medelvärden över en uppsättning tester, inte en andel för din egen konfiguration"
+    sv: "En instruktion som har gömts i ett dokument kan hamna i agentens minne och göra skada flera sessioner senare. En preprint från forskare vid University of Auckland och Fudan University, publicerad i september 2026, testar det på själva Claude Code. Metoden är att gömma instruktioner i vanliga externa källor – text, bilder och PDF-filer – så att agenten sparar dem i sitt beständiga minne. De utlöses sedan i en senare session. Upplägget var en simulerad arbetsyta med e-post, kalender, delade dokument och formulär, där Claude Code kördes på tre språkmodeller från andra modellleverantörer. I genomsnitt nådde instruktionerna minnet i 66,9 % av försöken. I 81,7 % av testerna som gick över flera sessioner ledde de till att privata data läckte i en senare session. Det är medelvärden för en uppsättning tester, inte en andel för din egen konfiguration"
     en: "A preprint by researchers at the University of Auckland and Fudan University, posted in September 2026, tests poisoning on Claude Code itself. The method is to hide instructions in ordinary external sources such as text, images and PDF files, so that the agent writes them to its persistent memory. They are then triggered in a later session. The setup was a simulated workspace of email, calendar, shared documents and forms, with Claude Code run on three language models from other developers. On average the instructions reached memory in 66.9% of the attempts. In 81.7% of the cross-session tests they led to a leak of private data in a later session. These are averages over one set of tests, not a rate for your own setup"
   vendor: "University of Auckland and Fudan University (arXiv)"
   url: https://arxiv.org/html/2609.13889v1
@@ -791,7 +791,7 @@
 - id: M127
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "En instruktion som har gömts i ett dokument kan hamna i agentens minne och göra skada flera sessioner senare. En preprint från forskare vid University of Auckland och Fudan University, publicerad i september 2026, testar det på själva Claude Code. Metoden är att gömma instruktioner i vanliga externa källor – text, bilder och PDF-filer – så att agenten skriver dem till sitt beständiga minne. De utlöses sedan i en senare session. Upplägget var en simulerad arbetsyta med e-post, kalender, delade dokument och formulär, där Claude Code kördes på tre språkmodeller från andra utvecklare. I genomsnitt nådde instruktionerna minnet i 66,9 % av försöken. I 81,7 % av testerna som gick över flera sessioner ledde de till att privata data läckte i en senare session. Det är medelvärden över en uppsättning tester, inte en andel för din egen konfiguration"
+    sv: "En instruktion som har gömts i ett dokument kan hamna i agentens minne och göra skada flera sessioner senare. En preprint från forskare vid University of Auckland och Fudan University, publicerad i september 2026, testar det på själva Claude Code. Metoden är att gömma instruktioner i vanliga externa källor – text, bilder och PDF-filer – så att agenten sparar dem i sitt beständiga minne. De utlöses sedan i en senare session. Upplägget var en simulerad arbetsyta med e-post, kalender, delade dokument och formulär, där Claude Code kördes på tre språkmodeller från andra modellleverantörer. I genomsnitt nådde instruktionerna minnet i 66,9 % av försöken. I 81,7 % av testerna som gick över flera sessioner ledde de till att privata data läckte i en senare session. Det är medelvärden för en uppsättning tester, inte en andel för din egen konfiguration"
     en: "A preprint by researchers at the University of Auckland and Fudan University, posted in September 2026, tests poisoning on Claude Code itself. The method is to hide instructions in ordinary external sources such as text, images and PDF files, so that the agent writes them to its persistent memory. They are then triggered in a later session. The setup was a simulated workspace of email, calendar, shared documents and forms, with Claude Code run on three language models from other developers. On average the instructions reached memory in 66.9% of the attempts. In 81.7% of the cross-session tests they led to a leak of private data in a later session. These are averages over one set of tests, not a rate for your own setup"
   vendor: "University of Auckland and Fudan University (arXiv)"
   url: https://arxiv.org/html/2609.13889v1
@@ -803,7 +803,7 @@
 - id: M128
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "En instruktion som har gömts i ett dokument kan hamna i agentens minne och göra skada flera sessioner senare. En preprint från forskare vid University of Auckland och Fudan University, publicerad i september 2026, testar det på själva Claude Code. Metoden är att gömma instruktioner i vanliga externa källor – text, bilder och PDF-filer – så att agenten skriver dem till sitt beständiga minne. De utlöses sedan i en senare session. Upplägget var en simulerad arbetsyta med e-post, kalender, delade dokument och formulär, där Claude Code kördes på tre språkmodeller från andra utvecklare. I genomsnitt nådde instruktionerna minnet i 66,9 % av försöken. I 81,7 % av testerna som gick över flera sessioner ledde de till att privata data läckte i en senare session. Det är medelvärden över en uppsättning tester, inte en andel för din egen konfiguration"
+    sv: "En instruktion som har gömts i ett dokument kan hamna i agentens minne och göra skada flera sessioner senare. En preprint från forskare vid University of Auckland och Fudan University, publicerad i september 2026, testar det på själva Claude Code. Metoden är att gömma instruktioner i vanliga externa källor – text, bilder och PDF-filer – så att agenten sparar dem i sitt beständiga minne. De utlöses sedan i en senare session. Upplägget var en simulerad arbetsyta med e-post, kalender, delade dokument och formulär, där Claude Code kördes på tre språkmodeller från andra modellleverantörer. I genomsnitt nådde instruktionerna minnet i 66,9 % av försöken. I 81,7 % av testerna som gick över flera sessioner ledde de till att privata data läckte i en senare session. Det är medelvärden för en uppsättning tester, inte en andel för din egen konfiguration"
     en: "A preprint by researchers at the University of Auckland and Fudan University, posted in September 2026, tests poisoning on Claude Code itself. The method is to hide instructions in ordinary external sources such as text, images and PDF files, so that the agent writes them to its persistent memory. They are then triggered in a later session. The setup was a simulated workspace of email, calendar, shared documents and forms, with Claude Code run on three language models from other developers. On average the instructions reached memory in 66.9% of the attempts. In 81.7% of the cross-session tests they led to a leak of private data in a later session. These are averages over one set of tests, not a rate for your own setup"
   vendor: "University of Auckland and Fudan University (arXiv)"
   url: https://arxiv.org/html/2609.13889v1
@@ -815,7 +815,7 @@
 - id: M61
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "En instruktion som har gömts i ett dokument kan hamna i agentens minne och göra skada flera sessioner senare. En preprint från forskare vid University of Auckland och Fudan University, publicerad i september 2026, testar det på själva Claude Code. Metoden är att gömma instruktioner i vanliga externa källor – text, bilder och PDF-filer – så att agenten skriver dem till sitt beständiga minne. De utlöses sedan i en senare session. Upplägget var en simulerad arbetsyta med e-post, kalender, delade dokument och formulär, där Claude Code kördes på tre språkmodeller från andra utvecklare. I genomsnitt nådde instruktionerna minnet i 66,9 % av försöken. I 81,7 % av testerna som gick över flera sessioner ledde de till att privata data läckte i en senare session. Det är medelvärden över en uppsättning tester, inte en andel för din egen konfiguration"
+    sv: "En instruktion som har gömts i ett dokument kan hamna i agentens minne och göra skada flera sessioner senare. En preprint från forskare vid University of Auckland och Fudan University, publicerad i september 2026, testar det på själva Claude Code. Metoden är att gömma instruktioner i vanliga externa källor – text, bilder och PDF-filer – så att agenten sparar dem i sitt beständiga minne. De utlöses sedan i en senare session. Upplägget var en simulerad arbetsyta med e-post, kalender, delade dokument och formulär, där Claude Code kördes på tre språkmodeller från andra modellleverantörer. I genomsnitt nådde instruktionerna minnet i 66,9 % av försöken. I 81,7 % av testerna som gick över flera sessioner ledde de till att privata data läckte i en senare session. Det är medelvärden för en uppsättning tester, inte en andel för din egen konfiguration"
     en: "A preprint by researchers at the University of Auckland and Fudan University, posted in September 2026, tests poisoning on Claude Code itself. The method is to hide instructions in ordinary external sources such as text, images and PDF files, so that the agent writes them to its persistent memory. They are then triggered in a later session. The setup was a simulated workspace of email, calendar, shared documents and forms, with Claude Code run on three language models from other developers. On average the instructions reached memory in 66.9% of the attempts. In 81.7% of the cross-session tests they led to a leak of private data in a later session. These are averages over one set of tests, not a rate for your own setup"
   vendor: "University of Auckland and Fudan University (arXiv)"
   url: https://arxiv.org/html/2609.13889v1
@@ -827,7 +827,7 @@
 - id: M62
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "En instruktion som har gömts i ett dokument kan hamna i agentens minne och göra skada flera sessioner senare. En preprint från forskare vid University of Auckland och Fudan University, publicerad i september 2026, testar det på själva Claude Code. Metoden är att gömma instruktioner i vanliga externa källor – text, bilder och PDF-filer – så att agenten skriver dem till sitt beständiga minne. De utlöses sedan i en senare session. Upplägget var en simulerad arbetsyta med e-post, kalender, delade dokument och formulär, där Claude Code kördes på tre språkmodeller från andra utvecklare. I genomsnitt nådde instruktionerna minnet i 66,9 % av försöken. I 81,7 % av testerna som gick över flera sessioner ledde de till att privata data läckte i en senare session. Det är medelvärden över en uppsättning tester, inte en andel för din egen konfiguration"
+    sv: "En instruktion som har gömts i ett dokument kan hamna i agentens minne och göra skada flera sessioner senare. En preprint från forskare vid University of Auckland och Fudan University, publicerad i september 2026, testar det på själva Claude Code. Metoden är att gömma instruktioner i vanliga externa källor – text, bilder och PDF-filer – så att agenten sparar dem i sitt beständiga minne. De utlöses sedan i en senare session. Upplägget var en simulerad arbetsyta med e-post, kalender, delade dokument och formulär, där Claude Code kördes på tre språkmodeller från andra modellleverantörer. I genomsnitt nådde instruktionerna minnet i 66,9 % av försöken. I 81,7 % av testerna som gick över flera sessioner ledde de till att privata data läckte i en senare session. Det är medelvärden för en uppsättning tester, inte en andel för din egen konfiguration"
     en: "A preprint by researchers at the University of Auckland and Fudan University, posted in September 2026, tests poisoning on Claude Code itself. The method is to hide instructions in ordinary external sources such as text, images and PDF files, so that the agent writes them to its persistent memory. They are then triggered in a later session. The setup was a simulated workspace of email, calendar, shared documents and forms, with Claude Code run on three language models from other developers. On average the instructions reached memory in 66.9% of the attempts. In 81.7% of the cross-session tests they led to a leak of private data in a later session. These are averages over one set of tests, not a rate for your own setup"
   vendor: "University of Auckland and Fudan University (arXiv)"
   url: https://arxiv.org/html/2609.13889v1
@@ -839,7 +839,7 @@
 - id: M63
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "En instruktion som har gömts i ett dokument kan hamna i agentens minne och göra skada flera sessioner senare. En preprint från forskare vid University of Auckland och Fudan University, publicerad i september 2026, testar det på själva Claude Code. Metoden är att gömma instruktioner i vanliga externa källor – text, bilder och PDF-filer – så att agenten skriver dem till sitt beständiga minne. De utlöses sedan i en senare session. Upplägget var en simulerad arbetsyta med e-post, kalender, delade dokument och formulär, där Claude Code kördes på tre språkmodeller från andra utvecklare. I genomsnitt nådde instruktionerna minnet i 66,9 % av försöken. I 81,7 % av testerna som gick över flera sessioner ledde de till att privata data läckte i en senare session. Det är medelvärden över en uppsättning tester, inte en andel för din egen konfiguration"
+    sv: "En instruktion som har gömts i ett dokument kan hamna i agentens minne och göra skada flera sessioner senare. En preprint från forskare vid University of Auckland och Fudan University, publicerad i september 2026, testar det på själva Claude Code. Metoden är att gömma instruktioner i vanliga externa källor – text, bilder och PDF-filer – så att agenten sparar dem i sitt beständiga minne. De utlöses sedan i en senare session. Upplägget var en simulerad arbetsyta med e-post, kalender, delade dokument och formulär, där Claude Code kördes på tre språkmodeller från andra modellleverantörer. I genomsnitt nådde instruktionerna minnet i 66,9 % av försöken. I 81,7 % av testerna som gick över flera sessioner ledde de till att privata data läckte i en senare session. Det är medelvärden för en uppsättning tester, inte en andel för din egen konfiguration"
     en: "A preprint by researchers at the University of Auckland and Fudan University, posted in September 2026, tests poisoning on Claude Code itself. The method is to hide instructions in ordinary external sources such as text, images and PDF files, so that the agent writes them to its persistent memory. They are then triggered in a later session. The setup was a simulated workspace of email, calendar, shared documents and forms, with Claude Code run on three language models from other developers. On average the instructions reached memory in 66.9% of the attempts. In 81.7% of the cross-session tests they led to a leak of private data in a later session. These are averages over one set of tests, not a rate for your own setup"
   vendor: "University of Auckland and Fudan University (arXiv)"
   url: https://arxiv.org/html/2609.13889v1
@@ -851,7 +851,7 @@
 - id: M64
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "Författarna testade också ett försvar på promptnivå. Det minskade i många konfigurationer antalet instruktioner som nådde minnet, men gav begränsat skydd när minnet väl hade förgiftats. Det som stoppar en förgiftad instruktion oavsett vad modellen bestämmer är en gräns utanför modellen. Därför spelar sådana gränser större roll med minne, inte mindre. Den förgiftade posten ligger i minnesförrådet och når varje senare session som läser den. Gränsen sitter efter agenten"
+    sv: "Författarna testade också ett försvar på promptnivå. Det minskade i många konfigurationer antalet instruktioner som nådde minnet, men gav begränsat skydd när minnet väl hade förgiftats. Det som stoppar en förgiftad instruktion oavsett vad modellen bestämmer är en gräns utanför modellen. Den förgiftade anteckningen ligger kvar i minnet och når varje senare session som läser den. Därför spelar sådana gränser större roll när det finns minne, inte mindre. Gränsen ska sitta mellan agenten och åtgärden"
     en: "The authors also tested one prompt-level defence, which reduced memory injection in many settings but gave limited protection once the memory had been poisoned. What stops a poisoned instruction whatever the model decides is a limit outside it, which is why such limits matter more with memory, not less. The poisoned entry sits in the store and reaches every later session that reads it, and the limit stands after the agent"
   vendor: "University of Auckland and Fudan University (arXiv)"
   url: https://arxiv.org/html/2609.13889v1
@@ -863,7 +863,7 @@
 - id: M129
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "Författarna testade också ett försvar på promptnivå. Det minskade i många konfigurationer antalet instruktioner som nådde minnet, men gav begränsat skydd när minnet väl hade förgiftats. Det som stoppar en förgiftad instruktion oavsett vad modellen bestämmer är en gräns utanför modellen. Därför spelar sådana gränser större roll med minne, inte mindre. Den förgiftade posten ligger i minnesförrådet och når varje senare session som läser den. Gränsen sitter efter agenten"
+    sv: "Författarna testade också ett försvar på promptnivå. Det minskade i många konfigurationer antalet instruktioner som nådde minnet, men gav begränsat skydd när minnet väl hade förgiftats. Det som stoppar en förgiftad instruktion oavsett vad modellen bestämmer är en gräns utanför modellen. Den förgiftade anteckningen ligger kvar i minnet och når varje senare session som läser den. Därför spelar sådana gränser större roll när det finns minne, inte mindre. Gränsen ska sitta mellan agenten och åtgärden"
     en: "The authors also tested one prompt-level defence, which reduced memory injection in many settings but gave limited protection once the memory had been poisoned. What stops a poisoned instruction whatever the model decides is a limit outside it, which is why such limits matter more with memory, not less. The poisoned entry sits in the store and reaches every later session that reads it, and the limit stands after the agent"
   vendor: "University of Auckland and Fudan University (arXiv)"
   url: https://arxiv.org/html/2609.13889v1
@@ -887,7 +887,7 @@
 - id: M65
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "Leverantörernas kontroller riktar sig mot samma svaga punkter. Enligt GitHubs tekniska inlägg är den största oron minnen som är föråldrade, felaktiga eller till och med skrivna dit i ond avsikt. I sitt test la GitHub in vilseledande minnen i repona: fakta som motsade kodbasen, med källhänvisningar som pekade på irrelevant eller obefintlig kod. I alla testfall kontrollerade agenterna konsekvent källhänvisningarna, upptäckte motsägelserna och uppdaterade de felaktiga minnena. Det är GitHubs utvärdering av sin egen produkt. Den gäller minnen vars källhänvisningar inte stöder dem"
+    sv: "Leverantörernas kontroller riktar sig mot samma svaga punkter. Enligt GitHubs tekniska inlägg oroar GitHub sig mest för minnen som är föråldrade, felaktiga eller till och med skrivna dit för att skada. I sitt test la GitHub in vilseledande minnen i repona: fakta som motsade kodbasen, med källhänvisningar som pekade på irrelevant eller obefintlig kod. I alla testfall kontrollerade agenterna konsekvent källhänvisningarna, upptäckte motsägelserna och uppdaterade de felaktiga minnena. Det är GitHubs utvärdering av sin egen produkt. Den gäller minnen vars källhänvisningar inte stöder dem"
     en: "The vendors' controls aim at the same weak points. GitHub's engineering post names outdated, incorrect and even maliciously injected memories as its biggest concern. In its test it seeded repositories with adversarial memories: facts that contradicted the codebase, with citations pointing to irrelevant or nonexistent code. Across all test cases its agents consistently verified citations, discovered contradictions and updated the incorrect memories. That is GitHub's evaluation of its own product, and it covers memories whose citations do not support them"
   vendor: GitHub
   url: https://github.blog/ai-and-ml/github-copilot/building-an-agentic-memory-system-for-github-copilot/
@@ -899,7 +899,7 @@
 - id: M66
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "Leverantörernas kontroller riktar sig mot samma svaga punkter. Enligt GitHubs tekniska inlägg är den största oron minnen som är föråldrade, felaktiga eller till och med skrivna dit i ond avsikt. I sitt test la GitHub in vilseledande minnen i repona: fakta som motsade kodbasen, med källhänvisningar som pekade på irrelevant eller obefintlig kod. I alla testfall kontrollerade agenterna konsekvent källhänvisningarna, upptäckte motsägelserna och uppdaterade de felaktiga minnena. Det är GitHubs utvärdering av sin egen produkt. Den gäller minnen vars källhänvisningar inte stöder dem"
+    sv: "Leverantörernas kontroller riktar sig mot samma svaga punkter. Enligt GitHubs tekniska inlägg oroar GitHub sig mest för minnen som är föråldrade, felaktiga eller till och med skrivna dit för att skada. I sitt test la GitHub in vilseledande minnen i repona: fakta som motsade kodbasen, med källhänvisningar som pekade på irrelevant eller obefintlig kod. I alla testfall kontrollerade agenterna konsekvent källhänvisningarna, upptäckte motsägelserna och uppdaterade de felaktiga minnena. Det är GitHubs utvärdering av sin egen produkt. Den gäller minnen vars källhänvisningar inte stöder dem"
     en: "The vendors' controls aim at the same weak points. GitHub's engineering post names outdated, incorrect and even maliciously injected memories as its biggest concern. In its test it seeded repositories with adversarial memories: facts that contradicted the codebase, with citations pointing to irrelevant or nonexistent code. Across all test cases its agents consistently verified citations, discovered contradictions and updated the incorrect memories. That is GitHub's evaluation of its own product, and it covers memories whose citations do not support them"
   vendor: GitHub
   url: https://github.blog/ai-and-ml/github-copilot/building-an-agentic-memory-system-for-github-copilot/
@@ -911,7 +911,7 @@
 - id: M67
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "Leverantörernas kontroller riktar sig mot samma svaga punkter. Enligt GitHubs tekniska inlägg är den största oron minnen som är föråldrade, felaktiga eller till och med skrivna dit i ond avsikt. I sitt test la GitHub in vilseledande minnen i repona: fakta som motsade kodbasen, med källhänvisningar som pekade på irrelevant eller obefintlig kod. I alla testfall kontrollerade agenterna konsekvent källhänvisningarna, upptäckte motsägelserna och uppdaterade de felaktiga minnena. Det är GitHubs utvärdering av sin egen produkt. Den gäller minnen vars källhänvisningar inte stöder dem"
+    sv: "Leverantörernas kontroller riktar sig mot samma svaga punkter. Enligt GitHubs tekniska inlägg oroar GitHub sig mest för minnen som är föråldrade, felaktiga eller till och med skrivna dit för att skada. I sitt test la GitHub in vilseledande minnen i repona: fakta som motsade kodbasen, med källhänvisningar som pekade på irrelevant eller obefintlig kod. I alla testfall kontrollerade agenterna konsekvent källhänvisningarna, upptäckte motsägelserna och uppdaterade de felaktiga minnena. Det är GitHubs utvärdering av sin egen produkt. Den gäller minnen vars källhänvisningar inte stöder dem"
     en: "The vendors' controls aim at the same weak points. GitHub's engineering post names outdated, incorrect and even maliciously injected memories as its biggest concern. In its test it seeded repositories with adversarial memories: facts that contradicted the codebase, with citations pointing to irrelevant or nonexistent code. Across all test cases its agents consistently verified citations, discovered contradictions and updated the incorrect memories. That is GitHub's evaluation of its own product, and it covers memories whose citations do not support them"
   vendor: GitHub
   url: https://github.blog/ai-and-ml/github-copilot/building-an-agentic-memory-system-for-github-copilot/
@@ -947,7 +947,7 @@
 - id: M70
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "De enklaste kontrollerna är de två allmänna lärdomarna som en säkerhetsforskare drar i en genomgång från 2025 av minnet i en AI-agent för kodning: system bör föreslå minnen för användaren i stället för att lägga till dem automatiskt och användare bör granska minnen regelbundet. Att granska minnen går att göra i alla tre verktygen. Claude Codes auto memory är vanlig markdown som du öppnar med /memory. Codex minnesfiler går att granska i hemkatalogen. GitHub låter personer med rätt behörighet granska och ta bort repo-fakta i repots inställningar"
+    sv: "De enklaste kontrollerna är de två allmänna lärdomarna som en säkerhetsforskare drar i en genomgång från 2025 av minnet i en kodande AI-agent: system bör föreslå minnen för användaren i stället för att lägga till dem automatiskt och användare bör granska minnen regelbundet. Att granska minnen går att göra i alla tre verktygen. Claude Codes auto memory är vanlig Markdown som du öppnar med /memory. Codex minnesfiler går att granska i hemmappen. GitHub låter personer med rätt behörighet granska och ta bort fakta om repot i repots inställningar"
     en: "A security researcher's two general lessons from a 2025 write-up on a coding agent's memory are the simplest controls: systems should suggest memories to the user rather than adding them automatically, and users should inspect memories regularly. The second is possible in all three tools: Claude Code's auto memory is plain markdown that /memory opens, Codex's memory files can be inspected in its home directory and GitHub lets people with the right access review and delete repository facts in the repository's settings"
   vendor: Johann Rehberger
   url: https://embracethered.com/blog/posts/2025/windsurf-spaiware-exploit-persistent-prompt-injection/
@@ -959,7 +959,7 @@
 - id: M71
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "De enklaste kontrollerna är de två allmänna lärdomarna som en säkerhetsforskare drar i en genomgång från 2025 av minnet i en AI-agent för kodning: system bör föreslå minnen för användaren i stället för att lägga till dem automatiskt och användare bör granska minnen regelbundet. Att granska minnen går att göra i alla tre verktygen. Claude Codes auto memory är vanlig markdown som du öppnar med /memory. Codex minnesfiler går att granska i hemkatalogen. GitHub låter personer med rätt behörighet granska och ta bort repo-fakta i repots inställningar"
+    sv: "De enklaste kontrollerna är de två allmänna lärdomarna som en säkerhetsforskare drar i en genomgång från 2025 av minnet i en kodande AI-agent: system bör föreslå minnen för användaren i stället för att lägga till dem automatiskt och användare bör granska minnen regelbundet. Att granska minnen går att göra i alla tre verktygen. Claude Codes auto memory är vanlig Markdown som du öppnar med /memory. Codex minnesfiler går att granska i hemmappen. GitHub låter personer med rätt behörighet granska och ta bort fakta om repot i repots inställningar"
     en: "A security researcher's two general lessons from a 2025 write-up on a coding agent's memory are the simplest controls: systems should suggest memories to the user rather than adding them automatically, and users should inspect memories regularly. The second is possible in all three tools: Claude Code's auto memory is plain markdown that /memory opens, Codex's memory files can be inspected in its home directory and GitHub lets people with the right access review and delete repository facts in the repository's settings"
   vendor: Johann Rehberger
   url: https://embracethered.com/blog/posts/2025/windsurf-spaiware-exploit-persistent-prompt-injection/
@@ -971,7 +971,7 @@
 - id: M72
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "De enklaste kontrollerna är de två allmänna lärdomarna som en säkerhetsforskare drar i en genomgång från 2025 av minnet i en AI-agent för kodning: system bör föreslå minnen för användaren i stället för att lägga till dem automatiskt och användare bör granska minnen regelbundet. Att granska minnen går att göra i alla tre verktygen. Claude Codes auto memory är vanlig markdown som du öppnar med /memory. Codex minnesfiler går att granska i hemkatalogen. GitHub låter personer med rätt behörighet granska och ta bort repo-fakta i repots inställningar"
+    sv: "De enklaste kontrollerna är de två allmänna lärdomarna som en säkerhetsforskare drar i en genomgång från 2025 av minnet i en kodande AI-agent: system bör föreslå minnen för användaren i stället för att lägga till dem automatiskt och användare bör granska minnen regelbundet. Att granska minnen går att göra i alla tre verktygen. Claude Codes auto memory är vanlig Markdown som du öppnar med /memory. Codex minnesfiler går att granska i hemmappen. GitHub låter personer med rätt behörighet granska och ta bort fakta om repot i repots inställningar"
     en: "A security researcher's two general lessons from a 2025 write-up on a coding agent's memory are the simplest controls: systems should suggest memories to the user rather than adding them automatically, and users should inspect memories regularly. The second is possible in all three tools: Claude Code's auto memory is plain markdown that /memory opens, Codex's memory files can be inspected in its home directory and GitHub lets people with the right access review and delete repository facts in the repository's settings"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/memory
@@ -983,7 +983,7 @@
 - id: M73
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "De enklaste kontrollerna är de två allmänna lärdomarna som en säkerhetsforskare drar i en genomgång från 2025 av minnet i en AI-agent för kodning: system bör föreslå minnen för användaren i stället för att lägga till dem automatiskt och användare bör granska minnen regelbundet. Att granska minnen går att göra i alla tre verktygen. Claude Codes auto memory är vanlig markdown som du öppnar med /memory. Codex minnesfiler går att granska i hemkatalogen. GitHub låter personer med rätt behörighet granska och ta bort repo-fakta i repots inställningar"
+    sv: "De enklaste kontrollerna är de två allmänna lärdomarna som en säkerhetsforskare drar i en genomgång från 2025 av minnet i en kodande AI-agent: system bör föreslå minnen för användaren i stället för att lägga till dem automatiskt och användare bör granska minnen regelbundet. Att granska minnen går att göra i alla tre verktygen. Claude Codes auto memory är vanlig Markdown som du öppnar med /memory. Codex minnesfiler går att granska i hemmappen. GitHub låter personer med rätt behörighet granska och ta bort fakta om repot i repots inställningar"
     en: "A security researcher's two general lessons from a 2025 write-up on a coding agent's memory are the simplest controls: systems should suggest memories to the user rather than adding them automatically, and users should inspect memories regularly. The second is possible in all three tools: Claude Code's auto memory is plain markdown that /memory opens, Codex's memory files can be inspected in its home directory and GitHub lets people with the right access review and delete repository facts in the repository's settings"
   vendor: Microsoft
   url: https://code.visualstudio.com/docs/agents/run/memory
@@ -995,7 +995,7 @@
 - id: M74
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "Ett minne är text som agenten skriver och som andra ofta kan läsa. En hemlighet som hamnar i ett minne följer därför med. GitHubs dokumentation säger att minnen skannas efter hemligheter som tokens, nycklar eller inloggningsuppgifter och att ett minne där en sådan hittas avvisas. OpenAIs dokumentation säger att Codex maskerar hemligheter i genererade minnesfält, men att du ändå bör granska filerna innan du delar din Codex-hemkatalog. VS Codes dokumentation säger tydligt att du inte ska lagra inloggningsuppgifter, hemligheter eller känslig personlig information i minnet. Samma försiktighet gäller för minnet som i de tidigare delarna: i \"MCP, så når AI-agenten andra system\" hålls en token utanför filer och chatt och i \"Sätt gränserna i förväg\" finns en regel mot att läsa en .env-fil"
+    sv: "Ett minne är text som agenten skriver och som andra ofta kan läsa. En secret som hamnar i ett minne följer därför med. GitHubs dokumentation säger att minnen skannas efter secrets som tokens, nycklar eller inloggningsuppgifter och att ett minne där en sådan hittas avvisas. OpenAIs dokumentation säger att Codex maskerar secrets i genererade minnesfält, men att du ändå bör granska filerna innan du delar din Codex-hemmapp. VS Codes dokumentation säger tydligt att du inte ska lagra inloggningsuppgifter, secrets eller känslig personlig information i minnet. Samma försiktighet gäller för minnet som i de tidigare artiklarna: i \"MCP, så når AI-agenten andra system\" hålls en token utanför filer och chatt och i \"Sätt gränserna i förväg\" finns en regel mot att läsa en .env-fil"
     en: "A memory is text that the agent writes and that other people can often read, so a secret that lands in one travels with it. GitHub's documentation says that memories are checked for secrets such as tokens, keys or credentials and that a memory in which one is detected is rejected. OpenAI's documentation says that Codex redacts secrets from generated memory fields but that you should still review the files before sharing your Codex home directory. VS Code's documentation says plainly not to store credentials, secrets or sensitive personal information in memory. \"MCP, how an AI agent reaches other systems\" keeps a token out of files and chat. \"Set the limits in advance\" shows a rule against reading a .env file. Memory needs the same care"
   vendor: GitHub
   url: https://docs.github.com/en/copilot/concepts/prompting-and-context/copilot-memory
@@ -1007,7 +1007,7 @@
 - id: M75
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "Ett minne är text som agenten skriver och som andra ofta kan läsa. En hemlighet som hamnar i ett minne följer därför med. GitHubs dokumentation säger att minnen skannas efter hemligheter som tokens, nycklar eller inloggningsuppgifter och att ett minne där en sådan hittas avvisas. OpenAIs dokumentation säger att Codex maskerar hemligheter i genererade minnesfält, men att du ändå bör granska filerna innan du delar din Codex-hemkatalog. VS Codes dokumentation säger tydligt att du inte ska lagra inloggningsuppgifter, hemligheter eller känslig personlig information i minnet. Samma försiktighet gäller för minnet som i de tidigare delarna: i \"MCP, så når AI-agenten andra system\" hålls en token utanför filer och chatt och i \"Sätt gränserna i förväg\" finns en regel mot att läsa en .env-fil"
+    sv: "Ett minne är text som agenten skriver och som andra ofta kan läsa. En secret som hamnar i ett minne följer därför med. GitHubs dokumentation säger att minnen skannas efter secrets som tokens, nycklar eller inloggningsuppgifter och att ett minne där en sådan hittas avvisas. OpenAIs dokumentation säger att Codex maskerar secrets i genererade minnesfält, men att du ändå bör granska filerna innan du delar din Codex-hemmapp. VS Codes dokumentation säger tydligt att du inte ska lagra inloggningsuppgifter, secrets eller känslig personlig information i minnet. Samma försiktighet gäller för minnet som i de tidigare artiklarna: i \"MCP, så når AI-agenten andra system\" hålls en token utanför filer och chatt och i \"Sätt gränserna i förväg\" finns en regel mot att läsa en .env-fil"
     en: "A memory is text that the agent writes and that other people can often read, so a secret that lands in one travels with it. GitHub's documentation says that memories are checked for secrets such as tokens, keys or credentials and that a memory in which one is detected is rejected. OpenAI's documentation says that Codex redacts secrets from generated memory fields but that you should still review the files before sharing your Codex home directory. VS Code's documentation says plainly not to store credentials, secrets or sensitive personal information in memory. \"MCP, how an AI agent reaches other systems\" keeps a token out of files and chat. \"Set the limits in advance\" shows a rule against reading a .env file. Memory needs the same care"
   vendor: OpenAI
   url: https://learn.chatgpt.com/docs/customization/memories
@@ -1019,7 +1019,7 @@
 - id: M76
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "Ett minne är text som agenten skriver och som andra ofta kan läsa. En hemlighet som hamnar i ett minne följer därför med. GitHubs dokumentation säger att minnen skannas efter hemligheter som tokens, nycklar eller inloggningsuppgifter och att ett minne där en sådan hittas avvisas. OpenAIs dokumentation säger att Codex maskerar hemligheter i genererade minnesfält, men att du ändå bör granska filerna innan du delar din Codex-hemkatalog. VS Codes dokumentation säger tydligt att du inte ska lagra inloggningsuppgifter, hemligheter eller känslig personlig information i minnet. Samma försiktighet gäller för minnet som i de tidigare delarna: i \"MCP, så når AI-agenten andra system\" hålls en token utanför filer och chatt och i \"Sätt gränserna i förväg\" finns en regel mot att läsa en .env-fil"
+    sv: "Ett minne är text som agenten skriver och som andra ofta kan läsa. En secret som hamnar i ett minne följer därför med. GitHubs dokumentation säger att minnen skannas efter secrets som tokens, nycklar eller inloggningsuppgifter och att ett minne där en sådan hittas avvisas. OpenAIs dokumentation säger att Codex maskerar secrets i genererade minnesfält, men att du ändå bör granska filerna innan du delar din Codex-hemmapp. VS Codes dokumentation säger tydligt att du inte ska lagra inloggningsuppgifter, secrets eller känslig personlig information i minnet. Samma försiktighet gäller för minnet som i de tidigare artiklarna: i \"MCP, så når AI-agenten andra system\" hålls en token utanför filer och chatt och i \"Sätt gränserna i förväg\" finns en regel mot att läsa en .env-fil"
     en: "A memory is text that the agent writes and that other people can often read, so a secret that lands in one travels with it. GitHub's documentation says that memories are checked for secrets such as tokens, keys or credentials and that a memory in which one is detected is rejected. OpenAI's documentation says that Codex redacts secrets from generated memory fields but that you should still review the files before sharing your Codex home directory. VS Code's documentation says plainly not to store credentials, secrets or sensitive personal information in memory. \"MCP, how an AI agent reaches other systems\" keeps a token out of files and chat. \"Set the limits in advance\" shows a rule against reading a .env file. Memory needs the same care"
   vendor: Microsoft
   url: https://code.visualstudio.com/docs/agents/run/memory
@@ -1031,7 +1031,7 @@
 - id: M77
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "Den tystare risken är ett faktum som var sant när det skrevs. Fabriken bakom den här sajten stötte på den i september 2026. I En studie av borgmästarens kontext hoppade nya sessioner över det mesta av en anteckningslogg som hade blivit för lång att läsa i sin helhet och tog gamla fakta för aktuella. Lägeskortet som skrivs om vid varje överlämning och referensen som läses i ett anrop fanns redan. Ändringen var att korta båda och sätta tak för dem, som \"Vad som fyller en AI-agents kontext\" beskriver. Pococks ordlista beskriver det allmänna fallet: ett faktum som antecknades i mars läses in med samma tillförsikt i juni – efter att projektet har gått vidare – och ett minnessystem behöver rensas på samma sätt som AGENTS.md"
+    sv: "Den tystare risken är ett faktum som var sant när det skrevs. Fabriken bakom den här sajten stötte på den i september 2026. I En studie av borgmästarens kontext hoppade nya sessioner över det mesta av en anteckningslogg som hade blivit för lång att läsa i sin helhet och tog gamla fakta för aktuella. Lägeskortet som skrivs om vid varje överlämning och referensen som läses i ett anrop fanns redan. Ändringen var att korta båda och sätta tak för dem, som \"Vad som fyller en AI-agents kontext\" beskriver. Pococks ordlista beskriver det allmänna fallet: ett faktum som antecknades i mars läses in lika självklart i juni – efter att projektet har gått vidare – och ett minnessystem behöver rensas på samma sätt som AGENTS.md"
     en: "The quieter risk is a fact that was true when it was written. The factory behind this site met it in September 2026. In A study of the mayor's context, a notes log that had become too long to read whole was mostly skipped by new sessions, which took old facts as current. The state card rewritten at every hand-off and the reference read in one call were already in place; the change, described in \"What fills an AI agent's context\", was to trim and cap both. Pocock's dictionary states the general case: a fact recorded in March is loaded with equal confidence in June, after the project has moved on, and a memory system needs pruning, the same way AGENTS.md does"
   vendor: Addable Labs
   url: https://addablelabs.se/blog/what-the-mayors-context-costs/
@@ -1043,7 +1043,7 @@
 - id: M78
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "Den tystare risken är ett faktum som var sant när det skrevs. Fabriken bakom den här sajten stötte på den i september 2026. I En studie av borgmästarens kontext hoppade nya sessioner över det mesta av en anteckningslogg som hade blivit för lång att läsa i sin helhet och tog gamla fakta för aktuella. Lägeskortet som skrivs om vid varje överlämning och referensen som läses i ett anrop fanns redan. Ändringen var att korta båda och sätta tak för dem, som \"Vad som fyller en AI-agents kontext\" beskriver. Pococks ordlista beskriver det allmänna fallet: ett faktum som antecknades i mars läses in med samma tillförsikt i juni – efter att projektet har gått vidare – och ett minnessystem behöver rensas på samma sätt som AGENTS.md"
+    sv: "Den tystare risken är ett faktum som var sant när det skrevs. Fabriken bakom den här sajten stötte på den i september 2026. I En studie av borgmästarens kontext hoppade nya sessioner över det mesta av en anteckningslogg som hade blivit för lång att läsa i sin helhet och tog gamla fakta för aktuella. Lägeskortet som skrivs om vid varje överlämning och referensen som läses i ett anrop fanns redan. Ändringen var att korta båda och sätta tak för dem, som \"Vad som fyller en AI-agents kontext\" beskriver. Pococks ordlista beskriver det allmänna fallet: ett faktum som antecknades i mars läses in lika självklart i juni – efter att projektet har gått vidare – och ett minnessystem behöver rensas på samma sätt som AGENTS.md"
     en: "The quieter risk is a fact that was true when it was written. The factory behind this site met it in September 2026. In A study of the mayor's context, a notes log that had become too long to read whole was mostly skipped by new sessions, which took old facts as current. The state card rewritten at every hand-off and the reference read in one call were already in place; the change, described in \"What fills an AI agent's context\", was to trim and cap both. Pocock's dictionary states the general case: a fact recorded in March is loaded with equal confidence in June, after the project has moved on, and a memory system needs pruning, the same way AGENTS.md does"
   vendor: Addable Labs
   url: https://addablelabs.se/blog/what-the-mayors-context-costs/
@@ -1055,7 +1055,7 @@
 - id: M131
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "Den tystare risken är ett faktum som var sant när det skrevs. Fabriken bakom den här sajten stötte på den i september 2026. I En studie av borgmästarens kontext hoppade nya sessioner över det mesta av en anteckningslogg som hade blivit för lång att läsa i sin helhet och tog gamla fakta för aktuella. Lägeskortet som skrivs om vid varje överlämning och referensen som läses i ett anrop fanns redan. Ändringen var att korta båda och sätta tak för dem, som \"Vad som fyller en AI-agents kontext\" beskriver. Pococks ordlista beskriver det allmänna fallet: ett faktum som antecknades i mars läses in med samma tillförsikt i juni – efter att projektet har gått vidare – och ett minnessystem behöver rensas på samma sätt som AGENTS.md"
+    sv: "Den tystare risken är ett faktum som var sant när det skrevs. Fabriken bakom den här sajten stötte på den i september 2026. I En studie av borgmästarens kontext hoppade nya sessioner över det mesta av en anteckningslogg som hade blivit för lång att läsa i sin helhet och tog gamla fakta för aktuella. Lägeskortet som skrivs om vid varje överlämning och referensen som läses i ett anrop fanns redan. Ändringen var att korta båda och sätta tak för dem, som \"Vad som fyller en AI-agents kontext\" beskriver. Pococks ordlista beskriver det allmänna fallet: ett faktum som antecknades i mars läses in lika självklart i juni – efter att projektet har gått vidare – och ett minnessystem behöver rensas på samma sätt som AGENTS.md"
     en: "The quieter risk is a fact that was true when it was written. The factory behind this site met it in September 2026. In A study of the mayor's context, a notes log that had become too long to read whole was mostly skipped by new sessions, which took old facts as current. The state card rewritten at every hand-off and the reference read in one call were already in place; the change, described in \"What fills an AI agent's context\", was to trim and cap both. Pocock's dictionary states the general case: a fact recorded in March is loaded with equal confidence in June, after the project has moved on, and a memory system needs pruning, the same way AGENTS.md does"
   vendor: Addable Labs
   url: https://addablelabs.se/blog/what-the-mayors-context-costs/
@@ -1067,7 +1067,7 @@
 - id: M79
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "Den tystare risken är ett faktum som var sant när det skrevs. Fabriken bakom den här sajten stötte på den i september 2026. I En studie av borgmästarens kontext hoppade nya sessioner över det mesta av en anteckningslogg som hade blivit för lång att läsa i sin helhet och tog gamla fakta för aktuella. Lägeskortet som skrivs om vid varje överlämning och referensen som läses i ett anrop fanns redan. Ändringen var att korta båda och sätta tak för dem, som \"Vad som fyller en AI-agents kontext\" beskriver. Pococks ordlista beskriver det allmänna fallet: ett faktum som antecknades i mars läses in med samma tillförsikt i juni – efter att projektet har gått vidare – och ett minnessystem behöver rensas på samma sätt som AGENTS.md"
+    sv: "Den tystare risken är ett faktum som var sant när det skrevs. Fabriken bakom den här sajten stötte på den i september 2026. I En studie av borgmästarens kontext hoppade nya sessioner över det mesta av en anteckningslogg som hade blivit för lång att läsa i sin helhet och tog gamla fakta för aktuella. Lägeskortet som skrivs om vid varje överlämning och referensen som läses i ett anrop fanns redan. Ändringen var att korta båda och sätta tak för dem, som \"Vad som fyller en AI-agents kontext\" beskriver. Pococks ordlista beskriver det allmänna fallet: ett faktum som antecknades i mars läses in lika självklart i juni – efter att projektet har gått vidare – och ett minnessystem behöver rensas på samma sätt som AGENTS.md"
     en: "The quieter risk is a fact that was true when it was written. The factory behind this site met it in September 2026. In A study of the mayor's context, a notes log that had become too long to read whole was mostly skipped by new sessions, which took old facts as current. The state card rewritten at every hand-off and the reference read in one call were already in place; the change, described in \"What fills an AI agent's context\", was to trim and cap both. Pocock's dictionary states the general case: a fact recorded in March is loaded with equal confidence in June, after the project has moved on, and a memory system needs pruning, the same way AGENTS.md does"
   vendor: Matt Pocock
   url: https://www.aihero.dev/ai-coding-dictionary/memory-system
@@ -1079,7 +1079,7 @@
 - id: M80
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "Verktygen har en del av den rensningen inbyggd. När MEMORY.md närmar sig sin gräns påminner Claude Code agenten om att ha en rad per post och att slå ihop eller ta bort föråldrade poster. Claude Code antecknar också när varje minne skrevs, så att ett faktums ålder syns. I GitHub kan ett minne löpa ut om det inte har förstärkts under en period, alltså om Copilot inte har röstat upp det. Copilot kan också rösta ned ett minne som den bedömer är felaktigt eller föråldrat"
+    sv: "Verktygen har en del av den rensningen inbyggd. När MEMORY.md närmar sig sin gräns påminner Claude Code agenten om att ha en rad per minne och att slå ihop eller ta bort föråldrade minnen. Claude Code antecknar också när varje minne skrevs, så att ett faktums ålder syns. I GitHub kan ett minne löpa ut om det inte har förstärkts under en period, alltså om Copilot inte har röstat upp det. Copilot kan också rösta ned ett minne som den bedömer är felaktigt eller föråldrat"
     en: "The tools build in some of that pruning. Claude Code reminds the agent, when MEMORY.md nears its limit, to keep one line per entry and to merge or drop stale entries, and it records when each memory was written so that the age of a fact is visible. GitHub lets memories expire after a period without reinforcement, meaning that Copilot has not upvoted them. Copilot can also downvote a memory it finds wrong or outdated"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/memory
@@ -1091,7 +1091,7 @@
 - id: M81
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "Verktygen har en del av den rensningen inbyggd. När MEMORY.md närmar sig sin gräns påminner Claude Code agenten om att ha en rad per post och att slå ihop eller ta bort föråldrade poster. Claude Code antecknar också när varje minne skrevs, så att ett faktums ålder syns. I GitHub kan ett minne löpa ut om det inte har förstärkts under en period, alltså om Copilot inte har röstat upp det. Copilot kan också rösta ned ett minne som den bedömer är felaktigt eller föråldrat"
+    sv: "Verktygen har en del av den rensningen inbyggd. När MEMORY.md närmar sig sin gräns påminner Claude Code agenten om att ha en rad per minne och att slå ihop eller ta bort föråldrade minnen. Claude Code antecknar också när varje minne skrevs, så att ett faktums ålder syns. I GitHub kan ett minne löpa ut om det inte har förstärkts under en period, alltså om Copilot inte har röstat upp det. Copilot kan också rösta ned ett minne som den bedömer är felaktigt eller föråldrat"
     en: "The tools build in some of that pruning. Claude Code reminds the agent, when MEMORY.md nears its limit, to keep one line per entry and to merge or drop stale entries, and it records when each memory was written so that the age of a fact is visible. GitHub lets memories expire after a period without reinforcement, meaning that Copilot has not upvoted them. Copilot can also downvote a memory it finds wrong or outdated"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/memory
@@ -1103,7 +1103,7 @@
 - id: M82
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "Verktygen har en del av den rensningen inbyggd. När MEMORY.md närmar sig sin gräns påminner Claude Code agenten om att ha en rad per post och att slå ihop eller ta bort föråldrade poster. Claude Code antecknar också när varje minne skrevs, så att ett faktums ålder syns. I GitHub kan ett minne löpa ut om det inte har förstärkts under en period, alltså om Copilot inte har röstat upp det. Copilot kan också rösta ned ett minne som den bedömer är felaktigt eller föråldrat"
+    sv: "Verktygen har en del av den rensningen inbyggd. När MEMORY.md närmar sig sin gräns påminner Claude Code agenten om att ha en rad per minne och att slå ihop eller ta bort föråldrade minnen. Claude Code antecknar också när varje minne skrevs, så att ett faktums ålder syns. I GitHub kan ett minne löpa ut om det inte har förstärkts under en period, alltså om Copilot inte har röstat upp det. Copilot kan också rösta ned ett minne som den bedömer är felaktigt eller föråldrat"
     en: "The tools build in some of that pruning. Claude Code reminds the agent, when MEMORY.md nears its limit, to keep one line per entry and to merge or drop stale entries, and it records when each memory was written so that the age of a fact is visible. GitHub lets memories expire after a period without reinforcement, meaning that Copilot has not upvoted them. Copilot can also downvote a memory it finds wrong or outdated"
   vendor: GitHub
   url: https://docs.github.com/en/copilot/concepts/prompting-and-context/copilot-memory
@@ -1115,7 +1115,7 @@
 - id: M83
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "Verktygen har en del av den rensningen inbyggd. När MEMORY.md närmar sig sin gräns påminner Claude Code agenten om att ha en rad per post och att slå ihop eller ta bort föråldrade poster. Claude Code antecknar också när varje minne skrevs, så att ett faktums ålder syns. I GitHub kan ett minne löpa ut om det inte har förstärkts under en period, alltså om Copilot inte har röstat upp det. Copilot kan också rösta ned ett minne som den bedömer är felaktigt eller föråldrat"
+    sv: "Verktygen har en del av den rensningen inbyggd. När MEMORY.md närmar sig sin gräns påminner Claude Code agenten om att ha en rad per minne och att slå ihop eller ta bort föråldrade minnen. Claude Code antecknar också när varje minne skrevs, så att ett faktums ålder syns. I GitHub kan ett minne löpa ut om det inte har förstärkts under en period, alltså om Copilot inte har röstat upp det. Copilot kan också rösta ned ett minne som den bedömer är felaktigt eller föråldrat"
     en: "The tools build in some of that pruning. Claude Code reminds the agent, when MEMORY.md nears its limit, to keep one line per entry and to merge or drop stale entries, and it records when each memory was written so that the age of a fact is visible. GitHub lets memories expire after a period without reinforcement, meaning that Copilot has not upvoted them. Copilot can also downvote a memory it finds wrong or outdated"
   vendor: GitHub
   url: https://docs.github.com/en/copilot/concepts/prompting-and-context/copilot-memory
@@ -1127,7 +1127,7 @@
 - id: M132
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "Verktygen har en del av den rensningen inbyggd. När MEMORY.md närmar sig sin gräns påminner Claude Code agenten om att ha en rad per post och att slå ihop eller ta bort föråldrade poster. Claude Code antecknar också när varje minne skrevs, så att ett faktums ålder syns. I GitHub kan ett minne löpa ut om det inte har förstärkts under en period, alltså om Copilot inte har röstat upp det. Copilot kan också rösta ned ett minne som den bedömer är felaktigt eller föråldrat"
+    sv: "Verktygen har en del av den rensningen inbyggd. När MEMORY.md närmar sig sin gräns påminner Claude Code agenten om att ha en rad per minne och att slå ihop eller ta bort föråldrade minnen. Claude Code antecknar också när varje minne skrevs, så att ett faktums ålder syns. I GitHub kan ett minne löpa ut om det inte har förstärkts under en period, alltså om Copilot inte har röstat upp det. Copilot kan också rösta ned ett minne som den bedömer är felaktigt eller föråldrat"
     en: "The tools build in some of that pruning. Claude Code reminds the agent, when MEMORY.md nears its limit, to keep one line per entry and to merge or drop stale entries, and it records when each memory was written so that the age of a fact is visible. GitHub lets memories expire after a period without reinforcement, meaning that Copilot has not upvoted them. Copilot can also downvote a memory it finds wrong or outdated"
   vendor: GitHub
   url: https://docs.github.com/en/copilot/concepts/prompting-and-context/copilot-memory
@@ -1139,7 +1139,7 @@
 - id: M84
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "Filen i repot behöver ingen tjänst och når varje dator och runner precis som den är. Svagheten är densamma som i \"Instruktionsfilen, det första en AI-agent läser\": en lång fil följs sämre. Claude Code har /doctor prompt-audit, som letar efter instruktioner skrivna för äldre modeller, hänvisningar till filer eller kommandon som inte finns och filer som motsäger varandra. Kostnaden är tiden det tar för människor att hålla filen sann"
+    sv: "Filen i repot behöver ingen tjänst och når varje dator och runner precis som den är. Svagheten är densamma som i \"Instruktionsfilen, det första en AI-agent läser\": en lång fil följs sämre. Claude Code har /doctor prompt-audit, som letar efter instruktioner skrivna för äldre modeller, hänvisningar till filer eller kommandon som inte finns och filer som motsäger varandra. Kostnaden är tiden det tar för människor att hålla filen aktuell"
     en: "The committed file needs no service, and it reaches every computer and runner as it is. Its weakness is the one \"The instruction file, the first thing an AI agent reads\" describes: a long file is followed less closely. Claude Code offers /doctor prompt-audit, which looks for instructions written for older models, references to files or commands that do not exist and files that contradict each other. The cost is people's time to keep the file true"
   vendor: Addable Labs
   url: https://addablelabs.se/blog/the-instruction-file/
@@ -1151,7 +1151,7 @@
 - id: M85
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "Filen i repot behöver ingen tjänst och når varje dator och runner precis som den är. Svagheten är densamma som i \"Instruktionsfilen, det första en AI-agent läser\": en lång fil följs sämre. Claude Code har /doctor prompt-audit, som letar efter instruktioner skrivna för äldre modeller, hänvisningar till filer eller kommandon som inte finns och filer som motsäger varandra. Kostnaden är tiden det tar för människor att hålla filen sann"
+    sv: "Filen i repot behöver ingen tjänst och når varje dator och runner precis som den är. Svagheten är densamma som i \"Instruktionsfilen, det första en AI-agent läser\": en lång fil följs sämre. Claude Code har /doctor prompt-audit, som letar efter instruktioner skrivna för äldre modeller, hänvisningar till filer eller kommandon som inte finns och filer som motsäger varandra. Kostnaden är tiden det tar för människor att hålla filen aktuell"
     en: "The committed file needs no service, and it reaches every computer and runner as it is. Its weakness is the one \"The instruction file, the first thing an AI agent reads\" describes: a long file is followed less closely. Claude Code offers /doctor prompt-audit, which looks for instructions written for older models, references to files or commands that do not exist and files that contradict each other. The cost is people's time to keep the file true"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/memory
@@ -1163,7 +1163,7 @@
 - id: M86
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "Filen i repot behöver ingen tjänst och når varje dator och runner precis som den är. Svagheten är densamma som i \"Instruktionsfilen, det första en AI-agent läser\": en lång fil följs sämre. Claude Code har /doctor prompt-audit, som letar efter instruktioner skrivna för äldre modeller, hänvisningar till filer eller kommandon som inte finns och filer som motsäger varandra. Kostnaden är tiden det tar för människor att hålla filen sann"
+    sv: "Filen i repot behöver ingen tjänst och når varje dator och runner precis som den är. Svagheten är densamma som i \"Instruktionsfilen, det första en AI-agent läser\": en lång fil följs sämre. Claude Code har /doctor prompt-audit, som letar efter instruktioner skrivna för äldre modeller, hänvisningar till filer eller kommandon som inte finns och filer som motsäger varandra. Kostnaden är tiden det tar för människor att hålla filen aktuell"
     en: "The committed file needs no service, and it reaches every computer and runner as it is. Its weakness is the one \"The instruction file, the first thing an AI agent reads\" describes: a long file is followed less closely. Claude Code offers /doctor prompt-audit, which looks for instructions written for older models, references to files or commands that do not exist and files that contradict each other. The cost is people's time to keep the file true"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/memory
@@ -1175,7 +1175,7 @@
 - id: M87
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "Med Copilot Memory slipper människor underhållet. Enligt GitHubs dokumentation kräver det inget underhåll från dig, anpassar sig när kodbasen och dina vanor ändras och kastar bort det som slutar vara relevant. Det finns i alla betalda Copilot-abonnemang. Minnen som tas med i modellens kontext räknas med i tokenanvändningen. GitHubs tekniska inlägg från januari 2026 redovisar en förbättring i egna A/B-tester. För det som inlägget kallar coding agent ökade andelen mergade pull requests med 7 %: 90 % med minnen mot 83 % utan. Det är GitHubs siffror för deras egen produkt. Riskerna ovan följer med"
+    sv: "Med Copilot Memory slipper människor underhållet. Enligt GitHubs dokumentation kräver det inget underhåll från dig, anpassar sig när kodbasen och dina vanor ändras och kastar bort det som slutar vara relevant. Det finns i alla betalda Copilot-abonnemang. Minnen som tas med i modellens kontext räknas med i tokenanvändningen. GitHubs tekniska inlägg från januari 2026 redovisar en förbättring i egna A/B-tester. För det som inlägget kallar coding agent ökade andelen mergade pull requests med 7 procentenheter: 90 % med minnen mot 83 % utan. Det är GitHubs siffror för sin egen produkt. Riskerna ovan följer med"
     en: "Copilot Memory takes the upkeep off people. GitHub's documentation says that it requires no maintenance from you, adapts as your codebase and your habits change and discards what stops being relevant. It is available on all paid Copilot plans, and memories included in a model's context count toward token usage. GitHub's engineering post of January 2026 reports a gain from its own A/B tests: for the coding agent, as the post calls it, a 7% increase in pull request merge rates, 90% with memories against 83% without. Those are GitHub's figures for its own product, and the risks above come with it"
   vendor: GitHub
   url: https://docs.github.com/en/copilot/concepts/prompting-and-context/copilot-memory
@@ -1187,7 +1187,7 @@
 - id: M88
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "Med Copilot Memory slipper människor underhållet. Enligt GitHubs dokumentation kräver det inget underhåll från dig, anpassar sig när kodbasen och dina vanor ändras och kastar bort det som slutar vara relevant. Det finns i alla betalda Copilot-abonnemang. Minnen som tas med i modellens kontext räknas med i tokenanvändningen. GitHubs tekniska inlägg från januari 2026 redovisar en förbättring i egna A/B-tester. För det som inlägget kallar coding agent ökade andelen mergade pull requests med 7 %: 90 % med minnen mot 83 % utan. Det är GitHubs siffror för deras egen produkt. Riskerna ovan följer med"
+    sv: "Med Copilot Memory slipper människor underhållet. Enligt GitHubs dokumentation kräver det inget underhåll från dig, anpassar sig när kodbasen och dina vanor ändras och kastar bort det som slutar vara relevant. Det finns i alla betalda Copilot-abonnemang. Minnen som tas med i modellens kontext räknas med i tokenanvändningen. GitHubs tekniska inlägg från januari 2026 redovisar en förbättring i egna A/B-tester. För det som inlägget kallar coding agent ökade andelen mergade pull requests med 7 procentenheter: 90 % med minnen mot 83 % utan. Det är GitHubs siffror för sin egen produkt. Riskerna ovan följer med"
     en: "Copilot Memory takes the upkeep off people. GitHub's documentation says that it requires no maintenance from you, adapts as your codebase and your habits change and discards what stops being relevant. It is available on all paid Copilot plans, and memories included in a model's context count toward token usage. GitHub's engineering post of January 2026 reports a gain from its own A/B tests: for the coding agent, as the post calls it, a 7% increase in pull request merge rates, 90% with memories against 83% without. Those are GitHub's figures for its own product, and the risks above come with it"
   vendor: GitHub
   url: https://docs.github.com/en/copilot/concepts/prompting-and-context/copilot-memory
@@ -1199,7 +1199,7 @@
 - id: M89
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "Med Copilot Memory slipper människor underhållet. Enligt GitHubs dokumentation kräver det inget underhåll från dig, anpassar sig när kodbasen och dina vanor ändras och kastar bort det som slutar vara relevant. Det finns i alla betalda Copilot-abonnemang. Minnen som tas med i modellens kontext räknas med i tokenanvändningen. GitHubs tekniska inlägg från januari 2026 redovisar en förbättring i egna A/B-tester. För det som inlägget kallar coding agent ökade andelen mergade pull requests med 7 %: 90 % med minnen mot 83 % utan. Det är GitHubs siffror för deras egen produkt. Riskerna ovan följer med"
+    sv: "Med Copilot Memory slipper människor underhållet. Enligt GitHubs dokumentation kräver det inget underhåll från dig, anpassar sig när kodbasen och dina vanor ändras och kastar bort det som slutar vara relevant. Det finns i alla betalda Copilot-abonnemang. Minnen som tas med i modellens kontext räknas med i tokenanvändningen. GitHubs tekniska inlägg från januari 2026 redovisar en förbättring i egna A/B-tester. För det som inlägget kallar coding agent ökade andelen mergade pull requests med 7 procentenheter: 90 % med minnen mot 83 % utan. Det är GitHubs siffror för sin egen produkt. Riskerna ovan följer med"
     en: "Copilot Memory takes the upkeep off people. GitHub's documentation says that it requires no maintenance from you, adapts as your codebase and your habits change and discards what stops being relevant. It is available on all paid Copilot plans, and memories included in a model's context count toward token usage. GitHub's engineering post of January 2026 reports a gain from its own A/B tests: for the coding agent, as the post calls it, a 7% increase in pull request merge rates, 90% with memories against 83% without. Those are GitHub's figures for its own product, and the risks above come with it"
   vendor: GitHub
   url: https://docs.github.com/en/copilot/concepts/prompting-and-context/copilot-memory
@@ -1211,7 +1211,7 @@
 - id: M90
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "Med Copilot Memory slipper människor underhållet. Enligt GitHubs dokumentation kräver det inget underhåll från dig, anpassar sig när kodbasen och dina vanor ändras och kastar bort det som slutar vara relevant. Det finns i alla betalda Copilot-abonnemang. Minnen som tas med i modellens kontext räknas med i tokenanvändningen. GitHubs tekniska inlägg från januari 2026 redovisar en förbättring i egna A/B-tester. För det som inlägget kallar coding agent ökade andelen mergade pull requests med 7 %: 90 % med minnen mot 83 % utan. Det är GitHubs siffror för deras egen produkt. Riskerna ovan följer med"
+    sv: "Med Copilot Memory slipper människor underhållet. Enligt GitHubs dokumentation kräver det inget underhåll från dig, anpassar sig när kodbasen och dina vanor ändras och kastar bort det som slutar vara relevant. Det finns i alla betalda Copilot-abonnemang. Minnen som tas med i modellens kontext räknas med i tokenanvändningen. GitHubs tekniska inlägg från januari 2026 redovisar en förbättring i egna A/B-tester. För det som inlägget kallar coding agent ökade andelen mergade pull requests med 7 procentenheter: 90 % med minnen mot 83 % utan. Det är GitHubs siffror för sin egen produkt. Riskerna ovan följer med"
     en: "Copilot Memory takes the upkeep off people. GitHub's documentation says that it requires no maintenance from you, adapts as your codebase and your habits change and discards what stops being relevant. It is available on all paid Copilot plans, and memories included in a model's context count toward token usage. GitHub's engineering post of January 2026 reports a gain from its own A/B tests: for the coding agent, as the post calls it, a 7% increase in pull request merge rates, 90% with memories against 83% without. Those are GitHub's figures for its own product, and the risks above come with it"
   vendor: GitHub
   url: https://github.blog/ai-and-ml/github-copilot/building-an-agentic-memory-system-for-github-copilot/
@@ -1223,7 +1223,7 @@
 - id: M133
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "Med Copilot Memory slipper människor underhållet. Enligt GitHubs dokumentation kräver det inget underhåll från dig, anpassar sig när kodbasen och dina vanor ändras och kastar bort det som slutar vara relevant. Det finns i alla betalda Copilot-abonnemang. Minnen som tas med i modellens kontext räknas med i tokenanvändningen. GitHubs tekniska inlägg från januari 2026 redovisar en förbättring i egna A/B-tester. För det som inlägget kallar coding agent ökade andelen mergade pull requests med 7 %: 90 % med minnen mot 83 % utan. Det är GitHubs siffror för deras egen produkt. Riskerna ovan följer med"
+    sv: "Med Copilot Memory slipper människor underhållet. Enligt GitHubs dokumentation kräver det inget underhåll från dig, anpassar sig när kodbasen och dina vanor ändras och kastar bort det som slutar vara relevant. Det finns i alla betalda Copilot-abonnemang. Minnen som tas med i modellens kontext räknas med i tokenanvändningen. GitHubs tekniska inlägg från januari 2026 redovisar en förbättring i egna A/B-tester. För det som inlägget kallar coding agent ökade andelen mergade pull requests med 7 procentenheter: 90 % med minnen mot 83 % utan. Det är GitHubs siffror för sin egen produkt. Riskerna ovan följer med"
     en: "Copilot Memory takes the upkeep off people. GitHub's documentation says that it requires no maintenance from you, adapts as your codebase and your habits change and discards what stops being relevant. It is available on all paid Copilot plans, and memories included in a model's context count toward token usage. GitHub's engineering post of January 2026 reports a gain from its own A/B tests: for the coding agent, as the post calls it, a 7% increase in pull request merge rates, 90% with memories against 83% without. Those are GitHub's figures for its own product, and the risks above come with it"
   vendor: GitHub
   url: https://github.blog/ai-and-ml/github-copilot/building-an-agentic-memory-system-for-github-copilot/
@@ -1235,7 +1235,7 @@
 - id: M91
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "Claude Codes auto memory kostar ingenting att köra. Claude Code lämnar minnesmappen utanför rensningen av gamla sessionstranskript, så anteckningarna ligger kvar tills du eller Claude ändrar eller tar bort dem. Inget av det löper ut av sig självt – det som rensas är det du eller Claude tar bort – och inget av det når en kollega eller en runner. Codex filer är genererat tillstånd (generated state): dokumentationen säger att du inte ska förlita dig på att redigera dem för hand. Desktop-appen kan nollställa hela minnesförrådet på en dator"
+    sv: "Claude Codes auto memory kostar ingenting att köra. Claude Code lämnar minnesmappen utanför rensningen av gamla sessionstranskript, så anteckningarna ligger kvar tills du eller Claude ändrar eller tar bort dem. Ingenting löper ut av sig självt – det rensas bara om du eller Claude tar bort det – och ingenting når en kollega eller en runner. Codex filer är genererade: dokumentationen säger att du inte ska räkna med att kunna redigera dem för hand. Codex desktop-app kan nollställa hela minnet på en dator"
     en: "Claude Code's auto memory costs nothing to run. Claude Code excludes the memory folder from the sweep that deletes old session transcripts, so the notes stay until you or Claude edits or deletes them. Nothing in it expires on its own, so what is pruned is what you or Claude remove, and nothing in it reaches a colleague or a runner. Codex's files are generated state: its documentation says not to rely on editing them by hand, and the desktop app can reset a machine's whole memory store"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/memory
@@ -1247,7 +1247,7 @@
 - id: M92
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "Claude Codes auto memory kostar ingenting att köra. Claude Code lämnar minnesmappen utanför rensningen av gamla sessionstranskript, så anteckningarna ligger kvar tills du eller Claude ändrar eller tar bort dem. Inget av det löper ut av sig självt – det som rensas är det du eller Claude tar bort – och inget av det når en kollega eller en runner. Codex filer är genererat tillstånd (generated state): dokumentationen säger att du inte ska förlita dig på att redigera dem för hand. Desktop-appen kan nollställa hela minnesförrådet på en dator"
+    sv: "Claude Codes auto memory kostar ingenting att köra. Claude Code lämnar minnesmappen utanför rensningen av gamla sessionstranskript, så anteckningarna ligger kvar tills du eller Claude ändrar eller tar bort dem. Ingenting löper ut av sig självt – det rensas bara om du eller Claude tar bort det – och ingenting når en kollega eller en runner. Codex filer är genererade: dokumentationen säger att du inte ska räkna med att kunna redigera dem för hand. Codex desktop-app kan nollställa hela minnet på en dator"
     en: "Claude Code's auto memory costs nothing to run. Claude Code excludes the memory folder from the sweep that deletes old session transcripts, so the notes stay until you or Claude edits or deletes them. Nothing in it expires on its own, so what is pruned is what you or Claude remove, and nothing in it reaches a colleague or a runner. Codex's files are generated state: its documentation says not to rely on editing them by hand, and the desktop app can reset a machine's whole memory store"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/memory
@@ -1259,7 +1259,7 @@
 - id: M93
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "Claude Codes auto memory kostar ingenting att köra. Claude Code lämnar minnesmappen utanför rensningen av gamla sessionstranskript, så anteckningarna ligger kvar tills du eller Claude ändrar eller tar bort dem. Inget av det löper ut av sig självt – det som rensas är det du eller Claude tar bort – och inget av det når en kollega eller en runner. Codex filer är genererat tillstånd (generated state): dokumentationen säger att du inte ska förlita dig på att redigera dem för hand. Desktop-appen kan nollställa hela minnesförrådet på en dator"
+    sv: "Claude Codes auto memory kostar ingenting att köra. Claude Code lämnar minnesmappen utanför rensningen av gamla sessionstranskript, så anteckningarna ligger kvar tills du eller Claude ändrar eller tar bort dem. Ingenting löper ut av sig självt – det rensas bara om du eller Claude tar bort det – och ingenting når en kollega eller en runner. Codex filer är genererade: dokumentationen säger att du inte ska räkna med att kunna redigera dem för hand. Codex desktop-app kan nollställa hela minnet på en dator"
     en: "Claude Code's auto memory costs nothing to run. Claude Code excludes the memory folder from the sweep that deletes old session transcripts, so the notes stay until you or Claude edits or deletes them. Nothing in it expires on its own, so what is pruned is what you or Claude remove, and nothing in it reaches a colleague or a runner. Codex's files are generated state: its documentation says not to rely on editing them by hand, and the desktop app can reset a machine's whole memory store"
   vendor: OpenAI
   url: https://learn.chatgpt.com/docs/customization/memories
@@ -1271,7 +1271,7 @@
 - id: M94
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "Claude Codes auto memory kostar ingenting att köra. Claude Code lämnar minnesmappen utanför rensningen av gamla sessionstranskript, så anteckningarna ligger kvar tills du eller Claude ändrar eller tar bort dem. Inget av det löper ut av sig självt – det som rensas är det du eller Claude tar bort – och inget av det når en kollega eller en runner. Codex filer är genererat tillstånd (generated state): dokumentationen säger att du inte ska förlita dig på att redigera dem för hand. Desktop-appen kan nollställa hela minnesförrådet på en dator"
+    sv: "Claude Codes auto memory kostar ingenting att köra. Claude Code lämnar minnesmappen utanför rensningen av gamla sessionstranskript, så anteckningarna ligger kvar tills du eller Claude ändrar eller tar bort dem. Ingenting löper ut av sig självt – det rensas bara om du eller Claude tar bort det – och ingenting når en kollega eller en runner. Codex filer är genererade: dokumentationen säger att du inte ska räkna med att kunna redigera dem för hand. Codex desktop-app kan nollställa hela minnet på en dator"
     en: "Claude Code's auto memory costs nothing to run. Claude Code excludes the memory folder from the sweep that deletes old session transcripts, so the notes stay until you or Claude edits or deletes them. Nothing in it expires on its own, so what is pruned is what you or Claude remove, and nothing in it reaches a colleague or a runner. Codex's files are generated state: its documentation says not to rely on editing them by hand, and the desktop app can reset a machine's whole memory store"
   vendor: OpenAI
   url: https://learn.chatgpt.com/docs/customization/memories
@@ -1283,7 +1283,7 @@
 - id: M95
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "En minnesserver är en MCP-server: ett program som agenten anropar för att läsa och skriva minnen i ett minnesförråd som flera agenter eller verktyg kan dela. Att ansluta en är samma förtroendebeslut som i \"MCP, så når AI-agenten andra system\", med ett tillägg: det den innehåller har skrivits av agenter och läses av agenter. Ingenting läser in den automatiskt i början. Agenten måste anropa den. Referensserverns README innehåller en exempelprompt för personanpassning. Den säger åt agenten att börja varje chatt med att hämta all relevant information ur kunskapsgrafen"
+    sv: "En minnesserver är en MCP-server: ett program som agenten anropar för att läsa och skriva minnen som flera agenter eller verktyg kan dela. Att ansluta en är samma avvägning om förtroende som i \"MCP, så når AI-agenten andra system\", med ett tillägg: det den innehåller har skrivits av agenter och läses av agenter. Ingenting läser in den automatiskt i början. Agenten måste anropa den. Referensserverns README innehåller en exempelprompt för personanpassning. Den säger åt agenten att börja varje chatt med att hämta all relevant information ur kunskapsgrafen"
     en: "A memory server is an MCP server: a program the agent calls to read and write memories in a store that several agents or tools can share. Connecting one is the trust decision that \"MCP, how an AI agent reaches other systems\" describes, with one addition: what it holds was written by agents and is read by agents. Nothing loads it at the start by itself. The agent has to call it, and the reference server's README gives an example prompt, for chat personalisation, that begins every chat by retrieving all relevant information from the knowledge graph"
   vendor: Model Context Protocol (reference servers)
   url: https://github.com/modelcontextprotocol/servers/tree/main/src/memory
@@ -1295,7 +1295,7 @@
 - id: M134
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "En minnesserver är en MCP-server: ett program som agenten anropar för att läsa och skriva minnen i ett minnesförråd som flera agenter eller verktyg kan dela. Att ansluta en är samma förtroendebeslut som i \"MCP, så når AI-agenten andra system\", med ett tillägg: det den innehåller har skrivits av agenter och läses av agenter. Ingenting läser in den automatiskt i början. Agenten måste anropa den. Referensserverns README innehåller en exempelprompt för personanpassning. Den säger åt agenten att börja varje chatt med att hämta all relevant information ur kunskapsgrafen"
+    sv: "En minnesserver är en MCP-server: ett program som agenten anropar för att läsa och skriva minnen som flera agenter eller verktyg kan dela. Att ansluta en är samma avvägning om förtroende som i \"MCP, så når AI-agenten andra system\", med ett tillägg: det den innehåller har skrivits av agenter och läses av agenter. Ingenting läser in den automatiskt i början. Agenten måste anropa den. Referensserverns README innehåller en exempelprompt för personanpassning. Den säger åt agenten att börja varje chatt med att hämta all relevant information ur kunskapsgrafen"
     en: "A memory server is an MCP server: a program the agent calls to read and write memories in a store that several agents or tools can share. Connecting one is the trust decision that \"MCP, how an AI agent reaches other systems\" describes, with one addition: what it holds was written by agents and is read by agents. Nothing loads it at the start by itself. The agent has to call it, and the reference server's README gives an example prompt, for chat personalisation, that begins every chat by retrieving all relevant information from the knowledge graph"
   vendor: "Model Context Protocol (reference servers)"
   url: https://github.com/modelcontextprotocol/servers/tree/main/src/memory
@@ -1307,7 +1307,7 @@
 - id: M135
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "En minnesserver är en MCP-server: ett program som agenten anropar för att läsa och skriva minnen i ett minnesförråd som flera agenter eller verktyg kan dela. Att ansluta en är samma förtroendebeslut som i \"MCP, så når AI-agenten andra system\", med ett tillägg: det den innehåller har skrivits av agenter och läses av agenter. Ingenting läser in den automatiskt i början. Agenten måste anropa den. Referensserverns README innehåller en exempelprompt för personanpassning. Den säger åt agenten att börja varje chatt med att hämta all relevant information ur kunskapsgrafen"
+    sv: "En minnesserver är en MCP-server: ett program som agenten anropar för att läsa och skriva minnen som flera agenter eller verktyg kan dela. Att ansluta en är samma avvägning om förtroende som i \"MCP, så når AI-agenten andra system\", med ett tillägg: det den innehåller har skrivits av agenter och läses av agenter. Ingenting läser in den automatiskt i början. Agenten måste anropa den. Referensserverns README innehåller en exempelprompt för personanpassning. Den säger åt agenten att börja varje chatt med att hämta all relevant information ur kunskapsgrafen"
     en: "A memory server is an MCP server: a program the agent calls to read and write memories in a store that several agents or tools can share. Connecting one is the trust decision that \"MCP, how an AI agent reaches other systems\" describes, with one addition: what it holds was written by agents and is read by agents. Nothing loads it at the start by itself. The agent has to call it, and the reference server's README gives an example prompt, for chat personalisation, that begins every chat by retrieving all relevant information from the knowledge graph"
   vendor: "Model Context Protocol (reference servers)"
   url: https://github.com/modelcontextprotocol/servers/tree/main/src/memory
@@ -1379,7 +1379,7 @@
 - id: M101
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "basic-memory (AGPL-3.0) lagrar anteckningar som markdown-filer som både människor och modeller läser och skriver, med ett lokalt SQLite-index och utan krav på servrar. Self-hosted är det gratis och synkroniseringen mellan enheter görs manuellt, till exempel med Git eller Syncthing. Projektets molntjänst kostar i november 2026 15,00 dollar i månaden till ett betapris – ordinarie pris är 19 dollar. Team workspace har samma prissättning: en användare till att börja med och fler efter behov. Enligt projektet blir allt en teammedlem skriver direkt tillgängligt för alla andra och deras AI-assistenter. En felaktig post når dem lika snabbt som en riktig"
+    sv: "basic-memory (AGPL-3.0) lagrar anteckningar som Markdown-filer som både människor och modeller läser och skriver, med ett lokalt SQLite-index och utan krav på servrar. Self-hosted är det gratis och synkroniseringen mellan enheter görs manuellt, till exempel med git eller Syncthing. Projektets molntjänst kostar i november 2026 15 dollar i månaden till ett betapris – ordinarie pris är 19 dollar. Team workspace har samma prissättning med en användare från början och fler efter behov. Enligt projektet blir allt en teammedlem skriver direkt tillgängligt för alla andra och deras AI-assistenter. En felaktig anteckning når dem lika snabbt som en riktig"
     en: "basic-memory (AGPL-3.0) keeps notes as Markdown files that people and models both read and write, with a local SQLite index and no servers required. Self-hosted it is free and syncing between devices is manual, with Git or Syncthing for instance. In November 2026 its hosted service costs $15.00 a month at a beta price, against a regular price of $19. Its team workspace has the same pricing, starting with one user and adding more as needed. Anything a teammate writes, it says, is immediately available to everyone else and to their AI assistants. A wrong entry reaches them as fast as a right one"
   vendor: Basic Machines (basic-memory)
   url: https://github.com/basicmachines-co/basic-memory
@@ -1391,7 +1391,7 @@
 - id: M102
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "basic-memory (AGPL-3.0) lagrar anteckningar som markdown-filer som både människor och modeller läser och skriver, med ett lokalt SQLite-index och utan krav på servrar. Self-hosted är det gratis och synkroniseringen mellan enheter görs manuellt, till exempel med Git eller Syncthing. Projektets molntjänst kostar i november 2026 15,00 dollar i månaden till ett betapris – ordinarie pris är 19 dollar. Team workspace har samma prissättning: en användare till att börja med och fler efter behov. Enligt projektet blir allt en teammedlem skriver direkt tillgängligt för alla andra och deras AI-assistenter. En felaktig post når dem lika snabbt som en riktig"
+    sv: "basic-memory (AGPL-3.0) lagrar anteckningar som Markdown-filer som både människor och modeller läser och skriver, med ett lokalt SQLite-index och utan krav på servrar. Self-hosted är det gratis och synkroniseringen mellan enheter görs manuellt, till exempel med git eller Syncthing. Projektets molntjänst kostar i november 2026 15 dollar i månaden till ett betapris – ordinarie pris är 19 dollar. Team workspace har samma prissättning med en användare från början och fler efter behov. Enligt projektet blir allt en teammedlem skriver direkt tillgängligt för alla andra och deras AI-assistenter. En felaktig anteckning når dem lika snabbt som en riktig"
     en: "basic-memory (AGPL-3.0) keeps notes as Markdown files that people and models both read and write, with a local SQLite index and no servers required. Self-hosted it is free and syncing between devices is manual, with Git or Syncthing for instance. In November 2026 its hosted service costs $15.00 a month at a beta price, against a regular price of $19. Its team workspace has the same pricing, starting with one user and adding more as needed. Anything a teammate writes, it says, is immediately available to everyone else and to their AI assistants. A wrong entry reaches them as fast as a right one"
   vendor: Basic Machines (basic-memory)
   url: https://github.com/basicmachines-co/basic-memory
@@ -1403,7 +1403,7 @@
 - id: M103
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "basic-memory (AGPL-3.0) lagrar anteckningar som markdown-filer som både människor och modeller läser och skriver, med ett lokalt SQLite-index och utan krav på servrar. Self-hosted är det gratis och synkroniseringen mellan enheter görs manuellt, till exempel med Git eller Syncthing. Projektets molntjänst kostar i november 2026 15,00 dollar i månaden till ett betapris – ordinarie pris är 19 dollar. Team workspace har samma prissättning: en användare till att börja med och fler efter behov. Enligt projektet blir allt en teammedlem skriver direkt tillgängligt för alla andra och deras AI-assistenter. En felaktig post når dem lika snabbt som en riktig"
+    sv: "basic-memory (AGPL-3.0) lagrar anteckningar som Markdown-filer som både människor och modeller läser och skriver, med ett lokalt SQLite-index och utan krav på servrar. Self-hosted är det gratis och synkroniseringen mellan enheter görs manuellt, till exempel med git eller Syncthing. Projektets molntjänst kostar i november 2026 15 dollar i månaden till ett betapris – ordinarie pris är 19 dollar. Team workspace har samma prissättning med en användare från början och fler efter behov. Enligt projektet blir allt en teammedlem skriver direkt tillgängligt för alla andra och deras AI-assistenter. En felaktig anteckning når dem lika snabbt som en riktig"
     en: "basic-memory (AGPL-3.0) keeps notes as Markdown files that people and models both read and write, with a local SQLite index and no servers required. Self-hosted it is free and syncing between devices is manual, with Git or Syncthing for instance. In November 2026 its hosted service costs $15.00 a month at a beta price, against a regular price of $19. Its team workspace has the same pricing, starting with one user and adding more as needed. Anything a teammate writes, it says, is immediately available to everyone else and to their AI assistants. A wrong entry reaches them as fast as a right one"
   vendor: Basic Machines (basic-memory)
   url: https://github.com/basicmachines-co/basic-memory
@@ -1415,7 +1415,7 @@
 - id: M104
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "basic-memory (AGPL-3.0) lagrar anteckningar som markdown-filer som både människor och modeller läser och skriver, med ett lokalt SQLite-index och utan krav på servrar. Self-hosted är det gratis och synkroniseringen mellan enheter görs manuellt, till exempel med Git eller Syncthing. Projektets molntjänst kostar i november 2026 15,00 dollar i månaden till ett betapris – ordinarie pris är 19 dollar. Team workspace har samma prissättning: en användare till att börja med och fler efter behov. Enligt projektet blir allt en teammedlem skriver direkt tillgängligt för alla andra och deras AI-assistenter. En felaktig post når dem lika snabbt som en riktig"
+    sv: "basic-memory (AGPL-3.0) lagrar anteckningar som Markdown-filer som både människor och modeller läser och skriver, med ett lokalt SQLite-index och utan krav på servrar. Self-hosted är det gratis och synkroniseringen mellan enheter görs manuellt, till exempel med git eller Syncthing. Projektets molntjänst kostar i november 2026 15 dollar i månaden till ett betapris – ordinarie pris är 19 dollar. Team workspace har samma prissättning med en användare från början och fler efter behov. Enligt projektet blir allt en teammedlem skriver direkt tillgängligt för alla andra och deras AI-assistenter. En felaktig anteckning når dem lika snabbt som en riktig"
     en: "basic-memory (AGPL-3.0) keeps notes as Markdown files that people and models both read and write, with a local SQLite index and no servers required. Self-hosted it is free and syncing between devices is manual, with Git or Syncthing for instance. In November 2026 its hosted service costs $15.00 a month at a beta price, against a regular price of $19. Its team workspace has the same pricing, starting with one user and adding more as needed. Anything a teammate writes, it says, is immediately available to everyone else and to their AI assistants. A wrong entry reaches them as fast as a right one"
   vendor: Basic Machines (basic-memory)
   url: https://github.com/basicmachines-co/basic-memory
@@ -1427,7 +1427,7 @@
 - id: M105
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "basic-memory (AGPL-3.0) lagrar anteckningar som markdown-filer som både människor och modeller läser och skriver, med ett lokalt SQLite-index och utan krav på servrar. Self-hosted är det gratis och synkroniseringen mellan enheter görs manuellt, till exempel med Git eller Syncthing. Projektets molntjänst kostar i november 2026 15,00 dollar i månaden till ett betapris – ordinarie pris är 19 dollar. Team workspace har samma prissättning: en användare till att börja med och fler efter behov. Enligt projektet blir allt en teammedlem skriver direkt tillgängligt för alla andra och deras AI-assistenter. En felaktig post når dem lika snabbt som en riktig"
+    sv: "basic-memory (AGPL-3.0) lagrar anteckningar som Markdown-filer som både människor och modeller läser och skriver, med ett lokalt SQLite-index och utan krav på servrar. Self-hosted är det gratis och synkroniseringen mellan enheter görs manuellt, till exempel med git eller Syncthing. Projektets molntjänst kostar i november 2026 15 dollar i månaden till ett betapris – ordinarie pris är 19 dollar. Team workspace har samma prissättning med en användare från början och fler efter behov. Enligt projektet blir allt en teammedlem skriver direkt tillgängligt för alla andra och deras AI-assistenter. En felaktig anteckning når dem lika snabbt som en riktig"
     en: "basic-memory (AGPL-3.0) keeps notes as Markdown files that people and models both read and write, with a local SQLite index and no servers required. Self-hosted it is free and syncing between devices is manual, with Git or Syncthing for instance. In November 2026 its hosted service costs $15.00 a month at a beta price, against a regular price of $19. Its team workspace has the same pricing, starting with one user and adding more as needed. Anything a teammate writes, it says, is immediately available to everyone else and to their AI assistants. A wrong entry reaches them as fast as a right one"
   vendor: Basic Machines (basic-memory)
   url: https://github.com/basicmachines-co/basic-memory
@@ -1439,7 +1439,7 @@
 - id: M106
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "basic-memory (AGPL-3.0) lagrar anteckningar som markdown-filer som både människor och modeller läser och skriver, med ett lokalt SQLite-index och utan krav på servrar. Self-hosted är det gratis och synkroniseringen mellan enheter görs manuellt, till exempel med Git eller Syncthing. Projektets molntjänst kostar i november 2026 15,00 dollar i månaden till ett betapris – ordinarie pris är 19 dollar. Team workspace har samma prissättning: en användare till att börja med och fler efter behov. Enligt projektet blir allt en teammedlem skriver direkt tillgängligt för alla andra och deras AI-assistenter. En felaktig post når dem lika snabbt som en riktig"
+    sv: "basic-memory (AGPL-3.0) lagrar anteckningar som Markdown-filer som både människor och modeller läser och skriver, med ett lokalt SQLite-index och utan krav på servrar. Self-hosted är det gratis och synkroniseringen mellan enheter görs manuellt, till exempel med git eller Syncthing. Projektets molntjänst kostar i november 2026 15 dollar i månaden till ett betapris – ordinarie pris är 19 dollar. Team workspace har samma prissättning med en användare från början och fler efter behov. Enligt projektet blir allt en teammedlem skriver direkt tillgängligt för alla andra och deras AI-assistenter. En felaktig anteckning når dem lika snabbt som en riktig"
     en: "basic-memory (AGPL-3.0) keeps notes as Markdown files that people and models both read and write, with a local SQLite index and no servers required. Self-hosted it is free and syncing between devices is manual, with Git or Syncthing for instance. In November 2026 its hosted service costs $15.00 a month at a beta price, against a regular price of $19. Its team workspace has the same pricing, starting with one user and adding more as needed. Anything a teammate writes, it says, is immediately available to everyone else and to their AI assistants. A wrong entry reaches them as fast as a right one"
   vendor: Basic Machines (basic-memory)
   url: https://github.com/basicmachines-co/basic-memory
@@ -1451,7 +1451,7 @@
 - id: M136
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "basic-memory (AGPL-3.0) lagrar anteckningar som markdown-filer som både människor och modeller läser och skriver, med ett lokalt SQLite-index och utan krav på servrar. Self-hosted är det gratis och synkroniseringen mellan enheter görs manuellt, till exempel med Git eller Syncthing. Projektets molntjänst kostar i november 2026 15,00 dollar i månaden till ett betapris – ordinarie pris är 19 dollar. Team workspace har samma prissättning: en användare till att börja med och fler efter behov. Enligt projektet blir allt en teammedlem skriver direkt tillgängligt för alla andra och deras AI-assistenter. En felaktig post når dem lika snabbt som en riktig"
+    sv: "basic-memory (AGPL-3.0) lagrar anteckningar som Markdown-filer som både människor och modeller läser och skriver, med ett lokalt SQLite-index och utan krav på servrar. Self-hosted är det gratis och synkroniseringen mellan enheter görs manuellt, till exempel med git eller Syncthing. Projektets molntjänst kostar i november 2026 15 dollar i månaden till ett betapris – ordinarie pris är 19 dollar. Team workspace har samma prissättning med en användare från början och fler efter behov. Enligt projektet blir allt en teammedlem skriver direkt tillgängligt för alla andra och deras AI-assistenter. En felaktig anteckning når dem lika snabbt som en riktig"
     en: "basic-memory (AGPL-3.0) keeps notes as Markdown files that people and models both read and write, with a local SQLite index and no servers required. Self-hosted it is free and syncing between devices is manual, with Git or Syncthing for instance. In November 2026 its hosted service costs $15.00 a month at a beta price, against a regular price of $19. Its team workspace has the same pricing, starting with one user and adding more as needed. Anything a teammate writes, it says, is immediately available to everyone else and to their AI assistants. A wrong entry reaches them as fast as a right one"
   vendor: "Basic Machines (basic-memory)"
   url: https://github.com/basicmachines-co/basic-memory
@@ -1511,7 +1511,7 @@
 - id: M111
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "Fabriken bakom den här sajten har sitt gemensamma tillstånd i Beads, en ärendehanterare med öppen källkod som i sin README kallar sig \"ett beständigt, strukturerat minne för agenter som kodar\" (vår översättning): en graf av uppgifter med beroenden i en versionshanterad databas, i stället för markdown-planer. En agent tar en bead, arbetar, skriver ner vad den gjorde och stänger den, som det beskrivs i Därför driver vi en agentdriven mjukvarufabrik. Om sessionen dör halvvägs förblir beaden öppen för nästa. Enligt README körs databasen som standard inuti en process med en enda writer, ett serverläge stöder flera writers och maskiner synkroniseras via git-remoten. bd remember sparar varaktiga projektfakta som bd prime läser in senare. Personliga preferenser lämnar README utanför: de hör hemma i ditt eget verktygs minne"
+    sv: "Fabriken bakom den här sajten har sin gemensamma state i Beads, en ärendehanterare med öppen källkod som i sin README kallar sig \"ett beständigt, strukturerat minne för kodande agenter\" (vår översättning): en graf av uppgifter med beroenden i en versionshanterad databas, i stället för Markdown-planer. En agent tar en bead, arbetar, skriver ner vad den gjorde och stänger den, som det beskrivs i Därför driver vi en agentdriven mjukvarufabrik. Om sessionen dör halvvägs förblir beaden öppen för nästa. Enligt README körs databasen som standard inuti en process med en enda writer, ett serverläge stöder flera writers och maskiner synkroniseras via git-remoten. bd remember sparar varaktiga projektfakta som bd prime läser in senare. Personliga preferenser tar README inte med: de hör hemma i ditt eget verktygs minne"
     en: "The factory behind this site keeps its shared state in Beads, an open-source tracker whose README calls it \"a persistent, structured memory for coding agents\": a graph of tasks with dependencies in a version-controlled database, in place of markdown plans. As Why we run an agent-run software factory describes, an agent claims a bead, works, writes down what it did and closes it. If its session dies halfway the bead stays open for the next one. According to the README the database runs inside one process with a single writer by default, a server mode serves several writers and machines sync through the git remote. bd remember stores durable project facts that bd prime injects later, and the README keeps personal preferences out: they belong in your own tool's memory"
   vendor: Beads (gastownhall)
   url: https://github.com/gastownhall/beads
@@ -1523,7 +1523,7 @@
 - id: M112
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "Fabriken bakom den här sajten har sitt gemensamma tillstånd i Beads, en ärendehanterare med öppen källkod som i sin README kallar sig \"ett beständigt, strukturerat minne för agenter som kodar\" (vår översättning): en graf av uppgifter med beroenden i en versionshanterad databas, i stället för markdown-planer. En agent tar en bead, arbetar, skriver ner vad den gjorde och stänger den, som det beskrivs i Därför driver vi en agentdriven mjukvarufabrik. Om sessionen dör halvvägs förblir beaden öppen för nästa. Enligt README körs databasen som standard inuti en process med en enda writer, ett serverläge stöder flera writers och maskiner synkroniseras via git-remoten. bd remember sparar varaktiga projektfakta som bd prime läser in senare. Personliga preferenser lämnar README utanför: de hör hemma i ditt eget verktygs minne"
+    sv: "Fabriken bakom den här sajten har sin gemensamma state i Beads, en ärendehanterare med öppen källkod som i sin README kallar sig \"ett beständigt, strukturerat minne för kodande agenter\" (vår översättning): en graf av uppgifter med beroenden i en versionshanterad databas, i stället för Markdown-planer. En agent tar en bead, arbetar, skriver ner vad den gjorde och stänger den, som det beskrivs i Därför driver vi en agentdriven mjukvarufabrik. Om sessionen dör halvvägs förblir beaden öppen för nästa. Enligt README körs databasen som standard inuti en process med en enda writer, ett serverläge stöder flera writers och maskiner synkroniseras via git-remoten. bd remember sparar varaktiga projektfakta som bd prime läser in senare. Personliga preferenser tar README inte med: de hör hemma i ditt eget verktygs minne"
     en: "The factory behind this site keeps its shared state in Beads, an open-source tracker whose README calls it \"a persistent, structured memory for coding agents\": a graph of tasks with dependencies in a version-controlled database, in place of markdown plans. As Why we run an agent-run software factory describes, an agent claims a bead, works, writes down what it did and closes it. If its session dies halfway the bead stays open for the next one. According to the README the database runs inside one process with a single writer by default, a server mode serves several writers and machines sync through the git remote. bd remember stores durable project facts that bd prime injects later, and the README keeps personal preferences out: they belong in your own tool's memory"
   vendor: Addable Labs
   url: https://addablelabs.se/blog/why-we-run-an-agent-run-factory/
@@ -1535,7 +1535,7 @@
 - id: M113
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "Fabriken bakom den här sajten har sitt gemensamma tillstånd i Beads, en ärendehanterare med öppen källkod som i sin README kallar sig \"ett beständigt, strukturerat minne för agenter som kodar\" (vår översättning): en graf av uppgifter med beroenden i en versionshanterad databas, i stället för markdown-planer. En agent tar en bead, arbetar, skriver ner vad den gjorde och stänger den, som det beskrivs i Därför driver vi en agentdriven mjukvarufabrik. Om sessionen dör halvvägs förblir beaden öppen för nästa. Enligt README körs databasen som standard inuti en process med en enda writer, ett serverläge stöder flera writers och maskiner synkroniseras via git-remoten. bd remember sparar varaktiga projektfakta som bd prime läser in senare. Personliga preferenser lämnar README utanför: de hör hemma i ditt eget verktygs minne"
+    sv: "Fabriken bakom den här sajten har sin gemensamma state i Beads, en ärendehanterare med öppen källkod som i sin README kallar sig \"ett beständigt, strukturerat minne för kodande agenter\" (vår översättning): en graf av uppgifter med beroenden i en versionshanterad databas, i stället för Markdown-planer. En agent tar en bead, arbetar, skriver ner vad den gjorde och stänger den, som det beskrivs i Därför driver vi en agentdriven mjukvarufabrik. Om sessionen dör halvvägs förblir beaden öppen för nästa. Enligt README körs databasen som standard inuti en process med en enda writer, ett serverläge stöder flera writers och maskiner synkroniseras via git-remoten. bd remember sparar varaktiga projektfakta som bd prime läser in senare. Personliga preferenser tar README inte med: de hör hemma i ditt eget verktygs minne"
     en: "The factory behind this site keeps its shared state in Beads, an open-source tracker whose README calls it \"a persistent, structured memory for coding agents\": a graph of tasks with dependencies in a version-controlled database, in place of markdown plans. As Why we run an agent-run software factory describes, an agent claims a bead, works, writes down what it did and closes it. If its session dies halfway the bead stays open for the next one. According to the README the database runs inside one process with a single writer by default, a server mode serves several writers and machines sync through the git remote. bd remember stores durable project facts that bd prime injects later, and the README keeps personal preferences out: they belong in your own tool's memory"
   vendor: Beads (gastownhall)
   url: https://github.com/gastownhall/beads
@@ -1547,7 +1547,7 @@
 - id: M114
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "Fabriken bakom den här sajten har sitt gemensamma tillstånd i Beads, en ärendehanterare med öppen källkod som i sin README kallar sig \"ett beständigt, strukturerat minne för agenter som kodar\" (vår översättning): en graf av uppgifter med beroenden i en versionshanterad databas, i stället för markdown-planer. En agent tar en bead, arbetar, skriver ner vad den gjorde och stänger den, som det beskrivs i Därför driver vi en agentdriven mjukvarufabrik. Om sessionen dör halvvägs förblir beaden öppen för nästa. Enligt README körs databasen som standard inuti en process med en enda writer, ett serverläge stöder flera writers och maskiner synkroniseras via git-remoten. bd remember sparar varaktiga projektfakta som bd prime läser in senare. Personliga preferenser lämnar README utanför: de hör hemma i ditt eget verktygs minne"
+    sv: "Fabriken bakom den här sajten har sin gemensamma state i Beads, en ärendehanterare med öppen källkod som i sin README kallar sig \"ett beständigt, strukturerat minne för kodande agenter\" (vår översättning): en graf av uppgifter med beroenden i en versionshanterad databas, i stället för Markdown-planer. En agent tar en bead, arbetar, skriver ner vad den gjorde och stänger den, som det beskrivs i Därför driver vi en agentdriven mjukvarufabrik. Om sessionen dör halvvägs förblir beaden öppen för nästa. Enligt README körs databasen som standard inuti en process med en enda writer, ett serverläge stöder flera writers och maskiner synkroniseras via git-remoten. bd remember sparar varaktiga projektfakta som bd prime läser in senare. Personliga preferenser tar README inte med: de hör hemma i ditt eget verktygs minne"
     en: "The factory behind this site keeps its shared state in Beads, an open-source tracker whose README calls it \"a persistent, structured memory for coding agents\": a graph of tasks with dependencies in a version-controlled database, in place of markdown plans. As Why we run an agent-run software factory describes, an agent claims a bead, works, writes down what it did and closes it. If its session dies halfway the bead stays open for the next one. According to the README the database runs inside one process with a single writer by default, a server mode serves several writers and machines sync through the git remote. bd remember stores durable project facts that bd prime injects later, and the README keeps personal preferences out: they belong in your own tool's memory"
   vendor: Beads (gastownhall)
   url: https://github.com/gastownhall/beads
@@ -1559,7 +1559,7 @@
 - id: M115
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "Fabriken bakom den här sajten har sitt gemensamma tillstånd i Beads, en ärendehanterare med öppen källkod som i sin README kallar sig \"ett beständigt, strukturerat minne för agenter som kodar\" (vår översättning): en graf av uppgifter med beroenden i en versionshanterad databas, i stället för markdown-planer. En agent tar en bead, arbetar, skriver ner vad den gjorde och stänger den, som det beskrivs i Därför driver vi en agentdriven mjukvarufabrik. Om sessionen dör halvvägs förblir beaden öppen för nästa. Enligt README körs databasen som standard inuti en process med en enda writer, ett serverläge stöder flera writers och maskiner synkroniseras via git-remoten. bd remember sparar varaktiga projektfakta som bd prime läser in senare. Personliga preferenser lämnar README utanför: de hör hemma i ditt eget verktygs minne"
+    sv: "Fabriken bakom den här sajten har sin gemensamma state i Beads, en ärendehanterare med öppen källkod som i sin README kallar sig \"ett beständigt, strukturerat minne för kodande agenter\" (vår översättning): en graf av uppgifter med beroenden i en versionshanterad databas, i stället för Markdown-planer. En agent tar en bead, arbetar, skriver ner vad den gjorde och stänger den, som det beskrivs i Därför driver vi en agentdriven mjukvarufabrik. Om sessionen dör halvvägs förblir beaden öppen för nästa. Enligt README körs databasen som standard inuti en process med en enda writer, ett serverläge stöder flera writers och maskiner synkroniseras via git-remoten. bd remember sparar varaktiga projektfakta som bd prime läser in senare. Personliga preferenser tar README inte med: de hör hemma i ditt eget verktygs minne"
     en: "The factory behind this site keeps its shared state in Beads, an open-source tracker whose README calls it \"a persistent, structured memory for coding agents\": a graph of tasks with dependencies in a version-controlled database, in place of markdown plans. As Why we run an agent-run software factory describes, an agent claims a bead, works, writes down what it did and closes it. If its session dies halfway the bead stays open for the next one. According to the README the database runs inside one process with a single writer by default, a server mode serves several writers and machines sync through the git remote. bd remember stores durable project facts that bd prime injects later, and the README keeps personal preferences out: they belong in your own tool's memory"
   vendor: Beads (gastownhall)
   url: https://github.com/gastownhall/beads
@@ -1571,7 +1571,7 @@
 - id: M116
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "Fabriken bakom den här sajten har sitt gemensamma tillstånd i Beads, en ärendehanterare med öppen källkod som i sin README kallar sig \"ett beständigt, strukturerat minne för agenter som kodar\" (vår översättning): en graf av uppgifter med beroenden i en versionshanterad databas, i stället för markdown-planer. En agent tar en bead, arbetar, skriver ner vad den gjorde och stänger den, som det beskrivs i Därför driver vi en agentdriven mjukvarufabrik. Om sessionen dör halvvägs förblir beaden öppen för nästa. Enligt README körs databasen som standard inuti en process med en enda writer, ett serverläge stöder flera writers och maskiner synkroniseras via git-remoten. bd remember sparar varaktiga projektfakta som bd prime läser in senare. Personliga preferenser lämnar README utanför: de hör hemma i ditt eget verktygs minne"
+    sv: "Fabriken bakom den här sajten har sin gemensamma state i Beads, en ärendehanterare med öppen källkod som i sin README kallar sig \"ett beständigt, strukturerat minne för kodande agenter\" (vår översättning): en graf av uppgifter med beroenden i en versionshanterad databas, i stället för Markdown-planer. En agent tar en bead, arbetar, skriver ner vad den gjorde och stänger den, som det beskrivs i Därför driver vi en agentdriven mjukvarufabrik. Om sessionen dör halvvägs förblir beaden öppen för nästa. Enligt README körs databasen som standard inuti en process med en enda writer, ett serverläge stöder flera writers och maskiner synkroniseras via git-remoten. bd remember sparar varaktiga projektfakta som bd prime läser in senare. Personliga preferenser tar README inte med: de hör hemma i ditt eget verktygs minne"
     en: "The factory behind this site keeps its shared state in Beads, an open-source tracker whose README calls it \"a persistent, structured memory for coding agents\": a graph of tasks with dependencies in a version-controlled database, in place of markdown plans. As Why we run an agent-run software factory describes, an agent claims a bead, works, writes down what it did and closes it. If its session dies halfway the bead stays open for the next one. According to the README the database runs inside one process with a single writer by default, a server mode serves several writers and machines sync through the git remote. bd remember stores durable project facts that bd prime injects later, and the README keeps personal preferences out: they belong in your own tool's memory"
   vendor: Beads (gastownhall)
   url: https://github.com/gastownhall/beads
@@ -1583,7 +1583,7 @@
 - id: M117
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "Fabriken bakom den här sajten har sitt gemensamma tillstånd i Beads, en ärendehanterare med öppen källkod som i sin README kallar sig \"ett beständigt, strukturerat minne för agenter som kodar\" (vår översättning): en graf av uppgifter med beroenden i en versionshanterad databas, i stället för markdown-planer. En agent tar en bead, arbetar, skriver ner vad den gjorde och stänger den, som det beskrivs i Därför driver vi en agentdriven mjukvarufabrik. Om sessionen dör halvvägs förblir beaden öppen för nästa. Enligt README körs databasen som standard inuti en process med en enda writer, ett serverläge stöder flera writers och maskiner synkroniseras via git-remoten. bd remember sparar varaktiga projektfakta som bd prime läser in senare. Personliga preferenser lämnar README utanför: de hör hemma i ditt eget verktygs minne"
+    sv: "Fabriken bakom den här sajten har sin gemensamma state i Beads, en ärendehanterare med öppen källkod som i sin README kallar sig \"ett beständigt, strukturerat minne för kodande agenter\" (vår översättning): en graf av uppgifter med beroenden i en versionshanterad databas, i stället för Markdown-planer. En agent tar en bead, arbetar, skriver ner vad den gjorde och stänger den, som det beskrivs i Därför driver vi en agentdriven mjukvarufabrik. Om sessionen dör halvvägs förblir beaden öppen för nästa. Enligt README körs databasen som standard inuti en process med en enda writer, ett serverläge stöder flera writers och maskiner synkroniseras via git-remoten. bd remember sparar varaktiga projektfakta som bd prime läser in senare. Personliga preferenser tar README inte med: de hör hemma i ditt eget verktygs minne"
     en: "The factory behind this site keeps its shared state in Beads, an open-source tracker whose README calls it \"a persistent, structured memory for coding agents\": a graph of tasks with dependencies in a version-controlled database, in place of markdown plans. As Why we run an agent-run software factory describes, an agent claims a bead, works, writes down what it did and closes it. If its session dies halfway the bead stays open for the next one. According to the README the database runs inside one process with a single writer by default, a server mode serves several writers and machines sync through the git remote. bd remember stores durable project facts that bd prime injects later, and the README keeps personal preferences out: they belong in your own tool's memory"
   vendor: Beads (gastownhall)
   url: https://github.com/gastownhall/beads
@@ -1596,7 +1596,7 @@
   article: memory-that-outlives-an-ai-agents-session
   sentence:
     sv: "Ett första steg är att läsa det din agent redan har sparat: /memory i Claude Code, repots Copilot-minnesinställningar på GitHub och mappen ~/.codex för Codex. Det du hittar går att sortera i tre sorter: regler, sådant du vill komma ihåg och pågående arbete. Regler som teamet förlitar sig på hör hemma i instruktionsfilen i repot, där de granskas som kod. En regel som måste gälla oavsett vad agenten bestämmer behöver dessutom en gräns utanför modellen. Pågående arbete hör hemma i en överlämning"
-    en: "A first step is to read what the agent has already saved: /memory in Claude Code, the repository's Copilot memory settings on GitHub and the ~/.codex folder for Codex. What you find sorts into three kinds of text: rules, recall and work in flight. Rules the team relies on go in the committed instruction file, reviewed like code, and one that must hold whatever the agent decides also needs a limit outside the model. Work in flight goes in a hand-off"
+    en: "A first step is to read what the agent has already saved: /memory in Claude Code, the repository's Copilot memory settings on GitHub and the ~/.codex folder for Codex. What you find can be sorted into three kinds of text: rules, recall and work in flight. Rules the team relies on go in the committed instruction file, reviewed like code, and a rule that must hold whatever the agent decides also needs a limit outside the model. Work in flight goes in a hand-off"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/memory
   final_url: https://code.claude.com/docs/en/memory
@@ -1608,7 +1608,7 @@
   article: memory-that-outlives-an-ai-agents-session
   sentence:
     sv: "Ett första steg är att läsa det din agent redan har sparat: /memory i Claude Code, repots Copilot-minnesinställningar på GitHub och mappen ~/.codex för Codex. Det du hittar går att sortera i tre sorter: regler, sådant du vill komma ihåg och pågående arbete. Regler som teamet förlitar sig på hör hemma i instruktionsfilen i repot, där de granskas som kod. En regel som måste gälla oavsett vad agenten bestämmer behöver dessutom en gräns utanför modellen. Pågående arbete hör hemma i en överlämning"
-    en: "A first step is to read what the agent has already saved: /memory in Claude Code, the repository's Copilot memory settings on GitHub and the ~/.codex folder for Codex. What you find sorts into three kinds of text: rules, recall and work in flight. Rules the team relies on go in the committed instruction file, reviewed like code, and one that must hold whatever the agent decides also needs a limit outside the model. Work in flight goes in a hand-off"
+    en: "A first step is to read what the agent has already saved: /memory in Claude Code, the repository's Copilot memory settings on GitHub and the ~/.codex folder for Codex. What you find can be sorted into three kinds of text: rules, recall and work in flight. Rules the team relies on go in the committed instruction file, reviewed like code, and a rule that must hold whatever the agent decides also needs a limit outside the model. Work in flight goes in a hand-off"
   vendor: Microsoft
   url: https://code.visualstudio.com/docs/agents/run/memory
   final_url: https://code.visualstudio.com/docs/agents/run/memory
@@ -1620,7 +1620,7 @@
   article: memory-that-outlives-an-ai-agents-session
   sentence:
     sv: "Ett första steg är att läsa det din agent redan har sparat: /memory i Claude Code, repots Copilot-minnesinställningar på GitHub och mappen ~/.codex för Codex. Det du hittar går att sortera i tre sorter: regler, sådant du vill komma ihåg och pågående arbete. Regler som teamet förlitar sig på hör hemma i instruktionsfilen i repot, där de granskas som kod. En regel som måste gälla oavsett vad agenten bestämmer behöver dessutom en gräns utanför modellen. Pågående arbete hör hemma i en överlämning"
-    en: "A first step is to read what the agent has already saved: /memory in Claude Code, the repository's Copilot memory settings on GitHub and the ~/.codex folder for Codex. What you find sorts into three kinds of text: rules, recall and work in flight. Rules the team relies on go in the committed instruction file, reviewed like code, and one that must hold whatever the agent decides also needs a limit outside the model. Work in flight goes in a hand-off"
+    en: "A first step is to read what the agent has already saved: /memory in Claude Code, the repository's Copilot memory settings on GitHub and the ~/.codex folder for Codex. What you find can be sorted into three kinds of text: rules, recall and work in flight. Rules the team relies on go in the committed instruction file, reviewed like code, and a rule that must hold whatever the agent decides also needs a limit outside the model. Work in flight goes in a hand-off"
   vendor: OpenAI
   url: https://learn.chatgpt.com/docs/customization/memories
   final_url: https://learn.chatgpt.com/docs/customization/memories
@@ -1631,8 +1631,8 @@
 - id: M121
   article: memory-that-outlives-an-ai-agents-session
   sentence:
-    sv: "En runner är tom när jobbet börjar: allt ett jobb lär sig går förlorat om det inte pushas i en commit eller sparas i ett minnesförråd utanför runnern – och en cache är inget ställe att ha det på. Innan du ansluter ett delat minnesförråd, till exempel en minnesserver, är det bra att ha bestämt vem som får skriva i det, vem som läser det och hur en post tas bort. Det är också värt att kontrollera de aktuella inställningarna innan du förlitar dig på en standard, eftersom de i november 2026 skiljer sig mellan verktygen och mellan Copilots abonnemang"
-    en: "A runner is empty when the job starts: whatever a job learns is lost unless it is pushed in a commit or kept in a store outside the runner, and a cache is not a place to keep it. Before a shared store such as a memory server is connected, it helps to have decided who may write to it, who reads it and how an entry is deleted. It is also worth checking the current settings before relying on a default, since in November 2026 they differ between the tools and between Copilot's plans"
+    sv: "En ny runner är tom när jobbet börjar: allt ett jobb lär sig går förlorat om det inte committas och pushas, eller sparas i ett minne utanför runnern – och en cache är inget ställe att ha det på. Innan du ansluter ett delat minne, till exempel en minnesserver, är det bra att ha bestämt vem som får skriva i det, vem som läser det och hur en anteckning tas bort. Det är också värt att kontrollera de aktuella inställningarna innan du förlitar dig på standardvärdet, eftersom de i november 2026 skiljer sig mellan verktygen och mellan Copilots abonnemang"
+    en: "A new runner is empty when the job starts: whatever a job learns is lost unless it is pushed in a commit or kept in a store outside the runner, and a cache is not a place to keep it. Before a shared store such as a memory server is connected, it helps to have decided who may write to it, who reads it and how an entry is deleted. It is also worth checking the current settings before relying on a default, since in November 2026 they differ between the tools and between Copilot's plans"
   vendor: GitHub
   url: https://docs.github.com/en/copilot/concepts/prompting-and-context/copilot-memory
   final_url: https://docs.github.com/en/copilot/concepts/prompting-and-context/copilot-memory
@@ -1644,7 +1644,7 @@
   article: memory-that-outlives-an-ai-agents-session
   sentence:
     sv: "Regler som teamet förlitar sig på hör hemma i instruktionsfilen i repot, där de granskas som kod. En regel som måste gälla oavsett vad agenten bestämmer behöver dessutom en gräns utanför modellen"
-    en: "Rules the team relies on go in the committed instruction file, reviewed like code, and one that must hold whatever the agent decides also needs a limit outside the model"
+    en: "Rules the team relies on go in the committed instruction file, reviewed like code, and a rule that must hold whatever the agent decides also needs a limit outside the model"
   vendor: GitHub
   url: https://docs.github.com/en/copilot/concepts/prompting-and-context/copilot-memory
   final_url: https://docs.github.com/en/copilot/concepts/prompting-and-context/copilot-memory

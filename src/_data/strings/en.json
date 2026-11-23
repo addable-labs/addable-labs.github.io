@@ -1672,7 +1672,7 @@
       "read": "loaded back at the start",
       "startup": "start-up layer",
       "note": "a written note",
-      "caption": "The bar goes with the session; the store does not. What the agent wrote to it comes back as part of the next session's start-up layer, so a memory takes room in every request, like the rest of that layer."
+      "caption": "The bar goes with the session; the store does not. What the agent wrote to it comes back as part of the next session's start-up layer, so a memory takes up part of the context window in every request, like the rest of that layer."
     },
     "memory-file-or-memory": {
       "title": "Two columns: the instruction file, written and reviewed by people and the same on every computer, and memory, written by the agent and possibly old or wrong. An arrow moves one fact from memory to the file once a person has checked it. A small card below stands apart: work in flight belongs in a hand-off.",

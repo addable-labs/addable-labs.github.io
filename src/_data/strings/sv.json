@@ -1662,7 +1662,7 @@
       "caption": "Hooken säger något först över den första linjen. Anteckningen skrivs av agenten innan kontexten är full, så nästa session börjar från det agenten valde att behålla, inte från en sammanfattning som verktyget skrev åt den."
     },
     "memory-written-and-loaded": {
-      "title": "Två sessioner som varsin stapel, med ett förråd av anteckningar mellan sig. Den första sessionens stapel tar slut. En anteckning lämnar den och skrivs in i förrådet. Nästa sessions stapel börjar nästan tom, med startinnehållet och anteckningen som har lästs in igen från förrådet.",
+      "title": "Två sessioner, en stapel var, med minnet mellan sig. Den första sessionens stapel tar slut. En anteckning lämnar den och skrivs in i minnet. Nästa sessions stapel börjar nästan tom, med startinnehållet och anteckningen som har lästs in igen från minnet.",
       "head": "Ett minne skrivs ner och läses in igen",
       "session1": "session",
       "session2": "nästa session",
@@ -1672,7 +1672,7 @@
       "read": "läses in igen i början",
       "startup": "startinnehåll",
       "note": "en anteckning",
-      "caption": "Stapeln försvinner med sessionen men minnesförrådet finns kvar. Det agenten skrev dit kommer tillbaka som en del av nästa sessions startinnehåll, så ett minne tar upp en del av kontextfönstret i varje anrop, precis som resten av startinnehållet."
+      "caption": "Stapeln försvinner med sessionen, men minnet finns kvar. Det agenten skrev dit kommer tillbaka som en del av nästa sessions startinnehåll, så ett minne tar upp en del av kontextfönstret i varje anrop, precis som resten av startinnehållet."
     },
     "memory-file-or-memory": {
       "title": "Två kolumner. Den ena är instruktionsfilen: skriven och granskad av människor och likadan på varje dator. Den andra är minnet: skrivet av agenten och möjligen gammalt eller fel. En pil flyttar ett faktum från minnet till filen när en människa har kontrollerat det. Ett litet kort nedanför står för sig: pågående arbete hör hemma i en överlämning.",
@@ -1687,30 +1687,30 @@
       "mem3": "kan vara gammalt eller fel",
       "move": "flyttas när en människa har kontrollerat det",
       "flight": "pågående arbete: en överlämning",
-      "caption": "Ett faktum går från höger till vänster när en människa har kontrollerat det. Pågående arbete är ingetdera: det hör hemma i en överlämning."
+      "caption": "Ett faktum går från höger till vänster när en människa har kontrollerat det. Pågående arbete är varken filen eller minnet: det hör hemma i en överlämning."
     },
     "memory-where-it-lives": {
-      "title": "En matris med tre ställen där en session kan starta (din dator, en kollegas dator, en runner) och tre ställen där ett minne kan ligga. Ett minne i en mapp på din dator når bara din dator. En fil i repot når alla tre. En leverantörs minnesförråd når dem bara genom de konton och verktyg som leverantören släpper in.",
+      "title": "En matris med tre ställen där en session kan starta (din dator, en kollegas dator, en runner) och tre ställen där ett minne kan ligga. Ett minne i en mapp på din dator når bara din dator. En fil i repot når alla tre. En leverantörs minne når dem bara genom de konton och verktyg som leverantören släpper in.",
       "head": "Vem som kan läsa vilket minne",
       "c1": "din dator",
       "c2": "en kollegas dator",
       "c3": "en runner",
       "r1": "en mapp på din dator",
       "r2": "en fil i repot",
-      "r3": "en leverantörs minnesförråd",
+      "r3": "en leverantörs minne",
       "repo": "repot",
       "gate": "bara de konton och verktyg som leverantören släpper in",
-      "caption": "En heldragen linje är ett minne som alla som har checkat ut repot kan läsa. En streckad linje beror på vem leverantören släpper in. Ett minne i en hemmapp har bara en linje."
+      "caption": "En heldragen linje betyder att alla som har checkat ut repot kan läsa minnet. En streckad linje betyder att det beror på vem leverantören släpper in. Ett minne i en hemmapp har bara en linje."
     },
     "memory-runner-starts-empty": {
-      "title": "En runner i tre skeden. I början är den tom och får repot – och kanske en cache och ett minnesförråd utanför den. Medan jobbet körs innehåller den en anteckning som agenten skriver. I slutet raderas runnern: anteckningen överlever bara om den har lämnat runnern som en commit, en artifact eller en cache.",
+      "title": "En runner i tre skeden. I början är den tom och får repot – och kanske en cache och ett minne utanför den. Medan jobbet körs innehåller den en anteckning som agenten skriver. I slutet raderas runnern: anteckningen överlever bara om den har lämnat runnern som en commit, en artifact eller en cache.",
       "head": "En ny runner startar tom",
       "start": "jobbet startar",
       "run": "jobbet körs",
       "end": "jobbet slutar",
       "repo": "repot, utcheckat",
       "cache": "en cache, återställd som den är",
-      "store": "ett minnesförråd utanför runnern",
+      "store": "ett minne utanför runnern",
       "note": "en anteckning som agenten skriver",
       "commit": "en commit",
       "artifact": "en artifact",
@@ -1718,22 +1718,22 @@
       "gone": "en anteckning utan väg ut är borta",
       "deleted": "runnern raderas",
       "warn": "opålitlig indata",
-      "caption": "Bara det som lämnar runnern överlever den. En commit kommer tillbaka med nästa checkout och kan granskas där. En cache kommer tillbaka som den är, som opålitlig indata."
+      "caption": "Bara det som lämnar runnern överlever den. En commit kommer tillbaka med nästa checkout och kan granskas där. En cache kommer tillbaka precis som den var och räknas som opålitlig indata."
     },
     "memory-poisoned-entry": {
-      "title": "En text utifrån med en gömd instruktion läses av en agent, som skriver in den i minnesförrådet som ett kort bland andra. Senare sessioner läser förrådet och det markerade kortet når varje session som läser det. En gräns utanför modellen sitter mellan sessionen och den åtgärd som kortet ber om.",
-      "head": "En förgiftad post",
+      "title": "En text utifrån med en gömd instruktion läses av en agent, som skriver in den i minnet som ett kort bland andra. Det markerade kortet når varje senare session som läser minnet. En gräns utanför modellen sitter mellan sessionen och den åtgärd som kortet ber om.",
+      "head": "Ett förgiftat minne",
       "source": "en text utifrån",
       "hidden": "en gömd instruktion",
       "agent": "agent",
       "write": "skrivs in i minnet",
       "store": "minne",
-      "bad": "en förgiftad post",
+      "bad": "en förgiftad anteckning",
       "later": "varje senare session",
       "read": "läses av senare sessioner",
-      "action": "en åtgärd som posten ber om",
+      "action": "en åtgärd som anteckningen ber om",
       "gate": "en gräns utanför modellen",
-      "caption": "Posten skrivs en gång och kan nå varje session efter den. När den väl var lagrad gav en bättre prompt litet skydd i studien. En gräns efter agenten blockerar åtgärden oavsett vad sessionen bestämmer."
+      "caption": "Anteckningen skrivs en gång och kan nå varje session efter den. När den väl var lagrad gav en bättre prompt bara begränsat skydd i studien. En gräns mellan agenten och åtgärden blockerar den oavsett vad sessionen bestämmer."
     }
   },
   "games": {

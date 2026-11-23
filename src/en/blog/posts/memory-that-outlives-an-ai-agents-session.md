@@ -40,7 +40,7 @@ session.
 
 {% figure "memory-written-and-loaded", "wide" %}
 
-When the session ends its bar is gone; the memory store beside it stays. The memory store is where the notes sit. What was
+When the session ends, its bar is gone; the memory store beside it stays. The memory store is where the notes sit. What was
 written to it is loaded into the start-up content of the next session. Three
 questions decide how a memory behaves: who writes it, where it is stored and who
 else can read it. The rest of the article answers them for each tool and for a
@@ -99,7 +99,7 @@ finished chats in the background.
 
 ## Rules belong in the file and memory is for recall
 
-The reason is who has checked the text. A person writes the instruction file,
+The reason for the split is who has checked the text. A person writes the instruction file,
 described in
 [The instruction file, the first thing an AI agent reads](/blog/the-instruction-file/),
 and a colleague can review it in a pull request. An agent writes the memory, and
@@ -108,7 +108,7 @@ because Copilot's check of a fact's citations is a judgement it makes, rather
 than a guarantee enforced by the system, a stored fact should not be relied on
 as a rule that will always be followed.
 
-All three vendors draw the line in the same place. OpenAI's documentation says
+All three vendors draw the line between rules and memory in the same place. OpenAI's documentation says
 to keep required team guidance in `AGENTS.md` or checked-in documentation and to
 treat memories as "a helpful recall layer, not as the only source for rules that
 must always apply".
@@ -381,12 +381,12 @@ commands. The cost is a database and a sync remote to keep healthy.
 
 A first step is to read what the agent has already saved: `/memory` in Claude
 Code, the repository's Copilot memory settings on GitHub and the `~/.codex`
-folder for Codex. What you find sorts into three kinds of text: rules, recall
+folder for Codex. What you find can be sorted into three kinds of text: rules, recall
 and work in flight. Rules the team relies on go in the committed instruction file,
-reviewed like code, and one that must hold whatever the agent decides also needs
+reviewed like code, and a rule that must hold whatever the agent decides also needs
 a limit outside the model. Work in flight goes in a hand-off.
 
-A runner is empty when the job starts: whatever a job learns is lost unless it
+A new runner is empty when the job starts: whatever a job learns is lost unless it
 is pushed in a commit or kept in a store outside the runner, and a cache is not
 a place to keep it. Before a shared store such as a memory server is connected,
 it helps to have decided who may write to it, who reads it and how an entry is
