@@ -32,7 +32,7 @@
 - id: A3-idle-compaction
   article: how-many-agents-at-once
   sentence:
-    sv: "Sedan oktober komprimerar Claude Code också en lång konversation som har legat inaktiv i ungefär en timme, innan cachen går ut"
+    sv: "Sedan oktober komprimerar Claude Code också en lång session som har stått inaktiv i ungefär en timme, strax innan sessionens promptcache går ut"
     en: "Since October, Claude Code has also compacted a long conversation that sits idle for about an hour, before its cache expires"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/settings-reference
@@ -44,7 +44,7 @@
 - id: A3-idle-hour
   article: how-many-agents-at-once
   sentence:
-    sv: "Sedan oktober komprimerar Claude Code också en lång konversation som har legat inaktiv i ungefär en timme, innan cachen går ut"
+    sv: "Sedan oktober komprimerar Claude Code också en lång session som har stått inaktiv i ungefär en timme, strax innan sessionens promptcache går ut"
     en: "Since October, Claude Code has also compacted a long conversation that sits idle for about an hour, before its cache expires"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/settings-reference
@@ -56,7 +56,7 @@
 - id: A3-idle-changelog
   article: how-many-agents-at-once
   sentence:
-    sv: "Sedan oktober komprimerar Claude Code också en lång konversation som har legat inaktiv i ungefär en timme, innan cachen går ut"
+    sv: "Sedan oktober komprimerar Claude Code också en lång session som har stått inaktiv i ungefär en timme, strax innan sessionens promptcache går ut"
     en: "Since October, Claude Code has also compacted a long conversation that sits idle for about an hour, before its cache expires"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/changelog

@@ -29,7 +29,7 @@
 - id: V2
   article: what-an-agent-costs-while-it-waits
   sentence:
-    sv: "Borgmästarens schemalagda kontroller kostade på samma sätt. Claude Codes sida om att hantera kostnader säger att en schemalagd uppgift som hör till en session körs enligt sitt intervall även när sessionen är inaktiv och att varje körning skickar hela kontexten."
+    sv: "Det gällde också borgmästarens schemalagda kontroller. Claude Codes sida om att hantera kostnader säger att en schemalagd uppgift som hör till en session körs enligt sitt intervall även när sessionen är inaktiv och att varje körning skickar hela kontexten."
     en: "The mayor's scheduled checks cost the same way: Claude Code's page on managing costs notes that a session-scoped scheduled task still runs while the session is idle, and that each run sends the whole context."
   vendor: Anthropic
   url: https://code.claude.com/docs/en/costs
@@ -40,7 +40,7 @@
 - id: V3
   article: what-an-agent-costs-while-it-waits
   sentence:
-    sv: "Ett meddelande i Slack som nämner ChatGPT kan starta en molnuppgift i Codex, som fortsätter att arbeta medan användarens dator sover."
+    sv: "Ett meddelande i Slack som nämner ChatGPT kan starta en cloud task i Codex, som fortsätter att arbeta medan användarens dator sover."
     en: "A message in Slack that mentions ChatGPT can start a Codex cloud task, which keeps running while the user's computer sleeps."
   vendor: OpenAI
   url: https://learn.chatgpt.com/docs/cloud
@@ -53,7 +53,7 @@
 - id: V3-slack
   article: what-an-agent-costs-while-it-waits
   sentence:
-    sv: "Ett meddelande i Slack som nämner ChatGPT kan starta en molnuppgift i Codex, som fortsätter att arbeta medan användarens dator sover."
+    sv: "Ett meddelande i Slack som nämner ChatGPT kan starta en cloud task i Codex, som fortsätter att arbeta medan användarens dator sover."
     en: "A message in Slack that mentions ChatGPT can start a Codex cloud task, which keeps running while the user's computer sleeps."
   vendor: OpenAI
   url: https://learn.chatgpt.com/docs/third-party/slack
@@ -64,7 +64,7 @@
 - id: V4
   article: what-an-agent-costs-while-it-waits
   sentence:
-    sv: "Molnagenten i GitHub Copilot startar när en issue tilldelas den eller en kommentar nämner den."
+    sv: "GitHub Copilots cloud agent startar när ett issue tilldelas den eller en kommentar nämner den."
     en: "The GitHub Copilot cloud agent starts when an issue is assigned to it or a comment mentions it."
   vendor: GitHub
   url: https://docs.github.com/en/copilot/how-tos/use-copilot-agents/cloud-agent/use-cloud-agent-on-github
@@ -86,7 +86,7 @@
 - id: V7
   article: what-an-agent-costs-while-it-waits
   sentence:
-    sv: "Claude Codes sida om prompt caching säger att Claude Code begär en cache på en timme med ett Claude-abonnemang – inom den användning som ingår i abonnemanget – och en på fem minuter med en API-nyckel."
+    sv: "Claude Codes sida om prompt caching säger att Claude Code begär en cache på en timme med ett Claude-abonnemang – inom det som ingår i abonnemanget – och en på fem minuter med en API-nyckel."
     en: "Claude Code's page on prompt caching says that Claude Code asks for a one-hour cache on a Claude subscription, within the plan's included usage, and a five-minute one with an API key."
   vendor: Anthropic
   url: https://code.claude.com/docs/en/prompt-caching
@@ -119,7 +119,7 @@
 - id: V9-compact
   article: what-an-agent-costs-while-it-waits
   sentence:
-    sv: "Sedan oktober komprimerar Claude Code en lång konversation som har legat inaktiv innan timmen har gått: när kontexten når standardgränsen på 200 000 tokens och ungefär en timme har gått sedan det senaste anropet ersätts konversationen av en sammanfattning"
+    sv: "Sedan oktober komprimerar Claude Code en lång session som har stått inaktiv innan timmen har gått: när kontexten når standardgränsen på 200 000 tokens och ungefär en timme har gått sedan det senaste anropet ersätts konversationen av en sammanfattning"
     en: "Since October Claude Code has compacted a long idle conversation before the hour runs out: once the context reaches the default threshold of 200,000 tokens and about an hour has passed since the last request, it replaces the conversation with a summary"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/settings-reference
@@ -130,7 +130,7 @@
 - id: V9-threshold
   article: what-an-agent-costs-while-it-waits
   sentence:
-    sv: "Sedan oktober komprimerar Claude Code en lång konversation som har legat inaktiv innan timmen har gått: när kontexten når standardgränsen på 200 000 tokens och ungefär en timme har gått sedan det senaste anropet ersätts konversationen av en sammanfattning"
+    sv: "Sedan oktober komprimerar Claude Code en lång session som har stått inaktiv innan timmen har gått: när kontexten når standardgränsen på 200 000 tokens och ungefär en timme har gått sedan det senaste anropet ersätts konversationen av en sammanfattning"
     en: "Since October Claude Code has compacted a long idle conversation before the hour runs out: once the context reaches the default threshold of 200,000 tokens and about an hour has passed since the last request, it replaces the conversation with a summary"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/settings-reference
@@ -141,7 +141,7 @@
 - id: V9-hour
   article: what-an-agent-costs-while-it-waits
   sentence:
-    sv: "Sedan oktober komprimerar Claude Code en lång konversation som har legat inaktiv innan timmen har gått: när kontexten når standardgränsen på 200 000 tokens och ungefär en timme har gått sedan det senaste anropet ersätts konversationen av en sammanfattning"
+    sv: "Sedan oktober komprimerar Claude Code en lång session som har stått inaktiv innan timmen har gått: när kontexten når standardgränsen på 200 000 tokens och ungefär en timme har gått sedan det senaste anropet ersätts konversationen av en sammanfattning"
     en: "Since October Claude Code has compacted a long idle conversation before the hour runs out: once the context reaches the default threshold of 200,000 tokens and about an hour has passed since the last request, it replaces the conversation with a summary"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/settings-reference
@@ -152,7 +152,7 @@
 - id: V9-changelog
   article: what-an-agent-costs-while-it-waits
   sentence:
-    sv: "Sedan oktober komprimerar Claude Code en lång konversation som har legat inaktiv innan timmen har gått: när kontexten når standardgränsen på 200 000 tokens och ungefär en timme har gått sedan det senaste anropet ersätts konversationen av en sammanfattning"
+    sv: "Sedan oktober komprimerar Claude Code en lång session som har stått inaktiv innan timmen har gått: när kontexten når standardgränsen på 200 000 tokens och ungefär en timme har gått sedan det senaste anropet ersätts konversationen av en sammanfattning"
     en: "Since October Claude Code has compacted a long idle conversation before the hour runs out: once the context reaches the default threshold of 200,000 tokens and about an hour has passed since the last request, it replaces the conversation with a summary"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/changelog

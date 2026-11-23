@@ -1,8 +1,8 @@
 ---
 title: Vad en agent kostar medan den väntar
-description: "Hur många tokens borgmästaren, agenten som samordnar fabriken bakom den här sajten, använde medan den väntade från september till november 2026: i regel två till tre gånger kontexten för varje väckning som slutade utan utåtriktad handling, oavsett om en bevakning hade löpt ut, en kontroll var schemalagd eller en händelse hade inträffat."
+description: "Hur många tokens borgmästaren, agenten som samordnar fabriken bakom den här sajten, använde medan den väntade från september till november 2026: i regel två till tre gånger kontexten varje gång den väcktes och det slutade utan utåtriktad handling, oavsett om en bevakning hade löpt ut, en kontroll var schemalagd eller en händelse hade inträffat."
 image: cover.png                 # en PNG på 1200 × 630 i artikelns mediemapp
-imageAlt: "Två banor över samma del av ett lugnt dygn. Bredvid ett stoppur har den övre banan sexton orange markeringar med jämna mellanrum: en bevakning som startas om var 30:e minut. Bredvid en ringklocka har den nedre banan fem gröna markeringar med ojämna mellanrum: en agent som bara väcks när något händer. Markeringarna är lika stora i båda banorna."
+imageAlt: "Två banor över samma del av ett lugnt dygn. Bredvid ett stoppur har den övre banan sexton orange markeringar med jämna mellanrum: en bevakning som startas om var 30:e minut. Bredvid en notisklocka har den nedre banan fem gröna markeringar med ojämna mellanrum: en agent som bara väcks när något händer. Markeringarna är lika stora i båda banorna."
 date: 2026-10-11
 category: ai-journey             # app-development | ai-journey
 translationKey: what-an-agent-costs-while-it-waits
@@ -12,9 +12,10 @@ humanReviewed: false             # ingen har läst den ännu
 ---
 
 Vad kostar en AI-agent medan den väntar? För borgmästaren, agenten som samordnar
-fabriken bakom den här sajten, kostade en väckning utan utåtriktad handling i
-regel två till tre gånger kontextens storlek i tokens. Ett dygn då inget väckte
-den kostade ingenting.
+fabriken bakom den här sajten, kostade det i regel två till tre gånger
+kontextens storlek i tokens varje gång den väcktes – en väckning – utan att det
+följdes av någon utåtriktad handling. Ett dygn då inget väckte den kostade
+ingenting.
 
 Fram till den 9 oktober 2026 väntade borgmästaren i en bevakning som löpte ut
 var 30:e minut och måste startas om. På intensiva dagar försvann omstarterna i
@@ -24,12 +25,13 @@ väcktes borgmästaren bara när något hände eller en schemalagd kontroll skul
 köras. Den 10 oktober, det första hela dygnet efter ändringen, blev det inga
 omstarter. Ändå använde borgmästaren bara omkring 20 % färre tokens per timme
 som datorn var vaken: de flesta händelser som väckte den krävde ingen åtgärd och
-en väckning kostade ungefär lika mycket som en omstart. I november förekom inga
-omstarter någon dag. En väckning av en händelse som slutade utan utåtriktad
-handling kostade omkring tre gånger kontexten. När inget hände gick det däremot
-knappt åt några tokens: den 4 november var de tre schemalagda kontrollerna, 0,69
-miljoner tokens, de enda anropen. I omkring 95 timmar efter den 7 november
-väckte ingenting borgmästaren, så den gjorde inga anrop.
+varje gång den väcktes kostade det ungefär lika mycket som en omstart. I
+november förekom inga omstarter någon dag. När en händelse väckte borgmästaren
+och det slutade utan utåtriktad handling kostade det omkring tre gånger
+kontexten. När inget hände gick det däremot knappt åt några tokens: den 4
+november var de tre schemalagda kontrollerna, 0,69 miljoner tokens, de enda
+anropen. I omkring 95 timmar efter den 7 november väckte ingenting
+borgmästaren, så den gjorde inga anrop.
 
 Siffrorna kommer från borgmästarens egna sessionstranskript och mättes den 9 och
 11 oktober samt igen den 21 november.
@@ -53,9 +55,9 @@ att avsluta svaret med en rad text. Varje anrop skickade hela kontexten till
 modellen igen, vilket
 [En studie av borgmästarens kontext](/sv/blog/what-the-mayors-context-costs/)
 förklarar, så varje sådan omstart kostade två gånger kontextens storlek i
-tokens. Nästan alla de tokens lästes från cachen.
+tokens. Nästan alla tokens lästes från cachen.
 
-Borgmästarens schemalagda kontroller kostade på samma sätt. Claude Codes sida om
+Det gällde också borgmästarens schemalagda kontroller. Claude Codes sida om
 [att hantera kostnader](https://code.claude.com/docs/en/costs) säger att en
 schemalagd uppgift som hör till en session körs enligt sitt intervall även när
 sessionen är inaktiv och att varje körning skickar hela kontexten. Den 8 oktober
@@ -71,10 +73,10 @@ borgmästaren, så den gjorde inga anrop.
 
 Under de tio hela dygnen från den 27 september till den 7 oktober, med
 undantag för den 6 oktober, startades bevakningen om 36 till 46 gånger per dygn
-utan att ha rapporterat något. De omstarterna använde 8,4 till 22,6 miljoner
-tokens per dygn. Det var 36 % av borgmästarens tokens de dygnen – mer än
+utan att ha rapporterat något. Omstarterna använde 8,4 till 22,6 miljoner
+tokens per dygn. Det var 36 % av borgmästarens tokens under de dygnen – mer än
 hälften under fem av dem och 98 % den 30 september, då 89 av dygnets 91 anrop
-gick till omstarter.
+var omstarter.
 
 Under de intensiva dagarna 22–26 september, då borgmästaren använde 200 till
 355 miljoner tokens per dygn, tog samma sorts omstarter mellan 0,3 % och 4 % av
@@ -98,10 +100,10 @@ kostade därför tre gånger så mycket den 27 september, med en mediankontext p
 256 000 tokens, som den 2 oktober, med 84 000. Kontexten avgjorde vad varje
 väntan kostade.
 
-I november krävde en väckning av en händelse som slutade utan utåtriktad
-handling tre anrop i median och kostade tre gånger kontexten oavsett storlek. En
-schemalagd kontroll som inte hittade något kostade fortfarande ungefär två
-gånger kontexten.
+När en händelse väckte borgmästaren i november och det slutade utan utåtriktad
+handling krävdes tre anrop i median och det kostade tre gånger kontexten,
+oavsett storlek. En schemalagd kontroll som inte hittade något kostade
+fortfarande ungefär två gånger kontexten.
 
 ## En händelse utan åtgärd kostade lika mycket som en omstart
 
@@ -132,36 +134,36 @@ omstarterna den 8 oktober: orsaken hade ändrats, andelen inte.
 | Totalt | 27 | 90 | 10,78 | 100 % |
 
 När borgmästaren hade skrivit ett litet hjälpskript åt sig själv för larmmejlen
-svarade den på de flesta senare larm med två anrop. En sådan väckning kostade
-2,01 gånger kontexten, ungefär vad en omstart hade kostat.
+svarade den på de flesta senare larm med två anrop. Det kostade 2,01 gånger
+kontexten, ungefär lika mycket som en omstart hade kostat.
 
 Att borgmästaren väcktes av händelser i stället för av en bevakning som löpte ut
-tog bort kostnaden för omstarterna. Det ändrade inte vad en väckning kostade:
+tog bort kostnaden för omstarterna. Det ändrade inte vad det kostade att väckas:
 varje händelse innebar ändå att hela kontexten lästes in igen, så en händelse
 som inte krävde någon åtgärd kostade lika mycket som en omstart.
 
-## Två molnagenter startas av händelser
+## Två cloud agents startas av händelser
 
 Enligt dokumentationen från OpenAI och GitHub i oktober 2026 väntar deras
-molnagenter på ett annat sätt.
+cloud agents på ett annat sätt.
 [Ett meddelande i Slack](https://learn.chatgpt.com/docs/third-party/slack) som
 nämner ChatGPT kan starta en
-[molnuppgift i Codex](https://learn.chatgpt.com/docs/cloud), som fortsätter att
+[cloud task i Codex](https://learn.chatgpt.com/docs/cloud), som fortsätter att
 arbeta medan användarens dator sover.
-[Molnagenten i GitHub Copilot](https://docs.github.com/en/copilot/how-tos/use-copilot-agents/cloud-agent/use-cloud-agent-on-github)
-startar när en issue tilldelas den eller en kommentar nämner den. Codex kan
+[GitHub Copilots cloud agent](https://docs.github.com/en/copilot/how-tos/use-copilot-agents/cloud-agent/use-cloud-agent-on-github)
+startar när ett issue tilldelas den eller en kommentar nämner den. Codex kan
 också köra en [schemalagd uppgift](https://learn.chatgpt.com/docs/automations) i
 en befintlig chatt och använder då – som borgmästaren – chattens kontext i
 stället för en ny prompt varje gång. En samordnare som har en enda lång
-konversation igång, som borgmästaren, väntar inne i den konversationen: vad som
-än väcker den skickar nästa anrop hela kontexten.
+konversation igång, som borgmästaren, väntar i den konversationen: vad som än
+väcker den skickar nästa anrop hela kontexten.
 
 ## Efter en timmes tystnad löpte cachen ut eller konversationen komprimerades
 
 Claude Codes sida om
 [prompt caching](https://code.claude.com/docs/en/prompt-caching) säger att
-Claude Code begär en cache på en timme med ett Claude-abonnemang – inom den
-användning som ingår i abonnemanget – och en på fem minuter med en API-nyckel.
+Claude Code begär en cache på en timme med ett Claude-abonnemang – inom det som
+ingår i abonnemanget – och en på fem minuter med en API-nyckel.
 Varje anrop som läser från cachen startar timmen på nytt, så omstarterna var
 30:e minut hade hållit cachen varm.
 
@@ -171,11 +173,11 @@ bara 25 387 tokens från cachen och skrev resten av kontexten till cachen igen:
 tillsammans 1 % av månadens tokens.
 
 Sedan oktober komprimerar Claude Code
-[en lång konversation som har legat inaktiv](https://code.claude.com/docs/en/settings-reference#idlecompaction)
+[en lång session som har stått inaktiv](https://code.claude.com/docs/en/settings-reference#idlecompaction)
 innan timmen har gått: när kontexten når standardgränsen på 200 000 tokens och
 ungefär en timme har gått sedan det senaste anropet ersätts konversationen av en
-sammanfattning. Borgmästarens konversation komprimerades så sex gånger i
-november, varje gång efter ungefär 55 minuter utan anrop. En kontext på 217 000
+sammanfattning. Borgmästarens konversation komprimerades sex gånger i november,
+varje gång efter ungefär 55 minuter utan anrop. En kontext på 217 000
 till 300 000 tokens minskade då till 58 000 till 65 000. Anropet som skriver
 sammanfattningen ingår inte i siffrorna.
 
@@ -185,11 +187,11 @@ sammanfattningen ingår inte i siffrorna.
   meddelanden från grundaren och ovanligt hög belastning från andra projekt.
   November lägger till 13 fullständiga dygn med och utan arbete, på en dator.
 - "Ingen utåtriktad handling" betyder inte att inget behövdes: borgmästarens svar
-  på grundarens kommentarer på granskningssidor räknas inte som utåtriktade
-  handlingar.
+  på grundarens kommentarer på sidor där en ändring läses innan den publiceras
+  räknas inte som utåtriktade handlingar.
 - En token som lästes från cachen räknas här lika mycket som en som skrevs till
-  den. Dokumentationen säger inte hur mycket någon av dem räknas mot ett
-  abonnemangs användningsgränser.
+  den. Dokumentationen säger inte hur mycket någon av dem räknas mot
+  användningsgränserna i ett abonnemang.
 - Bara borgmästaren räknas. De andra agenternas tokens ingår inte i siffrorna.
 - Transkripten från före slutet av oktober finns inte kvar, så siffrorna för
   september och början av oktober kommer från mätningar som gjordes då. Under

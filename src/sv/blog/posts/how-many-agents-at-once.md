@@ -1,6 +1,6 @@
 ---
 title: Hur många agenter fabriken kör samtidigt
-description: Vad en andra kodande agent per projekt ändrade i fabriken bakom den här sajten den 26 september 2026, hur det gick när tre körde samtidigt den 15 november och vad borgmästarens start och en landad ändring kostade från september till november.
+description: Vad en kodande AI-agent till per projekt ändrade i fabriken bakom den här sajten den 26 september 2026, hur det gick när tre körde samtidigt den 15 november och vad borgmästarens start och en ändring på main kostade från september till november.
 image: cover.png                 # en PNG på 1200 × 630 i artikelns mediemapp
 imageAlt: "Fem banor för byggare: två är upptagna (gröna) och tre är tomma. Till höger ligger ett lås som släpper igenom ett webbläsarjobb i taget. Jobbet i den första banan har låset och jobbet i den andra väntar, i orange."
 date: 2026-10-06
@@ -11,26 +11,28 @@ aiGenerated: true                # AI har skrivit texten
 humanReviewed: false             # ingen har läst den ännu
 ---
 
-I både Claude Code och Codex kan en person köra flera kodande agenter samtidigt.
-För den som redan kör en agent ligger frågorna nära. Blir det mer gjort när fler
-agenter arbetar samtidigt? Och vad sätter stopp?
+I både Claude Code och Codex kan en person köra flera kodande AI-agenter
+samtidigt. För den som redan kör en agent ligger frågorna nära till hands. Blir
+det mer gjort när fler agenter arbetar samtidigt? Och var går gränsen?
 
 Fabriken bakom den här sajten, som beskrivs i
 [Därför driver vi en agentdriven mjukvarufabrik](/sv/blog/why-we-run-an-agent-run-factory/),
 har mätt en del av svaret. Byggarna är agentsessioner som var och en tar en
-uppgift ur fabrikens ärendehanterare och levererar den. Den 26 september 2026
-gick fabriken från en byggare per projekt till två. På den här sajten blev en
-ändring därefter klar var 26:e minut i stället för var 44:e, räknat på tiden då
-en byggare var igång. Antalet tokens per ändring ökade inte. Det blev mer gjort.
+bead – en uppgift i fabrikens ärendehanterare – och levererar den. Den 26
+september 2026 gick fabriken från en byggare per projekt till två. På den här
+sajten blev en ändring därefter klar var 26:e minut i stället för var 44:e,
+räknat på tiden då en byggare var igång. Antalet tokens per ändring ökade inte.
+Det blev mer gjort.
 
 Utvecklare nämner framför allt två begränsningar: att merga agenternas arbete
 och att granska det. Ingen av dem bromsade de här två byggarna. De fick aldrig
-konflikter i git och grundaren granskar inte varje ändring. Det som begränsade
-dem var det de delade: ett lås för varje jobb som startar en webbläsare, de
-fullständiga testkörningarna som köade till det och minnet i en enda dator.
+några konflikter i git och grundaren granskar inte varje ändring. Det som
+begränsade dem var det de delade: ett lås för varje jobb som startar en
+webbläsare, de fullständiga testkörningarna som köade till det och minnet i en
+enda dator.
 
-Den 15 november körde tre byggare parallellt på den här sajten, flest enligt de
-uppgifter som finns kvar. Även då fick de köa till låset: 18 av dagens 62
+Den 15 november körde tre byggare parallellt på den här sajten, som mest enligt
+de uppgifter som finns kvar. Även då fick de köa till låset: 18 av dagens 62
 webbläsarjobb väntade på det, sammanlagt 245 minuter. Fem samtidigt har varit
 tillåtet sedan den 6 oktober men har ännu inte körts.
 
@@ -38,13 +40,13 @@ tillåtet sedan den 6 oktober men har ännu inte körts.
 
 I november 2026 har fabriken fortfarande tre projekt på en dator med 24 GB
 minne: den här sajten, [Gaimer](https://github.com/addable-labs/gaimer) och ett
-eget privat repo. Allt arbete i november gick till den här sajten, där fem
+eget privat repo. Allt arbete i november gällde den här sajten, där fem
 agenter till skriver, granskar och redigerar artiklarna. Borgmästaren, agenten
-som samordnar fabriken, startar en byggare först när det finns en uppgift åt
-den. Antalet byggare per projekt är alltså ett tak, inte ett mål.
+som samordnar fabriken, startar en byggare först när det finns en bead åt den.
+Antalet byggare per projekt är alltså ett tak, inte ett mål.
 
-Taket började på en byggare per projekt. Den 26 september bad grundaren om en
-andra byggare och några minuter senare höjde borgmästaren taket till två på den
+Taket var från början en byggare per projekt. Den 26 september bad grundaren om
+en byggare till och några minuter senare höjde borgmästaren taket till två på den
 här sajten och i Gaimer. Fabrikens eget repo blev det tredje projektet den 29
 september. Den 6 oktober bad grundaren om fem agenter och taket blev fem i varje
 projekt. Samma kväll lade han till en skribent, en faktagranskare och en
@@ -57,25 +59,25 @@ som fabriken körs på, rekommenderar att en session lämnar över arbetet till 
 ny från 25 % av fönstret och uppmanar till det från 30 %.
 [En studie av borgmästarens kontext](/sv/blog/what-the-mayors-context-costs/)
 visar hur det påverkar kostnaden. Sedan oktober komprimerar Claude Code också
-[en lång konversation som har legat inaktiv i ungefär en timme](https://code.claude.com/docs/en/settings-reference#idlecompaction),
-innan cachen går ut. Därför kunde en av borgmästarens sessioner pågå från 31
-oktober till 15 november.
+[en lång session som har stått inaktiv i ungefär en timme](https://code.claude.com/docs/en/settings-reference#idlecompaction),
+strax innan sessionens promptcache går ut. Därför kunde en av borgmästarens
+sessioner pågå från 31 oktober till 15 november.
 
-## En andra byggare höjde tempot
+## En byggare till höjde tempot
 
 Den 26 september skrev grundaren: "Jag tycker att vi borde prova att lägga till
 en agent till per rig och se hur det påverkar prestandan. Verifieringsjobben
 borde köras i tur och ordning på något sätt så att vi inte kör för många
 Chrome-instanser" (vår översättning). Gas City kallar ett projekt för en rig.
-Borgmästaren höjde taket till två. Från och med då gick varje jobb som startar
-Chrome eller WebKit, till exempel en kontroll- eller testkörning av sajten,
-genom ett lås: bara ett jobb åt gången i hela fabriken, med varje väntan och
-körning loggad. En mätare loggade datorns belastning, minne, swap och
+Borgmästaren höjde taket till två. Från och med då kördes varje jobb som startar
+Chrome eller WebKit, till exempel en kontroll- eller testkörning av sajten, via
+ett lås: bara ett jobb åt gången i hela fabriken. Varje väntan och körning
+loggades. Ett mätskript loggade datorns belastning, minne, swap och
 webbläsarprocesser varje minut medan de två byggarna körde.
 
-Samma kväll satte grundaren regeln för hur steget skulle bedömas: mät avslutade
-sessioner – tokens, tid, väntetider och fel – och om byggarna störde varandra,
-utan påhittade tester eller replays.
+Samma kväll satte grundaren regeln för hur steget skulle bedömas: att mäta
+avslutade sessioner – tokens, tid, väntetider och fel – och se om byggarna
+störde varandra, utan påhittade tester eller replays.
 
 | Sajtens byggare | En byggare, 25–26 sep | Två byggare, 26 sep | Övriga sessioner, 14–20 nov | Tre parallellt, 15 nov |
 | --- | ---: | ---: | ---: | ---: |
@@ -87,12 +89,12 @@ utan påhittade tester eller replays.
 
 Vinsten med den andra byggaren syns på sista raden. En sessions tokens och
 minuter fördelas lika på de ändringar den arbetade med. Eftersom uppgifterna var
-olika jämför tokens per ändring lika mycket uppgifterna som upplägget. Den 15
-november gick sista raden åt andra hållet: med tre byggare parallellt krävde en
-ändring 74 minuter med en byggare igång, mot 29 för novembers övriga sessioner,
-trots att bara tre ändringar blev klara. En ändring finns med i båda
-novemberkolumnerna. I november var uppgifterna främst illustrationer, omslag,
-namnbyten och publiceringssteg.
+olika är en jämförelse av tokens per ändring lika mycket en jämförelse av
+uppgifter som av upplägg. Den 15 november gick sista raden åt andra hållet: med
+tre byggare parallellt och bara tre klara ändringar krävde en ändring 74
+minuter med en byggare igång, mot 29 för novembers övriga sessioner. En ändring
+finns med i båda novemberkolumnerna. I november var uppgifterna främst
+illustrationer, omslag, namnbyten och publiceringssteg.
 
 ## Byggarna väntade på det de delade
 
@@ -102,10 +104,10 @@ egen worktree, aldrig i projektets ordinarie checkout.
 säger att samma isolering gör att flera chattar kan arbeta i ett projekt "utan
 att störa varandra" (vår översättning). Inget kommando från den ena byggaren
 rörde den andras worktree eller processer, inget git-kommando misslyckades på
-grund av ett lås eller en konflikt och ingen push avvisades. De stötte ihop bara
-en gång, i en anteckning som byggarna delar. Den ena skrev om den medan den andra
+grund av ett lås eller en konflikt och ingen push avvisades. De krockade bara en
+gång, i en anteckning som byggarna delar. Den ena skrev om den medan den andra
 fortfarande arbetade. Den andras egen kontroll stoppade då ändringen eftersom
-texten hade ändrats.
+anteckningen hade ändrats.
 
 {% figure "lock", "wide" %}
 
@@ -116,14 +118,14 @@ och kontrollkörningar turades om.
 | Låset och datorn den 26 september | Uppmätt |
 | --- | ---: |
 | Jobb som tog låset, 10:09–15:34 UTC | 97 |
-| Jobb som väntade, samtliga byggarnas | 17 |
+| Jobb som väntade (alla byggarnas) | 17 |
 | Väntetid sammanlagt (minuter) | 43 |
 | De tre längsta väntetiderna, 13:55–14:18 UTC (minuter tillsammans) | 21 |
 | Godkända fullständiga testkörningar, 14:10–14:40 UTC (sekunder) | 441 och 467 |
 | Godkända fullständiga testkörningar efter 15:00 UTC (sekunder) | 87–137 |
 | En misslyckad fullständig testkörning strax före dem (minuter) | 8,9 |
 | Varav i ett känt flaky webbläsartest (minuter) | 7,5 |
-| Använd swap, när den steg (GB) | 2,7 → 8,1 |
+| Använd swap, från–till (GB) | 2,7 → 8,1 |
 | Ledigt minne (%) | 33–68 |
 | Headless Chrome-processer samtidigt, som mest | 9 |
 | Belastning över en minut, median, när ett jobb höll låset | 34 |
@@ -137,8 +139,8 @@ låset.
 ## Tre samtidigt, den 15 november
 
 Den 15 november körde tre byggare parallellt på den här sajten i 130 minuter:
-två lade till en andra illustration i del 6 respektive del 7 av serien om
-AI-agenter och den tredje gjorde fjärde omgången av produktens namnbyte på
+två lade till ytterligare en illustration i del 6 respektive del 7 av serien om
+AI-agenter och den tredje gjorde den fjärde omgången av produktens namnbyte på
 sajten. Var och en väntade sammanlagt ungefär en timme på låset. Den längsta
 enskilda väntan var 44 minuter. Låset var inte längre bara byggarnas:
 skribentens kontrollkörning av en annan artikel höll det i 48 minuter medan alla
@@ -153,40 +155,40 @@ agenterna som arbetar med artiklarna.
 | Längsta enskilda väntan (minuter) | 8,5 | 44 |
 | Vem som väntade | Bara byggare | Byggare och skribenten |
 
-Datorns mätare hade slutat köra i slutet av oktober, så minne och swap den 15
+Mätskriptet hade slutat köra i slutet av oktober, så minne och swap den 15
 november är okända. Siffrorna visar att de tre köade till låset men inte om
 datorn fick ont om resurser.
 
-## En landad ändring kostade byggarna 12,9 till 22,3 miljoner tokens
+## En ändring på main kostade byggarna 12,9 till 22,3 miljoner tokens
 
 [Claude Codes guide till att köra agenter parallellt](https://code.claude.com/docs/en/agents)
 varnar för att flera sessioner samtidigt mångdubblar tokenanvändningen. Tabellen
-visar vad en landad ändring – en commit som nådde ett projekts huvudgren –
+visar vad en ändring på main – en commit som nådde ett projekts huvudgren –
 kostade under längre perioder. Byggarnas tokens är de från alla byggarsessioner
 under perioden.
 
-| Tokens per landad ändring (miljoner) | Byggare | Borgmästaren | Ändringar |
+| Tokens per ändring på main (miljoner) | Byggare | Borgmästaren | Ändringar |
 | --- | ---: | ---: | ---: |
 | Gaimer, 24–26 sep | 12,9 | 4,1 | 83 |
 | Den här sajten, 24–26 sep | 22,3 | – | 42 |
 | Fabrikens eget repo, 29 sep–6 okt | 18,3 | – | 13 |
 | Den här sajten, 1–20 nov | 17,5 | 32,4 | 12 |
 
-Samordningen kommer ovanpå det. I september räknades borgmästarens andel bara
-för Gaimer: 4,1 miljoner tokens per ändring. Fram till den 20 november hade
-sajten landat 12 ändringar och de andra två projekten ingen, så alla
+Därtill kommer samordningen. I september räknades borgmästarens andel bara för
+Gaimer: 4,1 miljoner tokens per ändring. Fram till den 20 november hade sajten
+fått 12 ändringar på main och de andra två projekten ingen, så alla
 borgmästarens tokens räknas på sajten: 32,4 miljoner per ändring. Det är en övre
-gräns, eftersom de också omfattar granskningssidor, kontroller av leverantörernas
-sidor och utkast som inte har landat. Agenterna som skriver, granskar och
-redigerar artiklarna använde ytterligare 62,0 miljoner tokens per landad
-ändring.
+gräns, eftersom de också går åt till sidor där grundaren läser en ändring innan
+den publiceras, till kontroller av leverantörernas sidor och till utkast som
+inte har nått main. Agenterna som skriver, granskar och redigerar artiklarna
+använde ytterligare 62,0 miljoner tokens per ändring på main.
 
 ## Borgmästarens start kostade mer när det fanns lite arbete
 
 | Borgmästarens sessioner med en utåtriktad handling (vid ett jämnt antal är medianen det övre av de två mittersta värdena) | 24–28 sep | 28 sep–5 okt | 31 okt–20 nov |
 | --- | ---: | ---: | ---: |
 | Sessioner | 22 | 8 | 5 |
-| Tokens före den första utåtriktade handlingen (ett svar, ett utskickat uppdrag, en skriven uppgift, ett mejl, en commit eller en redigering), median | 30 600 | 108 300 | 15 300 |
+| Tokens före den första utåtriktade handlingen (ett svar, ett utskickat uppdrag, en skriven bead, ett mejl, en commit eller en redigering), median | 30 600 | 108 300 | 15 300 |
 | Startinnehåll i första anropet, median | 42 700 | 43 300 | 51 600 |
 | Första varvet: anteckningar, lägeskontroll, bevakningar, genomsnitt | 26 300 | 27 400 | 15 000 |
 | Läsning för uppgiften före den första handlingen, genomsnitt | 5 100 | 44 100 | 2 900 |
@@ -199,8 +201,8 @@ september till den 5 oktober väntade och läste borgmästaren innan den agerade
 Från den 31 oktober till den 20 november startade den bara fem sessioner som
 agerade: de började med mer startinnehåll, i median 51 600 tokens, men lade till
 i median 15 300 före den första handlingen. Sedan den 11 oktober svarar
-borgmästaren dessutom grundaren på granskningssidor, vilket inte ingår i
-räkningen.
+borgmästaren dessutom på grundarens kommentarer på sidor där en ändring läses
+innan den publiceras, vilket inte ingår i räkningen.
 
 ## Fem byggare är tillåtna men har inte kört tillsammans
 

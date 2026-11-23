@@ -1106,7 +1106,7 @@
         "waiting": "väntar"
       },
       "summary": "{jobs} jobb tog låset, {waits} av dem fick vänta, sammanlagt {minutes} minuter; belastningen nådde som mest {peak}",
-      "caption": "Sajtens två byggare den 26 september 2026, klockan 10:00 till 16:00 UTC, en rad för vardera. Sessionerna är ritade med kontur, varje jobb som höll webbläsarlåset är en fylld stapel och varje väntan på det är orange. Den tredje raden visar borgmästarens egna jobb. Nedanför syns maskinens belastning över en minut, mätt varje minut från klockan 10:05. Alla 17 väntetider var byggarnas jobb."
+      "caption": "Sajtens två byggare den 26 september 2026, klockan 10:00 till 16:00 UTC, en rad för vardera. Sessionerna är ritade med kontur, varje jobb som höll webbläsarlåset är en fylld stapel och varje väntan på det är orange. Den tredje raden visar borgmästarens egna jobb. Nedanför syns datorns belastning över en minut, mätt varje minut från klockan 10:05. Alla 17 väntetider var byggarnas jobb."
     },
     "waiting-per-day": {
       "title": "Borgmästarens tokens per dygn (UTC), 27 september till 10 oktober 2026",
@@ -1129,7 +1129,7 @@
         "change": "ändringen: inga fler omstarter"
       },
       "named": "{day}: {total} miljoner tokens, {share} till omstarter",
-      "caption": "Borgmästarens tokens per dygn (UTC) från 27 september till 10 oktober 2026, i miljoner. Orange visar omstarter av en bevakning som inte hade rapporterat något, grått visar allt annat och till höger syns andelen av dygnets tokens som gick till omstarter. Den 6 oktober saknas: inga anrop på 1,8 timmar sedan en inloggning hade gått ut. Den 9 oktober, dagen för ändringen, saknas också eftersom inga anrop kom förrän på kvällen. Datan för den 8 oktober slutar klockan 21:23 UTC. Efter ändringen väcktes borgmästaren bara när något hände eller en schemalagd kontroll skulle köras: den 10 oktober blev det inga omstarter, men två tredjedelar av dygnets tokens gick åt till väckningar som inte krävde någon åtgärd."
+      "caption": "Borgmästarens tokens per dygn (UTC) från 27 september till 10 oktober 2026, i miljoner. Orange visar omstarter av en bevakning som inte hade rapporterat något, grått visar allt annat och till höger syns andelen av dygnets tokens som gick till omstarter. Den 6 oktober saknas: inga anrop på 1,8 timmar efter att en inloggning hade gått ut. Den 9 oktober, dagen för ändringen, saknas också eftersom inga anrop kom förrän på kvällen. Datan för den 8 oktober slutar klockan 21:23 UTC. Efter ändringen väcktes borgmästaren bara när något hände eller en schemalagd kontroll skulle köras: den 10 oktober blev det inga omstarter, men två tredjedelar av dygnets tokens gick åt till väckningar som inte krävde någon åtgärd."
     },
     "chat-or-agent": {
       "chat": {
