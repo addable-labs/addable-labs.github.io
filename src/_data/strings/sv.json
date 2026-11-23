@@ -1599,7 +1599,7 @@
       "caption": "En nivå visar var du stod. En väg visar vart du kan gå därifrån."
     },
     "context-before-you-type": {
-      "title": "Kontextfönstret som en stapel där startinnehållet ligger som ett tunt lager längst ned och resten är tomt. Startinnehållet består av verktygets instruktioner, instruktionsfilen, minnet och namnen på skills och verktyg.",
+      "title": "Kontextfönstret som en stapel där startinnehållet ligger som ett tunt lager längst ner och resten är tomt. Startinnehållet består av verktygets instruktioner, instruktionsfilen, minnet och namnen på skills och verktyg.",
       "head": "Före den första prompten",
       "limit": "fönstrets gräns",
       "empty": "utrymme kvar",
@@ -1610,12 +1610,12 @@
       "caption": "Kontexten innan du har skrivit något. Startinnehållet är litet jämfört med hela fönstret, men det finns där – varje senare anrop bär med sig det. Proportionerna i bilden är illustrativa, inte exakta."
     },
     "context-as-it-fills": {
-      "title": "Fyra tillfällen i en session, där varje stapel är fullare än den förra: efter den första prompten, efter några lästa filer, efter utdata från en testkörning och efter att en andra, orelaterad uppgift har börjat. Den första uppgiftens lager finns kvar.",
+      "title": "Fyra tillfällen i en session, där varje stapel är fullare än den förra: efter den första prompten, efter några lästa filer, efter utdata från en testkörning och efter att en andra uppgift som inte hör ihop med den första har börjat. Den första uppgiftens lager finns kvar.",
       "head": "En session, fyra tillfällen",
       "m1": "efter den första prompten",
       "m2": "efter några lästa filer",
       "m3": "efter en testkörning",
-      "m4": "när en andra, orelaterad uppgift börjar",
+      "m4": "när en andra, fristående uppgift börjar",
       "startup": "startinnehåll",
       "files": "lästa filer",
       "output": "kommandots utdata",
@@ -1634,7 +1634,7 @@
       "summary": "en sammanfattning",
       "counterMain": "huvudkontext",
       "counterTotal": "total användning",
-      "caption": "Subagentens läsning kommer aldrig in i huvudstapeln, bara sammanfattningen gör det. Mätaren visar priset: huvudkontexten förblir liten men den totala användningen är större än om samma arbete hade gjorts i en enda stapel."
+      "caption": "Subagentens läsning kommer aldrig in i huvudstapeln, bara sammanfattningen gör det. Mätaren visar priset: huvudkontexten förblir liten, men den totala användningen är större än om samma arbete hade gjorts i en enda stapel."
     },
     "context-compaction": {
       "title": "En full stapel före komprimeringen och samma stapel efter den. Efteråt är startinnehållet tillbaka från disk, en kort sammanfattning har ersatt konversationen, några filer har lästs in igen och en regel som bara lästes in tillsammans med filer i en viss mapp har komprimerats bort tills en av de filerna läses igen.",

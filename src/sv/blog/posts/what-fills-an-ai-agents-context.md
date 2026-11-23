@@ -1,8 +1,8 @@
 ---
 title: Vad som fyller en AI-agents kontext
-description: "Varför en AI-agent kan bli sämre i en lång session och vad du kan göra åt det: vad en kodande agent skickar till modellen i varje steg, vad en subagent håller utanför kontexten och vad komprimeringen förlorar, som leverantörerna beskrev det i november 2026, med Gas Citys planerade överlämning som exempel."
+description: "Varför en AI-agent kan bli sämre i en lång session och vad du kan göra åt det: vad en kodande agent skickar till modellen i varje steg, vad en subagent håller utanför kontexten och vad som går förlorat vid komprimering, som leverantörerna beskrev det i november 2026, med Gas Citys planerade överlämning som exempel."
 image: cover.png                 # en PNG på 1200 × 630 i artikelns mediemapp
-imageAlt: "En hög stapel, kontextfönstret, med en streckad linje som överkant fylls nerifrån i lager. Längst ner ligger ett tunt grått lager av fyra band, startinnehållet. Ovanpå det ligger ett grönt, ett orange och ett vitt lager. Ett blekt grönt lager är på väg in. Bredvid står en liten tom stapel, en subagents egen kontext."
+imageAlt: "En hög stapel, kontextfönstret, fylls nerifrån i lager. Den streckade linjen överst är fönstrets gräns. Längst ner ligger ett tunt grått lager av fyra band, startinnehållet. Ovanpå det ligger ett grönt, ett orange och ett vitt lager. Ett blekt grönt lager är på väg in. Bredvid står en liten tom stapel, en subagents egen kontext."
 date: 2026-11-21
 category: ai-journey             # app-development | ai-journey
 translationKey: what-fills-an-ai-agents-context
@@ -12,7 +12,7 @@ humanReviewed: false             # ingen har läst den ännu
 ---
 
 Språkmodellen bakom en kodande AI-agent minns inte konversationen från ett
-meddelande till nästa. Varje gång verktyget frågar modellen vad den ska göra
+meddelande till nästa. Varje gång verktyget frågar modellen vad den ska göra,
 skickar det med allt modellen behöver se: instruktionerna, filerna som har
 lästs, utdata från körda kommandon och konversationen hittills. Allt det
 tillsammans är kontexten. Den enklaste vanan som alla tre leverantörerna delar
@@ -27,7 +27,7 @@ modell.
 
 Den här artikeln följer en session från den första prompten till det ögonblick
 då verktyget måste komprimera (compact) kontexten. Den visar var utrymmet går åt
-och vad som går förlorat. Fabriken bakom den här sajten är exemplet.
+och vad som går förlorat. Exemplet är fabriken bakom den här sajten.
 Beskrivningarna följer dokumentationen för Claude Code, Codex och GitHub Copilot
 i VS Code som den såg ut i november 2026. Vad en agent behåller från en session
 till nästa är ett annat ämne – minne. Vi kommer att djupdyka i det i en senare
@@ -38,11 +38,12 @@ artikel.
 Det du ser i terminalen är bara en del av det modellen får. Enligt [Claude Codes
 dokumentation](https://code.claude.com/docs/en/context-window) rymmer
 kontextfönstret allt som Claude vet om din session: dina instruktioner, filerna
-den läser, Claudes egna svar och innehåll som aldrig syns i terminalen. Allt
-räknas mot samma gräns. VS Codes dokumentation säger samma sak med andra ord:
-ditt meddelande, konversationshistoriken, instruktioner, refererade filer och
-verktygens utdata räknas alla in i kontextfönstret. Där definieras fönstret som
-den största mängd information som en språkmodell kan behandla i ett anrop.
+som Claude läser, Claudes egna svar och innehåll som aldrig syns i terminalen.
+Allt räknas mot samma gräns. VS Codes dokumentation säger samma sak med andra
+ord: ditt meddelande, konversationshistoriken, instruktioner, filer du har
+hänvisat till och verktygens utdata räknas alla in i kontextfönstret. Där
+definieras fönstret som den största mängden information som en språkmodell kan
+bearbeta i ett anrop.
 
 ## En del av kontexten finns där innan du skriver något
 
@@ -53,7 +54,7 @@ Instruktionsfilen, skills och MCP-servrar har var sin artikel på sajten:
 läser](/sv/blog/the-instruction-file/), [Skills, när arbetet ska göras likadant
 varje gång](/sv/blog/skills-for-repeatable-work/) och [MCP, så når AI-agenten
 andra system](/sv/blog/mcp-reaching-your-systems/). Verktygets egna
-instruktioner ligger före allt det – [Från AI-chatt till agentiskt
+instruktioner ligger före allt det här – [Från AI-chatt till agentiskt
 arbete](/sv/blog/what-makes-a-chat-an-ai-agent/) beskriver dem.
 
 {% figure "context-before-you-type" %}
@@ -68,9 +69,9 @@ i varje anrop under sessionen.
 Filer, utdata från kommandon och modellens egna svar staplas i lager. Lagren
 från en gammal uppgift finns kvar när en ny börjar. Enligt samma sida läggs
 varje läst fil till i kontexten medan Claude arbetar. Sidan säger också att
-tokenantalen i exempelsessionen är illustrativa och varierar med storleken på
-din CLAUDE.md, dina MCP-servrar och hur långa dina filer är, så figurerna här
-bara visar relativa storlekar.
+antalet tokens i exempelsessionen är illustrativt och varierar med hur stor din
+CLAUDE.md är, vilka MCP-servrar du har och hur långa filerna är, så figurerna
+visar bara relativa storlekar.
 
 {% figure "context-as-it-fills", "wide" %}
 
@@ -83,14 +84,14 @@ oavsett om den spelar roll för den nya.
 
 Den andra kostnaden är modellens uppmärksamhet. Anthropics ingenjörer kallar
 effekten context rot: när antalet tokens i kontextfönstret ökar blir modellen
-sämre på att korrekt hämta fram information ur kontexten.
+sämre på att hämta fram rätt information ur kontexten.
 [Chroma](https://www.trychroma.com/research/context-rot) testade 18 modeller i
 juli 2025 och rapporterade att prestandan blir allt mindre pålitlig ju längre
 indatan är. Modellerna är från 2025, så hur stor effekten är i dag får nyare
 tester visa, men riktningen är densamma som leverantörerna beskriver. Anthropics
 guide till context engineering drar slutsatsen att målet är den minsta möjliga
-uppsättningen tokens med hög informationstäthet, de som gör det mest sannolikt
-att du får det resultat du vill ha.
+uppsättningen tokens med hög informationstäthet, de som mest ökar chansen att du
+får det resultat du vill ha.
 
 Du kan se dina egna siffror. I Claude Code ger `/context` en uppdelning per
 kategori i realtid, med optimeringsförslag och en lista över vilka
@@ -117,22 +118,22 @@ standard.
 [Codex
 dokumentation](https://learn.chatgpt.com/docs/agent-configuration/subagents)
 beskriver problemet som en subagent löser från andra hållet. Om du fyller
-huvudchatten med anteckningar från utforskningen, testloggar, stack traces och
-utdata från kommandon kan sessionen enligt dokumentationen bli mindre pålitlig
-med tiden. Dokumentationen nämner två effekter. Den ena är context rot, som
-beskrevs ovan. Den andra är context pollution: användbar information begravs
-under brus från mellanresultat.
+huvudchatten med anteckningar från när agenten har utforskat koden, testloggar,
+stack traces och utdata från kommandon kan sessionen enligt dokumentationen bli
+mindre pålitlig med tiden. Dokumentationen nämner två effekter. Den ena är
+context rot, som beskrevs ovan. Den andra är context pollution: användbar
+information begravs under brus från mellanresultat.
 
 En subagent sparar utrymme i huvudkontexten, inte tokens. Läsningen görs
 fortfarande – bara i en annan kontext – och enligt Claude Codes sida om bästa
 praxis räknas den mot samma användning som huvudkonversationen. Totalen blir
 ofta större än om arbetet gjordes i en session, eftersom en ny subagent först
 måste samla ihop kontext som huvudkonversationen redan hade. Det kan också kosta
-tid. Anthropic mätte samma avvägning i sitt eget forskningssystem med flera
-agenter i juni 2025. Enligt mätningen använde agenter ungefär fyra gånger så
-många tokens som chattkonversationer och system med flera agenter ungefär femton
-gånger så många. Det är siffror för det systemet, inte en regel för kodande
-agenter.
+tid. Anthropic mätte kostnaden för samma avvägning i sitt eget forskningssystem
+med flera agenter i juni 2025. Enligt mätningen använde agenter ungefär fyra
+gånger så många tokens som chattkonversationer och system med flera agenter
+ungefär femton gånger så många. Det är siffror för det systemet, inte en regel
+för kodande agenter.
 
 En separat kontext är inte en separat plats att arbeta på. VS Codes
 dokumentation sammanfattar det i en mening: att isolera kontexten är inte
@@ -145,7 +146,7 @@ Två utvecklare har egna ord för att ge en subagent en egen kontext. [Simon
 Willison](https://simonwillison.net/2025/Oct/11/sub-agents/) beskriver en
 subagent som en separat agentloop med en ny kontext och [Drew
 Breunig](https://www.dbreunig.com/2025/06/26/how-to-fix-your-context.html)
-kallar det att isolera kontexter i egna trådar för context quarantine. Det är
+kallar det context quarantine när man isolerar kontexter i egna trådar. Det är
 termer från utvecklare, inte från leverantörerna.
 
 ## När kontexten är full komprimeras den
@@ -155,47 +156,47 @@ du närmar dig gränsen. VS Code komprimerar automatiskt äldre delar av
 konversationen till en sammanfattning. Enligt [Codex guide om bästa
 praxis](https://learn.chatgpt.com/guides/best-practices) komprimerar Codex också
 chattar automatiskt. Priset är att något går förlorat. VS Code säger att
-komprimeringen frigör kontextfönstret för ny information, men att detaljer från
-tidigare meddelanden kan sammanfattas eller utelämnas. Anthropics guide varnar
-för att alltför aggressiv komprimering kan ta bort små detaljer som visar sig
-vara avgörande.
+komprimeringen frigör plats i kontextfönstret för ny information, men att
+detaljer från tidigare meddelanden kan sammanfattas eller utelämnas. Anthropics
+guide varnar för att alltför aggressiv komprimering kan ta bort små detaljer som
+visar sig vara avgörande.
 
 {% figure "context-compaction", "wide" %}
 
 Claude Codes dokumentation visar vad som kommer tillbaka efteråt. Det mesta av
-startinnehållet läses in igen automatiskt. Verktyget läser dessutom om upp till
-fem av de filer som Claude har läst eller redigerat i sessionen, de som ändrades
-senast. Skills som har använts i sessionen kommer också tillbaka, inom en
-storleksgräns.
+startinnehållet läses in igen automatiskt. Verktyget läser dessutom in igen upp
+till fem av de filer som Claude har läst eller redigerat i sessionen, de som
+ändrades senast. Skills som har använts i sessionen kommer också tillbaka, inom
+en storleksgräns.
 
 Resten av konversationen finns i sammanfattningen eller är borta. Regler som
 gäller en viss sökväg och CLAUDE.md-filer i undermappar, som bara läses in när
-Claude rör en matchande fil, försvinner i sammanfattningen på samma sätt. De
-läses in igen först när Claude rör en sådan fil. En regel som måste finnas kvar
-hör därför hemma i CLAUDE.md i projektets rot. Efter en paus kan du få fortsätta
-från en sammanfattning: med ett abonnemang komprimerar Claude Code i november
-2026 också en session över ungefär 200 000 tokens som har stått inaktiv i
-ungefär en timme, strax innan sessionens promptcache går ut.
+Claude läser en matchande fil, försvinner i sammanfattningen på samma sätt. De
+läses in igen först när Claude läser en sådan fil. En regel som måste finnas
+kvar hör därför hemma i CLAUDE.md i projektets rot. Efter en paus kan du mötas
+av en sammanfattning: med ett abonnemang komprimerar Claude Code i november 2026
+också en session över ungefär 200 000 tokens som har stått inaktiv i ungefär en
+timme, strax innan sessionens promptcache går ut.
 
 ## I november 2026 rekommenderar leverantörerna att du rensar mellan uppgifter
 
 Tyngdpunkten har flyttats. Enligt Claude Codes sida om bästa praxis har de
 flesta aktuella modeller ett fönster på 1 miljon tokens och komprimeringen sker
 av sig själv, så det är ovanligt att kontextfönstret blir fullt. Rådet att
-hantera fönstret aggressivt är borta. Det som återstår är att det fortfarande är
+hushålla hårt med fönstret är borta. Det som återstår är att det fortfarande är
 värt att rensa mellan uppgifter, eftersom en fokuserad kontext ger bättre svar
-och kostar mindre. Fyra vanor följer av de här sidorna:
+och kostar mindre. De här sidorna ger fyra vanor:
 
 - En ny session eller en rensad konversation för varje uppgift. VS Code
   rekommenderar en ny session för en uppgift som inte hör ihop med den förra
-  eller för ett annat projekt. Codex rekommenderar en chatt per sammanhängande
-  arbetsenhet.
+  eller för ett annat projekt. Codex rekommenderar en chatt per sammanhållen
+  uppgift.
 - Komprimering med fokus. Claude Codes sida föreslår `/compact` med
   instruktioner före en lång ny uppgift, så att sammanfattningen behåller det du
   väljer i stället för det som den automatiska komprimeringen gissar är viktigt.
-- En subagent som läser det som är stort, som avsnittet ovan beskriver. Det
-  kostar tokens.
-- Korta filer som läses in först, eftersom instruktionsfilen följer med i varje
+- Stora läsningar i en subagent, som avsnittet ovan beskriver. Det kostar
+  tokens.
+- Korta filer i startinnehållet, eftersom instruktionsfilen följer med i varje
   anrop. Claude Codes sida om bästa praxis och Codex guide säger båda det.
   Artikeln om instruktionsfilen visar hur.
 
@@ -210,11 +211,12 @@ kan inte planera det själv, eftersom en session inte kan se hur mycket av sin
 kontext den har använt. [Gas
 City](https://github.com/gastownhall/gascity/blob/main/cmd/gc/context_inject.go),
 verktyget med öppen källkod som kör fabrikens agenter, har därför en hook som
-gör det åt agenten. Med kodens egna ord triggas hooken avsiktligt av
-tröskelvärden och är ingen nedräkning som alltid är på. Den läser antalet tokens
-i sessionens transkript och är tyst så länge antalet ligger under en första
-nivå. Över den ber den agenten planera för en ren överlämningspunkt. Över en
-andra nivå ber den agenten utlösa den ordinarie överlämningen nu.
+gör det åt agenten. Med kodens egna ord slår hooken avsiktligt till först vid
+vissa tröskelvärden i stället för att räkna ner hela tiden. Den läser antalet
+tokens i sessionens transkript och är tyst så länge antalet ligger under en
+första nivå. Över den nivån ber hooken agenten planera för en ren
+överlämningspunkt. Över en andra nivå ber den agenten utlösa den vanliga
+överlämningen nu.
 
 {% figure "context-handoff", "wide" %}
 
@@ -224,17 +226,17 @@ session behöver medan den fortfarande kan. Koden pekar ut vad som annars skulle
 gå förlorat: att agenten medvetet avrundar sitt arbete.
 
 Hookens två nivåer är andelar av det fönster som Gas City antar att modellen
-har, så den siffran måste stämma. Den 22 och 23 september 2026 bad Gas City om
-en överlämning vid 160 000 tokens, eftersom den antog att fönstret var 200 000.
-När fabriken satte fönstret till 1 000 000 tokens och överlämningen till 30 %
-blev det 0,18 överlämningar per bead, en uppgift i fabrikens ärendehanterare, i
-stället för 1,46. Priset blev längre anrop: efter den första utåtriktade
-handlingen, till exempel ett svar eller ett utskickat uppdrag, bearbetade de i
-genomsnitt 187 000 tokens i stället för 142 000. En sen överlämning gör varje
-anrop längre och en tidig ger fler överlämningar. Det nedskrivna läget måste
-också vara kort. Den 24 september kortades både lägeskortet – som skrivs om vid
-varje överlämning – och referensen som läses i ett anrop. Båda fick en övre
-gräns.
+har, så fönsterstorleken måste stämma. Den 22 och 23 september 2026 bad Gas City
+om en överlämning vid 160 000 tokens, eftersom den antog att fönstret var
+200 000. När fabriken satte fönstret till 1 000 000 tokens och överlämningen
+till 30 % blev det 0,18 överlämningar per bead, en uppgift i fabrikens
+ärendehanterare, i stället för 1,46. Priset blev längre anrop: efter den första
+utåtriktade handlingen, till exempel ett svar eller ett utskickat uppdrag,
+bearbetade de i genomsnitt 187 000 tokens i stället för 142 000. En sen
+överlämning gör varje anrop längre och en tidig ger fler överlämningar. Det
+nedskrivna läget måste också vara kort. Den 24 september kortades både
+lägeskortet – som skrivs om vid varje överlämning – och referensen som läses i
+ett anrop. Båda fick ett tak.
 
 ## När du bör rensa, komprimera eller lämna över
 
@@ -245,11 +247,12 @@ säger att det mitt i en fas inte finns något beslut att fatta: du fortsätter
 eller delar upp det som återstår på subagenter, eftersom komprimering mitt i en
 fas får agenten att tappa tråden. [Pococks anteckningar om
 överlämningar](https://github.com/mattpocock/skills/blob/main/docs/productivity/handoff.md)
-jämför tre alternativ vid en fasgräns: `/compact` bevarar din avsikt, `/clear`
-bevarar ingenting och `/handoff` bevarar möjligheten att flytta arbetet vidare.
-`/handoff` är en av Pococks skills och inget inbyggt kommando i verktyget. Det
-är ett mönster från en enskild utvecklare, inte leverantörsråd. Det stämmer med
-det som Gas Citys hook säger till agenten: planera för en ren överlämningspunkt.
+jämför tre av fem alternativ vid en fasgräns: `/compact` bevarar din avsikt,
+`/clear` bevarar ingenting och `/handoff` bevarar möjligheten att flytta arbetet
+vidare. `/handoff` är en av Pococks skills och inget inbyggt kommando i
+verktyget. Det är ett mönster från en enskild utvecklare, inte leverantörsråd.
+Det stämmer med det som Gas Citys hook säger till agenten: planera för en ren
+överlämningspunkt.
 
 Ett motsatt mönster kommer från en annan utvecklare. I juli 2025 skrev [Armin
 Ronacher](https://lucumr.pocoo.org/2025/7/30/things-that-didnt-work/) att
@@ -273,6 +276,6 @@ påpekar: att en ny subagent först måste samla ihop kontext som
 huvudkonversationen redan hade.
 
 Vanan att börja med är den som alla tre leverantörerna delar: en uppgift, en
-session. De tre andra vanorna ovan kan följa när den första har blivit en rutin.
-Om arbetet sträcker sig över många sessioner är det bra att skriva ner läget i
-slutet av varje fas och låta nästa session börja med den anteckningen.
+session. De tre andra vanorna kan du lägga till när den första har blivit en
+rutin. Om arbetet sträcker sig över många sessioner är det bra att skriva ner
+läget i slutet av varje fas och låta nästa session börja med den anteckningen.
