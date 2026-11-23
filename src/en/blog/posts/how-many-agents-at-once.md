@@ -85,9 +85,9 @@ in each other's way, with no made-up tests or replays.
 The gain of the second worker is in the last row. A session's tokens and minutes
 are split evenly over the changes it worked on, and since the tasks differed,
 tokens per change compare the tasks as much as the setups. On 15 November the
-last row went the other way: with three workers side by side a change took 74
-minutes of a worker running, against 29 for the other November sessions, though
-only three changes were finished. One change is in both November columns. In
+last row went the other way: with three workers side by side and only three
+changes finished, a change took 74 minutes of a worker running, against 29 for
+the other November sessions. One change is in both November columns. In
 November the tasks were mainly illustrations, covers, renames and publishing
 steps.
 

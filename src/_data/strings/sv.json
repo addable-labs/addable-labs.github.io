@@ -1095,7 +1095,7 @@
         "worker2": "byggare 2",
         "mayor": "borgmästaren"
       },
-      "load": "medelbelastning över en minut",
+      "load": "load average över en minut",
       "mark": "100",
       "peak": "topp {n}",
       "time": "{h}:{m}",
@@ -1105,8 +1105,8 @@
         "held": "har låset",
         "waiting": "väntar"
       },
-      "summary": "{jobs} jobb tog låset, {waits} av dem fick vänta, sammanlagt {minutes} minuter; belastningen nådde som mest {peak}",
-      "caption": "Sajtens två byggare den 26 september 2026, klockan 10:00 till 16:00 UTC, en rad för vardera. Sessionerna är ritade med kontur, varje jobb som höll webbläsarlåset är en fylld stapel och varje väntan på det är orange. Den tredje raden visar borgmästarens egna jobb. Nedanför syns datorns belastning över en minut, mätt varje minut från klockan 10:05. Alla 17 väntetider var byggarnas jobb."
+      "summary": "{jobs} jobb tog låset, {waits} av dem fick vänta, sammanlagt {minutes} minuter; load average nådde som mest {peak}",
+      "caption": "Sajtens två byggare den 26 september 2026, klockan 10:00 till 16:00 UTC, en rad för vardera. Sessionerna är ritade med kontur, varje jobb som höll webbläsarlåset är en fylld stapel och varje väntan på det är orange. Den tredje raden visar borgmästarens egna jobb. Nedanför syns datorns load average över en minut, mätt varje minut från klockan 10:05. Alla 17 väntetider var byggarnas jobb."
     },
     "waiting-per-day": {
       "title": "Borgmästarens tokens per dygn (UTC), 27 september till 10 oktober 2026",

@@ -2,7 +2,7 @@
 title: Hur många agenter fabriken kör samtidigt
 description: Vad en kodande AI-agent till per projekt ändrade i fabriken bakom den här sajten den 26 september 2026, hur det gick när tre körde samtidigt den 15 november och vad borgmästarens start och en ändring på main kostade från september till november.
 image: cover.png                 # en PNG på 1200 × 630 i artikelns mediemapp
-imageAlt: "Fem banor för byggare: två är upptagna (gröna) och tre är tomma. Till höger ligger ett lås som släpper igenom ett webbläsarjobb i taget. Jobbet i den första banan har låset och jobbet i den andra väntar, i orange."
+imageAlt: "Fem banor för byggare: två är upptagna (gröna) och tre är tomma. Till höger finns ett lås som släpper igenom ett webbläsarjobb i taget. Jobbet i den första banan har låset och jobbet i den andra väntar, i orange."
 date: 2026-10-06
 category: ai-journey             # app-development | ai-journey
 translationKey: how-many-agents-at-once
@@ -72,10 +72,11 @@ Chrome-instanser" (vår översättning). Gas City kallar ett projekt för en rig
 Borgmästaren höjde taket till två. Från och med då kördes varje jobb som startar
 Chrome eller WebKit, till exempel en kontroll- eller testkörning av sajten, via
 ett lås: bara ett jobb åt gången i hela fabriken. Varje väntan och körning
-loggades. Ett mätskript loggade datorns belastning, minne, swap och
-webbläsarprocesser varje minut medan de två byggarna körde.
+loggades. Ett mätskript loggade datorns belastning (load average över en
+minut), minne, swap och webbläsarprocesser varje minut medan de två byggarna
+körde.
 
-Samma kväll satte grundaren regeln för hur steget skulle bedömas: att mäta
+Samma kväll bestämde grundaren hur steget skulle utvärderas: att mäta
 avslutade sessioner – tokens, tid, väntetider och fel – och se om byggarna
 störde varandra, utan påhittade tester eller replays.
 
@@ -99,7 +100,7 @@ illustrationer, omslag, namnbyten och publiceringssteg.
 ## Byggarna väntade på det de delade
 
 De två byggarna kom inte direkt i vägen för varandra. Var och en arbetade i en
-egen worktree, aldrig i projektets ordinarie checkout.
+egen worktree, aldrig i projektets vanliga checkout.
 [Codex guide till worktrees](https://learn.chatgpt.com/docs/environments/git-worktrees)
 säger att samma isolering gör att flera chattar kan arbeta i ett projekt "utan
 att störa varandra" (vår översättning). Inget kommando från den ena byggaren
@@ -128,12 +129,12 @@ och kontrollkörningar turades om.
 | Använd swap, från–till (GB) | 2,7 → 8,1 |
 | Ledigt minne (%) | 33–68 |
 | Headless Chrome-processer samtidigt, som mest | 9 |
-| Belastning över en minut, median, när ett jobb höll låset | 34 |
-| Belastning över en minut, median, när låset var ledigt | 6,5 |
-| Belastning över en minut, topp klockan 12:37 UTC | 219 |
+| Load average över en minut, median, när ett jobb höll låset | 34 |
+| Load average över en minut, median, när låset var ledigt | 6,5 |
+| Load average över en minut, topp klockan 12:37 UTC | 219 |
 
 Datorn klarade det: det lediga minnet sjönk aldrig under en tredjedel, trots att
-swapen steg till 8,1 GB och belastningen var mycket högre medan ett jobb höll
+swapen steg till 8,1 GB och load average var mycket högre medan ett jobb höll
 låset.
 
 ## Tre samtidigt, den 15 november
@@ -163,8 +164,8 @@ datorn fick ont om resurser.
 
 [Claude Codes guide till att köra agenter parallellt](https://code.claude.com/docs/en/agents)
 varnar för att flera sessioner samtidigt mångdubblar tokenanvändningen. Tabellen
-visar vad en ändring på main – en commit som nådde ett projekts huvudgren –
-kostade under längre perioder. Byggarnas tokens är de från alla byggarsessioner
+visar vad en ändring på main – en commit som hamnade på ett projekts
+huvudgren (main) – kostade under längre perioder. Byggarnas tokens är de från alla byggarsessioner
 under perioden.
 
 | Tokens per ändring på main (miljoner) | Byggare | Borgmästaren | Ändringar |
@@ -174,13 +175,13 @@ under perioden.
 | Fabrikens eget repo, 29 sep–6 okt | 18,3 | – | 13 |
 | Den här sajten, 1–20 nov | 17,5 | 32,4 | 12 |
 
-Därtill kommer samordningen. I september räknades borgmästarens andel bara för
+Sedan tillkommer samordningen. I september räknades borgmästarens andel bara för
 Gaimer: 4,1 miljoner tokens per ändring. Fram till den 20 november hade sajten
 fått 12 ändringar på main och de andra två projekten ingen, så alla
 borgmästarens tokens räknas på sajten: 32,4 miljoner per ändring. Det är en övre
 gräns, eftersom de också går åt till sidor där grundaren läser en ändring innan
 den publiceras, till kontroller av leverantörernas sidor och till utkast som
-inte har nått main. Agenterna som skriver, granskar och redigerar artiklarna
+inte har mergats till main. Agenterna som skriver, granskar och redigerar artiklarna
 använde ytterligare 62,0 miljoner tokens per ändring på main.
 
 ## Borgmästarens start kostade mer när det fanns lite arbete
@@ -196,8 +197,8 @@ använde ytterligare 62,0 miljoner tokens per ändring på main.
 
 En start – de tokens som läggs till före den första utåtriktade handlingen –
 steg från 30 600 till 108 300 medan startinnehållet och det första varvet knappt
-ändrades: när ingen byggare körde på den här sajten eller i Gaimer från den 28
-september till den 5 oktober väntade och läste borgmästaren innan den agerade.
+ändrades. Från den 28 september till den 5 oktober körde ingen byggare på den
+här sajten eller i Gaimer. Då väntade och läste borgmästaren innan den agerade.
 Från den 31 oktober till den 20 november startade den bara fem sessioner som
 agerade: de började med mer startinnehåll, i median 51 600 tokens, men lade till
 i median 15 300 före den första handlingen. Sedan den 11 oktober svarar

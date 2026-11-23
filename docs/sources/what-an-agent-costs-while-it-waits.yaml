@@ -75,7 +75,7 @@
 - id: V6
   article: what-an-agent-costs-while-it-waits
   sentence:
-    sv: "Codex kan också köra en schemalagd uppgift i en befintlig chatt och använder då – som borgmästaren – chattens kontext i stället för en ny prompt varje gång."
+    sv: "Codex kan också köra en schemalagd uppgift i en pågående chatt och använder då – som borgmästaren – chattens kontext i stället för en ny prompt varje gång."
     en: "Codex can also run a scheduled task in an existing chat, and then, like the mayor, it uses the chat's context instead of a new prompt each time."
   vendor: OpenAI
   url: https://learn.chatgpt.com/docs/automations
@@ -86,7 +86,7 @@
 - id: V7
   article: what-an-agent-costs-while-it-waits
   sentence:
-    sv: "Claude Codes sida om prompt caching säger att Claude Code begär en cache på en timme med ett Claude-abonnemang – inom det som ingår i abonnemanget – och en på fem minuter med en API-nyckel."
+    sv: "Claude Codes sida om prompt caching säger att Claude Code begär en cache som gäller i en timme med ett Claude-abonnemang – inom det som ingår i abonnemanget – och en som gäller i fem minuter med en API-nyckel."
     en: "Claude Code's page on prompt caching says that Claude Code asks for a one-hour cache on a Claude subscription, within the plan's included usage, and a five-minute one with an API key."
   vendor: Anthropic
   url: https://code.claude.com/docs/en/prompt-caching
