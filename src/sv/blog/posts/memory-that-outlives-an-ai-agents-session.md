@@ -2,7 +2,7 @@
 title: Minne som överlever en AI-agents session
 description: "Hur Claude Code, GitHub Copilot och Codex sparar det en agent lär sig i november 2026, vad som följer med till nästa session, nästa dator och nästa runner och vad som kan gå fel när ett team delar det."
 image: cover.png                 # en PNG på 1200 × 630 i artikelns mediemapp
-imageAlt: "Två höga staplar, två sessioners kontextfönster, står på samma golv med en låda med kort mellan sig: förrådet. Den första sessionen är slut, dess kontur streckad och dess grå, gröna och vita lager bleka. En prickad grön linje går från den till ett upplyst kort i lådan, anteckningen den skrev. Linjen fortsätter in i den andra stapeln, som är nästan tom: längst ner rymmer dess tunna grå startlager samma anteckning, upplyst."
+imageAlt: "Två höga staplar, kontextfönstren för två sessioner, står på samma golv med en låda med kort mellan sig: förrådet. Den första sessionen är slut. Dess kontur är streckad och de grå, gröna och vita lagren är bleka. En prickad grön linje går från den till ett upplyst kort i lådan, anteckningen som den skrev. Linjen fortsätter in i den andra stapeln, som är nästan tom. Längst ner i den ligger det tunna grå startinnehållet med samma anteckning, upplyst."
 date: 2026-11-21
 category: ai-journey             # app-development | ai-journey
 translationKey: memory-that-outlives-an-ai-agents-session
@@ -11,262 +11,222 @@ aiGenerated: true                # AI har skrivit texten
 humanReviewed: false             # ingen har läst den ännu
 ---
 
-En session tar slut och dess kontext försvinner med den.
-[Claude Codes dokumentation](https://code.claude.com/docs/en/memory) beskriver
-utgångsläget rakt ut: varje session börjar med ett nytt kontextfönster.
+En session tar slut och kontexten försvinner med den.
+[Claude Codes dokumentation](https://code.claude.com/docs/en/memory) säger det
+rakt ut: varje session börjar med ett nytt kontextfönster.
 
 [Vad som fyller en AI-agents kontext](/sv/blog/what-fills-an-ai-agents-context/) handlar om vad som finns i fönstret under en session. Här gäller det vad som sparas utanför det och om det går att lita på när ett team delar det. Artikeln följer dokumentationen för Claude Code, Codex och GitHub Copilot så som den såg ut i november 2026 och använder termerna från artikeln om kontexten.
 
 Det är teamet som gör ämnet svårt. En utvecklares dator, en kollegas dator och
 ett jobb på en GitHub-runner (maskinen som kör ett jobb i GitHub Actions)
 startar var och en sina egna sessioner. Det en av dem har skrivit ner når de
-andra bara om det committas eller sparas på ett ställe som de delar.
+andra bara om det committas eller läggs på ett ställe som de delar.
 
 ## Minne är det en agent skriver ner och läser in igen
 
-[Anthropics guide till kontextteknik](https://www.anthropic.com/research/effective-context-engineering-for-ai-agents) kallar tekniken agentiskt minne (agentic memory) eller strukturerat antecknande (structured note-taking). Det går ut på två saker. Agenten skriver anteckningar utanför kontextfönstret. Anteckningarna läses in i kontextfönstret igen vid senare tillfällen. En utvecklares ordlista, Matt Pococks
+[Anthropics guide till context engineering](https://www.anthropic.com/research/effective-context-engineering-for-ai-agents) kallar tekniken agentic memory eller structured note-taking. Det går ut på två saker. Agenten skriver anteckningar utanför kontextfönstret. Senare läses de in i kontextfönstret igen. Utvecklaren Matt Pococks ordlista,
 [AI Hero dictionary](https://www.aihero.dev/ai-coding-dictionary/memory-system),
-ger halvorna namn. På skrivvägen (write path) sparar agenten det den lärde sig
-under en session som filer i miljön. På läsvägen (read path) läser verktyget in
-de filerna, eller ett index över dem, i kontextfönstret i början av en senare
-session.
+ger de två sakerna namn. På write path sparar agenten det den lärde sig under
+en session som filer i miljön. På read path läser verktyget i början av en
+senare session in de filerna, eller ett index över dem, i kontextfönstret.
 
 {% figure "memory-written-and-loaded", "wide" %}
 
-I figuren är sessionens stapel borta när sessionen slutar, men minnesförrådet
-bredvid den är det inte. Minnesförrådet är platsen där anteckningarna ligger.
-Det som skrevs dit läses in i nästa sessions startinnehåll. Tre frågor avgör hur
-ett minne beter sig: vem som skriver det, var det lagras och vem mer som kan
-läsa det. Resten av artikeln svarar på dem för varje verktyg och för ett team.
-Det som läses in igen i början hamnar i startinnehållet och tar därför upp en del av kontextfönstret i varje anrop. Det är kontext och inget mer. Claude Codes dokumentation säger att
-Claude behandlar CLAUDE.md-filer och automatiskt minne (auto memory) som kontext
-och inte som konfiguration som upprätthålls. För att blockera en åtgärd oavsett
-vad Claude bestämmer pekar dokumentationen på en hook. Vad som upprätthålls utanför modellen handlar [Sätt gränserna i förväg](/sv/blog/set-the-limits-in-advance/) om.
+När en session slutar försvinner stapeln. Minnesförrådet bredvid finns kvar.
+Minnesförrådet är där anteckningarna ligger. Det som skrevs dit läses in i
+startinnehållet i nästa session. Tre frågor avgör hur ett minne beter sig: vem
+som skriver det, var det lagras och vem mer som kan läsa det. Resten av
+artikeln svarar på dem för varje verktyg och för ett team. Det som läses in
+igen i början hamnar i startinnehållet och tar därför upp en del av
+kontextfönstret i varje anrop. Det är kontext och ingenting annat. Enligt Claude
+Codes dokumentation behandlar Claude CLAUDE.md-filer och auto memory som kontext.
+De är inte konfiguration som verktyget upprätthåller. För att blockera en åtgärd
+oavsett vad Claude bestämmer pekar dokumentationen på en hook. Det som
+upprätthålls utanför modellen beskrivs i
+[Sätt gränserna i förväg](/sv/blog/set-the-limits-in-advance/).
 
 ## Vad leverantörerna kallar minne
 
-Claude Code har två saker som för kunskap vidare mellan sessioner:
-CLAUDE.md-filer – som du skriver – och automatiskt minne, som Claude skriver
-själv utifrån dina korrigeringar och preferenser. I automatiskt minne sparar Claude anteckningar av fyra slag: om dig, om de korrigeringar du ger, om pågående arbete och beslut och om var information finns utanför projektet.
-Den hoppar över allt den kan härleda ur kodbasen eller hitta i dina
-CLAUDE.md-filer. Claude sparar inte något i varje session: den avgör vad som är
-värt att komma ihåg utifrån om informationen skulle vara användbar i ett
-framtida konversation. Den sparar också det du ber den komma ihåg.
+Claude Code har två saker som för kunskap vidare från en session till nästa:
+CLAUDE.md-filer – som du skriver – och auto memory, som Claude skriver själv
+utifrån dina korrigeringar och preferenser. I auto memory sparar Claude
+anteckningar av fyra slag: om dig, om de korrigeringar du ger, om pågående
+arbete och beslut och om var information finns utanför projektet. Claude hoppar
+över sådant som går att läsa ut ur kodbasen eller som redan står i dina
+CLAUDE.md-filer. Claude sparar inte något i varje session. Den avgör vad som är
+värt att komma ihåg utifrån om informationen skulle vara användbar i en framtida
+konversation. Dessutom sparar den det du ber den komma ihåg.
 
-Anteckningarna är vanliga markdown-filer i en mapp för varje repo, med ett index
-som heter `MEMORY.md` och en fil för varje minne. De första 200 raderna eller 25
-KB av indexet läses in i början av en session och Claude läser de andra filerna
-när den behöver dem. I november 2026 är automatiskt minne på som standard i
-lokala sessioner och av som standard i en session i en miljö med egen drift
-(self-hosted).
+Anteckningarna är vanliga markdown-filer i en mapp per repo, med ett index som
+heter `MEMORY.md` och en fil per minne. De första 200 raderna eller 25 KB av
+indexet läses in när en session startar. De andra filerna läser Claude när den
+behöver dem. I november 2026 är auto memory på som standard i lokala sessioner
+och av som standard i sessioner i en self-hosted miljö.
 
-GitHub Copilots minne fungerar annorlunda. Enligt [GitHubs dokumentation](https://docs.github.com/en/copilot/concepts/prompting-and-context/copilot-memory) skapar Copilot minnen själv som en biprodukt av att arbeta med dig. Minnena finns i två sorter: fakta på repo-nivå – som delas med dina medarbetare i projektet – och preferenser på användarnivå, som följer dig mellan repon. Att spara är ett
-verktygsanrop:
+GitHub Copilots minne fungerar annorlunda. Enligt [GitHubs dokumentation](https://docs.github.com/en/copilot/concepts/prompting-and-context/copilot-memory) skapar Copilot minnen själv som en biprodukt av att arbeta med dig. Minnena finns i två sorter: fakta på repo-nivå – som delas med dina medarbetare i projektet – och preferenser på användarnivå, som följer dig mellan repon. Att spara är ett verktygsanrop. Enligt
 [GitHubs tekniska inlägg](https://github.blog/ai-and-ml/github-copilot/building-an-agentic-memory-system-for-github-copilot/)
-beskriver skapandet av minnen som ett verktyg som agenter anropar när de
-upptäcker något som sannolikt får konkret betydelse för kommande uppgifter.
-Varje minne lagras med källhänvisningar (citations), alltså referenser till de
-platser i koden som stöder det.
+anropar agenten det när den upptäcker något som sannolikt spelar roll för
+kommande uppgifter. Varje minne sparas med källhänvisningar (citations):
+referenser till de ställen i koden som stöder det.
 
-Innan Copilot använder ett faktum kontrollerar den dess källhänvisningar mot den
-aktuella grenen. Ett internt röstsystem betygsätter varje minne utifrån om det
-fortfarande gäller. Uppröstade minnen skickas oftare till modellen. Minnena
-finns i GitHubs moln och delas av Copilot i VS Code, på kommandoraden, i
-kodgranskningen (code review) och i molnagenten (cloud agent): ett faktum som en
-av dem har fångat kan användas av en annan.
+Innan Copilot använder ett faktum kontrollerar den källhänvisningarna mot den
+aktuella branchen. Ett internt röstsystem värderar varje minne utifrån om det
+fortfarande gäller. Minnen som har röstats upp skickas oftare till modellen.
+Minnena ligger i GitHubs moln och delas av Copilot i VS Code, på kommandoraden,
+i code review och i cloud agent. Ett faktum som en av dem har fångat kan alltså
+användas av en annan.
 
-I Codex skapas minnet utifrån tidigare chattar i stället för att skrivas medan
-de pågår.
+I Codex skapas minnet av tidigare chattar i stället för att skrivas medan de
+pågår. Enligt
 [OpenAIs dokumentation](https://learn.chatgpt.com/docs/customization/memories)
-säger att Codex gör om användbar kontext från lämpliga tidigare chattar till
-lokala minnesfiler, hoppar över aktiva eller kortvariga sessioner och maskerar
-hemligheter i de genererade fälten. Den uppdaterar minnen i bakgrunden, när en
-chatt har varit overksam tillräckligt länge, i stället för vid slutet av varje
-chatt. Filerna ligger i Codex hemkatalog, som standard `~/.codex`.
-Dokumentationen kallar dem genererat tillstånd (generated state) och i november
-2026 är lokala Codex-minnen av som standard.
+gör Codex om användbar kontext från lämpliga tidigare chattar till lokala
+minnesfiler. Aktiva eller kortvariga sessioner hoppas över och hemligheter i de
+genererade fälten maskeras. Minnena uppdateras i bakgrunden när en chatt har
+varit inaktiv tillräckligt länge, inte när varje chatt tar slut. Filerna ligger
+i Codex hemkatalog, som standard `~/.codex`. Dokumentationen kallar dem
+genererat tillstånd (generated state). I november 2026 är lokala Codex-minnen av
+som standard.
 
 De tre verktygen avgör alltså på tre sätt vad som ska sparas. Claude Code låter
-Claude avgöra under sessionen. Copilot låter agenten spara ett faktum
-tillsammans med källhänvisningar som kontrolleras när faktumet används. Codex
-skapar minne av avslutade chattar i bakgrunden.
+Claude avgöra under sessionen. Copilot låter agenten spara ett faktum med
+källhänvisningar som kontrolleras när faktumet används. Codex skapar minne av
+avslutade chattar i bakgrunden.
 
 ## Regler hör hemma i filen och minnet är till för att komma ihåg
 
-Alla tre leverantörerna drar gränsen på samma ställe. OpenAIs dokumentation säger att du ska skriva in obligatorisk vägledning för teamet i `AGENTS.md` eller i dokumentation som ligger i repot och behandla minnen som "ett användbart lager för att komma ihåg, inte som den enda källan till regler som alltid måste gälla" (vår översättning).
-[VS Codes dokumentation](https://code.visualstudio.com/docs/agents/run/memory)
-påpekar att repo-fakta delas och inte är privata anteckningar. Den säger också att du ska skriva in granskade krav för teamet i projektdokumentation under versionshantering eller i anpassade instruktioner.
-
-GitHubs dokumentation beskriver en arbetsfördelning: använd anpassade
-instruktioner för viktiga regler – som ett säkerhetskrav eller ett obligatoriskt
-granskningssteg – och låt Copilot Memory hantera de detaljer som samlas på hög
-och som annars skulle göra en instruktionsfil lång och svår att underhålla.
-Claude Codes sida sorterar de två efter syfte: CLAUDE.md-filer för att styra
-Claudes beteende, automatiskt minne för att låta Claude lära sig av dina
-korrigeringar.
-
-Orsaken är vem som har kontrollerat texten. En människa skriver
+Skälet är vem som har kontrollerat texten. En människa skriver
 instruktionsfilen – den beskrivs i
 [Instruktionsfilen, det första en AI-agent läser](/sv/blog/the-instruction-file/)
 – och en kollega kan granska den i en pull request. En agent skriver minnet och
 ingen behöver ha läst det. GitHubs dokumentation ger ett andra skäl. Copilots kontroll av ett faktums källhänvisningar är Copilots eget omdöme och inte en garanti som systemet upprätthåller, så du bör inte lita på att ett lagrat faktum följs som en regel som alltid gäller.
 
+Alla tre leverantörerna drar gränsen på samma ställe. OpenAIs dokumentation säger att du ska lägga obligatoriska riktlinjer för teamet i `AGENTS.md` eller i dokumentation i repot och behandla minnen som "ett användbart lager för att komma ihåg, inte som den enda källan till regler som alltid måste gälla" (vår översättning).
+[VS Codes dokumentation](https://code.visualstudio.com/docs/agents/run/memory)
+påpekar att repo-fakta delas och inte är privata anteckningar. Den säger också att du ska lägga granskade krav för teamet i projektdokumentation under versionshantering eller i custom instructions. GitHub beskriver en arbetsfördelning: custom instructions för viktiga regler – som ett säkerhetskrav eller ett obligatoriskt granskningssteg – och Copilot Memory för detaljerna som samlas på hög och annars skulle göra en instruktionsfil lång och svår att underhålla. På Claude Codes sida är uppdelningen efter syfte: CLAUDE.md-filer styr Claudes beteende och auto memory låter Claude lära sig av dina korrigeringar.
+
 {% figure "memory-file-or-memory" %}
 
-Ett faktum flyttar från agentens anteckningar till filen när det har visat sig stabilt. VS Codes dokumentation ger stegen för repo-minne som har
-blivit stabilt och användbart för teamet: kontrollera uppgiften mot repots kod
-och konfiguration, flytta den till projektdokumentet eller instruktionsfilen,
-granska ändringen i repots vanliga process och uppdatera eller ta bort det
-lokala minnet för att undvika föråldrade eller motstridiga kopior.
+Ett faktum flyttas från agentens anteckningar till filen när det har visat sig stabilt. VS Codes dokumentation beskriver stegen för repo-minne som har blivit stabilt och användbart för teamet. Kontrollera uppgiften mot repots kod och konfiguration, flytta den till projektdokumentet eller instruktionsfilen och granska ändringen i repots vanliga process. Uppdatera eller ta bort det lokala minnet efteråt för att undvika föråldrade eller motstridiga kopior.
 
 En tredje sorts text hör hemma i ingen av dem: pågående arbete. Pocock drar
 gränsen så här i sin
 [guide till överlämning](https://github.com/mattpocock/skills/blob/main/docs/productivity/handoff.md):
 "Om du ständigt förklarar ett faktum på nytt hör det hemma i `CLAUDE.md`. En
-halvfärdig uppgift hör hemma i en överlämning." (vår översättning) Överlämningen tar "Vad som fyller en AI-agents kontext" upp.
+halvfärdig uppgift hör hemma i en överlämning." (vår översättning)
+Överlämningen beskrivs i "Vad som fyller en AI-agents kontext".
 
 ## Det ett team delar är det som committas
 
-En kollegas dator och en runner börjar båda från repot och inte från din
-hemmapp.
-[Var AI-agenten körs och vem som startar den](/sv/blog/where-the-agent-runs/)
-beskriver regeln för en körning i molnet: det du committar finns där och det du
-har konfigurerat bara på din egen dator gör det inte. Minnet följer samma regel.
+En kollegas dator och en runner utgår båda från repot, inte från din hemmapp.
+Regeln för en körning i molnet beskrivs i
+[Var AI-agenten körs och vem som startar den](/sv/blog/where-the-agent-runs/):
+det du committar finns med, men det du bara har konfigurerat på din egen
+dator finns inte med. Minnet följer samma regel.
 
-Claude Codes automatiska minne är maskinlokalt: alla worktrees för ett repo
-delar en mapp och filerna delas inte mellan datorer eller molnmiljöer. Det som
-följer med repot är det som committas: projektets CLAUDE.md – som delas med
-teamet via versionshantering – och omfånget (scope) `project` i en subagents
-eget minne, som
-[dokumentationen om subagenter](https://code.claude.com/docs/en/sub-agents)
-rekommenderar som standard eftersom det gör kunskapen delbar via
-versionshantering. Codex lagrar sina minnen i ett lokalt minnesförråd, så de
-stannar på den dator där Codex kördes.
+Claude Codes auto memory ligger lokalt på varje dator: alla worktrees för ett
+repo delar en mapp och filerna delas inte mellan datorer eller molnmiljöer. Det
+som följer med repot är det som committas: projektets CLAUDE.md – som delas med
+teamet via versionshantering – och scope `project` för en subagents eget minne.
+[Dokumentationen om subagenter](https://code.claude.com/docs/en/sub-agents)
+rekommenderar det som standard eftersom kunskapen då går att dela via
+versionshantering. Codex sparar sina minnen lokalt, så de stannar på den dator
+där Codex kördes.
 
-Copilot är undantaget med flit: GitHub lagrar dess repo-fakta. VS Code har också
-ett experimentellt alternativ som lagrar dem i en fil i arbetskatalogen,
-`.github/copilot-memories.jsonl`. Den filen kan ingå i commits – även sådana som
-agenten gör. Molnminnets inställningar och policyer på GitHub gäller inte för
-den.
+Copilot är ett medvetet undantag: GitHub lagrar repo-fakta åt Copilot. VS Code
+har också ett experimentellt alternativ som lagrar dem i en fil i
+arbetskatalogen, `.github/copilot-memories.jsonl`. Den filen kan ingå i commits
+– även sådana som agenten gör. Molnminnets inställningar och policyer på GitHub
+gäller inte för den.
 
 {% figure "memory-where-it-lives" %}
 
-Ett minne i en hemmapp når bara den dator det ligger på, en fil i repot når varje dator och runner och en leverantörs minnesförråd når de konton som leverantören släpper in. "Delat" har alltså två betydelser: delat som
-en fil – som följer med repot och som alla med en utcheckning kan läsa och
-granska – och delat via ett konto, vilket beror på vilka leverantören släpper
-in.
+Ett minne i en hemmapp når bara den dator det ligger på. En fil i repot når varje dator och runner. En leverantörs minnesförråd når de konton som leverantören släpper in. "Delat" kan alltså betyda två saker: delat som en fil, som följer med repot och kan läsas och granskas av alla som har checkat ut det, eller delat via ett konto, där det beror på vilka leverantören släpper in.
 
-## En runner som GitHub driver startar tom
+## En GitHub-hosted runner startar tom
 
-Ett jobb på en runner som GitHub driver (en GitHub-hosted runner) börjar i ett
-rent tillstånd.
-[GitHubs dokumentation](https://docs.github.com/en/actions/concepts/runners/github-hosted-runners)
-säger att varje runner som GitHub driver – med undantag för enkärniga runners –
-är en ny virtuell maskin och dess sida om
-[beroendecachning](https://docs.github.com/en/actions/concepts/workflows-and-actions/dependency-caching)
-säger att jobb på GitHubs runners startar i en ren runner-avbild. En anteckning
-som agenten skriver under ett jobb är därför borta när jobbet slutar, om inte
-jobbet pushar den i en commit, laddar upp den som en artefakt (artifact) eller
-cachar den.
+En anteckning som agenten skriver under ett jobb är borta när jobbet slutar, om inte jobbet pushar den i en commit, laddar upp den som en artifact eller cachar den. Ett jobb på en GitHub-hosted runner börjar i ett rent tillstånd: [GitHubs dokumentation](https://docs.github.com/en/actions/concepts/runners/github-hosted-runners) säger att varje GitHub-hosted runner – med undantag för single-CPU-runners – är en ny virtuell maskin. Sidan om [dependency caching](https://docs.github.com/en/actions/concepts/workflows-and-actions/dependency-caching) säger att jobb på GitHub-hosted runners startar från en ren runner image.
 
 {% figure "memory-runner-starts-empty", "wide" %}
 
-Det som når runnern är det repo som ett steg i jobbet checkar ut. För Claude
-Codes GitHub Action är leverantörens svar filen i repot:
-[dess dokumentation](https://code.claude.com/docs/en/github-actions) säger att du ska skapa en CLAUDE.md i repots rot för kodstil, granskningskriterier, projektspecifika regler och föredragna mönster – och hålla den kortfattad, eftersom Claude läser den vid varje körning.
+Det som når runnern är repot som ett steg i jobbet checkar ut. För Claude Codes
+GitHub Action är leverantörens svar filen i repot. [Action-dokumentationen](https://code.claude.com/docs/en/github-actions) säger att du ska skapa en CLAUDE.md i repots rot för kodstil, granskningskriterier, projektspecifika regler och föredragna mönster – och hålla den kortfattad, eftersom Claude läser den vid varje körning.
 
-Tre saker kan överleva ett jobb. De är inte likvärdiga. En commit kan
-granskas som vilken ändring som helst och finns där för nästa körning. En
-artefakt är till för filer som ett jobb har skapat och som du vill använda eller
-titta på sedan körningen har tagit slut. En cache är till för filer som är dyra
-att återskapa. GitHub säger att ett jobb alltid ska kunna återskapa dem.
+Tre saker kan överleva ett jobb. De är inte likvärdiga. En commit kan granskas
+som vilken ändring som helst och finns där för nästa körning. En artifact är
+till för filer som ett jobb har skapat och som du vill använda eller titta på
+efter körningen. En cache är till för filer som är dyra att återskapa. Enligt
+GitHub ska ett jobb alltid kunna återskapa dem.
 
-En cache är ett dåligt ställe att ha ett minne på. Varje körning som kan läsa en
-cache återställer innehållet som det är, säger GitHubs dokumentation.
-Återställda filer bör därför behandlas som opålitlig indata och inga hemligheter
-bör lagras i en cache. Förgiftade cachar kan leda till kodkörning i betrodda
-arbetsflöden. En minnesfil är avsedd att följas av agenten, vilket är raka
+En cache är ett dåligt ställe att ha ett minne på. Enligt GitHubs dokumentation
+återställer varje körning som kan läsa en cache innehållet precis som det är.
+Återställda filer ska därför behandlas som opålitlig indata och hemligheter ska
+inte lagras i en cache. En förgiftad cache kan leda till att kod körs i betrodda
+workflows. En minnesfil är till för att agenten ska följa den, vilket är raka
 motsatsen till opålitlig indata.
 
-Copilots molnagent lagrar det den lär sig utanför jobbet, i Copilot Memory, så
-det finns kvar till nästa uppgift. I programmatiska sessioner med
-kommandoradsverktyget är minnet av om inte en körning anger `--enable-memory`.
+Copilots cloud agent sparar det den lär sig utanför jobbet, i Copilot Memory, så
+att det finns kvar till nästa uppgift. I programmatiska sessioner med
+kommandoradsverktyget är minnet avstängt om inte körningen anger
+`--enable-memory`.
 
 ## Ett minne som många agenter läser måste gå att lita på
 
 En anteckning i en persons mapp påverkar personens egna sessioner. Ett faktum i
-ett delat minne, eller i en fil som hela teamet committar, påverkar varje
-session som läser det. Det som läses in i början – till exempel en
-instruktionsfil eller ett index över minnen – finns där innan någon har frågat
-något.
-[MCP, så når AI-agenten andra system](/sv/blog/mcp-reaching-your-systems/)
-förklarar prompt injection: text som agenten läser kan innehålla instruktioner
-som den följer som om du hade skrivit dem. Ett minne kan föra en sådan text
-vidare till varje senare session som läser det.
+ett delat minne – eller i en fil som hela teamet committar – påverkar varje
+session som läser det. Det som läses in i början, till exempel en
+instruktionsfil eller ett index över minnen, finns där innan någon har frågat
+något. Prompt injection förklaras i
+[MCP, så når AI-agenten andra system](/sv/blog/mcp-reaching-your-systems/):
+text som agenten läser kan innehålla instruktioner som den följer som om du hade
+skrivit dem. Ett minne kan föra en sådan text vidare till varje senare session
+som läser det.
 
-### Vem som kan skriva
+### Vem som kan skriva i ett delat minne
 
-I Copilot skapas repo-fakta bara när Copilot arbetar i ett repo där du har skrivrättigheter. Copilot-appen och det interaktiva kommandoradsverktyget
-kan be dig godkänna ett minne innan det lagras, men molnagenten och
-kodgranskningen frågar inte. GitHubs dokumentation tillägger att repo-fakta kan
-fångas ur pull requests som stängdes utan att slås ihop och att Copilot ska
-kontrollera dem mot den aktuella kodbasen, vilket inte garanterar att den känner
-igen varje föråldrat faktum.
+Cloud agent och code review sparar ett minne utan att fråga dig. Copilot-appen och det interaktiva kommandoradsverktyget kan be dig godkänna ett minne innan det sparas. I Copilot skapas repo-fakta bara när Copilot arbetar i ett repo där du har skrivrättigheter. GitHubs dokumentation tillägger att repo-fakta kan fångas upp ur pull requests som stängdes utan att mergas. Copilot ska kontrollera dem mot den aktuella kodbasen, men det garanterar inte att den känner igen varje föråldrat faktum.
 
 ### En förgiftad post
 
-En instruktion som har gömts i ett dokument kan hamna i agentens minne och göra skada flera sessioner senare. [En preprint](https://arxiv.org/html/2609.13889v1) av forskare vid University of Auckland och Fudan University, publicerad i september 2026, prövar det på Claude Code självt. Metoden är att gömma instruktioner i vanliga externa
-källor – text, bilder och PDF-filer – så att agenten skriver dem till sitt
-beständiga minne. De utlöses sedan i en senare session. Upplägget var en
-simulerad arbetsyta med e-post, kalender, delade dokument och formulär, där
-Claude Code kördes på tre språkmodeller från andra utvecklare. I genomsnitt
-nådde instruktionerna minnet i 66,9 % av försöken. I 81,7 % av testerna som gick
-över flera sessioner ledde de till att privata data läckte i en senare session.
-Det är medelvärden över en uppsättning tester, inte en andel för din egen
-konfiguration.
+En instruktion som har gömts i ett dokument kan hamna i agentens minne och göra skada flera sessioner senare. [En preprint](https://arxiv.org/html/2609.13889v1) från forskare vid University of Auckland och Fudan University, publicerad i september 2026, testar det på själva Claude Code. Metoden är att gömma instruktioner i vanliga externa källor – text, bilder och PDF-filer – så att agenten skriver dem till sitt beständiga minne. De utlöses sedan i en senare session. Upplägget var en simulerad arbetsyta med e-post, kalender, delade dokument och formulär, där Claude Code kördes på tre språkmodeller från andra utvecklare. I genomsnitt nådde instruktionerna minnet i 66,9 % av försöken. I 81,7 % av testerna som gick över flera sessioner ledde de till att privata data läckte i en senare session. Det är medelvärden över en uppsättning tester, inte en andel för din egen konfiguration.
 
-Författarna prövade också ett försvar på promptnivå. Det gjorde att färre
-instruktioner nådde minnet i många konfigurationer, men det gav begränsat skydd
-när minnet väl hade förgiftats. Det som stoppar en förgiftad instruktion oavsett
-vad modellen bestämmer är en gräns utanför den. Därför spelar sådana gränser
-större roll med minne, inte mindre. Den förgiftade posten ligger i minnesförrådet och når varje senare session som läser den. Gränsen står efter
-agenten.
+Författarna testade också ett försvar på promptnivå. Det minskade i många
+konfigurationer antalet instruktioner som nådde minnet, men gav begränsat skydd
+när minnet väl hade förgiftats. Det som stoppar en förgiftad instruktion
+oavsett vad modellen bestämmer är en gräns utanför modellen. Därför spelar
+sådana gränser större roll med minne, inte mindre. Den förgiftade posten ligger i minnesförrådet och når varje senare session som läser den. Gränsen sitter efter agenten.
 
 {% figure "memory-poisoned-entry", "wide" %}
 
-Leverantörernas kontroller riktar sig mot samma svaga punkter. Den största oron
-enligt GitHubs tekniska inlägg är minnen som är föråldrade, felaktiga eller till
-och med inmatade med ont uppsåt. I testet la GitHub in motstridiga minnen i
-repona – fakta som stred mot kodbasen, med källhänvisningar som pekade på
-irrelevant eller obefintlig kod – och i alla testfall kontrollerade agenterna
-konsekvent källhänvisningarna, upptäckte motsägelserna och uppdaterade de
-felaktiga minnena. Det är GitHubs utvärdering av sin egen produkt. Den gäller
-minnen vars källhänvisningar inte stöder dem.
+Leverantörernas kontroller riktar sig mot samma svaga punkter. Enligt GitHubs
+tekniska inlägg är den största oron minnen som är föråldrade, felaktiga eller
+till och med skrivna dit i ond avsikt. I sitt test la GitHub in vilseledande minnen i repona: fakta som motsade kodbasen, med källhänvisningar som pekade på irrelevant eller obefintlig kod. I alla testfall kontrollerade agenterna konsekvent källhänvisningarna, upptäckte motsägelserna och uppdaterade de felaktiga minnena. Det är GitHubs utvärdering av sin egen produkt. Den gäller minnen vars källhänvisningar inte stöder dem.
 
 GitHubs dokumentation tillägger att systemet kan avvisa minnen som innehåller
-kända modellstyrande tokens (model-control tokens), som ett skydd mot prompt
-injection. OpenAIs dokumentation beskriver en Codex-inställning,
+kända model-control tokens, som skydd mot prompt injection. OpenAIs
+dokumentation beskriver en inställning i Codex,
 <code>memories.disable_on_<wbr>external_context</code>, som gör att chattar som
 har använt extern kontext – till exempel MCP-verktygsanrop, webbsökning eller
 verktygssökning – inte används för att skapa minnen.
 
-En säkerhetsforskares två allmänna lärdomar från
-[en genomgång 2025](https://embracethered.com/blog/posts/2025/windsurf-spaiware-exploit-persistent-prompt-injection/)
-av en kodagents minne är de enklaste kontrollerna: system bör föreslå minnen för
-användaren i stället för att lägga till dem automatiskt; användare bör granska
-minnen regelbundet. Det andra går att göra i alla tre verktygen: Claude Codes
-automatiska minne är vanlig markdown som `/memory` öppnar, Codex minnesfiler går
-att granska i dess hemkatalog och GitHub låter personer med rätt behörighet
+De enklaste kontrollerna är de två allmänna lärdomarna som en säkerhetsforskare
+drar i
+[en genomgång från 2025](https://embracethered.com/blog/posts/2025/windsurf-spaiware-exploit-persistent-prompt-injection/)
+av minnet i en AI-agent för kodning: system bör föreslå minnen för användaren i
+stället för att lägga till dem automatiskt och användare bör granska minnen
+regelbundet. Att granska minnen går att göra i alla tre verktygen. Claude Codes
+auto memory är vanlig markdown som du öppnar med `/memory`. Codex minnesfiler
+går att granska i hemkatalogen. GitHub låter personer med rätt behörighet
 granska och ta bort repo-fakta i repots inställningar.
 
-### Hemligheter
+### En hemlighet följer med minnet
 
-Ett minne är text som agenten skriver och som andra ofta kan läsa, så en
-hemlighet som hamnar i ett minne följer med. GitHubs dokumentation säger att
-minnen genomsöks efter hemligheter som tokens, nycklar eller
-inloggningsuppgifter och att ett minne där en sådan upptäcks avvisas. OpenAIs
-dokumentation säger att Codex maskerar hemligheter i genererade minnesfält, men
-att du ändå bör granska filerna innan du delar din Codex-hemkatalog. VS Codes dokumentation säger tydligt att du inte ska lagra inloggningsuppgifter, hemligheter eller känslig personlig information i minnet. Minnet kräver samma försiktighet som tidigare delar: i "MCP, så når AI-agenten andra system" hålls en token utanför filer och chatt och i "Sätt gränserna i förväg" finns en regel mot att läsa en `.env`-fil.
+Ett minne är text som agenten skriver och som andra ofta kan läsa. En
+hemlighet som hamnar i ett minne följer därför med. GitHubs dokumentation säger att
+minnen skannas efter hemligheter som tokens, nycklar eller inloggningsuppgifter
+och att ett minne där en sådan hittas avvisas. OpenAIs dokumentation säger att
+Codex maskerar hemligheter i genererade minnesfält, men att du ändå bör granska
+filerna innan du delar din Codex-hemkatalog. VS Codes dokumentation säger
+tydligt att du inte ska lagra inloggningsuppgifter, hemligheter eller känslig personlig information i minnet. Samma försiktighet gäller för minnet som i de tidigare delarna: i "MCP, så når AI-agenten andra system" hålls en token utanför filer och chatt och i "Sätt gränserna i förväg" finns en regel mot att läsa en `.env`-fil.
 
 ### Föråldrade fakta
 
@@ -274,115 +234,115 @@ Den tystare risken är ett faktum som var sant när det skrevs. Fabriken bakom d
 här sajten stötte på den i september 2026. I
 [En studie av borgmästarens kontext](/sv/blog/what-the-mayors-context-costs/)
 hoppade nya sessioner över det mesta av en anteckningslogg som hade blivit för
-lång för att läsas i sin helhet och tog gamla fakta för aktuella. Lägeskortet som skrivs om vid varje överlämning och referensen som läses i ett anrop fanns redan. Ändringen var att korta båda och sätta tak för dem, som "Vad som fyller en AI-agents kontext" beskriver. Pococks ordlista
-beskriver det allmänna fallet: ett faktum som antecknades i mars läses in med samma tillförsikt i juni
-– sedan projektet har gått vidare – och ett minnessystem behöver gallras på
-samma sätt som AGENTS.md.
+lång att läsa i sin helhet och tog gamla fakta för aktuella. Lägeskortet som skrivs om vid varje överlämning och referensen som läses i ett anrop fanns redan. Ändringen var att korta båda och sätta tak för dem, som "Vad som fyller en AI-agents kontext" beskriver. Pococks ordlista
+beskriver det allmänna fallet: ett faktum som antecknades i mars läses in med
+samma tillförsikt i juni – efter att projektet har gått vidare – och ett
+minnessystem behöver rensas på samma sätt som AGENTS.md.
 
-Verktygen har en del av den gallringen inbyggd. Claude Code påminner agenten –
-när `MEMORY.md` närmar sig sin gräns – att ha en rad per post och slå ihop eller
-ta bort föråldrade poster. Den noterar också när varje minne skrevs, så att ett
-faktums ålder syns. GitHub låter minnen löpa ut efter en period utan
-förstärkning, alltså utan att Copilot har röstat upp dem. Copilot kan också
-rösta ned ett minne som den anser vara felaktigt eller föråldrat.
+Verktygen har en del av den rensningen inbyggd. När `MEMORY.md` närmar sig sin
+gräns påminner Claude Code agenten om att ha en rad per post och att slå ihop
+eller ta bort föråldrade poster. Claude Code antecknar också när varje minne
+skrevs, så att ett faktums ålder syns. I GitHub kan ett minne löpa ut om det
+inte har förstärkts under en period, alltså om Copilot inte har röstat upp det.
+Copilot kan också rösta ned ett minne som den bedömer är felaktigt eller
+föråldrat.
 
 ## Fem lösningar och vad var och en kostar att hålla igång
 
-De tre första lösningarna är leverantörernas egna. De två sista är öppen
-källkod: exempel från utvecklare, inte leverantörsråd. Det som sägs om dem här är
-det projekten sade om sig själva i november 2026.
+Vilken lösning som passar beror på vem som ska läsa minnet: du själv, teamet
+eller flera agenter som delar tillstånd. De tre första lösningarna är
+leverantörernas egna. De två sista är öppen källkod: exempel från utvecklare,
+inte leverantörsråd. Det som sägs om dem här är det projekten själva skrev om sig
+i november 2026.
 
 ### Filen i repot
 
-Filen i repot behöver ingen tjänst och den når varje dator och runner som den
-är. Dess svaghet är den som "Instruktionsfilen, det första en AI-agent läser"
-beskriver: en lång fil följs sämre. Claude Code erbjuder `/doctor prompt-audit`,
-som letar efter instruktioner skrivna för äldre modeller, hänvisningar till
-filer eller kommandon som inte finns och filer som motsäger varandra. Kostnaden
-är människors tid för att hålla filen sann.
+Filen i repot behöver ingen tjänst och når varje dator och runner precis som den
+är. Svagheten är densamma som i "Instruktionsfilen, det första en AI-agent
+läser": en lång fil följs sämre. Claude Code har `/doctor prompt-audit`, som
+letar efter instruktioner skrivna för äldre modeller, hänvisningar till filer
+eller kommandon som inte finns och filer som motsäger varandra. Kostnaden är
+tiden det tar för människor att hålla filen sann.
 
 ### En leverantörs molnminne
 
-Copilot Memory tar över underhållet från människorna. GitHubs dokumentation
-säger att det inte kräver något underhåll från dig, anpassar sig när kodbasen
-och dina vanor ändras och kastar bort det som slutar vara relevant. Det finns i
-alla betalda Copilot-abonnemang. Minnen som tas med i en modells kontext räknas
-in i tokenanvändningen. GitHubs tekniska inlägg från januari 2026 redovisar en
-förbättring i egna A/B-tester: för kodagenten, som inlägget kallar den, en
-ökning med 7 % av andelen sammanslagna pull requests, 90 % med minnen mot 83 %
-utan. Det är GitHubs siffror för den egna produkten och riskerna ovan följer
-med.
+Med Copilot Memory slipper människor underhållet. Enligt GitHubs dokumentation
+kräver det inget underhåll från dig, anpassar sig när kodbasen och dina vanor
+ändras och kastar bort det som slutar vara relevant. Det finns i alla betalda
+Copilot-abonnemang. Minnen som tas med i modellens kontext räknas med i
+tokenanvändningen. GitHubs tekniska inlägg från januari 2026 redovisar en
+förbättring i egna A/B-tester. För det som inlägget kallar coding agent ökade
+andelen mergade pull requests med 7 %: 90 % med minnen mot 83 % utan. Det är
+GitHubs siffror för deras egen produkt. Riskerna ovan följer med.
 
 ### Ett minne i varje hemmapp
 
-Claude Codes automatiska minne kostar ingenting att köra. Claude Code undantar
-minnesmappen från rensningen som tar bort gamla sessionstranskript, så
-anteckningarna ligger kvar tills du eller Claude ändrar eller tar bort dem.
-Inget av det löper ut av sig självt – det som gallras är det du eller Claude tar
-bort – och inget av det når en kollega eller en runner. Codex filer är genererat tillstånd (generated state): dokumentationen säger att du inte ska förlita dig på att redigera dem för hand. Skrivbordsappen kan nollställa en dators hela
-minnesförråd.
+Claude Codes auto memory kostar ingenting att köra. Claude Code lämnar
+minnesmappen utanför rensningen av gamla sessionstranskript, så anteckningarna
+ligger kvar tills du eller Claude ändrar eller tar bort dem. Inget av det löper
+ut av sig självt – det som rensas är det du eller Claude tar bort – och inget av
+det når en kollega eller en runner. Codex filer är genererat tillstånd (generated state): dokumentationen säger att du inte ska förlita dig på att redigera dem för hand. Desktop-appen kan nollställa hela minnesförrådet på en dator.
 
 ### En minnesserver över MCP
 
 En minnesserver är en MCP-server: ett program som agenten anropar för att läsa
 och skriva minnen i ett minnesförråd som flera agenter eller verktyg kan dela.
-Att ansluta en är det förtroendebeslut som "MCP, så når AI-agenten andra system"
-beskriver, med ett tillägg: det den innehåller har skrivits av agenter och läses
-av agenter. Ingenting läser in den av sig självt i början. Agenten måste anropa
-den.
-[Referensserverns README](https://github.com/modelcontextprotocol/servers/tree/main/src/memory)
-ger en exempelprompt för personliga chattar som börjar varje chatt med att hämta
-all relevant information ur kunskapsgrafen.
+Att ansluta en är samma förtroendebeslut som i "MCP, så når AI-agenten andra
+system", med ett tillägg: det den innehåller har skrivits av agenter och läses
+av agenter. Ingenting läser in den automatiskt i början. Agenten måste anropa
+den. [Referensserverns README](https://github.com/modelcontextprotocol/servers/tree/main/src/memory)
+innehåller en exempelprompt för personanpassning. Den säger åt agenten att börja
+varje chatt med att hämta all relevant information ur kunskapsgrafen.
 
-Referensservern i Model Context Protocol-projektets repo beskriver sig själv som
-"en grundläggande implementation av beständigt minne med en lokal kunskapsgraf"
-(vår översättning). Den lagrar grafen i en fil, så det finns inget att drifta.
-Flera klienter på en dator kan dela filen, eftersom varje skrivning tar ett lås,
-men README säger att ett nätverksfilsystem som inte respekterar låset inte kan
-delas säkert på det här sättet och att ingenting som standard sätter tak för
-grafen. Repot kallar sina servrar referensimplementationer och inte
-produktionsfärdiga lösningar.
+Referensservern i repot för Model Context Protocol beskriver sig själv som "en
+grundläggande implementation av beständigt minne med en lokal kunskapsgraf"
+(vår översättning). Den lagrar grafen i en fil, så det finns inget att
+drifta. Flera klienter på en dator kan dela filen, eftersom varje skrivning tar
+ett lås. README lägger till två förbehåll. Ett nätverksfilsystem som inte
+respekterar låset går inte att dela säkert på det här sättet. Dessutom finns det
+som standard ingen gräns för hur stor grafen kan bli. Repot kallar sina servrar
+referensimplementationer och inte produktionsfärdiga lösningar.
 
 [basic-memory](https://github.com/basicmachines-co/basic-memory) (AGPL-3.0)
 lagrar anteckningar som markdown-filer som både människor och modeller läser och
-skriver, med ett lokalt SQLite-index och utan krav på servrar. Egen drift är
-gratis och synkroniseringen mellan enheter är manuell, till exempel med Git
-eller Syncthing. I november 2026 kostar tjänsten som projektet driver åt dig
-15,00 dollar i månaden till ett betapris – ordinarie pris 19 dollar.
-Teamarbetsytan har samma prissättning, med en användare till att börja med och
-fler efter behov. Allt en teammedlem skriver är, enligt projektet, omedelbart
-tillgängligt för alla andra och deras AI-assistenter. En felaktig post når dem
-lika snabbt som en riktig.
+skriver, med ett lokalt SQLite-index och utan krav på servrar. Self-hosted är det
+gratis och synkroniseringen mellan enheter görs manuellt, till exempel med Git
+eller Syncthing. Projektets molntjänst kostar i november 2026 15,00 dollar i
+månaden till ett betapris – ordinarie pris är 19 dollar. Team workspace har samma
+prissättning: en användare till att börja med och fler efter behov. Enligt
+projektet blir allt en teammedlem skriver direkt tillgängligt för alla andra och
+deras AI-assistenter. En felaktig post når dem lika snabbt som en riktig.
 
 [Mem0](https://github.com/mem0ai/mem0) kallar sig ett intelligent minneslager
-för AI-assistenter och agenter. Det erbjuds som ett bibliotek, som en server med
-egen drift som startas med `docker compose` eller som en molnplattform. Dess README säger att Mem0 kräver en språkmodell (LLM) för att fungera, så ett bibliotek eller en server med egen drift betyder en språkmodell du antingen betalar för eller driver själv. Dess extraktion lägger bara till: minnen ackumuleras och
-ingenting skrivs över, vilket lämnar gallringen åt dig.
+för AI-assistenter och agenter. Det finns som bibliotek, som self-hosted server
+(startas med `docker compose`) eller som molnplattform. README säger att Mem0
+kräver en språkmodell (LLM) för att fungera. Ett bibliotek eller en self-hosted
+server betyder alltså en språkmodell som du antingen betalar för eller driver
+själv. Mem0 lägger bara till minnen: de samlas på hög och inget skrivs över, så
+rensningen är ditt jobb.
 
 ### Ett gemensamt register
 
 Fabriken bakom den här sajten har sitt gemensamma tillstånd i
-[Beads](https://github.com/gastownhall/beads), en ärendehanterare med öppen källkod som i sin README kallar sig "ett beständigt, strukturerat minne för agenter som kodar" (vår översättning): en graf av uppgifter med beroenden i en
-versionshanterad databas, i stället för markdown-planer. Som
-[Därför driver vi en agentdriven mjukvarufabrik](/sv/blog/why-we-run-an-agent-run-factory/)
-beskriver tar en agent en bead, arbetar, skriver ner vad den gjorde och stänger
-den. Om sessionen dör halvvägs förblir beaden öppen för nästa. Enligt README
-körs databasen som standard inuti en process med en enda skrivare, ett
-serverläge betjänar flera skrivare och maskiner synkroniseras via git-remoten.
-`bd remember` lagrar varaktiga projektfakta som `bd prime` läser in senare.
-README håller personliga preferenser utanför: de hör hemma i ditt eget verktygs
-minne.
+[Beads](https://github.com/gastownhall/beads), en ärendehanterare med öppen
+källkod som i sin README kallar sig "ett beständigt, strukturerat minne för agenter som kodar" (vår översättning): en graf av uppgifter med beroenden i en
+versionshanterad databas, i stället för markdown-planer. En agent tar en bead,
+arbetar, skriver ner vad den gjorde och stänger den, som det beskrivs i
+[Därför driver vi en agentdriven mjukvarufabrik](/sv/blog/why-we-run-an-agent-run-factory/).
+Om sessionen dör halvvägs förblir beaden öppen för nästa. Enligt README körs
+databasen som standard inuti en process med en enda writer, ett serverläge
+stöder flera writers och maskiner synkroniseras via git-remoten. `bd remember`
+sparar varaktiga projektfakta som `bd prime` läser in senare. Personliga
+preferenser lämnar README utanför: de hör hemma i ditt eget verktygs minne.
 
-Det den håller är en annan sorts minne än de fyra andra: tillstånd som ändras
-löpande och som flera agenter måste se på samma sätt, till exempel vem som har
-tagit vad och vad som är klart. Det kräver ett enda ställe som varje agent läser
-och skriver via samma kommandon. Kostnaden är en databas och en remote för
-synkroniseringen som måste hållas igång.
+Det är en annan sorts minne än de fyra andra: tillstånd som ändras hela tiden och
+som flera agenter måste se på samma sätt, till exempel vem som har tagit vad och
+vad som är klart. Det kräver ett enda ställe som varje agent läser från och
+skriver till med samma kommandon. Kostnaden är att hålla en databas och en
+remote för synkroniseringen igång.
 
 ## Vad du gör först
 
-Det första som lönar sig är att läsa det din agent redan har sparat: `/memory` i Claude Code, repots Copilot-minnesinställningar på GitHub och mappen `~/.codex` för Codex. Det du hittar går att sortera i tre sorter: regler, sådant du vill komma ihåg och pågående arbete. Regler som teamet förlitar sig på hör hemma i instruktionsfilen i repot, granskad som kod. En regel som måste gälla oavsett vad agenten bestämmer behöver också en gräns utanför modellen. Pågående arbete hör hemma i en överlämning.
+Ett första steg är att läsa det din agent redan har sparat: `/memory` i Claude Code, repots Copilot-minnesinställningar på GitHub och mappen `~/.codex` för Codex. Det du hittar går att sortera i tre sorter: regler, sådant du vill komma ihåg och pågående arbete. Regler som teamet förlitar sig på hör hemma i instruktionsfilen i repot, där de granskas som kod. En regel som måste gälla oavsett vad agenten bestämmer behöver dessutom en gräns utanför modellen. Pågående arbete hör hemma i en överlämning.
 
-En runner är tom när jobbet börjar: allt ett jobb lär sig går förlorat om det inte pushas i en commit eller sparas i ett minnesförråd utanför runnern – och en cache är inget ställe att ha det på. Innan du ansluter ett delat minnesförråd, till exempel en minnesserver, är det bra att ha bestämt vem som får skriva i det, vem som läser det och hur en post tas bort. Och kontrollera de aktuella inställningarna
-innan du förlitar dig på en standard, eftersom de i november 2026 skiljer sig
-mellan verktygen och mellan Copilots abonnemang.
+En runner är tom när jobbet börjar: allt ett jobb lär sig går förlorat om det inte pushas i en commit eller sparas i ett minnesförråd utanför runnern – och en cache är inget ställe att ha det på. Innan du ansluter ett delat minnesförråd, till exempel en minnesserver, är det bra att ha bestämt vem som får skriva i det, vem som läser det och hur en post tas bort. Det är också värt att kontrollera de aktuella inställningarna innan du förlitar dig på en standard, eftersom de i november 2026 skiljer sig mellan verktygen och mellan Copilots abonnemang.
