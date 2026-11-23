@@ -1607,7 +1607,7 @@
       "layer2": "the instruction file",
       "layer3": "memory",
       "layer4": "names of skills and tools",
-      "caption": "The context before you have typed anything. The start-up layer is small next to the whole window, but it is there, and every later request carries it. The sizes are drawn, not counted."
+      "caption": "The context before you have typed anything. The start-up layer is small next to the whole window, but it is there, and every later request carries it. The proportions in the figure are illustrative, not exact."
     },
     "context-as-it-fills": {
       "title": "Four moments of one session, each bar fuller than the one before: after the first prompt, after a few files are read, after a test run's output, and after a second unrelated task has begun. The layers of the first task stay.",

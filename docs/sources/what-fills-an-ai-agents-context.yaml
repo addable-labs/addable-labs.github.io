@@ -8,8 +8,8 @@
 - id: C59
   article: what-fills-an-ai-agents-context
   sentence:
-    sv: "Språkmodellen bakom en AI-agent för kodning minns inte ditt samtal från ett steg till nästa. Varje gång verktyget frågar modellen vad den ska göra skickar det med allt som modellen ska se: instruktionerna, filerna som har lästs, utdata från kommandona som har körts och samtalet hittills. Allt det tillsammans är kontexten"
-    en: "The language model behind an AI coding agent does not remember your conversation from one step to the next. Each time the tool asks the model what to do, it sends along everything the model should see: the instructions, the files it has read, the output of the commands it has run and the conversation so far. That bundle is the context"
+    sv: "Språkmodellen bakom en kodande AI-agent minns inte konversationen från ett meddelande till nästa. Varje gång verktyget frågar modellen vad den ska göra skickar det med allt modellen behöver se: instruktionerna, filerna som har lästs, utdata från körda kommandon och konversationen hittills. Allt det tillsammans är kontexten"
+    en: "The language model behind an AI coding agent does not remember your conversation from one message to the next. Each time the tool asks the model what to do, it sends along everything the model should see: the instructions, the files it has read, the output of the commands it has run and the conversation so far. That bundle is the context"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/best-practices
   final_url: https://code.claude.com/docs/en/best-practices
@@ -20,8 +20,8 @@
 - id: C60
   article: what-fills-an-ai-agents-context
   sentence:
-    sv: "Språkmodellen bakom en AI-agent för kodning minns inte ditt samtal från ett steg till nästa. Varje gång verktyget frågar modellen vad den ska göra skickar det med allt som modellen ska se: instruktionerna, filerna som har lästs, utdata från kommandona som har körts och samtalet hittills. Allt det tillsammans är kontexten"
-    en: "The language model behind an AI coding agent does not remember your conversation from one step to the next. Each time the tool asks the model what to do, it sends along everything the model should see: the instructions, the files it has read, the output of the commands it has run and the conversation so far. That bundle is the context"
+    sv: "Språkmodellen bakom en kodande AI-agent minns inte konversationen från ett meddelande till nästa. Varje gång verktyget frågar modellen vad den ska göra skickar det med allt modellen behöver se: instruktionerna, filerna som har lästs, utdata från körda kommandon och konversationen hittills. Allt det tillsammans är kontexten"
+    en: "The language model behind an AI coding agent does not remember your conversation from one message to the next. Each time the tool asks the model what to do, it sends along everything the model should see: the instructions, the files it has read, the output of the commands it has run and the conversation so far. That bundle is the context"
   vendor: Microsoft
   url: https://code.visualstudio.com/docs/agents/concepts/context
   final_url: https://code.visualstudio.com/docs/agents/concepts/context
@@ -32,8 +32,8 @@
 - id: C01
   article: what-fills-an-ai-agents-context
   sentence:
-    sv: "VS Codes dokumentation definierar den som den information som agenten och dess språkmodell har tillgång till medan de arbetar med det du har bett om"
-    en: "VS Code's documentation defines it as the information available to the agent and its language model while they work on your request"
+    sv: "VS Codes dokumentation beskriver den som den information som agenten och språkmodellen har tillgång till medan de arbetar med det du har bett om"
+    en: "VS Code's documentation describes it as the information available to the agent and its language model while they work on your request"
   vendor: Microsoft
   url: https://code.visualstudio.com/docs/agents/concepts/context
   final_url: https://code.visualstudio.com/docs/agents/concepts/context
@@ -56,8 +56,8 @@
 - id: C03
   article: what-fills-an-ai-agents-context
   sentence:
-    sv: "Enligt Claude Codes dokumentation rymmer kontextfönstret allt som Claude vet om din session: dina instruktioner, filerna den läser, dess egna svar och innehåll som aldrig syns i din terminal"
-    en: "According to Claude Code's documentation, the context window holds everything Claude knows about your session: your instructions, the files it reads, its own responses and content that never appears in your terminal"
+    sv: "Enligt Claude Codes dokumentation rymmer kontextfönstret allt som Claude vet om din session: dina instruktioner, filerna den läser, Claudes egna svar och innehåll som aldrig syns i terminalen"
+    en: "Everything the agent knows about your session counts against one limit: according to Claude Code's documentation, the context window holds your instructions, the files it reads, its own responses and content that never appears in your terminal"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/context-window
   final_url: https://code.claude.com/docs/en/context-window
@@ -68,8 +68,8 @@
 - id: C04
   article: what-fills-an-ai-agents-context
   sentence:
-    sv: "Allt räknas mot samma gräns. VS Codes dokumentation säger att användarens meddelande, samtalshistoriken, instruktioner, refererade filer och verktygens utdata alla tar plats i kontextfönstret. Den definierar fönstret som den största mängd information som en språkmodell kan behandla i ett anrop"
-    en: "Everything counts against one limit. VS Code's documentation says that the user message, the conversation history, instructions, referenced files and tool outputs all use space in the context window, and it defines the window as the maximum amount of information a language model can process in one request"
+    sv: "Allt räknas mot samma gräns. VS Codes dokumentation säger samma sak med andra ord: ditt meddelande, konversationshistoriken, instruktioner, refererade filer och verktygens utdata räknas alla in i kontextfönstret. Där definieras fönstret som den största mängd information som en språkmodell kan behandla i ett anrop"
+    en: "VS Code's documentation lists the user message, the conversation history, instructions, referenced files and tool outputs, and defines the window as the maximum amount of information a language model can process in one request"
   vendor: Microsoft
   url: https://code.visualstudio.com/docs/agents/concepts/context
   final_url: https://code.visualstudio.com/docs/agents/concepts/context
@@ -80,8 +80,8 @@
 - id: C05
   article: what-fills-an-ai-agents-context
   sentence:
-    sv: "Allt räknas mot samma gräns. VS Codes dokumentation säger att användarens meddelande, samtalshistoriken, instruktioner, refererade filer och verktygens utdata alla tar plats i kontextfönstret. Den definierar fönstret som den största mängd information som en språkmodell kan behandla i ett anrop"
-    en: "Everything counts against one limit. VS Code's documentation says that the user message, the conversation history, instructions, referenced files and tool outputs all use space in the context window, and it defines the window as the maximum amount of information a language model can process in one request"
+    sv: "Allt räknas mot samma gräns. VS Codes dokumentation säger samma sak med andra ord: ditt meddelande, konversationshistoriken, instruktioner, refererade filer och verktygens utdata räknas alla in i kontextfönstret. Där definieras fönstret som den största mängd information som en språkmodell kan behandla i ett anrop"
+    en: "VS Code's documentation lists the user message, the conversation history, instructions, referenced files and tool outputs, and defines the window as the maximum amount of information a language model can process in one request"
   vendor: Microsoft
   url: https://code.visualstudio.com/docs/agents/concepts/context
   final_url: https://code.visualstudio.com/docs/agents/concepts/context
@@ -92,7 +92,7 @@
 - id: C06
   article: what-fills-an-ai-agents-context
   sentence:
-    sv: "Claude Codes dokumentation listar vad som läses in före den första prompten: CLAUDE.md, automatiskt minne (auto memory), namnen på MCP-verktyg och beskrivningar av skills"
+    sv: "Enligt Claude Codes dokumentation läses det här in före den första prompten: CLAUDE.md, auto memory, namnen på MCP-verktyg och beskrivningar av skills"
     en: "Claude Code's documentation lists what loads before the first prompt: CLAUDE.md, auto memory, MCP tool names and skill descriptions"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/context-window
@@ -104,8 +104,8 @@
 - id: C07
   article: what-fills-an-ai-agents-context
   sentence:
-    sv: "Enligt samma sida läggs varje läst fil till i kontexten medan Claude arbetar. Sidan säger också att tokenantalen i dess exempelsession är illustrativa och varierar med storleken på din CLAUDE.md, dina MCP-servrar och dina filers längd, så figurerna här visar bara relativa storlekar"
-    en: "As Claude works, the same page says, each file read adds to context. It also says that the token counts in its example session are illustrative and vary with the size of your CLAUDE.md, your MCP servers and your file lengths, so the figures here show relative sizes only"
+    sv: "Enligt samma sida läggs varje läst fil till i kontexten medan Claude arbetar. Sidan säger också att tokenantalen i exempelsessionen är illustrativa och varierar med storleken på din CLAUDE.md, dina MCP-servrar och hur långa dina filer är, så figurerna här bara visar relativa storlekar"
+    en: "The same page says that each file read adds to context, and that the token counts in its example session are illustrative and vary with the size of your CLAUDE.md, your MCP servers and your file lengths, so the figures here show relative sizes only"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/context-window
   final_url: https://code.claude.com/docs/en/context-window
@@ -116,8 +116,8 @@
 - id: C08
   article: what-fills-an-ai-agents-context
   sentence:
-    sv: "Enligt samma sida läggs varje läst fil till i kontexten medan Claude arbetar. Sidan säger också att tokenantalen i dess exempelsession är illustrativa och varierar med storleken på din CLAUDE.md, dina MCP-servrar och dina filers längd, så figurerna här visar bara relativa storlekar"
-    en: "As Claude works, the same page says, each file read adds to context. It also says that the token counts in its example session are illustrative and vary with the size of your CLAUDE.md, your MCP servers and your file lengths, so the figures here show relative sizes only"
+    sv: "Enligt samma sida läggs varje läst fil till i kontexten medan Claude arbetar. Sidan säger också att tokenantalen i exempelsessionen är illustrativa och varierar med storleken på din CLAUDE.md, dina MCP-servrar och hur långa dina filer är, så figurerna här bara visar relativa storlekar"
+    en: "The same page says that each file read adds to context, and that the token counts in its example session are illustrative and vary with the size of your CLAUDE.md, your MCP servers and your file lengths, so the figures here show relative sizes only"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/context-window
   final_url: https://code.claude.com/docs/en/context-window
@@ -128,7 +128,7 @@
 - id: C09
   article: what-fills-an-ai-agents-context
   sentence:
-    sv: "Det som blir kvar skickas igen. Claude Codes sida om bästa praxis uttrycker det så här: \"Varje anrop skickar hela samtalet, så en session som har samlat på sig tre uppgifter som inte hör ihop läser om alla tre vid varje varv i den fjärde\" (vår översättning)"
+    sv: "Det som blir kvar skickas igen. Claude Codes sida om bästa praxis uttrycker det så här: \"Varje anrop skickar hela konversationen, så en session som har samlat på sig tre uppgifter som inte hör ihop läser om alla tre vid varje varv i den fjärde\" (vår översättning)"
     en: "What stays is sent again. Claude Code's best-practices page puts it this way: \"Every request sends the whole conversation, so a session that's collected three unrelated tasks re-reads all three on every turn of the fourth.\""
   vendor: Anthropic
   url: https://code.claude.com/docs/en/best-practices
@@ -140,7 +140,7 @@
 - id: C10
   article: what-fills-an-ai-agents-context
   sentence:
-    sv: "Den andra kostnaden är modellens uppmärksamhet. Anthropics ingenjörer kallar effekten kontextröta (context rot): när antalet tokens i kontextfönstret ökar minskar modellens förmåga att återge information ur kontexten korrekt"
+    sv: "Den andra kostnaden är modellens uppmärksamhet. Anthropics ingenjörer kallar effekten context rot: när antalet tokens i kontextfönstret ökar blir modellen sämre på att korrekt hämta fram information ur kontexten"
     en: "The second cost is the model's attention. Anthropic's engineering team calls the effect context rot: as the number of tokens in the context window increases, the model's ability to accurately recall information from that context decreases"
   vendor: Anthropic
   url: https://www.anthropic.com/research/effective-context-engineering-for-ai-agents
@@ -152,7 +152,7 @@
 - id: C11
   article: what-fills-an-ai-agents-context
   sentence:
-    sv: "Chroma testade 18 modeller i juli 2025 och rapporterade att deras prestanda blir allt mindre tillförlitlig när indatan blir längre. Modellerna är från 2025, så effektens storlek i dag är en fråga för nyare tester, men riktningen är densamma som leverantörerna beskriver"
+    sv: "Chroma testade 18 modeller i juli 2025 och rapporterade att prestandan blir allt mindre pålitlig ju längre indatan är. Modellerna är från 2025, så hur stor effekten är i dag får nyare tester visa, men riktningen är densamma som leverantörerna beskriver"
     en: "Chroma tested 18 models in July 2025 and reported that their performance grows increasingly unreliable as input length grows. The models are from 2025, so the size of the effect today is a question for newer tests, but the direction is the one the vendors describe"
   vendor: Chroma
   url: https://www.trychroma.com/research/context-rot
@@ -164,8 +164,8 @@
 - id: C12
   article: what-fills-an-ai-agents-context
   sentence:
-    sv: "Anthropics guide till kontextteknik (context engineering) drar slutsatsen att god kontextteknik handlar om att hitta den minsta möjliga uppsättningen informationstäta tokens som maximerar sannolikheten för ett önskat resultat"
-    en: "Anthropic's guide to context engineering draws the conclusion that good context engineering means finding the smallest possible set of high-signal tokens that maximise the likelihood of some desired outcome"
+    sv: "Anthropics guide till context engineering drar slutsatsen att målet är den minsta möjliga uppsättningen tokens med hög informationstäthet, de som gör det mest sannolikt att du får det resultat du vill ha"
+    en: "Anthropic's guide to context engineering draws the conclusion that good context engineering means finding the smallest possible set of high-signal tokens, the ones that most raise the likelihood of the outcome you want"
   vendor: Anthropic
   url: https://www.anthropic.com/research/effective-context-engineering-for-ai-agents
   final_url: https://www.anthropic.com/research/effective-context-engineering-for-ai-agents
@@ -176,8 +176,8 @@
 - id: C13
   article: what-fills-an-ai-agents-context
   sentence:
-    sv: "Du kan se dina egna siffror. I Claude Code ger /context en uppdelning per kategori i realtid, med förslag på optimeringar och en lista över vilka CLAUDE.md-filer och automatiska minnesfiler som lästes in. Att titta en gång i början av en session och en gång efter en lång uppgift visar det som figurerna bara skissar"
-    en: "You can see your own numbers. In Claude Code, /context gives a live breakdown by category with optimisation suggestions, including which CLAUDE.md and auto memory files loaded. Looking once at the start of a session and once after a long task shows what the figures only sketch"
+    sv: "Du kan se dina egna siffror. I Claude Code ger /context en uppdelning per kategori i realtid, med optimeringsförslag och en lista över vilka CLAUDE.md-filer och auto memory-filer som lästes in. Att titta en gång i början av en session och en gång efter en lång uppgift visar det som figurerna försöker illustrera"
+    en: "You can see your own numbers. In Claude Code, /context gives a live breakdown by category with optimisation suggestions, including which CLAUDE.md and auto memory files loaded. Looking once at the start of a session and once after a long task shows what the figures try to illustrate"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/context-window
   final_url: https://code.claude.com/docs/en/context-window
@@ -188,7 +188,7 @@
 - id: C14
   article: what-fills-an-ai-agents-context
   sentence:
-    sv: "En subagent är en andra agent som huvudagenten lämnar över en uppgift till. Den börjar med en egen kontext. Claude Codes dokumentation rekommenderar att du använder en subagent när en sidouppgift skulle fylla huvudsamtalet med sökresultat, loggar eller filinnehåll som du inte kommer att titta på igen: subagenten gör det arbetet i sin egen kontext och lämnar bara tillbaka sammanfattningen"
+    sv: "En subagent är en andra agent som huvudagenten delegerar en uppgift till. Den börjar med en egen kontext. Claude Codes dokumentation rekommenderar att du använder en subagent när en sidouppgift annars skulle fylla huvudkonversationen med sökresultat, loggar eller filinnehåll som du inte kommer att titta på igen: subagenten gör det arbetet i sin egen kontext och lämnar bara tillbaka sammanfattningen"
     en: "A subagent is a second agent that the main agent hands a task to, and it starts with a context of its own. Claude Code's documentation recommends one when a side task would flood the main conversation with search results, logs or file contents you will not refer to again: the subagent does that work in its own context and returns only the summary"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/sub-agents
@@ -200,7 +200,7 @@
 - id: C15
   article: what-fills-an-ai-agents-context
   sentence:
-    sv: "Sidan om kontextfönstret lägger till att bara sammanfattningen och en liten del metadata kommer tillbaka"
+    sv: "Sidan om kontextfönstret lägger till att bara sammanfattningen och lite metadata kommer tillbaka"
     en: "The context-window page adds that only the summary and a small metadata trailer come back"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/context-window
@@ -212,8 +212,8 @@
 - id: C61
   article: what-fills-an-ai-agents-context
   sentence:
-    sv: "En fork är undantaget: i Claude Code ärver den samtalet hittills i stället för att börja om. I november 2026 kan Claude starta en sådan på egen hand, eftersom fork-läget är på som standard"
-    en: "A fork is the exception: in Claude Code it inherits the conversation so far instead of starting fresh. In November 2026 Claude can start one on its own, since fork mode is on by default"
+    sv: "Det finns ett undantag, en fork: i Claude Code ärver den konversationen hittills i stället för att börja om. I november 2026 kan Claude starta en sådan på egen hand, eftersom fork-läget är på som standard"
+    en: "There is one exception, a fork: in Claude Code it inherits the conversation so far instead of starting fresh. In November 2026 Claude can start one on its own, since fork mode is on by default"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/sub-agents
   final_url: https://code.claude.com/docs/en/sub-agents
@@ -224,8 +224,8 @@
 - id: C62
   article: what-fills-an-ai-agents-context
   sentence:
-    sv: "En fork är undantaget: i Claude Code ärver den samtalet hittills i stället för att börja om. I november 2026 kan Claude starta en sådan på egen hand, eftersom fork-läget är på som standard"
-    en: "A fork is the exception: in Claude Code it inherits the conversation so far instead of starting fresh. In November 2026 Claude can start one on its own, since fork mode is on by default"
+    sv: "Det finns ett undantag, en fork: i Claude Code ärver den konversationen hittills i stället för att börja om. I november 2026 kan Claude starta en sådan på egen hand, eftersom fork-läget är på som standard"
+    en: "There is one exception, a fork: in Claude Code it inherits the conversation so far instead of starting fresh. In November 2026 Claude can start one on its own, since fork mode is on by default"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/sub-agents
   final_url: https://code.claude.com/docs/en/sub-agents
@@ -236,7 +236,7 @@
 - id: C16
   article: what-fills-an-ai-agents-context
   sentence:
-    sv: "Codex dokumentation beskriver problemet som en subagent löser från andra hållet. Om du fyller huvudchatten med anteckningar från utforskandet, testloggar, stackspår och utdata från kommandon kan sessionen enligt dokumentationen bli mindre tillförlitlig med tiden"
+    sv: "Codex dokumentation beskriver problemet som en subagent löser från andra hållet. Om du fyller huvudchatten med anteckningar från utforskningen, testloggar, stack traces och utdata från kommandon kan sessionen enligt dokumentationen bli mindre pålitlig med tiden"
     en: "Codex's documentation describes the problem a subagent solves from the other side. If you flood the main chat with exploration notes, test logs, stack traces and command output, it says, the session can become less reliable over time"
   vendor: OpenAI
   url: https://learn.chatgpt.com/docs/agent-configuration/subagents
@@ -248,7 +248,7 @@
 - id: C17
   article: what-fills-an-ai-agents-context
   sentence:
-    sv: "Dokumentationen namnger två effekter. Den ena är kontextröta, som beskrevs ovan. Den andra är att användbar information begravs under brusiga mellanresultat (context pollution)"
+    sv: "Dokumentationen nämner två effekter. Den ena är context rot, som beskrevs ovan. Den andra är context pollution: användbar information begravs under brus från mellanresultat"
     en: "It names two effects: the context rot described above and context pollution, where useful information gets buried under noisy intermediate output"
   vendor: OpenAI
   url: https://learn.chatgpt.com/docs/agent-configuration/subagents
@@ -260,7 +260,7 @@
 - id: C18
   article: what-fills-an-ai-agents-context
   sentence:
-    sv: "Dokumentationen namnger två effekter. Den ena är kontextröta, som beskrevs ovan. Den andra är att användbar information begravs under brusiga mellanresultat (context pollution)"
+    sv: "Dokumentationen nämner två effekter. Den ena är context rot, som beskrevs ovan. Den andra är context pollution: användbar information begravs under brus från mellanresultat"
     en: "It names two effects: the context rot described above and context pollution, where useful information gets buried under noisy intermediate output"
   vendor: OpenAI
   url: https://learn.chatgpt.com/docs/agent-configuration/subagents
@@ -272,8 +272,8 @@
 - id: C19
   article: what-fills-an-ai-agents-context
   sentence:
-    sv: "En subagent är inte gratis. Enligt Claude Codes sida om bästa praxis är kostnaden mest tokens, eftersom varje subagent skickar egna anrop och de räknas mot samma användning som huvudsamtalet"
-    en: "A subagent is not free. According to Claude Code's best-practices page, what it costs is mostly tokens, since every subagent sends its own requests and they count against the same usage as the main conversation"
+    sv: "En subagent sparar utrymme i huvudkontexten, inte tokens. Läsningen görs fortfarande – bara i en annan kontext – och enligt Claude Codes sida om bästa praxis räknas den mot samma användning som huvudkonversationen"
+    en: "A subagent saves room in the main context, not tokens. The reading still happens, only in another context, and according to Claude Code's best-practices page it counts against the same usage as the main conversation"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/best-practices
   final_url: https://code.claude.com/docs/en/best-practices
@@ -284,8 +284,8 @@
 - id: C20
   article: what-fills-an-ai-agents-context
   sentence:
-    sv: "Ibland kostar den också tid, eftersom en ny subagent först måste samla ihop kontext som huvudsamtalet redan hade"
-    en: "Sometimes it costs time too, because a fresh subagent first has to gather context that the main conversation already had"
+    sv: "Totalen blir ofta större än om arbetet gjordes i en session, eftersom en ny subagent först måste samla ihop kontext som huvudkonversationen redan hade"
+    en: "The total is often higher than doing the work in one session, because a fresh subagent first has to gather context the main conversation already had"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/best-practices
   final_url: https://code.claude.com/docs/en/best-practices
@@ -296,7 +296,7 @@
 - id: C21
   article: what-fills-an-ai-agents-context
   sentence:
-    sv: "Anthropic mätte samma avvägning i sitt eget forskningssystem med flera agenter i juni 2025. I dess data använde agenter ungefär fyra gånger så många tokens som chattsamtal. System med flera agenter använde ungefär femton gånger så många. Det är siffror för det systemet, inte en regel för agenter som arbetar med kod"
+    sv: "Anthropic mätte samma avvägning i sitt eget forskningssystem med flera agenter i juni 2025. Enligt mätningen använde agenter ungefär fyra gånger så många tokens som chattkonversationer och system med flera agenter ungefär femton gånger så många. Det är siffror för det systemet, inte en regel för kodande agenter"
     en: "Anthropic measured the same trade in its own multi-agent research system in June 2025: in its data, agents used about four times as many tokens as chat interactions, and multi-agent systems about fifteen times as many. Those are figures for that system, not a rule for coding agents"
   vendor: Anthropic
   url: https://www.anthropic.com/research/multi-agent-research-system
@@ -308,7 +308,7 @@
 - id: C22
   article: what-fills-an-ai-agents-context
   sentence:
-    sv: "En separat kontext är inte en separat plats att arbeta på. VS Codes dokumentation sammanfattar det i en mening: kontextisolering är inte kodisolering. Den skapar inte i sig en separat worktree eller en sandbox, så vad subagenten får röra beror på de behörigheter den körs med, som är ämnet för Sätt gränserna i förväg"
+    sv: "En separat kontext är inte en separat plats att arbeta på. VS Codes dokumentation sammanfattar det i en mening: att isolera kontexten är inte detsamma som att isolera koden. En egen kontext ger inte i sig en separat worktree eller sandbox, så vad subagenten får röra beror på de behörigheter den körs med. Det är ämnet för Sätt gränserna i förväg"
     en: "A separate context is not a separate place to work. VS Code's documentation puts it in one sentence: context isolation is not code isolation. It does not by itself create a separate worktree or sandbox, so what the subagent may touch depends on the permissions it runs under, the subject of Set the limits in advance"
   vendor: Microsoft
   url: https://code.visualstudio.com/docs/agents/concepts/context
@@ -320,7 +320,7 @@
 - id: C23
   article: what-fills-an-ai-agents-context
   sentence:
-    sv: "En separat kontext är inte en separat plats att arbeta på. VS Codes dokumentation sammanfattar det i en mening: kontextisolering är inte kodisolering. Den skapar inte i sig en separat worktree eller en sandbox, så vad subagenten får röra beror på de behörigheter den körs med, som är ämnet för Sätt gränserna i förväg"
+    sv: "En separat kontext är inte en separat plats att arbeta på. VS Codes dokumentation sammanfattar det i en mening: att isolera kontexten är inte detsamma som att isolera koden. En egen kontext ger inte i sig en separat worktree eller sandbox, så vad subagenten får röra beror på de behörigheter den körs med. Det är ämnet för Sätt gränserna i förväg"
     en: "A separate context is not a separate place to work. VS Code's documentation puts it in one sentence: context isolation is not code isolation. It does not by itself create a separate worktree or sandbox, so what the subagent may touch depends on the permissions it runs under, the subject of Set the limits in advance"
   vendor: Microsoft
   url: https://code.visualstudio.com/docs/agents/concepts/context
@@ -332,7 +332,7 @@
 - id: C24
   article: what-fills-an-ai-agents-context
   sentence:
-    sv: "Två praktiker har egna ord för mekanismen. Simon Willison beskriver en subagent som en separat agentloop med en ny kontext. Drew Breunig kallar det på engelska context quarantine: att isolera kontexter i egna trådar. Det är praktikers termer, inte leverantörernas"
+    sv: "Två utvecklare har egna ord för att ge en subagent en egen kontext. Simon Willison beskriver en subagent som en separat agentloop med en ny kontext och Drew Breunig kallar det att isolera kontexter i egna trådar för context quarantine. Det är termer från utvecklare, inte från leverantörerna"
     en: "Two practitioners have their own words for the mechanism. Simon Willison describes a subagent as a separate agent loop with a fresh token context, and Drew Breunig calls the act of isolating contexts in their own threads context quarantine. These are practitioners' terms, not the vendors'"
   vendor: Simon Willison
   url: https://simonwillison.net/2025/Oct/11/sub-agents/
@@ -344,7 +344,7 @@
 - id: C25
   article: what-fills-an-ai-agents-context
   sentence:
-    sv: "Två praktiker har egna ord för mekanismen. Simon Willison beskriver en subagent som en separat agentloop med en ny kontext. Drew Breunig kallar det på engelska context quarantine: att isolera kontexter i egna trådar. Det är praktikers termer, inte leverantörernas"
+    sv: "Två utvecklare har egna ord för att ge en subagent en egen kontext. Simon Willison beskriver en subagent som en separat agentloop med en ny kontext och Drew Breunig kallar det att isolera kontexter i egna trådar för context quarantine. Det är termer från utvecklare, inte från leverantörerna"
     en: "Two practitioners have their own words for the mechanism. Simon Willison describes a subagent as a separate agent loop with a fresh token context, and Drew Breunig calls the act of isolating contexts in their own threads context quarantine. These are practitioners' terms, not the vendors'"
   vendor: Drew Breunig
   url: https://www.dbreunig.com/2025/06/26/how-to-fix-your-context.html
@@ -356,7 +356,7 @@
 - id: C26
   article: what-fills-an-ai-agents-context
   sentence:
-    sv: "En full kontext avslutar inte sessionen. Claude Code komprimerar automatiskt när du närmar dig gränsen, VS Code komprimerar automatiskt äldre delar av samtalet till en sammanfattning och Codex komprimerar också chattar automatiskt, som dess guide om bästa praxis säger"
+    sv: "En full kontext avslutar inte sessionen. Claude Code komprimerar automatiskt när du närmar dig gränsen. VS Code komprimerar automatiskt äldre delar av konversationen till en sammanfattning. Enligt Codex guide om bästa praxis komprimerar Codex också chattar automatiskt"
     en: "A full context does not end the session. Claude Code compacts automatically as you approach the limit, VS Code automatically compacts older parts of the conversation into a summary and Codex also compacts chats automatically, as its best-practices guide says"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/context-window
@@ -368,7 +368,7 @@
 - id: C27
   article: what-fills-an-ai-agents-context
   sentence:
-    sv: "En full kontext avslutar inte sessionen. Claude Code komprimerar automatiskt när du närmar dig gränsen, VS Code komprimerar automatiskt äldre delar av samtalet till en sammanfattning och Codex komprimerar också chattar automatiskt, som dess guide om bästa praxis säger"
+    sv: "En full kontext avslutar inte sessionen. Claude Code komprimerar automatiskt när du närmar dig gränsen. VS Code komprimerar automatiskt äldre delar av konversationen till en sammanfattning. Enligt Codex guide om bästa praxis komprimerar Codex också chattar automatiskt"
     en: "A full context does not end the session. Claude Code compacts automatically as you approach the limit, VS Code automatically compacts older parts of the conversation into a summary and Codex also compacts chats automatically, as its best-practices guide says"
   vendor: Microsoft
   url: https://code.visualstudio.com/docs/agents/concepts/context
@@ -380,7 +380,7 @@
 - id: C28
   article: what-fills-an-ai-agents-context
   sentence:
-    sv: "En full kontext avslutar inte sessionen. Claude Code komprimerar automatiskt när du närmar dig gränsen, VS Code komprimerar automatiskt äldre delar av samtalet till en sammanfattning och Codex komprimerar också chattar automatiskt, som dess guide om bästa praxis säger"
+    sv: "En full kontext avslutar inte sessionen. Claude Code komprimerar automatiskt när du närmar dig gränsen. VS Code komprimerar automatiskt äldre delar av konversationen till en sammanfattning. Enligt Codex guide om bästa praxis komprimerar Codex också chattar automatiskt"
     en: "A full context does not end the session. Claude Code compacts automatically as you approach the limit, VS Code automatically compacts older parts of the conversation into a summary and Codex also compacts chats automatically, as its best-practices guide says"
   vendor: OpenAI
   url: https://learn.chatgpt.com/guides/best-practices
@@ -392,8 +392,8 @@
 - id: C29
   article: what-fills-an-ai-agents-context
   sentence:
-    sv: "Det som går förlorat är priset. VS Code säger att komprimeringen skapar utrymme för ny information men att detaljer från tidigare meddelanden kan sammanfattas eller utelämnas. Anthropics guide varnar för att alltför aggressiv komprimering kan förlora subtil men avgörande kontext vars betydelse först senare blir uppenbar"
-    en: "What is lost is the price. VS Code says that compaction makes room for new information, but that details from earlier messages might be summarised or omitted, and Anthropic's guide warns that overly aggressive compaction can lose subtle but critical context whose importance only becomes apparent later"
+    sv: "Priset är att något går förlorat. VS Code säger att komprimeringen frigör kontextfönstret för ny information, men att detaljer från tidigare meddelanden kan sammanfattas eller utelämnas. Anthropics guide varnar för att alltför aggressiv komprimering kan ta bort små detaljer som visar sig vara avgörande"
+    en: "What is lost is the price. VS Code says that compaction frees up the context window for new information, but that details from earlier messages might be summarised or omitted, and Anthropic's guide warns that overly aggressive compaction can lose subtle but critical context whose importance only becomes apparent later"
   vendor: Microsoft
   url: https://code.visualstudio.com/docs/agents/concepts/context
   final_url: https://code.visualstudio.com/docs/agents/concepts/context
@@ -404,8 +404,8 @@
 - id: C30
   article: what-fills-an-ai-agents-context
   sentence:
-    sv: "Det som går förlorat är priset. VS Code säger att komprimeringen skapar utrymme för ny information men att detaljer från tidigare meddelanden kan sammanfattas eller utelämnas. Anthropics guide varnar för att alltför aggressiv komprimering kan förlora subtil men avgörande kontext vars betydelse först senare blir uppenbar"
-    en: "What is lost is the price. VS Code says that compaction makes room for new information, but that details from earlier messages might be summarised or omitted, and Anthropic's guide warns that overly aggressive compaction can lose subtle but critical context whose importance only becomes apparent later"
+    sv: "Priset är att något går förlorat. VS Code säger att komprimeringen frigör kontextfönstret för ny information, men att detaljer från tidigare meddelanden kan sammanfattas eller utelämnas. Anthropics guide varnar för att alltför aggressiv komprimering kan ta bort små detaljer som visar sig vara avgörande"
+    en: "What is lost is the price. VS Code says that compaction frees up the context window for new information, but that details from earlier messages might be summarised or omitted, and Anthropic's guide warns that overly aggressive compaction can lose subtle but critical context whose importance only becomes apparent later"
   vendor: Anthropic
   url: https://www.anthropic.com/research/effective-context-engineering-for-ai-agents
   final_url: https://www.anthropic.com/research/effective-context-engineering-for-ai-agents
@@ -440,7 +440,7 @@
 - id: C63
   article: what-fills-an-ai-agents-context
   sentence:
-    sv: "Skills som har använts i sessionen kommer också tillbaka, inom en storleksgräns. Resten av samtalet finns i sammanfattningen eller är borta. Regler som gäller en viss sökväg och nästlade CLAUDE.md-filer, som bara läses in när Claude rör en matchande fil, försvinner i sammanfattningen på samma sätt. De läses in igen först när Claude rör en sådan fil. En regel som måste finnas kvar hör därför hemma i CLAUDE.md i projektets rot"
+    sv: "Skills som har använts i sessionen kommer också tillbaka, inom en storleksgräns. Resten av konversationen finns i sammanfattningen eller är borta. Regler som gäller en viss sökväg och CLAUDE.md-filer i undermappar, som bara läses in när Claude rör en matchande fil, försvinner i sammanfattningen på samma sätt. De läses in igen först när Claude rör en sådan fil. En regel som måste finnas kvar hör därför hemma i CLAUDE.md i projektets rot"
     en: "Skills used in the session come back too, within a size limit. The rest of the conversation is in the summary, or gone. Path-scoped rules and nested CLAUDE.md files, which load only when Claude touches a matching file, are summarised away like the rest. They load again only when Claude touches such a file, so a rule that must persist belongs in the project-root CLAUDE.md"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/context-window
@@ -452,7 +452,7 @@
 - id: C33
   article: what-fills-an-ai-agents-context
   sentence:
-    sv: "Skills som har använts i sessionen kommer också tillbaka, inom en storleksgräns. Resten av samtalet finns i sammanfattningen eller är borta. Regler som gäller en viss sökväg och nästlade CLAUDE.md-filer, som bara läses in när Claude rör en matchande fil, försvinner i sammanfattningen på samma sätt. De läses in igen först när Claude rör en sådan fil. En regel som måste finnas kvar hör därför hemma i CLAUDE.md i projektets rot"
+    sv: "Skills som har använts i sessionen kommer också tillbaka, inom en storleksgräns. Resten av konversationen finns i sammanfattningen eller är borta. Regler som gäller en viss sökväg och CLAUDE.md-filer i undermappar, som bara läses in när Claude rör en matchande fil, försvinner i sammanfattningen på samma sätt. De läses in igen först när Claude rör en sådan fil. En regel som måste finnas kvar hör därför hemma i CLAUDE.md i projektets rot"
     en: "Skills used in the session come back too, within a size limit. The rest of the conversation is in the summary, or gone. Path-scoped rules and nested CLAUDE.md files, which load only when Claude touches a matching file, are summarised away like the rest. They load again only when Claude touches such a file, so a rule that must persist belongs in the project-root CLAUDE.md"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/context-window
@@ -464,7 +464,7 @@
 - id: C64
   article: what-fills-an-ai-agents-context
   sentence:
-    sv: "Skills som har använts i sessionen kommer också tillbaka, inom en storleksgräns. Resten av samtalet finns i sammanfattningen eller är borta. Regler som gäller en viss sökväg och nästlade CLAUDE.md-filer, som bara läses in när Claude rör en matchande fil, försvinner i sammanfattningen på samma sätt. De läses in igen först när Claude rör en sådan fil. En regel som måste finnas kvar hör därför hemma i CLAUDE.md i projektets rot"
+    sv: "Skills som har använts i sessionen kommer också tillbaka, inom en storleksgräns. Resten av konversationen finns i sammanfattningen eller är borta. Regler som gäller en viss sökväg och CLAUDE.md-filer i undermappar, som bara läses in när Claude rör en matchande fil, försvinner i sammanfattningen på samma sätt. De läses in igen först när Claude rör en sådan fil. En regel som måste finnas kvar hör därför hemma i CLAUDE.md i projektets rot"
     en: "Skills used in the session come back too, within a size limit. The rest of the conversation is in the summary, or gone. Path-scoped rules and nested CLAUDE.md files, which load only when Claude touches a matching file, are summarised away like the rest. They load again only when Claude touches such a file, so a rule that must persist belongs in the project-root CLAUDE.md"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/context-window
@@ -476,7 +476,7 @@
 - id: C34
   article: what-fills-an-ai-agents-context
   sentence:
-    sv: "Skills som har använts i sessionen kommer också tillbaka, inom en storleksgräns. Resten av samtalet finns i sammanfattningen eller är borta. Regler som gäller en viss sökväg och nästlade CLAUDE.md-filer, som bara läses in när Claude rör en matchande fil, försvinner i sammanfattningen på samma sätt. De läses in igen först när Claude rör en sådan fil. En regel som måste finnas kvar hör därför hemma i CLAUDE.md i projektets rot"
+    sv: "Skills som har använts i sessionen kommer också tillbaka, inom en storleksgräns. Resten av konversationen finns i sammanfattningen eller är borta. Regler som gäller en viss sökväg och CLAUDE.md-filer i undermappar, som bara läses in när Claude rör en matchande fil, försvinner i sammanfattningen på samma sätt. De läses in igen först när Claude rör en sådan fil. En regel som måste finnas kvar hör därför hemma i CLAUDE.md i projektets rot"
     en: "Skills used in the session come back too, within a size limit. The rest of the conversation is in the summary, or gone. Path-scoped rules and nested CLAUDE.md files, which load only when Claude touches a matching file, are summarised away like the rest. They load again only when Claude touches such a file, so a rule that must persist belongs in the project-root CLAUDE.md"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/context-window
@@ -488,8 +488,8 @@
 - id: C35
   article: what-fills-an-ai-agents-context
   sentence:
-    sv: "I november 2026 komprimerar Claude Code med ett abonnemang också en session över ungefär 200 000 tokens som har stått overksam i ungefär en timme, strax innan dess promptcache går ut, så efter en paus fortsätter du från en sammanfattning"
-    en: "In November 2026, on a subscription, Claude Code also compacts a session past about 200,000 tokens that has sat idle for about an hour, shortly before its prompt cache expires, so after a break you continue from a summary"
+    sv: "Efter en paus kan du få fortsätta från en sammanfattning: med ett abonnemang komprimerar Claude Code i november 2026 också en session över ungefär 200 000 tokens som har stått inaktiv i ungefär en timme, strax innan sessionens promptcache går ut"
+    en: "After a break you may continue from a summary: in November 2026, on a subscription, Claude Code also compacts a session past about 200,000 tokens that has sat idle for about an hour, shortly before its prompt cache expires"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/best-practices
   final_url: https://code.claude.com/docs/en/best-practices
@@ -500,8 +500,8 @@
 - id: C65
   article: what-fills-an-ai-agents-context
   sentence:
-    sv: "I november 2026 komprimerar Claude Code med ett abonnemang också en session över ungefär 200 000 tokens som har stått overksam i ungefär en timme, strax innan dess promptcache går ut, så efter en paus fortsätter du från en sammanfattning"
-    en: "In November 2026, on a subscription, Claude Code also compacts a session past about 200,000 tokens that has sat idle for about an hour, shortly before its prompt cache expires, so after a break you continue from a summary"
+    sv: "Efter en paus kan du få fortsätta från en sammanfattning: med ett abonnemang komprimerar Claude Code i november 2026 också en session över ungefär 200 000 tokens som har stått inaktiv i ungefär en timme, strax innan sessionens promptcache går ut"
+    en: "After a break you may continue from a summary: in November 2026, on a subscription, Claude Code also compacts a session past about 200,000 tokens that has sat idle for about an hour, shortly before its prompt cache expires"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/best-practices
   final_url: https://code.claude.com/docs/en/best-practices
@@ -512,8 +512,8 @@
 - id: C36
   article: what-fills-an-ai-agents-context
   sentence:
-    sv: "Tyngdpunkten har flyttats. Claude Codes sida om bästa praxis säger att de flesta aktuella modeller har ett fönster på 1 miljon tokens och att komprimeringen sker av sig själv, så att få slut på utrymme är ovanligt. Rådet att hantera fönstret aggressivt är borta"
-    en: "The emphasis has moved. Claude Code's best-practices page says that most current models have a 1M-token window and compaction happens on its own, so running out is rare. The advice to manage the window aggressively is gone"
+    sv: "Tyngdpunkten har flyttats. Enligt Claude Codes sida om bästa praxis har de flesta aktuella modeller ett fönster på 1 miljon tokens och komprimeringen sker av sig själv, så det är ovanligt att kontextfönstret blir fullt. Rådet att hantera fönstret aggressivt är borta"
+    en: "The emphasis has moved. Claude Code's best-practices page says that most current models have a 1M-token window and compaction happens on its own, so a full context window is rare. The advice to manage the window aggressively is gone"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/best-practices
   final_url: https://code.claude.com/docs/en/best-practices
@@ -524,8 +524,8 @@
 - id: C37
   article: what-fills-an-ai-agents-context
   sentence:
-    sv: "Tyngdpunkten har flyttats. Claude Codes sida om bästa praxis säger att de flesta aktuella modeller har ett fönster på 1 miljon tokens och att komprimeringen sker av sig själv, så att få slut på utrymme är ovanligt. Rådet att hantera fönstret aggressivt är borta"
-    en: "The emphasis has moved. Claude Code's best-practices page says that most current models have a 1M-token window and compaction happens on its own, so running out is rare. The advice to manage the window aggressively is gone"
+    sv: "Tyngdpunkten har flyttats. Enligt Claude Codes sida om bästa praxis har de flesta aktuella modeller ett fönster på 1 miljon tokens och komprimeringen sker av sig själv, så det är ovanligt att kontextfönstret blir fullt. Rådet att hantera fönstret aggressivt är borta"
+    en: "The emphasis has moved. Claude Code's best-practices page says that most current models have a 1M-token window and compaction happens on its own, so a full context window is rare. The advice to manage the window aggressively is gone"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/best-practices
   final_url: https://code.claude.com/docs/en/best-practices
@@ -548,8 +548,8 @@
 - id: C39
   article: what-fills-an-ai-agents-context
   sentence:
-    sv: "Börja en ny session eller rensa samtalet för varje uppgift. VS Code säger att du ska börja en ny session för en uppgift som inte hör ihop med den förra eller för ett annat projekt. Codex säger att du ska ha en chatt per sammanhängande arbetsenhet"
-    en: "Start a new session or clear the conversation for each task. VS Code says to start a new session for an unrelated task or a different project, and Codex says to keep one chat per coherent unit of work"
+    sv: "En ny session eller en rensad konversation för varje uppgift. VS Code rekommenderar en ny session för en uppgift som inte hör ihop med den förra eller för ett annat projekt. Codex rekommenderar en chatt per sammanhängande arbetsenhet"
+    en: "A new session or a cleared conversation for each task. VS Code says to start a new session for an unrelated task or a different project, and Codex says to keep one chat per coherent unit of work"
   vendor: Microsoft
   url: https://code.visualstudio.com/docs/agents/concepts/context
   final_url: https://code.visualstudio.com/docs/agents/concepts/context
@@ -560,8 +560,8 @@
 - id: C40
   article: what-fills-an-ai-agents-context
   sentence:
-    sv: "Börja en ny session eller rensa samtalet för varje uppgift. VS Code säger att du ska börja en ny session för en uppgift som inte hör ihop med den förra eller för ett annat projekt. Codex säger att du ska ha en chatt per sammanhängande arbetsenhet"
-    en: "Start a new session or clear the conversation for each task. VS Code says to start a new session for an unrelated task or a different project, and Codex says to keep one chat per coherent unit of work"
+    sv: "En ny session eller en rensad konversation för varje uppgift. VS Code rekommenderar en ny session för en uppgift som inte hör ihop med den förra eller för ett annat projekt. Codex rekommenderar en chatt per sammanhängande arbetsenhet"
+    en: "A new session or a cleared conversation for each task. VS Code says to start a new session for an unrelated task or a different project, and Codex says to keep one chat per coherent unit of work"
   vendor: OpenAI
   url: https://learn.chatgpt.com/guides/best-practices
   final_url: https://learn.chatgpt.com/guides/best-practices
@@ -572,8 +572,8 @@
 - id: C41
   article: what-fills-an-ai-agents-context
   sentence:
-    sv: "Komprimera med fokus. Claude Codes sida föreslår att du kör /compact med instruktioner före en lång ny uppgift, så att sammanfattningen behåller det du väljer i stället för det som den automatiska komprimeringen gissar är viktigt"
-    en: "Compact with a focus. Claude Code's page suggests running /compact with instructions before a long new task, so that the summary keeps what you choose instead of what the automatic pass guesses is important"
+    sv: "Komprimering med fokus. Claude Codes sida föreslår /compact med instruktioner före en lång ny uppgift, så att sammanfattningen behåller det du väljer i stället för det som den automatiska komprimeringen gissar är viktigt"
+    en: "Compaction with a focus. Claude Code's page suggests running /compact with instructions before a long new task, so that the summary keeps what you choose instead of what the automatic pass guesses is important"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/context-window
   final_url: https://code.claude.com/docs/en/context-window
@@ -584,8 +584,8 @@
 - id: C66
   article: what-fills-an-ai-agents-context
   sentence:
-    sv: "Håll de filer som läses in först korta, eftersom instruktionsfilen följer med i varje anrop. Claude Codes sida om bästa praxis och Codex guide säger båda det. Artikeln om instruktionsfilen visar hur"
-    en: "Keep the start-up files short, since the instruction file is carried by every request. Claude Code's best-practices page and Codex's guide both say so. The article on the instruction file shows how"
+    sv: "Korta filer som läses in först, eftersom instruktionsfilen följer med i varje anrop. Claude Codes sida om bästa praxis och Codex guide säger båda det. Artikeln om instruktionsfilen visar hur"
+    en: "Short start-up files, since the instruction file is carried by every request. Claude Code's best-practices page and Codex's guide both say so. The article on the instruction file shows how"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/best-practices
   final_url: https://code.claude.com/docs/en/best-practices
@@ -596,8 +596,8 @@
 - id: C67
   article: what-fills-an-ai-agents-context
   sentence:
-    sv: "Håll de filer som läses in först korta, eftersom instruktionsfilen följer med i varje anrop. Claude Codes sida om bästa praxis och Codex guide säger båda det. Artikeln om instruktionsfilen visar hur"
-    en: "Keep the start-up files short, since the instruction file is carried by every request. Claude Code's best-practices page and Codex's guide both say so. The article on the instruction file shows how"
+    sv: "Korta filer som läses in först, eftersom instruktionsfilen följer med i varje anrop. Claude Codes sida om bästa praxis och Codex guide säger båda det. Artikeln om instruktionsfilen visar hur"
+    en: "Short start-up files, since the instruction file is carried by every request. Claude Code's best-practices page and Codex's guide both say so. The article on the instruction file shows how"
   vendor: OpenAI
   url: https://learn.chatgpt.com/guides/best-practices
   final_url: https://learn.chatgpt.com/guides/best-practices
@@ -608,7 +608,7 @@
 - id: C42
   article: what-fills-an-ai-agents-context
   sentence:
-    sv: "Fabriken bakom den här sajten har ett konkret exempel på samma problem. Agenten som samordnar fabriken, borgmästaren, körs i sessioner som var och en slutar med en överlämning. Sessionen skriver ner läget i sitt arbete. Sedan fortsätter en ny session därifrån"
+    sv: "Fabriken bakom den här sajten har ett konkret exempel på samma problem. Borgmästaren, agenten som samordnar fabriken, arbetar i sessioner. Varje session slutar med en överlämning: den skriver ner läget i sitt arbete och en ny session fortsätter därifrån"
     en: "The factory behind this site has a worked case of the same problem. Its coordinating agent, the mayor, runs in sessions that each end at a hand-off: the session writes down the state of its work, and a new session continues from there"
   vendor: Addable Labs
   url: https://addablelabs.se/blog/what-the-mayors-context-costs/
@@ -620,7 +620,7 @@
 - id: C43
   article: what-fills-an-ai-agents-context
   sentence:
-    sv: "En agent kan inte göra planeringen själv, eftersom en session inte kan se sin egen kontextanvändning. Gas City, verktyget med öppen källkod som kör fabrikens agenter, har därför en hook som gör det åt agenten"
+    sv: "En agent kan inte planera det själv, eftersom en session inte kan se hur mycket av sin kontext den har använt. Gas City, verktyget med öppen källkod som kör fabrikens agenter, har därför en hook som gör det åt agenten"
     en: "An agent cannot do the planning by itself, because a session cannot see its own context usage. Gas City, the open-source tool that runs the factory's agents, therefore has a hook that does it for the agent"
   vendor: Gas City
   url: https://raw.githubusercontent.com/gastownhall/gascity/main/cmd/gc/context_inject.go
@@ -632,8 +632,8 @@
 - id: C44
   article: what-fills-an-ai-agents-context
   sentence:
-    sv: "Hooken är, med kodens egna ord, avsiktligt styrd av trösklar och inte en nedräkning som alltid är på. Den läser tokenantalet ur sessionens transkript och är tyst under en första nivå. Över den första nivån ber den agenten planera mot en ren överlämningspunkt. Över den andra nivån ber den agenten utlösa den ordinarie överlämningen nu"
-    en: "The hook is, in the code's own words, threshold-gated by design and not an always-on countdown: it reads the token count from the session's transcript, stays silent below a first level, then tells the agent to plan toward a clean handoff point and, above a second level, to trigger the canonical handoff now"
+    sv: "Med kodens egna ord triggas hooken avsiktligt av tröskelvärden och är ingen nedräkning som alltid är på. Den läser antalet tokens i sessionens transkript och är tyst så länge antalet ligger under en första nivå. Över den ber den agenten planera för en ren överlämningspunkt. Över en andra nivå ber den agenten utlösa den ordinarie överlämningen nu"
+    en: "In the code's own words the hook is threshold-gated by design and not an always-on countdown. It reads the token count from the session's transcript and stays silent below a first level. Above that it tells the agent to plan toward a clean handoff point, and above a second level to trigger the canonical handoff now"
   vendor: Gas City
   url: https://raw.githubusercontent.com/gastownhall/gascity/main/cmd/gc/context_inject.go
   final_url: https://raw.githubusercontent.com/gastownhall/gascity/main/cmd/gc/context_inject.go
@@ -644,8 +644,8 @@
 - id: C45
   article: what-fills-an-ai-agents-context
   sentence:
-    sv: "Hooken är, med kodens egna ord, avsiktligt styrd av trösklar och inte en nedräkning som alltid är på. Den läser tokenantalet ur sessionens transkript och är tyst under en första nivå. Över den första nivån ber den agenten planera mot en ren överlämningspunkt. Över den andra nivån ber den agenten utlösa den ordinarie överlämningen nu"
-    en: "The hook is, in the code's own words, threshold-gated by design and not an always-on countdown: it reads the token count from the session's transcript, stays silent below a first level, then tells the agent to plan toward a clean handoff point and, above a second level, to trigger the canonical handoff now"
+    sv: "Med kodens egna ord triggas hooken avsiktligt av tröskelvärden och är ingen nedräkning som alltid är på. Den läser antalet tokens i sessionens transkript och är tyst så länge antalet ligger under en första nivå. Över den ber den agenten planera för en ren överlämningspunkt. Över en andra nivå ber den agenten utlösa den ordinarie överlämningen nu"
+    en: "In the code's own words the hook is threshold-gated by design and not an always-on countdown. It reads the token count from the session's transcript and stays silent below a first level. Above that it tells the agent to plan toward a clean handoff point, and above a second level to trigger the canonical handoff now"
   vendor: Gas City
   url: https://raw.githubusercontent.com/gastownhall/gascity/main/cmd/gc/context_inject.go
   final_url: https://raw.githubusercontent.com/gastownhall/gascity/main/cmd/gc/context_inject.go
@@ -656,8 +656,8 @@
 - id: C46
   article: what-fills-an-ai-agents-context
   sentence:
-    sv: "Hooken är, med kodens egna ord, avsiktligt styrd av trösklar och inte en nedräkning som alltid är på. Den läser tokenantalet ur sessionens transkript och är tyst under en första nivå. Över den första nivån ber den agenten planera mot en ren överlämningspunkt. Över den andra nivån ber den agenten utlösa den ordinarie överlämningen nu"
-    en: "The hook is, in the code's own words, threshold-gated by design and not an always-on countdown: it reads the token count from the session's transcript, stays silent below a first level, then tells the agent to plan toward a clean handoff point and, above a second level, to trigger the canonical handoff now"
+    sv: "Med kodens egna ord triggas hooken avsiktligt av tröskelvärden och är ingen nedräkning som alltid är på. Den läser antalet tokens i sessionens transkript och är tyst så länge antalet ligger under en första nivå. Över den ber den agenten planera för en ren överlämningspunkt. Över en andra nivå ber den agenten utlösa den ordinarie överlämningen nu"
+    en: "In the code's own words the hook is threshold-gated by design and not an always-on countdown. It reads the token count from the session's transcript and stays silent below a first level. Above that it tells the agent to plan toward a clean handoff point, and above a second level to trigger the canonical handoff now"
   vendor: Gas City
   url: https://raw.githubusercontent.com/gastownhall/gascity/main/cmd/gc/context_inject.go
   final_url: https://raw.githubusercontent.com/gastownhall/gascity/main/cmd/gc/context_inject.go
@@ -668,8 +668,8 @@
 - id: C47
   article: what-fills-an-ai-agents-context
   sentence:
-    sv: "Hooken är, med kodens egna ord, avsiktligt styrd av trösklar och inte en nedräkning som alltid är på. Den läser tokenantalet ur sessionens transkript och är tyst under en första nivå. Över den första nivån ber den agenten planera mot en ren överlämningspunkt. Över den andra nivån ber den agenten utlösa den ordinarie överlämningen nu"
-    en: "The hook is, in the code's own words, threshold-gated by design and not an always-on countdown: it reads the token count from the session's transcript, stays silent below a first level, then tells the agent to plan toward a clean handoff point and, above a second level, to trigger the canonical handoff now"
+    sv: "Med kodens egna ord triggas hooken avsiktligt av tröskelvärden och är ingen nedräkning som alltid är på. Den läser antalet tokens i sessionens transkript och är tyst så länge antalet ligger under en första nivå. Över den ber den agenten planera för en ren överlämningspunkt. Över en andra nivå ber den agenten utlösa den ordinarie överlämningen nu"
+    en: "In the code's own words the hook is threshold-gated by design and not an always-on countdown. It reads the token count from the session's transcript and stays silent below a first level. Above that it tells the agent to plan toward a clean handoff point, and above a second level to trigger the canonical handoff now"
   vendor: Gas City
   url: https://raw.githubusercontent.com/gastownhall/gascity/main/cmd/gc/context_inject.go
   final_url: https://raw.githubusercontent.com/gastownhall/gascity/main/cmd/gc/context_inject.go
@@ -680,8 +680,8 @@
 - id: C48
   article: what-fills-an-ai-agents-context
   sentence:
-    sv: "Hooken är, med kodens egna ord, avsiktligt styrd av trösklar och inte en nedräkning som alltid är på. Den läser tokenantalet ur sessionens transkript och är tyst under en första nivå. Över den första nivån ber den agenten planera mot en ren överlämningspunkt. Över den andra nivån ber den agenten utlösa den ordinarie överlämningen nu"
-    en: "The hook is, in the code's own words, threshold-gated by design and not an always-on countdown: it reads the token count from the session's transcript, stays silent below a first level, then tells the agent to plan toward a clean handoff point and, above a second level, to trigger the canonical handoff now"
+    sv: "Med kodens egna ord triggas hooken avsiktligt av tröskelvärden och är ingen nedräkning som alltid är på. Den läser antalet tokens i sessionens transkript och är tyst så länge antalet ligger under en första nivå. Över den ber den agenten planera för en ren överlämningspunkt. Över en andra nivå ber den agenten utlösa den ordinarie överlämningen nu"
+    en: "In the code's own words the hook is threshold-gated by design and not an always-on countdown. It reads the token count from the session's transcript and stays silent below a first level. Above that it tells the agent to plan toward a clean handoff point, and above a second level to trigger the canonical handoff now"
   vendor: Gas City
   url: https://raw.githubusercontent.com/gastownhall/gascity/main/cmd/gc/context_inject.go
   final_url: https://raw.githubusercontent.com/gastownhall/gascity/main/cmd/gc/context_inject.go
@@ -692,7 +692,7 @@
 - id: C49
   article: what-fills-an-ai-agents-context
   sentence:
-    sv: "Tanken handlar om vem som avgör vad som överlever. Vid komprimering skriver verktyget sammanfattningen. Vid en planerad överlämning skriver agenten ner det nästa session behöver medan den ännu kan. Koden nämner vad som annars skulle gå förlorat: den medvetna avslutningen"
+    sv: "Poängen är vem som avgör vad som överlever. Vid komprimering skriver verktyget sammanfattningen. Vid en planerad överlämning skriver agenten ner det nästa session behöver medan den fortfarande kan. Koden pekar ut vad som annars skulle gå förlorat: att agenten medvetet avrundar sitt arbete"
     en: "The idea is about who decides what survives. In compaction the tool writes the summary. In a planned hand-off the agent writes down what the next session needs while it still can, and the code names what would be lost otherwise: the deliberate wrap-up"
   vendor: Gas City
   url: https://raw.githubusercontent.com/gastownhall/gascity/main/cmd/gc/context_inject.go
@@ -704,7 +704,7 @@
 - id: C68
   article: what-fills-an-ai-agents-context
   sentence:
-    sv: "Hookens två nivåer är andelar av det fönster som Gas City utgår från för modellen, så den siffran måste stämma"
+    sv: "Hookens två nivåer är andelar av det fönster som Gas City antar att modellen har, så den siffran måste stämma"
     en: "The hook's two levels are shares of the window that Gas City assumes for the model, so that number has to be right"
   vendor: Gas City
   url: https://raw.githubusercontent.com/gastownhall/gascity/main/cmd/gc/context_inject.go
@@ -716,7 +716,7 @@
 - id: C50
   article: what-fills-an-ai-agents-context
   sentence:
-    sv: "Den 22 och 23 september 2026 bad Gas City om en överlämning vid 160 000 tokens, eftersom den utgick från att fönstret var 200 000"
+    sv: "Den 22 och 23 september 2026 bad Gas City om en överlämning vid 160 000 tokens, eftersom den antog att fönstret var 200 000"
     en: "On 22 and 23 September 2026 Gas City called a hand-off at 160,000 tokens, because it took the window to be 200,000"
   vendor: Addable Labs
   url: https://addablelabs.se/blog/what-the-mayors-context-costs/
@@ -728,7 +728,7 @@
 - id: C69
   article: what-fills-an-ai-agents-context
   sentence:
-    sv: "Den 22 och 23 september 2026 bad Gas City om en överlämning vid 160 000 tokens, eftersom den utgick från att fönstret var 200 000"
+    sv: "Den 22 och 23 september 2026 bad Gas City om en överlämning vid 160 000 tokens, eftersom den antog att fönstret var 200 000"
     en: "On 22 and 23 September 2026 Gas City called a hand-off at 160,000 tokens, because it took the window to be 200,000"
   vendor: Addable Labs
   url: https://addablelabs.se/blog/what-the-mayors-context-costs/
@@ -740,8 +740,8 @@
 - id: C51
   article: what-fills-an-ai-agents-context
   sentence:
-    sv: "Efter att fabriken satt fönstret till 1 000 000 tokens och överlämningen till 30 % blev det 0,18 överlämningar per bead, en uppgift i fabrikens ärendehanterare, i stället för 1,46. Anropen efter den första utåtriktade handlingen (till exempel ett svar eller ett utskickat uppdrag) bearbetade däremot i genomsnitt 187 000 tokens i stället för 142 000"
-    en: "After the factory set the window to 1,000,000 tokens and the hand-off at 30%, there were 0.18 hand-offs per bead, a task in the factory's tracker, instead of 1.46, but the calls after the first outward action, such as a reply or a dispatch, processed 187,000 tokens on average instead of 142,000"
+    sv: "När fabriken satte fönstret till 1 000 000 tokens och överlämningen till 30 % blev det 0,18 överlämningar per bead, en uppgift i fabrikens ärendehanterare, i stället för 1,46. Priset blev längre anrop: efter den första utåtriktade handlingen, till exempel ett svar eller ett utskickat uppdrag, bearbetade de i genomsnitt 187 000 tokens i stället för 142 000"
+    en: "After the factory set the window to 1,000,000 tokens and the hand-off at 30%, there were 0.18 hand-offs per bead, a task in the factory's tracker, instead of 1.46. The price was longer calls: after the first outward action, such as a reply or a dispatch, they processed 187,000 tokens on average instead of 142,000"
   vendor: Addable Labs
   url: https://addablelabs.se/blog/what-the-mayors-context-costs/
   final_url: https://addablelabs.se/blog/what-the-mayors-context-costs/
@@ -752,8 +752,8 @@
 - id: C70
   article: what-fills-an-ai-agents-context
   sentence:
-    sv: "Efter att fabriken satt fönstret till 1 000 000 tokens och överlämningen till 30 % blev det 0,18 överlämningar per bead, en uppgift i fabrikens ärendehanterare, i stället för 1,46. Anropen efter den första utåtriktade handlingen (till exempel ett svar eller ett utskickat uppdrag) bearbetade däremot i genomsnitt 187 000 tokens i stället för 142 000"
-    en: "After the factory set the window to 1,000,000 tokens and the hand-off at 30%, there were 0.18 hand-offs per bead, a task in the factory's tracker, instead of 1.46, but the calls after the first outward action, such as a reply or a dispatch, processed 187,000 tokens on average instead of 142,000"
+    sv: "När fabriken satte fönstret till 1 000 000 tokens och överlämningen till 30 % blev det 0,18 överlämningar per bead, en uppgift i fabrikens ärendehanterare, i stället för 1,46. Priset blev längre anrop: efter den första utåtriktade handlingen, till exempel ett svar eller ett utskickat uppdrag, bearbetade de i genomsnitt 187 000 tokens i stället för 142 000"
+    en: "After the factory set the window to 1,000,000 tokens and the hand-off at 30%, there were 0.18 hand-offs per bead, a task in the factory's tracker, instead of 1.46. The price was longer calls: after the first outward action, such as a reply or a dispatch, they processed 187,000 tokens on average instead of 142,000"
   vendor: Addable Labs
   url: https://addablelabs.se/blog/what-the-mayors-context-costs/
   final_url: https://addablelabs.se/blog/what-the-mayors-context-costs/
@@ -764,8 +764,8 @@
 - id: C71
   article: what-fills-an-ai-agents-context
   sentence:
-    sv: "Efter att fabriken satt fönstret till 1 000 000 tokens och överlämningen till 30 % blev det 0,18 överlämningar per bead, en uppgift i fabrikens ärendehanterare, i stället för 1,46. Anropen efter den första utåtriktade handlingen (till exempel ett svar eller ett utskickat uppdrag) bearbetade däremot i genomsnitt 187 000 tokens i stället för 142 000"
-    en: "After the factory set the window to 1,000,000 tokens and the hand-off at 30%, there were 0.18 hand-offs per bead, a task in the factory's tracker, instead of 1.46, but the calls after the first outward action, such as a reply or a dispatch, processed 187,000 tokens on average instead of 142,000"
+    sv: "När fabriken satte fönstret till 1 000 000 tokens och överlämningen till 30 % blev det 0,18 överlämningar per bead, en uppgift i fabrikens ärendehanterare, i stället för 1,46. Priset blev längre anrop: efter den första utåtriktade handlingen, till exempel ett svar eller ett utskickat uppdrag, bearbetade de i genomsnitt 187 000 tokens i stället för 142 000"
+    en: "After the factory set the window to 1,000,000 tokens and the hand-off at 30%, there were 0.18 hand-offs per bead, a task in the factory's tracker, instead of 1.46. The price was longer calls: after the first outward action, such as a reply or a dispatch, they processed 187,000 tokens on average instead of 142,000"
   vendor: Addable Labs
   url: https://addablelabs.se/blog/what-the-mayors-context-costs/
   final_url: https://addablelabs.se/blog/what-the-mayors-context-costs/
@@ -776,8 +776,8 @@
 - id: C72
   article: what-fills-an-ai-agents-context
   sentence:
-    sv: "Efter att fabriken satt fönstret till 1 000 000 tokens och överlämningen till 30 % blev det 0,18 överlämningar per bead, en uppgift i fabrikens ärendehanterare, i stället för 1,46. Anropen efter den första utåtriktade handlingen (till exempel ett svar eller ett utskickat uppdrag) bearbetade däremot i genomsnitt 187 000 tokens i stället för 142 000"
-    en: "After the factory set the window to 1,000,000 tokens and the hand-off at 30%, there were 0.18 hand-offs per bead, a task in the factory's tracker, instead of 1.46, but the calls after the first outward action, such as a reply or a dispatch, processed 187,000 tokens on average instead of 142,000"
+    sv: "När fabriken satte fönstret till 1 000 000 tokens och överlämningen till 30 % blev det 0,18 överlämningar per bead, en uppgift i fabrikens ärendehanterare, i stället för 1,46. Priset blev längre anrop: efter den första utåtriktade handlingen, till exempel ett svar eller ett utskickat uppdrag, bearbetade de i genomsnitt 187 000 tokens i stället för 142 000"
+    en: "After the factory set the window to 1,000,000 tokens and the hand-off at 30%, there were 0.18 hand-offs per bead, a task in the factory's tracker, instead of 1.46. The price was longer calls: after the first outward action, such as a reply or a dispatch, they processed 187,000 tokens on average instead of 142,000"
   vendor: Addable Labs
   url: https://addablelabs.se/blog/what-the-mayors-context-costs/
   final_url: https://addablelabs.se/blog/what-the-mayors-context-costs/
@@ -788,8 +788,8 @@
 - id: C73
   article: what-fills-an-ai-agents-context
   sentence:
-    sv: "Efter att fabriken satt fönstret till 1 000 000 tokens och överlämningen till 30 % blev det 0,18 överlämningar per bead, en uppgift i fabrikens ärendehanterare, i stället för 1,46. Anropen efter den första utåtriktade handlingen (till exempel ett svar eller ett utskickat uppdrag) bearbetade däremot i genomsnitt 187 000 tokens i stället för 142 000"
-    en: "After the factory set the window to 1,000,000 tokens and the hand-off at 30%, there were 0.18 hand-offs per bead, a task in the factory's tracker, instead of 1.46, but the calls after the first outward action, such as a reply or a dispatch, processed 187,000 tokens on average instead of 142,000"
+    sv: "När fabriken satte fönstret till 1 000 000 tokens och överlämningen till 30 % blev det 0,18 överlämningar per bead, en uppgift i fabrikens ärendehanterare, i stället för 1,46. Priset blev längre anrop: efter den första utåtriktade handlingen, till exempel ett svar eller ett utskickat uppdrag, bearbetade de i genomsnitt 187 000 tokens i stället för 142 000"
+    en: "After the factory set the window to 1,000,000 tokens and the hand-off at 30%, there were 0.18 hand-offs per bead, a task in the factory's tracker, instead of 1.46. The price was longer calls: after the first outward action, such as a reply or a dispatch, they processed 187,000 tokens on average instead of 142,000"
   vendor: Addable Labs
   url: https://addablelabs.se/blog/what-the-mayors-context-costs/
   final_url: https://addablelabs.se/blog/what-the-mayors-context-costs/
@@ -800,7 +800,7 @@
 - id: C52
   article: what-fills-an-ai-agents-context
   sentence:
-    sv: "Det nedskrivna läget måste också vara kort: den 24 september trimmades och fick en övre gräns både lägeskortet – som skrivs om vid varje överlämning – och referensen som läses i ett anrop"
+    sv: "Det nedskrivna läget måste också vara kort. Den 24 september kortades både lägeskortet – som skrivs om vid varje överlämning – och referensen som läses i ett anrop. Båda fick en övre gräns"
     en: "The written state must also stay short: on 24 September the state card, rewritten at every hand-off, and the reference read in one call were both trimmed and capped"
   vendor: Addable Labs
   url: https://addablelabs.se/blog/what-the-mayors-context-costs/
@@ -812,7 +812,7 @@
 - id: C74
   article: what-fills-an-ai-agents-context
   sentence:
-    sv: "Det nedskrivna läget måste också vara kort: den 24 september trimmades och fick en övre gräns både lägeskortet – som skrivs om vid varje överlämning – och referensen som läses i ett anrop"
+    sv: "Det nedskrivna läget måste också vara kort. Den 24 september kortades både lägeskortet – som skrivs om vid varje överlämning – och referensen som läses i ett anrop. Båda fick en övre gräns"
     en: "The written state must also stay short: on 24 September the state card, rewritten at every hand-off, and the reference read in one call were both trimmed and capped"
   vendor: Addable Labs
   url: https://addablelabs.se/blog/what-the-mayors-context-costs/
@@ -824,7 +824,7 @@
 - id: C53
   article: what-fills-an-ai-agents-context
   sentence:
-    sv: "Matt Pocock, som publicerar en uppsättning skills för agenter, kommer fram till en liknande tanke som enskild praktiker. Pococks regler för fasgränser säger att det mitt i en fas inte finns något beslut att fatta: man fortsätter eller delar upp det som återstår på subagenter, eftersom komprimering mitt i en fas får agenten att tappa tråden"
+    sv: "Matt Pocock, som publicerar en samling skills för agenter, kommer på egen hand fram till ett liknande mönster. Pococks regler för fasgränser säger att det mitt i en fas inte finns något beslut att fatta: du fortsätter eller delar upp det som återstår på subagenter, eftersom komprimering mitt i en fas får agenten att tappa tråden"
     en: "Matt Pocock, who publishes a set of agent skills, reaches a similar idea as an individual practitioner. Pocock's rules for phase boundaries say that mid-phase there is no decision to make: continue, or split the work that is left into subagents, because compacting mid-phase makes the agent lose the thread"
   vendor: Matt Pocock
   url: https://github.com/mattpocock/skills/blob/main/skills/engineering/ask-matt/PHASE-BOUNDARIES.md
@@ -836,7 +836,7 @@
 - id: C54
   article: what-fills-an-ai-agents-context
   sentence:
-    sv: "Pococks anteckningar om överlämningar jämför tre av de fem alternativen vid en fasgräns: /compact bevarar din avsikt, /clear bevarar ingenting och /handoff bevarar möjligheten att flytta arbetet vidare. /handoff är en av Pococks skills och inget inbyggt kommando i verktyget"
+    sv: "Pococks anteckningar om överlämningar jämför tre alternativ vid en fasgräns: /compact bevarar din avsikt, /clear bevarar ingenting och /handoff bevarar möjligheten att flytta arbetet vidare. /handoff är en av Pococks skills och inget inbyggt kommando i verktyget"
     en: "Pocock's notes on hand-offs compare three of the five options at a phase boundary: /compact preserves your intent, /clear preserves nothing and /handoff preserves the work's ability to move. /handoff is one of Pocock's skills, not a command built into the tool"
   vendor: Matt Pocock
   url: https://github.com/mattpocock/skills/blob/main/docs/productivity/handoff.md
@@ -848,7 +848,7 @@
 - id: C75
   article: what-fills-an-ai-agents-context
   sentence:
-    sv: "Pococks anteckningar om överlämningar jämför tre av de fem alternativen vid en fasgräns: /compact bevarar din avsikt, /clear bevarar ingenting och /handoff bevarar möjligheten att flytta arbetet vidare. /handoff är en av Pococks skills och inget inbyggt kommando i verktyget"
+    sv: "Pococks anteckningar om överlämningar jämför tre alternativ vid en fasgräns: /compact bevarar din avsikt, /clear bevarar ingenting och /handoff bevarar möjligheten att flytta arbetet vidare. /handoff är en av Pococks skills och inget inbyggt kommando i verktyget"
     en: "Pocock's notes on hand-offs compare three of the five options at a phase boundary: /compact preserves your intent, /clear preserves nothing and /handoff preserves the work's ability to move. /handoff is one of Pocock's skills, not a command built into the tool"
   vendor: Matt Pocock
   url: https://github.com/mattpocock/skills/blob/main/docs/productivity/handoff.md
@@ -860,7 +860,7 @@
 - id: C76
   article: what-fills-an-ai-agents-context
   sentence:
-    sv: "Pococks anteckningar om överlämningar jämför tre av de fem alternativen vid en fasgräns: /compact bevarar din avsikt, /clear bevarar ingenting och /handoff bevarar möjligheten att flytta arbetet vidare. /handoff är en av Pococks skills och inget inbyggt kommando i verktyget"
+    sv: "Pococks anteckningar om överlämningar jämför tre alternativ vid en fasgräns: /compact bevarar din avsikt, /clear bevarar ingenting och /handoff bevarar möjligheten att flytta arbetet vidare. /handoff är en av Pococks skills och inget inbyggt kommando i verktyget"
     en: "Pocock's notes on hand-offs compare three of the five options at a phase boundary: /compact preserves your intent, /clear preserves nothing and /handoff preserves the work's ability to move. /handoff is one of Pocock's skills, not a command built into the tool"
   vendor: Matt Pocock
   url: https://github.com/mattpocock/skills/blob/main/docs/productivity/handoff.md
@@ -872,7 +872,7 @@
 - id: C77
   article: what-fills-an-ai-agents-context
   sentence:
-    sv: "Det är en praktikers regler och inte leverantörsråd. De stämmer med det som Gas Citys hook säger till agenten: planera mot en ren överlämningspunkt"
+    sv: "Det är ett mönster från en enskild utvecklare, inte leverantörsråd. Det stämmer med det som Gas Citys hook säger till agenten: planera för en ren överlämningspunkt"
     en: "These are one practitioner's rules, not vendor guidance, and they match what Gas City's hook tells the agent: plan toward a clean handoff point"
   vendor: Gas City
   url: https://raw.githubusercontent.com/gastownhall/gascity/main/cmd/gc/context_inject.go
@@ -884,7 +884,7 @@
 - id: C55
   article: what-fills-an-ai-agents-context
   sentence:
-    sv: "Motvikten kommer från en annan praktiker. I juli 2025 skrev Armin Ronacher att även om subagenter borde bevara kontext bättre gav det ofta bättre resultat att börja nya sessioner och skriva ner tankar i Markdown-filer"
+    sv: "Ett motsatt mönster kommer från en annan utvecklare. I juli 2025 skrev Armin Ronacher att subagenter visserligen borde bevara kontext bättre, men att det ofta gav bättre resultat att starta nya sessioner och skriva ner tankar i Markdown-filer"
     en: "The counterweight comes from another practitioner. In July 2025 Armin Ronacher wrote that although subagents should preserve context better, starting new sessions and writing thoughts to Markdown files often gave better results"
   vendor: Armin Ronacher
   url: https://lucumr.pocoo.org/2025/7/30/things-that-didnt-work/
@@ -896,7 +896,7 @@
 - id: C56
   article: what-fills-an-ai-agents-context
   sentence:
-    sv: "Anthropics guide ger tekniken ett namn, strukturerat antecknande (structured note-taking): agenten skriver regelbundet anteckningar som sparas utanför kontextfönstret. Den tekniken är ämnet för en senare artikel om minne"
+    sv: "Anthropics guide ger tekniken ett namn, structured note-taking: agenten skriver regelbundet anteckningar som sparas utanför kontextfönstret. Den tekniken är ämnet för en senare artikel om minne"
     en: "Anthropic's guide gives the technique a name, structured note-taking, where the agent regularly writes notes persisted outside of the context window, and that is the subject of a later article on memory"
   vendor: Anthropic
   url: https://www.anthropic.com/research/effective-context-engineering-for-ai-agents
@@ -908,8 +908,8 @@
 - id: C57
   article: what-fills-an-ai-agents-context
   sentence:
-    sv: "Användare rapporterar också gränserna ovan som friktion. Två exempel, båda från användare av Claude Code, är användarrapporter och inte domar över verktyget. I dess publika ärendehanterare påpekas i ett ärende – öppnat i februari 2026 och fortfarande öppet i november – att det inte finns något fungerande sätt att granska samtalshistorik som har rensats eller komprimerats. På Hacker News invände en kommentator i september 2026 att subagenter måste läsa om allt, vilket stämmer med Anthropics eget påpekande att en ny subagent först måste samla ihop kontext som huvudsamtalet redan hade"
-    en: "Users also report the limits above as friction. Two examples, both from users of Claude Code, are user reports and not verdicts on the tool. On its public tracker, one issue, opened in February 2026 and still open in November, complains that there is no working way to review conversation history that has been cleared or compacted. On Hacker News in September 2026, a commenter objected that subagents have to re-read everything, which matches Anthropic's own note that a fresh subagent first has to gather context the main conversation already had"
+    sv: "Användare beskriver också gränserna ovan som friktion. De två exemplen här, båda från användare av Claude Code, är rapporter och inte domar över verktyget. Ett issue i Claude Codes publika issue tracker – öppnat i februari 2026 och fortfarande öppet i november – påpekar att det inte finns något fungerande sätt att granska konversationshistorik som har rensats eller komprimerats. På Hacker News invände en kommentator i september 2026 att subagenter måste läsa om allt, vilket stämmer med det Anthropic själv påpekar: att en ny subagent först måste samla ihop kontext som huvudkonversationen redan hade"
+    en: "Users also report the limits above as friction. Two examples, both from Claude Code users, are reports and not verdicts on the tool. On its public tracker, one issue, opened in February 2026 and still open in November, complains that there is no working way to review conversation history that has been cleared or compacted. On Hacker News in September 2026, a commenter objected that subagents have to re-read everything, which matches Anthropic's own note that a fresh subagent first has to gather context the main conversation already had"
   vendor: GitHub issue (user report)
   url: https://github.com/anthropics/claude-code/issues/27242
   final_url: https://github.com/anthropics/claude-code/issues/27242
@@ -920,8 +920,8 @@
 - id: C78
   article: what-fills-an-ai-agents-context
   sentence:
-    sv: "Användare rapporterar också gränserna ovan som friktion. Två exempel, båda från användare av Claude Code, är användarrapporter och inte domar över verktyget. I dess publika ärendehanterare påpekas i ett ärende – öppnat i februari 2026 och fortfarande öppet i november – att det inte finns något fungerande sätt att granska samtalshistorik som har rensats eller komprimerats. På Hacker News invände en kommentator i september 2026 att subagenter måste läsa om allt, vilket stämmer med Anthropics eget påpekande att en ny subagent först måste samla ihop kontext som huvudsamtalet redan hade"
-    en: "Users also report the limits above as friction. Two examples, both from users of Claude Code, are user reports and not verdicts on the tool. On its public tracker, one issue, opened in February 2026 and still open in November, complains that there is no working way to review conversation history that has been cleared or compacted. On Hacker News in September 2026, a commenter objected that subagents have to re-read everything, which matches Anthropic's own note that a fresh subagent first has to gather context the main conversation already had"
+    sv: "Användare beskriver också gränserna ovan som friktion. De två exemplen här, båda från användare av Claude Code, är rapporter och inte domar över verktyget. Ett issue i Claude Codes publika issue tracker – öppnat i februari 2026 och fortfarande öppet i november – påpekar att det inte finns något fungerande sätt att granska konversationshistorik som har rensats eller komprimerats. På Hacker News invände en kommentator i september 2026 att subagenter måste läsa om allt, vilket stämmer med det Anthropic själv påpekar: att en ny subagent först måste samla ihop kontext som huvudkonversationen redan hade"
+    en: "Users also report the limits above as friction. Two examples, both from Claude Code users, are reports and not verdicts on the tool. On its public tracker, one issue, opened in February 2026 and still open in November, complains that there is no working way to review conversation history that has been cleared or compacted. On Hacker News in September 2026, a commenter objected that subagents have to re-read everything, which matches Anthropic's own note that a fresh subagent first has to gather context the main conversation already had"
   vendor: GitHub issue (user report)
   url: https://github.com/anthropics/claude-code/issues/27242
   final_url: https://github.com/anthropics/claude-code/issues/27242
@@ -932,8 +932,8 @@
 - id: C58
   article: what-fills-an-ai-agents-context
   sentence:
-    sv: "Användare rapporterar också gränserna ovan som friktion. Två exempel, båda från användare av Claude Code, är användarrapporter och inte domar över verktyget. I dess publika ärendehanterare påpekas i ett ärende – öppnat i februari 2026 och fortfarande öppet i november – att det inte finns något fungerande sätt att granska samtalshistorik som har rensats eller komprimerats. På Hacker News invände en kommentator i september 2026 att subagenter måste läsa om allt, vilket stämmer med Anthropics eget påpekande att en ny subagent först måste samla ihop kontext som huvudsamtalet redan hade"
-    en: "Users also report the limits above as friction. Two examples, both from users of Claude Code, are user reports and not verdicts on the tool. On its public tracker, one issue, opened in February 2026 and still open in November, complains that there is no working way to review conversation history that has been cleared or compacted. On Hacker News in September 2026, a commenter objected that subagents have to re-read everything, which matches Anthropic's own note that a fresh subagent first has to gather context the main conversation already had"
+    sv: "Användare beskriver också gränserna ovan som friktion. De två exemplen här, båda från användare av Claude Code, är rapporter och inte domar över verktyget. Ett issue i Claude Codes publika issue tracker – öppnat i februari 2026 och fortfarande öppet i november – påpekar att det inte finns något fungerande sätt att granska konversationshistorik som har rensats eller komprimerats. På Hacker News invände en kommentator i september 2026 att subagenter måste läsa om allt, vilket stämmer med det Anthropic själv påpekar: att en ny subagent först måste samla ihop kontext som huvudkonversationen redan hade"
+    en: "Users also report the limits above as friction. Two examples, both from Claude Code users, are reports and not verdicts on the tool. On its public tracker, one issue, opened in February 2026 and still open in November, complains that there is no working way to review conversation history that has been cleared or compacted. On Hacker News in September 2026, a commenter objected that subagents have to re-read everything, which matches Anthropic's own note that a fresh subagent first has to gather context the main conversation already had"
   vendor: Hacker News (user report)
   url: https://news.ycombinator.com/item?id=49908276
   final_url: https://news.ycombinator.com/item?id=49908276
@@ -944,8 +944,8 @@
 - id: C79
   article: what-fills-an-ai-agents-context
   sentence:
-    sv: "Användare rapporterar också gränserna ovan som friktion. Två exempel, båda från användare av Claude Code, är användarrapporter och inte domar över verktyget. I dess publika ärendehanterare påpekas i ett ärende – öppnat i februari 2026 och fortfarande öppet i november – att det inte finns något fungerande sätt att granska samtalshistorik som har rensats eller komprimerats. På Hacker News invände en kommentator i september 2026 att subagenter måste läsa om allt, vilket stämmer med Anthropics eget påpekande att en ny subagent först måste samla ihop kontext som huvudsamtalet redan hade"
-    en: "Users also report the limits above as friction. Two examples, both from users of Claude Code, are user reports and not verdicts on the tool. On its public tracker, one issue, opened in February 2026 and still open in November, complains that there is no working way to review conversation history that has been cleared or compacted. On Hacker News in September 2026, a commenter objected that subagents have to re-read everything, which matches Anthropic's own note that a fresh subagent first has to gather context the main conversation already had"
+    sv: "Användare beskriver också gränserna ovan som friktion. De två exemplen här, båda från användare av Claude Code, är rapporter och inte domar över verktyget. Ett issue i Claude Codes publika issue tracker – öppnat i februari 2026 och fortfarande öppet i november – påpekar att det inte finns något fungerande sätt att granska konversationshistorik som har rensats eller komprimerats. På Hacker News invände en kommentator i september 2026 att subagenter måste läsa om allt, vilket stämmer med det Anthropic själv påpekar: att en ny subagent först måste samla ihop kontext som huvudkonversationen redan hade"
+    en: "Users also report the limits above as friction. Two examples, both from Claude Code users, are reports and not verdicts on the tool. On its public tracker, one issue, opened in February 2026 and still open in November, complains that there is no working way to review conversation history that has been cleared or compacted. On Hacker News in September 2026, a commenter objected that subagents have to re-read everything, which matches Anthropic's own note that a fresh subagent first has to gather context the main conversation already had"
   vendor: Hacker News (user report)
   url: https://news.ycombinator.com/item?id=49908276
   final_url: https://news.ycombinator.com/item?id=49908276
@@ -956,8 +956,8 @@
 - id: C80
   article: what-fills-an-ai-agents-context
   sentence:
-    sv: "Användare rapporterar också gränserna ovan som friktion. Två exempel, båda från användare av Claude Code, är användarrapporter och inte domar över verktyget. I dess publika ärendehanterare påpekas i ett ärende – öppnat i februari 2026 och fortfarande öppet i november – att det inte finns något fungerande sätt att granska samtalshistorik som har rensats eller komprimerats. På Hacker News invände en kommentator i september 2026 att subagenter måste läsa om allt, vilket stämmer med Anthropics eget påpekande att en ny subagent först måste samla ihop kontext som huvudsamtalet redan hade"
-    en: "Users also report the limits above as friction. Two examples, both from users of Claude Code, are user reports and not verdicts on the tool. On its public tracker, one issue, opened in February 2026 and still open in November, complains that there is no working way to review conversation history that has been cleared or compacted. On Hacker News in September 2026, a commenter objected that subagents have to re-read everything, which matches Anthropic's own note that a fresh subagent first has to gather context the main conversation already had"
+    sv: "Användare beskriver också gränserna ovan som friktion. De två exemplen här, båda från användare av Claude Code, är rapporter och inte domar över verktyget. Ett issue i Claude Codes publika issue tracker – öppnat i februari 2026 och fortfarande öppet i november – påpekar att det inte finns något fungerande sätt att granska konversationshistorik som har rensats eller komprimerats. På Hacker News invände en kommentator i september 2026 att subagenter måste läsa om allt, vilket stämmer med det Anthropic själv påpekar: att en ny subagent först måste samla ihop kontext som huvudkonversationen redan hade"
+    en: "Users also report the limits above as friction. Two examples, both from Claude Code users, are reports and not verdicts on the tool. On its public tracker, one issue, opened in February 2026 and still open in November, complains that there is no working way to review conversation history that has been cleared or compacted. On Hacker News in September 2026, a commenter objected that subagents have to re-read everything, which matches Anthropic's own note that a fresh subagent first has to gather context the main conversation already had"
   vendor: Anthropic
   url: https://code.claude.com/docs/en/best-practices
   final_url: https://code.claude.com/docs/en/best-practices
