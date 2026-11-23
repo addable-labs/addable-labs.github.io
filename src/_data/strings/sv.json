@@ -1672,7 +1672,7 @@
       "read": "läses in igen i början",
       "startup": "startinnehåll",
       "note": "en anteckning",
-      "caption": "Stapeln försvinner med sessionen, men minnet finns kvar. Det agenten skrev dit kommer tillbaka som en del av nästa sessions startinnehåll, så ett minne tar upp en del av kontextfönstret i varje anrop, precis som resten av startinnehållet."
+      "caption": "Stapeln försvinner med sessionen, men minnet finns kvar. Det agenten skrev dit kommer tillbaka som en del av nästa sessions startinnehåll, så ett minne tar plats i kontextfönstret i varje anrop, precis som resten av startinnehållet."
     },
     "memory-file-or-memory": {
       "title": "Två kolumner. Den ena är instruktionsfilen: skriven och granskad av människor och likadan på varje dator. Den andra är minnet: skrivet av agenten och möjligen gammalt eller fel. En pil flyttar ett faktum från minnet till filen när en människa har kontrollerat det. Ett litet kort nedanför står för sig: pågående arbete hör hemma i en överlämning.",
@@ -1690,20 +1690,20 @@
       "caption": "Ett faktum går från höger till vänster när en människa har kontrollerat det. Pågående arbete är varken filen eller minnet: det hör hemma i en överlämning."
     },
     "memory-where-it-lives": {
-      "title": "En matris med tre ställen där en session kan starta (din dator, en kollegas dator, en runner) och tre ställen där ett minne kan ligga. Ett minne i en mapp på din dator når bara din dator. En fil i repot når alla tre. En leverantörs minne når dem bara genom de konton och verktyg som leverantören släpper in.",
+      "title": "En matris med tre ställen där en session kan starta (din dator, en kollegas dator, en runner) och tre ställen där ett minne kan ligga. Ett minne i en mapp på din dator når bara din dator. En fil i repot når alla tre. En leverantörs molnminne når dem bara genom de konton och verktyg som leverantören släpper in.",
       "head": "Vem som kan läsa vilket minne",
       "c1": "din dator",
       "c2": "en kollegas dator",
       "c3": "en runner",
       "r1": "en mapp på din dator",
       "r2": "en fil i repot",
-      "r3": "en leverantörs minne",
+      "r3": "en leverantörs molnminne",
       "repo": "repot",
       "gate": "bara de konton och verktyg som leverantören släpper in",
       "caption": "En heldragen linje betyder att alla som har checkat ut repot kan läsa minnet. En streckad linje betyder att det beror på vem leverantören släpper in. Ett minne i en hemmapp har bara en linje."
     },
     "memory-runner-starts-empty": {
-      "title": "En runner i tre skeden. I början är den tom och får repot – och kanske en cache och ett minne utanför den. Medan jobbet körs innehåller den en anteckning som agenten skriver. I slutet raderas runnern: anteckningen överlever bara om den har lämnat runnern som en commit, en artifact eller en cache.",
+      "title": "En runner i tre skeden. I början är den tom och får repot – och kanske en cache och ett minne som ligger utanför runnern. Medan jobbet körs innehåller den en anteckning som agenten skriver. I slutet raderas runnern: anteckningen överlever bara om den har lämnat runnern som en commit, en artifact eller en cache.",
       "head": "En ny runner startar tom",
       "start": "jobbet startar",
       "run": "jobbet körs",
@@ -1733,7 +1733,7 @@
       "read": "läses av senare sessioner",
       "action": "en åtgärd som anteckningen ber om",
       "gate": "en gräns utanför modellen",
-      "caption": "Anteckningen skrivs en gång och kan nå varje session efter den. När den väl var lagrad gav en bättre prompt bara begränsat skydd i studien. En gräns mellan agenten och åtgärden blockerar den oavsett vad sessionen bestämmer."
+      "caption": "Anteckningen skrivs en gång och kan nå varje session efter den. När den väl var lagrad gav en bättre prompt bara begränsat skydd i studien. En gräns mellan agenten och åtgärden stoppar åtgärden oavsett vad modellen bestämmer."
     }
   },
   "games": {

@@ -40,7 +40,7 @@ session.
 
 {% figure "memory-written-and-loaded", "wide" %}
 
-When the session ends, its bar is gone; the memory store beside it stays. The memory store is where the notes sit. What was
+When the session ends, its bar is gone; the memory store beside it stays. What was
 written to it is loaded into the start-up content of the next session. Three
 questions decide how a memory behaves: who writes it, where it is stored and who
 else can read it. The rest of the article answers them for each tool and for a
@@ -308,7 +308,7 @@ requires no maintenance from you, adapts as your codebase and your habits change
 and discards what stops being relevant. It is available on all paid Copilot
 plans, and memories included in a model's context count toward token usage.
 GitHub's engineering post of January 2026 reports a gain from its own A/B tests:
-for the coding agent, as the post calls it, a 7% increase in pull request merge
+for the coding agent, as the post calls it, an increase of 7 percentage points in pull request merge
 rates, 90% with memories against 83% without. Those are GitHub's figures for its
 own product, and the risks above come with it.
 
