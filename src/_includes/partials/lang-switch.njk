@@ -1,8 +1,11 @@
 {#- Language switch (REQ-010): one link to the same page in the other
     language, named in the target language ("Svenska" on English pages,
-    "English" on Swedish pages). Absent on pages without a counterpart (404).
+    "English" on Swedish pages). `languageSwitch` (src.11tydata.js) is the
+    counterpart, or for an English article without a Swedish file the Swedish
+    page that shows it in English, and from that page the English one (D206).
+    Absent on pages without a counterpart (404).
     Whitespace control: the header includes this with `{%- include %}` so a
     page without alternate leaves no blank line. -#}
-{%- if alternate %}
-    <a class="lang-switch" href="{{ alternate.url }}" hreflang="{{ alternate.lang }}" lang="{{ alternate.lang }}" rel="alternate">{{ strings[lang].languages[alternate.lang] }}</a>
+{%- if languageSwitch %}
+    <a class="lang-switch" href="{{ languageSwitch.url }}" hreflang="{{ languageSwitch.lang }}" lang="{{ languageSwitch.lang }}" rel="alternate">{{ strings[lang].languages[languageSwitch.lang] }}</a>
 {%- endif %}

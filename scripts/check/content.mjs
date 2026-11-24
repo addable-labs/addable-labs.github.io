@@ -63,15 +63,25 @@
 //     newest first (si-absd), and each category page, in both languages,
 //     those of its category: none of another category and none of its own
 //     missing (si-thf3)
+//   - an English article without a Swedish file (D206, scripts/lib/
+//     fallback.mjs) is one of the Swedish side's articles in every rule
+//     above — its listings, its feed, its landing cards, its "more from the
+//     blog" bands — at the Swedish page that shows it, and that page holds
+//     the English article under the line "Den här artikeln finns bara på
+//     engelska." linking the English page, in an article element marked
+//     lang="en", with the English title; its card in every Swedish list
+//     wears the "På engelska" chip and marks its title and description
+//     lang="en", and no other card or page does either
 // Optional arguments: <built-site dir> [<source dir>].
 
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { PUBLIC_REPOS, PUBLIC_URL_PREFIX, entryUrl, githubRepos, publicRepo } from "../lib/apps.mjs";
+import { articlesShownIn, fallbackPages } from "../lib/fallback.mjs";
 import { gamePagePaths } from "../lib/games.mjs";
 import { attr, loadPage, text } from "../lib/html.mjs";
 import { DEFAULT_IMAGE } from "../lib/images.mjs";
-import { exists, internalPath, langPrefix, loadSite, loadStrings, newestFirst, readArticleSources, reporter, resolveDirs, walk } from "../lib/site.mjs";
+import { exists, internalPath, langPrefix, loadSite, loadStrings, newestFirst, reporter, resolveDirs, walk } from "../lib/site.mjs";
 
 const { out, src } = resolveDirs();
 const site = await loadSite(src);
@@ -236,7 +246,7 @@ for (const lang of site.languages.codes) {
   // page's language. A draft in the production build and an article dated
   // after today are listed nowhere, and no card links them either. An entry
   // with no url and no listed article links nothing.
-  const articles = await readArticleSources(src, site, lang);
+  const articles = await articlesShownIn(src, site, lang);
   const entries = doc.querySelectorAll(".portfolio-entry");
   report.check(entries.length === apps.length, `${rel}: apps grid renders one entry per data entry (${entries.length} of ${apps.length})`);
   apps.forEach((app, index) => {
@@ -348,6 +358,11 @@ for (const lang of site.languages.codes) {
 // Every page: footer contact, the company line, language switch, toggle, feed
 // link. A game page has none of them: it is the game and nothing else.
 const GAME_PAGES = gamePagePaths(src);
+// The articles in English only (D206): the Swedish page that shows each, and
+// where the language switch leads from it and from the English page, which
+// claim no hreflang alternate to read that from.
+const FALLBACKS = new Map((await fallbackPages(src, site)).filter((entry) => !entry.omitted).map((entry) => [entry.path, entry]));
+const SWITCH_TO = new Map([...FALLBACKS.values()].flatMap((entry) => [[entry.path, entry.original], [entry.original, entry.path]]));
 const pages = [];
 const everyPage = [];
 for (const file of await walk(out, ".html")) {
@@ -378,9 +393,11 @@ for (const p of pages) {
   // REQ-014 (AC-15): the language switches point at the counterpart page —
   // the other language's hreflang alternate in the head — in the footer
   // (a.lang-switch-footer) and still in the header (a.lang-switch); pages
-  // without a counterpart (404) have no alternates and no switch.
+  // without a counterpart (404) have no alternates and no switch. An English
+  // article without a Swedish file and the Swedish page that shows it claim
+  // no alternate and switch to each other (D206).
   const other = site.languages.codes.find((code) => code !== p.lang);
-  const counterpart = internalPath(attr(p.doc.querySelector(`head link[rel="alternate"][hreflang="${other}"]`), "href"), site);
+  const counterpart = internalPath(attr(p.doc.querySelector(`head link[rel="alternate"][hreflang="${other}"]`), "href"), site) ?? SWITCH_TO.get(p.url);
   if (counterpart) {
     for (const [where, selector] of [["footer", "footer a.lang-switch-footer"], ["header", "header a.lang-switch"]]) {
       if (attr(p.doc.querySelector(selector), "href") !== counterpart) {
@@ -440,7 +457,7 @@ report.check(repoProblems === 0, `every GitHub repository the site names is one 
 // alt="", since the title link beside it already names the article.
 const articleByPath = new Map();
 for (const lang of site.languages.codes) {
-  for (const article of await readArticleSources(src, site, lang)) articleByPath.set(article.path, article);
+  for (const article of await articlesShownIn(src, site, lang)) articleByPath.set(article.path, article);
 }
 const origin = site.url.replace(/\/$/, "");
 /** Every URL an img or a picture's source may show, once each: its src and each of its srcset's candidates. */
@@ -448,6 +465,8 @@ const imageUrls = (...elements) => [...new Set(elements.flatMap((element) => [at
 let previewProblems = 0;
 let cardProblems = 0;
 let cards = 0;
+let languageProblems = 0;
+let fallbackCards = 0;
 for (const p of everyPage) {
   const article = articleByPath.get(p.url);
   const want = article ? { url: `${origin}/blog/${article.slug}/${article.image}`, alt: article.imageAlt, what: "its article's image" } : { url: `${origin}${DEFAULT_IMAGE}`, alt: strings[p.lang].site.imageAlt, what: "the site's default image" };
@@ -468,10 +487,29 @@ for (const p of everyPage) {
       const shown = images.length === 1 ? `${urls.join(", ") || "an image without a source"} with alt=${JSON.stringify(attr(images[0], "alt") ?? null)}` : `${images.length} images`;
       report.fail(`${p.relPath}: the card for ${href} shows ${shown}, not its article's image alone with alt=""`);
     }
+    // D206: the card of an English article on the Swedish side wears the
+    // "På engelska" chip and marks its title and description English; no
+    // other card does either.
+    const inEnglish = own?.fallback === true;
+    if (inEnglish) fallbackCards += 1;
+    const chips = card.querySelectorAll(".chip-lang").map(text);
+    const marked = [".post-title", ".post-text"].map((selector) => attr(card.querySelector(selector), "lang") ?? null);
+    const wantMark = inEnglish ? site.languages.default : null;
+    if ((inEnglish ? chips.length !== 1 || chips[0] !== strings[p.lang].article.inEnglishLabel : chips.length !== 0) || marked.some((value) => value !== wantMark)) {
+      languageProblems += 1;
+      report.fail(`${p.relPath}: the card for ${href} ${inEnglish ? `shows an article in English: it wears the chip "${strings[p.lang].article.inEnglishLabel}" and marks its title and description lang="${wantMark}"` : "shows an article in the page's language: it wears no language chip and marks no lang"}, not chips ${JSON.stringify(chips)} and lang ${JSON.stringify(marked)}`);
+    }
+  }
+  // D206: the line that says an article is only in English, on the Swedish
+  // page that shows it and on no other page.
+  if (!FALLBACKS.has(p.url) && p.doc.querySelector(".article-lang-note") !== null) {
+    languageProblems += 1;
+    report.fail(`${p.relPath}: carries the line for an article in English only, but it shows no English article on the other side`);
   }
 }
 report.check(previewProblems === 0, `every page's link preview shows its own image: an article page its article's, every other page ${DEFAULT_IMAGE} (${everyPage.length} pages)`);
 report.check(cardProblems === 0, `every article card shows its article's image with alt="" (${cards} cards)`);
+report.check(languageProblems === 0, `every card of an English article on the Swedish side wears "${strings.sv?.article.inEnglishLabel}" and marks its English text (${fallbackCards} of ${cards} cards), and no other card or page claims to show an article in English`);
 
 /**
  * Why the built site owes this article nothing: it is a draft and this is the
@@ -513,7 +551,7 @@ function listedNewestFirst(articles) {
 // Articles: existence, word count, the draft label, and the two ways an
 // article stays off the listings
 for (const lang of site.languages.codes) {
-  const articles = await readArticleSources(src, site, lang);
+  const articles = await articlesShownIn(src, site, lang);
   report.check(articles.length >= 2, `${lang}: at least two articles in the source tree (${articles.length})`);
   const prefix = langPrefix(lang, site);
   const listing = await page(`${prefix.replace(/^\//, "")}${prefix ? "/" : ""}blog/index.html`);
@@ -536,6 +574,20 @@ for (const lang of site.languages.codes) {
     }
     const built = await page(rel);
     if (!built) continue;
+    // An English article on the Swedish side (D206): the page shows it in
+    // English, its title and its text in an article element marked so,
+    // under one line in the page's language that says it is only in English
+    // and links the English page.
+    if (article.fallback) {
+      const line = built.doc.querySelector("main .article-lang-note");
+      const note = line?.querySelector("a[href]");
+      const noteText = text(note).replace(/→$/, "").trim();
+      const shown = built.doc.querySelector("main article.article");
+      const above = line !== null && shown !== null && line.nextElementSibling === shown;
+      const heading = text(shown?.querySelector("h1"));
+      const want = strings[lang].article.onlyInEnglish;
+      report.check(above && attr(note, "href") === article.original && noteText === want && attr(shown, "lang") === site.languages.default && heading === article.title, `${rel}: shows ${article.original} in English: the line "${want}" right above it links ${article.original}, the article is marked lang="${site.languages.default}" and its title is "${article.title}"${above ? "" : " (no such line right above the article)"}`);
+    }
     // Its image right under its summary (si-awlu), described in its own
     // language, from its own media directory, and not lazy: it may be the
     // largest thing on the first screen. An article whose front matter names

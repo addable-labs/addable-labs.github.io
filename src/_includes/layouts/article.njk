@@ -20,14 +20,30 @@ ogType: article
     article, the "More from the blog" band lists the other articles of the
     page's language (the landing's writing band, partials/post-list.njk) and
     links the blog index, so the page ends with somewhere to go. `alternate`
-    is computed by src.11tydata.js; when it is null the link is simply absent.
+    is computed by src.11tydata.js; when it is null — the article has no
+    translation — the link is simply absent.
+    The same layout shows an English article that has no Swedish file on the
+    Swedish side of the site (D206; src/sv/blog/in-english.njk, whose
+    `original` is the English article): the article in English, so the
+    article element carries the English article's lang and its date and
+    image are the English article's (`shown`), under one line in the page's
+    language that says the article is only in English and links the English
+    page. The metadata line — the date in the page's format, the category
+    chip to the page's own category page, the draft chip — is the page's
+    chrome and says so with the page's lang.
     The header/footer inside the article are divs so each page keeps exactly
     one header and footer landmark. Conditional tags sit at column 0 so a
     false branch leaves an empty line rather than trailing whitespace. -#}
-<article class="container article">
+{%- set shown = original or page -%}
+{%- if original -%}
+<div class="container article-lang-note">
+  <p><a class="text-link" href="{{ original.url }}" hreflang="{{ original.data.lang }}">{{ strings[lang].article.onlyInEnglish }}<span class="arrow" aria-hidden="true">→</span></a></p>
+</div>
+{% endif -%}
+<article class="container article"{% if original %} lang="{{ original.data.lang }}"{% endif %}>
   <div class="article-header">
-    <p class="article-meta">
-      <time datetime="{{ page.date | isoDate }}">{{ page.date | localeDate(lang) }}</time>
+    <p class="article-meta"{% if original %} lang="{{ lang }}"{% endif %}>
+      <time datetime="{{ shown.date | isoDate }}">{{ shown.date | localeDate(lang) }}</time>
       <a class="chip chip-cat" href="{{ langPrefix }}/blog/{{ category }}/">{{ strings[lang].categories[category] }}</a>
 {%- if draft %}
       <span class="chip chip-draft"><span class="chip-dot" aria-hidden="true"></span>{{ strings[lang].article.draftLabel }}</span>
@@ -38,7 +54,7 @@ ogType: article
 {%- if heroFigure %}
     {% articleHero heroFigure, imageAlt %}
 {%- else %}
-{%- set img = image | articleImage(page.fileSlug) %}
+{%- set img = image | articleImage(shown.fileSlug) %}
     <img class="article-image" src="{{ img.src }}" srcset="{{ img.srcset }}" sizes="(min-width: 48rem) 44rem, 100vw" width="{{ shareImage.width }}" height="{{ shareImage.height }}" alt="{{ imageAlt }}" fetchpriority="high">
 {%- endif %}
   </div>
@@ -51,7 +67,7 @@ ogType: article
   </div>
 {% endif %}
 </article>
-{%- set others = collections["posts_" + lang] | withoutUrl(page.url) %}
+{%- set others = collections["posts_" + lang] | withoutUrl(shown.url) %}
 {%- if others | length %}
 <section class="section section-alt article-more" aria-labelledby="more-title">
   <div class="container">

@@ -665,7 +665,7 @@ describe("apps data and copy (REQ-011, REQ-025; AC-11, AC-12, AC-30)", () => {
     }
   });
 
-  it("names the article about the app where there is one — Ashlands and Gaimer — and fails an article that is not a post in both languages (si-3hpa)", () => {
+  it("names the article about the app where there is one — Ashlands and Gaimer — and fails an article that is not an English post (si-3hpa, D206)", () => {
     // The founder's request of 2026-09-23: an app with an article links it,
     // by the post's file name (Gaimer's since its article went public,
     // si-enrh); the others name none (Fluentor's: si-wpwe).
@@ -681,19 +681,24 @@ describe("apps data and copy (REQ-011, REQ-025; AC-11, AC-12, AC-30)", () => {
     };
     // A post of both languages passes, whichever app names it.
     assert.deepEqual(withArticle("how-this-site-was-built-by-agents"), []);
-    // A name that is no post fails in each language, and so does a URL:
-    // the data names the post, and the build makes each language's link.
+    // A name that is no post fails, and so does a URL: the data names the
+    // post, and the build makes each language's link. It fails once, for the
+    // English post every language's side shows (D206).
     for (const article of ["no-such-article", "ashlands-what-one-prompt-built.md", "https://addablelabs.se/blog/ashlands-what-one-prompt-built/"]) {
       const problems = withArticle(article);
-      for (const lang of site.languages.codes) {
-        assert.ok(problems.includes(`gaimer: article ${JSON.stringify(article)} names no post in ${lang}: there is no src/${lang}/blog/posts/${article}.md`), problems.join("\n"));
-      }
+      assert.deepEqual(problems.filter((problem) => problem.includes("names no post")), [`gaimer: article ${JSON.stringify(article)} names no post in en: there is no src/en/blog/posts/${article}.md`]);
     }
-    // A post of one language only fails for the other language.
+    // An English post without a Swedish file passes: the Swedish card links
+    // the Swedish page that shows it in English (D206). A Swedish post
+    // without an English one fails.
     const englishOnly = withArticle("how-this-site-was-built-by-agents", (input) => {
       input.articles.sv = input.articles.sv.filter((slug) => slug !== "how-this-site-was-built-by-agents");
     });
-    assert.deepEqual(englishOnly, ['gaimer: article "how-this-site-was-built-by-agents" names no post in sv: there is no src/sv/blog/posts/how-this-site-was-built-by-agents.md']);
+    assert.deepEqual(englishOnly, []);
+    const swedishOnly = withArticle("how-this-site-was-built-by-agents", (input) => {
+      input.articles.en = input.articles.en.filter((slug) => slug !== "how-this-site-was-built-by-agents");
+    });
+    assert.deepEqual(swedishOnly, ['gaimer: article "how-this-site-was-built-by-agents" names no post in en: there is no src/en/blog/posts/how-this-site-was-built-by-agents.md']);
     // A value that is no file name at all.
     for (const article of ["", null, 7]) {
       assert.ok(withArticle(article).includes(`gaimer: article must be the file name of a post, without .md, got ${JSON.stringify(article)}`), JSON.stringify(article));

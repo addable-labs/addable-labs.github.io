@@ -199,6 +199,8 @@
   "article": {
     "draftLabel": "Draft",
     "readInOtherLanguage": "Read this article in Swedish",
+    "inEnglishLabel": "In English",
+    "onlyInEnglish": "This article is only in English.",
     "moreEyebrow": "Keep reading",
     "moreHeading": "More from the blog"
   },

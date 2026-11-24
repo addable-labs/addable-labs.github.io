@@ -297,7 +297,8 @@ a:hover .arrow,
 }
 
 /* Chips: pill, mono, status dot. Kinds follow the data's status keys
-   (chip-<status>) plus the category and draft chips. */
+   (chip-<status>) plus the category and draft chips and the language chip
+   of an English article in a Swedish list (D206). */
 .chip {
   display: inline-flex;
   align-items: center;
@@ -336,7 +337,8 @@ a:hover .arrow,
 }
 
 .chip-experiment,
-.chip-private {
+.chip-private,
+.chip-lang {
   color: var(--color-text-muted);
   border-color: var(--color-border);
 }
@@ -1580,9 +1582,31 @@ html:not(.js) .theme-toggle {
   border-top: 1px dashed var(--color-border);
 }
 
-.article {
+.article,
+.article-lang-note {
   --measure: 44rem;
+}
+
+.article {
   padding-block: var(--space-5) var(--space-6);
+}
+
+/* An English article on the Swedish side of the site (D206; layouts/
+   article.njk): the line above the article that says it is only in English
+   and links the English page, on the article's measure, with a dashed rule
+   under it like the action row of a note. */
+.article-lang-note {
+  padding-top: var(--space-5);
+}
+
+.article-lang-note p {
+  max-width: var(--measure);
+  margin: 0 auto;
+  border-bottom: 1px dashed var(--color-border);
+}
+
+.article-lang-note + .article {
+  padding-top: var(--space-4);
 }
 
 /* The article is a centred composition (founder feedback 2026-09-22,

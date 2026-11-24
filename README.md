@@ -126,10 +126,11 @@ local fallbacks so the swap never moves the layout.
 
 ## Add an article
 
-An article is one Markdown file per language with the same file name:
+An article is an English Markdown file and, optionally, a Swedish one with
+the same file name:
 
-- English: `src/en/blog/posts/<slug>.md` → `/blog/<slug>/`
-- Swedish: `src/sv/blog/posts/<slug>.md` → `/sv/blog/<slug>/`
+- English: `src/en/blog/posts/<slug>.md` → `/blog/<slug>/` (required)
+- Swedish: `src/sv/blog/posts/<slug>.md` → `/sv/blog/<slug>/` (optional)
 
 The file name becomes the URL, so it must be a slug (lowercase letters,
 digits and single hyphens); otherwise `pnpm build` fails and names each file
@@ -149,8 +150,44 @@ unchecked, even as a draft. An article cannot be named after a category key:
 `` Output conflict: multiple input files are writing to
 `./_site/blog/ai-journey/index.html` `` followed by the two files.
 
-Both files are required — a missing counterpart fails the build (see below).
-The English file:
+**Swedish is optional** (the founder's decision D206, 24 November 2026:
+articles are written in English, and where no Swedish translation exists
+the Swedish side of the site shows the English article). Without a Swedish
+file the site shows the English article on the Swedish side, in English:
+
+- **The page.** `/sv/blog/<slug>/`, the same slug as the English, is built
+  from `src/sv/blog/in-english.njk`: the English title, summary, image or
+  hero figure, text, figures and games, in the Swedish site's header,
+  navigation and footer, with the date in Swedish and the Swedish category
+  chip, under one line above the article, "Den här artikeln finns bara på
+  engelska.", which links the English page. The page is `lang="sv"`; the
+  article element is `lang="en"` (its metadata line, the page's chrome,
+  `lang="sv"`), so a screen reader reads each in its language and the
+  Swedish number spacing leaves the English alone. Its canonical link is
+  the English page's, and neither page claims an `hreflang` alternate: the
+  Swedish page shows the English article, it does not translate it. The
+  language switch on the English page leads to the Swedish page, and the
+  Swedish page's back; the "Read this article in Swedish" button under the
+  English article is absent.
+- **The listings.** The Swedish blog index, the category pages, the newest
+  three on the Swedish landing page, the "more from the blog" bands and an
+  app card's "Article" link show the article with the Swedish ones, by the
+  same rules and in the same order, linking `/sv/blog/<slug>/`. Its card
+  wears a "På engelska" chip (`article.inEnglishLabel` in the strings) and
+  marks its English title and summary `lang="en"`. Nothing changes on the
+  English side.
+- **The feed.** The Swedish feed carries it as its English title, summary
+  and text, linking `/sv/blog/<slug>/`.
+- **The sitemap.** The article is listed once, at its English URL, with no
+  alternates; `/sv/blog/<slug>/` is not listed.
+- **Drafts and dates** work as for any article: a draft is shown on both
+  sides of a local build and is absent from both sides of the published
+  one, and an article dated after today is built on both sides and listed
+  on neither until its day.
+
+An article that has a Swedish file is paired with it and behaves exactly as
+before. A Swedish file without an English one still fails the build. The
+English file:
 
 ```markdown
 ---
@@ -256,10 +293,14 @@ Brödtext i Markdown.
   header and the footer, the `hreflang` links and the sitemap are all derived
   from it. It must be a slug (lowercase letters, digits and single hyphens)
   and identical in both files; the file name is the URL slug in both
-  languages. If exactly one page with the same key and the other language
-  does not exist, `pnpm build` fails with the path of the page that lacks its
-  counterpart, for example `./src/en/blog/posts/new-article.md: expected
-  exactly one "sv" page with translationKey "new-article", found 0 (none)`.
+  languages. An English article whose key no Swedish file carries is an
+  article in English only (above). Every other page needs exactly one page
+  with the same key in the other language — a Swedish article its English
+  one, the about, blog and category pages their twins — or `pnpm build`
+  fails with the path of the page that lacks its counterpart, for example
+  `./src/sv/blog/posts/new-article.md: expected exactly one "en" page with
+  translationKey "new-article", found 0 (none)`; two pages with one key fail
+  the same way.
 - **Image.** Every article has one image: the picture a link preview shows
   when the article is shared (Discord, LinkedIn, WhatsApp, X), the thumbnail
   on its card in every listing and the picture under its title and summary.
@@ -428,9 +469,10 @@ Brödtext i Markdown.
   fit such a page, and hold every other page to all of them. An article's
   media and game pages follow its draft rule: a draft's games, their code
   and their screenshots are as absent from the published build as the draft
-  itself. `pnpm build` fails on a media directory whose article is missing in
-  either language, a game entry without its fields, one game listed twice, or
-  a file a game or its page needs that is missing. Games never reach the
+  itself. `pnpm build` fails on a media directory whose English article is
+  missing, a game entry without its fields, one game listed twice, or a file
+  a game or its page needs that is missing. An article in English only plays
+  its games on the Swedish side too, in English. Games never reach the
   feeds (`withoutGames`), and the layout gate measures each block: across
   the body, the versions side by side from 768 px and stacked below, every
   screen at 4:3.
@@ -456,10 +498,11 @@ Brödtext i Markdown.
 
   `pnpm test` holds every list to the format (`tests/sources.test.mjs`, the
   rules in `scripts/lib/sources.mjs`): exactly these keys, `id` unique in the
-  file, `article` the file's own name and an article in both languages,
-  `sentence.sv` and `sentence.en` each in the body of its article as plain
-  text (link syntax and the rest of the Markdown stripped, whitespace
-  collapsed), `url` and `final_url` https URLs, a `quote`, and `retrieved`
+  file, `article` the file's own name and an English article,
+  `sentence.en` and, when the article has a Swedish file, `sentence.sv`, each
+  in the body of its article as plain text (link syntax and the rest of the
+  Markdown stripped, whitespace collapsed) — an article in English only has
+  `sentence.en` alone, and a `sentence.sv` for it is refused — `url` and `final_url` https URLs, a `quote`, and `retrieved`
   and `last_checked` real days, `YYYY-MM-DD`; `docs/sources/` holds nothing
   else. An edit that breaks a sentence fails the tests until the list
   follows.
@@ -481,7 +524,8 @@ Brödtext i Markdown.
   check itself fails. It asks for one page at a time, each once, with a
   20 s timeout, one retry on a network error and a User-Agent naming the
   site. `--no-article-check` skips the rules that read the article, for a
-  list written before its article.
+  list written before its article; such a list needs `sentence.en`, and
+  `sentence.sv` is optional.
 
   It is not a gate, and neither `pnpm check` nor CI runs it: it needs the
   network, and a vendor's page changes without any commit here, so it would
@@ -571,7 +615,8 @@ one-liner in both strings files and its key in the curated list `APP_KEYS`
   `scripts/lib/apps.mjs`): it fails naming the key, the language or the band
   when an entry lacks strings in a language, uses an unknown or unused
   status, links a private repository or one not on `PUBLIC_REPOS`, names an
-  article that is not a post in both languages, or breaks a band. A new
+  article that is not an English post (an article in English only is linked
+  on the Swedish card at the Swedish page that shows it), or breaks a band. A new
   status also needs an entry in `STATUS_KEYS` there and a
   `chip-<status>` colour rule in `src/assets/css/base.css`.
 - **The list is curated.** The entries are the founder's list, without the
@@ -648,11 +693,11 @@ after a `pnpm build`:
 | build | `pnpm build` | Eleventy builds the site; article front matter validated; every page has its counterpart; every page's URL is made of slugs, like `/blog/ai-journey/` or `/feed.xml`, no file name holds a date Eleventy would drop, no article is named `index.md`, no file sits in a subdirectory of `posts/` and every template in `posts/` is a `.md` file; every `{% figure %}` names a known figure, `inline` or `wide`, with `figures.<id>` in the page's strings file; every figure label fits its character budget and every count label, such as `242 agents`, has its number in digits; every article's image is in its media directory, a PNG of 1200 × 630 px of at most 300 KB with its two WebP copies, and so is the default image. |
 | links | `pnpm check:links` | Every internal `href`/`src` in pages, feeds and the sitemap resolves to a built file (`/x/` → `x/index.html`), fragments point at an id. External links are fetched with a 10 s timeout and reported as warnings only; `CHECK_OFFLINE=1` skips them. |
 | html | `pnpm check:html` | `html-validate` with the `recommended` and `a11y` presets (`.htmlvalidate.json`, inline styles forbidden, a page title of at most 80 characters), zero errors. |
-| pages | `pnpm check:pages` | Per page: `header`/`nav`/`main`/`footer` once, one `h1`, no skipped heading levels, the skip link is the first focusable element, `html[lang]` matches the path, every `img` has `alt`/`width`/`height`, unique title, description, canonical, Open Graph tags, a link-preview image (`og:image` an absolute URL whose file is a PNG of 1200 × 630 px of at most 300 KB, with its type, size and alt text, and `twitter:card` `summary_large_image`), three `hreflang` alternates, the feed link, the language switch, scripts only from the site's origin, no cross-origin resource (font preloads and `@font-face` sources included), HTML + CSS ≤ 150 KB, and on both landing pages, every game page and every page that plays a game CSS + JavaScript ≤ 60 KB compressed. A game page, found by its path in `src/_data/games.json`, has `main` and no `header`, `nav` or `footer`, no skip link, no `hreflang` alternates and no language switch; every other rule holds for it. |
+| pages | `pnpm check:pages` | Per page: `header`/`nav`/`main`/`footer` once, one `h1`, no skipped heading levels, the skip link is the first focusable element, `html[lang]` matches the path, every `img` has `alt`/`width`/`height`, unique title, description, canonical, Open Graph tags, a link-preview image (`og:image` an absolute URL whose file is a PNG of 1200 × 630 px of at most 300 KB, with its type, size and alt text, and `twitter:card` `summary_large_image`), three `hreflang` alternates (none on an English article without a Swedish file and on the Swedish page that shows it, whose canonical is the English page's and which may share its title), the feed link, the language switch, scripts only from the site's origin, no cross-origin resource (font preloads and `@font-face` sources included), HTML + CSS ≤ 150 KB, and on both landing pages, every game page and every page that plays a game CSS + JavaScript ≤ 60 KB compressed. A game page, found by its path in `src/_data/games.json`, has `main` and no `header`, `nav` or `footer`, no skip link, no `hreflang` alternates and no language switch; every other rule holds for it. |
 | contrast | `pnpm check:contrast` | `src/assets/css/tokens.css` keeps its structure (dark by default, light only under the toggle's `[data-theme="light"]`, every fallback equal to its dark value, no OS media query, no token outside `:root`); every colour pair meets WCAG AA in both themes (4.5:1 text, 3:1 UI); no colour literal outside `tokens.css`. |
-| parity | `pnpm check:parity` | Every English page has its Swedish twin and vice versa, the feeds pair up, the strings files have identical keys with no empty values, pages pair one-to-one. A game page, in English like its game, has no twin and is named as left out. |
-| feeds | `pnpm check:feeds` | Both feeds are well-formed RSS 2.0 with absolute links, exactly the language's listed articles — never one dated after today, and never a draft unless this is a development build — draft labels, items that carry the prose only (no `<figure>`), and every page links its feed. |
-| content | `pnpm check:content` | The facts the site must state: one `h1` in the hero, the primary call to action linking the apps section (`#apps`), the Fluentor button honouring `site.fluentorUrl`, the three service headings, the apps in data order, each with exactly the links it calls for in its action row — "Repository" to a public repository or "Website" to the public page of a product whose repository is private, then "Article" to the article about the app where it names one the build lists — and an entry with neither unlinked, the trust section's phrase, founder, article link and proof link, the latest-writing cards — the newest three, in the blog index's order — the founding month on the about page and the founder's name in its lead's first sentence and nowhere else in its main content, not even without its accents or in capitals; on every page the footer's address, the company line with the organisation number and the registered seat, the language switches, the toggle and the feed link (a game page, the game alone, is named as left out); every GitHub repository named in a page, a feed, the sitemap or a text file one of the public repositories the site may link (`PUBLIC_REPOS` in `scripts/lib/apps.mjs`, an allow-list); every page's link preview showing its own image — an article's its own, described in its `imageAlt`, every other page the default image — every card its article's image with `alt=""`, and every article page its image under its summary, loaded at once; article lengths and draft labels; that each blog index lists exactly the listed articles of its language and each category page those of its category, newest first, and none of another category; that an article dated after today is built but listed in neither its language's blog index nor its feed; and that a draft is listed and built in a development build but has no page at all in the published one. The pinned facts are the constants at the top of `scripts/check/content.mjs`. |
+| parity | `pnpm check:parity` | Every English page has its Swedish twin and vice versa, the feeds pair up, the strings files have identical keys with no empty values, pages pair one-to-one. An English article without a Swedish file and the Swedish page that shows it are both built, claim no alternates and switch to each other, a line for each. A game page, in English like its game, has no twin and is named as left out. |
+| feeds | `pnpm check:feeds` | Both feeds are well-formed RSS 2.0 with absolute links, exactly the language's listed articles — never one dated after today, and never a draft unless this is a development build; in the Swedish feed the English articles without a Swedish file too, each linking its Swedish address — draft labels, items that carry the prose only (no `<figure>`), and every page links its feed. |
+| content | `pnpm check:content` | The facts the site must state: one `h1` in the hero, the primary call to action linking the apps section (`#apps`), the Fluentor button honouring `site.fluentorUrl`, the three service headings, the apps in data order, each with exactly the links it calls for in its action row — "Repository" to a public repository or "Website" to the public page of a product whose repository is private, then "Article" to the article about the app where it names one the build lists — and an entry with neither unlinked, the trust section's phrase, founder, article link and proof link, the latest-writing cards — the newest three, in the blog index's order — the founding month on the about page and the founder's name in its lead's first sentence and nowhere else in its main content, not even without its accents or in capitals; on every page the footer's address, the company line with the organisation number and the registered seat, the language switches, the toggle and the feed link (a game page, the game alone, is named as left out); every GitHub repository named in a page, a feed, the sitemap or a text file one of the public repositories the site may link (`PUBLIC_REPOS` in `scripts/lib/apps.mjs`, an allow-list); every page's link preview showing its own image — an article's its own, described in its `imageAlt`, every other page the default image — every card its article's image with `alt=""`, and every article page its image under its summary, loaded at once; article lengths and draft labels; that each blog index lists exactly the listed articles of its language and each category page those of its category, newest first, and none of another category; that an article dated after today is built but listed in neither its language's blog index nor its feed; and that a draft is listed and built in a development build but has no page at all in the published one; an English article without a Swedish file counts as a Swedish article in all of these, at its Swedish address, whose page carries the line "Den här artikeln finns bara på engelska." above an article marked `lang="en"`, and whose card in every Swedish list wears "På engelska" and marks its English text, while no other card or page does. The pinned facts are the constants at the top of `scripts/check/content.mjs`. |
 | lighthouse | `pnpm check:lighthouse` | Serves `_site/` locally, runs Lighthouse 13 (mobile configuration) in headless Chrome on `/`, `/sv/`, `/about/`, `/blog/`, a category page, an article and `/404.html`: Performance, Accessibility, Best Practices and SEO each ≥ 95 and cumulative layout shift ≤ 0.1, one line per page. A page whose only problem is Performance < 95 is measured twice more and the median of its three Performance scores decides (its line shows the median, then the three: `performance 96 (85, 97, 96)`); in CI the lines also go to the run's summary page. A page whose Chrome is lost is measured again, once, in a new Chrome, and a second failure is one `FAIL` line naming the page and the cause; these lines go to the summary page too. |
 | layout | `pnpm check:layout` | Renders `/` and `/sv/` at 360, 768, 1024, 1280 and 1920 px in headless Chrome and measures the balanced cards: every service and app title one line, cards in a row equal in height with their "What you get" heading / summary tops and action rows aligned (± 1 px), every chip row one line. Renders `/blog/`, `/sv/blog/` and in each language the category page that lists the most articles at the same widths, and measures every list of article cards — on those pages, on both landing pages and under every article: the cards in a row equal in height with each part (image, metadata, title, description) starting at the same top (± 1 px), and one card to a row below 768 px, two from 768 px and three from 1024 px, the last row that many or fewer. Renders every article page at the same widths and measures the article layout: no horizontal scroll, every text block at most 44 rem wide, centred in the body and on one shared left edge, every wide figure across the body, every inline figure on the measure and centred with its panel 20–24.5 rem wide and its caption beside the panel from 768 px (top-aligned, after the gap) and under it below, every panel shown rendered so a 13-unit label is at least 12 px (a figure with two views has the other one `display: none`), every table starting on the text column's left edge and nothing of it past the column's right edge but what scrolls inside its own box, every block of games across the body with its versions side by side from 768 px and stacked below, every screen of a game at 4:3, and the article's image under its summary, across the text column, at 1200:630. A page whose Chrome is lost at one width is measured again, once, at that width in a new Chrome, and a second failure is one `FAIL` line naming the page, the width and the cause. `LAYOUT_DUMP=<file>` writes the raw measurements (the source of `tests/fixtures/layout/article.json`, `tables.json`, `games.json`, `image.json` and `posts.json`). |
 

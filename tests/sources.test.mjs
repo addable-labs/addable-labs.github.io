@@ -125,9 +125,23 @@ describe("the source list format (si-1q9z)", () => {
     }), [`${FILE}: entry 1 (C3): article must be the file's name, "demo", got "another-article"`]);
   });
 
-  it("fails a list whose article does not exist in a language", () => {
-    assert.deepEqual(problemsOf([ENTRY], { en: ARTICLES.en, sv: null }), [`${FILE}: the article "demo" does not exist in src/sv/blog/posts/demo.md`]);
-    assert.deepEqual(problemsOf([ENTRY], { en: null, sv: null }), [`${FILE}: the article "demo" does not exist in src/sv/blog/posts/demo.md or src/en/blog/posts/demo.md`]);
+  it("fails a list whose article does not exist in English", () => {
+    assert.deepEqual(problemsOf([ENTRY], { en: null, sv: ARTICLES.sv }), [`${FILE}: the article "demo" does not exist in src/en/blog/posts/demo.md`]);
+    assert.deepEqual(problemsOf([ENTRY], { en: null, sv: null }), [`${FILE}: the article "demo" does not exist in src/en/blog/posts/demo.md`]);
+  });
+
+  it("takes an article in English only, whose list cites the English sentence alone (D206)", () => {
+    const englishOnly = { en: ARTICLES.en, sv: null };
+    const withoutSv = structuredClone(ENTRY);
+    delete withoutSv.sentence.sv;
+    assert.deepEqual(problemsOf([withoutSv], englishOnly), []);
+    // The English sentence is still looked for in its body, and still needed.
+    assert.deepEqual(problemsOf([{ ...withoutSv, sentence: { en: "The model is a different kind of model." } }], englishOnly), [`${FILE}: entry 1 (C3): sentence.en is not in the body of src/en/blog/posts/demo.md: "The model is a different kind of model."`]);
+    assert.deepEqual(problemsOf([{ ...withoutSv, sentence: {} }], englishOnly), [`${FILE}: entry 1 (C3): sentence has no en`]);
+    // A Swedish sentence there is no Swedish article for is refused.
+    assert.deepEqual(problemsOf([ENTRY], englishOnly), [`${FILE}: entry 1 (C3): sentence.sv quotes src/sv/blog/posts/demo.md, which does not exist: an article in English only has sentence.en alone`]);
+    // An article with both files still needs both sentences.
+    assert.deepEqual(problemsOf([withoutSv]), [`${FILE}: entry 1 (C3): sentence has no sv`]);
   });
 
   it("fails a sentence that is not in its article's body, in each language", () => {
@@ -225,6 +239,10 @@ describe("the source list format (si-1q9z)", () => {
     const placeholder = { ...structuredClone(ENTRY), sentence: { sv: "platshållare", en: "placeholder" } };
     assert.deepEqual(validateSourceList([placeholder], { file: FILE, articles: null }).problems, []);
     assert.deepEqual(validateSourceList([{ ...placeholder, article: "other" }], { file: FILE, articles: null }).problems, [`${FILE}: entry 1 (C3): article must be the file's name, "demo", got "other"`]);
+    // Unread, the article may be in English only (D206): the English
+    // sentence is needed, the Swedish one is not.
+    assert.deepEqual(validateSourceList([{ ...placeholder, sentence: { en: "placeholder" } }], { file: FILE, articles: null }).problems, []);
+    assert.deepEqual(validateSourceList([{ ...placeholder, sentence: { sv: "platshållare" } }], { file: FILE, articles: null }).problems, [`${FILE}: entry 1 (C3): sentence has no en`]);
   });
 });
 
@@ -308,7 +326,7 @@ describe("the files of docs/sources/ (si-1q9z)", () => {
 
     const orphan = path.join(tmp.dir, "orphan.yaml");
     await writeFile(orphan, yaml({ ...ENTRY, article: "orphan" }));
-    assert.deepEqual((await readSourceList(orphan, { src, label: "orphan.yaml" })).problems, ['orphan.yaml: the article "orphan" does not exist in src/sv/blog/posts/orphan.md or src/en/blog/posts/orphan.md']);
+    assert.deepEqual((await readSourceList(orphan, { src, label: "orphan.yaml" })).problems, ['orphan.yaml: the article "orphan" does not exist in src/en/blog/posts/orphan.md']);
 
     await writeFile(file, "- id: C3\n  sentence: [unclosed\n");
     const broken = await readSourceList(file, { src, label: "demo.yaml" });

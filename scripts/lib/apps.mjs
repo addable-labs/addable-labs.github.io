@@ -277,12 +277,14 @@ export function entryUrl(entry, lang) {
  * @param {object} [options.bands] — the copy bands
  * @param {Record<string, string>} [options.privateLabels] — the verbatim `private` label per language
  * @param {Record<string, string[]>} [options.articles] — the posts of each language, by file name without .md; a language not given has none
+ * @param {string} [options.articleLanguage] — the language every article is written in, whose posts an entry's `article` must name (D206)
  * @returns {{ ok: boolean, problems: string[] }}
  */
 export function validateApps({
   data,
   strings,
   articles = {},
+  articleLanguage = "en",
   statuses = STATUS_KEYS,
   keys = APP_KEYS,
   privateKeys = PRIVATE_APP_KEYS,
@@ -353,16 +355,16 @@ export function validateApps({
     }
     // An optional article about the app (founder request 2026-09-23,
     // si-3hpa): the file name of a post, without .md, which the card links
-    // in the page's language — so it must be a post in every language, or
-    // one language's card would go without the link.
+    // in the page's language — so it must be an English post, the one every
+    // language's side of the site shows: the Swedish card links the Swedish
+    // post, or, for an article in English only, the Swedish page that shows
+    // it in English (D206, scripts/lib/fallback.mjs).
     const article = entry?.article;
     if (article !== undefined) {
       if (!isText(article)) {
         problems.push(`${name}: article must be the file name of a post, without .md, got ${quote(article)}`);
-      } else {
-        for (const lang of languages) {
-          if (!(articles[lang] ?? []).includes(article)) problems.push(`${name}: article ${quote(article)} names no post in ${lang}: there is no src/${lang}/blog/posts/${article}.md`);
-        }
+      } else if (!(articles[articleLanguage] ?? []).includes(article)) {
+        problems.push(`${name}: article ${quote(article)} names no post in ${articleLanguage}: there is no src/${articleLanguage}/blog/posts/${article}.md`);
       }
     }
     if (!statuses.includes(entry?.status)) {

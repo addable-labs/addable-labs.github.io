@@ -1,6 +1,10 @@
 {#- Document head (REQ-010, REQ-016, REQ-007). `alternate`, `canonical` and
     `feedUrl` come from src/src.11tydata.js; absolute URLs go through the RSS
-    plugin's absoluteUrl filter with site.url, so SITE_URL re-targets them all. -#}
+    plugin's absoluteUrl filter with site.url, so SITE_URL re-targets them all.
+    A page without `alternate` claims no hreflang alternates: the 404 page, an
+    English article without a Swedish file and the Swedish page that shows
+    that article in English, whose canonical URL is the English page's (D206;
+    src/sv/blog/in-english.11tydata.js). -#}
 {%- set siteName = strings[lang].site.name -%}
 {%- if translationKey == "home" -%}
   {%- set pageTitle = siteName + " — " + strings[lang].site.tagline -%}
@@ -17,7 +21,10 @@
   <meta property="og:description" content="{{ description }}">
   <meta property="og:url" content="{{ canonical }}">
   <meta property="og:type" content="{{ ogType or "website" }}">
-  <meta property="og:locale" content="{{ "sv_SE" if lang == "sv" else "en_GB" }}">
+  {#- The locale of what the page says: on a page that shows an English
+      article on the Swedish side (D206) the English article's. #}
+{%- set contentLang = original.data.lang if original else lang %}
+  <meta property="og:locale" content="{{ "sv_SE" if contentLang == "sv" else "en_GB" }}">
   <meta property="og:site_name" content="{{ siteName }}">
 {#- The image a link preview shows (si-awlu; scripts/lib/images.mjs): an
     article's own, which its front matter names (`image`) and describes in
@@ -28,7 +35,7 @@
     og:image. The game pages (src/game-pages.njk) write the same tags with
     the default image. #}
 {%- if image %}
-  {%- set shareUrl = (image | articleImage(page.fileSlug)).png %}
+  {%- set shareUrl = (image | articleImage((original or page).fileSlug)).png %}
   {%- set shareAlt = imageAlt %}
 {%- else %}
   {%- set shareUrl = shareImage.url %}

@@ -46,7 +46,8 @@ import path from "node:path";
 import puppeteer from "puppeteer-core";
 import { withChrome } from "../lib/chrome.mjs";
 import { evaluate } from "../lib/layout-report.mjs";
-import { langPrefix, loadSite, readArticleSources, resolveDirs } from "../lib/site.mjs";
+import { articlesShownIn } from "../lib/fallback.mjs";
+import { langPrefix, loadSite, resolveDirs } from "../lib/site.mjs";
 
 const WIDTHS = [360, 768, 1024, 1280, 1920];
 const HEIGHT = 1000;
@@ -206,7 +207,9 @@ const LISTS = [];
 const ARTICLES = [];
 for (const lang of site.languages.codes) {
   const prefix = langPrefix(lang, site);
-  const articles = await readArticleSources(src, site, lang);
+  // The articles each side shows, the Swedish side's English ones without a
+  // Swedish file among them, at the Swedish page that shows each (D206).
+  const articles = await articlesShownIn(src, site, lang);
   const listed = articles.filter((article) => article.listed);
   LANDINGS.push({ page: `${prefix}/`, kinds: listed.length > 0 ? [GRIDS, POSTS] : [GRIDS] });
   if (listed.length > 0) {

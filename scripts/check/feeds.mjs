@@ -7,7 +7,9 @@
 // feed lists exactly that language's listed articles (from src/<lang>/blog/
 // posts, minus the ones dated after today, which are built but unlisted, and
 // minus the drafts, which a production build leaves out altogether — a local
-// build carries its drafts and they belong in the feed there), draft articles
+// build carries its drafts and they belong in the feed there; the Swedish
+// feed lists the English articles without a Swedish file too, each at the
+// Swedish page that shows it, D206: articlesShownIn), draft articles
 // carry the localised label in the item title, an item's content carries the
 // prose only — no <figure>: the inline-SVG article
 // illustrations are stripped by the feed templates (si-55iu) because their
@@ -20,7 +22,8 @@ import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { XMLParser, XMLValidator } from "fast-xml-parser";
 import { attr, loadPage } from "../lib/html.mjs";
-import { langPrefix, loadSite, loadStrings, readArticleSources, reporter, resolveDirs, walk } from "../lib/site.mjs";
+import { articlesShownIn } from "../lib/fallback.mjs";
+import { langPrefix, loadSite, loadStrings, reporter, resolveDirs, walk } from "../lib/site.mjs";
 
 const { out, src } = resolveDirs();
 const site = await loadSite(src);
@@ -70,7 +73,7 @@ async function checkFeed(feed) {
   // this is the production build, which does not carry drafts at all
   // (si-mzf1). In a local build a draft is listed and so belongs in the feed,
   // label and all.
-  const sources = await readArticleSources(src, site, feed.lang);
+  const sources = await articlesShownIn(src, site, feed.lang);
   const expected = sources.filter((entry) => entry.listed);
   const absent = sources.filter((entry) => !entry.listed);
   const why = (entry) => (entry.omitted ? `${entry.slug} is a draft` : `${entry.slug} on ${entry.date}`);

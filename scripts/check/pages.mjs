@@ -16,6 +16,12 @@
 //   - three hreflang alternates (both languages + x-default → the English
 //     URL) with absolute URLs, and the language's feed link (404.html has no
 //     counterpart and is exempt from the alternates and the switch)
+//   - an English article without a Swedish file and the Swedish page that
+//     shows it in English (D206, scripts/lib/fallback.mjs) claim no hreflang
+//     alternates, as neither is a translation of the other; the language
+//     switch leads from one to the other as from any page to its
+//     counterpart, and the Swedish page's canonical URL is the English
+//     page's, the one page two titles may share
 //   - the language switch targets the same path in the other language with
 //     hreflang/lang and the target language's name
 //   - every script[src] resolves on the site's origin and inline scripts are
@@ -40,6 +46,7 @@
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { COMPRESSED_BUDGET, compressedSize, fontFaceSources, formatBytes } from "../lib/budget.mjs";
+import { fallbackPages } from "../lib/fallback.mjs";
 import { gamePagePaths } from "../lib/games.mjs";
 import { attr, focusables, headings, loadPage, text } from "../lib/html.mjs";
 import { IMAGE_HEIGHT, IMAGE_WIDTH, pngProblems } from "../lib/images.mjs";
@@ -53,6 +60,11 @@ const origin = site.url.replace(/\/$/, "");
 const SIZE_BUDGET = 150 * 1024;
 const NOT_FOUND = "404.html";
 const GAME_PAGES = gamePagePaths(src);
+// The pages of the articles in English only (D206): each Swedish page that
+// shows one, by its path, with the English page's path (`original`), and the
+// English pages themselves.
+const FALLBACKS = new Map((await fallbackPages(src, site)).map((entry) => [entry.path, entry]));
+const UNTRANSLATED = new Set([...FALLBACKS.values()].map((entry) => entry.original));
 
 const other = (lang) => site.languages.codes.find((code) => code !== lang);
 function counterpartPath(urlPath, lang) {
@@ -111,6 +123,8 @@ for (const file of files) {
   const { doc, relPath } = page;
   const isNotFound = relPath === NOT_FOUND;
   const isGamePage = GAME_PAGES.has(page.url);
+  const fallback = FALLBACKS.get(page.url);
+  const inEnglishOnly = fallback !== undefined || UNTRANSLATED.has(page.url);
   const problems = [];
   const expect = (condition, message) => {
     if (!condition) problems.push(message);
@@ -150,14 +164,19 @@ for (const file of files) {
   }
 
   // Head
+  // A page's canonical URL is its own, but for the Swedish page that shows
+  // an English article, whose canonical URL is the English page's (D206).
+  // Two pages may share a title only when they share that URL.
+  const wantCanonical = `${origin}${fallback ? fallback.original : page.url}`;
+  const canonical = attr(doc.querySelector('link[rel="canonical"]'), "href");
+  expect(canonical === wantCanonical, `canonical is ${JSON.stringify(canonical)}, expected ${wantCanonical}`);
   const title = text(doc.querySelector("title"));
   expect(title.length > 0, "empty <title>");
-  if (titles.has(title)) problems.push(`title "${title}" duplicates ${titles.get(title)}`);
-  else titles.set(title, relPath);
+  const sameTitle = titles.get(title);
+  if (sameTitle && sameTitle.canonical !== wantCanonical) problems.push(`title "${title}" duplicates ${sameTitle.relPath}`);
+  else if (!sameTitle) titles.set(title, { relPath, canonical: wantCanonical });
   const description = (attr(doc.querySelector('meta[name="description"]'), "content") ?? "").trim();
   expect(description.length > 0, "missing meta description");
-  const canonical = attr(doc.querySelector('link[rel="canonical"]'), "href");
-  expect(canonical === `${origin}${page.url}`, `canonical is ${JSON.stringify(canonical)}, expected ${origin}${page.url}`);
   for (const property of ["og:title", "og:description"]) {
     expect((attr(doc.querySelector(`meta[property="${property}"]`), "content") ?? "").trim().length > 0, `missing ${property}`);
   }
@@ -188,10 +207,14 @@ for (const file of files) {
   } else if (!isNotFound) {
     const counterpart = counterpartPath(page.url, page.lang);
     const english = page.lang === site.languages.default ? page.url : counterpart;
-    expect(alternates.size === 3, `${alternates.size} hreflang alternate(s), expected 3`);
-    expect(alternates.get(page.lang) === `${origin}${page.url}`, `hreflang="${page.lang}" is ${JSON.stringify(alternates.get(page.lang))}, expected ${origin}${page.url}`);
-    expect(alternates.get(other(page.lang)) === `${origin}${counterpart}`, `hreflang="${other(page.lang)}" is ${JSON.stringify(alternates.get(other(page.lang)))}, expected ${origin}${counterpart}`);
-    expect(alternates.get("x-default") === `${origin}${english}`, `hreflang="x-default" is ${JSON.stringify(alternates.get("x-default"))}, expected ${origin}${english}`);
+    if (inEnglishOnly) {
+      expect(alternates.size === 0, `${alternates.size} hreflang alternate(s), expected none: ${fallback ? "the page shows the English article, it does not translate it" : "the article has no Swedish file"} (D206)`);
+    } else {
+      expect(alternates.size === 3, `${alternates.size} hreflang alternate(s), expected 3`);
+      expect(alternates.get(page.lang) === `${origin}${page.url}`, `hreflang="${page.lang}" is ${JSON.stringify(alternates.get(page.lang))}, expected ${origin}${page.url}`);
+      expect(alternates.get(other(page.lang)) === `${origin}${counterpart}`, `hreflang="${other(page.lang)}" is ${JSON.stringify(alternates.get(other(page.lang)))}, expected ${origin}${counterpart}`);
+      expect(alternates.get("x-default") === `${origin}${english}`, `hreflang="x-default" is ${JSON.stringify(alternates.get("x-default"))}, expected ${origin}${english}`);
+    }
     for (const [, href] of alternates) expect(/^https?:\/\//.test(href ?? ""), `hreflang href ${href} is not absolute`);
 
     const switches = doc.querySelectorAll("header a.lang-switch");

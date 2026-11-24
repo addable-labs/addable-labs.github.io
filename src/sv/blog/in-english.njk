@@ -1,0 +1,25 @@
+---
+layout: layouts/article.njk
+pagination:
+  data: collections.untranslated_sv
+  size: 1
+  alias: original
+permalink: "/sv/blog/{{ original.fileSlug }}/"
+eleventyExcludeFromCollections: true
+aiGenerated: true
+humanReviewed: true
+---
+{#- An English article that has no Swedish file, on the Swedish side of the
+    site (D206, scripts/lib/fallback.mjs): one page per article of
+    collections.untranslated_sv, at /sv/blog/<slug>/, the slug of the English
+    file. `original` is the English article; in-english.11tydata.js gives the
+    page its title, summary, image, category and draft flag, its canonical
+    URL (the English page's) and the language switch back to it. The text is
+    the English article's own, as its page renders it — figures, games and
+    heading ids included — and layouts/article.njk puts the Swedish line above
+    it that says the article is only in English. The page is in no collection,
+    so neither the sitemap nor any listing takes it for an article of its own:
+    the Swedish listings and feed list the English article and link it here
+    (postUrl). The permalink is written out, as on the category pages:
+    Eleventy renders a front-matter permalink before langPrefix is computed. -#}
+{{ original.templateContent | safe -}}

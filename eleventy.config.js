@@ -2,6 +2,7 @@ import { readFileSync, statSync } from "node:fs";
 import { IdAttributePlugin } from "@11ty/eleventy";
 import rssPlugin from "@11ty/eleventy-plugin-rss";
 import { isOmitted, isScheduled, parseFrontMatter, siteNow, validateArticle, validateArticleDate } from "./scripts/lib/frontmatter.mjs";
+import { articlePath, untranslated } from "./scripts/lib/fallback.mjs";
 import { articleIsBuilt, gamePages, gameProblems, MEDIA_DIR, mediaSlugs, readGames, renderGames } from "./scripts/lib/games.mjs";
 import { highlight } from "./scripts/lib/highlight.mjs";
 import { articleImage, DEFAULT_IMAGE, IMAGE_HEIGHT, IMAGE_WIDTH, imageProblems } from "./scripts/lib/images.mjs";
@@ -242,26 +243,43 @@ export default function (eleventyConfig) {
     buildNow = siteNow();
   });
 
-  // posts_<lang>: every listed article of a language, newest first;
-  // posts_<lang>_<category>: the same filtered to one category. Both drop the
-  // scheduled articles, so the blog index, the category pages, the landing
-  // page's newest three, the article pages' "more from the blog" band and both
-  // feeds inherit the exclusion — including the feeds' lastBuildDate, which
-  // reads the collection and so never runs ahead of the newest listed article.
+  // posts_<lang>: every listed article a language's side of the site shows,
+  // newest first; posts_<lang>_<category>: the same filtered to one category.
+  // Both drop the scheduled articles, so the blog index, the category pages,
+  // the landing page's newest three, the article pages' "more from the blog"
+  // band and both feeds inherit the exclusion — including the feeds'
+  // lastBuildDate, which reads the collection and so never runs ahead of the
+  // newest listed article.
+  //
+  // The Swedish side shows its own articles and the English ones that have no
+  // Swedish file (D206; scripts/lib/fallback.mjs), in English: posts_sv holds
+  // the English article itself, by the same rules and in the same order, and
+  // a template that lists it links its Swedish address (`postUrl`) and labels
+  // it "På engelska" (partials/post-list.njk). untranslated_<lang> holds every
+  // such article the build builds, the scheduled ones too, for the pages that
+  // show them (src/sv/blog/in-english.njk).
+  const articlesOf = (api, lang) => api.getFilteredByGlob(`src/${lang}/blog/posts/*.md`);
+  const untranslatedIn = (api, lang) => untranslated(articlesOf(api, site.languages.default), articlesOf(api, lang), (post) => post.data.translationKey);
+  const shownIn = (api, lang) => (lang === site.languages.default ? articlesOf(api, lang) : [...articlesOf(api, lang), ...untranslatedIn(api, lang)]);
   for (const lang of LANGUAGES) {
-    eleventyConfig.addCollection(`posts_${lang}`, (api) =>
-      api.getFilteredByGlob(`src/${lang}/blog/posts/*.md`).filter(isListed).sort(byDateDescThenSlug),
-    );
+    eleventyConfig.addCollection(`posts_${lang}`, (api) => shownIn(api, lang).filter(isListed).sort(byDateDescThenSlug));
     for (const key of CATEGORY_KEYS) {
       eleventyConfig.addCollection(`posts_${lang}_${key}`, (api) =>
-        api
-          .getFilteredByGlob(`src/${lang}/blog/posts/*.md`)
+        shownIn(api, lang)
           .filter((post) => post.data.category === key)
           .filter(isListed)
           .sort(byDateDescThenSlug),
       );
     }
+    if (lang !== site.languages.default) {
+      eleventyConfig.addCollection(`untranslated_${lang}`, (api) => untranslatedIn(api, lang).sort(byDateDescThenSlug));
+    }
   }
+
+  // `post | postUrl(lang)`: where a listing on the `lang` side of the site
+  // links an article — its own page, or, for an English article the Swedish
+  // side shows in English (D206), the Swedish address that shows it.
+  eleventyConfig.addFilter("postUrl", (post, lang) => (post.data.lang === lang ? post.url : articlePath(post.fileSlug, lang, site)));
 
   // The sitemap walks collections.all, not the collections above, so it needs
   // the same exclusion of its own: a scheduled article is not advertised to

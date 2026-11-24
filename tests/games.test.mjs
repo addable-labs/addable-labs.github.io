@@ -88,19 +88,23 @@ describe("games data and media (si-y6pp)", () => {
     await rm(path.join(src, MEDIA_DIR, ARTICLE, "pong-after", "play.webp"));
     const copy = games.length; // the entry listed twice, last
     assert.deepEqual(gameProblems(src), [
-      "src/media/no-such-article/: no article no-such-article to publish it with (src/en/blog/posts/no-such-article.md and src/sv/blog/posts/no-such-article.md missing)",
+      "src/media/no-such-article/: no article no-such-article to publish it with (src/en/blog/posts/no-such-article.md missing)",
       "src/_data/games.json entry 2: name missing or not valid (article and game are slugs, version is before or after, width and height whole pixels, touch true or false)",
       `src/_data/games.json entry 4: src/media/${ARTICLE}/pong-after/play.webp is missing`,
       `src/_data/games.json entry ${copy}: ${ARTICLE}/tetris-before is listed twice`,
     ]);
   });
 
-  it("names the language whose article is missing, for the media and for each game", async () => {
-    const src = await copyGameSources(path.join(tmp.dir, "no-sv"));
-    await rm(path.join(src, ARTICLE_FILES[1]));
-    const problems = gameProblems(src);
-    assert.equal(problems[0], `src/media/${ARTICLE}/: no article ${ARTICLE} to publish it with (src/sv/blog/posts/${ARTICLE}.md missing)`);
-    assert.deepEqual(problems.slice(1), [1, 2, 3, 4, 5, 6].map((entry) => `src/_data/games.json entry ${entry}: no article ${ARTICLE} (src/sv/blog/posts/${ARTICLE}.md missing)`));
+  it("names the English article when it is missing, for the media and for each game, and takes an article without its Swedish file (D206)", async () => {
+    const noEnglish = await copyGameSources(path.join(tmp.dir, "no-en"));
+    await rm(path.join(noEnglish, ARTICLE_FILES[0]));
+    const problems = gameProblems(noEnglish);
+    assert.equal(problems[0], `src/media/${ARTICLE}/: no article ${ARTICLE} to publish it with (src/en/blog/posts/${ARTICLE}.md missing)`);
+    assert.deepEqual(problems.slice(1), [1, 2, 3, 4, 5, 6].map((entry) => `src/_data/games.json entry ${entry}: no article ${ARTICLE} (src/en/blog/posts/${ARTICLE}.md missing)`));
+    // In English only, the Swedish side shows the article, its games included.
+    const noSwedish = await copyGameSources(path.join(tmp.dir, "no-sv"));
+    await rm(path.join(noSwedish, ARTICLE_FILES[1]));
+    assert.deepEqual(gameProblems(noSwedish), []);
   });
 
   it("fails the build, naming the file, when a game's screenshot is missing", async () => {

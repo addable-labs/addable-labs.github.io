@@ -10,12 +10,28 @@
 // `translationKey` itself must be first-pass data (front matter or a
 // templated eleventyComputed string).
 //
+// One exception (D206, scripts/lib/fallback.mjs): an English article may have
+// no Swedish file. Its `alternate` is null — it has no translation, so no
+// hreflang alternates — and the Swedish side shows it in English at its
+// Swedish address, a page of src/sv/blog/in-english.njk.
+//
+// `languageSwitch` is where the language switches in the header and the
+// footer lead: the counterpart, or, from an English article without one, the
+// Swedish page that shows it (that page's own data file leads it back).
+//
 // `langPrefix` is what a template puts before a path to a page in the page's
 // own language (`{{ langPrefix }}/blog/`): "" for the default language
 // (English, at the root) and "/" + lang otherwise ("/sv").
 import { absoluteUrl } from "@11ty/eleventy-plugin-rss";
+import { articlePath } from "../scripts/lib/fallback.mjs";
+import { ARTICLE_PATH } from "../scripts/lib/urls.mjs";
 
 const OTHER = { en: "sv", sv: "en" };
+
+/** An article in the default language, the one language whose articles may have no counterpart. */
+function isUntranslatedArticle(data) {
+  return data.lang === data.site.languages.default && ARTICLE_PATH.test(data.page.inputPath);
+}
 
 export default {
   eleventyComputed: {
@@ -35,13 +51,20 @@ export default {
       const matches = data.collections.all.filter(
         (item) => item.data.translationKey === data.translationKey && item.data.lang === other,
       );
+      if (matches.length === 0 && isUntranslatedArticle(data)) return null;
       if (matches.length !== 1) {
         const found = matches.map((item) => item.inputPath).join(", ") || "none";
         throw new Error(
-          `${data.page.inputPath}: expected exactly one "${other}" page with translationKey "${data.translationKey}", found ${matches.length} (${found}). Every page needs one counterpart in the other language (REQ-009).`,
+          `${data.page.inputPath}: expected exactly one "${other}" page with translationKey "${data.translationKey}", found ${matches.length} (${found}). Every page needs one counterpart in the other language (REQ-009); only an English article may have none (D206).`,
         );
       }
       return { url: matches[0].url, lang: other };
+    },
+    languageSwitch(data) {
+      if (data.alternate) return data.alternate;
+      if (!data.translationKey || !isUntranslatedArticle(data)) return null;
+      const other = OTHER[data.lang];
+      return { url: articlePath(data.page.fileSlug, other, data.site), lang: other };
     },
     canonical(data) {
       return absoluteUrl(data.page.url, data.site.url);

@@ -199,6 +199,8 @@
   "article": {
     "draftLabel": "Utkast",
     "readInOtherLanguage": "Läs den här artikeln på engelska",
+    "inEnglishLabel": "På engelska",
+    "onlyInEnglish": "Den här artikeln finns bara på engelska.",
     "moreEyebrow": "Läs vidare",
     "moreHeading": "Mer från bloggen"
   },

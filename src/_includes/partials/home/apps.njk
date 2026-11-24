@@ -23,7 +23,9 @@
     leave it wear ↗, to the article in the page's language, and only while
     that language's posts collection lists it — the postBySlug filter
     (eleventy.config.js) finds no draft in the production build and no
-    article dated after today, so neither is linked. .portfolio-entry,
+    article dated after today, so neither is linked. On the Swedish side an
+    English article without a Swedish file is linked at the Swedish page
+    that shows it (`postUrl`, D206). .portfolio-entry,
     .portfolio-name and .app-actions are the content gate's stable hooks. -#}
 {%- set apps = strings[lang].apps -%}
 {%- set posts = collections["posts_" + lang] -%}
@@ -54,7 +56,7 @@
           <p class="app-private">{{ strings[lang].portfolio.privateNote }}</p>
           {%- endif %}
           {%- if appArticle %}
-          <a class="app-action" href="{{ appArticle.url }}">{{ strings[lang].portfolio.articleLink }}<span class="arrow" aria-hidden="true">→</span></a>
+          <a class="app-action" href="{{ appArticle | postUrl(lang) }}">{{ strings[lang].portfolio.articleLink }}<span class="arrow" aria-hidden="true">→</span></a>
           {%- endif %}
         </div>
       </article>

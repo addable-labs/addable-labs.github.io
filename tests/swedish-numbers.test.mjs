@@ -100,6 +100,20 @@ describe("swedishNumbersOnOneLine (posthtml, as Eleventy's HTML transformer runs
     const fragment = body(" ");
     assert.equal(await transform(fragment), fragment);
   });
+
+  it("leaves the English parts of a Swedish page as they were, and joins a Swedish part inside them (D206)", async () => {
+    // An English article the Swedish side shows in English: the article
+    // element is lang="en" and its metadata line, the page's chrome, lang="sv".
+    const english = (s) => `<p>It cost 25${s}387 tokens, 36${s}% of the day.</p>`;
+    const mixed = (s, t) =>
+      [
+        `<p>Omstarten kostade 25${s}387 tokens.</p>`,
+        `<article lang="en"><p class="article-meta" lang="sv">1${s}500${s}000 visningar</p><div>${english(t)}</div></article>`,
+        `<h2 lang="en-GB">${english(t)}</h2>`,
+        `<section lang="sv-SE"><p>36${s}%</p></section>`,
+      ].join("\n");
+    assert.equal(await transform(page("sv", mixed(" ", " "))), page("sv", mixed(N, " ")));
+  });
 });
 
 // The plugin as the build registers it: the pages of an article of the case's

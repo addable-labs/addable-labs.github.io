@@ -120,7 +120,8 @@ export async function exists(file) {
 
 /**
  * Articles of a language from the source tree: slug, draft flag, title,
- * category, url path, date, image and its alt text (si-awlu), and what this
+ * category, translationKey, url path, date, image and its alt text (si-awlu),
+ * and what this
  * build owes each one. The gates read the source tree, so they see every
  * article; these three flags say what the built site must therefore show,
  * and they read the same rules the build does (frontmatter.mjs), so the two
@@ -173,6 +174,7 @@ export async function readArticleSources(srcDir, site, lang) {
       draft,
       title: data.title,
       category: data.category,
+      translationKey: data.translationKey,
       date: data.date,
       image: data.image,
       imageAlt: data.imageAlt,

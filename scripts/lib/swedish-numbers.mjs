@@ -9,10 +9,11 @@
 // sources and the sentences of the source lists keep the spaces they were
 // typed with, and every Swedish page gets the rule, the published ones too.
 //
-// Only the text of a Swedish page's body changes. The <head> (the title, the
-// descriptions), every attribute, the comments, code (<code>, <pre>, <kbd>,
-// <samp>), <script> (JSON-LD included), <style>, <textarea> and the figures
-// (<svg>, whose text never wraps) keep their spaces. The English pages, which
+// Only the Swedish text of a Swedish page's body changes. The <head> (the
+// title, the descriptions), every attribute, the comments, code (<code>,
+// <pre>, <kbd>, <samp>), <script> (JSON-LD included), <style>, <textarea>,
+// the figures (<svg>, whose text never wraps) and the parts of the page in
+// another language (lang="en") keep their spaces. The English pages, which
 // write "25,387" and "36%", the feeds, the sitemap and every file that is not
 // an HTML page are written as they were.
 
@@ -45,7 +46,15 @@ export function numbersOnOneLine(text) {
   return text.replace(DIGIT_GROUP, (group) => group.replace(WHITE_SPACE, NO_BREAK_SPACE)).replace(BEFORE_PERCENT, NO_BREAK_SPACE);
 }
 
-/** Every text in `content` (a posthtml node's), outside the elements of KEPT, through `numbersOnOneLine`. */
+/**
+ * Every text in `content` (a posthtml node's), outside the elements of KEPT
+ * and outside any element whose lang names another language, through
+ * `numbersOnOneLine`. A Swedish page may hold English: an English article the
+ * Swedish side shows in English (D206) is an <article lang="en">, and its card
+ * in a Swedish list marks its title and description so. English writes
+ * "25,387" and "36%", so its text keeps its spaces, and a part marked Swedish
+ * again inside it (lang="sv") gets the rule.
+ */
 function keepNumbersTogether(content) {
   for (const [index, node] of content.entries()) {
     if (typeof node === "string") {
@@ -53,8 +62,24 @@ function keepNumbersTogether(content) {
       // starts with "<!".
       if (!node.startsWith("<!")) content[index] = numbersOnOneLine(node);
     } else if (Array.isArray(node?.content) && !KEPT.has(String(node.tag).toLowerCase())) {
-      keepNumbersTogether(node.content);
+      if (isOtherLanguage(node)) keepSwedishParts(node.content);
+      else keepNumbersTogether(node.content);
     }
+  }
+}
+
+/** Does this element say its text is in a language other than Swedish (lang="en", lang="en-GB")? */
+function isOtherLanguage(node) {
+  const lang = node?.attrs?.lang;
+  return typeof lang === "string" && lang !== "" && !/^sv(?:-|$)/i.test(lang);
+}
+
+/** Inside an element in another language: only the elements marked Swedish again get the rule. */
+function keepSwedishParts(content) {
+  for (const node of content) {
+    if (!Array.isArray(node?.content) || KEPT.has(String(node.tag).toLowerCase())) continue;
+    if (/^sv(?:-|$)/i.test(String(node.attrs?.lang ?? ""))) keepNumbersTogether(node.content);
+    else keepSwedishParts(node.content);
   }
 }
 

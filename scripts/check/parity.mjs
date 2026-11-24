@@ -11,11 +11,19 @@
 // (gamePagePaths in scripts/lib/games.mjs), and no other — is in English like
 // its game and has no counterpart: it is left out of the mirror and the
 // pairing, and a line names each one left out.
+// An English article without a Swedish file (D206, scripts/lib/fallback.mjs)
+// has no translation: the Swedish side shows it in English, at the same path
+// under sv/, so it is in the mirror, but neither page claims an hreflang
+// alternate. The two are left out of the pairing, and instead each such
+// English page and the Swedish page that shows it are both built and claim
+// no alternates, the English page's switch leads to the Swedish page and
+// the Swedish page's back; a line names each pair.
 // Failures name the offending path or key. Optional arguments: <built-site
 // dir> [<source dir>].
 
 import path from "node:path";
 import { attr, loadPage } from "../lib/html.mjs";
+import { fallbackPages } from "../lib/fallback.mjs";
 import { gamePagePaths } from "../lib/games.mjs";
 import { exists, fileToUrl, flattenKeys, loadSite, loadStrings, reporter, resolveDirs, walk } from "../lib/site.mjs";
 
@@ -26,6 +34,8 @@ const origin = site.url.replace(/\/$/, "");
 const defaultLang = site.languages.default;
 const others = site.languages.codes.filter((code) => code !== defaultLang);
 const GAME_PAGES = gamePagePaths(src);
+const FALLBACKS = (await fallbackPages(src, site)).filter((entry) => !entry.omitted);
+const IN_ENGLISH_ONLY = new Set(FALLBACKS.flatMap((entry) => [entry.path, entry.original]));
 
 // 1. Page-set mirror (game pages aside)
 const allHtml = (await walk(out, ".html")).map((file) => path.relative(out, file).split(path.sep).join("/"));
@@ -79,10 +89,11 @@ for (const file of await walk(out, ".html")) {
   pages.push({ ...page, alternates });
 }
 const byUrl = new Map(pages.map((page) => [`${origin}${page.url}`, page]));
+const byPath = new Map(pages.map((page) => [page.url, page]));
 for (const lang of others) {
   const targets = new Map();
   let problems = 0;
-  for (const page of pages.filter((p) => p.lang === defaultLang)) {
+  for (const page of pages.filter((p) => p.lang === defaultLang && !IN_ENGLISH_ONLY.has(p.url))) {
     const target = page.alternates.get(lang);
     const counterpart = target ? byUrl.get(target) : undefined;
     if (!counterpart || counterpart.lang !== lang) {
@@ -100,12 +111,32 @@ for (const lang of others) {
     }
     targets.set(target, page.relPath);
   }
-  const unpaired = pages.filter((p) => p.lang === lang && !targets.has(`${origin}${p.url}`)).map((p) => p.relPath);
+  const unpaired = pages.filter((p) => p.lang === lang && !IN_ENGLISH_ONLY.has(p.url) && !targets.has(`${origin}${p.url}`)).map((p) => p.relPath);
   if (unpaired.length) {
     problems += 1;
     report.fail(`${lang} page(s) without a ${defaultLang} counterpart: ${unpaired.join(", ")}`);
   }
   report.check(problems === 0, `${targets.size} ${defaultLang} ↔ ${lang} page pair(s) map one-to-one`);
+}
+
+// 4. The articles in English only (D206): the English page and the page that
+// shows it on the other side, each built, neither claiming an alternate, each
+// switching to the other.
+const switchTarget = (page) => attr(page.doc.querySelector("header a.lang-switch"), "href");
+for (const entry of FALLBACKS) {
+  const english = byPath.get(entry.original);
+  const shown = byPath.get(entry.path);
+  const wrong = [];
+  if (!english) wrong.push(`${entry.original} is not built`);
+  if (!shown) wrong.push(`${entry.path} is not built`);
+  for (const page of [english, shown].filter(Boolean)) {
+    if (page.alternates.size > 0) wrong.push(`${page.relPath} claims hreflang alternates (${[...page.alternates.keys()].join(", ")})`);
+  }
+  if (english && shown) {
+    if (switchTarget(english) !== entry.path) wrong.push(`${english.relPath}: the language switch leads to ${switchTarget(english) ?? "nothing"}, not ${entry.path}`);
+    if (switchTarget(shown) !== entry.original) wrong.push(`${shown.relPath}: the language switch leads to ${switchTarget(shown) ?? "nothing"}, not ${entry.original}`);
+  }
+  report.check(wrong.length === 0, `${entry.original} is in English only: ${entry.path} shows it in English, neither claims an alternate and each switches to the other${wrong.length > 0 ? ` — ${wrong.join("; ")}` : ""}`);
 }
 
 report.finish();

@@ -4,7 +4,7 @@
     website (the town, never the street address, which is the founder's home);
     Contact — the email as visible text inside mailto:; Site — the language
     switch to the same path in the other language (a.lang-switch-footer,
-    absent on the 404 page), the RSS link to the page language's feed and the
+    `languageSwitch` as in the header's, absent on the 404 page), the RSS link to the page language's feed and the
     appearance toggle. Column headings are h2 so heading order holds on every
     page. -#}
 <footer class="site-footer">
@@ -31,8 +31,8 @@
     <div>
       <h2 class="footer-heading">{{ strings[lang].footer.site }}</h2>
       <ul class="footer-list footer-controls">
-        {%- if alternate %}
-        <li><a class="lang-switch-footer" href="{{ alternate.url }}" hreflang="{{ alternate.lang }}" lang="{{ alternate.lang }}" rel="alternate">{{ strings[lang].languages[alternate.lang] }}</a></li>
+        {%- if languageSwitch %}
+        <li><a class="lang-switch-footer" href="{{ languageSwitch.url }}" hreflang="{{ languageSwitch.lang }}" lang="{{ languageSwitch.lang }}" rel="alternate">{{ strings[lang].languages[languageSwitch.lang] }}</a></li>
         {%- endif %}
         <li><a href="{{ feedUrl }}" type="application/rss+xml">{{ strings[lang].footer.rss }}</a></li>
         <li>{% include "partials/toggle.njk" %}</li>

@@ -59,18 +59,26 @@ export function gamePagePaths(srcDir) {
   return new Set(readGames(srcDir).map(gamePagePath));
 }
 
-/** The article sources of a slug, one per language: src/<lang>/blog/posts/<slug>.md. */
-function articleFiles(srcDir, slug) {
-  return ["en", "sv"].map((lang) => path.join(srcDir, lang, "blog", "posts", `${slug}.md`));
+/**
+ * The English source of a slug, src/en/blog/posts/<slug>.md: the file an
+ * article always has. Its Swedish one, src/sv/blog/posts/<slug>.md, is
+ * optional (D206, scripts/lib/fallback.mjs): without it the Swedish side of
+ * the site shows the English article, media and games included.
+ */
+function englishFile(srcDir, slug) {
+  return path.join(srcDir, "en", "blog", "posts", `${slug}.md`);
 }
 
 /**
  * Does this build build the article `slug`? It does unless the article is a
  * draft and this is the production build (`isOmitted`). Both languages carry
- * the same `draft`, which the build checks; this reads the English file.
+ * the same `draft`, which the build checks; this reads the English file. An
+ * article without one is not built: `gameProblems` names the media and games
+ * that wait for it, and the build stops there.
  */
 export function articleIsBuilt(srcDir, slug, production = isProductionBuild()) {
-  const [file] = articleFiles(srcDir, slug);
+  const file = englishFile(srcDir, slug);
+  if (!existsSync(file)) return false;
   const data = parseFrontMatter(frontMatterBlock(readFileSync(file, "utf8"), { file }) ?? "") ?? {};
   return !isOmitted({ draft: data.draft === true }, production);
 }
@@ -87,14 +95,14 @@ export function mediaSlugs(srcDir) {
 
 /**
  * What is wrong with the media and the game data, one line each: a media
- * directory or a game whose article is missing in a language, a game entry
+ * directory or a game whose article has no English file, a game entry
  * without its fields, a second entry for one game, and a file a game or its
  * page needs that is not there. Empty when nothing is.
  */
 export function gameProblems(srcDir) {
   const problems = [];
   const media = (...parts) => path.join(srcDir, MEDIA_DIR, ...parts);
-  const missingArticle = (slug) => articleFiles(srcDir, slug).filter((file) => !existsSync(file)).map((file) => path.relative(srcDir, file));
+  const missingArticle = (slug) => [englishFile(srcDir, slug)].filter((file) => !existsSync(file)).map((file) => path.relative(srcDir, file));
   for (const slug of mediaSlugs(srcDir)) {
     const missing = missingArticle(slug);
     if (missing.length > 0) problems.push(`src/${MEDIA_DIR}/${slug}/: no article ${slug} to publish it with (${missing.map((file) => `src/${file}`).join(" and ")} missing)`);

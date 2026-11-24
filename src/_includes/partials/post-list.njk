@@ -14,13 +14,19 @@
     wide screen, which may be on the first screen, and those load at once
     but after the stylesheets and fonts (fetchpriority="low"), as the text of
     the first screen comes before its pictures. The empty state is
-    blog.empty. -#}
+    blog.empty.
+    On the Swedish side a list holds the English articles that have no
+    Swedish file too (D206, eleventy.config.js): such a card links the
+    Swedish page that shows the article (`postUrl`), wears the
+    article.inEnglishLabel chip ("På engelska") and marks its English title
+    and description with the article's lang. -#}
 {%- set headingTag = listHeading or "h2" -%}
 {%- set eager = eagerCards or 0 -%}
 {%- if posts | length %}
   <ol class="post-list">
     {%- for post in posts %}
     {%- set img = post.data.image | articleImage(post.page.fileSlug) %}
+    {%- set inOtherLanguage = post.data.lang != lang %}
     <li class="post reveal">
       <picture>
         <source media="(max-width: 47.99rem)" srcset="{{ img.small }}">
@@ -32,9 +38,12 @@
         {%- if post.data.draft %}
         <span class="chip chip-draft"><span class="chip-dot" aria-hidden="true"></span>{{ strings[lang].article.draftLabel }}</span>
         {%- endif %}
+        {%- if inOtherLanguage %}
+        <span class="chip chip-lang">{{ strings[lang].article.inEnglishLabel }}</span>
+        {%- endif %}
       </p>
-      <{{ headingTag }} class="post-title"><a href="{{ post.url }}">{{ post.data.title }}</a></{{ headingTag }}>
-      <p class="post-text">{{ post.data.description }}</p>
+      <{{ headingTag }} class="post-title"{% if inOtherLanguage %} lang="{{ post.data.lang }}"{% endif %}><a href="{{ post | postUrl(lang) }}">{{ post.data.title }}</a></{{ headingTag }}>
+      <p class="post-text"{% if inOtherLanguage %} lang="{{ post.data.lang }}"{% endif %}>{{ post.data.description }}</p>
     </li>
     {%- endfor %}
   </ol>

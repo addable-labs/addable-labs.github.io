@@ -19,6 +19,9 @@
 //     retrieved: 2026-10-06     the day the quote was taken from the page
 //     last_checked: 2026-10-06  the last day a check found it there
 //
+// An article in English only (D206, scripts/lib/fallback.mjs) has no Swedish
+// sentence to cite: its list's `sentence` holds `en` alone.
+//
 // The keys mirror the series plan's example field for field ("Underhåll av
 // leverantörsdetaljer"), its Swedish keys in English like the rest of the
 // repository. tests/sources.test.mjs holds every list in docs/sources/ to
@@ -37,6 +40,12 @@ export const ENTRY_KEYS = ["id", "article", "sentence", "vendor", "url", "final_
 
 /** The languages of `sentence`, each a directory of articles under src/. */
 export const SENTENCE_LANGUAGES = ["sv", "en"];
+
+/**
+ * The language every article is written in, and so the one `sentence` always
+ * holds; the other's file is optional (D206), and so is its sentence.
+ */
+export const SOURCE_LANGUAGE = "en";
 
 /**
  * The source lists in `dir`: every `.yaml` file, sorted, and a problem for
@@ -187,9 +196,11 @@ function quoted(value) {
  * @param {string} options.file      the list's path: its name is the article's slug
  * @param {object|null} [options.articles]
  *   the article's files, `{ sv, en }`, each its text or null when the file
- *   does not exist; null skips the two rules that read the articles (the
- *   article exists in both languages; each sentence is in its body), for a
- *   list written before its article, as `--no-article-check` does
+ *   does not exist; null skips the rules that read the articles (the article
+ *   exists in English; a sentence is given for each language it exists in,
+ *   and only for those; each sentence is in its body), for a list written
+ *   before its article, as `--no-article-check` does: then `sentence` needs
+ *   `en`, and `sv` is optional, as for an article in English only (D206)
  */
 export function validateSourceList(entries, { file, articles = null }) {
   const problems = [];
@@ -199,14 +210,22 @@ export function validateSourceList(entries, { file, articles = null }) {
     return { ok: false, problems };
   }
   const bodies = {};
+  // The languages a sentence must be given in: those the article exists in,
+  // or, unread, the one it always exists in.
+  let required = [SOURCE_LANGUAGE];
+  let absentArticles = [];
   if (articles) {
-    const missing = SENTENCE_LANGUAGES.filter((lang) => typeof articles[lang] !== "string");
-    if (missing.length > 0) {
-      problems.push(`${file}: the article ${quoted(slug)} does not exist in ${missing.map((lang) => `src/${lang}/blog/posts/${slug}.md`).join(" or ")}`);
+    if (typeof articles[SOURCE_LANGUAGE] !== "string") {
+      problems.push(`${file}: the article ${quoted(slug)} does not exist in src/${SOURCE_LANGUAGE}/blog/posts/${slug}.md`);
     }
     for (const lang of SENTENCE_LANGUAGES) {
       if (typeof articles[lang] === "string") bodies[lang] = plainText(articleBody(articles[lang]));
     }
+    required = SENTENCE_LANGUAGES.filter((lang) => typeof articles[lang] === "string" || lang === SOURCE_LANGUAGE);
+    // An article in English only: a sentence in another language quotes a
+    // file that is not there. (Without the English file there is no such
+    // article at all, the problem above.)
+    if (typeof articles[SOURCE_LANGUAGE] === "string") absentArticles = SENTENCE_LANGUAGES.filter((lang) => typeof articles[lang] !== "string");
   }
   const seen = new Map();
   entries.forEach((entry, index) => {
@@ -235,12 +254,15 @@ export function validateSourceList(entries, { file, articles = null }) {
       if (sentence === null || typeof sentence !== "object" || Array.isArray(sentence)) {
         problem(`sentence must be a mapping of ${SENTENCE_LANGUAGES.join(" and ")}, got ${quoted(sentence)}`);
       } else {
-        const absent = SENTENCE_LANGUAGES.filter((lang) => !Object.hasOwn(sentence, lang));
+        const absent = required.filter((lang) => !Object.hasOwn(sentence, lang));
         if (absent.length > 0) problem(`sentence has no ${absent.join(" or ")}`);
         const other = Object.keys(sentence).filter((key) => !SENTENCE_LANGUAGES.includes(key));
         if (other.length > 0) problem(`sentence has ${other.join(", ")}; its keys are exactly ${SENTENCE_LANGUAGES.join(" and ")}`);
+        for (const lang of absentArticles.filter((code) => Object.hasOwn(sentence, code))) {
+          problem(`sentence.${lang} quotes src/${lang}/blog/posts/${slug}.md, which does not exist: an article in English only has sentence.${SOURCE_LANGUAGE} alone`);
+        }
         for (const lang of SENTENCE_LANGUAGES) {
-          if (!Object.hasOwn(sentence, lang)) continue;
+          if (!Object.hasOwn(sentence, lang) || absentArticles.includes(lang)) continue;
           const text = sentence[lang];
           if (typeof text !== "string" || plainText(text) === "") {
             problem(`sentence.${lang} must be a non-empty string, got ${quoted(text)}`);
